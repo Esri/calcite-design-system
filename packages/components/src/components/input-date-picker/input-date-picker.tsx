@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { isServer, PropertyValues } from "lit";
 import { createRef, Ref } from "lit/directives/ref.js";
 import {
@@ -36,8 +35,9 @@ import {
   reposition,
 } from "../../utils/floating-ui";
 import { numberKeys } from "../../utils/key";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
 import { getIconScale } from "../../utils/component";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import {
   getDateFormatSupportedLocale,
   getSupportedNumberingSystem,
@@ -52,18 +52,19 @@ import {
   applyLocaleOverride,
   getMinMaxSource,
 } from "../date-picker/utils";
+import { ClearButton } from "../functional/ClearButton";
 import { HeadingLevel } from "../functional/Heading";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { DatePicker } from "../date-picker/date-picker";
 import type { InputText } from "../input-text/input-text";
 import type { Label } from "../label/label";
 import type { Input } from "../input/input";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
@@ -71,6 +72,8 @@ import { styles } from "./input-date-picker.scss";
 import { CSS, ICONS, IDS, POSITION } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
+import { logger } from "../../utils/logger";
+import { isSelect } from "../select/resources";
 
 declare global {
   interface DeclareElements {
@@ -78,10 +81,191 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's actions icon color.
+     */
+    "--calcite-input-date-picker-actions-icon-color": "*";
+    /**
+     * Specifies the component's actions icon color on hover.
+     */
+    "--calcite-input-date-picker-actions-icon-color-hover": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-input-date-picker-background-color": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-input-date-picker-border-color": "*";
+    /**
+     * Specifies the background color of the component's calendar actions.
+     */
+    "--calcite-input-date-picker-calendar-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's calendar actions when hovered.
+     */
+    "--calcite-input-date-picker-calendar-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's calendar actions when pressed.
+     */
+    "--calcite-input-date-picker-calendar-actions-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's calendar actions.
+     */
+    "--calcite-input-date-picker-calendar-actions-text-color": "*";
+    /**
+     * Specifies the text color of the component's calendar actions when pressed.
+     */
+    "--calcite-input-date-picker-calendar-actions-text-color-press": "*";
+    /**
+     * Specifies the border color of the component's calendar.
+     */
+    "--calcite-input-date-picker-calendar-border-color": "*";
+    /**
+     * Specifies the corner radius of the component's calendar.
+     */
+    "--calcite-input-date-picker-calendar-corner-radius": "*";
+    /**
+     * Specifies the text color of the component's calendar current day element.
+     */
+    "--calcite-input-date-picker-calendar-current-day-text-color": "*";
+    /**
+     * Specifies the background color of the component's calendar day elements.
+     */
+    "--calcite-input-date-picker-calendar-day-background-color": "*";
+    /**
+     * Specifies the background color of the component's calendar day elements when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-background-color-hover": "*";
+    /**
+     * Specifies the text color of current day of the component's date-picker.
+     *
+     * @deprecated in v3.3.1, removal target v6.0.0 - Use `--calcite-input-date-picker-calendar-current-day-text-color` instead.
+     */
+    "--calcite-input-date-picker-calendar-day-current-text-color": "*";
+    /**
+     * Specifies the background color of the component's calendar selected day range.
+     */
+    "--calcite-input-date-picker-calendar-day-range-background-color": "*";
+    /**
+     * Specifies the text color of the component's calendar selected day range.
+     */
+    "--calcite-input-date-picker-calendar-day-range-text-color": "*";
+    /**
+     * Specifies the text color of component's calendar selected day.
+     */
+    "--calcite-input-date-picker-calendar-day-text-color-selected": "*";
+    /**
+     * Specifies the background color of the component's calendar day elements outside the current range when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-outside-range-background-color-hover": "*";
+    /**
+     * Specifies the text color of the component's calendar day elements outside the current range when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-outside-range-text-color-hover": "*";
+    /**
+     * Specifies the text color of the component's calendar day elements.
+     */
+    "--calcite-input-date-picker-calendar-day-text-color": "*";
+    /**
+     * Specifies the text color of the component's calendar day elements when hovered.
+     */
+    "--calcite-input-date-picker-calendar-day-text-color-hover": "*";
+    /**
+     * Specifies the background color of the component's calendar selected day.
+     */
+    "--calcite-input-date-picker-calendar-selected-background-color": "*";
+    /**
+     * Specifies the component's calendar shadow.
+     */
+    "--calcite-input-date-picker-calendar-shadow": "*";
+    /**
+     * Specifies the component's calendar icon color.
+     */
+    "--calcite-input-date-picker-calendar-icon-color": "*";
+    /**
+     * Specifies the component's calendar icon color when hovered.
+     */
+    "--calcite-input-date-picker-calendar-icon-color-hover": "*";
+    /**
+     * Specifies the text color of the component's calendar selected month.
+     */
+    "--calcite-input-date-picker-calendar-month-select-text-color": "*";
+    /**
+     * When `range` is `true`, specifies the divider color between the component's calendars.
+     */
+    "--calcite-input-date-picker-calendar-range-divider-color": "*";
+    /**
+     * Specifies the text color of the component's calendar week, year & suffix.
+     */
+    "--calcite-input-date-picker-calendar-text-color": "*";
+    /**
+     * Specifies the component's input corner radius.
+     */
+    "--calcite-input-date-picker-corner-radius": "*";
+    /**
+     * When `range` is `true`, specifies the component's divider color between two inputs.
+     */
+    "--calcite-input-date-picker-divider-color": "*";
+    /**
+     * Specifies the component's input icon color.
+     */
+    "--calcite-input-date-picker-icon-color": "*";
+    /**
+     * Specifies the component's input placeholder text color.
+     */
+    "--calcite-input-date-picker-placeholder-text-color": "*";
+    /**
+     * Specifies the component's input shadow.
+     */
+    "--calcite-input-date-picker-shadow": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-input-date-picker-text-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element.
+     */
+    "--calcite-input-date-picker-input-action-background-color": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when hovered.
+     */
+    "--calcite-input-date-picker-input-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the input's `clearable` element when pressed.
+     */
+    "--calcite-input-date-picker-input-action-background-color-press": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements.
+     */
+    "--calcite-input-date-picker-input-action-icon-color": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements when hovered.
+     */
+    "--calcite-input-date-picker-input-action-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the input's `clearable` and toggle elements when pressed.
+     */
+    "--calcite-input-date-picker-input-action-icon-color-press": "*";
+  }
+}
+
+interface InputDatePickerSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: InputDatePickerSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -96,13 +280,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private commonDateSeparators = [".", "-", "/"];
 
-  private currentOpenInput: "start" | "end";
+  private currentOpenInput?: "start" | "end";
 
-  private datePickerEl: DatePicker["el"];
+  private datePickerEl?: DatePicker["el"];
 
-  private dateTimeFormat: Intl.DateTimeFormat;
+  private dateTimeFormat?: Intl.DateTimeFormat;
 
-  defaultValue: InputDatePicker["value"];
+  defaultValue?: InputDatePicker["value"];
 
   private dialogId = IDS.dialog(guid());
 
@@ -110,11 +294,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private endInputRef = createRef<InputText["el"]>();
 
-  private endWrapper: HTMLDivElement;
+  private endWrapper?: HTMLDivElement;
 
-  private filteredFlipPlacements: FlipPlacement[];
+  private filteredFlipPlacements?: FlipPlacement[];
 
-  floatingEl: HTMLDivElement;
+  floatingEl?: HTMLDivElement;
 
   private focusOnOpen = false;
 
@@ -142,7 +326,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     inputType: "date",
   })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   transitionProp = "opacity" as const;
 
@@ -150,11 +334,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private rangeStartValueChangedByUser = false;
 
-  referenceEl: HTMLDivElement;
+  referenceEl?: HTMLDivElement;
 
   private startInputRef = createRef<InputText["el"]>();
 
-  private startWrapper: HTMLDivElement;
+  private startWrapper?: HTMLDivElement;
 
   transitionRef = createRef<HTMLDivElement>();
 
@@ -171,7 +355,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -183,11 +367,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   //#region State Properties
 
-  @state() datePickerActiveDate: Date;
+  @state() datePickerActiveDate?: Date;
 
   @state() focusedInput: "start" | "end" = "start";
 
-  @state() private localeData: DateLocaleData;
+  @state() private localeData!: DateLocaleData;
 
   //#endregion
 
@@ -199,27 +383,26 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** When `true`, displays a clear button when the component has a value. */
+  @property({ reflect: true }) clearable = false;
+
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /** When `true`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
@@ -228,43 +411,44 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * When the component resides in a form,
    * specifies the latest allowed date ("yyyy-mm-dd").
    */
-  @property({ reflect: true }) max: string;
+  @property({ reflect: true }) max?: string;
 
   /** Specifies the latest allowed date as a full date object. */
-  @property() maxAsDate: Date;
+  @property() maxAsDate?: Date;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
    * specifies the earliest allowed date ("yyyy-mm-dd").
    */
-  @property({ reflect: true }) min: string;
+  @property({ reflect: true }) min?: string;
 
   /** Specifies the earliest allowed date as a full date object. */
-  @property() minAsDate: Date;
+  @property() minAsDate?: Date;
 
   /** Specifies the component's month style. */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, displays the `calcite-date-picker` component. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+
+  /**
+   * Specifies placeholder text for the component.
+   *
+   * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
+   */
+  @property() placeholder?: string;
 
   /**
    * Determines the `calcite-date-picker`'s placement relative to the input.
@@ -300,29 +484,24 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
   @property()
@@ -342,7 +521,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   /** The component's `value` as a full date object. */
-  @property() valueAsDate: Date | Date[];
+  @property() valueAsDate?: Date | Date[];
 
   //#endregion
 
@@ -410,6 +589,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("blur", this.blurHandler);
     this.listen("keydown", this.keyDownHandler);
     this.handleDateTimeFormatChange();
@@ -422,7 +602,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.openHandler();
     }
 
-    connectLabel(this);
     this.setFilteredPlacements();
     connectFloatingUI(this);
   }
@@ -453,13 +632,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const maxSource = getMinMaxSource(changes, "max");
 
     if (minSource === "min") {
-      this.minAsDate = dateFromISO(this.min);
+      this.minAsDate = dateFromISO(this.min!);
     } else if (minSource === "minAsDate") {
       this.minAsDate = dateFromISO(dateToISO(this.minAsDate));
     }
 
     if (maxSource === "max") {
-      this.maxAsDate = dateFromISO(this.max);
+      this.maxAsDate = dateFromISO(this.max!);
     } else if (maxSource === "maxAsDate") {
       this.maxAsDate = dateFromISO(dateToISO(this.maxAsDate));
     }
@@ -506,7 +685,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     disconnectFloatingUI(this);
   }
 
@@ -522,7 +700,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private valueWatcher(newValue: string | string[]): void {
     if (!this.userChangedValue) {
-      let newValueAsDate: Date | Date[];
+      let newValueAsDate: Date | (Date | undefined)[] | undefined;
 
       try {
         if (Array.isArray(newValue)) {
@@ -540,6 +718,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
+        // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
         this.valueAsDate = newValueAsDate;
       }
 
@@ -548,11 +727,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.userChangedValue = false;
   }
 
-  private valueAsDateWatcher(valueAsDate: Date | Date[]): void {
+  private valueAsDateWatcher(valueAsDate?: Date | (Date | undefined)[]): void {
     const newValue = Array.isArray(valueAsDate)
       ? [dateToISO(valueAsDate[0]), dateToISO(valueAsDate[1])]
       : dateToISO(valueAsDate);
-    this.datePickerActiveDate = Array.isArray(valueAsDate) ? valueAsDate[0] : valueAsDate;
     if (this.value !== newValue) {
       this.valueAsDateChangedExternally = true;
       this.value = newValue;
@@ -627,21 +805,76 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     this.currentOpenInput = this.focusedInput;
   }
 
-  private onInputWrapperClick(event: MouseEvent) {
-    const { range, endInputRef, startInputRef, currentOpenInput } = this;
-    const currentTarget = event.currentTarget as HTMLDivElement;
-    const position = currentTarget.getAttribute("data-position") as "start" | "end";
-    const path = event.composedPath();
-    const wasToggleClicked = path.find((el: HTMLElement) => el.classList?.contains(CSS.toggleIcon));
+  private onInputWrapperClick(event: MouseEvent): void {
+    const actionClicked = event.composedPath().some((node) => {
+      if (!(node instanceof HTMLElement)) {
+        return false;
+      }
 
-    if (wasToggleClicked) {
-      const targetInput = position === "start" ? startInputRef : endInputRef;
-      targetInput.value.setFocus();
+      return node.classList.contains(CSS.clearButton) || node.classList.contains(CSS.toggleIcon);
+    });
+
+    if (!actionClicked) {
+      const currentTarget = event.currentTarget as HTMLDivElement;
+      const position = currentTarget.getAttribute("data-position") as "start" | "end";
+
+      this.toggleInputOpen(position);
     }
+  }
+
+  private toggleInputOpen(position: "start" | "end"): void {
+    const { range, currentOpenInput } = this;
 
     if (!range || !this.open || currentOpenInput === position) {
       this.open = !this.open;
     }
+  }
+
+  private toggleSingleOpenClickHandler(): void {
+    this.startInputRef.value?.setFocus();
+    this.open = !this.open;
+  }
+
+  private toggleRangeOpenClickHandler(position?: "start" | "end"): void {
+    const nextFocusedInput = position ?? this.focusedInput;
+    const shouldToggle = !this.open || this.focusedInput === nextFocusedInput;
+
+    this.focusedInput = nextFocusedInput;
+    this.focusInput();
+
+    if (shouldToggle) {
+      this.open = !this.open;
+    }
+  }
+
+  private onVerticalActionsContainerClick(event: MouseEvent): void {
+    if (this.disabled || this.readOnly) {
+      return;
+    }
+
+    const clearButtonClicked = event.composedPath().some((node) => {
+      if (!(node instanceof HTMLElement)) {
+        return false;
+      }
+
+      return node.classList.contains(CSS.clearButton);
+    });
+
+    if (clearButtonClicked) {
+      return;
+    }
+
+    this.toggleRangeOpenClickHandler();
+  }
+
+  private clearValue(): void {
+    if (this.range) {
+      this.setRangeValue([undefined, undefined]);
+    } else {
+      this.setValue(undefined);
+    }
+
+    this.localizeInputValues();
   }
 
   private setFilteredPlacements(): void {
@@ -649,7 +882,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.filteredFlipPlacements = flipPlacements
       ? filterValidFlipPlacements(flipPlacements, el)
-      : null;
+      : undefined;
   }
 
   onLabelClick(): void {
@@ -686,7 +919,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   private commitValue(): void {
     const { focusedInput, value } = this;
     const focusedInputRef = this.getInputRef(focusedInput);
-    const date = dateFromLocalizedString(focusedInputRef.value.value, this.localeData);
+
+    const date = focusedInputRef.value
+      ? dateFromLocalizedString(focusedInputRef.value?.value, this.localeData)
+      : undefined;
     const dateAsISO = dateToISO(date);
     const valueIsArray = Array.isArray(value);
     if (this.range) {
@@ -703,8 +939,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
           this.localizeInputValues();
         } else {
           this.setRangeValue([
-            focusedInput === "end" && dateFromISO(value[0]),
-            focusedInput === "start" && dateFromISO(value[1]),
+            focusedInput === "end" ? dateFromISO(value[0]) : undefined,
+            focusedInput === "start" ? dateFromISO(value[1]) : undefined,
           ]);
         }
       } else {
@@ -732,9 +968,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    const targetHasSelect = event
-      .composedPath()
-      .some((el: HTMLElement) => el.tagName === "CALCITE-SELECT");
+    const targetHasSelect = event.composedPath().some(isSelect);
 
     if (key === "Enter") {
       const preCommitValue = this.value;
@@ -774,10 +1008,25 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       this.open = true;
       this.focusOnOpen = true;
       event.preventDefault();
-    } else if (this.open && key === "Escape") {
-      this.open = false;
-      event.preventDefault();
-      this.restoreInputFocus(true);
+    } else if (key === "Escape") {
+      const hadOpen = this.open;
+      const hasValue = this.range
+        ? Array.isArray(this.value) && (!!this.value[0] || !!this.value[1])
+        : !!this.value;
+      const shouldClear = !this.disabled && !this.readOnly && this.clearable && hasValue;
+
+      if (shouldClear) {
+        this.clearValue();
+      }
+
+      if (hadOpen) {
+        this.open = false;
+        this.restoreInputFocus(true);
+      }
+
+      if (hadOpen || shouldClear) {
+        event.preventDefault();
+      }
     }
   }
 
@@ -874,7 +1123,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private restoreInputFocus(isDatePickerClosed = false): void {
     if (!this.range) {
-      this.startInputRef.value.setFocus();
+      this.startInputRef.value?.setFocus();
       this.open = false;
       return;
     }
@@ -891,7 +1140,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       return;
     }
 
-    if (this.proximitySelectionDisabled && this.valueAsDate[1] === null) {
+    if (
+      this.proximitySelectionDisabled &&
+      Array.isArray(this.valueAsDate) &&
+      this.valueAsDate[1] === undefined
+    ) {
       return;
     }
 
@@ -901,22 +1154,23 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private localizeInputValues(): void {
     const date = dateFromRange(
-      this.range
-        ? (Array.isArray(this.valueAsDate) && this.valueAsDate[0]) || undefined
-        : this.valueAsDate,
+      this.range ? Array.isArray(this.valueAsDate) && this.valueAsDate[0] : this.valueAsDate,
       this.minAsDate,
       this.maxAsDate,
     );
     const endDate = this.range
       ? dateFromRange(
-          (Array.isArray(this.valueAsDate) && this.valueAsDate[1]) || undefined,
+          Array.isArray(this.valueAsDate) && this.valueAsDate[1],
           this.minAsDate,
           this.maxAsDate,
         )
-      : null;
+      : undefined;
 
-    this.setInputValue((date && this.dateTimeFormat.format(date)) ?? "", "start");
-    this.setInputValue((this.range && endDate && this.dateTimeFormat.format(endDate)) ?? "", "end");
+    this.setInputValue((date && this.dateTimeFormat?.format(date)) ?? "", "start");
+    this.setInputValue(
+      (this.range && endDate && this.dateTimeFormat?.format(endDate)) || "",
+      "end",
+    );
   }
 
   private getInputRef(input: "start" | "end" = "start"): Ref<InputText["el"]> {
@@ -931,7 +1185,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     inputRef.value.value = newValue;
   }
 
-  private setRangeValue(valueAsDate: Date[]): void {
+  private setRangeValue(valueAsDate: (Date | undefined)[]): void {
     if (!this.range) {
       return;
     }
@@ -940,13 +1194,13 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     const oldValueIsArray = Array.isArray(oldValue);
     const valueIsArray = Array.isArray(valueAsDate);
 
-    const newStartDate = valueIsArray ? valueAsDate[0] : null;
+    const newStartDate = valueIsArray ? valueAsDate[0] : undefined;
     let newStartDateISO = valueIsArray ? dateToISO(newStartDate) : "";
     if (newStartDateISO) {
       newStartDateISO = this.getNormalizedDate(newStartDateISO);
     }
 
-    const newEndDate = valueIsArray ? valueAsDate[1] : null;
+    const newEndDate = valueIsArray ? valueAsDate[1] : undefined;
     let newEndDateISO = valueIsArray ? dateToISO(newEndDate) : "";
     if (newEndDateISO) {
       newEndDateISO = this.getNormalizedDate(newEndDateISO);
@@ -960,6 +1214,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.userChangedValue = true;
     this.value = newValue;
+    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
@@ -976,7 +1231,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
   }
 
-  private setValue(value: Date | string): void {
+  private setValue(value: Date | string | undefined): void {
     if (this.range) {
       return;
     }
@@ -1002,7 +1257,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   }
 
   private warnAboutInvalidValue(value: string): void {
-    console.warn(
+    logger.warn(
       `The specified value "${value}" does not conform to the required format, "YYYY-MM-DD".`,
     );
   }
@@ -1049,7 +1304,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   private focusInput(): void {
     const focusedInput = this.focusedInput === "start" ? this.startInputRef : this.endInputRef;
-    focusedInput.value.setFocus();
+    focusedInput.value?.setFocus();
   }
 
   //#endregion
@@ -1069,6 +1324,22 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       locale: effectiveLocale,
       useGrouping: false,
     };
+
+    const hasStartValue = this.range ? Array.isArray(this.value) && !!this.value[0] : !!this.value;
+    const hasEndValue = this.range && Array.isArray(this.value) && !!this.value[1];
+    const isInteractive = !disabled && !readOnly;
+    const isClearableRange =
+      this.range && this.clearable && isInteractive && (hasStartValue || hasEndValue);
+    const isClearableSingle = !this.range && this.clearable && isInteractive && hasStartValue;
+    const rangeClearButton = (
+      <div class={CSS.clearButton} onClick={this.clearValue}>
+        <ClearButton
+          ariaLabel={this.messages.clear}
+          scale={this.scale}
+          title={this.messages.clear}
+        />
+      </div>
+    );
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -1104,8 +1375,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 ariaInvalid={this.status === "invalid"}
                 class={{
                   [CSS.input]: true,
-                  [CSS.inputNoBottomBorder]: this.layout === "vertical" && this.range,
-                  [CSS.inputNoRightBorder]: this.range,
+                  [CSS.startInput]: true,
                 }}
                 disabled={disabled}
                 icon={ICONS.calendar}
@@ -1113,19 +1383,34 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                 oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                 oncalciteInternalInputTextFocus={this.startInputFocus}
-                placeholder={this.localeData?.placeholder}
+                placeholder={this.placeholder || this.localeData?.placeholder}
                 readOnly={readOnly}
                 ref={this.startInputRef}
                 role="combobox"
                 scale={this.scale}
                 status={this.status}
               />
-              {!this.readOnly &&
-                !this.range &&
-                this.renderToggleIcon(this.open && this.focusedInput === "start")}
               <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
-                {messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
+                {this.placeholder ||
+                  messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>
+              {!this.range && !this.readOnly ? (
+                <div class={CSS.horizontalActionsContainer}>
+                  {isClearableSingle ? (
+                    <div class={CSS.clearButton} onClick={this.clearValue}>
+                      <ClearButton
+                        ariaLabel={this.messages.clear}
+                        scale={this.scale}
+                        title={this.messages.clear}
+                      />
+                    </div>
+                  ) : null}
+                  {this.renderToggleIcon(
+                    this.open && this.focusedInput === "start",
+                    this.toggleSingleOpenClickHandler,
+                  )}
+                </div>
+              ) : null}
             </div>
             <div
               ariaHidden={!this.open}
@@ -1190,9 +1475,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   ariaHasPopup="dialog"
                   class={{
                     [CSS.input]: true,
-                    [CSS.inputNoTopBorder]: this.layout === "vertical" && this.range,
-                    [CSS.inputNoLeftBorder]: this.layout === "horizontal" && this.range,
-                    [CSS.inputNoRightBorder]: this.layout === "vertical" && this.range,
+                    [CSS.endInput]: true,
                   }}
                   disabled={disabled}
                   icon={ICONS.calendar}
@@ -1200,25 +1483,33 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                   oncalciteInputTextInput={this.calciteInternalInputInputHandler}
                   oncalciteInternalInputTextBlur={this.calciteInternalInputBlurHandler}
                   oncalciteInternalInputTextFocus={this.endInputFocus}
-                  placeholder={this.localeData?.placeholder}
+                  placeholder={this.placeholder || this.localeData?.placeholder}
                   readOnly={readOnly}
                   ref={this.endInputRef}
                   role="combobox"
                   scale={this.scale}
                   status={this.status}
                 />
-                {!this.readOnly && this.layout === "horizontal" && this.renderToggleIcon(this.open)}
+                {this.layout === "horizontal" && !this.readOnly ? (
+                  <div class={CSS.horizontalActionsContainer}>
+                    {isClearableRange ? rangeClearButton : null}
+                    {this.renderToggleIcon(this.open, () =>
+                      this.toggleRangeOpenClickHandler("end"),
+                    )}
+                  </div>
+                ) : null}
               </div>
             )}
           </div>
-          {this.range && this.layout === "vertical" && (
-            <div class={CSS.verticalChevronContainer}>
-              <calcite-icon
-                icon={this.open ? ICONS.chevronUp : ICONS.chevronDown}
-                scale={getIconScale(this.scale)}
-              />
+          {this.range && this.layout === "vertical" && !this.readOnly ? (
+            <div
+              class={CSS.verticalActionsContainer}
+              onClick={this.onVerticalActionsContainerClick}
+            >
+              {isClearableRange ? rangeClearButton : null}
+              {this.renderToggleIcon(this.open, () => this.toggleRangeOpenClickHandler())}
             </div>
-          )}
+          ) : null}
         </div>
         {this.validationMessage && this.status === "invalid" ? (
           <Validation
@@ -1233,10 +1524,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     );
   }
 
-  private renderToggleIcon(open: boolean): JsxNode {
+  private renderToggleIcon(open: boolean, onClick?: (event: MouseEvent) => void): JsxNode {
     return (
       // we set tab index to -1 to prevent delegatesFocus from stealing focus before we can set it
-      <span class={CSS.toggleIcon} tabIndex={-1}>
+      <span class={CSS.toggleIcon} onClick={onClick} tabIndex={-1}>
         <calcite-icon
           class={CSS.chevronIcon}
           icon={open ? ICONS.chevronUp : ICONS.chevronDown}

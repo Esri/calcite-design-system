@@ -1,3 +1,4 @@
+import "../components/date-picker/date-picker";
 import { html } from "../../support/formatting";
 
 export const datePickerTokens = {

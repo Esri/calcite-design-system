@@ -1,8 +1,13 @@
-// @ts-strict-ignore
-import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { LitElement, property, h, createEvent, JsxNode } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import { getSlotAssignedElements } from "../../utils/dom";
+import type { Scale } from "../types";
+import type { AutocompleteItem } from "../autocomplete-item/autocomplete-item";
+import { isAutocompleteItem } from "../autocomplete-item/resources";
 import { CSS } from "./resources";
 import { styles } from "./autocomplete-item-group.scss";
+
+const itemSelector = "calcite-autocomplete-item";
 
 declare global {
   interface DeclareElements {
@@ -10,11 +15,48 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-autocomplete-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-autocomplete-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-autocomplete-border-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-autocomplete-text-color": "*";
+  }
+}
+
+interface AutocompleteItemGroupSlots {
+  /**
+   * A slot for adding `calcite-autocomplete-item`s.
+   */
+  "": Node[];
+}
+
 export class AutocompleteItemGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: AutocompleteItemGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
+
+  //#endregion
+
+  //#region Private Properties
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private _items: AutocompleteItem["el"][] = [];
 
   //#endregion
 
@@ -28,13 +70,12 @@ export class AutocompleteItemGroup extends LitElement {
   @property() disableSpacing = false;
 
   /**
-   * Specifies the component's heading text.
-   *
+   * @copyDoc
    * @required
    */
-  @property() heading: string;
+  @property() heading!: string;
 
-  /** Specifies an accessible label for the component. */
+  /** @copyDoc */
   @property() label: any;
 
   /**
@@ -50,6 +91,51 @@ export class AutocompleteItemGroup extends LitElement {
    * @private
    */
   @property() scale: Scale = "m";
+
+  /**
+   * Specifies the `calcite-autocomplete-item`s in the group.
+   *
+   * @internal
+   */
+  @property() get items(): AutocompleteItem["el"][] {
+    return this._items;
+  }
+
+  //#endregion
+
+  //#region Events
+
+  /**
+   * Fires after the component's slotted `calcite-autocomplete-item`s change.
+   *
+   * @private
+   */
+  calciteInternalAutocompleteItemGroupItemsChange = createEvent({ cancelable: false });
+
+  //#endregion
+
+  //#region Lifecycle
+
+  loaded(): void {
+    this.updateItems();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private handleDefaultSlotChange(): void {
+    this.updateItems();
+  }
+
+  private updateItems(): void {
+    const items = this.defaultSlotRef.value
+      ? getSlotAssignedElements<AutocompleteItem["el"]>(this.defaultSlotRef.value, itemSelector)
+      : Array.from(this.el.children).filter(isAutocompleteItem);
+
+    this._items = items;
+    this.calciteInternalAutocompleteItemGroupItemsChange.emit();
+  }
 
   //#endregion
 
@@ -73,7 +159,7 @@ export class AutocompleteItemGroup extends LitElement {
         <div class={{ [CSS.heading]: true, [CSS.firstTitle]: this.position === 0 }}>
           {this.heading}
         </div>
-        <slot />
+        <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
       </div>
     );
   }

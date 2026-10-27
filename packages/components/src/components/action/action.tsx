@@ -1,5 +1,5 @@
 import { createRef } from "lit/directives/ref.js";
-import { LitElement, property, h, method, JsxNode, Fragment, LuminaJsx } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, LuminaJsx, Fragment } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { getIconScale } from "../../utils/component";
@@ -10,15 +10,18 @@ import {
   Scale,
   SelectionAppearance,
   Width,
-} from "../interfaces";
-import { IconName } from "../icon/interfaces";
+} from "../types";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useFormTrigger } from "../../controllers/useFormTrigger";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS } from "./resources";
 import { styles } from "./action.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -26,15 +29,98 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding non-interactive content, such as a `calcite-icon`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-action-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when active.
+     */
+    "--calcite-action-background-color-press": "*";
+    /**
+     * Specifies the component's background color when active.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead.
+     */
+    "--calcite-action-background-color-pressed": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-action-background-color": "*";
+    /**
+     * Specifies the component's corner radius end end.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-end-end": "*";
+    /**
+     * Specifies the component's corner radius end start.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-end-start": "*";
+    /**
+     * Specifies the component's corner radius start end.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-start-end": "*";
+    /**
+     * Specifies the component's corner radius start start.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
+     */
+    "--calcite-action-corner-radius-start-start": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-action-corner-radius": "*";
+    /**
+     * Specifies the component's indicator color.
+     */
+    "--calcite-action-indicator-color": "*";
+    /**
+     * Specifies the component's text color when pressed or hovered.
+     */
+    "--calcite-action-text-color-press": "*";
+    /**
+     * Specifies the component's text color when hovered.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead.
+     */
+    "--calcite-action-text-color-pressed": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-action-text-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-action-loader-color": "*";
+  }
+}
+
+interface ActionSlots {
+  /**
+   * A slot for adding non-interactive content, such as a `calcite-icon`.
+   */
+  "": Node[];
+}
+
 export class Action extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ActionSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -55,13 +141,13 @@ export class Action extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private indicatorRef = createRef<HTMLDivElement>();
 
   private interactiveContainer = useInteractive(this);
 
-  formTrigger = useFormTrigger()(this);
+  private labelElRef = createRef<HTMLSpanElement>();
 
   //#endregion
 
@@ -99,8 +185,6 @@ export class Action extends LitElement {
 
   /**
    * Specifies the appearance of the component.
-   *
-   * @deprecated in v5.0.0, removal target v6.0.0 - No longer necessary.
    */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
@@ -122,15 +206,11 @@ export class Action extends LitElement {
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) form?: string;
 
   /** Specifies an icon to display. */
-  @property({ type: String, reflect: true }) icon?: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -144,8 +224,11 @@ export class Action extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
+  @property({ reflect: true }) overflowDisabled = false;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -208,12 +291,38 @@ export class Action extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useFormTrigger()(this);
+  }
+
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
+  private getAccessibleLabel(): string {
+    const labelFallback = this.label || this.text || "";
+
+    return this.indicator
+      ? this.messages.indicatorLabel.replace("{label}", labelFallback)
+      : labelFallback;
+  }
+
+  private getLabelledByElements(): Element[] | undefined {
+    const labelledByElements = [
+      ...(this.labelElRef.value ? [this.labelElRef.value] : []),
+      ...(this.aria?.labelledByElements ?? []),
+    ];
+
+    return labelledByElements.length ? labelledByElements : undefined;
   }
 
   //#endregion
@@ -229,7 +338,7 @@ export class Action extends LitElement {
     };
 
     return text ? (
-      <div class={textContainerClasses} key="text-container">
+      <div ariaHidden="true" class={textContainerClasses} key="text-container">
         {text}
       </div>
     ) : null;
@@ -241,7 +350,7 @@ export class Action extends LitElement {
       <div
         aria-labelledby={buttonId}
         ariaLive="polite"
-        class={CSS.indicatorText}
+        class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
         role="region"
       >
@@ -286,25 +395,20 @@ export class Action extends LitElement {
     ) : null;
   }
 
-  private renderButton(): JsxNode {
-    const {
-      compact,
-      disabled,
-      icon,
-      loading,
-      textEnabled,
-      label,
-      text,
-      indicator,
-      indicatorRef,
-      buttonId,
-      messages,
-    } = this;
-    const labelFallback = label || text || "";
+  private renderLabel(): JsxNode {
+    const ariaLabel = this.getAccessibleLabel();
 
-    const ariaLabel = indicator
-      ? messages.indicatorLabel.replace("{label}", labelFallback)
-      : labelFallback;
+    return ariaLabel ? (
+      <span class={CSS_UTILITY.screenReaderText} ref={this.labelElRef}>
+        {ariaLabel}
+      </span>
+    ) : null;
+  }
+
+  private renderButton(): JsxNode {
+    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
+      this;
+    const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
@@ -317,6 +421,7 @@ export class Action extends LitElement {
         {this.renderIconContainer()}
         {this.renderTextContainer()}
         {!icon && indicator && <div class={CSS.indicatorWithoutIcon} key="indicator-no-icon" />}
+        {this.renderLabel()}
       </>
     );
 
@@ -331,13 +436,12 @@ export class Action extends LitElement {
       return (
         // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486 & https://bugzilla.mozilla.org/show_bug.cgi?id=568313
         <span
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           ariaControlsElements={ariaControlsElements}
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
-          ariaLabel={ariaLabel}
-          ariaLabelledByElements={this.aria?.labelledByElements}
+          ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
           class={buttonClasses}
@@ -353,14 +457,13 @@ export class Action extends LitElement {
 
     return (
       <button
-        ariaBusy={loading}
+        ariaBusy={toAriaBoolean(loading, undefined)}
         ariaChecked={this.aria?.checked}
         ariaControlsElements={ariaControlsElements}
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
-        ariaLabel={ariaLabel}
-        ariaLabelledByElements={this.aria?.labelledByElements}
+        ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}
         class={buttonClasses}
@@ -368,6 +471,7 @@ export class Action extends LitElement {
         id={buttonId}
         ref={this.buttonRef}
         role={this.aria?.role}
+        type={this.type}
       >
         {buttonContent}
       </button>

@@ -1,7 +1,25 @@
-import { ModeClass, ModeName } from "../components/interfaces";
+import { ModeClass, ModeName } from "../components/types";
 
+/**
+ * Uses the user's preferred color scheme.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
+ * @see [MDN - color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme)
+ */
 export const autoMode = "calcite-mode-auto";
+/**
+ * Uses the dark color scheme.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
+ * @see [MDN - color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme)
+ */
 export const darkMode = "calcite-mode-dark";
+/**
+ * Uses the light color scheme.
+ *
+ * @deprecated in v5.2.0, removal target v7.0.0. Use the CSS `color-scheme` property to set the theme.
+ * @see [MDN - color-scheme](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/color-scheme)
+ */
 const lightMode = "calcite-mode-light";
 
 interface Mode {
@@ -36,6 +54,7 @@ export const CSS_UTILITY = {
   calciteAnimateInRight: "calcite-animate__in-right",
   calciteAnimateInLeft: "calcite-animate__in-left",
   calciteAnimateInScale: "calcite-animate__in-scale",
+  screenReaderText: "screen-reader-text",
 };
 
 export const TEXT = {

@@ -1,23 +1,9 @@
-// @ts-strict-ignore
 import { E2EElement, E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
-import { labelable, themed } from "../../tests/commonTests";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import type { GlobalTestProps } from "../../tests/utils/types";
 import type { SegmentedControl } from "./segmented-control";
-import { CSS } from "./resources";
-
-describe("labelable", () => {
-  labelable(
-    html`<calcite-segmented-control>
-      <calcite-segmented-control-item value="1"></calcite-segmented-control-item>
-      <calcite-segmented-control-item value="2"></calcite-segmented-control-item>
-      <calcite-segmented-control-item value="3"></calcite-segmented-control-item>
-    </calcite-segmented-control>`,
-    { focusTargetSelector: "calcite-segmented-control-item" },
-  );
-});
 
 it("sets value from selected item", async () => {
   const page = await newE2EPage();
@@ -98,9 +84,9 @@ it("allows items to be selected", async () => {
 
   // We use the browser context to assert the value at the time of event emit.
   // Puppeteer APIs likely don't allow this due to async timing between calls.
-  await page.evaluate(() => {
+  await element.handle.evaluate((el) => {
     (window as TestWindow).eventTimeValues = [];
-    document.body.addEventListener("calciteSegmentedControlChange", (event: CustomEvent) => {
+    (el as SegmentedControl["el"]).addEventListener("calciteSegmentedControlChange", (event) => {
       (window as TestWindow).eventTimeValues.push((event.target as SegmentedControl["el"]).value);
     });
   });
@@ -160,7 +146,7 @@ it("does not emit extraneous events (edge case from #3210)", async () => {
   const timesCalled = await page.evaluate(async () => {
     let calls = 0;
 
-    const segmentedControl = document.querySelector("calcite-segmented-control");
+    const segmentedControl = document.querySelector("calcite-segmented-control")!;
 
     const waitForFrame = async () => await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
@@ -313,18 +299,17 @@ it("renders requested props", async () => {
   expect(element).toEqualAttribute("width", "full");
 });
 
-it("inheritable props: `appearance`, `layout`, and `scale` modified on the parent get passed to items", async () => {
+it("inheritable props: `appearance` and `layout` modified on the parent get passed to items", async () => {
   async function inheritsProps(segmentedControlItems: E2EElement[]): Promise<void> {
     for (const item of segmentedControlItems) {
       expect(await item.getProperty("appearance")).toBe("outline");
       expect(await item.getProperty("layout")).toBe("vertical");
-      expect(await item.getProperty("scale")).toBe("l");
     }
   }
 
   const page = await newE2EPage();
   await page.setContent(html`
-    <calcite-segmented-control appearance="outline" layout="vertical" scale="l">
+    <calcite-segmented-control appearance="outline" layout="vertical">
       <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
       <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
       <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>
@@ -347,13 +332,4 @@ it("inheritable props: `appearance`, `layout`, and `scale` modified on the paren
   segmentedControlItems = await findAll(page, "calcite-segmented-control-item");
   expect(segmentedControlItems).toHaveLength(2);
   await inheritsProps(segmentedControlItems);
-});
-
-describe("theme", () => {
-  themed("calcite-segmented-control", {
-    "--calcite-segmented-control-border-color": {
-      shadowSelector: `.${CSS.itemWrapper}`,
-      targetProp: "outlineColor",
-    },
-  });
 });

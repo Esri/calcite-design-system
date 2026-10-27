@@ -1,6 +1,5 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -426,89 +425,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("themed", () => {
-  describe(`selection-appearance="icon"`, () => {
-    themed(
-      html`<calcite-list-item
-        selected
-        label="Park offices"
-        interaction-mode="interactive"
-        description="Home base for park staff to converse with visitors."
-        value="offices"
-        bordered
-        selection-mode="single"
-        selection-appearance="icon"
-        icon-start="banana"
-        icon-end="banana"
-      ></calcite-list-item>`,
-      {
-        "--calcite-list-background-color": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-list-background-color-hover": {
-          shadowSelector: `.${CSS.container}`,
-          state: "hover",
-          targetProp: "backgroundColor",
-        },
-        "--calcite-list-background-color-press": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-list-item >>> .${CSS.content}` },
-        },
-        "--calcite-list-border-color": {
-          shadowSelector: `.${CSS.contentContainerWrapper}`,
-          targetProp: "borderBlockEndColor",
-        },
-        "--calcite-list-content-text-color": {
-          shadowSelector: `.${CSS.contentContainer}`,
-          targetProp: "color",
-        },
-        "--calcite-list-description-text-color": {
-          shadowSelector: `.${CSS.description}`,
-          targetProp: "color",
-        },
-        "--calcite-list-icon-color": {
-          shadowSelector: `.${CSS.selectionContainer}`,
-          targetProp: "color",
-        },
-        "--calcite-list-label-text-color": {
-          shadowSelector: `.${CSS.label}`,
-          targetProp: "color",
-        },
-      },
-    );
-  });
-
-  describe(`selection-appearance="border"`, () => {
-    themed(
-      html`<calcite-list-item
-        selected
-        label="Park offices"
-        description="Home base for park staff to converse with visitors."
-        interaction-mode="interactive"
-        value="offices"
-        bordered
-        selection-mode="single"
-        selection-appearance="border"
-        icon-start="banana"
-        icon-end="banana"
-      ></calcite-list-item>`,
-      {
-        "--calcite-list-selection-border-color": [
-          {
-            shadowSelector: `.${CSS.container}::before`,
-            targetProp: "backgroundColor",
-          },
-          {
-            shadowSelector: `.${CSS.containerBorderSelected}`,
-            targetProp: "boxShadow",
-            state: "focus",
-          },
-        ],
-      },
-    );
-  });
 });

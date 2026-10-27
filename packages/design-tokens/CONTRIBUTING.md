@@ -8,7 +8,7 @@ This document contains information about contributing to the `calcite-design-tok
 
 Build the tokens to platform asset formats like CSS, SCSS, and JavaScript.
 
-`npm --workspace=packages/design-tokens run build`
+`pnpm --filter @esri/calcite-design-tokens build`
 
 ## Test
 
@@ -16,7 +16,7 @@ Be sure your code passes our integration and unit tests
 
 ```bash
 # Test current code
-npm --workspace=packages/design-tokens run test
+pnpm --filter @esri/calcite-design-tokens test
 ```
 
 ## Understanding token files

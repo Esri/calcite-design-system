@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -9,20 +8,22 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
-import { connectLabel, disconnectLabel, LabelableComponent, getLabelText } from "../../utils/label";
-import { Scale, Status } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale, Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { StarIcon } from "./functional/star";
-import { Star } from "./interfaces";
+import { Star } from "./types";
 import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
 
@@ -32,10 +33,53 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the amount of left and right margin spacing between each item.
+     */
+    "--calcite-rating-spacing": "*";
+    /**
+     * Specifies the component's item color when hovered.
+     */
+    "--calcite-rating-color-hover": "*";
+    /**
+     * Specifies the component's item color when active.
+     */
+    "--calcite-rating-color-press": "*";
+    /**
+     * Specifies the component's item color.
+     */
+    "--calcite-rating-color": "*";
+    /**
+     * When `average` is set, specifies the component's item color.
+     */
+    "--calcite-rating-average-color": "*";
+    /**
+     * When `average` is set, specifies the component's `average` text color.
+     */
+    "--calcite-rating-average-text-color": "*";
+    /**
+     * Specifies the component's text color for `count`.
+     */
+    "--calcite-rating-count-text-color": "*";
+  }
+}
+
+interface RatingSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class Rating extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: RatingSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -46,7 +90,9 @@ export class Rating extends LitElement implements LabelableComponent {
 
   //#region Private Properties
 
-  defaultValue: Rating["value"];
+  defaultValue?: Rating["value"];
+
+  private direction = useDirection();
 
   private emit = false;
 
@@ -61,13 +107,13 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private isKeyboardInteraction = true;
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private labelElements: HTMLLabelElement[] = [];
 
   private max = 5;
 
-  private starsMap: Star[];
+  private starsMap!: Star[];
 
   private _value = 0;
 
@@ -78,7 +124,7 @@ export class Rating extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -86,36 +132,32 @@ export class Rating extends LitElement implements LabelableComponent {
 
   //#region State Properties
 
-  @state() hoverValue: number;
+  @state() hoverValue?: number;
 
   //#endregion
 
   //#region Public Properties
 
   /** Specifies a cumulative average from previous ratings to display. */
-  @property({ reflect: true }) average: number;
+  @property({ reflect: true }) average?: number;
 
   /** Specifies the number of previous ratings to display. */
-  @property({ reflect: true }) count: number;
+  @property({ reflect: true }) count?: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
 
   /** When `true`, the component's value can be read, but cannot be modified. */
   @property({ reflect: true }) readOnly = false;
@@ -138,20 +180,17 @@ export class Rating extends LitElement implements LabelableComponent {
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property({ reflect: true })
@@ -197,13 +236,10 @@ export class Rating extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("keydown", this.handleHostKeyDown);
     this.listen("pointerout", this.handleRatingPointerOut);
     this.listen("pointerover", this.handleRatingPointerOver);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
   }
 
   async load(): Promise<void> {
@@ -213,12 +249,17 @@ export class Rating extends LitElement implements LabelableComponent {
   override willUpdate(): void {
     this.starsMap = Array.from({ length: this.max }, (_, i) => {
       const value = i + 1;
-      const average = !this.hoverValue && this.average && !this.value && value <= this.average;
+      const hoverValue = this.hoverValue ?? 0;
+      const hasHoverValue = hoverValue > 0;
+      const hasAverage = this.average != null;
+      const averageValue = this.average ?? 0;
+      const average = !hasHoverValue && hasAverage && !this.value && value <= averageValue;
       const checked = value === this.value;
-      const fraction = this.average && this.average + 1 - value;
-      const hovered = value <= this.hoverValue;
+      const fraction = hasAverage ? averageValue + 1 - value : 0;
+      const hovered = hasHoverValue && value <= hoverValue;
       const id = `${this.guid}-${value}`;
-      const partial = !this.hoverValue && !this.value && !hovered && fraction > 0 && fraction < 1;
+      const partial =
+        !hasHoverValue && !this.value && hasAverage && !hovered && fraction > 0 && fraction < 1;
       const selected = this.value >= value;
       const tabIndex = this.getTabIndex(value);
       return {
@@ -237,10 +278,6 @@ export class Rating extends LitElement implements LabelableComponent {
 
   loaded(): void {
     this.labelElements = Array.from(this.renderRoot.querySelectorAll("label"));
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion
@@ -266,7 +303,7 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private handleRatingPointerOut() {
     this.isKeyboardInteraction = true;
-    this.hoverValue = null;
+    this.hoverValue = undefined;
   }
 
   private handleHostKeyDown() {
@@ -276,7 +313,8 @@ export class Rating extends LitElement implements LabelableComponent {
   private handleLabelKeyDown(event: KeyboardEvent) {
     const inputValue = this.getValueFromLabelEvent(event);
     const key = event.key;
-    const numberKey = key == " " ? undefined : Number(key);
+    const numberKey = key == " " ? NaN : Number(key);
+    const isRtl = this.direction === "rtl";
 
     this.emit = true;
     if (isNaN(numberKey)) {
@@ -286,17 +324,20 @@ export class Rating extends LitElement implements LabelableComponent {
           this.value = !this.required && this.value === inputValue ? 0 : inputValue;
           break;
         case "ArrowLeft":
-          this.value = this.getPreviousRatingValue(inputValue);
+        case "ArrowRight": {
+          const isLeft = key === "ArrowLeft";
+          const shouldIncrement = isLeft === isRtl;
+
+          this.value = shouldIncrement
+            ? this.getNextRatingValue(inputValue)
+            : this.getPreviousRatingValue(inputValue);
+
           this.updateFocus();
           event.preventDefault();
           break;
-        case "ArrowRight":
-          this.value = this.getNextRatingValue(inputValue);
-          this.updateFocus();
-          event.preventDefault();
-          break;
+        }
         case "Tab":
-          this.hoverValue = null;
+          this.hoverValue = undefined;
           break;
       }
     } else {
@@ -311,7 +352,7 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private handleInputChange(event: Event) {
     if (this.isKeyboardInteraction === true) {
-      const inputVal = Number(event.target["value"]);
+      const inputVal = Number((event.target as HTMLInputElement).value);
       this.hoverValue = inputVal;
       this.value = inputVal;
     }
@@ -342,7 +383,7 @@ export class Rating extends LitElement implements LabelableComponent {
 
   private updateFocus(): void {
     this.hoverValue = this.value;
-    this.labelElements[this.value - 1].focus();
+    this.labelElements[this.value - 1]?.focus();
   }
 
   private getTabIndex(value: number): number {

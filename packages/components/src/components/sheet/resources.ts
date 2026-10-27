@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   assistiveText: "assistive-text",
@@ -39,3 +40,8 @@ export const SLOTS = {
   footerStart: "footer-start",
   footerEnd: "footer-end",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSheet = isTag("calcite-sheet");

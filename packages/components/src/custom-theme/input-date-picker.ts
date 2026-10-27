@@ -1,3 +1,4 @@
+import "../components/input-date-picker/input-date-picker";
 import { html } from "../../support/formatting";
 
 export const inputDatePickerTokens = {
@@ -35,6 +36,12 @@ export const inputDatePickerTokens = {
   calciteInputDatePickerPlaceholderTextColor: "",
   calciteInputDatePickerShadow: "",
   calciteInputDatePickerTextColor: "",
+  calciteInputDatePickerInputActionBackgroundColor: "",
+  calciteInputDatePickerInputActionBackgroundColorHover: "",
+  calciteInputDatePickerInputActionBackgroundColorPress: "",
+  calciteInputDatePickerInputActionIconColor: "",
+  calciteInputDatePickerInputActionIconColorHover: "",
+  calciteInputDatePickerInputActionIconColorPress: "",
 };
 
 export const inputDatePicker = html`<calcite-input-date-picker open></calcite-input-date-picker>`;

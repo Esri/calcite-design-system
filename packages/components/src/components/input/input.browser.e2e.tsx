@@ -2,27 +2,72 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
+import { createControlledPromise } from "../../tests/utils/promises";
+
 import {
   defaults,
   disabled,
   focusable,
   formAssociated,
+  globalProps,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
+  scalePropagates,
   t9n,
-} from "../../tests/commonTests/browser";
+  themed,
+} from "../../tests/common";
 import { letterKeys, numberKeys } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
+import { defaultValidity } from "../../tests/common/defaults";
 import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
 
 const delayFor2UpdatesInMs = 2 * NUDGE_DELAY_IN_MS;
+
+describe("global props", () => {
+  globalProps(
+    () => mount<Input>(<calcite-input />),
+    () => page.getByRole("textbox"),
+    {
+      autofocus: true,
+      enterKeyHint: "next",
+      inputMode: "numeric",
+      spellcheck: false,
+    },
+  );
+});
+
+describe("accessibility", () => {
+  it("forwards the active descendant element to the native input", async () => {
+    const activeDescendantElement = document.createElement("div");
+    activeDescendantElement.id = "active-option";
+    activeDescendantElement.role = "option";
+    document.body.append(activeDescendantElement);
+
+    await mount<Input>(
+      <calcite-input aria={{ activeDescendantElement }} label="Search" type="search" />,
+    );
+
+    const input = page.getByRole("searchbox", { name: "Search" });
+
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", activeDescendantElement);
+
+    activeDescendantElement.remove();
+  });
+});
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-input", mountOptions));
+});
 
 describe("defaults", () => {
   defaults(
@@ -35,6 +80,14 @@ describe("defaults", () => {
       {
         propertyName: "alignment",
         defaultValue: "start",
+      },
+      {
+        propertyName: "inlineEdit",
+        defaultValue: false,
+      },
+      {
+        propertyName: "inlineEditing",
+        defaultValue: false,
       },
       {
         propertyName: "numberButtonType",
@@ -68,6 +121,12 @@ describe("defaults", () => {
   );
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-input type="number" />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
+});
+
 describe("reflects", () => {
   reflects(
     () => mount("calcite-input"),
@@ -79,6 +138,14 @@ describe("reflects", () => {
       {
         propertyName: "alignment",
         value: "center",
+      },
+      {
+        propertyName: "inlineEdit",
+        value: true,
+      },
+      {
+        propertyName: "inlineEditing",
+        value: true,
       },
       {
         propertyName: "numberButtonType",
@@ -115,6 +182,361 @@ describe("renders", () => {
 describe("is focusable", () => {
   focusable(() => mount(`calcite-input`), {
     shadowFocusTargetSelector: "input",
+  });
+});
+
+describe("inline edit", () => {
+  it.each(["text", "number"] as const)(
+    "preserves the caret position when editing type %s is enabled by clicking the input",
+    async (type) => {
+      const { el } = await mount<Input>(<calcite-input inline-edit type={type} value="123" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.click(input, {
+        position: { x: 10, y: input.element().clientHeight / 2 },
+      });
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+      await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+      await userEvent.keyboard("4");
+
+      await expect.element(input).toHaveValue("1423");
+    },
+  );
+
+  it.each(["text", "number"] as const)(
+    "places the caret at the end when editing type %s is enabled with the edit button",
+    async (type) => {
+      const { el } = await mount<Input>(<calcite-input inline-edit type={type} value="123" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.click(
+        page.getBySelector(`calcite-input .${InlineEditControlsCSS.enableEditing}`),
+      );
+
+      await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+      await userEvent.keyboard("4");
+
+      await expect.element(input).toHaveValue("1234");
+    },
+  );
+
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit inline-editing value="Starting value" />,
+    );
+    const input = page.getBySelector("calcite-input input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard(" changed");
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("Starting value");
+    await expect.element(input).toHaveValue("Starting value");
+  });
+
+  it.each([true, "controls-disabled"] as const)(
+    "allows decimal entry when inlineEdit is %s",
+    async (inlineEdit) => {
+      const { el } = await mount<Input>(<calcite-input inlineEdit={inlineEdit} type="number" />);
+      const input = page.getBySelector("calcite-input input");
+
+      await userEvent.click(input);
+      await userEvent.keyboard("1.5");
+
+      await expect.element(input).toHaveValue("1.5");
+      expect(el.value).toBe("");
+
+      await userEvent.keyboard("{Enter}");
+
+      expect(el.value).toBe("1.5");
+    },
+  );
+
+  it("clears value on first Escape and restores value on second Escape for built-in inline edit when clearable is set", async () => {
+    const { el } = await mount<Input>(<calcite-input clearable inline-edit value="John Doe" />);
+
+    const input = page.getBySelector("calcite-input input");
+
+    await userEvent.click(input);
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("inline-editing");
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(input).toHaveValue("");
+    expect(el.value).toBe("John Doe");
+    expect(el.inlineEditing).toBe(true);
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.inlineEditing).toBe(false);
+    expect(el.value).toBe("John Doe");
+  });
+
+  it("cancels built-in inline editing on first Escape when clearable is not set", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
+
+    const input = page.getBySelector("calcite-input input");
+
+    await userEvent.click(input);
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("inline-editing");
+
+    await userEvent.keyboard("X");
+    await expect.element(input).toHaveValue("John DoeX");
+    expect(el.value).toBe("John Doe");
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.inlineEditing).toBe(false);
+    expect(el.value).toBe("John Doe");
+    expect(changeSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it("emits a change only when inline editing is saved", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+
+    expect(el.value).toBe("John Doe");
+    expect(changeSpy).not.toHaveBeenCalled();
+
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
+    );
+
+    expect(el.value).toBe("John DoeX");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it("commits inline editing on Enter when controls are present", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.value).toBe("John DoeX");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(false);
+    await expect.element(input).not.toHaveFocus();
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("commits inline editing on Enter when controls are not present", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit="controls-disabled" value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    const confirmSpy = vi.fn();
+    el.inlineEditingBeforeConfirm = vi.fn().mockResolvedValue(undefined);
+    el.addEventListener("calciteInputChange", changeSpy);
+    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.value).toBe("John DoeX");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(confirmSpy).not.toHaveBeenCalled();
+    expect(el.inlineEditingBeforeConfirm).not.toHaveBeenCalled();
+    expect(el.inlineEditing).toBe(false);
+    await expect.element(input).not.toHaveFocus();
+  });
+
+  it("does not emit a change when inline editing is cancelled", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.value).toBe("John Doe");
+    expect(changeSpy).not.toHaveBeenCalled();
+  });
+
+  it("does not emit input while built-in inline editing is active", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const inputSpy = vi.fn();
+    el.addEventListener("calciteInputInput", inputSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+
+    expect(inputSpy).not.toHaveBeenCalled();
+  });
+
+  it("nudges a number from its draft value", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit type="number" value="0" />);
+    const input = page.getBySelector("calcite-input input");
+    const nudgeUpButton = page.getByTestId("number-button-up");
+    const nudgeDownButton = page.getByTestId("number-button-down");
+
+    await userEvent.click(input);
+    await userEvent.click(nudgeUpButton);
+    await userEvent.click(nudgeUpButton);
+
+    await expect.element(input).toHaveValue("2");
+    expect(el.value).toBe("0");
+
+    await userEvent.click(nudgeDownButton);
+    await userEvent.click(nudgeDownButton);
+    await userEvent.click(nudgeDownButton);
+    await userEvent.click(nudgeDownButton);
+
+    await expect.element(input).toHaveValue("-2");
+    expect(el.value).toBe("0");
+  });
+
+  it("commits a number inline edit on Enter when controls are present", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit type="number" value="0" />);
+    const input = page.getBySelector("calcite-input input");
+    const changeSpy = vi.fn();
+    const confirmSpy = vi.fn();
+    el.addEventListener("calciteInputChange", changeSpy);
+    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+
+    await userEvent.click(input);
+    await userEvent.keyboard("1");
+    await userEvent.keyboard("{Enter}");
+
+    expect(el.value).toBe("1");
+    expect(changeSpy).toHaveBeenCalledTimes(1);
+    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(false);
+    await expect.element(input).not.toHaveFocus();
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("emits enable editing change when built-in inline edit is activated", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const enableEditingSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingChange", enableEditingSpy);
+
+    const input = page.getBySelector("calcite-input input");
+    await userEvent.click(input);
+
+    expect(enableEditingSpy).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(true);
+  });
+
+  it("emits confirm when save is clicked without inlineEditingBeforeConfirm", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const confirmSpy = vi.fn();
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
+
+    const input = page.getBySelector("calcite-input input");
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    expect(el.value).toBe("John Doe");
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
+    );
+
+    expect(confirmSpy).toHaveBeenCalledTimes(1);
+    expect(changeSpy).toHaveBeenCalledTimes(2);
+    expect(el.value).toBe("John DoeX");
+    expect(el.inlineEditing).toBe(false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("focuses enable editing action after cancel is clicked", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const input = page.getBySelector("calcite-input input");
+    const cancelButton = page.getBySelector(
+      `calcite-input .${InlineEditControlsCSS.cancelEditing}`,
+    );
+
+    await userEvent.click(input);
+    await userEvent.keyboard("X");
+    await userEvent.click(cancelButton);
+
+    expect(el.value).toBe("John Doe");
+    expect(el.inlineEditing).toBe(false);
+    expect(el.shadowRoot.activeElement).toBe(
+      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
+    );
+  });
+
+  it("disables editing when inlineEditingBeforeConfirm resolves successfully", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    el.inlineEditingBeforeConfirm = vi.fn().mockResolvedValue(undefined);
+
+    const input = page.getBySelector("calcite-input input");
+    await userEvent.click(input);
+    await userEvent.click(
+      page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
+    );
+
+    expect(el.inlineEditingBeforeConfirm).toHaveBeenCalledTimes(1);
+    expect(el.inlineEditing).toBe(false);
+  });
+
+  it("disables inline editing controls while inlineEditingBeforeConfirm is pending", async () => {
+    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
+    const controlledPromise = createControlledPromise<void>();
+    el.inlineEditingBeforeConfirm = () => controlledPromise.promise;
+    const input = page.getBySelector("calcite-input input");
+    const confirmButton = page.getBySelector(
+      `calcite-input .${InlineEditControlsCSS.confirmChanges}`,
+    );
+    const cancelButton = page.getBySelector(
+      `calcite-input .${InlineEditControlsCSS.cancelEditing}`,
+    );
+
+    await userEvent.click(input);
+    await userEvent.click(confirmButton);
+
+    await expect.element(confirmButton).toHaveProperty("disabled", true);
+    await expect.element(cancelButton).toHaveProperty("disabled", true);
+
+    controlledPromise.resolve();
+
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+  });
+
+  it("saves changes on blur and disables editing when inline edit controls are off", async () => {
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit="controls-disabled" value="John Doe" />,
+    );
+    const changeSpy = vi.fn();
+    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
+
+    const input = page.getBySelector("calcite-input input");
+    await userEvent.click(input);
+
+    await expect.element(page.getBySelector("calcite-input")).toHaveAttribute("inline-editing");
+
+    await userEvent.keyboard("X");
+    await userEvent.tab();
+
+    expect(el.value).toBe("John DoeX");
+    expect(el.inlineEditing).toBe(false);
+    expect(changeSpy).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -186,6 +608,20 @@ describe("is form-associated", () => {
       validation: true,
     });
   }
+});
+
+it("updates files when a file is uploaded", async () => {
+  const { el } = await mount<Input>(<calcite-input type="file" />);
+  const input = page.getBySelector("calcite-input input");
+  const file = new File(["file contents"], "test-file.txt", { type: "text/plain" });
+
+  await userEvent.upload(input, file);
+
+  expect(el.files).toHaveLength(1);
+  expect(el.files![0]).toMatchObject({
+    name: file.name,
+    type: file.type,
+  });
 });
 
 describe("clearable", () => {
@@ -856,14 +1292,22 @@ describe("input type number increment/decrement functionality", () => {
     const { el } = await mount<Input>(<calcite-input type="number" value="0" />);
     const inputEventHandler = vi.fn();
     el.addEventListener("calciteInputInput", inputEventHandler);
+    const input = page.getBySelector("calcite-input input").element();
 
-    await el.setFocus();
-    await Promise.all([
-      userEvent.keyboard("{ArrowUp}"),
-      userEvent.keyboard("{ArrowUp}"),
-      userEvent.keyboard("{ArrowDown}"),
-      userEvent.keyboard("{ArrowDown}"),
-    ]);
+    // dispatching synthetic events best emulates the original use case from https://github.com/Esri/calcite-design-system/pull/3908
+    // otherwise, `userEvent.keyboard` emits 2 additional events due to async nature
+    function dispatchKeyboardEvent(type: "keydown" | "keyup", key: "ArrowUp" | "ArrowDown"): void {
+      input.dispatchEvent(
+        new KeyboardEvent(type, { key, bubbles: true, cancelable: true, composed: true }),
+      );
+    }
+
+    await userEvent.keyboard("{Tab}");
+    dispatchKeyboardEvent("keydown", "ArrowUp");
+    dispatchKeyboardEvent("keydown", "ArrowDown");
+    dispatchKeyboardEvent("keyup", "ArrowUp");
+    dispatchKeyboardEvent("keyup", "ArrowDown");
+    vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
 
     expect(inputEventHandler).toHaveBeenCalledTimes(2);
   });
@@ -1384,5 +1828,195 @@ describe("number locale support", () => {
     await userEvent.keyboard(`{Tab}${value}{Tab}`);
 
     expect(el).toHaveProperty("value", "-1.0001");
+  });
+});
+
+describe("theme", () => {
+  describe("default", () => {
+    themed(() => mount("calcite-input"), {
+      "--calcite-input-background-color": {
+        shadowSelector: `input`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-border-color": {
+        shadowSelector: `input`,
+        targetProp: "borderColor",
+      },
+      "--calcite-input-shadow": {
+        shadowSelector: `.${CSS.inputWrapper}`,
+        targetProp: "boxShadow",
+      },
+    });
+  });
+
+  describe("with prefix and suffix", () => {
+    themed(() => mount(<calcite-input prefix-text="prefix" suffix-text="suffix" />), {
+      "--calcite-input-prefix-size": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-suffix-size": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "inlineSize",
+      },
+      "--calcite-input-prefix-text-color": {
+        shadowSelector: `.${CSS.prefix}`,
+        targetProp: "color",
+      },
+      "--calcite-input-suffix-text-color": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with placeholder", () => {
+    themed(() => mount(<calcite-input placeholder="placeholder" />), {
+      "--calcite-input-placeholder-text-color": {
+        shadowSelector: `input::placeholder`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with icon and value", () => {
+    themed(() => mount(<calcite-input icon="layer" value="Forty two" />), {
+      "--calcite-input-corner-radius": {
+        shadowSelector: `.${CSS.wrapper}`,
+        targetProp: "borderRadius",
+      },
+      "--calcite-input-icon-color": {
+        shadowSelector: `.${CSS.inputIcon}`,
+        targetProp: "color",
+      },
+      "--calcite-input-text-color": {
+        shadowSelector: `input`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("with icon, value and clearable", () => {
+    themed(() => mount(<calcite-input clearable icon="layer" value="Forty two" />), {
+      "--calcite-input-actions-background-color": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-actions-background-color-hover": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-input-actions-background-color-press": {
+        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        targetProp: "backgroundColor",
+        state: { press: `calcite-input >>> .${CSS.clearButton} >>> .button` },
+      },
+      "--calcite-input-actions-icon-color": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+      },
+      "--calcite-input-actions-icon-color-hover": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-input-actions-icon-color-press": {
+        shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
+        targetProp: "color",
+        state: { press: `calcite-input >>> .${CSS.clearButton} >>> calcite-icon` },
+      },
+    });
+  });
+
+  describe("with icon value and number type", () => {
+    themed(() => mount(<calcite-input icon="layer" type="number" value="42" />), {
+      "--calcite-input-actions-background-color": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-input-actions-background-color-hover": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-input-actions-background-color-press": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        targetProp: "backgroundColor",
+        state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> .button` },
+      },
+      "--calcite-input-actions-icon-color": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+        targetProp: "color",
+      },
+      "--calcite-input-actions-icon-color-hover": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+        targetProp: "color",
+        state: "hover",
+      },
+      "--calcite-input-actions-icon-color-press": {
+        shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
+        targetProp: "color",
+        state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> calcite-icon` },
+      },
+    });
+  });
+
+  describe("inline edit", () => {
+    describe("without controls", () => {
+      themed(() => mount(<calcite-input inline-edit="controls-disabled" value="Forty two" />), {
+        "--calcite-input-inline-edit-background-color-hover": {
+          shadowSelector: `.${CSS.inlineEdit}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+      });
+    });
+
+    describe("with controls", () => {
+      themed(
+        async () => {
+          const component = await mount(<calcite-input inline-edit value="Forty two" />);
+
+          const input = page.getBySelector("calcite-input input");
+          await userEvent.click(input);
+
+          return component;
+        },
+        {
+          "--calcite-input-inline-edit-control-background-color": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-background-color",
+          },
+          "--calcite-input-inline-edit-control-background-color-hover": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-background-color-hover",
+            state: "hover",
+          },
+          "--calcite-input-inline-edit-control-background-color-press": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-background-color-press",
+            state: { press: `calcite-input >>> .${InlineEditControlsCSS.confirmChanges}` },
+          },
+          "--calcite-input-inline-edit-control-corner-radius": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-corner-radius",
+          },
+          "--calcite-input-inline-edit-control-loader-color": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-loader-color",
+          },
+          "--calcite-input-inline-edit-control-text-color": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-text-color",
+          },
+          "--calcite-input-inline-edit-control-text-color-press": {
+            shadowSelector: `.${InlineEditControlsCSS.confirmChanges}`,
+            targetProp: "--calcite-action-text-color-press",
+            state: { press: `calcite-input >>> .${InlineEditControlsCSS.confirmChanges}` },
+          },
+        },
+      );
+    });
   });
 });

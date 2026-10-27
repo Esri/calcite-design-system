@@ -1,8 +1,6 @@
-// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { getModeName } from "../../utils/dom";
 import { isValidHex } from "../color-picker/utils";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { hexToHue, stringToHex } from "./utils";
 import { styles } from "./avatar.scss";
@@ -10,6 +8,23 @@ import { styles } from "./avatar.scss";
 declare global {
   interface DeclareElements {
     "calcite-avatar": Avatar;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-avatar-corner-radius": "*";
+    /**
+     * Specifies the component's icon or initial color.
+     */
+    "--calcite-avatar-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-avatar-background-color": "*";
   }
 }
 
@@ -29,22 +44,22 @@ export class Avatar extends LitElement {
   // #region Public Properties
 
   /** Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component. */
-  @property({ reflect: true }) fullName: string;
+  @property({ reflect: true }) fullName?: string;
 
-  /** Specifies alternative text when `thumbnail` is defined, otherwise specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the `src` to an image. If the image is private, include an access token in the URL. */
-  @property({ reflect: true }) thumbnail: string;
+  @property({ reflect: true }) thumbnail?: string;
 
   /** Specifies the unique id of the user. */
-  @property({ reflect: true }) userId: string;
+  @property({ reflect: true }) userId?: string;
 
   /** Specifies the username of the user. */
-  @property({ reflect: true }) username: string;
+  @property({ reflect: true }) username?: string;
 
   // #endregion
 
@@ -83,18 +98,16 @@ export class Avatar extends LitElement {
 
   /** Generate a valid background color that is consistent and unique to this user */
   private generateFillColor() {
-    const { userId, username, fullName, el } = this;
-    const theme = getModeName(el);
+    const { userId, username, fullName } = this;
     const id = userId && `#${userId.substr(userId.length - 6)}`;
     const name = username || fullName || "";
     const hex = id && isValidHex(id) ? id : stringToHex(name);
     // if there is not unique information, or an invalid hex is produced, return a default
     if ((!userId && !name) || !isValidHex(hex)) {
-      return `var(--calcite-avatar-background-color, var(--calcite-color-foreground-2))`;
+      return `var(--calcite-avatar-background-color, var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2)))`;
     }
     const hue = hexToHue(hex);
-    const l = theme === "dark" ? 20 : 90;
-    return `var(--calcite-avatar-background-color, hsl(${hue}, 60%, ${l}%))`;
+    return `var(--calcite-avatar-background-color, light-dark(hsl(${hue}, 60%, 90%), hsl(${hue}, 60%, 20%)))`;
   }
 
   /** Use fullName or username to generate initials */

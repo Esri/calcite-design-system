@@ -18,7 +18,7 @@ export function registerPreprocessorStoreSameValueThemeTokens(): void {
       light.allTokens.forEach((token, index) => {
         if (
           isThemed(token) &&
-          token.value === dark.allTokens[index].value &&
+          token.$value === dark.allTokens[index].$value &&
           token.key &&
           mergeInclusions.includes(token.key)
         ) {

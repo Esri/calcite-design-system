@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -12,14 +11,14 @@ import {
 import { PropertyValues } from "lit";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Scale, Status } from "../interfaces";
+import { FlipContext, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { BlockSectionToggleDisplay } from "./interfaces";
+import { BlockSectionToggleDisplay } from "./types";
 import { CSS, ICONS, IDS } from "./resources";
 import { styles } from "./block-section.scss";
 
@@ -29,8 +28,52 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-block-section-background-color": "*";
+    /**
+     * Specifies the component's border color. When `expanded`, applies to the component's bottom border.
+     */
+    "--calcite-block-section-border-color": "*";
+    /**
+     * Specifies the component's header text color.
+     */
+    "--calcite-block-section-header-text-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-block-section-text-color": "*";
+    /**
+     * Specifies the component's text color on hover.
+     */
+    "--calcite-block-section-text-color-hover": "*";
+    /**
+     * Specifies the padding of the component's content in `default` slot.
+     */
+    "--calcite-block-section-content-space": "*";
+  }
+}
+
+interface BlockSectionSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
+/**
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ */
 export class BlockSection extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockSectionSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -46,11 +89,11 @@ export class BlockSection extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() defaultSlotHasElements = false;
 
@@ -61,16 +104,16 @@ export class BlockSection extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -100,17 +143,16 @@ export class BlockSection extends LitElement {
    *
    * @deprecated in v2.8.1, removal target v6.0.0 - Use `icon-start` instead.
    */
-  @property({ reflect: true }) status: Status;
+  @property({ reflect: true }) status?: Status;
 
   /** The component header text. */
-  @property() text: string;
+  @property() text?: string;
 
   /**
-   * Specifies how the component's toggle is displayed, where:
+   * Specifies how the component's toggle is displayed.
    *
-   * `"button"` sets the toggle to a selectable header, and
-   *
-   * `"switch"` sets the toggle to a switch.
+   * - `"button"` sets the toggle to a selectable header.
+   * - `"switch"` sets the toggle to a switch.
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -184,7 +226,7 @@ export class BlockSection extends LitElement {
 
   private renderStatusIcon(): JsxNode {
     const { status } = this;
-    const statusIcon = ICONS[status] ?? false;
+    const statusIcon = status && ICONS[status];
     const statusIconClasses = {
       [CSS.statusIcon]: true,
       [CSS.valid]: status == "valid",

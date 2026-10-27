@@ -1,11 +1,11 @@
-// @ts-strict-ignore
 import { LitElement, property, h, method, state, JsxNode, setAttribute } from "@arcgis/lumina";
 import { nodeListToArray } from "../../utils/dom";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { Tabs } from "../tabs/tabs";
-import { CSS, IDS } from "./resources";
-import { TabChangeEventDetail } from "./interfaces";
+import { isTabs } from "../tabs/resources";
+import { CSS, IDS, isTab } from "./resources";
+import { TabChangeEventDetail } from "./types";
 import { styles } from "./tab.scss";
 
 declare global {
@@ -14,29 +14,56 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the vertical space between the component's content in the `default` slot.
+     */
+    "--calcite-tab-content-space-y": "*";
+    /**
+     * Specifies the block padding of the component's content in the `default` slot.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-tab-content-space-y` instead.
+     */
+    "--calcite-tab-content-block-padding": "*";
+  }
+}
+
+interface TabSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 export class Tab extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TabSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = IDS.tabTitleId(guid());
 
-  private parentTabsEl: Tabs["el"];
+  private parentTabsEl: Tabs["el"] | null = null;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
-  @state() labeledBy: string;
+  @state() labeledBy?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
@@ -57,17 +84,17 @@ export class Tab extends LitElement {
    *
    * When specified, use the same value on the `calcite-tab-title`.
    */
-  @property({ reflect: true }) tab: string;
+  @property({ reflect: true }) tab?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /** Returns the index of the component item within the tab array. */
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) => el.matches("calcite-tab")),
+      nodeListToArray(this.el.parentElement!.children).filter(isTab),
       this.el,
     );
   }
@@ -79,12 +106,12 @@ export class Tab extends LitElement {
    */
   @method()
   _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
-    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || null;
+    this.labeledBy = titleIds[tabIds.indexOf(this.el.id)] || undefined;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -108,14 +135,12 @@ export class Tab extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     // to allow `<calcite-tabs>` to be nested we need to make sure this
     // `calciteTabChange` event was actually fired from a within the same
@@ -134,9 +159,9 @@ export class Tab extends LitElement {
     event.stopPropagation();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const id = this.el.id || this.guid;
@@ -158,5 +183,5 @@ export class Tab extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

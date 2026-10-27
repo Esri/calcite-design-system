@@ -6,15 +6,15 @@ export interface DateTimeInputComponent {
 }
 
 export interface NumericInputComponent {
-  min: number;
-  max: number;
-  step: number | "any";
+  min?: number;
+  max?: number;
+  step?: number | "any";
 }
 
 export interface TextualInputComponent {
   pattern?: string;
-  minLength: number;
-  maxLength: number;
+  minLength?: number;
+  maxLength?: number;
 }
 
 /** Exported for testing purposes only */
@@ -26,12 +26,17 @@ export const patternTypes = ["email", "password", "search", "tel", "text", "url"
 /** Exported for testing purposes only */
 export const minMaxLengthTypes = ["email", "password", "search", "tel", "text", "textarea", "url"];
 
-function updateConstraintValidation(
-  inputComponent: InputComponent,
-  input: HTMLInputElement,
-  propName: string,
-  matchesType: boolean,
-): void {
+type SharedInputProp<C extends InputComponent, T extends HTMLInputElement = HTMLInputElement> = Extract<
+  keyof C,
+  keyof T
+> &
+  string;
+
+function updateConstraintValidation<
+  C extends InputComponent,
+  T extends HTMLInputElement = HTMLInputElement,
+  K extends SharedInputProp<C, T> = SharedInputProp<C, T>,
+>(inputComponent: C, input: T, propName: K, matchesType: boolean): void {
   const attributeName = propName.toLowerCase();
   const value = inputComponent[propName];
 

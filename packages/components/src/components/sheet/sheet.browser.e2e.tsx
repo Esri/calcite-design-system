@@ -1,23 +1,87 @@
 import { describe, expect, it } from "vitest";
-import { h } from "@arcgis/lumina";
-import { userEvent } from "vitest/browser";
+import { Fragment, h } from "@arcgis/lumina";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { commands } from "../../tests/browser/commands";
+import { commands } from "../../tests/utils/commands";
+
 import {
   defaults,
   focusable,
+  focusTrap,
   hidden,
   openClose,
   reflects,
   renders,
   topLayer,
-} from "../../tests/commonTests/browser";
+  accessible,
+  themed,
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { Dir } from "../interfaces";
-import { CSS } from "./resources";
+import { Dir } from "../types";
+import { CSS, IDS } from "./resources";
 import { Sheet } from "./sheet";
+import { waitForEvent } from "../../tests/common/utils";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document.body, "calciteSheetOpen");
+      const renderResult = await mount(
+        <calcite-sheet label="hello world" open>
+          Hello everyone!
+        </calcite-sheet>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
+
+  describe("with content", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const renderResult = await mount(
+        <calcite-sheet label="hello world" open>
+          <calcite-panel closable heading="Ultrices neque">
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+              exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+              dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+              mollit anim id est laborum.
+            </p>
+            <calcite-button appearance="outline" slot="footer" width="half">
+              tincidunt lobortis
+            </calcite-button>
+            <calcite-button appearance="outline" slot="footer" width="half">
+              amet porttitor
+            </calcite-button>
+          </calcite-panel>
+        </calcite-sheet>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
+
+  describe("with modalDisabled", () => {
+    accessible(async () => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const renderResult = await mount(
+        <>
+          <calcite-sheet label="Non-modal sheet" modalDisabled open>
+            <button type="button">inside</button>
+          </calcite-sheet>
+          <button type="button">outside</button>
+        </>,
+      );
+      await openEvent;
+      return renderResult;
+    });
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -37,6 +101,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "modalDisabled",
         defaultValue: false,
       },
       {
@@ -79,13 +147,273 @@ describe("is focusable", () => {
       () =>
         mount(
           <calcite-sheet open>
-            <button class={focusableContentTargetClass}>test</button>
+            <button class={focusableContentTargetClass} type="button">
+              test
+            </button>
           </calcite-sheet>,
         ),
       {
         focusTargetSelector: `.${focusableContentTargetClass}`,
       },
     );
+  });
+});
+
+describe("focus-trap", () => {
+  focusTrap(
+    () =>
+      mount(
+        <calcite-sheet>
+          <input id="focusable-content" />
+        </calcite-sheet>,
+      ),
+    {
+      toggleProp: "open",
+      focusTarget: () => page.getBySelector("#focusable-content"),
+    },
+  );
+});
+
+describe("Escape key closing", () => {
+  type EscapeCloseCase = {
+    focusTrapDisabled: boolean;
+    modalDisabled: boolean;
+    outsideCloseDisabled: boolean;
+    testName: string;
+  };
+
+  const defaultCases: EscapeCloseCase[] = [
+    {
+      focusTrapDisabled: false,
+      modalDisabled: false,
+      outsideCloseDisabled: false,
+      testName: "modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: false,
+      outsideCloseDisabled: false,
+      testName: "modal sheet with focus trap disabled",
+    },
+    {
+      focusTrapDisabled: false,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap disabled",
+    },
+  ];
+
+  const modalOutsideClickCases: EscapeCloseCase[] = [
+    {
+      focusTrapDisabled: false,
+      modalDisabled: false,
+      outsideCloseDisabled: true,
+      testName: "modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: false,
+      outsideCloseDisabled: true,
+      testName: "modal sheet with focus trap disabled",
+    },
+  ];
+
+  const nonModalOutsideClickCases: EscapeCloseCase[] = [
+    {
+      focusTrapDisabled: false,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modalDisabled: true,
+      outsideCloseDisabled: false,
+      testName: "non-modal sheet with focus trap disabled",
+    },
+  ];
+
+  async function setUpEscapeCloseTest({
+    focusTrapDisabled,
+    modalDisabled,
+    outsideCloseDisabled,
+  }: EscapeCloseCase) {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet
+          focusTrapDisabled={focusTrapDisabled}
+          label="Sheet"
+          modalDisabled={modalDisabled}
+          open
+          outsideCloseDisabled={outsideCloseDisabled}
+        >
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button style={{ insetInlineEnd: 0, position: "fixed" }} type="button">
+          outside
+        </button>
+      </>,
+    );
+    await openEvent;
+
+    return {
+      el,
+      insideButton: page.getByRole("button", { name: "inside" }),
+      outsideButton: page.getByRole("button", { name: "outside" }),
+    };
+  }
+
+  async function expectEscapeClosesFromInside({
+    el,
+    insideButton,
+  }: Awaited<ReturnType<typeof setUpEscapeCloseTest>>) {
+    expect(el.open).toBe(true);
+
+    await userEvent.click(insideButton);
+    await expect.element(insideButton).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(el.open).toBe(false);
+  }
+
+  it.each(defaultCases)("closes from inside for $testName", async (testCase) => {
+    await expectEscapeClosesFromInside(await setUpEscapeCloseTest(testCase));
+  });
+
+  it.each(modalOutsideClickCases)(
+    "closes from inside after prevented outside close for $testName",
+    async (testCase) => {
+      const testSetup = await setUpEscapeCloseTest(testCase);
+      const { el } = testSetup;
+      const content = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.content}`)!;
+      const { height, right, top } = content.getBoundingClientRect();
+
+      await commands.mouseMove(right + 10, top + height / 2);
+      await commands.mouseDown();
+      await commands.mouseUp();
+
+      await expectEscapeClosesFromInside(testSetup);
+    },
+  );
+
+  it.each(nonModalOutsideClickCases)(
+    "closes from inside after focus leaves and returns for $testName",
+    async (testCase) => {
+      const testSetup = await setUpEscapeCloseTest(testCase);
+      const { outsideButton } = testSetup;
+
+      await userEvent.click(outsideButton);
+      await expect.element(outsideButton).toHaveFocus();
+
+      await expectEscapeClosesFromInside(testSetup);
+    },
+  );
+});
+
+describe("modalDisabled", () => {
+  it("updates modal behavior when toggled while open", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(<calcite-sheet label="Sheet" open />);
+    await openEvent;
+
+    expect(document.documentElement.style.overflow).toBe("hidden");
+    expect(el.ariaModal).toBe("true");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
+
+    el.modalDisabled = true;
+
+    await expect.poll(() => document.documentElement.style.overflow).not.toBe("hidden");
+    expect(el.ariaModal).toBe("false");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
+
+    el.modalDisabled = false;
+
+    await expect.poll(() => document.documentElement.style.overflow).toBe("hidden");
+    expect(el.ariaModal).toBe("true");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
+
+    el.open = false;
+
+    await expect.poll(() => document.documentElement.style.overflow).not.toBe("hidden");
+  });
+
+  it("allows interaction outside without rendering a scrim or blocking document scroll", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet label="Non-modal sheet" modalDisabled open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button style={{ insetInlineEnd: 0, position: "fixed" }} type="button">
+          outside
+        </button>
+      </>,
+    );
+    await openEvent;
+
+    expect(el.ariaModal).toBe("false");
+    expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
+    expect(document.documentElement.style.overflow).not.toBe("hidden");
+    expect(getComputedStyle(el).pointerEvents).toBe("none");
+    const content = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.content}`)!;
+    expect(getComputedStyle(content).pointerEvents).toBe("auto");
+
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(outsideButton);
+
+    await expect.element(outsideButton).toHaveFocus();
+    expect(el.open).toBe(true);
+  });
+
+  it("allows focus to leave when focusTrapDisabled is true", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount<Sheet>(
+      <>
+        <calcite-sheet focus-trap-disabled label="Non-modal sheet" modalDisabled open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+
+    await userEvent.tab();
+
+    await expect.element(outsideButton).toHaveFocus();
+  });
+
+  it("allows focus to leave when focusTrapDisabled is true for a modal sheet", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <>
+        <calcite-sheet focus-trap-disabled label="Modal sheet" open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    expect(el.ariaModal).toBe("true");
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+
+    await userEvent.tab();
+
+    await expect.element(outsideButton).toHaveFocus();
   });
 });
 
@@ -100,6 +428,10 @@ describe("reflects", () => {
       {
         propertyName: "heightScale",
         value: "m",
+      },
+      {
+        propertyName: "modalDisabled",
+        value: true,
       },
       {
         propertyName: "resizable",
@@ -150,7 +482,15 @@ describe("sheet updateSize public method", () => {
     { axis: "block", dir: "rtl", changeDirAfterMount: false },
   ] as const;
 
-  async function setUpSheet({ axis, dir, changeDirAfterMount }: TestCase) {
+  async function setUpSheet({ axis, dir, changeDirAfterMount }: TestCase): Promise<{
+    sheet: Sheet["el"];
+    content: HTMLElement;
+    resizeHandle: HTMLElement;
+    component: Sheet;
+    sizeProp: "inlineSize" | "blockSize";
+    keyboardKey: "{ArrowRight}" | "{ArrowDown}";
+    mouseDelta: { dx: number; dy: number };
+  }> {
     const position = axis === "inline" ? "inline-start" : "block-start";
     const sizeProp = axis === "inline" ? "inlineSize" : "blockSize";
     const keyboardKey = axis === "inline" ? "{ArrowRight}" : "{ArrowDown}";
@@ -266,4 +606,68 @@ describe("sheet updateSize public method", () => {
 
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-sheet"));
+});
+
+describe("themed", () => {
+  describe("default", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-sheet
+            display-mode="float"
+            height="m"
+            open
+            position="inline-start"
+            resizable
+            width="l"
+          >
+            <calcite-panel heading="hello world">test!</calcite-panel>
+          </calcite-sheet>,
+        ),
+      {
+        "--calcite-sheet-background-color": {
+          shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-sheet-border-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "borderInlineStartColor",
+        },
+        "--calcite-sheet-corner-radius": [
+          {
+            shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.contentContainer}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "borderRadius",
+          },
+          {
+            shadowSelector: `.${CSS.resizeHandleBar}`,
+            targetProp: "borderStartEndRadius",
+          },
+        ],
+        "--calcite-sheet-text-color": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "color",
+        },
+        "--calcite-sheet-shadow": {
+          shadowSelector: `#${IDS.sheetContent}.${CSS.content}`,
+          targetProp: "boxShadow",
+        },
+        "--calcite-sheet-resize-background-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-sheet-resize-icon-color": {
+          shadowSelector: `.${CSS.resizeHandleBar}`,
+          targetProp: "color",
+        },
+      },
+    );
+  });
 });

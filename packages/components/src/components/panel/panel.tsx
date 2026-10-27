@@ -1,6 +1,14 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
   hasVisibleContent,
@@ -18,17 +26,19 @@ import {
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { CollapseDirection, Scale } from "../interfaces";
+import { CollapseDirection, Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Alert } from "../alert/alert";
-import type { ActionBar } from "../action-bar/action-bar";
-import { useSetFocus } from "../../controllers/useSetFocus";
-import { IconName } from "../icon/interfaces";
+import { isActionBar } from "../action-bar/resources";
+import { useFocusable } from "../../controllers/useFocusable";
+import { IconName } from "../icon/types";
 import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
+import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -36,24 +46,183 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content.
- * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- * @slot alerts - A slot for adding `calcite-alert`s to the component.
- * @slot content-bottom - A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
- * @slot content-top - A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
- * @slot header-actions-start - A slot for adding actions or content to the start side of the header.
- * @slot header-actions-end - A slot for adding actions or content to the end side of the header.
- * @slot header-content - A slot for adding custom content to the header.
- * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
- * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
- * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
- * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
- * @slot footer - A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
- * @slot footer-end - A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
- * @slot footer-start - A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-panel-corner-radius": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-panel-heading-text-color": "*";
+    /**
+     * Specifies the color of the component's icon.
+     */
+    "--calcite-panel-icon-color": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-panel-description-text-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-panel-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-panel-background-color": "*";
+    /**
+     * Specifies the padding of the component's `content-top` slot.
+     */
+    "--calcite-panel-content-top-space": "*";
+    /**
+     * Specifies the padding of the component's `content-bottom` slot.
+     */
+    "--calcite-panel-content-bottom-space": "*";
+    /**
+     * Specifies the padding of the component's `header-top` slot.
+     */
+    "--calcite-panel-header-top-space": "*";
+    /**
+     * Specifies the background color of the component's header.
+     */
+    "--calcite-panel-header-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+     */
+    "--calcite-panel-header-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+     */
+    "--calcite-panel-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+     */
+    "--calcite-panel-header-action-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+     */
+    "--calcite-panel-header-action-text-color": "*";
+    /**
+     * Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+     */
+    "--calcite-panel-header-action-text-color-press": "*";
+    /**
+     * Specifies the background color of the component's footer.
+     */
+    "--calcite-panel-footer-background-color": "*";
+    /**
+     * Specifies the padding of the component's `unnamed (default)` slot.
+     */
+    "--calcite-panel-space": "*";
+    /**
+     * Specifies the padding of the component's `header-content` slot.
+     */
+    "--calcite-panel-header-content-space": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     */
+    "--calcite-panel-footer-space": "*";
+    /**
+     * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     */
+    "--calcite-popover-border-color": "*";
+    /**
+     * Specifies the padding of the component's content.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-space` instead.
+     */
+    "--calcite-panel-content-space": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-footer-space` instead.
+     */
+    "--calcite-panel-footer-padding": "*";
+    /**
+     * Specifies the component header's block end border.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-border-color` instead.
+     */
+    "--calcite-panel-header-border-block-end": "*";
+  }
+}
+
+interface PanelSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the component.
+   */
+  "action-bar": Node[];
+  /**
+   * A slot for adding `calcite-alert`s to the component.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
+   */
+  "content-bottom": Node[];
+  /**
+   * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding custom content above the header actions and content.
+   */
+  "header-top": Node[];
+  /**
+   * A slot for adding actions or content to the start side of the header.
+   */
+  "header-actions-start": Node[];
+  /**
+   * A slot for adding actions or content to the end side of the header.
+   */
+  "header-actions-end": Node[];
+  /**
+   * A slot for adding custom content to the header.
+   */
+  "header-content": Node[];
+  /**
+   * A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   */
+  description: Node[];
+  /**
+   * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   */
+  fab: Node[];
+  /**
+   * A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+   */
+  "footer-end": Node[];
+  /**
+   * A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
+   */
+  "footer-start": Node[];
+}
+
 export class Panel extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: PanelSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [headerStyles, styles];
@@ -62,9 +231,9 @@ export class Panel extends LitElement {
 
   //#region Private Properties
 
-  private containerRef = createRef<HTMLElement>();
+  private containerRef = createRef<HTMLDivElement>();
 
-  private panelScrollEl: HTMLElement;
+  private panelScrollEl?: HTMLElement;
 
   private resizeObserver = createObserver("resize", () => this.resizeHandler());
 
@@ -77,9 +246,38 @@ export class Panel extends LitElement {
 
   private _closed = false;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
+
+  private focusTrapController = useFocusTrap<this>({
+    focusTrapOptions: {
+      allowOutsideClick: true,
+      escapeDeactivates: (event) => {
+        if (!event.defaultPrevented && this.closable) {
+          this.emitCloseEvent();
+          event.preventDefault();
+        }
+
+        return false;
+      },
+    },
+  })(this);
 
   private interactiveContainer = useInteractive(this);
+
+  private get hasHeaderRow(): boolean {
+    return (
+      this.hasHeaderContent ||
+      !!this.heading ||
+      !!this.description ||
+      this.hasHeaderHeading ||
+      this.hasHeaderDescription ||
+      this.hasStartActions ||
+      this.hasEndActions ||
+      this.collapsible ||
+      this.closable ||
+      this.hasMenuItems
+    );
+  }
 
   //#endregion
 
@@ -107,6 +305,8 @@ export class Panel extends LitElement {
 
   @state() hasHeaderHeading = false;
 
+  @state() hasHeaderTop = false;
+
   @state() hasMenuItems = false;
 
   @state() hasStartActions = false;
@@ -118,12 +318,12 @@ export class Panel extends LitElement {
   //#region Public Properties
 
   /** Passes a function to run before the component closes. */
-  @property() beforeClose: () => Promise<void>;
+  @property() beforeClose?: () => Promise<void>;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, the component will be hidden. */
+  /** @copyDoc */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -144,20 +344,20 @@ export class Panel extends LitElement {
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
 
-  /** Specifies a description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -165,8 +365,34 @@ export class Panel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  /**
+   * When `true`, enables focus trapping and dialog semantics on behalf of a parent component.
+   *
+   * @internal
+   */
+  @property() focusTrapEnabledByParent = false;
+
+  /**
+   * When `true`, disables focus trapping and dialog semantics.
+   *
+   * @since 6.0
+   */
+  @property() focusTrapDisabled = false;
+
+  /**
+   * Specifies custom focus trap configuration on the component.
+   *
+   * - `"allowOutsideClick"` allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * @private
+   */
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
+
+  /** @copyDoc */
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
@@ -174,25 +400,17 @@ export class Panel extends LitElement {
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -231,6 +449,20 @@ export class Panel extends LitElement {
     return this.focusSetter(() => this.containerRef.value, options);
   }
 
+  /**
+   * Updates the element(s) that are included in the focus-trap of the component.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   * @private
+   */
+  @method()
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    this.focusTrapController.setExtraContainers(extraContainers);
+    this.focusTrapController.updateContainerElements();
+  }
+
   //#endregion
 
   //#region Events
@@ -257,7 +489,7 @@ export class Panel extends LitElement {
   constructor() {
     super();
     this.listen("keydown", this.panelKeyDownHandler);
-    this.listen("calcitePanelClose", this.panelCloseHandler);
+    this.listen<ToEvents<Panel>["calcitePanelClose"]>("calcitePanelClose", this.panelCloseHandler);
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
@@ -270,6 +502,21 @@ export class Panel extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (
+      changes.has("closable") ||
+      changes.has("closed") ||
+      changes.has("focusTrapDisabled") ||
+      changes.has("focusTrapEnabledByParent")
+    ) {
+      if (this.hasDialogBehavior) {
+        this.focusTrapController.activate();
+      } else {
+        this.focusTrapController.deactivate();
+      }
+    }
+  }
+
   override disconnectedCallback(): void {
     this.resizeObserver?.disconnect();
   }
@@ -277,6 +524,17 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
+  focusTrapDisabledOverride(): boolean {
+    return this.focusTrapDisabled || !this.hasDialogBehavior;
+  }
+
+  private get hasDialogBehavior(): boolean {
+    return (
+      !this.focusTrapDisabled && !this.closed && (this.closable || this.focusTrapEnabledByParent)
+    );
+  }
 
   private async setClosedState(value: boolean): Promise<void> {
     if (this.beforeClose && value) {
@@ -320,10 +578,12 @@ export class Panel extends LitElement {
   }
 
   private panelKeyDownHandler(event: KeyboardEvent): void {
-    if (this.closable && event.key === "Escape" && !event.defaultPrevented) {
-      event.preventDefault();
-      this.emitCloseEvent();
+    if (event.key !== "Escape" || event.defaultPrevented || this.closed || !this.closable) {
+      return;
     }
+
+    event.preventDefault();
+    this.emitCloseEvent();
   }
 
   private panelCloseHandler(event: CustomEvent<void>): void {
@@ -356,9 +616,7 @@ export class Panel extends LitElement {
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
-    );
+    const actionBars = slotChangeGetAssignedElements(event).filter(isActionBar);
 
     actionBars.forEach((actionBar) => (actionBar.layout = "horizontal"));
 
@@ -367,6 +625,10 @@ export class Panel extends LitElement {
 
   private handleHeaderContentSlotChange(event: Event): void {
     this.hasHeaderContent = slotChangeHasAssignedElement(event);
+  }
+
+  private handleHeaderTopSlotChange(event: Event): void {
+    this.hasHeaderTop = slotChangeHasAssignedElement(event);
   }
 
   private handleHeaderDescriptionSlotChange(event: Event): void {
@@ -405,7 +667,7 @@ export class Panel extends LitElement {
     this.hasContentTop = slotChangeHasAssignedElement(event);
   }
 
-  private setPanelScrollEl(el: HTMLElement): void {
+  private setPanelScrollEl(el?: HTMLElement): void {
     updateRefObserver(this.resizeObserver, this.panelScrollEl, el);
     this.panelScrollEl = el;
   }
@@ -448,7 +710,12 @@ export class Panel extends LitElement {
     ) : null;
 
     const headingNode = (
-      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+      <Heading
+        class={CSS.heading}
+        hidden={!showHeaderHeading}
+        id={IDS.heading}
+        level={headingLevel}
+      >
         <slot
           hidden={!hasHeaderHeading}
           name={SLOTS.heading}
@@ -500,6 +767,14 @@ export class Panel extends LitElement {
         key="slotted-header-content"
       >
         <slot name={SLOTS.headerContent} onSlotChange={this.handleHeaderContentSlotChange} />
+      </div>
+    );
+  }
+
+  private renderHeaderTop(): JsxNode {
+    return (
+      <div class={CSS.headerTop} hidden={!this.hasHeaderTop}>
+        <slot name={SLOTS.headerTop} onSlotChange={this.handleHeaderTopSlotChange} />
       </div>
     );
   }
@@ -619,6 +894,7 @@ export class Panel extends LitElement {
       hasHeaderContent,
       hasHeaderDescription,
       hasHeaderHeading,
+      hasHeaderTop,
       hasStartActions,
       hasEndActions,
       closable,
@@ -637,6 +913,7 @@ export class Panel extends LitElement {
     const showHeaderContent =
       hasHeaderContent ||
       hasDefaultHeaderContent ||
+      hasHeaderTop ||
       hasStartActions ||
       hasEndActions ||
       collapsible ||
@@ -648,9 +925,19 @@ export class Panel extends LitElement {
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header class={CSS.header} hidden={!(showHeaderContent || hasActionBar || hasContentTop)}>
+      <header
+        class={{
+          [CSS.header]: true,
+          [CSS.headerNoRow]: hasHeaderTop && !this.hasHeaderRow && !hasActionBar && !hasContentTop,
+        }}
+        hidden={!(showHeaderContent || hasActionBar || hasContentTop)}
+      >
+        {this.renderHeaderTop()}
         <div
-          class={{ [CSS.headerContainer]: true, [CSS.headerContainerBorderEnd]: hasActionBar }}
+          class={{
+            [CSS.headerContainer]: true,
+            [CSS.headerContainerBorderEnd]: hasActionBar && this.hasHeaderRow,
+          }}
           hidden={!showHeaderContent}
         >
           {this.renderHeaderStartActions()}
@@ -708,7 +995,13 @@ export class Panel extends LitElement {
 
   private renderContentTop(): JsxNode {
     return (
-      <div class={CSS.contentTop} hidden={!this.hasContentTop}>
+      <div
+        class={{
+          [CSS.contentTop]: true,
+          [CSS.contentTopNoBorder]: this.hasHeaderTop && !this.hasHeaderRow && !this.hasActionBar,
+        }}
+        hidden={!this.hasContentTop}
+      >
         <slot name={SLOTS.contentTop} onSlotChange={this.contentTopSlotChangeHandler} />
       </div>
     );
@@ -723,16 +1016,28 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed } = this;
+    const { disabled, loading, closed, heading, description } = this;
+    const hasDialogRole = this.hasDialogBehavior;
+    const hasDialogHeading = !!heading || this.hasHeaderHeading;
 
     const panelNode = (
-      <article ariaBusy={loading} class={CSS.container} hidden={closed} ref={this.containerRef}>
+      <div
+        aria-labelledby={hasDialogRole && hasDialogHeading ? IDS.heading : undefined}
+        ariaBusy={toAriaBoolean(loading, undefined)}
+        ariaDescription={hasDialogRole && description ? description : undefined}
+        ariaLabel={hasDialogRole && heading && !this.hasHeaderHeading ? heading : undefined}
+        ariaLive={hasDialogRole ? "polite" : undefined}
+        class={CSS.container}
+        hidden={closed}
+        ref={this.containerRef}
+        role={hasDialogRole ? "dialog" : "article"}
+      >
         {this.renderHeaderNode()}
         {this.renderContent()}
         {this.renderContentBottom()}
         {this.renderFooterNode()}
         <slot key="alerts" name={SLOTS.alerts} onSlotChange={this.handleAlertsSlotChange} />
-      </article>
+      </div>
     );
 
     return (

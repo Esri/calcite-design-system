@@ -1,13 +1,12 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
 import { getIconScale } from "../../utils/component";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./pagination.scss";
@@ -15,6 +14,35 @@ import { styles } from "./pagination.scss";
 declare global {
   interface DeclareElements {
     "calcite-pagination": Pagination;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's item color.
+     */
+    "--calcite-pagination-color": "*";
+    /**
+     * Specifies the component's item color when hovered or selected.
+     */
+    "--calcite-pagination-color-hover": "*";
+    /**
+     * Specifies the component's item bottom border color when hovered.
+     */
+    "--calcite-pagination-color-border-hover": "*";
+    /**
+     * Specifies the component's item bottom border color when selected.
+     */
+    "--calcite-pagination-color-border-active": "*";
+    /**
+     * Specifies the component's item background color when active.
+     */
+    "--calcite-pagination-background-color": "*";
+    /**
+     * Specifies the component's chevron item background color when hovered.
+     */
+    "--calcite-pagination-icon-color-background-hover": "*";
   }
 }
 
@@ -58,21 +86,21 @@ export class Pagination extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
   //#region State Properties
 
-  @state() isXXSmall: boolean;
+  @state() isXXSmall = false;
 
-  @state() lastStartItem: number;
+  @state() lastStartItem = 1;
 
   @state() maxItems = maxItemBreakpoints.xxsmall;
 
-  @state() totalPages: number;
+  @state() totalPages = 1;
 
   //#endregion
 
@@ -81,11 +109,11 @@ export class Pagination extends LitElement {
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /** Specifies the number of items per page. */
   @property({ reflect: true }) pageSize = 20;
@@ -310,7 +338,7 @@ export class Pagination extends LitElement {
 
   private handlePageClick(event: Event) {
     const target = event.target as HTMLButtonElement;
-    this.startItem = parseInt(target.value);
+    this.startItem = parseInt(target.value, 10);
     this.emitUpdate();
   }
 
@@ -320,9 +348,11 @@ export class Pagination extends LitElement {
 
   private renderEllipsis(type: "start" | "end"): JsxNode {
     return (
-      <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
-        &hellip;
-      </span>
+      <li ariaHidden="true" role="presentation">
+        <span class={CSS.ellipsis} data-test-ellipsis={type} key={type}>
+          &hellip;
+        </span>
+      </li>
     );
   }
 

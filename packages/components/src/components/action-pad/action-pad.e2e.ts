@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -161,26 +161,6 @@ it("should not modify textEnabled on actions or expanded on group", async () => 
   expect(await action.getProperty("textEnabled")).toBe(false);
 });
 
-describe("accessible", () => {
-  accessible(html`
-    <calcite-action-pad>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
-  `);
-});
-
-describe("should be accessible when expanded", () => {
-  accessible(html`
-    <calcite-action-pad expanded>
-      <calcite-action-group>
-        <calcite-action text="Add" icon="plus"></calcite-action>
-      </calcite-action-group>
-    </calcite-action-pad>
-  `);
-});
-
 it("'calciteActionMenuOpen' event should set other 'calcite-action-group' - 'menuOpen' to false", async () => {
   const page = await newE2EPage({
     html: `<calcite-action-pad>
@@ -287,31 +267,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed("calcite-action-pad", {
-      "--calcite-action-pad-corner-radius": {
-        targetProp: "borderRadius",
-      },
-      "--calcite-action-pad-items-space": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "gap",
-      },
-    });
-  });
-  describe("grid", () => {
-    themed(
-      html`<calcite-action-pad layout="vertical" expanded>
-        <calcite-action-group></calcite-action-group>
-      </calcite-action-pad>`,
-      {
-        "--calcite-action-pad-expanded-max-width": {
-          shadowSelector: `.${CSS.container}`,
-          targetProp: "maxInlineSize",
-        },
-      },
-    );
-  });
 });

@@ -1,12 +1,20 @@
 import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { LitElement } from "@arcgis/lumina";
-import { defaults, reflects, hidden, renders, t9n } from "../../tests/commonTests/browser";
+import {
+  defaults,
+  reflects,
+  hidden,
+  renders,
+  scalePropagates,
+  t9n,
+  themed,
+} from "../../tests/common";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
-import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Stepper } from "./stepper";
+import { CSS } from "./resources";
 
 describe("defaults", () => {
   defaults(
@@ -87,6 +95,20 @@ describe("translation support", () => {
   t9n(() => mount("calcite-stepper"));
 });
 
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-stepper>
+          <calcite-stepper-item heading="Step 1" />
+          <calcite-stepper-item heading="Step 2" />
+        </calcite-stepper>,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-stepper-item" },
+  );
+});
+
 describe("fixed height sizing", () => {
   it.each(["horizontal", "horizontal-single"] as const)(
     "content row is larger than header row when fixed height is set (%s) (#12786)",
@@ -140,13 +162,13 @@ describe("inheritable props in shadow DOM", () => {
     let items = page.getBySelector("calcite-stepper-item");
     expect(items.length).toBe(2);
 
-    items.elements().forEach((item: StepperItem) => {
-      expect(item.icon).toBe(false);
-      expect(item.numbered).toBe(false);
-      expect(item.layout).toBe("horizontal");
-      expect(item.scale).toBe("m");
-      expect(item.numberingSystem).toBeUndefined();
-    });
+    for (const item of items.elements()) {
+      expect(item).toHaveProperty("icon", false);
+      expect(item).toHaveProperty("numbered", false);
+      expect(item).toHaveProperty("layout", "horizontal");
+      expect(item).toHaveProperty("scale", "m");
+      expect(item).toHaveProperty("numberingSystem", undefined);
+    }
 
     const stepper = page.getBySelector("test-wrapper calcite-stepper").element() as Stepper["el"];
 
@@ -161,12 +183,102 @@ describe("inheritable props in shadow DOM", () => {
     items = page.getBySelector("calcite-stepper-item");
     expect(items.length).toBe(2);
 
-    items.elements().forEach((item: StepperItem) => {
-      expect(item.icon).toBe(true);
-      expect(item.numbered).toBe(true);
-      expect(item.layout).toBe("vertical");
-      expect(item.scale).toBe("l");
-      expect(item.numberingSystem).toBe("arab");
-    });
+    for (const item of items.elements()) {
+      expect(item).toHaveProperty("icon", true);
+      expect(item).toHaveProperty("numbered", true);
+      expect(item).toHaveProperty("layout", "vertical");
+      expect(item).toHaveProperty("scale", "l");
+      expect(item).toHaveProperty("numberingSystem", "arab");
+    }
+  });
+});
+
+describe("theme", () => {
+  describe("horizontal-single", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-stepper layout="horizontal-single" scale="m">
+            <calcite-stepper-item heading="Item 1" selected />
+            <calcite-stepper-item complete heading="Item 2" />
+            <calcite-stepper-item error heading="Item 3" />
+          </calcite-stepper>,
+        ),
+      {
+        "--calcite-stepper-bar-gap": {
+          shadowSelector: `.${CSS.stepBarContainer}`,
+          targetProp: "gap",
+        },
+        "--calcite-stepper-bar-inactive-fill-color": {
+          shadowSelector: `.${CSS.stepBarInactive}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-bar-active-fill-color": {
+          shadowSelector: `.${CSS.stepBarActive}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-bar-complete-fill-color": {
+          shadowSelector: `.${CSS.stepBarComplete}`,
+          targetProp: "fill",
+        },
+        "--calcite-stepper-bar-error-fill-color": {
+          shadowSelector: `.${CSS.stepBarError}`,
+          targetProp: "fill",
+        },
+      },
+    );
+  });
+});
+
+describe("keyboard navigation", () => {
+  async function mountStepper(
+    layout: Extract<Stepper["layout"], "horizontal" | "vertical">,
+  ): Promise<void> {
+    await mount<Stepper>(
+      <calcite-stepper layout={layout}>
+        <calcite-stepper-item heading="Step 1" id="step-1" selected>
+          <button id="step-1-button" type="button">
+            Step 1 content
+          </button>
+        </calcite-stepper-item>
+        <calcite-stepper-item disabled heading="Step 2" id="step-2">
+          <div>Step 2 content</div>
+        </calcite-stepper-item>
+        <calcite-stepper-item heading="Step 3" id="step-3">
+          <div>Step 3 content</div>
+        </calcite-stepper-item>
+      </calcite-stepper>,
+    );
+  }
+
+  it("supports keyboard navigation navigation in horizontal layout", async () => {
+    await mountStepper("horizontal");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+    const contentButton = page.getBySelector("#step-1-button");
+
+    await userEvent.click(contentButton);
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(contentButton).toHaveFocus();
+
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowRight}");
+    await expect.element(thirdItem).toHaveFocus();
+  });
+
+  it("supports keyboard navigation navigation in vertical layout", async () => {
+    await mountStepper("vertical");
+
+    const firstItem = page.getBySelector("#step-1");
+    const thirdItem = page.getBySelector("#step-3");
+
+    await userEvent.keyboard("{Tab}");
+    await expect.element(firstItem).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(thirdItem).toHaveFocus();
   });
 });

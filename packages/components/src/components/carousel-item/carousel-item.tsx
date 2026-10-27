@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { CSS, IDS } from "./resources";
@@ -10,35 +9,46 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding content. */
+interface CarouselItemSlots {
+  /**
+   * A slot for adding content.
+   */
+  "": Node[];
+}
+
 export class CarouselItem extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: CarouselItemSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid = IDS.host(guid());
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const id = this.el.id || this.guid;
@@ -55,5 +65,5 @@ export class CarouselItem extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

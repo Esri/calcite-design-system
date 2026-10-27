@@ -21,10 +21,13 @@ class DemoForm extends HTMLElement {
   }
 
   onFormData(event: FormDataEvent) {
-    const data: Record<string, FormDataEntryValue> = {};
-    for (const pair of event.formData.entries()) {
-      data[pair[0]] = pair[1];
+    const data: Record<string, FormDataEntryValue[] | FormDataEntryValue> = {};
+    for (const key of event.formData.keys()) {
+      const valueAsArray = event.formData.getAll(key);
+      data[key] = valueAsArray.length > 1 ? valueAsArray : valueAsArray[0];
     }
+
+    // eslint-disable-next-line no-console -- test message external to components
     console.log(data);
   }
 
@@ -42,6 +45,7 @@ class DemoForm extends HTMLElement {
       });
     }
 
+    // eslint-disable-next-line no-console -- test message external to components
     console.log(
       `<${invalidComponent.tagName.toLowerCase()} form="${componentFormId}" name="${invalidComponent.name}" value="${invalidComponent.value}"${invalidComponent.required ? " required" : ""}>`,
       invalidComponent?.validity,

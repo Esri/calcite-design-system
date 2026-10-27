@@ -1,7 +1,6 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -9,18 +8,10 @@ import { CSS, IDS, SLOTS } from "./resources";
 
 mockConsole();
 
-describe("accessible", () => {
-  accessible(html`
-    <calcite-block heading="heading" description="description" expanded collapsible>
-      <div>content</div>
-    </calcite-block>
-  `);
-});
-
 it("has a loading state", async () => {
   const page = await newE2EPage({
     html: `
-        <calcite-block heading="heading" description="description" expanded collapsible>
+        <calcite-block heading="heading" description="description" expanded expandable>
           <div class="content">content</div>
         </calcite-block>
     `,
@@ -70,36 +61,35 @@ it("can display/hide content", async () => {
 it("allows toggling its content", async () => {
   const heading = "heading";
   const page = await newE2EPage();
-  await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+  await page.setContent(html`<calcite-block expandable heading=${heading}></calcite-block>`);
   await skipAnimations(page);
   const messages = await import("./assets/t9n/messages.json");
 
   const element = await page.find("calcite-block");
-  const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
-  const openSpy = await element.spyOnEvent("calciteBlockOpen");
-  const closeSpy = await element.spyOnEvent("calciteBlockClose");
+  const expandSpy = await element.spyOnEvent("calciteBlockExpand");
+  const collapseSpy = await element.spyOnEvent("calciteBlockCollapse");
 
   const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
   expect(toggle.getAttribute("title")).toBe(messages.expand);
 
-  const openEventSpy = await element.spyOnEvent("calciteBlockOpen");
+  const expandEventSpy = await element.spyOnEvent("calciteBlockExpand");
   await toggle.click();
-  await openEventSpy.next();
+  await expandEventSpy.next();
 
-  expect(toggleSpy).toHaveReceivedEventTimes(1);
-  expect(openSpy).toHaveReceivedEventTimes(1);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(0);
   expect(await element.getProperty("expanded")).toBe(true);
   expect(toggle.getAttribute("aria-expanded")).toBe("true");
   expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
-  const closeEventSpy = await element.spyOnEvent("calciteBlockClose");
+  const collapseEventSpy = await element.spyOnEvent("calciteBlockCollapse");
   await toggle.click();
-  await closeEventSpy.next();
+  await collapseEventSpy.next();
 
-  expect(toggleSpy).toHaveReceivedEventTimes(2);
-  expect(closeSpy).toHaveReceivedEventTimes(1);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(1);
   expect(await element.getProperty("expanded")).toBe(false);
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
   expect(toggle.getAttribute("title")).toBe(messages.expand);
@@ -121,6 +111,23 @@ it("should map deprecated 'open' prop to 'expanded' prop", async () => {
   block.setProperty("open", false);
   await page.waitForChanges();
   expect(await block.getProperty("expanded")).toBe(false);
+});
+
+it("should map deprecated 'collapsible' prop to 'expandable' prop", async () => {
+  const page = await newE2EPage({
+    html: html`<calcite-block></calcite-block>`,
+  });
+  const block = await page.find("calcite-block");
+
+  expect(await block.getProperty("expandable")).toBe(false);
+
+  block.setProperty("collapsible", true);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(true);
+
+  block.setProperty("collapsible", false);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(false);
 });
 
 describe("header", () => {
@@ -159,7 +166,7 @@ describe("header", () => {
     const menuSlot = await page.find(`calcite-block >>> calcite-action-menu slot[name=${SLOTS.headerMenuActions}]`);
     expect(menuSlot).toBeDefined();
 
-    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot.name);
+    const actionAssignedSlot = await page.$eval("calcite-action", (action) => action.assignedSlot!.name);
     expect(actionAssignedSlot).toBe(SLOTS.headerMenuActions);
   });
 
@@ -185,39 +192,6 @@ describe("header", () => {
 
     expect(header).toHaveClass(CSS.headerHasContent);
   });
-});
-
-it("should allow the CSS custom property to be overridden when applied to :root", async () => {
-  const overrideStyle = "0px";
-  const page = await newE2EPage();
-  await page.setContent(
-    `<style>
-        :root {
-          --calcite-block-padding: ${overrideStyle}
-        }
-      </style>
-      <calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
-        <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-       </calcite-block>`,
-  );
-  const content = await page.find(`calcite-block >>> .${CSS.content}`);
-  const contentStyles = await content.getComputedStyle();
-  const contentPadding = await contentStyles.getPropertyValue("padding");
-  expect(contentPadding).toEqual(overrideStyle);
-});
-
-it("should allow the CSS custom property to be overridden when applied to element", async () => {
-  const overrideStyle = "0px";
-  const page = await newE2EPage();
-  await page.setContent(
-    `<calcite-block heading="test-heading" collapsible style="--calcite-block-padding: ${overrideStyle}" expanded>
-          <calcite-action text="test" icon="banana" slot="${SLOTS.headerMenuActions}"></calcite-action>
-        </calcite-block>`,
-  );
-  const content = await page.find(`calcite-block >>> .${CSS.content}`);
-  const contentStyles = await content.getComputedStyle();
-  const contentPadding = await contentStyles.getPropertyValue("padding");
-  expect(contentPadding).toEqual(overrideStyle);
 });
 
 it("should set aria-label", async () => {
@@ -253,114 +227,4 @@ it("should emit expanded/collapsed events when toggled", async () => {
   expect(await item.getProperty("expanded")).toBe(false);
   expect(expandSpy).toHaveReceivedEventTimes(1);
   expect(collapseSpy).toHaveReceivedEventTimes(1);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(
-      html`<calcite-block
-        heading="heading"
-        description="description"
-        expanded
-        collapsible
-        icon-end="pen"
-        icon-start="pen"
-      >
-        <calcite-icon icon="compass" slot="content-start"></calcite-icon>
-        <calcite-icon icon="compass" slot="content-end"></calcite-icon>
-        <div>content</div>
-      </calcite-block>`,
-      {
-        "--calcite-block-border-color": {
-          targetProp: "borderColor",
-        },
-        "--calcite-block-content-space": [
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingBlock",
-          },
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingInline",
-          },
-        ],
-        "--calcite-block-header-background-color": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-block-header-background-color-hover": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-          state: "hover",
-        },
-        "--calcite-block-header-background-color-press": {
-          shadowSelector: `.${CSS.toggle}`,
-          targetProp: "backgroundColor",
-          state: { press: `calcite-block >>> .${CSS.toggle}` },
-        },
-        "--calcite-block-heading-text-color": {
-          shadowSelector: `.${CSS.heading}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.heading } },
-        },
-        "--calcite-block-description-text-color": {
-          shadowSelector: `.${CSS.description}`,
-          targetProp: "color",
-        },
-        "--calcite-block-icon-color": [
-          {
-            shadowSelector: `.${CSS.iconStart}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.iconEnd}`,
-            targetProp: "color",
-          },
-          {
-            shadowSelector: `.${CSS.toggleIcon}`,
-            targetProp: "color",
-          },
-        ],
-        "--calcite-block-icon-color-hover": {
-          shadowSelector: `.${CSS.toggleIcon}`,
-          targetProp: "color",
-          state: "hover",
-        },
-      },
-    );
-  });
-
-  describe("collapsed", () => {
-    themed(html`<calcite-block heading="heading"></calcite-block>`, {
-      "--calcite-block-heading-text-color": { shadowSelector: `.${CSS.heading}`, targetProp: "color" },
-    });
-  });
-
-  describe("deprecated", () => {
-    themed(
-      html`<calcite-block
-        heading="heading"
-        description="description"
-        expanded
-        collapsible
-        icon-end="pen"
-        icon-start="pen"
-      >
-        <calcite-icon icon="compass" slot="content-start"></calcite-icon>
-        <calcite-icon icon="compass" slot="content-end"></calcite-icon>
-        <div>content</div>
-      </calcite-block>`,
-      {
-        "--calcite-block-text-color": {
-          shadowSelector: `.${CSS.contentStart}`,
-          targetProp: "color",
-        },
-        "--calcite-block-heading-text-color-press": {
-          shadowSelector: `.${CSS.heading}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.heading } },
-        },
-      },
-    );
-  });
 });

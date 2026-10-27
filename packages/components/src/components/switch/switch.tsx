@@ -1,12 +1,12 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { isActivationKey } from "../../utils/key";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
-import { Scale } from "../interfaces";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
+import { Scale } from "../types";
 import type { Label } from "../label/label";
 import { InternalLabel } from "../functional/InternalLabel";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS } from "./resources";
@@ -15,6 +15,45 @@ import { styles } from "./switch.scss";
 declare global {
   interface DeclareElements {
     "calcite-switch": Switch;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-switch-background-color": "*";
+    /**
+     * Specifies the component's background color when hovered or pressed.
+     */
+    "--calcite-switch-background-color-hover": "*";
+    /**
+     * Specifies the component's border color.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     */
+    "--calcite-switch-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-switch-corner-radius": "*";
+    /**
+     * Specifies the handle's background color.
+     */
+    "--calcite-switch-handle-background-color": "*";
+    /**
+     * Specifies the handle's border color.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     */
+    "--calcite-switch-handle-border-color": "*";
+    /**
+     * Specifies the handle's shadow.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     */
+    "--calcite-switch-handle-shadow": "*";
   }
 }
 
@@ -29,19 +68,19 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Private Properties
 
-  defaultChecked: boolean;
+  defaultChecked?: boolean;
 
-  defaultValue: Switch["checked"];
+  defaultValue?: Switch["checked"];
 
   formSupport = useForm<this>({
     inputType: "checkbox",
   })(this);
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
   private switchRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -49,33 +88,42 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** Specifies the component's end label text. */
-  @property() labelTextEnd: string;
+  @property() labelTextEnd?: string;
 
   /** Specifies the component's start label text.*/
-  @property() labelTextStart: string;
+  @property() labelTextStart?: string;
 
-  /** Specifies the name of the component. Required to pass the component's `value` on form submission.*/
-  @property({ reflect: true }) name: string;
+  /** @copyDoc */
+  @property({ reflect: true }) name?: string;
+
+  /**
+   * When `true` and the component resides in a form,
+   * the component must have a value in order for the form to submit.
+   */
+  @property({ reflect: true }) required = false;
 
   /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
+   */
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value: any;
@@ -109,16 +157,9 @@ export class Switch extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("click", this.clickHandler);
     this.listen("keydown", this.keyDownHandler);
-  }
-
-  override connectedCallback(): void {
-    connectLabel(this);
-  }
-
-  override disconnectedCallback(): void {
-    disconnectLabel(this);
   }
 
   //#endregion

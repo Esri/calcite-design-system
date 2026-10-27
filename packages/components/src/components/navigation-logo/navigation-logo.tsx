@@ -1,15 +1,35 @@
-// @ts-strict-ignore
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { IconName } from "../icon/interfaces";
-import { useSetFocus } from "../../controllers/useSetFocus";
-import { Scale } from "../interfaces";
+import { IconName } from "../icon/types";
+import { useFocusable } from "../../controllers/useFocusable";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
 
 declare global {
   interface DeclareElements {
     "calcite-navigation-logo": NavigationLogo;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-navigation-accent-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-navigation-logo-heading-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-navigation-logo-text-color": "*";
   }
 }
 
@@ -24,52 +44,52 @@ export class NavigationLogo extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   // #endregion
 
   // #region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @property({ reflect: true }) active: boolean;
+  @property({ reflect: true }) active = false;
 
-  /** Specifies a description for the component. Displays below the `heading`. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   /** Specifies the `src` to an image. */
-  @property() thumbnail: string;
+  @property() thumbnail?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.

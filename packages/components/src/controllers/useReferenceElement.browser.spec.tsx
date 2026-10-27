@@ -19,9 +19,10 @@ beforeEach(() => {
 
 class TestClickComponent extends LitElement {
   @property() open = false;
-  @property() referenceElement: string | HTMLElement | null;
+  @property() referenceElement: string | HTMLElement | undefined;
   @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "click";
-  @state() referenceEl: HTMLElement | null;
+  @property() triggerDisabled = false;
+  @state() referenceEl: HTMLElement | undefined;
   referenceElementController = useReferenceElement({ manager: refClickManager })(this);
 
   render(): JsxNode {
@@ -31,9 +32,9 @@ class TestClickComponent extends LitElement {
 
 class TestHoverComponent extends LitElement {
   @property() open = false;
-  @property() referenceElement: string | HTMLElement | null;
+  @property() referenceElement: string | HTMLElement | undefined;
   @property() referenceElementType: ReferenceElementComponent["referenceElementType"] = "hover";
-  @state() referenceEl: HTMLElement | null;
+  @state() referenceEl: HTMLElement | undefined;
   referenceElementController = useReferenceElement({ manager: refHoverManager })(this);
 
   render(): JsxNode {
@@ -47,13 +48,13 @@ function getReferenceAndComponent<T extends HTMLElement>(): {
 } {
   const referenceElement = page.getByText("My Reference Element").element() as HTMLElement;
 
-  const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | null;
+  const componentTextEl = page.getByText("Hello world!").element() as HTMLElement | undefined;
 
   if (!componentTextEl) {
     throw new Error("Expected test component text to be present");
   }
 
-  const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+  const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | undefined;
 
   if (!component) {
     throw new Error("Expected test component to be present");
@@ -70,7 +71,7 @@ function getComponentElsByText<T extends HTMLElement>(expectedCount: number): T[
   }
 
   return componentTextEls.map((componentTextEl, index) => {
-    const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | null;
+    const component = (componentTextEl.getRootNode() as ShadowRoot).host as T | undefined;
 
     if (!component) {
       throw new Error(`Expected test component ${index + 1} to be present`);
@@ -101,7 +102,7 @@ async function assertSharedReferenceElementRegistration<T extends TestReferenceC
   expect(getAssociatedElements(referenceElement)).toContain(component1.el);
   expect(getAssociatedElements(referenceElement)).toContain(component2.el);
 
-  component1.referenceElement = null;
+  component1.referenceElement = undefined;
   await component1.updateComplete;
 
   expect(getAssociatedElements(referenceElement)).not.toBeNull();
@@ -110,6 +111,73 @@ async function assertSharedReferenceElementRegistration<T extends TestReferenceC
 }
 
 describe("click manager", () => {
+  it("does not set aria-expanded for a disabled trigger", async () => {
+    const referenceElement = document.createElement("button");
+    const { component } = await mount(TestClickComponent);
+
+    component.triggerDisabled = true;
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+
+    component.open = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+
+    component.triggerDisabled = false;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBe("true");
+  });
+
+  it("updates aria controls when trigger disabled changes", async () => {
+    const referenceElement = document.createElement("button");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+
+    component.triggerDisabled = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toBeNull();
+
+    component.triggerDisabled = false;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+  });
+
+  it("sets aria-expanded from enabled components sharing a reference element", async () => {
+    const referenceElement = document.createElement("button");
+    const { component: disabledComponent } = await mount(TestClickComponent);
+    const { component: enabledComponent } = await mount(TestClickComponent);
+
+    disabledComponent.triggerDisabled = true;
+    disabledComponent.open = true;
+    disabledComponent.referenceElement = referenceElement;
+    enabledComponent.referenceElement = referenceElement;
+    await Promise.all([disabledComponent.updateComplete, enabledComponent.updateComplete]);
+
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    enabledComponent.open = true;
+    await enabledComponent.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBe("true");
+
+    enabledComponent.referenceElement = undefined;
+    await enabledComponent.updateComplete;
+
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
+
   it("register and resolves reference element", async () => {
     await mount(
       html`<div>
@@ -123,9 +191,9 @@ describe("click manager", () => {
     component.referenceElement = referenceElement;
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaControlsElements).toContain(component.el);
-    expect(component.referenceEl.ariaExpanded).toBe("false");
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaControlsElements).toContain(component.el);
+    expect(component.referenceEl!.ariaExpanded).toBe("false");
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaControlsElements).toBeNull();
     expect(referenceElement.ariaExpanded).toBeNull();
@@ -144,9 +212,9 @@ describe("click manager", () => {
     component.referenceElement = "my-ref";
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaControlsElements).toContain(component.el);
-    expect(component.referenceEl.ariaExpanded).toBe("false");
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaControlsElements).toContain(component.el);
+    expect(component.referenceEl!.ariaExpanded).toBe("false");
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaControlsElements).toBeNull();
     expect(referenceElement.ariaExpanded).toBeNull();
@@ -181,6 +249,75 @@ describe("click manager", () => {
     expect(referenceElement1.ariaExpanded).toBeNull();
   });
 
+  it("cleans up ARIA state when disconnected before triggerDisabled update flushes", async () => {
+    const referenceElement = document.createElement("button");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toContain(component.el);
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    component.triggerDisabled = true;
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.ariaControlsElements).toBeNull();
+    expect(referenceElement.ariaExpanded).toBeNull();
+  });
+
+  it("preserves ARIA state owned by reference elements for disabled triggers", async () => {
+    const referenceElement = document.createElement("button");
+    const controlledElement = document.createElement("div");
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement, controlledElement);
+    referenceElement.ariaControlsElements = [controlledElement];
+    referenceElement.ariaExpanded = "false";
+
+    component.triggerDisabled = true;
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([controlledElement]);
+    expect(referenceElement.ariaExpanded).toBe("false");
+
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.ariaControlsElements).toEqual([controlledElement]);
+    expect(referenceElement.ariaExpanded).toBe("false");
+  });
+
+  it("preserves pre-existing aria-controls entries that match the component", async () => {
+    const referenceElement = document.createElement("button");
+    const componentId = "controlled-component";
+    const { component, container } = await mount(TestClickComponent);
+
+    container.append(referenceElement);
+    component.el.id = componentId;
+    referenceElement.ariaControlsElements = [component.el];
+    const ariaControls = referenceElement.getAttribute("aria-controls");
+
+    component.referenceElement = referenceElement;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([component.el]);
+
+    component.triggerDisabled = true;
+    await component.updateComplete;
+
+    expect(referenceElement.ariaControlsElements).toEqual([component.el]);
+
+    component.el.remove();
+    await Promise.resolve();
+
+    expect(referenceElement.getAttribute("aria-controls")).toBe(ariaControls);
+  });
+
   it("registers multiple components with same reference element and unregisters independently", async () => {
     await mount(
       html`<div>
@@ -211,8 +348,8 @@ describe("hover manager", () => {
     component.referenceElement = referenceElement;
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaDescribedByElements).toContain(component.el);
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaDescribedByElements).toBeNull();
   });
@@ -230,8 +367,8 @@ describe("hover manager", () => {
     component.referenceElement = "my-ref";
     await component.updateComplete;
     expect(component.referenceEl).toBeInstanceOf(HTMLElement);
-    expect(component.referenceEl.ariaDescribedByElements).toContain(component.el);
-    component.referenceElement = null;
+    expect(component.referenceEl!.ariaDescribedByElements).toContain(component.el);
+    component.referenceElement = undefined;
     await component.updateComplete;
     expect(referenceElement.ariaDescribedByElements).toBeNull();
   });

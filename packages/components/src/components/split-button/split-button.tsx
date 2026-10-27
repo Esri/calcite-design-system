@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -9,10 +8,10 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { FlipPlacement, LogicalPlacement, OverlayPositioning } from "../../utils/floating-ui";
-import { DropdownIconType } from "../button/interfaces";
-import { Appearance, FlipContext, Kind, Scale, Width } from "../interfaces";
-import { IconName } from "../icon/interfaces";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { DropdownIconType } from "../button/types";
+import { Appearance, FlipContext, Kind, Scale, Width } from "../types";
+import { IconName } from "../icon/types";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./split-button.scss";
@@ -23,8 +22,81 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-dropdown` content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-split-button-background-color": "*";
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-split-button-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when focused.
+     */
+    "--calcite-split-button-background-color-focus": "*";
+    /**
+     * Specifies the component's background color when active.
+     */
+    "--calcite-split-button-background-color-press": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-split-button-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-split-button-corner-radius": "*";
+    /**
+     * Specifies the component's `iconStart` and `iconEnd` color.
+     */
+    "--calcite-split-button-icon-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-split-button-loader-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-split-button-text-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-split-button-shadow": "*";
+    /**
+     * Specifies the component's divider border color.
+     */
+    "--calcite-split-button-divider-border-color": "*";
+    /**
+     * Specifies the component's divider color.
+     */
+    "--calcite-split-button-divider-color": "*";
+    /**
+     * Specifies the width of the component's dropdown.
+     */
+    "--calcite-split-button-dropdown-width": "*";
+    /**
+     * Specifies the component's dropdown background color.
+     */
+    "--calcite-split-button-dropdown-background-color": "*";
+  }
+}
+
+interface SplitButtonSlots {
+  /**
+   * A slot for adding `calcite-dropdown` content.
+   */
+  "": Node[];
+}
+
 export class SplitButton extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SplitButtonSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -45,7 +117,7 @@ export class SplitButton extends LitElement {
           : ICONS.handleVertical;
   }
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -81,13 +153,13 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
 
   /** Accessible name for the dropdown menu. */
-  @property({ reflect: true }) dropdownLabel: string;
+  @property({ reflect: true }) dropdownLabel?: string;
 
-  /** Specifies the component's fallback `placement` for slotted content when it's initial or specified `placement` has insufficient space available. */
-  @property() flipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() flipPlacements?: FlipPlacement[];
 
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies the kind of the component, which will apply to border and background, if applicable. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
@@ -96,13 +168,7 @@ export class SplitButton extends LitElement {
   /** When `true`, a busy indicator is displayed on the primary button. */
   @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -110,7 +176,7 @@ export class SplitButton extends LitElement {
    *
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
@@ -118,19 +184,19 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) placement: LogicalPlacement = "bottom-end";
 
   /** Specifies an icon to display at the end of the primary button. */
-  @property({ reflect: true, type: String }) primaryIconEnd: IconName;
+  @property({ reflect: true }) primaryIconEnd?: IconName;
 
   /** Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) primaryIconFlipRtl: FlipContext;
+  @property({ reflect: true }) primaryIconFlipRtl?: FlipContext;
 
   /** Specifies an icon to display at the start of the primary button. */
-  @property({ reflect: true, type: String }) primaryIconStart: IconName;
+  @property({ reflect: true }) primaryIconStart?: IconName;
 
   /** Specifies an accessible name for the primary button. */
-  @property({ reflect: true }) primaryLabel: string;
+  @property({ reflect: true }) primaryLabel?: string;
 
   /** Specifies the text displayed in the primary button. */
-  @property({ reflect: true }) primaryText: string;
+  @property({ reflect: true }) primaryText?: string;
 
   /** Specifies the component's size. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -140,18 +206,20 @@ export class SplitButton extends LitElement {
    *
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   //#endregion
@@ -207,9 +275,9 @@ export class SplitButton extends LitElement {
             disabled={this.disabled}
             download={this.download}
             href={this.href}
-            iconEnd={this.primaryIconEnd ? this.primaryIconEnd : null}
-            iconFlipRtl={this.primaryIconFlipRtl ? this.primaryIconFlipRtl : null}
-            iconStart={this.primaryIconStart ? this.primaryIconStart : null}
+            iconEnd={this.primaryIconEnd}
+            iconFlipRtl={this.primaryIconFlipRtl}
+            iconStart={this.primaryIconStart}
             kind={this.kind}
             label={this.primaryLabel}
             loading={this.loading}

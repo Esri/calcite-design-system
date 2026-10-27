@@ -1,8 +1,11 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputNumber } from "./input-number";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-number"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, alignment, layout } = ATTRIBUTES;
 
@@ -20,10 +23,18 @@ type InputNumberStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "groupSeparator"
+  | "icon"
+  | "iconFlipRtl"
+  | "integer"
+  | "labelText"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEdit"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,10 +52,18 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    groupSeparator: false,
+    icon: "",
+    iconFlipRtl: false,
+    integer: false,
+    labelText: "Label text",
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEdit: false,
   },
   argTypes: {
     scale: {
@@ -75,6 +94,14 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    inlineEdit: {
+      options: [false, true, "controls-disabled"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -93,10 +120,19 @@ export const simple = (args: InputNumberStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${boolean("group-separator", args.groupSeparator)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${boolean("integer", args.integer)}
+      ${optionalAttribute("label-text", args.labelText)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-edit", args.inlineEdit === true)}
+      ${optionalAttribute("inline-edit", args.inlineEdit === "controls-disabled" ? args.inlineEdit : "")}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-number>
   </div>
@@ -251,3 +287,23 @@ export const overlayDoesNotObscureIcon = (): string =>
     <div class="overlay"></div>`;
 
 export const clearable = (): string => html` <calcite-input-number clearable value="123"> </calcite-input-number> `;
+
+export const inlineEdit = (): string => html` <calcite-input-number inline-edit value="42"></calcite-input-number> `;
+
+export const inlineEditConfirmLoading = (): string => html`
+  <calcite-input-number id="inline-edit-confirm-loading" inline-edit inline-editing value="42"></calcite-input-number>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-input-number");
+      const input = await document.querySelector("#inline-edit-confirm-loading").componentOnReady();
+      input.inlineEditingBeforeConfirm = () => new Promise(() => {});
+      input.shadowRoot.querySelector(".confirm-changes").click();
+    })();
+  </script>
+`;
+
+inlineEditConfirmLoading.parameters = { chromatic: { delay: 500 } };
+
+export const inlineEditControlsDisabled = (): string => html`
+  <calcite-input-number inline-edit="controls-disabled" value="42"></calcite-input-number>
+`;

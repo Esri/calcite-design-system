@@ -1,34 +1,33 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
-  LitElement,
-  property,
   createEvent,
   h,
-  method,
   JsxNode,
+  LitElement,
+  method,
+  property,
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
   StepperLayout,
-} from "../stepper/interfaces";
+} from "../stepper/types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { slotChangeHasContent } from "../../utils/dom";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -36,8 +35,97 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background-color when active.
+     */
+    "--calcite-stepper-item-background-color-press": "*";
+    /**
+     * Specifies the component's header text color.
+     */
+    "--calcite-stepper-item-header-text-color": "*";
+    /**
+     * Specifies the component's header text color when hovered or focused.
+     */
+    "--calcite-stepper-item-header-text-color-hover": "*";
+    /**
+     * When `selected`, specifies the component's header text color.
+     */
+    "--calcite-stepper-item-selected-header-text-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-stepper-item-icon-color": "*";
+    /**
+     * When `complete`, specifies the component's icon color.
+     */
+    "--calcite-stepper-item-complete-icon-color": "*";
+    /**
+     * When `error`, specifies the component's icon and number color.
+     */
+    "--calcite-stepper-item-error-icon-color": "*";
+    /**
+     * When `selected`, specifies the component's icon and number color.
+     */
+    "--calcite-stepper-item-selected-icon-color": "*";
+    /**
+     * Specifies the component's description and number text color.
+     */
+    "--calcite-stepper-item-description-text-color": "*";
+    /**
+     * When `selected`, hovered, or focused, specifies the component's description text color.
+     */
+    "--calcite-stepper-item-description-text-color-hover": "*";
+    /**
+     * Specifies the component's bottom spacing.
+     */
+    "--calcite-stepper-bar-gap": "*";
+    /**
+     * Specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-fill-color": "*";
+    /**
+     * Specifies the component's fill color when hovered or focused.
+     */
+    "--calcite-stepper-bar-fill-color-hover": "*";
+    /**
+     * When `complete`, specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-complete-fill-color": "*";
+    /**
+     * When `complete`, specifies the component's fill color when hovered or focused.
+     */
+    "--calcite-stepper-bar-complete-fill-color-hover": "*";
+    /**
+     * When `error`, specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-error-fill-color": "*";
+    /**
+     * When `error`, specifies the component's fill color when hovered or focused.
+     */
+    "--calcite-stepper-bar-error-fill-color-hover": "*";
+    /**
+     * When `selected`, specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-selected-fill-color": "*";
+  }
+}
+
+interface StepperItemSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 export class StepperItem extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: StepperItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -49,13 +137,13 @@ export class StepperItem extends LitElement {
   private headerRef = createRef<HTMLDivElement>();
 
   /** position within parent */
-  private itemPosition: number;
+  private itemPosition = 0;
 
   /** the parent stepper component */
-  private parentStepperEl: Stepper["el"];
+  private parentStepperEl?: Stepper["el"];
 
   /** the latest requested item position */
-  private selectedPosition: number;
+  private selectedPosition = 0;
 
   /**
    * Made into a prop for testing purposes only
@@ -64,7 +152,7 @@ export class StepperItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -72,7 +160,7 @@ export class StepperItem extends LitElement {
 
   //#region State Properties
 
-  @state() stepperItemHasContent: boolean;
+  @state() stepperItemHasContent = false;
 
   //#endregion
 
@@ -81,8 +169,8 @@ export class StepperItem extends LitElement {
   /** When `true`, completes the step. */
   @property({ reflect: true }) complete = false;
 
-  /** Specifies a description for the component. Displays below the header text. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
@@ -90,8 +178,8 @@ export class StepperItem extends LitElement {
   /** When `true`, the component contains an error that requires resolution from the user. */
   @property({ reflect: true }) error = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
   /**
    * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
@@ -115,9 +203,9 @@ export class StepperItem extends LitElement {
    *
    * @private
    */
-  @property({ reflect: true }) layout: StepperLayout;
+  @property({ reflect: true }) layout!: StepperLayout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -128,7 +216,7 @@ export class StepperItem extends LitElement {
   @property() numbered = false;
 
   /** @private */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
@@ -164,15 +252,10 @@ export class StepperItem extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalStepperItemKeyEvent = createEvent<StepperItemKeyEventDetail>({
-    cancelable: false,
-  });
+  calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** @private */
   calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
-
-  /** @private */
-  calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** Fires when the active `calcite-stepper-item` changes. */
   calciteStepperItemSelect = createEvent({ cancelable: false });
@@ -245,7 +328,7 @@ export class StepperItem extends LitElement {
   private updateActiveItemOnChange(event: CustomEvent<StepperItemChangeEventDetail>): void {
     if (
       event.target === this.parentStepperEl ||
-      event.composedPath().includes(this.parentStepperEl)
+      event.composedPath().includes(this.parentStepperEl!)
     ) {
       this.selectedPosition = event.detail.position;
       this.determineSelectedItem();
@@ -253,23 +336,9 @@ export class StepperItem extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (!this.disabled && event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.emitUserRequestedItem();
-          event.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "Home":
-        case "End":
-          this.calciteInternalStepperItemKeyEvent.emit({ item: event });
-          event.preventDefault();
-          break;
-      }
+    if (!this.disabled && event.target === this.el && isActivationKey(event.key)) {
+      this.emitUserRequestedItem();
+      event.preventDefault();
     }
   }
 
@@ -310,11 +379,11 @@ export class StepperItem extends LitElement {
   }
 
   private getItemPosition(): number {
-    return Array.from(
-      this.parentStepperEl?.querySelectorAll(
-        "calcite-stepper-item:not([hidden]):not([item-hidden])",
-      ),
-    ).indexOf(this.el);
+    const stepperItems = this.parentStepperEl?.querySelectorAll<StepperItem["el"]>(
+      "calcite-stepper-item:not([hidden]):not([item-hidden])",
+    );
+
+    return stepperItems ? Array.from(stepperItems).indexOf(this.el) : -1;
   }
 
   //#endregion
@@ -325,11 +394,6 @@ export class StepperItem extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaCurrent = this.selected ? "step" : "false";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-
-    // use local var to bypass logic-changing compiler transformation
-    const innerDisplayContextTabIndex =
-      /* additional tab index logic needed because of display: contents for horizontal layout */
-      this.layout === "horizontal" && !this.disabled ? 0 : null;
 
     return (
       <this.interactiveContainer disabled={this.disabled}>
@@ -342,7 +406,10 @@ export class StepperItem extends LitElement {
           <div
             class={CSS.stepperItemHeader}
             ref={this.headerRef}
-            tabIndex={innerDisplayContextTabIndex}
+            tabIndex={
+              // additional tab index logic needed because of display: contents for horizontal layout
+              this.layout === "horizontal" && !this.disabled ? 0 : undefined
+            }
           >
             {this.icon ? this.renderIcon() : null}
             {this.numbered ? (

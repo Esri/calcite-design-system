@@ -3,12 +3,23 @@ import { html } from "../../../support/formatting";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Carousel } from "./carousel";
+import "./carousel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../carousel-item/carousel-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../card/card"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { arrowType } = ATTRIBUTES;
+const { arrowType, paginationPosition } = ATTRIBUTES;
 
 type CarouselStoryArgs = Pick<
   Carousel,
-  "controlOverlay" | "disabled" | "autoplayDuration" | "autoplay" | "label" | "arrowType" | "paginationDisabled"
+  | "controlOverlay"
+  | "disabled"
+  | "autoplayDuration"
+  | "autoplay"
+  | "label"
+  | "arrowType"
+  | "paginationDisabled"
+  | "paginationPosition"
 >;
 
 export default {
@@ -21,10 +32,15 @@ export default {
     label: "Example carousel label",
     arrowType: arrowType.defaultValue,
     paginationDisabled: false,
+    paginationPosition: paginationPosition.defaultValue,
   },
   argTypes: {
     arrowType: {
       options: arrowType.values,
+      control: { type: "select" },
+    },
+    paginationPosition: {
+      options: paginationPosition.values,
       control: { type: "select" },
     },
   },
@@ -40,6 +56,7 @@ export const simple = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -89,6 +106,7 @@ export const simpleSingleItem = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -110,6 +128,7 @@ export const simpleManyItems = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -187,6 +206,7 @@ export const simpleManyItemsNarrow = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -264,6 +284,7 @@ export const simpleManyItemsVeryNarrow = (args: CarouselStoryArgs): string =>
       ${args.autoplay ? "autoplay" : ""}
       label="${args.label}"
       arrow-type="${args.arrowType}"
+      pagination-position="${args.paginationPosition}"
     >
       <calcite-carousel-item label="Carousel Item 1">
         <calcite-card>
@@ -468,6 +489,42 @@ export const carouselWithAutoplayNoOverlay = (): string =>
           <span slot="description">In this case, in a card</span>
           <calcite-icon scale="s" slot="footer-start" icon="number-circle-5"></calcite-icon>
         </calcite-card>
+      </calcite-carousel-item>
+    </calcite-carousel>
+  </div>`;
+
+export const simplePaginationTop = (args: CarouselStoryArgs): string => simple(args);
+simplePaginationTop.args = {
+  paginationPosition: "top",
+};
+
+export const simpleOverlayPaginationTopEdge = (): string =>
+  html` <div style="width:600px;height:400px;">
+    <style>
+      .bg-image-example {
+        color: red;
+        background-image: url("${placeholderImage({ width: 3000, height: 2000 })}");
+        background-size: cover;
+        padding: 1rem;
+        height: 300px;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 32px;
+      }
+    </style>
+    <calcite-carousel control-overlay arrow-type="edge" pagination-position="top">
+      <calcite-carousel-item label="Carousel Item 1">
+        <div class="bg-image-example">Some kind of rich content over a bg using overlay controls</div>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 2">
+        <div class="bg-image-example">
+          Some kind of rich content over a bg using overlay controls but longer than the other one
+        </div>
+      </calcite-carousel-item>
+      <calcite-carousel-item label="Carousel Item 3">
+        <div class="bg-image-example">
+          Some kind of rich content over a bg using overlay controls but longer than the other one
+        </div>
       </calcite-carousel-item>
     </calcite-carousel>
   </div>`;

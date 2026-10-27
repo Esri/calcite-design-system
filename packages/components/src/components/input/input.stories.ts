@@ -1,8 +1,11 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Input } from "./input";
+import "./input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { textType, alignment, layout, scale, status } = ATTRIBUTES;
 
@@ -19,12 +22,18 @@ type InputStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
+  | "labelText"
   | "value"
+  | "readOnly"
+  | "required"
   | "scale"
   | "status"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEdit"
+  | "validationMessage"
 >;
 
 export default {
@@ -41,12 +50,18 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
+    labelText: "Label text",
     value: "",
+    readOnly: false,
+    required: false,
     scale: scale.defaultValue,
     status: status.defaultValue,
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEdit: false,
   },
   argTypes: {
     type: {
@@ -81,6 +96,14 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    inlineEdit: {
+      options: [false, true, "controls-disabled"],
+      control: { type: "select" },
+    },
   },
 };
 
@@ -99,12 +122,19 @@ export const simple = (args: InputStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("label-text", args.labelText)}
       value="${args.value}"
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       scale="${args.scale}"
       status="${args.status}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-edit", args.inlineEdit === true)}
+      ${optionalAttribute("inline-edit", args.inlineEdit === "controls-disabled" ? args.inlineEdit : "")}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     ></calcite-input>
   </div>
 `;
@@ -260,4 +290,24 @@ export const overlayDoesNotObscureIcon = (): string =>
 
 export const numberHorizontal = (): string => html`
   <calcite-input type="number" number-button-type="horizontal" value="123" clearable> </calcite-input>
+`;
+
+export const inlineEdit = (): string => html` <calcite-input inline-edit value="Editable value"></calcite-input> `;
+
+export const inlineEditConfirmLoading = (): string => html`
+  <calcite-input id="inline-edit-confirm-loading" inline-edit inline-editing value="Editable value"></calcite-input>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-input");
+      const input = await document.querySelector("#inline-edit-confirm-loading").componentOnReady();
+      input.inlineEditingBeforeConfirm = () => new Promise(() => {});
+      input.shadowRoot.querySelector(".confirm-changes").click();
+    })();
+  </script>
+`;
+
+inlineEditConfirmLoading.parameters = { chromatic: { delay: 500 } };
+
+export const inlineEditControlsDisabled = (): string => html`
+  <calcite-input inline-edit="controls-disabled" value="Editable value"></calcite-input>
 `;

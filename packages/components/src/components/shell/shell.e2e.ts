@@ -1,6 +1,6 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+
 import { html } from "../../../support/formatting";
 import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
@@ -14,19 +14,6 @@ it("content node should always be present", async () => {
   const content = await page.find(`calcite-shell >>> .${CSS.content}`);
 
   expect(content).not.toBeNull();
-});
-
-describe("accessible", () => {
-  accessible(html`
-    <calcite-shell>
-      <calcite-shell-panel slot="${SLOTS.panelStart}" position="start">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-      <calcite-shell-panel slot="${SLOTS.panelEnd}" position="end">
-        <p>Primary Content</p>
-      </calcite-shell-panel>
-    </calcite-shell>
-  `);
 });
 
 it("should set 'layout' and 'position' on slotted panels", async () => {
@@ -177,7 +164,7 @@ describe("embedded", () => {
     await page.setContent(
       html` <calcite-shell>
         <calcite-shell-panel slot="panel-start">
-          <calcite-block heading="Example" collapsible id="example-block"></calcite-block>
+          <calcite-block heading="Example" expandable id="example-block"></calcite-block>
         </calcite-shell-panel>
         <calcite-panel heading="Content">
           <calcite-shell style="position:relative">
@@ -190,9 +177,9 @@ describe("embedded", () => {
     );
     const block = await page.find("calcite-block");
 
-    const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+    const expandEventSpy = await block.spyOnEvent("calciteBlockExpand");
     await block.click();
-    await openEventSpy.next();
+    await expandEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
     expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
@@ -204,7 +191,7 @@ describe("embedded", () => {
       html` <calcite-shell>
         <calcite-shell-panel slot="panel-start">
           <calcite-panel heading="Example">
-            <calcite-block heading="Example" collapsible></calcite-block>
+            <calcite-block heading="Example" expandable></calcite-block>
           </calcite-panel>
         </calcite-shell-panel>
         <calcite-panel heading="Content">
@@ -216,38 +203,11 @@ describe("embedded", () => {
     );
     const block = await page.find("calcite-block");
 
-    const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+    const expandEventSpy = await block.spyOnEvent("calciteBlockExpand");
     await block.click();
-    await openEventSpy.next();
+    await expandEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
     expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
-  });
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    mockConsole();
-
-    themed(
-      html`<calcite-shell>
-        <calcite-panel slot="panel-start" heading="Example">Hello world</calcite-panel>
-        <calcite-flow slot="panel-end">
-          <calcite-flow-item heading="Example">Hello world</calcite-flow-item>
-        </calcite-flow>
-      </calcite-shell>`,
-      {
-        "--calcite-shell-border-color": [
-          {
-            targetProp: "borderColor",
-            selector: "calcite-panel",
-          },
-          {
-            targetProp: "borderColor",
-            selector: "calcite-flow",
-          },
-        ],
-      },
-    );
   });
 });

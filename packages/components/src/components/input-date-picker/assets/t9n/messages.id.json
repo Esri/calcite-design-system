@@ -1,5 +1,6 @@
 {
   "chooseDate": "Pilih tanggal",
+  "clear": "Hapus nilai",
   "date": "Tanggal",
   "dateFormat": "Format Tanggal: {format}",
   "endDate": "Tanggal Berakhir",

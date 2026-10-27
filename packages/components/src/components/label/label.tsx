@@ -1,11 +1,11 @@
-import { PropertyValues } from "lit";
+import type { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import {
   associateExplicitLabelToUnlabeledComponent,
   labelConnectedEvent,
   labelDisconnectedEvent,
-} from "../../utils/label";
-import { Alignment, Scale } from "../interfaces";
+} from "../../controllers/useLabel";
+import type { Alignment, Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./label.scss";
 
@@ -15,15 +15,40 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding text and a component that can be labeled. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's bottom spacing.
+     */
+    "--calcite-label-margin-bottom": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-label-text-color": "*";
+  }
+}
+
+interface LabelSlots {
+  /**
+   * A slot for adding text and a component that can be labeled.
+   */
+  "": Node[];
+}
+
 export class Label extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: LabelSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Specifies the component's text alignment. */
   @property({ reflect: true }) alignment: Alignment = "start";
@@ -31,25 +56,29 @@ export class Label extends LitElement {
   /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
   @property({ reflect: true }) for?: string;
 
-  /** Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.  [Deprecated] The `"default"` value is deprecated, use `"block"` instead. */
+  /**
+   * Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.
+   *
+   * [Deprecated] The `"default"` value is deprecated in v3.3.0, removal target v6.0.0 - use `"block"` instead.
+   */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" | "default" =
-    "default";
+    "block";
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalLabelClick = createEvent<{
     sourceEvent: MouseEvent;
   }>({ bubbles: false, cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -70,9 +99,10 @@ export class Label extends LitElement {
     document.dispatchEvent(new CustomEvent(labelDisconnectedEvent));
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private labelClickHandler(event: MouseEvent): void {
     if (window.getSelection()?.type === "Range" || event.defaultPrevented) {
       return;
@@ -83,9 +113,9 @@ export class Label extends LitElement {
     });
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -95,5 +125,5 @@ export class Label extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

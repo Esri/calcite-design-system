@@ -1,10 +1,8 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
 import { findAll } from "../../tests/utils/puppeteer";
-import { CSS } from "./resources";
 
 const accordionContent = html`
   <calcite-accordion-item heading="Accordion Title 1" id="1"
@@ -25,10 +23,6 @@ const accordionContentInheritablePropsNonDefault = html`
   <calcite-accordion-item heading="Accordion Title 1" id="2">Accordion Item Content </calcite-accordion-item>
   <calcite-accordion-item heading="Accordion Title 3" id="3">Accordion Item Content </calcite-accordion-item>
 `;
-
-describe("accessible", () => {
-  accessible(`<calcite-accordion>${accordionContent}</calcite-accordion>`);
-});
 
 it("inheritable props: `iconPosition`, `iconType`, `selectionMode`, and `scale` modified on the parent get passed into items", async () => {
   const page = await newE2EPage();
@@ -231,67 +225,4 @@ it("renders multiple expanded items when selection mode changes from single to m
   expect(await item1Content.isVisible()).toBe(true);
   expect(await item2Content.isVisible()).toBe(true);
   expect(await item3Content.isVisible()).toBe(true);
-});
-
-describe("theme", () => {
-  themed(`<calcite-accordion>${accordionContent}</calcite-accordion>`, {
-    "--calcite-accordion-background-color": [
-      {
-        shadowSelector: `.${CSS.accordion}`,
-        targetProp: "backgroundColor",
-        selector: "calcite-accordion",
-      },
-      {
-        targetProp: "backgroundColor",
-        selector: "calcite-accordion-item",
-      },
-    ],
-    "--calcite-accordion-border-color": [
-      {
-        shadowSelector: `.${CSS.accordion}`,
-        targetProp: "borderColor",
-        selector: "calcite-accordion",
-      },
-      {
-        shadowSelector: `.${ACCORDION_ITEM_CSS.header}`,
-        targetProp: "borderColor",
-        selector: "calcite-accordion-item",
-      },
-      {
-        shadowSelector: `.${ACCORDION_ITEM_CSS.content}`,
-        targetProp: "borderColor",
-        selector: "calcite-accordion-item",
-      },
-    ],
-    "--calcite-accordion-text-color": [
-      {
-        targetProp: "color",
-        selector: "calcite-accordion-item",
-      },
-      {
-        targetProp: "color",
-        shadowSelector: `.${ACCORDION_ITEM_CSS.headerContent}`,
-        selector: "calcite-accordion-item",
-      },
-    ],
-    "--calcite-accordion-text-color-hover": [
-      {
-        selector: "calcite-accordion-item[expanded]",
-        shadowSelector: `.${ACCORDION_ITEM_CSS.expandIcon}`,
-        targetProp: "color",
-      },
-      {
-        selector: "calcite-accordion-item[expanded]",
-        shadowSelector: `.${ACCORDION_ITEM_CSS.description}`,
-        targetProp: "color",
-      },
-    ],
-    "--calcite-accordion-item-heading-text-color": [
-      {
-        selector: "calcite-accordion-item",
-        shadowSelector: `.${ACCORDION_ITEM_CSS.heading}`,
-        targetProp: "color",
-      },
-    ],
-  });
 });

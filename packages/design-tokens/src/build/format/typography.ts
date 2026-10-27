@@ -1,21 +1,29 @@
-import prettierSync from "@prettier/sync";
+import { format as prettierFormat } from "prettier";
 import type { Dictionary, FormatFn, FormatFnArguments, TransformedToken } from "style-dictionary/types";
 import { fileHeader, getReferences } from "style-dictionary/utils";
 import { kebabCase } from "change-case";
 import { get } from "es-toolkit/compat";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn, Stylesheet } from "../../types/interfaces.d.ts";
+import type { RegisterFn, Stylesheet } from "../../types.ts";
 import { state } from "../shared/state.ts";
-import type { FlattenedTransformedToken } from "../../types/extensions.d.ts";
+import type { FlattenedTransformedToken } from "../../types.ts";
 
-function getValue(value: string, dictionary: Dictionary, outputRef = true): string {
+function getValue(property: string, value: string, dictionary: Dictionary): string {
   if (!dictionary.unfilteredTokens) {
     throw new Error(`Unfiltered tokens are required`);
   }
 
   // heuristic: typography tokens only have a single reference
   const [mappedToken] = getReferences(value, dictionary.unfilteredTokens);
-  return outputRef ? `var(--${mappedToken.name});` : mappedToken.value;
+  const isCoreToken = mappedToken.path[0] === "core";
+  if (!isCoreToken) {
+    return `var(--${mappedToken.name});`;
+  }
+
+  const mappedValue = mappedToken.$value;
+  return property === "lineHeight" && typeof mappedValue === "string" && mappedValue.endsWith("%")
+    ? `${Number.parseFloat(mappedValue) / 100}`
+    : mappedValue;
 }
 
 function outputComment(comment: string, format: Stylesheet): string {
@@ -24,6 +32,39 @@ function outputComment(comment: string, format: Stylesheet): string {
   }
 
   return format === "scss" ? `// ${comment}` : `/* ${comment} */`;
+}
+
+/** Resolves inherited values recursively, with each token's own properties overriding its ancestors. */
+function getInheritedValues(
+  token: FlattenedTransformedToken,
+  dictionary: Dictionary,
+  extendedTokenReferences: Map<string, TransformedToken>,
+  selfReferencingTokens: Map<string, TransformedToken>,
+): Record<string, string> {
+  const inheritedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
+  const inheritedValues = inheritedToken
+    ? getInheritedValues(
+        inheritedToken as FlattenedTransformedToken,
+        dictionary,
+        extendedTokenReferences,
+        selfReferencingTokens,
+      )
+    : {};
+  const originalValue = token.original.$value;
+
+  if (typeof originalValue === "object") {
+    return { ...inheritedValues, ...originalValue } as Record<string, string>;
+  }
+
+  if (inheritedToken) {
+    return inheritedValues;
+  }
+
+  const [referencedToken] = getReferences(originalValue, dictionary.tokens);
+  return {
+    ...inheritedValues,
+    ...(referencedToken.original.$value as Record<string, string>),
+  };
 }
 
 function getContent(args: FormatFnArguments, format: Stylesheet): string {
@@ -50,8 +91,8 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
   dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
     const preprocessedToken = get(state.postMergeDictionary, token.path.join("."));
 
-    if (typeof preprocessedToken.value === "string" && preprocessedToken.value.startsWith("{typography")) {
-      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.value);
+    if (typeof preprocessedToken.$value === "string" && preprocessedToken.$value.startsWith("{typography")) {
+      const referencedExtensionToken = dictionary.tokenMap.get(preprocessedToken.$value);
       if (referencedExtensionToken) {
         selfReferencingTokens.set(token.key, referencedExtensionToken);
       }
@@ -61,22 +102,27 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
   const groupToDeclarations = new Map<string, string[]>();
 
   dictionary.allTokens.forEach((token: FlattenedTransformedToken) => {
-    const originalValue = token.original.value;
+    const originalValue = token.original.$value;
     const extendedToken = selfReferencingTokens.get(token.key) || extendedTokenReferences.get(token.key);
     const include = format === "scss" && extendedToken ? `@include ${extendedToken.name}` : "";
-    const outputRefs = format === "scss" ? !!extendedToken : !selfReferencingTokens.has(token.key);
     const classGroupStrategy = format === "scss" ? "@mixin " : ".";
+    const typographyValues =
+      format === "css" && !token.path.includes("hierarchy")
+        ? getInheritedValues(token, dictionary, extendedTokenReferences, selfReferencingTokens)
+        : typeof originalValue === "object"
+          ? originalValue
+          : // Use the original token to preserve unresolved references.
+            (getReferences(originalValue, dictionary.tokens)[0].original.$value as Record<string, string>);
 
-    const declarations = Object.entries(
-      (typeof originalValue === "object"
-        ? originalValue
-        : // we use original token to get unresolved values (resolved below)
-          getReferences(originalValue, dictionary.tokens)[0].original.value) as Record<string, string>,
-    ).map(([key, value]) => {
-      return `${kebabCase(key)}: ${getValue(value, dictionary, outputRefs)} ${outputComment(token.comment, format)}`;
+    const declarations = Object.entries(typographyValues).map(([key, value]) => {
+      return `${kebabCase(key)}: ${getValue(key, value, dictionary)}`;
     });
 
-    groupToDeclarations.set(`${classGroupStrategy}${token.name}`, [include, ...declarations]);
+    const comment = outputComment(token.comment ?? token.$description, format);
+    groupToDeclarations.set(`${comment ? `${comment}\n` : ""}${classGroupStrategy}${token.name}`, [
+      include,
+      ...declarations,
+    ]);
   });
 
   return Array.from(groupToDeclarations)
@@ -85,7 +131,7 @@ function getContent(args: FormatFnArguments, format: Stylesheet): string {
       ${value.join(";")}
     }`,
     )
-    .join("");
+    .join("\n");
 }
 
 export const formatTypography: FormatFn = async (args) => {
@@ -98,7 +144,7 @@ export const formatTypography: FormatFn = async (args) => {
 
   const format = fileExtension.replace(".", "") as Stylesheet;
   const header = await fileHeader({ file, formatting, options });
-  return prettierSync.format(`${header}${getContent(args, format)}`, {
+  return prettierFormat(`${header}${getContent(args, format)}`, {
     parser: format,
   });
 };

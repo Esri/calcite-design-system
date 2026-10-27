@@ -1,20 +1,8 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-block-section-background-color: Specifies the component's background color.
- * @prop --calcite-block-section-border-color: Specifies the component's border color. When `expanded`, applies to the component's bottom border.
- * @prop --calcite-block-section-header-text-color: Specifies the component's header text color.
- * @prop --calcite-block-section-text-color: Specifies the component's text color.
- * @prop --calcite-block-section-text-color-hover: Specifies the component's text color on hover.
- * @prop --calcite-block-section-content-space: Specifies the padding of the component's content in `default` slot.
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply box-border block;
+  box-sizing: border-box;
+  display: block;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
 }
 
@@ -28,10 +16,9 @@ calcite-switch {
 }
 
 :host([expanded]) {
-  @apply border-0
-    border-b
-    border-solid;
-
+  border-width: var(--calcite-border-width-none);
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-style: solid;
   border-block-end-color: var(--calcite-block-section-border-color, var(--calcite-color-border-3));
 
   .toggle {
@@ -64,60 +51,66 @@ calcite-switch {
 }
 
 :host(:last-child) {
-  @apply border-b-0;
+  border-block-end-width: var(--calcite-border-width-none);
 }
 
 :host([scale="s"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-xxs);
-    gap: var(--calcite-spacing-sm);
+    padding-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
+    gap: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     font-size: var(--calcite-font-size-sm);
   }
 
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-xxs));
+    padding-block: var(
+      --calcite-block-section-content-space,
+      var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
+    );
   }
 }
 
 :host([scale="m"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-sm);
-    gap: var(--calcite-spacing-md);
+    padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    gap: var(--calcite-theme-space-md, var(--calcite-spacing-md));
     font-size: var(--calcite-font-size);
   }
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-sm));
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-theme-space-sm, var(--calcite-spacing-sm)));
   }
 }
 
 :host([scale="l"]) {
   .toggle {
-    padding-block: var(--calcite-spacing-md);
-    gap: var(--calcite-spacing-lg);
+    padding-block: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+    gap: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
     font-size: var(--calcite-font-size-md);
   }
   .content {
-    padding-block: var(--calcite-block-section-content-space, var(--calcite-spacing-md));
+    padding-block: var(--calcite-block-section-content-space, var(--calcite-theme-space-md, var(--calcite-spacing-md)));
   }
 }
 
 .toggle {
-  @apply focus-base
-  flex
-  cursor-pointer
-  select-none
-  items-center
-  w-full
-  border-0;
+  outline-color: transparent;
+  display: flex;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+  inline-size: 100%;
+  border-width: var(--calcite-border-width-none);
   font-family: inherit;
   color: var(--calcite-block-section-header-text-color, var(--calcite-color-text-2));
-  background-color: var(--calcite-block-section-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-block-section-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   font-weight: var(--calcite-font-weight-regular);
   padding-inline: 0;
   line-height: var(--calcite-font-line-height-relative-snug);
 
   &:focus {
-    @apply focus-normal;
+    @include shared.focus-normal();
     // required to ensure the focus ring is visible when slotted with other block-section components in block
     z-index: var(--calcite-z-index);
   }
@@ -127,27 +120,29 @@ calcite-switch {
 }
 
 .section-header__text {
-  @apply my-0
-    flex-auto;
-
+  margin-block: 0;
+  flex: 1 1 auto;
   text-align: initial;
-  word-wrap: anywhere;
+  overflow-wrap: anywhere;
 }
 
 .toggle-container {
-  @apply flex items-center relative;
-
+  display: flex;
+  align-items: center;
+  position: relative;
   word-break: break-word;
 
   .toggle--switch__content {
-    @apply flex flex-auto items-center;
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
   }
 
   .icon--end,
   .icon--start,
   .chevron-icon {
-    @apply flex items-center;
-
+    display: flex;
+    align-items: center;
     color: var(--calcite-block-section-text-color, var(--calcite-color-text-3));
   }
 
@@ -163,7 +158,8 @@ calcite-switch {
 }
 
 .status-icon {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 }
 
 .status-icon.valid {
@@ -174,4 +170,4 @@ calcite-switch {
   color: theme("colors.danger");
 }
 
-@include includes.base-component();
+@include shared.base-component();

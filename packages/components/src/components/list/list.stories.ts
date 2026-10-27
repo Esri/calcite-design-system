@@ -1,13 +1,25 @@
 import { without } from "es-toolkit";
 import { ListItem } from "../list-item/list-item";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { iconNames } from "../../../.storybook/helpers";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { List } from "./list";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-menu/action-menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../avatar/avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item-group/list-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
+const { listDisplayMode, selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
 
 interface ListStoryArgs
   extends
@@ -21,8 +33,12 @@ interface ListStoryArgs
       | "label"
       | "loading"
       | "scale"
+      | "sortDisabled"
       | "selectionAppearance"
       | "selectionMode"
+      | "filterLabel"
+      | "filterPlaceholder"
+      | "filterText"
     >,
     Pick<ListItem, "iconStart" | "iconEnd"> {
   closable: boolean;
@@ -41,9 +57,13 @@ export default {
     interactionMode: interactionMode.values[0],
     label: "My List",
     loading: false,
+    sortDisabled: false,
     scale: scale.defaultValue,
     selectionAppearance: selectionAppearance.defaultValue,
     selectionMode: selectionMode.values[1],
+    filterLabel: "Filter list",
+    filterPlaceholder: "Filter items",
+    filterText: "",
     iconStart: "",
     iconEnd: "",
   },
@@ -59,7 +79,7 @@ export default {
       control: { type: "select" },
     },
     displayMode: {
-      options: ["flat", "nested"],
+      options: listDisplayMode.values,
       control: { type: "select" },
     },
     scale: {
@@ -71,7 +91,7 @@ export default {
       control: { type: "select" },
     },
     iconStart: {
-      options: iconNames,
+      options: ["", ...iconNames],
       control: { type: "select" },
     },
     iconEnd: {
@@ -98,7 +118,11 @@ export const simple = (args: ListStoryArgs): string => html`
     ${boolean("drag-enabled", args.dragEnabled)}
     ${boolean("filter-enabled", args.filterEnabled)}
     ${boolean("loading", args.loading)}
+    ${boolean("sort-disabled", args.sortDisabled)}
     display-mode="${args.displayMode}"
+    filter-label="${args.filterLabel}"
+    filter-placeholder="${args.filterPlaceholder}"
+    filter-text="${args.filterText}"
     interaction-mode="${args.interactionMode}"
     label="${args.label}"
     scale="${args.scale}"
@@ -108,22 +132,22 @@ export const simple = (args: ListStoryArgs): string => html`
     <calcite-list-item
       label="Cras iaculis ultricies nulla."
       description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       label="Ut aliquam sollicitudin leo."
       description="Aliquam tincidunt mauris eu risus."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       label="Vestibulum commodo felis quis tortor.
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       disabled
@@ -131,8 +155,8 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       drag-disabled
@@ -140,15 +164,15 @@ export const simple = (args: ListStoryArgs): string => html`
     "
       description="Vestibulum auctor dapibus neque.
     "
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
     <calcite-list-item
       unavailable
       label="Vestibulum commodo felis quis tortor."
       description="Vestibulum auctor dapibus neque."
-      icon-start="${args.iconStart}"
-      icon-end="${args.iconEnd}"
+      ${optionalAttribute("icon-start", args.iconStart)}
+      ${optionalAttribute("icon-end", args.iconEnd)}
     ></calcite-list-item>
   </calcite-list>
 `;

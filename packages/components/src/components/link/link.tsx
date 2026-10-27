@@ -2,9 +2,9 @@ import { LitElement, property, h, method, JsxNode, stringOrBoolean } from "@arcg
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
-import { FlipContext } from "../interfaces";
-import { IconName } from "../icon/interfaces";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { FlipContext } from "../types";
+import { IconName } from "../icon/types";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { isActivationKey } from "../../utils/key";
 import { styles } from "./link.scss";
@@ -16,16 +16,36 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-link-text-color": "*";
+  }
+}
+
+interface LinkSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
  * Passing a 'href' allows the component to behave like a link
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
- *
- * @slot - A slot for adding text.
  */
 export class Link extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: LinkSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -38,7 +58,7 @@ export class Link extends LitElement {
 
   private direction = useDirection();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -74,14 +94,14 @@ export class Link extends LitElement {
   /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
   @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** Specifies the relationship to the linked resource defined in `href`. */
   @property() rel?: string;
@@ -154,7 +174,9 @@ export class Link extends LitElement {
           target={this.href ? this.target : undefined}
         >
           {this.iconStart ? this.renderIcon("start") : null}
-          <slot />
+          <span class={CSS.text}>
+            <slot />
+          </span>
           {this.iconEnd ? this.renderIcon("end") : null}
         </a>
       </this.interactiveContainer>
@@ -169,7 +191,7 @@ export class Link extends LitElement {
     return (
       <calcite-icon
         class={{
-          [CSS.calciteLinkIcon]: true,
+          [CSS.icon]: true,
           [isStart ? CSS.iconStart : CSS.iconEnd]: true,
         }}
         flipRtl={shouldFlip}

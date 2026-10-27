@@ -1,0 +1,7 @@
+@use "../../styles/shared";
+
+:host {
+  display: contents;
+}
+
+@include shared.base-component();

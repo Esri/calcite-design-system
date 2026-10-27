@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   bordered: "bordered",
@@ -7,8 +8,8 @@ export const CSS = {
   paginationArea: "pagination-area",
   container: "container",
   tableContainer: "table-container",
+  tableContainerOverflow: "table-container--overflow",
   tableFixed: "table--fixed",
-  assistiveText: "assistive-text",
   selectionActions: "selection-actions",
   dismissButton: "dismiss-button",
   selectionChipActive: "selection-chip--active",
@@ -26,3 +27,8 @@ export const ICONS: Record<string, IconName> = {
   hideEmpty: "hide-empty",
   clear: "x",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTable = isTag("calcite-table");

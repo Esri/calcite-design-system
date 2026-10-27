@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
@@ -10,12 +9,12 @@ import {
   setAttribute,
 } from "@arcgis/lumina";
 import { toAriaBoolean } from "../../utils/aria";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { RequestedItem } from "../dropdown-group/types";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./dropdown-item.scss";
@@ -26,8 +25,51 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding text. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-dropdown-item-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when `selected` or active.
+     */
+    "--calcite-dropdown-item-background-color-press": "*";
+    /**
+     * Specifies the color of the component's selection icon when hovered.
+     *
+     * @deprecated in v5.0.0, removal target v6.0.0.
+     */
+    "--calcite-dropdown-item-icon-color-hover": "*";
+    /**
+     * Specifies the color of the component's selection icon when `selected` or active.
+     */
+    "--calcite-dropdown-item-icon-color-press": "*";
+    /**
+     * Specifies the component's text color when `selected` or active.
+     */
+    "--calcite-dropdown-item-text-color-press": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-dropdown-item-text-color": "*";
+  }
+}
+
+interface DropdownItemSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 export class DropdownItem extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: DropdownItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -39,15 +81,15 @@ export class DropdownItem extends LitElement {
   private childLinkRef = createRef<HTMLAnchorElement>();
 
   /** id of containing group */
-  private parentDropdownGroupEl: DropdownGroup["el"];
+  private parentDropdownGroupEl?: DropdownGroup["el"];
 
   /** requested group */
-  private requestedDropdownGroup: DropdownGroup["el"];
+  private requestedDropdownGroup?: DropdownGroup["el"];
 
   /** requested item */
-  private requestedDropdownItem: DropdownItem["el"];
+  private requestedDropdownItem?: DropdownItem["el"];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -70,22 +112,22 @@ export class DropdownItem extends LitElement {
    *
    * Determines if the component will render as an anchor.
    */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** Specifies the relationship to the linked resource defined in `href`. */
-  @property({ reflect: true }) rel: string;
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
@@ -108,23 +150,11 @@ export class DropdownItem extends LitElement {
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
   /** Specifies the frame or window to open the linked resource. */
-  @property({ reflect: true }) target: string;
+  @property({ reflect: true }) target?: string;
 
   //#endregion
 
   //#region Public Methods
-
-  /**
-   * Sets focus on the component.
-   *
-   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
-   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
-   */
-  @method()
-  async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => this.el, options);
-  }
 
   /**
    * Activates the component as if it were clicked.
@@ -143,6 +173,18 @@ export class DropdownItem extends LitElement {
     }
 
     this.emitRequestedItem();
+  }
+
+  /**
+   * Sets focus on the component.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    return this.focusSetter(() => this.el, options);
   }
 
   //#endregion
@@ -186,7 +228,8 @@ export class DropdownItem extends LitElement {
   }
 
   private updateActiveItemOnChange(event: CustomEvent): void {
-    const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
+    const parentEmittedChange =
+      this.parentDropdownGroupEl && event.composedPath().includes(this.parentDropdownGroupEl);
 
     if (parentEmittedChange) {
       this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
@@ -197,7 +240,7 @@ export class DropdownItem extends LitElement {
   }
 
   private initialize(): void {
-    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
+    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group") ?? undefined;
     if (this.selectionMode === "none") {
       this.selected = false;
     }
@@ -229,7 +272,7 @@ export class DropdownItem extends LitElement {
     this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.parentDropdownGroupEl,
+      requestedDropdownGroup: this.parentDropdownGroupEl!,
     });
   }
 
@@ -295,12 +338,13 @@ export class DropdownItem extends LitElement {
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const isSelectable = selectionMode !== "none";
+    const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = !href ? label : "";
+    this.el.ariaLabel = !href ? (label ?? null) : "";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */

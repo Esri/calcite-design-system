@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { Fragment, h, JsxNode, LitElement, property, setAttribute } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useT9n } from "../../controllers/useT9n";
 import { CSS } from "./resources";
 import { styles } from "./loader.scss";
@@ -10,6 +9,53 @@ import { styles } from "./loader.scss";
 declare global {
   interface DeclareElements {
     "calcite-loader": Loader;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
+     */
+    "--calcite-loader-font-size": "*";
+    /**
+     * Specifies the component's width and height.
+     */
+    "--calcite-loader-size": "*";
+    /**
+     * Specifies the width and height of the component when set to inline.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-loader-size` instead.
+     */
+    "--calcite-loader-size-inline": "*";
+    /**
+     * Specifies the the component's padding.
+     */
+    "--calcite-loader-spacing": "*";
+    /**
+     * When `inline`, specifies the component's progress ring color.
+     */
+    "--calcite-loader-progress-color-inline": "*";
+    /**
+     * When not `inline`, specifies the component's `text` margin.
+     */
+    "--calcite-loader-text-spacing": "*";
+    /**
+     * When not `inline` and `text` is provided, specifies the component's `text` font weight.
+     */
+    "--calcite-loader-text-weight": "*";
+    /**
+     * When not `inline` and `text` is provided, specifies the component's `text` color.
+     */
+    "--calcite-loader-text-color": "*";
+    /**
+     * When not `inline`, specifies the component's progress ring color.
+     */
+    "--calcite-loader-progress-color": "*";
+    /**
+     * Specifies the component's track color.
+     */
+    "--calcite-loader-track-color": "*";
   }
 }
 
@@ -22,7 +68,7 @@ export class Loader extends LitElement {
 
   // #region Private Properties
 
-  private formatter: Intl.NumberFormat;
+  private formatter?: Intl.NumberFormat;
 
   messages = useT9n<Record<string, never>>({ name: null });
 
@@ -41,11 +87,10 @@ export class Loader extends LitElement {
   @property({ reflect: true }) inline = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -106,15 +151,13 @@ export class Loader extends LitElement {
       return `${this.value}`;
     }
 
-    return this.formatter.format(this.value / 100);
+    return this.formatter!.format(this.value / 100);
   }
 
   /**
    * Return the proper sizes based on the scale property
-   *
-   * @param scale
    */
-  private getSize(scale: string) {
+  private getSize(scale: Scale) {
     return {
       s: 32,
       m: 64,
@@ -122,7 +165,7 @@ export class Loader extends LitElement {
     }[scale];
   }
 
-  private getInlineSize(scale: string) {
+  private getInlineSize(scale: Scale) {
     return {
       s: 12,
       m: 16,
@@ -152,16 +195,17 @@ export class Loader extends LitElement {
 
     const id = el.id || guid();
     const isDeterminate = type !== "indeterminate";
+    const hasValueLabel = type === "determinate-value";
 
     const valueNow = Math.floor(value);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaValueMax = isDeterminate ? "100" : undefined;
+    this.el.ariaValueMax = isDeterminate ? "100" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaValueMin = isDeterminate ? "0" : undefined;
+    this.el.ariaValueMin = isDeterminate ? "0" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaValueNow = isDeterminate ? valueNow.toString() : undefined;
+    this.el.ariaValueNow = isDeterminate ? valueNow.toString() : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "id", id);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -172,7 +216,7 @@ export class Loader extends LitElement {
         <div class={CSS.rings}>
           {this.renderRing("track")}
           {this.renderRing("progress")}
-          {!inline && isDeterminate && <div class={CSS.percentage}>{this.formatValue()}</div>}
+          {!inline && hasValueLabel && <div class={CSS.percentage}>{this.formatValue()}</div>}
         </div>
         {!inline && text && <div class={CSS.text}>{text}</div>}
       </>

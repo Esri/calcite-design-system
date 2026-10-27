@@ -1,9 +1,8 @@
-// @ts-strict-ignore
-import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
-import { queryActions } from "../action-bar/utils";
+import { TemplateResult } from "lit";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
-import { Position, Scale } from "../interfaces";
+import { SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
+import { Position, Scale } from "../types";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
@@ -21,7 +20,7 @@ interface ExpandToggleProps {
   position?: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
-  ref?: (el: Action["el"]) => void;
+  ref?: (el?: Action["el"]) => void;
   scale?: Scale;
 }
 
@@ -34,19 +33,40 @@ function getCalcitePosition(el: HTMLElement, position?: Position): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
-export function toggleChildActionText({
+export function toggleActionBarChildActionText({
+  actions,
+  expandables,
+  expanded,
+}: {
+  actions: Action["el"][];
+  expandables: (ActionGroup["el"] | ActionMenu["el"])[];
+  expanded: boolean;
+}): void {
+  actions
+    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
+    .forEach((action) => (action.textEnabled = expanded));
+  expandables.forEach((item) => (item.expanded = expanded));
+}
+
+// Used by the legacy action-pad component. action-bar does not use this helper.
+export function legacyToggleChildActionText({
   el,
   expanded,
 }: {
   el: HTMLElement;
   expanded: boolean;
 }): void {
-  queryActions(el)
-    .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
+  Array.from(el.querySelectorAll("calcite-action"))
+    .filter(
+      (action) =>
+        action.slot !== ACTION_GROUP_SLOTS.menuActions &&
+        (action.closest("calcite-action-menu") ? action.slot === ACTION_MENU_SLOTS.trigger : true),
+    )
     .forEach((action) => (action.textEnabled = expanded));
-  el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
-    (el: ActionMenu["el"] | ActionGroup["el"]) => (el.expanded = expanded),
-  );
+
+  el.querySelectorAll<ActionMenu["el"] | ActionGroup["el"]>(
+    "calcite-action-group, calcite-action-menu",
+  ).forEach((expandable) => (expandable.expanded = expanded));
 }
 
 const setTooltipReference = ({
@@ -55,13 +75,13 @@ const setTooltipReference = ({
   expanded,
   ref,
 }: {
-  tooltip: Tooltip["el"];
-  referenceElement: Action["el"];
+  tooltip?: Tooltip["el"];
+  referenceElement?: Action["el"];
   expanded: boolean;
-  ref?: (el: Action["el"]) => void;
-}): Action["el"] => {
+  ref?: (el?: Action["el"]) => void;
+}): Action["el"] | undefined => {
   if (tooltip) {
-    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
+    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : undefined;
   }
 
   if (ref) {
@@ -106,13 +126,13 @@ export const ExpandToggle = ({
       id="expand-toggle"
       label={label}
       onClick={toggle}
-      ref={(referenceElement): Action["el"] =>
+      ref={(referenceElement): Action["el"] | undefined =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
       scale={scale}
       text={text}
       textEnabled={expanded}
-      title={!expanded && !tooltip ? text : null}
+      title={!expanded && !tooltip ? text : undefined}
     />
   );
 

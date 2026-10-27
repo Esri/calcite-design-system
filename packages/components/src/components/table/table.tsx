@@ -1,24 +1,27 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, Fragment, JsxNode, LitElement, property, state } from "@arcgis/lumina";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { getUserAgentString } from "../../utils/browser";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import type { TableRow } from "../table-row/table-row";
+import { isTableRow } from "../table-row/resources";
 import type { Pagination } from "../pagination/pagination";
 import { isHidden } from "../../utils/component";
+import { createObserver } from "../../utils/observers";
 import {
   TableInteractionMode,
   TableLayout,
   TableRowFocusEvent,
   TableSelectionDisplay,
-} from "./interfaces";
+} from "./types";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -26,36 +29,230 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot table-header - A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
- * @slot table-footer - A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
- * @slot selection-actions - A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-table-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-table-shadow": "*";
+    /**
+     * Specifies the background color of the component's `numbered` cell.
+     */
+    "--calcite-table-number-cell-background-color": "*";
+    /**
+     * Specifies the text color of the component's `numbered` cell.
+     */
+    "--calcite-table-number-cell-text-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons.
+     */
+    "--calcite-table-selection-cell-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons on `selected` `calcite-table-row`s.
+     */
+    "--calcite-table-selection-cell-background-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `calcite-table-row`s where `selected` is `false`.
+     */
+    "--calcite-table-selection-cell-icon-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `selected` `calcite-table-row`s.
+     */
+    "--calcite-table-selection-cell-icon-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the background color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the border color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-border-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the corner radius of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-corner-radius": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, specifies the shadow of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-shadow": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the text color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-text-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-background-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-border-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection chip.
+     */
+    "--calcite-table-selection-chip-text-color-selected": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the background color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the border color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-border-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the corner radius of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-corner-radius": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the icon color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-icon-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the shadow of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-shadow": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the text color of the component's selection out of view chip.
+     */
+    "--calcite-table-selection-out-of-view-chip-text-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when active.
+     */
+    "--calcite-table-selection-dismiss-button-background-color-active": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when hovered.
+     */
+    "--calcite-table-selection-dismiss-button-background-color-hover": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-background-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when active.
+     */
+    "--calcite-table-selection-dismiss-button-border-color-active": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when hovered.
+     */
+    "--calcite-table-selection-dismiss-button-border-color-hover": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-border-color": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the corner radius of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-corner-radius": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the shadow of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-shadow": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when active.
+     */
+    "--calcite-table-selection-dismiss-button-text-color-active": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when hovered.
+     */
+    "--calcite-table-selection-dismiss-button-text-color-hover": "*";
+    /**
+     * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip.
+     */
+    "--calcite-table-selection-dismiss-button-text-color": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item color.
+     */
+    "--calcite-table-pagination-color": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item color when hovered or selected.
+     */
+    "--calcite-table-pagination-color-hover": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item bottom border color when hovered.
+     */
+    "--calcite-table-pagination-color-border-hover": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item bottom border color when selected.
+     */
+    "--calcite-table-pagination-color-border-active": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination item background color when active.
+     */
+    "--calcite-table-pagination-background-color": "*";
+    /**
+     * When `pageSize` is set, specifies the component's pagination chevron item background color when hovered.
+     */
+    "--calcite-table-pagination-icon-color-background-hover": "*";
+  }
+}
+
+interface TableSlots {
+  /**
+   * A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
+   */
+  "table-header": Node[];
+  /**
+   * A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
+   */
+  "table-footer": Node[];
+  /**
+   * A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
+   */
+  "selection-actions": Node[];
+}
+
 export class Table extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TableSlots;
+
+  //#endregion
+
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
   //#region Private Properties
 
-  private allRows: TableRow["el"][];
+  private allRows: TableRow["el"][] = [];
 
-  private bodyRows: TableRow["el"][];
+  private bodyRows: TableRow["el"][] = [];
 
-  private footRows: TableRow["el"][];
+  private footRows: TableRow["el"][] = [];
 
-  private headRows: TableRow["el"][];
+  private headRows: TableRow["el"][] = [];
 
   private paginationRef = createRef<Pagination["el"]>();
+
+  private tableContainerRef = createRef<HTMLDivElement>();
+
+  private tableEl: HTMLTableElement | null = null;
 
   private tableBodySlotRef = createRef<HTMLSlotElement>();
 
   private tableFootSlotRef = createRef<HTMLSlotElement>();
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
+
+  private tableContainerOverflowAnimationFrame: number | null = null;
+
+  private tableContainerResizeObserver = createObserver("resize", () =>
+    this.scheduleTableContainerOverflowUpdate(),
+  );
 
   /**
    * Made into a prop for testing purposes only
@@ -72,9 +269,11 @@ export class Table extends LitElement {
 
   @state() pageStartRow = 1;
 
-  @state() readCellContentsToAT: boolean;
+  @state() readCellContentsToAT = false;
 
   @state() selectedCount = 0;
+
+  @state() tableContainerHasOverflow = false;
 
   @state() _selectedItems: TableRow["el"][] = [];
 
@@ -90,7 +289,7 @@ export class Table extends LitElement {
    *
    * @required
    */
-  @property() caption: string;
+  @property() caption!: string;
 
   /**
    * Sets/gets the current page
@@ -106,7 +305,7 @@ export class Table extends LitElement {
   /** Specifies the layout of the component. */
   @property({ reflect: true }) layout: TableLayout = "auto";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, displays the position of the row in numeric form. */
@@ -134,13 +333,11 @@ export class Table extends LitElement {
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single",
@@ -149,6 +346,9 @@ export class Table extends LitElement {
 
   /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
   @property({ reflect: true }) striped = false;
+
+  /** When `true`, displays the component's `table-header` slot as sticky while the component remains in view. */
+  @property({ reflect: true }) stickyHeader = false;
 
   //#endregion
 
@@ -171,7 +371,10 @@ export class Table extends LitElement {
     super();
     this.listen("calciteTableRowSelect", this.calciteTableRowSelectListener);
     this.listen("calciteInternalTableRowSelect", this.calciteInternalTableRowSelectListener);
-    this.listen("calciteInternalTableRowFocusRequest", this.calciteInternalTableRowFocusEvent);
+    this.listen<CustomEvent<TableRowFocusEvent>>(
+      "calciteInternalTableRowFocusRequest",
+      this.calciteInternalTableRowFocusEvent,
+    );
   }
 
   async load(): Promise<void> {
@@ -200,6 +403,27 @@ export class Table extends LitElement {
     ) {
       this.updateRows();
     }
+
+    if (changes.has("stickyHeader") && (this.hasUpdated || this.stickyHeader !== false)) {
+      this.allRows?.forEach((row) => {
+        row.stickyHeaderEnabled = this.stickyHeader;
+      });
+
+      if (this.stickyHeader) {
+        this.applyHeaderRowPositionStyles();
+      } else {
+        this.resetStickyHeaderState();
+      }
+    }
+  }
+
+  override disconnectedCallback(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+      this.tableContainerOverflowAnimationFrame = null;
+    }
+
+    this.tableContainerResizeObserver?.disconnect();
   }
 
   //#endregion
@@ -208,6 +432,18 @@ export class Table extends LitElement {
 
   private handleSlotChange(): void {
     this.updateRows();
+  }
+
+  private clearStickyHeaderRowStyles(): void {
+    this.headRows?.forEach((row) => {
+      row.style.removeProperty("--calcite-internal-table-header-offset");
+      row.style.removeProperty("--calcite-internal-table-header-z-index");
+      row.style.removeProperty("--calcite-internal-table-header-row-position");
+    });
+  }
+
+  private resetStickyHeaderState(): void {
+    this.clearStickyHeaderRowStyles();
   }
 
   private calciteTableRowSelectListener(event: CustomEvent): void {
@@ -262,11 +498,10 @@ export class Table extends LitElement {
         break;
     }
 
-    const destinationCount = this.allRows?.find(
-      (row) => row.positionAll === rowPosition,
-    )?.cellCount;
+    const destinationCount = this.allRows.find((row) => row.positionAll === rowPosition)?.cellCount;
 
-    const adjustedPos = cellPosition > destinationCount ? destinationCount : cellPosition;
+    const adjustedPos =
+      destinationCount && cellPosition > destinationCount ? destinationCount : cellPosition;
 
     if (rowPosition !== undefined) {
       this.calciteInternalTableRowFocusChange.emit({
@@ -278,40 +513,94 @@ export class Table extends LitElement {
     }
   }
 
-  private getSlottedRows(el: HTMLSlotElement): TableRow["el"][] {
-    return el
-      ?.assignedElements({ flatten: true })
-      ?.filter((el) => el?.matches("calcite-table-row")) as TableRow["el"][];
+  private getSlottedRows(el: HTMLSlotElement | undefined): TableRow["el"][] {
+    if (!el) {
+      return [];
+    }
+
+    return el.assignedElements({ flatten: true }).filter(isTableRow);
+  }
+
+  private observeTableContainer(): void {
+    this.tableContainerResizeObserver?.disconnect();
+
+    const tableContainer = this.tableContainerRef.value;
+    const table = this.tableEl;
+
+    if (tableContainer) {
+      this.tableContainerResizeObserver?.observe(tableContainer);
+    }
+
+    if (table) {
+      this.tableContainerResizeObserver?.observe(table);
+    }
+  }
+
+  private scheduleTableContainerOverflowUpdate(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+    }
+
+    this.tableContainerOverflowAnimationFrame = requestAnimationFrame(() => {
+      this.tableContainerOverflowAnimationFrame = null;
+      this.updateTableContainerOverflow();
+    });
+  }
+
+  private applyHeaderRowPositionStyles(): void {
+    this.clearStickyHeaderRowStyles();
+
+    const firstHeadRow = this.headRows?.[0];
+
+    if (!firstHeadRow) {
+      return;
+    }
+
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-offset", "0");
+    firstHeadRow.style.setProperty("--calcite-internal-table-header-z-index", "2");
+    firstHeadRow.style.setProperty(
+      "--calcite-internal-table-header-row-position",
+      this.stickyHeader ? "sticky" : "static",
+    );
+  }
+
+  private updateTableContainerOverflow(): void {
+    const tableContainer = this.tableContainerRef.value;
+
+    this.tableContainerHasOverflow =
+      !!tableContainer &&
+      (tableContainer.scrollHeight > tableContainer.clientHeight ||
+        tableContainer.scrollWidth > tableContainer.clientWidth);
   }
 
   private updateRows(): void {
-    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value) || [];
-    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value) || [];
-    const footRows = this.getSlottedRows(this.tableFootSlotRef.value) || [];
+    const headRows = this.getSlottedRows(this.tableHeadSlotRef.value);
+    const bodyRows = this.getSlottedRows(this.tableBodySlotRef.value);
+    const footRows = this.getSlottedRows(this.tableFootSlotRef.value);
     const allRows = [...headRows, ...bodyRows, ...footRows];
 
-    headRows?.forEach((row) => {
-      const position = headRows?.indexOf(row);
+    headRows.forEach((row) => {
+      const position = headRows.indexOf(row);
       row.rowType = "head";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    bodyRows?.forEach((row) => {
-      const position = bodyRows?.indexOf(row);
+    bodyRows.forEach((row) => {
+      const position = bodyRows.indexOf(row);
       row.rowType = "body";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    footRows?.forEach((row) => {
-      const position = footRows?.indexOf(row);
+    footRows.forEach((row) => {
+      const position = footRows.indexOf(row);
       row.rowType = "foot";
       row.positionSection = position;
       row.positionSectionLocalized = this.localizeNumber((position + 1).toString());
     });
 
-    allRows?.forEach((row) => {
+    allRows.forEach((row) => {
       row.interactionMode = this.interactionMode;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
@@ -322,14 +611,18 @@ export class Table extends LitElement {
       row.lastVisibleRow = allRows?.indexOf(row) === allRows.length - 1;
     });
 
-    const colCount =
-      headRows[0]?.cellCount || headRows[0]?.querySelectorAll("calcite-table-header")?.length;
+    const colCount = headRows[0]?.cellCount || 0;
 
     this.colCount = colCount;
     this.headRows = headRows;
     this.bodyRows = bodyRows;
     this.footRows = footRows;
     this.allRows = allRows;
+
+    this.applyHeaderRowPositionStyles();
+
+    this.observeTableContainer();
+    this.scheduleTableContainerOverflowUpdate();
 
     this.handleCurrentPageRange();
     this.updateSelectedItems();
@@ -516,13 +809,15 @@ export class Table extends LitElement {
             [CSS.bordered]: this.bordered,
             [CSS.striped]: this.striped,
             [CSS.tableContainer]: true,
+            [CSS.tableContainerOverflow]: this.tableContainerHasOverflow,
           }}
+          ref={this.tableContainerRef}
         >
           <table
             ariaColCount={this.colCount}
             ariaMultiSelectable={
               /* workaround to ensure the attr gets removed; we should be able to avoid the ternary when fixed */
-              this.selectionMode === "multiple" ? "true" : null
+              this.selectionMode === "multiple" ? "true" : undefined
             }
             ariaRowCount={this.allRows?.length}
             class={{ [CSS.tableFixed]: this.layout === "fixed" }}
@@ -531,10 +826,12 @@ export class Table extends LitElement {
                 return;
               }
 
+              this.tableEl = el;
+
               /* work around for https://github.com/Esri/calcite-design-system/issues/10495 */
               render(
                 <>
-                  <caption class={CSS.assistiveText}>{this.caption}</caption>
+                  <caption class={CSS_UTILITY.screenReaderText}>{this.caption}</caption>
                   {this.renderTHead()}
                   {this.renderTBody()}
                   {this.renderTFoot()}

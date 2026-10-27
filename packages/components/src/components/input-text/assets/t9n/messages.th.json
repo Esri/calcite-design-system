@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "ยกเลิก",
   "clear": "ล้างค่า",
+  "confirmInlineEditingChanges": "บันทึก",
+  "enableInlineEditing": "แก้ไข",
   "loading": "กำลังโหลด",
   "required": "ต้องการ"
 }

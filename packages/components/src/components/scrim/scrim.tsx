@@ -1,8 +1,7 @@
-// @ts-strict-ignore
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { slotChangeHasContent } from "../../utils/dom";
 import { useT9n } from "../../controllers/useT9n";
 import type { Loader } from "../loader/loader";
@@ -16,8 +15,29 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content, primarily loading information. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-scrim-background": "*";
+  }
+}
+
+interface ScrimSlots {
+  /**
+   * A slot for adding custom content, primarily loading information.
+   */
+  "": Node[];
+}
+
 export class Scrim extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ScrimSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -43,7 +63,7 @@ export class Scrim extends LitElement {
 
   @state() hasContent = false;
 
-  @state() loaderScale: Scale;
+  @state() loaderScale?: Scale;
 
   //#endregion
 
@@ -52,7 +72,7 @@ export class Scrim extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

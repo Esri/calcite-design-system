@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
@@ -6,14 +5,13 @@ import { createRef } from "lit/directives/ref.js";
 import { closestElementCrossShadowBoundary, slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS_UTILITY } from "../../utils/resources";
 import { getIconScale } from "../../utils/component";
-import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../interfaces";
-import { IconName } from "../icon/interfaces";
-import type { Accordion } from "../accordion/accordion";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { Appearance, FlipContext, IconType, Position, Scale, SelectionMode } from "../types";
+import { IconName } from "../icon/types";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useT9n } from "../../controllers/useT9n";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem } from "./types";
 import { styles } from "./accordion-item.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 
@@ -23,14 +21,126 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-accordion-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-accordion-background-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-accordion-text-color": "*";
+    /**
+     * Specifies the component's main text color on hover.
+     */
+    "--calcite-accordion-text-color-hover": "*";
+    /**
+     * Specifies the component's main text color when pressed.
+     */
+    "--calcite-accordion-text-color-press": "*";
+    /**
+     * Specifies the component's background color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-background-color` instead.
+     */
+    "--calcite-accordion-item-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-border-color` instead.
+     */
+    "--calcite-accordion-item-border-color": "*";
+    /**
+     * Specifies the component's padding.
+     */
+    "--calcite-accordion-item-content-space": "*";
+    /**
+     * Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     */
+    "--calcite-accordion-item-end-icon-color": "*";
+    /**
+     * Specifies the component's expand icon color.
+     */
+    "--calcite-accordion-item-expand-icon-color": "*";
+    /**
+     * Specifies the component's `heading` background color.
+     */
+    "--calcite-accordion-item-header-background-color": "*";
+    /**
+     * Specifies the component's `heading` background color when hovered.
+     */
+    "--calcite-accordion-item-header-background-color-hover": "*";
+    /**
+     * Specifies the component's `heading` background color when pressed.
+     */
+    "--calcite-accordion-item-header-background-color-press": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-accordion-item-heading-text-color": "*";
+    /**
+     * Specifies the component's default icon color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
+     */
+    "--calcite-accordion-item-icon-color": "*";
+    /**
+     * Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     */
+    "--calcite-accordion-item-start-icon-color": "*";
+    /**
+     * Specifies the component's text color.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color` instead.
+     */
+    "--calcite-accordion-item-text-color": "*";
+    /**
+     * Specifies the component's text color on hover.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color-hover` instead.
+     */
+    "--calcite-accordion-item-text-color-hover": "*";
+  }
+}
+
+interface AccordionItemSlots {
+  /**
+   * A slot for adding custom content, including nested `calcite-accordion-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for adding `calcite-action`s or content to the end side of the component's header.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding `calcite-action`s or content to the start side of the component's header.
+   */
+  "actions-start": Node[];
+  /**
+   * A slot for adding non-actionable elements after the component's header text.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding non-actionable elements before the component's header text.
+   */
+  "content-start": Node[];
+}
+
 /**
- * @slot - A slot for adding custom content, including nested `calcite-accordion-item`s.
- * @slot actions-end - A slot for adding `calcite-action`s or content to the end side of the component's header.
- * @slot actions-start - A slot for adding `calcite-action`s or content to the start side of the component's header.
- * @slot content-end - A slot for adding non-actionable elements after the component's header text.
- * @slot content-start - A slot for adding non-actionable elements before the component's header text.
+ * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
  */
 export class AccordionItem extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: AccordionItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -43,7 +153,7 @@ export class AccordionItem extends LitElement {
 
   private headerRef = createRef<HTMLButtonElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   /**
    * Made into a prop for testing purposes only
@@ -68,63 +178,56 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /**
-   * The containing `accordion` element.
-   *
-   * @private
-   */
-  @property() accordionParent: Accordion["el"];
-
-  /** Specifies a description for the component. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the component's heading text. */
-  @property() heading: string;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
    * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() appearance: Extract<"solid" | "transparent", Appearance>;
+  @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() iconPosition: Extract<"start" | "end", Position>;
+  @property() iconPosition!: Extract<"start" | "end", Position>;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType>;
+  @property() iconType!: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
    *
    * @private
    */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -166,8 +269,11 @@ export class AccordionItem extends LitElement {
   constructor() {
     super();
     this.listen("keydown", this.keyDownHandler);
+  }
+
+  load(): void {
     this.listenOn<CustomEvent>(
-      document.body,
+      document,
       "calciteInternalAccordionChange",
       this.updateActiveItemOnChange,
     );

@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -10,9 +9,9 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon } from "../../utils/dom";
-import { Scale, Status } from "../interfaces";
-import { IconName } from "../icon/interfaces";
-import { StatusIconDefaults } from "./interfaces";
+import { Scale, Status } from "../types";
+import { IconName } from "../icon/types";
+import { StatusIconDefaults } from "./resources";
 import { styles } from "./input-message.scss";
 import { CSS } from "./resources";
 
@@ -22,11 +21,42 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the margin spacing at the top of the component.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-input-message-spacing` instead.
+     */
+    "--calcite-input-message-spacing-value": "*";
+    /**
+     * Specifies the component's top margin spacing.
+     */
+    "--calcite-input-message-spacing": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-input-message-icon-color": "*";
+  }
+}
+
+interface InputMessageSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-notice` component with `appearance="transparent"` instead.
- * @slot - A slot for adding text.
  */
 export class InputMessage extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: InputMessageSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -43,7 +73,7 @@ export class InputMessage extends LitElement {
   //#region Public Properties
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -91,17 +121,17 @@ export class InputMessage extends LitElement {
     );
   }
 
-  private renderIcon(iconName: IconName): JsxNode {
-    if (iconName) {
-      return (
-        <calcite-icon
-          class={CSS.inputMessageIcon}
-          flipRtl={this.iconFlipRtl}
-          icon={iconName}
-          scale="s"
-        />
-      );
-    }
+  private renderIcon(iconName: IconName | undefined): JsxNode {
+    return iconName ? (
+      <calcite-icon
+        class={CSS.inputMessageIcon}
+        flipRtl={this.iconFlipRtl}
+        icon={iconName}
+        scale="s"
+      />
+    ) : (
+      iconName
+    );
   }
 
   //#endregion

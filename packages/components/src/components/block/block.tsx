@@ -1,30 +1,35 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasTextContent,
+} from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { FlipContext, Position, Scale, Status } from "../interfaces";
+import { FlipContext, Position, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
   LogicalPlacement,
   OverlayPositioning,
 } from "../../utils/floating-ui";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
 import { SortHandle } from "../sort-handle/sort-handle";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as headerStyles } from "../../styles/component/header.scss";
-import { SortMenuItem } from "../sort-handle/interfaces";
+import { SortMenuItem } from "../sort-handle/types";
 import { BlockSection } from "../block-section/block-section";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./block.scss";
+import type { BlockToggleDisplay } from "./types";
+import type { BlockGroup } from "../block-group/block-group";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -32,14 +37,137 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content.
- * @slot actions-end - A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
- * @slot content-end - A slot for adding non-actionable elements after the component's header text.
- * @slot content-start - A slot for adding non-actionable elements before the component's header text.
- * @slot header-menu-actions - A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-block-border-color": "*";
+    /**
+     * Specifies the space of the component's `default` slot.
+     */
+    "--calcite-block-content-space": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-block-background-color": "*";
+    /**
+     * Specifies the component's `heading` background color.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-background-color` instead.
+     */
+    "--calcite-block-header-background-color": "*";
+    /**
+     * Specifies the component's `heading` background color when hovered.
+     */
+    "--calcite-block-header-background-color-hover": "*";
+    /**
+     * Specifies the component's `heading` background color when pressed.
+     */
+    "--calcite-block-header-background-color-press": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-block-heading-text-color": "*";
+    /**
+     * When the component is `expanded`, specifies the `heading` text color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead.
+     */
+    "--calcite-block-heading-text-color-press": "*";
+    /**
+     * Specifies the padding of the component's `default` slot.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead.
+     */
+    "--calcite-block-padding": "*";
+    /**
+     * Specifies the component's text color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0.
+     */
+    "--calcite-block-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-block-description-text-color": "*";
+    /**
+     * Specifies the component's `expandable` icon, `iconStart` and `iconEnd` color.
+     *
+     * @deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color`, `--calcite-block-icon-start-color` and `--calcite-block-icon-end-color` instead.
+     */
+    "--calcite-block-icon-color": "*";
+    /**
+     * Specifies the component's `expandable` icon color when hovered.
+     *
+     * @deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color-hover` instead.
+     */
+    "--calcite-block-icon-color-hover": "*";
+    /**
+     * Specifies the component's `iconStart` color.
+     */
+    "--calcite-block-icon-start-color": "*";
+    /**
+     * Specifies the component's `iconEnd` color.
+     */
+    "--calcite-block-icon-end-color": "*";
+    /**
+     * Specifies the component's `expandable` icon color.
+     */
+    "--calcite-block-expandable-icon-color": "*";
+    /**
+     * Specifies the component's `expandable` icon color when hovered.
+     */
+    "--calcite-block-expandable-icon-color-hover": "*";
+    /**
+     * Specifies the component's `expandable` or `collapsible` (deprecated) icon color.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color` instead.
+     */
+    "--calcite-block-collapsible-icon-color": "*";
+    /**
+     * Specifies the component's `expandable` or `collapsible` (deprecated) icon color when hovered.
+     *
+     * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color-hover` instead.
+     */
+    "--calcite-block-collapsible-icon-color-hover": "*";
+  }
+}
+
+interface BlockSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding non-actionable elements after the component's header text.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding non-actionable elements before the component's header text.
+   */
+  "content-start": Node[];
+  /**
+   * A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding `calcite-block` & `calcite-block-group` elements.
+   */
+  children: Node[];
+}
+
 export class Block extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: BlockSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [headerStyles, styles, sortableStyles];
@@ -48,13 +176,11 @@ export class Block extends LitElement {
 
   //#region Private Properties
 
-  transitionProp = "margin-top" as const;
-
-  transitionEl: HTMLElement;
-
   private blockSectionChildren: BlockSection["el"][] = [];
 
-  private sortHandleEl: SortHandle["el"];
+  private sortHandleEl?: SortHandle["el"];
+
+  parentBlockGroupElement?: BlockGroup["el"] | null;
 
   /**
    * Made into a prop for testing purposes only
@@ -63,7 +189,7 @@ export class Block extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -79,15 +205,14 @@ export class Block extends LitElement {
 
   @state() hasMenuActions = false;
 
+  @state() hasContent = false;
+
   //#endregion
 
   //#region Public Properties
 
-  /** When `true`, the component is collapsible. */
-  @property({ reflect: true }) collapsible = false;
-
-  /** Specifies a description for the component. Displays below the heading. */
-  @property() description: string;
+  /** @copyDoc */
+  @property() description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -105,39 +230,56 @@ export class Block extends LitElement {
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
+  /** When `true`, the component can be expanded and collapsed. */
+  @property({ reflect: true }) expandable = false;
+
   /**
-   * Specifies the component's heading text.
+   * When `true`, the component can be expanded and collapsed.
    *
+   * @deprecated in v5.2.0, removal target v7.0.0 - Use the `expandable` property instead.
    */
-  @property() heading: string;
+  @property({ reflect: true })
+  get collapsible(): boolean {
+    return this.expandable;
+  }
+  set collapsible(value: boolean) {
+    logger.deprecated("property", {
+      component: this,
+      name: "collapsible",
+      removalVersion: 7,
+      suggested: "expandable",
+    });
+    this.expandable = value;
+  }
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property() heading?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /**
-   * Specifies an accessible label for the component.
-   */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's fallback `menuPlacement` when it's initial or specified `menuPlacement` has insufficient space available. */
-  @property() menuFlipPlacements: FlipPlacement[];
+  /** @copyDoc */
+  @property() menuFlipPlacements?: FlipPlacement[];
 
   /** Determines where the action menu will be positioned. */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -180,13 +322,7 @@ export class Block extends LitElement {
     this.expanded = value;
   }
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the size of the component. */
@@ -197,14 +333,14 @@ export class Block extends LitElement {
    *
    * @private
    */
-  @property() setPosition: number = null;
+  @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
    *
    * @private
    */
-  @property() setSize: number = null;
+  @property() setSize?: number;
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
@@ -214,12 +350,19 @@ export class Block extends LitElement {
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
    */
-  @property({ reflect: true }) status: Status;
+  @property({ reflect: true }) status?: Status;
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
+   * Specifies how the component's toggle is displayed, where:
    *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * `"button"` sets the toggle to a selectable header, and
+   *
+   * `"switch"` sets the toggle to a switch.
+   */
+  @property({ reflect: true }) toggleDisplay: BlockToggleDisplay = "button";
+
+  /**
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -245,23 +388,11 @@ export class Block extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
-  calciteBlockBeforeClose = createEvent({ cancelable: false });
-
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
-  calciteBlockBeforeOpen = createEvent({ cancelable: false });
-
-  /** Fires when the component is closed and animation is complete. */
-  calciteBlockClose = createEvent({ cancelable: false });
-
   /** Fires when the component's content area is collapsed. */
   calciteBlockCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
   calciteBlockExpand = createEvent({ cancelable: false });
-
-  /** Fires when the component is open and animation is complete. */
-  calciteBlockOpen = createEvent({ cancelable: false });
 
   /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
   calciteBlockSortHandleBeforeClose = createEvent({ cancelable: false });
@@ -276,11 +407,12 @@ export class Block extends LitElement {
   calciteBlockSortHandleOpen = createEvent({ cancelable: false });
 
   /**
-   * Fires when the component's header is clicked.
    *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
+   * @private
    */
-  calciteBlockToggle = createEvent({ cancelable: false });
+  calciteInternalBlockChange = createEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>({
+    cancelable: false,
+  });
 
   /**
    *
@@ -293,7 +425,7 @@ export class Block extends LitElement {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.transitionEl = this.el;
+    this.setParentBlockGroupElement();
   }
 
   load(): void {
@@ -309,10 +441,6 @@ export class Block extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      toggleOpenClose(this);
-    }
-
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
     }
@@ -328,27 +456,15 @@ export class Block extends LitElement {
     if (changes.has("scale") && this.hasUpdated) {
       this.updateBlockSectionScale();
     }
+
+    if ((changes.has("moveToItems") || changes.has("addToItems")) && this.hasUpdated) {
+      this.setParentBlockGroupElement();
+    }
   }
 
   //#endregion
 
   //#region Private Methods
-
-  onBeforeOpen(): void {
-    this.calciteBlockBeforeOpen.emit();
-  }
-
-  onOpen(): void {
-    this.calciteBlockOpen.emit();
-  }
-
-  onBeforeClose(): void {
-    this.calciteBlockBeforeClose.emit();
-  }
-
-  onClose(): void {
-    this.calciteBlockClose.emit();
-  }
 
   private sortHandleOpenHandler(): void {
     if (!this.sortHandleEl) {
@@ -387,7 +503,14 @@ export class Block extends LitElement {
   }
 
   private onHeaderClick(): void {
-    this.expanded = !this.expanded;
+    if (this.parentBlockGroupElement) {
+      this.calciteInternalBlockChange.emit({
+        el: this.el,
+        parentElement: this.parentBlockGroupElement,
+      });
+    } else {
+      this.expanded = !this.expanded;
+    }
     this.calciteBlockToggle.emit();
   }
 
@@ -409,6 +532,7 @@ export class Block extends LitElement {
 
   private handleDefaultSlotChange(event: Event): void {
     this.blockSectionChildren = slotChangeGetAssignedElements(event, "calcite-block-section");
+    this.hasContent = slotChangeHasTextContent(event) || slotChangeHasAssignedElement(event);
     this.updateBlockSectionScale();
   }
 
@@ -416,6 +540,10 @@ export class Block extends LitElement {
     this.blockSectionChildren.forEach((el: BlockSection["el"]) => {
       el.scale = this.scale;
     });
+  }
+
+  private setParentBlockGroupElement(): void {
+    this.parentBlockGroupElement = this.el.parentElement?.closest("calcite-block-group");
   }
 
   //#endregion
@@ -462,7 +590,7 @@ export class Block extends LitElement {
   private renderContentEnd(): JsxNode {
     return (
       <div
-        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.collapsible }}
+        class={{ [CSS.iconEndContainer]: !this.iconEnd && !this.expandable }}
         hidden={!this.hasContentEnd}
       >
         <div class={CSS.contentEnd}>
@@ -520,7 +648,7 @@ export class Block extends LitElement {
 
   override render(): JsxNode {
     const {
-      collapsible,
+      expandable,
       loading,
       expanded,
       label,
@@ -539,6 +667,7 @@ export class Block extends LitElement {
       hasContentEnd,
       hasContentStart,
       iconStart,
+      status,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
@@ -591,36 +720,47 @@ export class Block extends LitElement {
             topLayerDisabled={this.topLayerDisabled}
           />
         ) : null}
-        {collapsible ? (
+        {expandable ? (
           <button
             aria-controls={IDS.content}
             aria-describedby={IDS.header}
-            ariaExpanded={collapsible ? expanded : null}
+            ariaExpanded={expandable ? expanded : undefined}
             class={CSS.toggle}
             id={IDS.toggle}
             onClick={this.onHeaderClick}
             title={toggleLabel}
+            type="button"
           >
             {headerContent}
             <div class={CSS.iconEndContainer}>
               {this.renderContentEnd()}
               {this.renderIcon("end")}
-              <calcite-icon
-                class={CSS.toggleIcon}
-                icon={collapseIcon}
-                scale={getIconScale(this.scale)}
-              />
+              {this.toggleDisplay === "switch" ? (
+                <calcite-switch
+                  checked={expanded}
+                  disabled={this.disabled}
+                  inert
+                  label={toggleLabel}
+                  scale={this.scale}
+                />
+              ) : (
+                <calcite-icon
+                  class={CSS.toggleIcon}
+                  icon={collapseIcon}
+                  scale={getIconScale(this.scale)}
+                />
+              )}
             </div>
           </button>
         ) : (
           headerContent
         )}
-        {iconEnd && !collapsible ? (
+        {iconEnd && !expandable ? (
           <div class={CSS.iconEndContainer}>
             {this.renderContentEnd()}
             {this.renderIcon("end")}
           </div>
-        ) : !iconEnd && !collapsible ? (
+        ) : !iconEnd && !expandable ? (
           this.renderContentEnd()
         ) : null}
         <calcite-action-menu
@@ -642,7 +782,7 @@ export class Block extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <article
           aria-label={label}
-          ariaBusy={loading}
+          ariaBusy={toAriaBoolean(loading, undefined)}
           class={{
             [CSS.container]: true,
           }}
@@ -650,12 +790,16 @@ export class Block extends LitElement {
           {headerNode}
           <section
             aria-labelledby={IDS.toggle}
-            class={CSS.content}
+            class={{
+              [CSS.content]: true,
+              [CSS.hasSlottedContent]: this.hasContent || loading,
+            }}
             hidden={!expanded}
             id={IDS.content}
           >
             {this.renderScrim()}
           </section>
+          <slot hidden={!expanded} name={SLOTS.children} />
         </article>
       </this.interactiveContainer>
     );

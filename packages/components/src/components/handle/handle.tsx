@@ -1,13 +1,12 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { useT9n } from "../../controllers/useT9n";
 import { logger } from "../../utils/logger";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { HandleChange, HandleNudge } from "./interfaces";
+import { HandleChange, HandleNudge } from "./types";
 import { CSS, ICONS, SUBSTITUTIONS } from "./resources";
 import { styles } from "./handle.scss";
 
@@ -17,8 +16,37 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-handle-background-color": "*";
+    /**
+     * Specifies the component's background color on hover.
+     */
+    "--calcite-handle-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when selected.
+     */
+    "--calcite-handle-background-color-selected": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-handle-icon-color": "*";
+    /**
+     * Specifies the component's icon color on hover.
+     */
+    "--calcite-handle-icon-color-hover": "*";
+    /**
+     * Specifies the component's icon color when selected.
+     */
+    "--calcite-handle-icon-color-selected": "*";
+  }
+}
+
 /**
- * @deprecated Use the `calcite-sort-handle` component instead.
+ * @deprecated in v3.0.0, removal target v6.0.0. Use the `calcite-sort-handle` component instead.
  */
 export class Handle extends LitElement {
   //#region Static Members
@@ -38,7 +66,7 @@ export class Handle extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -57,15 +85,15 @@ export class Handle extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Value for the button title attribute. */
-  @property({ reflect: true }) dragHandle: string;
+  @property({ reflect: true }) dragHandle?: string;
 
   /**
-   *
+   * @copyDoc
    * @private
    */
-  @property() label: string;
+  @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is selected. */
@@ -75,13 +103,13 @@ export class Handle extends LitElement {
    *
    * @private
    */
-  @property() setPosition: number;
+  @property() setPosition?: number;
 
   /**
    *
    * @private
    */
-  @property() setSize: number;
+  @property() setSize?: number;
 
   //#endregion
 
@@ -173,11 +201,11 @@ export class Handle extends LitElement {
     return messages.dragHandle.replace(SUBSTITUTIONS.itemLabel, label);
   }
 
-  private getAriaText(type: "label" | "live"): string {
+  private getAriaText(type: "label" | "live"): string | undefined {
     const { setPosition, setSize, label, messages, selected } = this;
 
     if (!messages || !label || typeof setSize !== "number" || typeof setPosition !== "number") {
-      return null;
+      return undefined;
     }
 
     const text =
@@ -242,16 +270,16 @@ export class Handle extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <span
           // Needs to be a span because of https://github.com/SortableJS/Sortable/issues/1486
-          ariaChecked={this.disabled ? null : this.selected}
-          ariaDisabled={this.disabled ? this.disabled : null}
-          ariaLabel={this.disabled ? null : this.getAriaText("label")}
+          ariaChecked={this.disabled ? undefined : this.selected}
+          ariaDisabled={this.disabled ? this.disabled : undefined}
+          ariaLabel={this.disabled ? undefined : this.getAriaText("label")}
           class={{ [CSS.handle]: true, [CSS.handleSelected]: !this.disabled && this.selected }}
           onBlur={this.handleBlur}
           onKeyDown={this.handleKeyDown}
           ref={this.handleButtonRef}
           // role of radio is being applied to allow space key to select in screen readers
           role="radio"
-          tabIndex={this.disabled ? null : 0}
+          tabIndex={this.disabled ? undefined : 0}
           title={this.getTooltip()}
         >
           <calcite-icon icon={ICONS.drag} scale="s" />

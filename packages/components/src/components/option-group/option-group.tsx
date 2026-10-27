@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, Fragment, h, JsxNode } from "@arcgis/lumina";
 
@@ -7,8 +6,20 @@ declare global {
     "calcite-option-group": OptionGroup;
   }
 }
-/** @slot - A slot for adding `calcite-option`s. */
+
+interface OptionGroupSlots {
+  /**
+   * A slot for adding `calcite-option`s.
+   */
+  "": Node[];
+}
 export class OptionGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: OptionGroupSlots;
+
+  //#endregion
+
   //#region Public Properties
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
@@ -18,11 +29,10 @@ export class OptionGroup extends LitElement {
   disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   //#endregion
 

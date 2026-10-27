@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   swatch: "swatch",
   noColorSwatch: "swatch--no-color",
@@ -20,3 +22,8 @@ export const IDS = {
   checker: "checker",
   shape: "shape",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isColorPickerSwatch = isTag("calcite-color-picker-swatch");

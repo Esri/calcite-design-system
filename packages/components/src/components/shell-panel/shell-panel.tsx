@@ -1,29 +1,34 @@
-// @ts-strict-ignore
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
-import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, state, JsxNode, method } from "@arcgis/lumina";
+import { type PropertyValues } from "lit";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { Panel } from "../panel/panel";
 import { HeadingLevel } from "../functional/Heading";
-import { CSS_UTILITY } from "../../utils/resources";
+import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, Layout, Position, Scale, Width } from "../interfaces";
+import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../types";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import type { ActionBar } from "../action-bar/action-bar";
-import { resizeStep, resizeShiftStep } from "../../utils/resources";
-import { IconName } from "../icon/interfaces";
+import { isActionBar } from "../action-bar/resources";
+import type { IconName } from "../icon/types";
 import { styles as animationStyles } from "../../styles/component/animation.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
-import { DisplayMode, ResizeValues } from "./interfaces";
+import type { DisplayMode } from "./types";
 import { styles } from "./shell-panel.scss";
+
+export type ShellPanelSizingData = {
+  availableSize: number;
+};
+
+type ShellSizingDataProvider = (axis: "inline" | "block") => ShellPanelSizingData | null;
 
 declare global {
   interface DeclareElements {
@@ -48,7 +53,77 @@ declare global {
  * @slot footer-end - A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
  * @slot footer-start - A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
  */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-shell-panel-background-color": "*";
+    /**
+     * When `displayMode` is `"float-all"`, specifies the component's border color.
+     */
+    "--calcite-shell-panel-border-color": "*";
+    /**
+     * When `displayMode` is `"float-all"`, specifies the component's corner radius.
+     */
+    "--calcite-shell-panel-corner-radius": "*";
+    /**
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the component's height.
+     */
+    "--calcite-shell-panel-height": "*";
+    /**
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's maximum height.
+     */
+    "--calcite-shell-panel-max-height": "*";
+    /**
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's minimum height.
+     */
+    "--calcite-shell-panel-min-height": "*";
+    /**
+     * Specifies the component's maximum width.
+     */
+    "--calcite-shell-panel-max-width": "*";
+    /**
+     * Specifies the resize handle's text color.
+     */
+    "--calcite-shell-panel-resize-icon-color": "*";
+    /**
+     * When `displayMode` is `float-all`, `float-content`, or `overlay`, specifies the component's shadow.
+     */
+    "--calcite-shell-panel-shadow": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-shell-panel-text-color": "*";
+    /**
+     * Specifies the component's width.
+     */
+    "--calcite-shell-panel-width": "*";
+    /**
+     * Specifies the component's z-index value.
+     */
+    "--calcite-shell-panel-z-index": "*";
+  }
+}
+
+interface ShellPanelSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the component.
+   */
+  "action-bar": Node[];
+}
+
 export class ShellPanel extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ShellPanelSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = [styles, animationStyles];
@@ -59,15 +134,18 @@ export class ShellPanel extends LitElement {
 
   direction = useDirection();
 
-  private resizeHandleEl: HTMLDivElement;
+  private resizeHandleRef = createRef<HTMLDivElement>();
 
-  private interaction: Interactable;
+  private interaction?: Interactable;
 
   private actionBars: ActionBar["el"][] = [];
+
+  private actionBarContainerEl?: HTMLDivElement;
 
   private contentRef = createRef<HTMLDivElement>();
 
   private panelRef = createRef<Panel["el"]>();
+  private containerRef = createRef<HTMLDivElement>();
 
   /**
    * Made into a prop for testing purposes only
@@ -79,8 +157,8 @@ export class ShellPanel extends LitElement {
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
     getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+      inline: { min: this.resizeValues.minInlineSize, max: this.getMaxInlineSize() },
+      block: { min: this.resizeValues.minBlockSize, max: this.getMaxBlockSize() },
     }),
     onResize: (resizeValues) => {
       this.resizeValues = resizeValues;
@@ -108,16 +186,16 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) closeDisabled = false;
 
   /** A description for the component. */
-  @property() description: string;
+  @property() description!: string;
 
   /** The component header text. */
-  @property() heading: string;
+  @property() heading!: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true, type: String }) icon!: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -144,17 +222,13 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * Specifies the component's display mode, where:
+   * Specifies the component's display mode.
    *
-   * `"dock"` displays at full height adjacent to center content,
-   *
-   * `"overlay"` displays at full height on top of center content, and
-   *
-   * `"float"` [Deprecated] does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
-   *
-   * `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
-   *
-   * `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   * - `"dock"` displays at full height adjacent to center content.
+   * - `"overlay"` displays at full height on top of center content.
+   * - `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
+   * - `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   * - `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content. [Deprecated] in v2.11.0, removal target v6.0.0 - use `"float-content"` instead.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
@@ -163,7 +237,7 @@ export class ShellPanel extends LitElement {
    *
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
-  @property({ reflect: true }) heightScale: Scale;
+  @property({ reflect: true }) heightScale?: Scale;
 
   /**
    * Specifies the component's direction.
@@ -172,7 +246,7 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -185,8 +259,11 @@ export class ShellPanel extends LitElement {
   /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the component's height. */
-  @property({ reflect: true }) height: Height;
+  /** @internal */
+  @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
+
+  /** @copyDoc */
+  @property({ reflect: true }) height?: Height;
 
   /**
    * When `layout` is `vertical`, specifies the component's width.
@@ -196,7 +273,7 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) widthScale: Scale = "m";
 
   /** Specifies the component's width. */
-  @property({ reflect: true }) width: Extract<Width, Scale>;
+  @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
 
@@ -236,21 +313,45 @@ export class ShellPanel extends LitElement {
 
   //#region Lifecycle
 
+  override connectedCallback(): void {
+    if (this.hasUpdated) {
+      this.refreshResize();
+    }
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    let shouldRefreshResize = false;
+
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
       this.setActionBarsLayout(this.actionBars);
-      this.setupInteractions();
+      this.updateSizeInternal({ inline: null, block: null }); // we clear sizing as it won't be applicable across axes
+      shouldRefreshResize = true;
     }
 
     if (
       (changes.has("direction") && this.hasUpdated) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "start"))
     ) {
-      this.setupInteractions();
+      shouldRefreshResize = true;
+    }
+
+    if (
+      (changes.has("collapsed") && (this.hasUpdated || this.collapsed !== false)) ||
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+    ) {
+      shouldRefreshResize = this.resizable && !this.collapsed;
+
+      if (!shouldRefreshResize) {
+        this.cleanUpInteractions();
+      }
+    }
+
+    if (shouldRefreshResize) {
+      this.refreshResize();
     }
 
     if (changes.has("collapsed") && this.hasUpdated) {
@@ -263,7 +364,7 @@ export class ShellPanel extends LitElement {
   }
 
   override disconnectedCallback(): void {
-    this.cleanupInteractions();
+    this.cleanUpInteractions();
   }
 
   //#endregion
@@ -287,10 +388,6 @@ export class ShellPanel extends LitElement {
 
     event.stopPropagation();
     this.calciteShellPanelScroll.emit();
-  }
-
-  private getContentElDOMRect(): DOMRect {
-    return this.contentRef.value.getBoundingClientRect();
   }
 
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
@@ -320,7 +417,7 @@ export class ShellPanel extends LitElement {
       return;
     }
 
-    const rect = this.getContentElDOMRect();
+    const rect = contentRef.value.getBoundingClientRect();
     const invertRTL = this.direction === "rtl" ? -1 : 1;
     const stepValue = shiftKey ? resizeShiftStep : resizeStep;
 
@@ -370,58 +467,186 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  private cleanupInteractions(): void {
+  private cleanUpInteractions(): void {
     this.interaction?.unset();
   }
 
-  private async setupInteractions(): Promise<void> {
-    this.cleanupInteractions();
+  private updateResizeValues(): void {
+    const { contentRef, layout } = this;
 
-    const { el, contentRef, resizable, position, collapsed, resizeHandleEl, layout } = this;
-
-    if (!contentRef.value || collapsed || !resizable || !resizeHandleEl) {
+    if (!contentRef.value) {
       return;
     }
 
-    await this.el.componentOnReady();
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const computedMaxInlineSize =
+      getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
+    const computedMaxBlockSize =
+      getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
+    const availableInlineSize = layout === "vertical" ? this.getAvailableInlineSize() : null;
+    const availableBlockSize = layout === "horizontal" ? this.getAvailableBlockSize() : null;
 
-    const { inlineSize, minInlineSize, blockSize, minBlockSize, maxInlineSize, maxBlockSize } =
-      window.getComputedStyle(contentRef.value);
-
-    const values: ResizeValues = {
-      inlineSize: getStylePixelValue(inlineSize),
-      blockSize: getStylePixelValue(blockSize),
-      minInlineSize: getStylePixelValue(minInlineSize),
-      minBlockSize: getStylePixelValue(minBlockSize),
-      maxInlineSize: getStylePixelValue(maxInlineSize) || window.innerWidth,
-      maxBlockSize: getStylePixelValue(maxBlockSize) || window.innerHeight,
+    this.resizeValues = {
+      inlineSize: getStylePixelValue(computedStyle.inlineSize),
+      blockSize: getStylePixelValue(computedStyle.blockSize),
+      minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
+      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      maxInlineSize:
+        availableInlineSize === null
+          ? computedMaxInlineSize
+          : Math.min(computedMaxInlineSize, availableInlineSize),
+      maxBlockSize:
+        availableBlockSize === null
+          ? computedMaxBlockSize
+          : Math.min(computedMaxBlockSize, availableBlockSize),
     };
+  }
 
-    this.resizeValues = values;
+  private getAvailableBlockSize(): number | null {
+    return this.getAvailableSize("block");
+  }
+
+  private getAvailableInlineSize(): number | null {
+    return this.getAvailableSize("inline");
+  }
+
+  private getAvailableSize(axis: "inline" | "block"): number | null {
+    const dimension = axis === "inline" ? "width" : "height";
+    const shellSizingData = this.shellSizingDataProvider?.(axis);
+    const actionBarContainerSize =
+      this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0;
+    const actionBarSize = Math.max(
+      actionBarContainerSize,
+      this.actionBars.reduce(
+        (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
+        0,
+      ),
+    );
+
+    if (!shellSizingData) {
+      return null;
+    }
+
+    const { availableSize } = shellSizingData;
+    const containerSpacingSize = this.getContainerSpacingSize(axis);
+    const contentSpacingSize = this.getContentSpacingSize(axis);
+
+    return Math.max(
+      Math.floor(availableSize) -
+        Math.ceil(actionBarSize) -
+        Math.ceil(containerSpacingSize) -
+        Math.ceil(contentSpacingSize),
+      0,
+    );
+  }
+
+  private getContentSpacingSize(axis: "inline" | "block"): number {
+    const content = this.contentRef.value;
+
+    if (!content) {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(content);
+
+    return axis === "inline"
+      ? getStylePixelValue(computedStyle.marginInlineStart) +
+          getStylePixelValue(computedStyle.marginInlineEnd) +
+          getStylePixelValue(computedStyle.borderInlineStartWidth) +
+          getStylePixelValue(computedStyle.borderInlineEndWidth)
+      : getStylePixelValue(computedStyle.marginBlockStart) +
+          getStylePixelValue(computedStyle.marginBlockEnd) +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth);
+  }
+
+  private getContainerSpacingSize(axis: "inline" | "block"): number {
+    const container = this.containerRef.value;
+
+    if (!container) {
+      return 0;
+    }
+
+    const computedStyle = window.getComputedStyle(container);
+
+    return axis === "inline"
+      ? getStylePixelValue(computedStyle.marginInlineStart) +
+          getStylePixelValue(computedStyle.marginInlineEnd) +
+          getStylePixelValue(computedStyle.borderInlineStartWidth) +
+          getStylePixelValue(computedStyle.borderInlineEndWidth)
+      : getStylePixelValue(computedStyle.marginBlockStart) +
+          getStylePixelValue(computedStyle.marginBlockEnd) +
+          getStylePixelValue(computedStyle.borderBlockStartWidth) +
+          getStylePixelValue(computedStyle.borderBlockEndWidth);
+  }
+
+  private getMaxBlockSize(): number | null {
+    const { layout, contentRef } = this;
+
+    if (layout !== "horizontal") {
+      return this.resizeValues.maxBlockSize;
+    }
+
+    if (!contentRef.value) {
+      return this.resizeValues.maxBlockSize;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const cssMax = getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
+    const availableBlockSize = this.getAvailableBlockSize();
+
+    return availableBlockSize === null ? cssMax : Math.min(cssMax, availableBlockSize);
+  }
+
+  private getMaxInlineSize(): number | null {
+    const { layout, contentRef } = this;
+
+    if (layout !== "vertical") {
+      return this.resizeValues.maxInlineSize;
+    }
+
+    if (!contentRef.value) {
+      return this.resizeValues.maxInlineSize;
+    }
+
+    const computedStyle = window.getComputedStyle(contentRef.value);
+    const cssMax = getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
+    const availableInlineSize = this.getAvailableInlineSize();
+
+    return availableInlineSize === null ? cssMax : Math.min(cssMax, availableInlineSize);
+  }
+
+  private async refreshResize(): Promise<void> {
+    await this.componentOnReady();
+    await this.updateComplete;
+    this.updateResizeValues();
+    this.setUpResizeInteractions();
+  }
+
+  private setUpResizeInteractions(): void {
+    this.cleanUpInteractions();
+
+    const { el, contentRef, resizable, position, collapsed, resizeHandleRef, layout } = this;
+    const resizeHandle = resizeHandleRef.value;
+
+    if (!contentRef.value || collapsed || !resizable || !resizeHandle) {
+      return;
+    }
 
     const rtl = this.direction === "rtl";
+    const restrictSizeMin =
+      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
+        ? undefined
+        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
 
     this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
       edges: {
-        top: position === "end" && layout === "horizontal" ? resizeHandleEl : false,
-        right:
-          position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandleEl : false,
-        bottom: position === "start" && layout === "horizontal" ? resizeHandleEl : false,
-        left:
-          position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandleEl : false,
+        top: position === "end" && layout === "horizontal" ? resizeHandle : false,
+        right: position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandle : false,
+        bottom: position === "start" && layout === "horizontal" ? resizeHandle : false,
+        left: position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandle : false,
       },
-      modifiers: [
-        interact.modifiers.restrictSize({
-          min: {
-            width: values.minInlineSize,
-            height: values.minBlockSize,
-          },
-          max: {
-            width: values.maxInlineSize,
-            height: values.maxBlockSize,
-          },
-        }),
-      ],
+      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin })],
       listeners: {
         resizestart: () => {
           this.calciteInternalShellPanelResizeStart.emit();
@@ -438,19 +663,12 @@ export class ShellPanel extends LitElement {
     });
   }
 
-  private setResizeHandleEl(el: HTMLDivElement): void {
-    this.resizeHandleEl = el;
-    this.setupInteractions();
-  }
-
   private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
     actionBars.forEach((actionBar) => (actionBar.layout = this.layout));
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBars = slotChangeGetAssignedElements(event).filter((el): el is ActionBar["el"] =>
-      el?.matches("calcite-action-bar"),
-    );
+    const actionBars = slotChangeGetAssignedElements(event).filter(isActionBar);
 
     this.actionBars = actionBars;
     this.setActionBarsLayout(actionBars);
@@ -495,10 +713,9 @@ export class ShellPanel extends LitElement {
           class={CSS.resizeHandle}
           key="resize-handle"
           onKeyDown={this.handleKeyDown}
-          ref={this.setResizeHandleEl}
+          ref={this.resizeHandleRef}
           role="separator"
           tabIndex={0}
-          touch-action="none"
         >
           <div class={CSS.resizeHandleBar}>
             <calcite-icon icon={this.getResizeIcon()} scale="s" />
@@ -590,7 +807,10 @@ export class ShellPanel extends LitElement {
     }
 
     return (
-      <div class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}>
+      <div
+        class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+        ref={this.containerRef}
+      >
         {mainNodes}
       </div>
     );

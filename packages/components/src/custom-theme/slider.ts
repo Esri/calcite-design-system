@@ -1,3 +1,4 @@
+import "../components/slider/slider";
 import { html } from "../../support/formatting";
 
 export const sliderTokens = {

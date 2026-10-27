@@ -1,16 +1,15 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
@@ -22,11 +21,67 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding text.
- * @slot image - A slot for adding an image.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-chip-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-chip-border-color": "*";
+    /**
+     * Specifies the component's close element icon color.
+     */
+    "--calcite-chip-close-icon-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-chip-corner-radius": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-chip-icon-color": "*";
+    /**
+     * Specifies the component's selection element icon color when active.
+     */
+    "--calcite-chip-select-icon-color-press": "*";
+    /**
+     * Specifies the component's selection element icon color when active.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-chip-select-icon-color-press` instead.
+     */
+    "--calcite-chip-select-icon-color-pressed": "*";
+    /**
+     * Specifies the component's selection element icon color.
+     */
+    "--calcite-chip-select-icon-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-chip-text-color": "*";
+  }
+}
+
+interface ChipSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+  /**
+   * A slot for adding an image.
+   */
+  image: Node[];
+}
+
 export class Chip extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ChipSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -44,9 +99,9 @@ export class Chip extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -68,10 +123,10 @@ export class Chip extends LitElement {
     Appearance
   > = "solid";
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closed = false;
 
   /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
@@ -81,7 +136,7 @@ export class Chip extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -98,17 +153,16 @@ export class Chip extends LitElement {
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** @private */
-  @property() parentChipGroup: ChipGroup["el"];
+  @property() parentChipGroup?: ChipGroup["el"];
 
   /**
    * Specifies the size of the component.
@@ -153,6 +207,7 @@ export class Chip extends LitElement {
       } else if (this.closable) {
         return this.closeButtonRef.value;
       }
+      return;
     }, options);
   }
 
@@ -165,9 +220,6 @@ export class Chip extends LitElement {
 
   /** Fires when the selected state of the component changes. */
   calciteChipSelect = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   /** @private */
   calciteInternalChipSelect = createEvent({ cancelable: false });
@@ -233,13 +285,6 @@ export class Chip extends LitElement {
             this.close();
           }
           break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
-          event.preventDefault();
-          break;
       }
     }
   }
@@ -285,7 +330,7 @@ export class Chip extends LitElement {
     if (this.selectionMode === "single") {
       this.calciteInternalSyncSelectedChips.emit();
     }
-    const selectedInParent = this.parentChipGroup.selectedItems.includes(this.el);
+    const selectedInParent = this.parentChipGroup?.selectedItems.includes(this.el);
 
     if (!selectedInParent && selected && this.selectionMode !== "multiple") {
       this.calciteInternalChipSelect.emit();
@@ -364,7 +409,9 @@ export class Chip extends LitElement {
           ? "radio"
           : this.interactive
             ? "button"
-            : "img";
+            : this.closable
+              ? undefined
+              : "img";
     return (
       <this.interactiveContainer disabled={disabled}>
         <div

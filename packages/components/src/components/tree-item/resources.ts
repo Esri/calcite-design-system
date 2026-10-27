@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   actionsEnd: "actions-end",
@@ -28,3 +29,8 @@ export const ICONS: Record<string, IconName> = {
   minusSquareF: "minus-square-f",
   square: "square",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTreeItem = isTag("calcite-tree-item");

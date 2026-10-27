@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import {
   LitElement,
   property,
@@ -13,9 +12,9 @@ import { closestElementCrossShadowBoundary } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { isActivationKey } from "../../utils/key";
 import { numberStringFormatter } from "../../utils/locale";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import type { DatePicker } from "../date-picker/date-picker";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./date-picker-day.scss";
 import { CSS } from "./resources";
@@ -35,9 +34,9 @@ export class DatePickerDay extends LitElement {
 
   //#region Private Properties
 
-  private parentDatePickerEl: DatePicker["el"];
+  private parentDatePickerEl?: DatePicker["el"];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -56,14 +55,14 @@ export class DatePickerDay extends LitElement {
    *
    * @private
    */
-  @property() dateTimeFormat: Intl.DateTimeFormat;
+  @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /**
    * Day of the month to be shown.
    *
    * @required
    */
-  @property() day: number;
+  @property() day!: number;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -77,18 +76,11 @@ export class DatePickerDay extends LitElement {
   /** When `true`, activates the component's range mode to allow a start and end date. */
   @property({ reflect: true }) range = false;
 
-  /**
-   * When `true`, highlight styling for edge dates is applied.
-   *
-   * @private
-   */
-  @property({ reflect: true }) rangeEdge: "start" | "end" | undefined;
-
   /** Date is being hovered and within the set range. */
   @property({ reflect: true }) rangeHover = false;
 
   /** Specifies the size of the component. */
-  @property({ reflect: true }) scale: Scale;
+  @property({ reflect: true }) scale!: Scale;
 
   /** When `true`, the component is selected. */
   @property({ reflect: true }) selected = false;
@@ -97,7 +89,7 @@ export class DatePickerDay extends LitElement {
   @property({ reflect: true }) startOfRange = false;
 
   /** The component's value. */
-  @property() value: Date;
+  @property() value!: Date;
 
   //#endregion
 
@@ -145,7 +137,8 @@ export class DatePickerDay extends LitElement {
   }
 
   load(): void {
-    this.parentDatePickerEl = closestElementCrossShadowBoundary(this.el, "calcite-date-picker");
+    this.parentDatePickerEl =
+      closestElementCrossShadowBoundary(this.el, "calcite-date-picker") ?? undefined;
   }
 
   //#endregion
@@ -193,7 +186,7 @@ export class DatePickerDay extends LitElement {
       };
     }
     const formattedDay = numberStringFormatter.localize(String(this.day));
-    const dayLabel = this.dateTimeFormat.format(this.value);
+    const dayLabel = this.dateTimeFormat.format(this.value) ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = dayLabel;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -201,7 +194,7 @@ export class DatePickerDay extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "id", dayId);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.role = "button";
+    this.el.role = "gridcell";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "tabIndex", this.active && !this.disabled ? 0 : -1);
 

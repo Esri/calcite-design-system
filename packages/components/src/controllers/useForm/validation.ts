@@ -1,11 +1,23 @@
-import { CheckableFormComponent } from "../../utils/form";
-import type { FormComponent, UseFormOptions } from "../useForm";
+import type { CheckableFormComponent, FormComponent, UseFormOptions } from "../useForm";
 
 const joinableValueTypes = ["text", "email", "search", "hidden", "tel", "url"] as UseFormOptions["inputType"][];
 
 type ValidationResult = { validity: ValidityStateFlags; validationMessage: string };
 
 const allValid = Object.freeze({ validity: {}, validationMessage: "" });
+
+const validityFlagKeys = [
+  "badInput",
+  "customError",
+  "patternMismatch",
+  "rangeOverflow",
+  "rangeUnderflow",
+  "stepMismatch",
+  "tooLong",
+  "tooShort",
+  "typeMismatch",
+  "valueMissing",
+] as const satisfies readonly (keyof ValidityStateFlags)[];
 
 export function validate({
   component,
@@ -30,14 +42,17 @@ export function validate({
      * 7) The properties in #6 are applied just to the other radio elements in the same group as the current component
      */
     if (component && input.type === "radio") {
-      let group = component.elementInternals.form?.elements[component.name];
-      if (group?.length > 0) {
-        group = Array.from(group).filter(
-          (element) => (element as HTMLElement).tagName === component.el.tagName,
-        ) as FormComponent[];
+      const item = component.elementInternals.form?.elements.namedItem(component.name!);
 
-        const isRequired = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).required);
-        const isChecked = group.some((radioTypeElement) => (radioTypeElement as CheckableFormComponent).checked);
+      if (item) {
+        const elements = "length" in item ? Array.from(item) : [item];
+        const group = elements.filter(
+          (element): element is CheckableFormComponent["el"] =>
+            (element as HTMLElement).tagName === component.el.tagName,
+        );
+
+        const isRequired = group.some((radioTypeElement) => radioTypeElement.required);
+        const isChecked = group.some((radioTypeElement) => radioTypeElement.checked);
         const others = group.filter((radioTypeElement) => radioTypeElement !== component.el);
         const valueMissing = isRequired && !isChecked;
 
@@ -99,9 +114,16 @@ export function validate({
 }
 
 function validateValue(inputDelegate: HTMLInputElement, valueToValidate: any): boolean {
-  inputDelegate.value =
+  if (inputDelegate.type === "file") {
     // file will throw if non-empty string is provided
-    inputDelegate.type === "file" || valueToValidate == null ? "" : String(valueToValidate);
+    inputDelegate.value = "";
+
+    const isMissingValue = !valueToValidate || (valueToValidate instanceof FileList && valueToValidate.length === 0);
+    // we override the delegate's validation as its value and files prop cannot be directly set for validation
+    return !inputDelegate.required || !isMissingValue;
+  }
+
+  inputDelegate.value = valueToValidate == null ? "" : String(valueToValidate);
 
   return inputDelegate.validity.valid;
 }
@@ -109,8 +131,8 @@ function validateValue(inputDelegate: HTMLInputElement, valueToValidate: any): b
 function getValidityFlags(validityState: ValidityState): ValidityStateFlags {
   const validityFlags: ValidityStateFlags = {};
 
-  for (const key in validityState) {
-    if (key !== "valid" && validityState[key]) {
+  for (const key of validityFlagKeys) {
+    if (validityState[key]) {
       validityFlags[key] = true;
     }
   }

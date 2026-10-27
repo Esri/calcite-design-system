@@ -4,7 +4,7 @@
   "allSelected": "已全選",
   "clear": "清除值",
   "noMatches": "無符合項",
-  "removeTag": "移除標記",
+  "removeTag": "移除 {value} 標記",
   "required": "必填資訊",
   "selectAll": "全選",
   "selected": "選取",

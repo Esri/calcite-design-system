@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { throttle } from "es-toolkit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -13,26 +12,29 @@ import {
 } from "@arcgis/lumina";
 import { useWatchAttributes } from "@arcgis/lumina/controllers";
 import { PropertyValues } from "lit";
-import { connectLabel, disconnectLabel, getLabelText, LabelableComponent } from "../../utils/label";
+import { getLabelText } from "../../utils/label";
+import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
-import { Status } from "../interfaces";
+import { CSS_UTILITY } from "../../utils/resources";
+import { Status } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
-import { CharacterLengthObj } from "./interfaces";
+import { CharacterLengthObj } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, NO_DIMENSIONS, RESIZE_TIMEOUT, SLOTS } from "./resources";
 import { styles } from "./text-area.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -40,21 +42,101 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding text.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- * @slot footer-start - A slot for adding content to the start of the component's footer.
- * @slot footer-end - A slot for adding content to the end of the component's footer.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-text-area-background-color": "*";
+    /**
+     * Specifies the component's text area border color.
+     */
+    "--calcite-text-area-border-color": "*";
+    /**
+     * Specifies the color of the character limit text displayed in the footer of the component.
+     */
+    "--calcite-text-area-character-limit-text-color": "*";
+    /**
+     * Specifies the color of the divider between the text area and footer.
+     */
+    "--calcite-text-area-divider-color": "*";
+    /**
+     * Specifies the font size of the text area and footer.
+     */
+    "--calcite-text-area-font-size": "*";
+    /**
+     * Specifies the component's text area maximum height.
+     */
+    "--calcite-text-area-max-height": "*";
+    /**
+     * Specifies the component's text area minimum height.
+     */
+    "--calcite-text-area-min-height": "*";
+    /**
+     * Specifies the component's text area maximum width.
+     */
+    "--calcite-text-area-max-width": "*";
+    /**
+     * Specifies the component's text area minimum width.
+     */
+    "--calcite-text-area-min-width": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-text-area-text-color": "*";
+    /**
+     * Specifies the footer's border color.
+     */
+    "--calcite-text-area-footer-border-color": "*";
+    /**
+     * Specifies component's corner radius.
+     */
+    "--calcite-text-area-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-text-area-shadow": "*";
+    /**
+     * Specifies the footer's background color.
+     */
+    "--calcite-text-area-footer-background-color": "*";
+  }
+}
+
+interface TextAreaSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+  /**
+   * A slot for adding content to the start of the component's footer.
+   */
+  "footer-start": Node[];
+  /**
+   * A slot for adding content to the end of the component's footer.
+   */
+  "footer-end": Node[];
+}
+
 export class TextArea
   extends LitElement
   implements LabelableComponent, Omit<TextualInputComponent, "pattern">
 {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TextAreaSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -65,11 +147,11 @@ export class TextArea
     this.handleGlobalAttributesChanged,
   );
 
-  defaultValue: TextArea["value"];
+  defaultValue?: TextArea["value"];
 
   private footerRef = createRef<HTMLElement>();
 
-  private validationMessageEl: HTMLDivElement;
+  private loaderContainerRef = createRef<HTMLDivElement>();
 
   formSupport = useForm<this>({
     inputType: "text",
@@ -77,25 +159,18 @@ export class TextArea
 
   private guid = guid();
 
-  labelEl: Label["el"];
+  labelEl?: Label["el"];
 
-  private textAreaEl: HTMLTextAreaElement;
+  private textAreaEl?: HTMLTextAreaElement;
 
-  private localizedCharacterLengthObj: CharacterLengthObj;
+  private localizedCharacterLengthObj!: CharacterLengthObj;
 
   private resizeObserver = createObserver("resize", async () => {
     await this.componentOnReady();
-    const {
-      textAreaHeight,
-      textAreaWidth,
-      elHeight,
-      elWidth,
-      footerHeight,
-      footerWidth,
-      validationMessageHeight,
-    } = this.getHeightAndWidthOfElements();
+    const { textAreaHeight, textAreaWidth, loaderHeight, elWidth, footerHeight, footerWidth } =
+      this.getHeightAndWidthOfElements();
     if (footerWidth > 0 && footerWidth !== textAreaWidth) {
-      this.footerRef.value.style.width = `${textAreaWidth}px`;
+      this.footerRef.value!.style.width = `${textAreaWidth}px`;
     }
 
     if (this.resize === "none") {
@@ -103,11 +178,14 @@ export class TextArea
     }
 
     const { width: elStyleWidth, height: elStyleHeight } = getComputedStyle(this.el);
-    if (elWidth !== textAreaWidth && elStyleWidth !== "auto") {
+    if (this.dimensionsDiffer(elWidth, textAreaWidth) && elStyleWidth !== "auto") {
       this.updateSizeToAuto("width");
     }
     if (
-      elHeight !== textAreaHeight + footerHeight + validationMessageHeight &&
+      loaderHeight > 0 &&
+      textAreaHeight > 0 &&
+      footerHeight > 0 &&
+      this.dimensionsDiffer(loaderHeight, textAreaHeight + footerHeight) &&
       elStyleHeight !== "auto"
     ) {
       this.updateSizeToAuto("height");
@@ -133,7 +211,7 @@ export class TextArea
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -141,9 +219,9 @@ export class TextArea
 
   //#region State Properties
 
-  @state() endSlotHasElements: boolean;
+  @state() endSlotHasElements = false;
 
-  @state() startSlotHasElements: boolean;
+  @state() startSlotHasElements = false;
 
   //#endregion
 
@@ -154,7 +232,7 @@ export class TextArea
    *
    * @see [MDN - cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
-  @property({ reflect: true }) columns: number;
+  @property({ reflect: true }) columns?: number;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -163,21 +241,17 @@ export class TextArea
    */
   @property({ reflect: true }) disabled = false;
 
-  /**
-   * Specifies the `id` of the component's associated form.
-   *
-   * When not set, the component is associated with its ancestor form element, if one exists.
-   */
-  @property({ reflect: true }) form: string;
+  /** @copyDoc */
+  @property({ reflect: true }) form?: string;
 
   /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the component's label text. */
-  @property() labelText: string;
+  /** @copyDoc */
+  @property() labelText?: string;
 
   /**
    * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
@@ -193,9 +267,9 @@ export class TextArea
    *
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
-  @property({ reflect: true }) maxLength: number;
+  @property({ reflect: true }) maxLength?: number;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -204,24 +278,24 @@ export class TextArea
    *
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
-  @property({ reflect: true }) minLength: number;
+  @property({ reflect: true }) minLength?: number;
 
   /**
-   * Specifies the name of the component. Required to pass the component's value on form submission.
+   * @copyDoc
    *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
-  @property({ reflect: true }) name: string;
+  @property({ reflect: true }) name?: string;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the placeholder text for the component.
    *
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
    */
-  @property() placeholder: string;
+  @property() placeholder?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
@@ -246,7 +320,7 @@ export class TextArea
    *
    * @see [MDN - rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
-  @property({ reflect: true }) rows: number;
+  @property({ reflect: true }) rows?: number;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: "l" | "m" | "s" = "m";
@@ -255,20 +329,17 @@ export class TextArea
   @property({ reflect: true }) status: Status = "idle";
 
   /** Specifies the validation icon to display under the component. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) validationIcon:
-    | IconName
-    | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
-  @property() validationMessage: string;
+  @property() validationMessage?: string;
 
   /**
-   * The component's current validation state.
+   * @copyDoc
    *
-   * @readonly
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
-  @property({ readOnly: true }) validity: ValidityState;
+  @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's value. */
   @property() value = "";
@@ -317,8 +388,12 @@ export class TextArea
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    useLabel(this);
+  }
+
   override connectedCallback(): void {
-    connectLabel(this);
     this.cancelable.add(this.updateSizeToAuto);
   }
 
@@ -348,13 +423,17 @@ export class TextArea
   }
 
   override disconnectedCallback(): void {
-    disconnectLabel(this);
     this.resizeObserver?.disconnect();
   }
 
   //#endregion
 
   //#region Private Methods
+
+  private dimensionsDiffer(dimensionA: number, dimensionB: number): boolean {
+    const dimensionTolerance = 1;
+    return Math.abs(dimensionA - dimensionB) > dimensionTolerance;
+  }
 
   private updateNumberFormatter(): void {
     numberStringFormatter.numberFormatOptions = {
@@ -374,7 +453,7 @@ export class TextArea
   }
 
   private handleInput(event: InputEvent): void {
-    this.value = event.target["value"];
+    this.value = (event.target as HTMLTextAreaElement).value;
     this.calciteTextAreaInput.emit();
   }
 
@@ -386,7 +465,7 @@ export class TextArea
     if (!this.value) {
       const nodes = this.el.childNodes;
       nodes.forEach((el) => {
-        if (el.nodeName === "#text") {
+        if (el.nodeName === "#text" && el.nodeValue) {
           this.value = el.nodeValue.trim();
         }
       });
@@ -412,42 +491,42 @@ export class TextArea
   }
 
   private setTextAreaHeight(): void {
-    const { textAreaHeight, elHeight, footerHeight, validationMessageHeight } =
-      this.getHeightAndWidthOfElements();
-    if (footerHeight > 0 && textAreaHeight + footerHeight + validationMessageHeight != elHeight) {
-      this.textAreaEl.style.height = `${elHeight - footerHeight}px`;
+    const { textAreaHeight, loaderHeight, footerHeight } = this.getHeightAndWidthOfElements();
+    if (loaderHeight <= 0 || textAreaHeight <= 0 || footerHeight <= 0) {
+      return;
+    }
+
+    if (this.dimensionsDiffer(textAreaHeight + footerHeight, loaderHeight)) {
+      this.textAreaEl!.style.height = `${loaderHeight - footerHeight}px`;
     }
   }
 
   private getHeightAndWidthOfElements(): {
     textAreaHeight: number;
     textAreaWidth: number;
-    elHeight: number;
+    loaderHeight: number;
     elWidth: number;
     footerHeight: number;
     footerWidth: number;
-    validationMessageHeight: number;
   } {
     const { height: textAreaHeight, width: textAreaWidth } = this.textAreaEl
       ? this.textAreaEl.getBoundingClientRect()
       : NO_DIMENSIONS;
-    const { height: elHeight, width: elWidth } = this.el.getBoundingClientRect();
+    const { height: loaderHeight } = this.loaderContainerRef.value
+      ? this.loaderContainerRef.value.getBoundingClientRect()
+      : NO_DIMENSIONS;
+    const { width: elWidth } = this.el.getBoundingClientRect();
     const { height: footerHeight, width: footerWidth } = this.footerRef.value
       ? this.footerRef.value.getBoundingClientRect()
-      : NO_DIMENSIONS;
-
-    const { height: validationMessageHeight } = this.validationMessageEl
-      ? this.validationMessageEl.getBoundingClientRect()
       : NO_DIMENSIONS;
 
     return {
       textAreaHeight,
       textAreaWidth,
-      elHeight,
+      loaderHeight,
       elWidth,
       footerHeight,
       footerWidth,
-      validationMessageHeight,
     };
   }
 
@@ -458,14 +537,7 @@ export class TextArea
   }
 
   private isCharacterLimitExceeded(): boolean {
-    return this.value?.length > this.maxLength;
-  }
-
-  private setValidationRef(el: HTMLDivElement): void {
-    if (!el) {
-      return;
-    }
-    this.validationMessageEl = el;
+    return (this.maxLength !== undefined && this.value?.length > this.maxLength) || false;
   }
 
   //#endregion
@@ -490,7 +562,7 @@ export class TextArea
               tooltipText={this.messages.required}
             />
           )}
-          <div class={CSS.loaderContainer}>
+          <div class={CSS.loaderContainer} ref={this.loaderContainerRef}>
             {this.loading ? loader : null}
             <textarea
               aria-describedby={this.guid}
@@ -553,7 +625,7 @@ export class TextArea
               {this.renderCharacterLimit()}
             </footer>
             {this.isCharacterLimitExceeded() && (
-              <span ariaLive="polite" class={CSS.assistiveText} id={this.guid}>
+              <span ariaLive="polite" class={CSS_UTILITY.screenReaderText} id={this.guid}>
                 {this.replacePlaceholdersInMessages()}
               </span>
             )}
@@ -563,7 +635,6 @@ export class TextArea
               icon={this.validationIcon}
               id={IDS.validationMessage}
               message={this.validationMessage}
-              ref={this.setValidationRef}
               scale={this.scale}
               status={this.status}
             />

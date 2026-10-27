@@ -1,8 +1,11 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputText } from "./input-text";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./input-text"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, status, alignment } = ATTRIBUTES;
 
@@ -16,10 +19,18 @@ type InputTextStoryArgs = Pick<
   | "loading"
   | "clearable"
   | "disabled"
+  | "icon"
+  | "iconFlipRtl"
+  | "labelText"
+  | "maxLength"
+  | "minLength"
+  | "readOnly"
+  | "required"
   | "value"
   | "placeholder"
-  | "validationMessage"
   | "validationIcon"
+  | "inlineEdit"
+  | "validationMessage"
 >;
 
 export default {
@@ -33,10 +44,18 @@ export default {
     loading: false,
     clearable: false,
     disabled: false,
+    icon: "",
+    iconFlipRtl: false,
+    labelText: "Label text",
+    maxLength: undefined,
+    minLength: undefined,
+    readOnly: false,
+    required: false,
     value: "",
     placeholder: "Placeholder text",
     validationMessage: "",
     validationIcon: "",
+    inlineEdit: false,
   },
   argTypes: {
     scale: {
@@ -51,8 +70,22 @@ export default {
       options: alignment.values,
       control: { type: "select" },
     },
+    maxLength: {
+      control: { type: "number" },
+    },
+    minLength: {
+      control: { type: "number" },
+    },
     validationIcon: {
       options: iconNames,
+      control: { type: "select" },
+    },
+    icon: {
+      options: ["", ...iconNames],
+      control: { type: "select" },
+    },
+    inlineEdit: {
+      options: [false, true, "controls-disabled"],
       control: { type: "select" },
     },
   },
@@ -69,10 +102,19 @@ export const simple = (args: InputTextStoryArgs): string => html`
       ${boolean("loading", args.loading)}
       ${boolean("clearable", args.clearable)}
       ${boolean("disabled", args.disabled)}
+      ${optionalAttribute("icon", args.icon)}
+      ${boolean("icon-flip-rtl", args.iconFlipRtl)}
+      ${optionalAttribute("label-text", args.labelText)}
+      ${optionalAttribute("max-length", args.maxLength)}
+      ${optionalAttribute("min-length", args.minLength)}
+      ${boolean("read-only", args.readOnly)}
+      ${boolean("required", args.required)}
       value="${args.value}"
       placeholder="${args.placeholder}"
       validation-message="${args.validationMessage}"
-      validation-icon="${args.validationIcon}"
+      ${boolean("inline-edit", args.inlineEdit === true)}
+      ${optionalAttribute("inline-edit", args.inlineEdit === "controls-disabled" ? args.inlineEdit : "")}
+      ${optionalAttribute("validation-icon", args.validationIcon)}
     >
     </calcite-input-text>
   </div>
@@ -199,3 +241,28 @@ export const overlayDoesNotObscureIcon = (): string =>
     </style>
     <calcite-input-text icon="check-square-f"></calcite-input-text>
     <div class="overlay"></div>`;
+
+export const inlineEdit = (): string =>
+  html`<calcite-input-text inline-edit value="Editable text"></calcite-input-text> `;
+
+export const inlineEditConfirmLoading = (): string => html`
+  <calcite-input-text
+    id="inline-edit-confirm-loading"
+    inline-edit
+    inline-editing
+    value="Editable text"
+  ></calcite-input-text>
+  <script>
+    (async () => {
+      await customElements.whenDefined("calcite-input-text");
+      const input = await document.querySelector("#inline-edit-confirm-loading").componentOnReady();
+      input.inlineEditingBeforeConfirm = () => new Promise(() => {});
+      input.shadowRoot.querySelector(".confirm-changes").click();
+    })();
+  </script>
+`;
+
+inlineEditConfirmLoading.parameters = { chromatic: { delay: 500 } };
+
+export const inlineEditControlsDisabled = (): string =>
+  html`<calcite-input-text inline-edit="controls-disabled" value="Editable text"></calcite-input-text> `;

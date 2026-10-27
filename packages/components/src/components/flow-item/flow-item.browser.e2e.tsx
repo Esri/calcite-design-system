@@ -1,22 +1,61 @@
-import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { h, Fragment } from "@arcgis/lumina";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 import {
   defaults,
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
   t9n,
   disabled,
-} from "../../tests/commonTests/browser";
+  accessible,
+  topLayer,
+  themed,
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { scrolling } from "../../tests/browser/utils/content";
+import { scrolling } from "../../tests/utils/content";
+import type { Panel } from "../panel/panel";
+import type { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
 mockConsole();
+
+describe("accessible", () => {
+  describe("default", () => {
+    accessible(() =>
+      mount(
+        <calcite-flow-item>
+          <div slot={SLOTS.headerActionsStart}>test start</div>
+          <div slot={SLOTS.headerContent}>test content</div>
+          <div slot={SLOTS.headerActionsEnd}>test end</div>
+          <p>Content</p>
+          <calcite-button slot={SLOTS.footerStart}>test button 1</calcite-button>
+          <calcite-button slot={SLOTS.footerEnd}>test button 2</calcite-button>
+        </calcite-flow-item>,
+      ),
+    );
+  });
+
+  describe("collapsible", () => {
+    accessible(() =>
+      mount(
+        <calcite-flow-item collapsible>
+          <div slot={SLOTS.headerActionsStart}>test start</div>
+          <div slot={SLOTS.headerContent}>test content</div>
+          <div slot={SLOTS.headerActionsEnd}>test end</div>
+          <p>Content</p>
+          <calcite-button slot={SLOTS.footerStart}>test button 1</calcite-button>
+          <calcite-button slot={SLOTS.footerEnd}>test button 2</calcite-button>
+        </calcite-flow-item>,
+      ),
+    );
+  });
+});
 
 describe("defaults", () => {
   defaults(
@@ -60,6 +99,10 @@ describe("defaults", () => {
       },
       {
         propertyName: "loading",
+        defaultValue: false,
+      },
+      {
+        propertyName: "focusTrapDisabled",
         defaultValue: false,
       },
       {
@@ -158,8 +201,24 @@ describe("renders", () => {
   });
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-flow-item show-back-button />, mountOptions), {
+    targetSelector: "calcite-panel, calcite-action",
+  });
+});
+
 describe("slots", () => {
   slots(() => mount("calcite-flow-item"), SLOTS);
+
+  it("forwards header-top content to the internal panel", async () => {
+    await mount(
+      <calcite-flow-item selected>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-flow-item>,
+    );
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
+  });
 });
 
 describe("delegates to floating-ui-owner component", () => {
@@ -176,6 +235,22 @@ describe("delegates to floating-ui-owner component", () => {
 
 describe("translation support", () => {
   t9n(() => mount("calcite-flow-item"), ["calcite-panel"]);
+});
+
+describe("top layer placement", () => {
+  topLayer(
+    () =>
+      mount(
+        <calcite-flow-item>
+          <calcite-action icon="plus" slot={SLOTS.headerMenuActions} text="Add" />
+        </calcite-flow-item>,
+      ),
+    {
+      delegatedTopLayer: true,
+      openProp: "menuOpen",
+      topLayerTarget: page.getBySelector("calcite-flow-item [popover]"),
+    },
+  );
 });
 
 describe("disabled", () => {
@@ -211,5 +286,217 @@ describe("disabled", () => {
         },
       },
     );
+  });
+});
+
+describe("theme", () => {
+  themed(() => mount(<calcite-flow-item icon="banana" show-back-button />), {
+    "--calcite-flow-corner-radius": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-corner-radius",
+    },
+    "--calcite-flow-heading-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-heading-text-color",
+    },
+    "--calcite-flow-icon-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-icon-color",
+    },
+    "--calcite-flow-description-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-description-text-color",
+    },
+    "--calcite-flow-border-color": [
+      {
+        shadowSelector: "calcite-panel",
+        targetProp: "--calcite-panel-border-color",
+      },
+    ],
+    "--calcite-flow-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-background-color",
+    },
+    "--calcite-flow-header-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-background-color",
+    },
+    "--calcite-flow-footer-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-background-color",
+    },
+    "--calcite-flow-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-space",
+    },
+    "--calcite-flow-header-content-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-content-space",
+    },
+    "--calcite-flow-header-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-top-space",
+    },
+    "--calcite-flow-content-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-top-space",
+    },
+    "--calcite-flow-content-bottom-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-content-bottom-space",
+    },
+    "--calcite-flow-footer-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-footer-space",
+    },
+    "--calcite-flow-header-action-background-color-hover": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-hover",
+    },
+    "--calcite-flow-header-action-background-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color-press",
+    },
+    "--calcite-flow-header-action-background-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-background-color",
+    },
+    "--calcite-flow-header-action-indicator-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-indicator-color",
+    },
+    "--calcite-flow-header-action-text-color-press": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color-press",
+    },
+    "--calcite-flow-header-action-text-color": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-action-text-color",
+    },
+  });
+});
+
+describe("focus trap", () => {
+  it("allows selected Flow Items to opt out", async () => {
+    const { el } = await mount<FlowItem>(
+      <calcite-flow-item closable focusTrapDisabled heading="Flow heading" selected />,
+    );
+
+    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
+
+    expect(panel.focusTrapDisabled).toBe(true);
+    await expect
+      .element(page.getByRole("dialog", { name: "Flow heading" }))
+      .not.toBeInTheDocument();
+  });
+
+  it("labels a closable dialog with a forwarded slotted heading", async () => {
+    await mount(
+      <calcite-flow-item closable selected>
+        <span slot={SLOTS.heading}>Slotted heading</span>
+      </calcite-flow-item>,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
+  });
+
+  it("applies dialog semantics to a selected root Flow Item", async () => {
+    await mount(
+      <calcite-flow>
+        <calcite-flow-item heading="Root heading" selected />
+      </calcite-flow>,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Root heading" })).toBeVisible();
+  });
+
+  it("traps focus in a selected root Flow Item", async () => {
+    await mount(
+      <>
+        <calcite-flow>
+          <calcite-flow-item heading="Root heading" selected>
+            <button type="button">inside one</button>
+            <button type="button">inside two</button>
+          </calcite-flow-item>
+        </calcite-flow>
+        <button type="button">outside control</button>
+      </>,
+    );
+
+    const insideOne = page.getByText("inside one", { exact: true });
+    const insideTwo = page.getByText("inside two", { exact: true });
+
+    await userEvent.click(insideTwo);
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideTwo).toHaveFocus();
+  });
+
+  it("enables focus trap behavior on its Panel when Back is shown", async () => {
+    await mount(
+      <>
+        <calcite-flow>
+          <calcite-flow-item heading="Root heading" id="root-item">
+            <button type="button">root control</button>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Flow heading" id="nested-item" selected>
+            <button type="button">inside one</button>
+            <button type="button">inside two</button>
+          </calcite-flow-item>
+        </calcite-flow>
+        <button type="button">outside control</button>
+      </>,
+    );
+
+    const insideOne = page.getByText("inside one", { exact: true });
+    const insideTwo = page.getByText("inside two", { exact: true });
+    const rootControl = page.getByText("root control", { exact: true });
+    const flowItem = page.getBySelector("#nested-item").element() as FlowItem["el"];
+    const panel = flowItem?.shadowRoot?.querySelector("calcite-panel");
+
+    expect(panel?.focusTrapEnabledByParent).toBe(true);
+
+    await userEvent.click(insideTwo);
+    await expect.element(insideTwo).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(flowItem).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.click(page.getByTitle("Back"));
+    await expect.element(flowItem).toHaveProperty("selected", false);
+    await expect.element(rootControl).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(rootControl).toHaveFocus();
+  });
+
+  it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
+    const { el } = await mount<FlowItem>(
+      <>
+        <calcite-flow-item closable heading="Flow heading" selected>
+          <button type="button">inside one</button>
+          <button type="button">inside two</button>
+        </calcite-flow-item>
+        <button id="flow-item-outside-control" type="button">
+          outside control
+        </button>
+      </>,
+    );
+
+    const outsideControl = page.getByText("outside control", { exact: true });
+    const outsideControlEl = el.ownerDocument.getElementById(
+      "flow-item-outside-control",
+    ) as HTMLButtonElement;
+
+    el.focusTrapOptions = { extraContainers: [outsideControlEl] };
+    await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
+    await expect(outsideControl).toBeInTheDocument();
   });
 });

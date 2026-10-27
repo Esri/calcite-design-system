@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -16,17 +15,18 @@ import { nodeListToArray } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
 import { guid } from "../../utils/guid";
 import { createObserver, updateRefObserver } from "../../utils/observers";
-import { FlipContext, Scale } from "../interfaces";
-import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/interfaces";
-import { TabID, TabLayout, TabPosition } from "../tabs/interfaces";
+import { FlipContext, Scale } from "../types";
+import { TabChangeEventDetail, TabCloseEventDetail } from "../tab/types";
+import { TabID, TabLayout, TabPosition } from "../tabs/types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tabs } from "../tabs/tabs";
+import { isTabs } from "../tabs/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, IDS } from "./resources";
+import { CSS, IDS, isTabTitle } from "./resources";
 import { styles } from "./tab-title.scss";
 
 declare global {
@@ -35,12 +35,88 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-tab-text-color": "*";
+    /**
+     * Specifies the component's text color when hovered, pressed, or selected.
+     */
+    "--calcite-tab-text-color-press": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tab-border-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tab-background-color": "*";
+    /**
+     * When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
+     */
+    "--calcite-tab-background-color-hover": "*";
+    /**
+     * When `selected` or active, specifies the component's accent color.
+     */
+    "--calcite-tab-accent-color-press": "*";
+    /**
+     * Specifies the component's `iconStart` color.
+     */
+    "--calcite-tab-icon-color-start": "*";
+    /**
+     * When `selected`, hovered, or pressed, specifies the component's `iconStart` color.
+     */
+    "--calcite-tab-icon-color-start-press": "*";
+    /**
+     * Specifies the component's `iconEnd` color.
+     */
+    "--calcite-tab-icon-color-end": "*";
+    /**
+     * When `selected`, hovered, or pressed, specifies the component's `iconEnd` color.
+     */
+    "--calcite-tab-icon-color-end-press": "*";
+    /**
+     * Specifies the component's close element icon color.
+     */
+    "--calcite-tab-close-icon-color": "*";
+    /**
+     * Specifies the component's close element icon color when hovered, focused, and active.
+     */
+    "--calcite-tab-close-icon-color-press": "*";
+    /**
+     * Specifies the component's close element icon background color.
+     */
+    "--calcite-tab-close-icon-background-color": "*";
+    /**
+     * Specifies the component's close element icon background color when pressed.
+     */
+    "--calcite-tab-close-icon-background-color-press": "*";
+    /**
+     * Specifies the component's close element icon background color when hovered.
+     */
+    "--calcite-tab-close-icon-background-color-hover": "*";
+  }
+}
+
+interface TabTitleSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 /**
  * Tab-titles are optionally individually closable.
- *
- * @slot - A slot for adding text.
  */
 export class TabTitle extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TabTitleSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -49,20 +125,22 @@ export class TabTitle extends LitElement {
 
   //#region Private Properties
 
+  private _closed = false;
+
+  private closeRequest?: Promise<void>;
+
   private closeButtonRef = createRef<Action["el"]>();
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
 
   private direction = useDirection();
 
   private guid = IDS.host(guid());
 
   /** watches for changing text content */
-  private mutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateHasText(),
-  );
+  private mutationObserver = createObserver("mutation", () => this.updateHasText());
 
-  private parentTabsEl: Tabs["el"];
+  private parentTabsEl: Tabs["el"] | null = null;
 
   private resizeObserver = createObserver("resize", () => {
     this.calciteInternalTabIconChanged.emit();
@@ -81,7 +159,7 @@ export class TabTitle extends LitElement {
 
   //#region State Properties
 
-  @state() controls: string;
+  @state() controls: string | null = null;
 
   /** determine if there is slotted text for styling purposes */
   @state() hasText = false;
@@ -90,37 +168,48 @@ export class TabTitle extends LitElement {
 
   //#region Public Properties
 
+  /** Specifies a function to run before the component closes. */
+  @property() beforeClose?: () => Promise<void>;
+
   /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, hides the component. */
-  @property({ reflect: true }) closed = false;
+  /** @copyDoc */
+  @property({ reflect: true })
+  get closed(): boolean {
+    return this._closed;
+  }
+  set closed(value: boolean) {
+    if (value !== this._closed || (!value && this.closeRequest)) {
+      this.setClosedState(value);
+    }
+  }
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /** @private */
-  @property({ reflect: true }) layout: TabLayout;
+  @property({ reflect: true }) layout!: TabLayout;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`, defaults to `top`.
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to, and is inherited from the parent `calcite-tabs`.
    *
-   *  @internal
+   * @internal
    */
   @property() position: TabPosition = "top";
 
@@ -143,7 +232,7 @@ export class TabTitle extends LitElement {
    *
    * When specified, use the same value on the `calcite-tab`.
    */
-  @property({ reflect: true }) tab: string;
+  @property({ reflect: true }) tab!: string;
 
   //#endregion
 
@@ -179,9 +268,7 @@ export class TabTitle extends LitElement {
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
-      nodeListToArray(this.el.parentElement.children).filter((el) =>
-        el.matches("calcite-tab-title"),
-      ),
+      nodeListToArray(this.el.parentElement!.children).filter(isTabTitle),
       this.el,
     );
   }
@@ -204,20 +291,19 @@ export class TabTitle extends LitElement {
   calciteInternalTabIconChanged = createEvent({ cancelable: false });
 
   /** @private */
+  calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
+
+  /** @private */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts#L1).
    * @private
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   *
-   * @see [TabChangeEventDetail](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/tab/interfaces.ts).
    * @private
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
@@ -278,6 +364,10 @@ export class TabTitle extends LitElement {
       this.selectedHandler();
     }
 
+    if (changes.has("closed") && this.hasUpdated) {
+      this.calciteInternalTabTitleCloseChange.emit();
+    }
+
     if (this.parentTabsEl) {
       this.layout = this.parentTabsEl.layout;
       this.bordered = this.parentTabsEl.bordered;
@@ -311,9 +401,7 @@ export class TabTitle extends LitElement {
   }
 
   private internalTabChangeHandler(event: CustomEvent<TabChangeEventDetail>): void {
-    const targetTabsEl = event
-      .composedPath()
-      .find((el: HTMLElement) => el.tagName === "CALCITE-TABS");
+    const targetTabsEl = event.composedPath().find(isTabs);
 
     if (targetTabsEl !== this.parentTabsEl) {
       return;
@@ -338,7 +426,7 @@ export class TabTitle extends LitElement {
     switch (event.key) {
       case " ":
       case "Enter":
-        if (!event.composedPath().includes(this.closeButtonRef.value)) {
+        if (!event.composedPath().includes(this.closeButtonRef.value!)) {
           this.activateTab();
           event.preventDefault();
         }
@@ -371,7 +459,7 @@ export class TabTitle extends LitElement {
   }
 
   private closeClickHandler(): void {
-    this.closeTabTitleAndNotify();
+    this.setClosedState(true, true);
   }
 
   private updateHasText(): void {
@@ -387,12 +475,54 @@ export class TabTitle extends LitElement {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
   }
 
-  private closeTabTitleAndNotify(): void {
-    this.closed = true;
-    this.calciteInternalTabsClose.emit({ tab: this.tab });
+  private async setClosedState(value: boolean, notify = false): Promise<void> {
+    if (!value) {
+      this.closeRequest = undefined;
+      this.updateClosedState(false);
+      return;
+    }
 
-    // emit in the next frame to let internal events sync up
-    requestAnimationFrame(() => this.calciteTabsClose.emit());
+    if (this.closeRequest) {
+      return this.closeRequest;
+    }
+
+    const closeRequest = Promise.resolve().then(async () => {
+      if (this.beforeClose) {
+        try {
+          await this.beforeClose();
+        } catch {
+          return;
+        }
+      }
+
+      if (this.closeRequest !== closeRequest) {
+        return;
+      }
+
+      this.updateClosedState(true);
+
+      if (notify) {
+        this.calciteInternalTabsClose.emit({ tab: this.tab });
+
+        // emit in the next frame to let internal events sync up
+        requestAnimationFrame(() => this.calciteTabsClose.emit());
+      }
+    });
+    this.closeRequest = closeRequest;
+
+    try {
+      await closeRequest;
+    } finally {
+      if (this.closeRequest === closeRequest) {
+        this.closeRequest = undefined;
+      }
+    }
+  }
+
+  private updateClosedState(value: boolean): void {
+    const oldValue = this._closed;
+    this._closed = value;
+    this.requestUpdate("closed", oldValue);
   }
 
   //#endregion

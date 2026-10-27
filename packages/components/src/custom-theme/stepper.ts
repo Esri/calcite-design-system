@@ -1,3 +1,5 @@
+import "../components/stepper-item/stepper-item";
+import "../components/stepper/stepper";
 import { html } from "../../support/formatting";
 
 export const stepperTokens = {

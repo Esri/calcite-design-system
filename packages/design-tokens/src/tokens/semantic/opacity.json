@@ -1,39 +1,39 @@
 {
   "opacity": {
     "disabled": {
-      "value": "{core.opacity.50}",
-      "type": "opacity",
       "attributes": {
         "category": "opacity"
-      }
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
     },
     "light": {
-      "value": "{core.opacity.40}",
-      "type": "opacity",
       "attributes": {
         "category": "opacity"
-      }
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.40}"
     },
     "half": {
-      "value": "{core.opacity.50}",
-      "type": "opacity",
       "attributes": {
         "category": "opacity"
-      }
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
     },
     "dark": {
-      "value": "{core.opacity.85}",
-      "type": "opacity",
       "attributes": {
         "category": "opacity"
-      }
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.85}"
     },
     "full": {
-      "value": "{core.opacity.100}",
-      "type": "opacity",
       "attributes": {
         "category": "opacity"
-      }
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.100}"
     }
   }
 }

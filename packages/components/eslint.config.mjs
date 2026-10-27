@@ -42,14 +42,9 @@ export default tseslint.config(
         {
           patterns: [
             {
-              group: ["tests/commonTests/*"],
+              group: ["tests/common/*"],
               message:
-                "Import named functions from commonTests instead of direct module imports, e.g., import { disabled } from 'tests/commonTests'",
-            },
-            {
-              group: ["tests/commonTests/browser/*"],
-              message:
-                "Import named functions from commonTests/browser for browser mode tests instead of direct module imports, e.g., import { cancelable } from 'tests/commonTests/browser'",
+                "Import named functions from tests/common instead of direct module imports, e.g., import { disabled } from 'tests/common'",
             },
             {
               group: ["lit-html", "lit-html/*"],
@@ -133,34 +128,24 @@ export default tseslint.config(
   },
 
   {
-    files: ["**/*.browser.*.tsx"],
-    extends: [calciteCoreConfig],
-    rules: {
-      "no-restricted-properties": [
-        "warn",
-        {
-          object: "page",
-          property: "getBySelector",
-          message:
-            "Prefer using more specific locators when possible for better test reliability – see https://vitest.dev/api/browser/locators",
-        },
-      ],
-    },
-  },
-
-  {
     plugins: {
       unicorn: unicornPlugin,
     },
     files: [
       // scoped to allow for progressive adoption
       ".storybook/**/*",
+      "src/*.{ts,tsx}",
+      "src/components/**/*",
       "src/custom-theme/**/*",
       "src/demos/**/*",
       "src/internal-label/**/*",
-      "src/tests/commonTests/browser/**/*",
+      "src/tests/common/**/*",
+      "src/tests/integration/**/*",
+      "src/tests/setup.ts",
+      "src/tests/utils/**/*",
       "support/**/*",
     ],
+    ignores: ["src/components/alert/AlertManager*", "src/components/functional/*"],
     rules: {
       "unicorn/filename-case": [
         "error",

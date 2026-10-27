@@ -1,14 +1,14 @@
-// @ts-strict-ignore
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../interfaces";
+import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "../types";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
-import { IconName } from "../icon/interfaces";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { IconName } from "../icon/types";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./tile.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -16,36 +16,90 @@ declare global {
   }
 }
 
-/**
- * @slot content-top - A slot for adding non-actionable elements above the component's content.  Content slotted here will render in place of the `icon` property.
- * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border.
+     */
+    "--calcite-tile-accent-color-press": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tile-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tile-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-tile-corner-radius": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-tile-heading-text-color": "*";
+    /**
+     * When `href` is present, specifies the component's link color.
+     */
+    "--calcite-tile-link-color": "*";
+    /**
+     * Specifies the shadow around the component.
+     */
+    "--calcite-tile-shadow": "*";
+    /**
+     * Specifies the component's `description` and `icon` text color, but not the `heading` text color.
+     */
+    "--calcite-tile-text-color": "*";
+    /**
+     * Specifies the component's link text color.
+     */
+    "--calcite-tile-link-text-color": "*";
+  }
+}
+
+interface TileSlots {
+  /**
+   * A slot for adding non-actionable elements above the component's content.
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding non-actionable elements below the component's content.
+   */
+  "content-bottom": Node[];
+}
+
 export class Tile extends LitElement implements SelectableComponent {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TileSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
-  private containerEl: HTMLDivElement;
+  private containerEl?: HTMLDivElement;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasContentBottom = false;
 
   @state() hasContentTop = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, the component is active.
@@ -57,8 +111,8 @@ export class Tile extends LitElement implements SelectableComponent {
   /** Specifies alignment of the component's content. */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** Specifies a description for the component. Displays below the `heading`. */
-  @property({ reflect: true }) description: string;
+  /** @copyDoc */
+  @property({ reflect: true }) description?: string;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -72,17 +126,17 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property({ reflect: true }) embed = false;
 
-  /** Specifies the component's heading text. displays between the `icon` and `description`. */
-  @property({ reflect: true }) heading: string;
+  /** @copyDoc */
+  @property({ reflect: true }) heading?: string;
 
-  /** Specifies the heading level number of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel: HeadingLevel;
+  /** @copyDoc */
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** When embed is `false`, specifies the URL for the component. */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon: IconName;
+  @property({ reflect: true }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -95,8 +149,8 @@ export class Tile extends LitElement implements SelectableComponent {
    */
   @property() interactive = false;
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /**
    * Defines the layout of the component.
@@ -114,11 +168,11 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance, where:
+   * Specifies the selection appearance.
    *
-   * - `"icon"` (displays a checkmark or dot),
-   * - `"highlight"` (changes the background color), or
-   * - `"border"` (displays a border). [Deprecated] The `"border"` value is deprecated in v5.0.0, removal target v6.0.0 - Use `"highlight"` instead.
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` changes the background color.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
@@ -130,12 +184,12 @@ export class Tile extends LitElement implements SelectableComponent {
   > = "icon";
 
   /**
-   * Specifies the selection mode, where:
+   * Specifies the selection mode.
    *
-   * - `"multiple"` (allows any number of selected items),
-   * - `"single"` (allows only one selected item),
-   * - `"single-persist"` (allows only one selected item and prevents de-selection),
-   * - `"none"` (allows no selected items).
+   * - `"multiple"` allows any number of selected items.
+   * - `"single"` allows only one selected item.
+   * - `"single-persist"` allows only one selected item and prevents de-selection.
+   * - `"none"` allows no selected items.
    *
    * This property is set by the parent tile-group.
    *
@@ -146,9 +200,9 @@ export class Tile extends LitElement implements SelectableComponent {
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -162,28 +216,25 @@ export class Tile extends LitElement implements SelectableComponent {
     return this.focusSetter(() => (this.interactive ? this.containerEl : undefined), options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
-
-  /** @private */
-  calciteInternalTileKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
+  //#region Events
 
   /** Fires when the selected state of the component changes. */
   calciteTileSelect = createEvent();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
     this.listen("keydown", this.keyDownHandler);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private clickHandler(): void {
     if (this.interactive) {
@@ -204,38 +255,30 @@ export class Tile extends LitElement implements SelectableComponent {
   }
 
   private handleSlotChange(event: Event): void {
-    const slotName = (event.target as HTMLSlotElement).dataset.name;
-    this[`has${slotName}`] = slotChangeHasAssignedElement(event);
+    const hasAssignedElement = slotChangeHasAssignedElement(event);
+    const slotName = (event.target as HTMLSlotElement).name;
+
+    if (slotName === SLOTS.contentBottom) {
+      this.hasContentBottom = hasAssignedElement;
+    } else if (slotName === SLOTS.contentTop) {
+      this.hasContentTop = hasAssignedElement;
+    }
   }
 
-  private setContainerEl(el): void {
+  private setContainerEl(el: HTMLDivElement): void {
     this.containerEl = el;
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleSelectEvent();
-          event.preventDefault();
-          break;
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "ArrowUp":
-        case "Home":
-        case "End":
-          this.calciteInternalTileKeyEvent.emit(event);
-          event.preventDefault();
-          break;
-      }
+    if (!this.href && event.target === this.el && isActivationKey(event.key)) {
+      this.handleSelectEvent();
+      event.preventDefault();
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelectionIcon(): JsxNode {
     const { selected, selectionAppearance, selectionMode } = this;
@@ -344,5 +387,5 @@ export class Tile extends LitElement implements SelectableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }

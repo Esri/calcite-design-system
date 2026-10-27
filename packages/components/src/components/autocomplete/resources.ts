@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const SLOTS = {
   contentBottom: "content-bottom",
   contentTop: "content-top",
@@ -22,3 +24,8 @@ export const IDS = {
   input: (id: string) => `${idPrefix}-input-${id}`,
   list: (id: string) => `${idPrefix}-list-${id}`,
 } as const;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isAutocomplete = isTag("calcite-autocomplete");

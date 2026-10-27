@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import {
   LitElement,
@@ -16,14 +15,14 @@ import { MenuPlacement } from "../../utils/floating-ui";
 import { getIconScale } from "../../utils/component";
 import { NumberingSystem, NumberStringFormat } from "../../utils/locale";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale } from "../interfaces";
+import { Kind, Scale } from "../types";
 import { KindIcons, KindIconsFilled } from "../resources";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { AlertDuration, AlertQueue } from "./interfaces";
+import { AlertDuration, AlertQueue } from "./types";
 import { CSS, DURATIONS, SLOTS } from "./resources";
 import AlertManager from "./AlertManager";
 import { styles } from "./alert.scss";
@@ -34,18 +33,63 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's width.
+     */
+    "--calcite-alert-width": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-alert-background-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-alert-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-alert-shadow": "*";
+    /**
+     * Specifies the component's `placement` offset.
+     */
+    "--calcite-alert-offset-size": "*";
+  }
+}
+
+interface AlertSlots {
+  /**
+   * A slot for adding a title to the component.
+   */
+  title: Node[];
+  /**
+   * A slot for adding main text to the component.
+   */
+  message: Node[];
+  /**
+   * A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
+   */
+  link: Node[];
+  /**
+   * A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
+   */
+  "actions-end": Node[];
+}
+
 const manager = new AlertManager();
 
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
- *
- * @slot title - A slot for adding a title to the component.
- * @slot message - A slot for adding main text to the component.
- * @slot link - A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
  */
 export class Alert extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: AlertSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -54,13 +98,13 @@ export class Alert extends LitElement {
 
   //#region Private Properties
 
-  private autoCloseTimeoutId: number = null;
+  private autoCloseTimeoutId?: number;
 
-  private initialOpenTime: number;
+  private initialOpenTime = -1;
 
-  private isHovered: boolean;
+  private isHovered = false;
 
-  private lastMouseOverBegin: number;
+  private lastMouseOverBegin = -1;
 
   transitionProp = "opacity" as const;
 
@@ -77,7 +121,7 @@ export class Alert extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
@@ -124,7 +168,7 @@ export class Alert extends LitElement {
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
    */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -136,17 +180,16 @@ export class Alert extends LitElement {
   > = "brand";
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property({ reflect: true }) numberingSystem: NumberingSystem;
+  @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true }) open = false;
@@ -169,9 +212,7 @@ export class Alert extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
@@ -337,7 +378,7 @@ export class Alert extends LitElement {
 
   private clearAutoCloseTimeout(): void {
     window.clearTimeout(this.autoCloseTimeoutId);
-    this.autoCloseTimeoutId = null;
+    this.autoCloseTimeoutId = undefined;
   }
 
   /** close and emit calciteInternalAlertSync event with the updated queue payload */
@@ -425,25 +466,29 @@ export class Alert extends LitElement {
           [CSS.containerEmbedded]: this.embedded,
           [CSS.focused]: this.isFocused,
         }}
-        onPointerEnter={this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : null}
-        onPointerLeave={this.autoClose ? this.handleMouseLeave : null}
-        popover={!this.embedded ? "manual" : null}
+        onPointerEnter={
+          this.autoClose && this.autoCloseTimeoutId ? this.handleMouseOver : undefined
+        }
+        onPointerLeave={this.autoClose ? this.handleMouseLeave : undefined}
+        popover={!this.embedded ? "manual" : undefined}
         ref={this.transitionRef}
       >
         {effectiveIcon && this.renderIcon(effectiveIcon)}
         <div
           class={CSS.textContainer}
-          onFocusIn={this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : null}
-          onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
+          onFocusIn={
+            this.autoClose && this.autoCloseTimeoutId ? this.handleKeyBoardFocus : undefined
+          }
+          onFocusOut={this.autoClose ? this.handleKeyBoardBlur : undefined}
         >
           <slot name={SLOTS.title} />
           <slot name={SLOTS.message} />
           <slot name={SLOTS.link} />
         </div>
         {this.renderActionsEnd()}
-        {hasQueuedAlerts ? this.renderQueueCount() : null}
+        {hasQueuedAlerts ? this.renderQueueCount() : undefined}
         {this.renderCloseButton()}
-        {open && active && autoClose ? <div class={CSS.dismissProgress} /> : null}
+        {open && active && autoClose ? <div class={CSS.dismissProgress} /> : undefined}
       </div>
     );
   }
@@ -455,8 +500,8 @@ export class Alert extends LitElement {
         icon="x"
         label={this.messages.close}
         onClick={this.closeAlert}
-        onFocusIn={this.autoClose ? this.handleKeyBoardFocus : null}
-        onFocusOut={this.autoClose ? this.handleKeyBoardBlur : null}
+        onFocusIn={this.autoClose ? this.handleKeyBoardFocus : undefined}
+        onFocusOut={this.autoClose ? this.handleKeyBoardBlur : undefined}
         scale={this.scale}
         text={this.messages.close}
       />

@@ -1,0 +1,110 @@
+name: New Component
+description: Request for a new component to be added
+labels: ["new component", "needs triage", "design"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Please [check for existing issues](https://github.com/Esri/calcite-design-system/issues) to avoid duplicates. If someone has already opened an issue for what you are experiencing, please add a 👍 reaction to the existing issue instead of creating a new one.
+        - For support, please check the [community forum](https://developers.arcgis.com/calcite-design-system/community/).
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Requested functionality, screenshots, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: story
+    attributes:
+      label: User Stories
+      description: Use case, why this component should be added, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Requirements, desired new behavior, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: info
+    attributes:
+      label: Relevant Info
+      description: Dependencies, blockers, helpful details, etc.
+    validations:
+      required: false
+  - type: textarea
+    id: details
+    attributes:
+      label: Helpful Details
+      description: Code snippet, link to a similar product, suggestions, etc.
+    validations:
+      required: false
+  - type: dropdown
+    id: priority-impact
+    validations:
+      required: true
+    attributes:
+      label: Priority impact
+      multiple: false
+      description: How important is the new component request to you, your team, or organization? Use discretion and only select the "need" priority for high user impact.
+      options:
+        - impact - p3 - not time sensitive
+        - impact - p2 - want for an upcoming milestone
+        - impact - p1 - need for current milestone
+        - impact - p0 - emergency
+  - type: dropdown
+    id: esri-team
+    validations:
+      required: true
+    attributes:
+      label: Esri team
+      multiple: false
+      description: If you work at Esri, please select your product team. Otherwise choose "N/A". If your team is not listed, choose "N/A", and then edit the line after submitting the issue.
+      options:
+        - N/A
+        - Application Protoype Lab - APL
+        - ArcGIS AppStudio
+        - ArcGIS Business/Community Analyst
+        - ArcGIS Charts
+        - ArcGIS Dashboards
+        - ArcGIS Data Pipelines
+        - ArcGIS Developer Experience
+        - ArcGIS Enterprise
+        - ArcGIS Excalibur
+        - ArcGIS Experience Builder
+        - ArcGIS Field Apps
+        - ArcGIS GeoAnalytics
+        - ArcGIS GeoBIM
+        - ArcGIS GeoPlanner
+        - ArcGIS Hub
+        - ArcGIS Imagery and Remote Sensing
+        - ArcGIS Indoors
+        - ArcGIS Insights
+        - ArcGIS Instant Apps
+        - ArcGIS Knowledge
+        - ArcGIS Living Atlas
+        - ArcGIS Map Viewer
+        - ArcGIS Maps for Adobe Creative Cloud
+        - ArcGIS Maps SDK for JavaScript
+        - ArcGIS Marketplace
+        - ArcGIS Mission
+        - ArcGIS Monitor
+        - ArcGIS Network Analyst
+        - ArcGIS Online
+        - ArcGIS Pro
+        - ArcGIS Scene Viewer
+        - ArcGIS Site Scan
+        - ArcGIS Solutions
+        - ArcGIS StoryMaps
+        - ArcGIS Survey123
+        - ArcGIS Urban
+        - ArcGIS Web Analysis
+        - Esri Marketing
+        - Professional Services - Midwest Delivery Center
+        - Professional Services - Services Delivery
+        - Workflow Manager
+        - Calcite (design)
+        - Calcite (dev)

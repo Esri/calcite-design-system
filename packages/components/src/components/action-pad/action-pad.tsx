@@ -11,16 +11,17 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { ExpandToggle, toggleChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { ExpandToggle, legacyToggleChildActionText } from "../functional/ExpandToggle";
+import { Layout, Position, Scale, SelectionAppearance } from "../types";
 import { createObserver } from "../../utils/observers";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import type { ActionGroup } from "../action-group/action-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { logger } from "../../utils/logger";
 import { focusElementInGroup } from "../../utils/dom";
 import { type ActionMenu } from "../action-menu/action-menu";
@@ -34,12 +35,44 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-action-pad-corner-radius": "*";
+    /**
+     * When `expanded` and `layout` is `"vertical"`, specifies the component's maximum width.
+     */
+    "--calcite-action-pad-expanded-max-width": "*";
+    /**
+     * Specifies the component's space between slotted components.
+     */
+    "--calcite-action-pad-items-space": "*";
+  }
+}
+
+interface ActionPadSlots {
+  /**
+   * A slot for adding `calcite-action`s to the component.
+   */
+  "": Node[];
+  /**
+   * A slot to set the `calcite-tooltip` for the expand toggle.
+   */
+  "expand-tooltip": Node[];
+}
+
 /**
  * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-action-bar` component instead.
- * @slot - A slot for adding `calcite-action`s to the component.
- * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
  */
 export class ActionPad extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ActionPadSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
@@ -70,7 +103,7 @@ export class ActionPad extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
@@ -95,16 +128,10 @@ export class ActionPad extends LitElement {
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Specifies the position of the component depending on the element's `dir` property. */
@@ -181,7 +208,7 @@ export class ActionPad extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("expanded") && this.hasUpdated) {
-      toggleChildActionText({ el: this.el, expanded: this.expanded });
+      legacyToggleChildActionText({ el: this.el, expanded: this.expanded });
     }
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
@@ -240,9 +267,7 @@ export class ActionPad extends LitElement {
   }
 
   private handleTooltipSlotChange(event: Event): void {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
-      el?.matches("calcite-tooltip"),
-    );
+    const tooltips = slotChangeGetAssignedElements(event).filter(isTooltip);
 
     this.expandTooltip = tooltips[0];
   }

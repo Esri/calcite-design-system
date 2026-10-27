@@ -1,9 +1,8 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
-import { ComboboxChildElement } from "../combobox/interfaces";
+import { ComboboxChildElement } from "../combobox/types";
 import { getAncestors, getDepth } from "../combobox/utils";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./combobox-item-group.scss";
 
@@ -13,21 +12,46 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-combobox-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-combobox-item-group-text-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-combobox-item-group-border-color": "*";
+  }
+}
+
+interface ComboboxItemGroupSlots {
+  /**
+   * A slot for adding `calcite-combobox-item`s.
+   */
+  "": Node[];
+}
+
 export class ComboboxItemGroup extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ComboboxItemGroupSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private guid: string = guid();
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
@@ -37,14 +61,13 @@ export class ComboboxItemGroup extends LitElement {
   @property({ reflect: true }) afterEmptyGroup = false;
 
   /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
-  @property() ancestors: ComboboxChildElement[];
+  @property() ancestors?: ComboboxChildElement[];
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /**
    * Specifies the group's position in the `calcite-combobox` menu.
@@ -67,17 +90,17 @@ export class ComboboxItemGroup extends LitElement {
    *  */
   @property({ reflect: true }) itemHidden = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override connectedCallback(): void {
     this.ancestors = getAncestors(this.el);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { el, scale } = this;
@@ -113,5 +136,5 @@ export class ComboboxItemGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

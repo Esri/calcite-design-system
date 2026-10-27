@@ -1,3 +1,5 @@
+import "../components/menu-item/menu-item";
+import "../components/menu/menu";
 import { html } from "../../support/formatting";
 
 export const menuItemTokens = {

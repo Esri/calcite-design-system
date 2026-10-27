@@ -1,31 +1,8 @@
-// @ts-strict-ignore
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, labelable, themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll, getFocusedElementProp } from "../../tests/utils/puppeteer";
-import { mockConsole } from "../../tests/utils/logging";
 import type { RadioButton } from "./radio-button";
-import { CSS } from "./resources";
-
-describe("accessible", () => {
-  accessible(
-    `<calcite-label><calcite-radio-button id="example" name="example" value="one"></calcite-radio-button>label</calcite-label>`,
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(`<calcite-radio-button label="label" id="example" name="example" value="one"></calcite-radio-button>`);
-});
-
-describe("labelable", () => {
-  mockConsole();
-
-  labelable("<calcite-radio-button name='group-name'></calcite-radio-button>", {
-    shadowFocusTargetSelector: ".container",
-    propertyToToggle: "checked",
-  });
-});
 
 it("focusing skips over hidden radio-buttons", async () => {
   const page = await newE2EPage();
@@ -259,7 +236,7 @@ it("programmatically checking a radio button updates the group's state correctly
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
   await page.evaluate(() => {
-    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]");
+    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=two]")!;
     second.checked = true;
   });
   await page.waitForChanges();
@@ -279,7 +256,7 @@ it("programmatically un-checking a radio button updates the group's state correc
       <calcite-radio-button name="radio" value="three"></calcite-radio-button>
     `);
   await page.evaluate(() => {
-    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]");
+    const second = document.querySelector<RadioButton["el"]>("calcite-radio-button[value=one]")!;
     second.checked = false;
   });
   await page.waitForChanges();
@@ -474,33 +451,4 @@ it("works correctly inside a shadowRoot", async () => {
 
   expect(await radios[1].getProperty("checked")).toBe(true);
   expect(radios[1].getAttribute("checked")).toBe("");
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-radio-button></calcite-radio-button>`, {
-      "--calcite-radio-button-background-color": {
-        targetProp: "backgroundColor",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-border-color": {
-        targetProp: "boxShadow",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-corner-radius": {
-        targetProp: "borderRadius",
-        shadowSelector: `.${CSS.radio}`,
-      },
-      "--calcite-radio-button-size": [
-        {
-          targetProp: "blockSize",
-          shadowSelector: `.${CSS.radio}`,
-        },
-        {
-          targetProp: "inlineSize",
-          shadowSelector: `.${CSS.radio}`,
-        },
-      ],
-    });
-  });
 });

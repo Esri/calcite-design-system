@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
@@ -18,7 +17,7 @@ import {
 } from "../../utils/floating-ui";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { FloatingArrow } from "../functional/FloatingArrow";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import {
   ReferenceElementComponent,
@@ -35,23 +34,60 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tooltip-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tooltip-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-tooltip-corner-radius": "*";
+    /**
+     * Specifies the component's maximum width.
+     */
+    "--calcite-tooltip-max-size-x": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-tooltip-text-color": "*";
+  }
+}
+
+interface TooltipSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
 const manager = referenceElementManager({ hover: true });
 
-/** @slot - A slot for adding text. */
 export class Tooltip extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TooltipSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
-  private arrowEl: SVGSVGElement | null;
+  private arrowEl?: SVGSVGElement;
 
   private direction = useDirection();
 
-  floatingEl: HTMLDivElement;
+  floatingEl?: HTMLDivElement;
 
   referenceElementType: ReferenceElementType = "hover";
 
@@ -66,27 +102,26 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     target: () => this.floatingEl,
   })(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() floatingLayout: FloatingLayout = "vertical";
 
-  @state() referenceEl: ReferenceElement;
+  @state() referenceEl?: ReferenceElement;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** Closes the component when the `referenceElement` is clicked. */
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
    */
-  @property() label: string;
+  @property() label?: string;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
@@ -99,13 +134,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, the component is open. */
   @property({ reflect: true }) open = false;
 
-  /**
-   * Specifies the type of positioning to use for overlaid content, where:
-   *
-   * `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container's layout, and
-   *
-   * `"fixed"` is used to escape an overflowing parent container, or when the reference element's `position` CSS property is `"fixed"`.
-   */
+  /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /** Determines where the component will be positioned relative to the `referenceElement`. */
@@ -114,32 +143,22 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** When `true`, removes the caret pointer. */
   @property({ reflect: true }) pointerDisabled = false;
 
-  /**
-   * The `referenceElement` is used to position the component according to its `placement` value.
-   *
-   * Setting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.
-   *
-   * However, a string `id` of the reference element can also be used.
-   *
-   * The component should not be placed within its own `referenceElement` to avoid unintended behavior.
-   */
-  @property() referenceElement: ReferenceElement | string | null;
+  /** @copyDoc */
+  @property() referenceElement: ReferenceElement | string | undefined;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true` and the component is `open`, disables top layer placement.
-   *
-   * Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.
+   * @copyDoc
    *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Updates the position of the component.
@@ -175,9 +194,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     );
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the component is requested to be closed and before the closing transition begins. */
   calciteTooltipBeforeClose = createEvent({ cancelable: false });
@@ -191,9 +210,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /** Fires when the component is open and animation is complete. */
   calciteTooltipOpen = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
@@ -230,9 +249,9 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     disconnectFloatingUI(this);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private openHandler(): void {
     toggleOpenClose(this);
@@ -262,14 +281,14 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     this.floatingEl = el;
   }
 
-  private setArrowEl(el: SVGSVGElement | null): void {
+  private setArrowEl(el: SVGSVGElement | undefined): void {
     this.arrowEl = el;
     this.reposition(true);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { referenceEl, label, open, pointerDisabled, floatingLayout } = this;
@@ -281,7 +300,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = label;
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLive = "polite";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -305,5 +324,5 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     );
   }
 
-  // #endregion
+  //#endregion
 }

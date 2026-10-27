@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -12,13 +11,13 @@ import {
   stringOrBoolean,
 } from "@arcgis/lumina";
 import { setRequestedIcon, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Appearance, Kind, Scale, Width } from "../interfaces";
+import { Appearance, Kind, Scale, Width } from "../types";
 import { KindIcons, KindIconsFilled } from "../resources";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { Action } from "../action/action";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS } from "./resources";
@@ -30,18 +29,99 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `appearance="outline-fill"`, specifies the component's background color.
+     */
+    "--calcite-notice-background-color": "*";
+    /**
+     * When `appearance="outline-fill"`, specifies the component's border color.
+     */
+    "--calcite-notice-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-notice-corner-radius": "*";
+    /**
+     * Specifies the background color of the component's close element.
+     */
+    "--calcite-notice-close-background-color": "*";
+    /**
+     * Specifies the background color of the component's close element when hovered.
+     */
+    "--calcite-notice-close-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's close element when hovered.
+     *
+     * @deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-notice-close-background-color-hover` instead.
+     */
+    "--calcite-notice-close-background-color-focus": "*";
+    /**
+     * Specifies the background color of the component's close element when active.
+     */
+    "--calcite-notice-close-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's close element when hovered or active.
+     */
+    "--calcite-notice-close-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's close element.
+     */
+    "--calcite-notice-close-icon-color": "*";
+    /**
+     * Specifies the component's slotted `"title"` content text color.
+     */
+    "--calcite-notice-title-text-color": "*";
+    /**
+     * Specifies the component's slotted `"message"` content text color.
+     */
+    "--calcite-notice-content-text-color": "*";
+    /**
+     * Specifies the component's width.
+     *
+     * @deprecated in v3.0.0, removal target v6.0.0.
+     */
+    "--calcite-notice-width": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-notice-shadow": "*";
+  }
+}
+
+interface NoticeSlots {
+  /**
+   * A slot for adding a title.
+   */
+  title: Node[];
+  /**
+   * A slot for adding a message.
+   */
+  message: Node[];
+  /**
+   * A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
+   */
+  link: Node[];
+  /**
+   * A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
+   */
+  "actions-end": Node[];
+}
+
 /**
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
- *
- * @slot title - A slot for adding a title.
- * @slot message - A slot for adding a message.
- * @slot link - A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
- * @slot actions-end - A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
  */
 export class Notice extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: NoticeSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -56,7 +136,7 @@ export class Notice extends LitElement {
   /** The computed icon to render. */
   private requestedIcon?: IconName;
 
-  private kindIcons: Record<string, IconName>;
+  private kindIcons!: Record<string, IconName>;
 
   transitionProp = "opacity" as const;
 
@@ -69,7 +149,7 @@ export class Notice extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
@@ -85,11 +165,11 @@ export class Notice extends LitElement {
   @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
     "outline-fill";
 
-  /** When `true`, displays a close button in the component. */
+  /** @copyDoc */
   @property({ reflect: true }) closable = false;
 
   /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
-  @property({ reflect: true, converter: stringOrBoolean, type: String }) icon: IconName | boolean;
+  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -100,7 +180,7 @@ export class Notice extends LitElement {
     Kind
   > = "brand";
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** When `true`, the component is visible. */
@@ -109,7 +189,11 @@ export class Notice extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. [Deprecated] The `"half"` value is deprecated, use `"full"` instead. */
+  /**
+   * Specifies the width of the component.
+   *
+   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   //#endregion
@@ -206,6 +290,11 @@ export class Notice extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
+    const { open } = this;
+    const hidden = !open;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.inert = hidden;
+
     const closeButton = (
       <calcite-action
         class={CSS.close}

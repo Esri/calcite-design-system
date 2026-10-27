@@ -1,3 +1,4 @@
+import "../components/avatar/avatar";
 import { html } from "../../support/formatting";
 
 export const avatarTokens = {

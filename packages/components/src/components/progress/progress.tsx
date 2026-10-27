@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -8,6 +7,23 @@ import { CSS } from "./resources";
 declare global {
   interface DeclareElements {
     "calcite-progress": Progress;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-progress-background-color": "*";
+    /**
+     * Specifies the component's fill color.
+     */
+    "--calcite-progress-fill-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-progress-text-color": "*";
   }
 }
 
@@ -26,14 +42,14 @@ export class Progress extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies an accessible label for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true` and type is `"indeterminate"`, reverses the animation direction. */
   @property({ reflect: true }) reversed = false;
 
   /** Text that displays under the component's indicator. */
-  @property() text: string;
+  @property() text?: string;
 
   /**
    * Specifies the component type.

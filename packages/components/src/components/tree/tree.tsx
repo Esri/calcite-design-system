@@ -1,13 +1,21 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, JsxNode, setAttribute } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  JsxNode,
+  setAttribute,
+  ToEvents,
+} from "@arcgis/lumina";
 import { focusElement, nodeListToArray, slotChangeGetAssignedElements } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Scale, SelectionMode } from "../interfaces";
-import { TreeItemSelectDetail } from "../tree-item/interfaces";
+import { Scale, SelectionMode } from "../types";
+import { TreeItemSelectDetail } from "../tree-item/types";
 import type { TreeItem } from "../tree-item/tree-item";
-import { getTraversableItems, isTreeItem } from "./utils";
+import { getTraversableItems } from "./utils";
 import { styles } from "./tree.scss";
+import { isTreeItem } from "../tree-item/resources";
 
 declare global {
   interface DeclareElements {
@@ -15,24 +23,36 @@ declare global {
   }
 }
 
-/** @slot - A slot for `calcite-tree-item` elements. */
+interface TreeSlots {
+  /**
+   * A slot for `calcite-tree-item` elements.
+   */
+  "": Node[];
+}
+
 export class Tree extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TreeSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private items: TreeItem["el"][] = [];
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /** @private */
-  @property({ reflect: true }) child: boolean;
+  @property({ reflect: true }) child = false;
 
   /** When `true`, displays indentation guide lines. */
   @property({ reflect: true }) lines = false;
@@ -51,41 +71,38 @@ export class Tree extends LitElement {
   @property() selectedItems: TreeItem["el"][] = [];
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections,
-   *
-   * `"children"` allows any number of selections from one parent from corresponding parent and child selections,
-   *
-   * `"multichildren"` allows any number of selections from corresponding parent and child selections,
-   *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"none"` allows no selections,
-   *
-   * `"single"` allows one selection, and
-   *
-   * `"single-persist"` allows and requires one selection.
+   * - `"ancestors"` displays with a checkbox and allows any number of selections from corresponding parent and child selections.
+   * - `"children"` allows any number of selections from one parent from corresponding parent and child selections.
+   * - `"multichildren"` allows any number of selections from corresponding parent and child selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"none"` allows no selections.
+   * - `"single"` allows one selection.
+   * - `"single-persist"` allows and requires one selection.
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the user selects/deselects `calcite-tree-items`. */
   calciteTreeSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
     this.listen("focus", this.onFocus);
     this.listen("focusin", this.onFocusIn);
     this.listen("focusout", this.onFocusOut);
-    this.listen("calciteInternalTreeItemSelect", this.onInternalTreeItemSelect);
+    this.listen<ToEvents<TreeItem>["calciteInternalTreeItemSelect"]>(
+      "calciteInternalTreeItemSelect",
+      this.onInternalTreeItemSelect,
+    );
     this.listen("keydown", this.keyDownHandler);
   }
 
@@ -98,21 +115,24 @@ export class Tree extends LitElement {
       this.updateItems();
     }
 
-    const parent: Tree["el"] = this.el.parentElement?.closest("calcite-tree");
+    const parent: Tree["el"] | undefined =
+      this.el.parentElement?.closest("calcite-tree") ?? undefined;
     this.lines = parent ? parent.lines : this.lines;
     this.scale = parent ? parent.scale : this.scale;
     this.selectionMode = parent ? parent.selectionMode : this.selectionMode;
     this.child = !!parent;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
   private onFocus(): void {
     if (!this.child) {
       const focusTarget =
-        this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
-        this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])");
+        (this.el.querySelector<TreeItem["el"]>("calcite-tree-item[selected]:not([disabled])") ||
+          this.el.querySelector<TreeItem["el"]>("calcite-tree-item:not([disabled])")) ??
+        undefined;
 
       focusElement(focusTarget, true, "focusable");
     }
@@ -143,16 +163,16 @@ export class Tree extends LitElement {
 
     const target = event.target as TreeItem["el"];
     const childItems = nodeListToArray(target.querySelectorAll("calcite-tree-item"));
+    const isNoneSelectionMode = this.selectionMode === "none";
+    const previouslySelectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
     event.preventDefault();
     event.stopPropagation();
 
     if (this.selectionMode === "ancestors") {
-      this.updateAncestorTree(event);
+      this.updateAncestorTree(event, previouslySelectedItems);
       return;
     }
-
-    const isNoneSelectionMode = this.selectionMode === "none";
 
     const shouldSelect =
       this.selectionMode !== null &&
@@ -214,7 +234,7 @@ export class Tree extends LitElement {
     }
 
     if (shouldModifyToCurrentSelection) {
-      window.getSelection().removeAllRanges();
+      window.getSelection()!.removeAllRanges();
     }
 
     if (shouldModifyToCurrentSelection && target.selected) {
@@ -231,11 +251,11 @@ export class Tree extends LitElement {
       });
     }
 
-    this.selectedItems = isNoneSelectionMode
-      ? []
-      : nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter((i) => i.selected);
+    this.selectedItems = isNoneSelectionMode ? [] : this.getSelectedItems();
 
-    this.calciteTreeSelect.emit();
+    if (this.selectionChanged(previouslySelectedItems)) {
+      this.calciteTreeSelect.emit();
+    }
 
     event.stopPropagation();
   }
@@ -329,7 +349,10 @@ export class Tree extends LitElement {
     }
   }
 
-  private updateAncestorTree(event: CustomEvent<TreeItemSelectDetail>): void {
+  private updateAncestorTree(
+    event: CustomEvent<TreeItemSelectDetail>,
+    previouslySelectedItems: TreeItem["el"][],
+  ): void {
     const item = event.target as TreeItem["el"];
     const updateItem = event.detail.updateItem;
 
@@ -338,10 +361,10 @@ export class Tree extends LitElement {
     }
 
     const ancestors: TreeItem["el"][] = [];
-    let parent = item.parentElement.closest<TreeItem["el"]>("calcite-tree-item");
+    let parent = item.parentElement!.closest<TreeItem["el"]>("calcite-tree-item");
     while (parent) {
       ancestors.push(parent);
-      parent = parent.parentElement.closest<TreeItem["el"]>("calcite-tree-item");
+      parent = parent.parentElement!.closest<TreeItem["el"]>("calcite-tree-item");
     }
 
     const childItems = Array.from(
@@ -350,7 +373,7 @@ export class Tree extends LitElement {
     const childItemsWithNoChildren = childItems.filter((child) => !child.hasChildren);
     const childItemsWithChildren = childItems.filter((child) => child.hasChildren);
 
-    let futureSelected;
+    let futureSelected: boolean;
     if (updateItem) {
       futureSelected = item.hasChildren ? !(item.selected || item.indeterminate) : !item.selected;
     } else {
@@ -401,13 +424,24 @@ export class Tree extends LitElement {
       ancestor.selected = !indeterminate;
     });
 
-    this.selectedItems = nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
-      (i) => i.selected,
-    );
+    this.selectedItems = this.getSelectedItems();
 
-    if (updateItem) {
+    if (updateItem && this.selectionChanged(previouslySelectedItems)) {
       this.calciteTreeSelect.emit();
     }
+  }
+
+  private getSelectedItems(): TreeItem["el"][] {
+    return nodeListToArray(this.el.querySelectorAll("calcite-tree-item")).filter(
+      (item) => item.selected,
+    );
+  }
+
+  private selectionChanged(previouslySelectedItems: TreeItem["el"][]): boolean {
+    return (
+      previouslySelectedItems.length !== this.selectedItems.length ||
+      this.selectedItems.some((item) => !previouslySelectedItems.includes(item))
+    );
   }
 
   private updateItems(): void {
@@ -415,9 +449,7 @@ export class Tree extends LitElement {
   }
 
   private handleDefaultSlotChange(event: Event): void {
-    const items = slotChangeGetAssignedElements(event).filter((el): el is TreeItem["el"] =>
-      el.matches("calcite-tree-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isTreeItem);
 
     this.items = items;
     this.updateItems();
@@ -427,21 +459,26 @@ export class Tree extends LitElement {
     return !this.child ? 0 : -1;
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
+    const isRoot = !this.child;
+    const isMultiSelectable =
+      this.selectionMode === "multiple" || this.selectionMode === "multichildren";
+
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaMultiSelectable = this.child
-      ? undefined
-      : toAriaBoolean(this.selectionMode === "multiple" || this.selectionMode === "multichildren");
+    this.el.ariaMultiSelectable = toAriaBoolean(
+      isRoot && isMultiSelectable,
+      isRoot ? "false" : null,
+    );
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.role = !this.child ? "tree" : undefined;
+    this.el.role = !this.child ? "tree" : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
     setAttribute(this.el, "tabIndex", this.getRootTabIndex());
     return <slot onSlotChange={this.handleDefaultSlotChange} />;
   }
 
-  // #endregion
+  //#endregion
 }

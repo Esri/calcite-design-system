@@ -1,38 +1,27 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-combobox-divider-color: Specifies the component's divider color.
- * @prop --calcite-combobox-icon-color: Specifies the component's icon color.
- * @prop --calcite-combobox-icon-color-hover: Specifies the component's icon color when hovered.
- * @prop --calcite-combobox-background-color: Specifies the background color of the component's listbox.
- * @prop --calcite-combobox-input-border-color: Specifies the border color of the component's input.
- * @prop --calcite-combobox-input-background-color: Specifies the background color of the component's input.
- * @prop --calcite-combobox-input-height: Specifies the height of the component's input.
- * @prop --calcite-combobox-input-text-color: When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-close-size
 // --calcite-internal-combobox-input-margin-block
+// --calcite-internal-combobox-max-block-size
 // --calcite-internal-combobox-no-matches-spacing-unit-s
 // --calcite-internal-combobox-padding-inline-end
 // --calcite-internal-combobox-spacing-unit-l
 // --calcite-internal-combobox-spacing-unit-s
 
-@use "../../styles/includes";
-@use "../../styles/shared/floating-ui";
+@use "../../styles/shared";
 
 :host {
-  @apply relative block;
+  position: relative;
+  display: block;
+
+  --calcite-internal-combobox-max-block-size: 45vh;
 }
 
 :host([scale="s"]) {
-  @apply text-n2;
+  font-size: var(--calcite-font-size-relative-sm);
+
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.2");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.1");
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-2xs);
@@ -43,7 +32,8 @@
 }
 
 :host([scale="m"]) {
-  @apply text-n1;
+  font-size: var(--calcite-font-size-relative-base);
+
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.3");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.2");
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm);
@@ -54,7 +44,8 @@
 }
 
 :host([scale="l"]) {
-  @apply text-0;
+  font-size: var(--calcite-font-size-relative-md);
+
   --calcite-internal-combobox-spacing-unit-l: theme("spacing.4");
   --calcite-internal-combobox-spacing-unit-s: theme("spacing.3");
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm-plus);
@@ -65,10 +56,17 @@
 }
 
 .wrapper {
-  @apply focus-base flex border border-solid;
+  outline-color: transparent;
+  display: flex;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   padding-block: calc(var(--calcite-internal-combobox-spacing-unit-s) / 4);
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
-  background-color: var(--calcite-combobox-input-background-color, var(--calcite-color-foreground-1));
+  border-radius: var(--calcite-combobox-corner-radius, var(--calcite-corner-radius));
+  background-color: var(
+    --calcite-combobox-input-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
   border-color: var(--calcite-combobox-input-border-color, var(--calcite-color-border-input));
 
@@ -81,12 +79,12 @@
 
 :host(:focus-within) .wrapper,
 .wrapper--active {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 :host([read-only]) {
   .wrapper {
-    background-color: var(--calcite-color-background);
+    background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
   }
 
   .label {
@@ -95,33 +93,49 @@
 }
 
 :host([status="invalid"]) .wrapper {
-  @apply border-color-danger;
+  border-color: var(--calcite-color-status-danger);
 }
 
 :host([status="invalid"]:focus-within) .wrapper {
-  @apply focus-inset-danger;
+  @include shared.focus-inset-danger();
 }
 
 .wrapper--single {
   padding-block: 0;
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l) var(--calcite-internal-combobox-padding-inline-end);
-  @apply cursor-pointer flex-nowrap;
+  cursor: pointer;
+  flex-wrap: nowrap;
 }
 
 .grid-input {
-  @apply flex flex-grow flex-wrap items-center relative truncate p-0;
+  @include shared.truncate();
 
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  position: relative;
+  padding: 0;
   gap: var(--calcite-internal-combobox-spacing-unit-s);
   margin-inline-end: var(--calcite-internal-combobox-spacing-unit-s);
 
   &.selection-display--fit,
   &.selection-display--single {
-    @apply flex-nowrap overflow-hidden;
+    flex-wrap: nowrap;
+    overflow: hidden;
   }
 }
 
 .input {
-  @apply appearance-none bg-transparent border-none flex-grow font-inherit text-color-1 text-ellipsis overflow-hidden p-0;
+  @include shared.truncate();
+
+  appearance: none;
+  background-color: transparent;
+  border-style: none;
+  flex-grow: 1;
+  font-family: inherit;
+  color: var(--calcite-color-text-1);
+  padding: 0;
   font-size: inherit;
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
@@ -130,25 +144,28 @@
   min-inline-size: 4.8125rem;
 
   &:focus {
-    @apply outline-none;
+    @include shared.outline-none();
   }
 
   &:placeholder-shown {
-    @apply text-ellipsis;
+    text-overflow: ellipsis;
   }
 }
 
 .input--single {
-  @apply p-0;
+  padding: 0;
   margin-block: var(--calcite-internal-combobox-input-margin-block);
 }
 
 .wrapper--active .input-single {
-  @apply cursor-text;
+  cursor: text;
 }
 
 .input--hidden {
-  @apply pointer-events-none w-0 min-w-0 opacity-0;
+  pointer-events: none;
+  inline-size: 0;
+  min-inline-size: 0;
+  opacity: 0;
 }
 
 .input--icon {
@@ -161,15 +178,24 @@
 }
 
 .input-wrap {
-  @apply flex flex-grow items-center;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
 }
 
 .input-wrap--single {
-  @apply flex-1 overflow-hidden;
+  flex: 1 1 0%;
+  overflow: hidden;
 }
 
 .label {
-  @apply pointer-events-none max-w-full flex-auto truncate p-0 font-normal;
+  @include shared.truncate();
+
+  pointer-events: none;
+  max-inline-size: 100%;
+  flex: 1 1 auto;
+  padding: 0;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   block-size: var(--calcite-combobox-input-height);
   line-height: var(--calcite-combobox-input-height);
 }
@@ -180,11 +206,13 @@
 
 .icon-end,
 .icon-start {
-  @apply flex cursor-pointer items-center;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
 }
 
 .icon-end {
-  @apply flex-none;
+  flex: none;
 
   .icon {
     color: var(--calcite-combobox-icon-color, var(--calcite-color-text-3));
@@ -192,14 +220,18 @@
 }
 
 .floating-ui-container {
-  @include floating-ui.floating-ui-container();
+  @include shared.floating-ui-container();
 }
 
 :host([top-layer-disabled]) .floating-ui-container {
   --calcite-floating-ui-z-index: var(--calcite-z-index-dropdown);
 }
 
-@include floating-ui.floating-ui-elem-anim(".floating-ui-container");
+@include shared.floating-ui-elem-anim(".floating-ui-container");
+
+.floating-ui-container .calcite-floating-ui-anim {
+  box-shadow: var(--calcite-shadow-md);
+}
 
 @media (forced-colors: active) {
   .wrapper,
@@ -208,23 +240,26 @@
   }
 }
 
-.screen-readers-only {
-  @apply sr-only;
-}
-
 .list-container {
-  @apply max-h-menu overflow-y-auto;
+  max-block-size: var(--calcite-internal-combobox-max-block-size);
+  overflow-y: auto;
   inline-size: var(--calcite-dropdown-width, 100%);
-  background-color: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-combobox-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
 }
 
 .list {
-  @apply m-0 block p-0;
+  margin: 0;
+  display: block;
+  padding: 0;
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .list--hide {
-  @apply h-0 overflow-hidden;
+  block-size: 0;
+  overflow: hidden;
 }
 
 calcite-chip {
@@ -237,15 +272,19 @@ calcite-chip {
 }
 
 .chip--invisible {
-  @apply absolute invisible;
+  position: absolute;
+  visibility: hidden;
 }
 
 .item {
-  @apply block;
+  display: block;
 }
 
 .select-all {
-  background-color: var(--calcite-combobox-item-background-color-active, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-combobox-item-background-color-active,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   border-block-end-color: var(
     --calcite-combobox-divider-color,
     var(--calcite-combobox-item-border-color, var(--calcite-color-border-3))
@@ -262,7 +301,10 @@ calcite-chip {
   padding-inline: var(--calcite-internal-combobox-spacing-unit-l);
 
   color: var(--calcite-combobox-input-text-color, var(--calcite-color-text-1));
-  background: var(--calcite-combobox-background-color, var(--calcite-color-foreground-1));
+  background: var(
+    --calcite-combobox-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   cursor: pointer;
 }
 
@@ -272,14 +314,13 @@ calcite-chip {
 }
 
 .disabled {
-  @apply opacity-50;
+  opacity: 0.5;
 }
 
-@include includes.disabled();
-@include includes.clear-button();
-@include includes.form-validation-message();
-@include includes.hidden-form-input();
-@include includes.base-component();
-@include includes.text-highlight-item();
-@include includes.form-internal-label();
-@include includes.input-placeholder-text();
+@include shared.disabled();
+@include shared.clear-button();
+@include shared.form-validation-message();
+@include shared.base-component();
+@include shared.text-highlight-item();
+@include shared.form-internal-label();
+@include shared.input-placeholder-text();

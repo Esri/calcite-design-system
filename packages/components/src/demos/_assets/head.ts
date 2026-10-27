@@ -13,7 +13,15 @@
       type: "module",
     },
     {
+      src: "/src/demos/_assets/demo-form.ts",
+      type: "module",
+    },
+    {
       src: "/src/demos/_assets/demo-options.ts",
+      type: "module",
+    },
+    {
+      src: "/src/demos/_assets/demo-spacer.ts",
       type: "module",
     },
     {
@@ -34,9 +42,11 @@
   function loadScript(script: Script): void {
     const scriptElement = document.createElement("script");
 
-    Object.keys(script).forEach((key) => {
-      scriptElement[key] = key === "src" ? ROOT + script[key] : script[key];
-    });
+    scriptElement.src = ROOT + script.src;
+
+    if (script.type) {
+      scriptElement.type = script.type;
+    }
 
     document.head.appendChild(scriptElement);
   }

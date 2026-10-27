@@ -1,3 +1,4 @@
+import "../components/button/button";
 import { html } from "../../support/formatting";
 
 export const buttonTokens = {

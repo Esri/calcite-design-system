@@ -3,12 +3,12 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { DEBOUNCE } from "../../utils/resources";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
@@ -17,6 +17,67 @@ import { styles } from "./filter.scss";
 declare global {
   interface DeclareElements {
     "calcite-filter": Filter;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the padding of the component's content.
+     */
+    "--calcite-filter-content-space": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-filter-input-background-color": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-filter-input-border-color": "*";
+    /**
+     * Specifies the component's input corner radius.
+     */
+    "--calcite-filter-input-corner-radius": "*";
+    /**
+     * Specifies the component's input shadow.
+     */
+    "--calcite-filter-input-shadow": "*";
+    /**
+     * Specifies the component's input icon color.
+     */
+    "--calcite-filter-input-icon-color": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-filter-input-text-color": "*";
+    /**
+     * Specifies the component's input placeholder text color.
+     */
+    "--calcite-filter-input-placeholder-text-color": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element.
+     */
+    "--calcite-filter-input-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element when hovered.
+     */
+    "--calcite-filter-input-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element when pressed.
+     */
+    "--calcite-filter-input-actions-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element.
+     */
+    "--calcite-filter-input-actions-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element when hovered.
+     */
+    "--calcite-filter-input-actions-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element when pressed.
+     */
+    "--calcite-filter-input-actions-icon-color-press": "*";
   }
 }
 
@@ -50,7 +111,7 @@ export class Filter extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -80,12 +141,10 @@ export class Filter extends LitElement {
    */
   @property() items: object[] = [];
 
-  /**
-   * Specifies an accessible label for the component.
-   */
+  /** @copyDoc */
   @property() label?: string;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /** Specifies the component's input placeholder text. */
@@ -233,8 +292,8 @@ export class Filter extends LitElement {
               icon={ICONS.search}
               label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
-              onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={this.textInputRef}
               scale={scale}

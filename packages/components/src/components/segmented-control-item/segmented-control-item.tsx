@@ -2,14 +2,35 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasContent } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Appearance, Layout, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, Layout, Scale } from "../types";
+import { IconName } from "../icon/types";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./segmented-control-item.scss";
 
 declare global {
   interface DeclareElements {
     "calcite-segmented-control-item": SegmentedControlItem;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's color.
+     */
+    "--calcite-segmented-control-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-segmented-control-background-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-segmented-control-shadow": "*";
+    /**
+     * Specifies the icons's color.
+     */
+    "--calcite-segmented-control-icon-color": "*";
   }
 }
 
@@ -35,17 +56,17 @@ export class SegmentedControlItem extends LitElement {
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
-  /** When `true`, the component is checked. */
+  /** @copyDoc */
   @property({ reflect: true }) checked = false;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart?: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.

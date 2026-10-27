@@ -1,13 +1,24 @@
-// @ts-strict-ignore
-import { PropertyValues } from "lit";
-import { LitElement, property, Fragment, h, state, JsxNode } from "@arcgis/lumina";
-import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
-import type { Dialog } from "../dialog/dialog";
-import type { Sheet } from "../sheet/sheet";
-import type { Alert } from "../alert/alert";
-import { ShellPanel } from "../shell-panel/shell-panel";
+import { type PropertyValues } from "lit";
+import { LitElement, property, Fragment, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
+import { createRef } from "lit/directives/ref.js";
+import {
+  getStylePixelValue,
+  slotChangeGetAssignedElements,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
+import type { ShellPanel, ShellPanelSizingData } from "../shell-panel/shell-panel";
+import { isAlert } from "../alert/resources";
+import { isDialog } from "../dialog/resources";
+import { isSheet } from "../sheet/resources";
+import { isShellPanel } from "../shell-panel/resources";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
+
+type ShellPanelWithSizingProvider = ShellPanel["el"] & {
+  shellSizingDataProvider?: (axis: "inline" | "block") => ShellPanelSizingData | null;
+};
+
+type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
 
 declare global {
   interface DeclareElements {
@@ -15,24 +26,90 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
- * @slot header - A slot for adding header content. This content will be positioned at the top of the component.
- * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
- * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
- * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
- * @slot panel-top - A slot for adding the top `calcite-shell-panel`.
- * @slot panel-bottom - A slot for adding the bottom `calcite-shell-panel`.
- * @slot dialogs - A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
- * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
- * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-shell-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-shell-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-shell-shadow": "*";
+  }
+}
+
+interface ShellSlots {
+  /**
+   * A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
+   */
+  "": Node[];
+  /**
+   * A slot for adding header content. This content will be positioned at the top of the component.
+   */
+  header: Node[];
+  /**
+   * A slot for adding footer content. This content will be positioned at the bottom of the component.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding the starting `calcite-shell-panel`.
+   */
+  "panel-start": Node[];
+  /**
+   * A slot for adding the ending `calcite-shell-panel`.
+   */
+  "panel-end": Node[];
+  /**
+   * A slot for adding the top `calcite-shell-panel`.
+   */
+  "panel-top": Node[];
+  /**
+   * A slot for adding the bottom `calcite-shell-panel`.
+   */
+  "panel-bottom": Node[];
+  /**
+   * A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
+   */
+  dialogs: Node[];
+  /**
+   * A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
+   */
+  sheets: Node[];
+}
+
 export class Shell extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ShellSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
   // #endregion
+
+  //#region Private Properties
+
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private panelBottomSlotRef = createRef<HTMLSlotElement>();
+
+  private panelEndSlotRef = createRef<HTMLSlotElement>();
+
+  private panelStartSlotRef = createRef<HTMLSlotElement>();
+
+  private panelTopSlotRef = createRef<HTMLSlotElement>();
 
   // #region State Properties
 
@@ -43,8 +120,6 @@ export class Shell extends LitElement {
   @state() hasFooter = false;
 
   @state() hasHeader = false;
-
-  @state() hasModals = false;
 
   @state() hasOnlyPanelBottom = false;
 
@@ -69,11 +144,11 @@ export class Shell extends LitElement {
 
   constructor() {
     super();
-    this.listen(
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeStart"]>(
       "calciteInternalShellPanelResizeStart",
       this.handleCalciteInternalShellPanelResizeStart,
     );
-    this.listen(
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeEnd"]>(
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
     );
@@ -117,7 +192,7 @@ export class Shell extends LitElement {
   private handleAlertsSlotChange(event: Event): void {
     this.hasAlerts = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Alert["el"] => el?.matches("calcite-alert"))
+      .filter(isAlert)
       .forEach((el) => {
         el.embedded = true;
       });
@@ -126,63 +201,163 @@ export class Shell extends LitElement {
   private handleSheetsSlotChange(event: Event): void {
     this.hasSheets = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Sheet["el"] => el?.matches("calcite-sheet"))
+      .filter(isSheet)
       .forEach((el) => {
         el.embedded = true;
       });
   }
 
-  private handleModalsSlotChange(event: Event): void {
-    this.hasModals = !!slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      ?.filter((el) => el?.matches("calcite-modal"))
-      .forEach((el: Dialog /* casting as dialog until slot is removed */) => {
-        el.embedded = true;
-      });
+  private configurePanels(
+    panels: ShellPanel["el"][],
+    layout: Extract<"horizontal" | "vertical", ShellPanel["layout"]>,
+    position: Extract<"start" | "end", ShellPanel["position"]>,
+  ): void {
+    panels.forEach((panel) => {
+      const sizingPanel = panel as ShellPanelWithSizingProvider;
+
+      panel.layout = layout;
+      panel.position = position;
+      sizingPanel.shellSizingDataProvider = (axis) => this.getShellPanelSizingData(panel, axis);
+    });
+  }
+
+  private getDefaultSlotMinSize(axis: "inline" | "block"): number {
+    return (
+      this.defaultSlotRef.value?.assignedElements({ flatten: true }).reduce((total, element) => {
+        const computedStyle = window.getComputedStyle(element);
+
+        return axis === "inline"
+          ? total +
+              getStylePixelValue(computedStyle.borderInlineStartWidth) +
+              getStylePixelValue(computedStyle.borderInlineEndWidth)
+          : total +
+              getStylePixelValue(computedStyle.borderBlockStartWidth) +
+              getStylePixelValue(computedStyle.borderBlockEndWidth);
+      }, 0) ?? 0
+    );
+  }
+
+  private getDefaultSlotBounds(): Bounds | null {
+    const defaultSlotElements =
+      this.defaultSlotRef.value?.assignedElements({ flatten: true }) ?? [];
+
+    if (!defaultSlotElements.length) {
+      return null;
+    }
+
+    return defaultSlotElements.reduce<Bounds | null>((bounds, element) => {
+      const rect = element.getBoundingClientRect();
+
+      return bounds
+        ? {
+            bottom: Math.max(bounds.bottom, rect.bottom),
+            left: Math.min(bounds.left, rect.left),
+            right: Math.max(bounds.right, rect.right),
+            top: Math.min(bounds.top, rect.top),
+          }
+        : {
+            bottom: rect.bottom,
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+          };
+    }, null);
+  }
+
+  private getShellPanelSizingData(
+    panel: ShellPanel["el"],
+    axis: "inline" | "block",
+  ): ShellPanelSizingData | null {
+    const panelLayoutContainer = panel.assignedSlot?.parentElement;
+
+    if (!panelLayoutContainer) {
+      return null;
+    }
+
+    const containerRect = panelLayoutContainer.getBoundingClientRect();
+    const defaultSlotRect = this.getDefaultSlotBounds();
+
+    if (!defaultSlotRect) {
+      return {
+        availableSize: axis === "inline" ? containerRect.width : containerRect.height,
+      };
+    }
+
+    const defaultSlotMinSize = this.getDefaultSlotMinSize(axis);
+    const isRTL = window.getComputedStyle(this).direction === "rtl";
+    let availableOccupiedSize: number;
+
+    if (axis === "inline") {
+      const isStart = panel.position === "start";
+      availableOccupiedSize = isRTL
+        ? isStart
+          ? containerRect.right - defaultSlotRect.left
+          : defaultSlotRect.right - containerRect.left
+        : isStart
+          ? defaultSlotRect.right - containerRect.left
+          : containerRect.right - defaultSlotRect.left;
+    } else {
+      availableOccupiedSize =
+        panel.position === "start"
+          ? defaultSlotRect.bottom - containerRect.top
+          : containerRect.bottom - defaultSlotRect.top;
+    }
+    const availableSize = Math.max(
+      Math.floor(availableOccupiedSize) - Math.ceil(defaultSlotMinSize),
+      0,
+    );
+
+    return {
+      availableSize,
+    };
   }
 
   private handlePanelTopChange(event: Event): void {
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
+
     this.hasPanelTop = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "start";
-      });
+    this.configurePanels(panelElements, "horizontal", "start");
+    panelElements.forEach((el) => {
+      el.layout = "horizontal";
+      el.position = "start";
+    });
   }
 
   private handlePanelBottomChange(event: Event): void {
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
+
     this.hasPanelBottom = slotChangeHasAssignedElement(event);
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "horizontal";
-        el.position = "end";
-      });
+    this.configurePanels(panelElements, "horizontal", "end");
+    panelElements.forEach((el) => {
+      el.layout = "horizontal";
+      el.position = "end";
+    });
   }
 
   private handlePanelStartChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "start";
-      });
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
+
+    this.configurePanels(panelElements, "vertical", "start");
+    panelElements.forEach((el) => {
+      el.layout = "vertical";
+      el.position = "start";
+    });
   }
 
   private handlePanelEndChange(event: Event): void {
-    slotChangeGetAssignedElements(event)
-      .filter((el): el is ShellPanel["el"] => el?.matches("calcite-shell-panel"))
-      .forEach((el) => {
-        el.layout = "vertical";
-        el.position = "end";
-      });
+    const panelElements = slotChangeGetAssignedElements(event).filter(isShellPanel);
+
+    this.configurePanels(panelElements, "vertical", "end");
+    panelElements.forEach((el) => {
+      el.layout = "vertical";
+      el.position = "end";
+    });
   }
 
   private handleDialogsSlotChange(event: Event): void {
     this.hasDialogs = !!slotChangeHasAssignedElement(event);
     slotChangeGetAssignedElements(event)
-      .filter((el): el is Dialog["el"] => el?.matches("calcite-dialog"))
+      .filter(isDialog)
       .forEach((el) => {
         el.embedded = true;
       });
@@ -224,14 +399,6 @@ export class Shell extends LitElement {
     );
   }
 
-  private renderModals(): JsxNode {
-    return (
-      <div hidden={!this.hasModals}>
-        <slot key="modals" name={SLOTS.modals} onSlotChange={this.handleModalsSlotChange} />
-      </div>
-    );
-  }
-
   private renderDialogs(): JsxNode {
     return (
       <div hidden={!this.hasDialogs}>
@@ -242,7 +409,7 @@ export class Shell extends LitElement {
 
   private renderContent(): JsxNode {
     const { panelIsResizing } = this;
-    const defaultSlotNode: JsxNode = <slot key="default-slot" />;
+    const defaultSlotNode: JsxNode = <slot key="default-slot" ref={this.defaultSlotRef} />;
     const defaultSlotContainerNode = panelIsResizing ? (
       <div class={CSS.contentNonInteractive}>{defaultSlotNode}</div>
     ) : (
@@ -253,10 +420,16 @@ export class Shell extends LitElement {
         key="panel-bottom-slot"
         name={SLOTS.panelBottom}
         onSlotChange={this.handlePanelBottomChange}
+        ref={this.panelBottomSlotRef}
       />
     );
     const panelTopSlotNode: JsxNode = (
-      <slot key="panel-top-slot" name={SLOTS.panelTop} onSlotChange={this.handlePanelTopChange} />
+      <slot
+        key="panel-top-slot"
+        name={SLOTS.panelTop}
+        onSlotChange={this.handlePanelTopChange}
+        ref={this.panelTopSlotRef}
+      />
     );
 
     const contentContainerKey = "content-container";
@@ -299,9 +472,17 @@ export class Shell extends LitElement {
   private renderMain(): JsxNode {
     return (
       <div class={CSS.main}>
-        <slot name={SLOTS.panelStart} onSlotChange={this.handlePanelStartChange} />
+        <slot
+          name={SLOTS.panelStart}
+          onSlotChange={this.handlePanelStartChange}
+          ref={this.panelStartSlotRef}
+        />
         {this.renderContent()}
-        <slot name={SLOTS.panelEnd} onSlotChange={this.handlePanelEndChange} />
+        <slot
+          name={SLOTS.panelEnd}
+          onSlotChange={this.handlePanelEndChange}
+          ref={this.panelEndSlotRef}
+        />
       </div>
     );
   }
@@ -310,7 +491,6 @@ export class Shell extends LitElement {
     return (
       <div class={CSS.positionedSlotWrapper}>
         {this.renderAlerts()}
-        {this.renderModals()}
         {this.renderDialogs()}
         {this.renderSheets()}
       </div>
@@ -328,5 +508,5 @@ export class Shell extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

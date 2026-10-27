@@ -1,31 +1,36 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { Slider } from "./slider";
-import type { Slider as HTMLCalciteSliderElement } from "./slider";
+import type { Slider } from "./slider";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./slider"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale, status } = ATTRIBUTES;
+const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 
 interface SliderStoryArgs extends Pick<
   Slider,
   | "min"
   | "max"
+  | "maxLabel"
   | "value"
   | "step"
+  | "fillPlacement"
   | "minLabel"
   | "disabled"
+  | "labelText"
   | "labelHandles"
   | "labelTicks"
   | "ticks"
   | "pageStep"
   | "precise"
+  | "required"
   | "mirrored"
   | "snap"
   | "scale"
   | "status"
-  | "validationMessage"
   | "validationIcon"
+  | "validationMessage"
 > {
   temperature: string;
 }
@@ -37,13 +42,17 @@ export default {
     max: 100,
     value: 50,
     step: 1,
+    maxLabel: "",
+    fillPlacement: "all",
     minLabel: "Temperature",
     disabled: false,
+    labelText: "Label text",
     labelHandles: false,
     labelTicks: false,
     ticks: 0,
     pageStep: 5,
     precise: false,
+    required: false,
     mirrored: false,
     snap: true,
     scale: scale.defaultValue,
@@ -64,6 +73,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    fillPlacement: {
+      options: sliderFillPlacement.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -78,22 +91,47 @@ export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
+    max-label="${args.maxLabel}"
     value="${args.value}"
     step="${args.step}"
+    fill-placement="${args.fillPlacement}"
     min-label="${args.minLabel}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
     ${boolean("label-handles", args.labelHandles)}
     ${boolean("label-ticks", args.labelTicks)}
     ticks="${args.ticks}"
     page-step="${args.pageStep}"
     ${boolean("precise", args.precise)}
+    ${boolean("required", args.required)}
     ${boolean("mirrored", args.mirrored)}
     ${boolean("snap", args.snap)}
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-slider>
+`;
+
+export const WrappedInLabel = (): string => html`
+  <style>
+    calcite-slider {
+      /* revert global/preview-level width – see https://github.com/Esri/calcite-design-system/blob/c0547b81ef742b3590aaf95423c46ec26283039e/packages/components/.storybook/preview-head.html#L12-L15 */
+      width: revert-layer;
+    }
+  </style>
+  <calcite-label>
+    Block
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+  <calcite-label layout="inline">
+    Inline
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+  <calcite-label layout="inline-space-between">
+    Inline space between
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
 `;
 
 export const range = (): string => html`
@@ -237,7 +275,7 @@ function createHistogramSlider({
 }: {
   range: [number, number];
   values: [number, number];
-  histogram: HTMLCalciteSliderElement["histogram"];
+  histogram: Slider["histogram"];
 }) {
   const slider = document.createElement("calcite-slider");
   slider.min = range[0];
@@ -249,7 +287,7 @@ function createHistogramSlider({
   return slider;
 }
 
-export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const Histogram = (): HTMLDivElement => {
   function createTitle(title: string) {
     const titleElement = document.createElement("h1");
     titleElement.textContent = title;
@@ -409,7 +447,7 @@ export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
   return sliderContainer;
 };
 
-export const darkModeHistogramRTL = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const darkModeHistogramRTL = (): Slider["el"] => {
   const slider = createHistogramSlider({
     range: [0, 100],
     values: [25, 75],
@@ -996,4 +1034,53 @@ export const validationMessageAllScales = (): string => html`
       label-handles
     ></calcite-slider>
   </div>
+`;
+
+export const negativeSignHandlingForDifferentNumberingSystems = (): string => html`
+  <calcite-slider
+    label-text="numbering-system=latn"
+    numbering-system="latn"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="en"
+    label-handles
+    label-text="dir=rtl, numbering-system=latn"
+    numbering-system="latn"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="-5"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="ar"
+    label-text="numbering-system=arab"
+    numbering-system="arab"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="ar"
+    label-text="numbering-system=arabext"
+    numbering-system="arabext"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
 `;

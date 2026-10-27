@@ -9,9 +9,12 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   t9n,
   openClose,
-} from "../../tests/commonTests/browser";
+  accessible,
+  topLayer,
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { SortHandle } from "./sort-handle";
@@ -27,6 +30,10 @@ function getDropdownFromItemText(text: string) {
 
   return page.elementLocator(dropdown);
 }
+
+describe("accessible", () => {
+  accessible(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
+});
 
 describe("defaults", () => {
   defaults(
@@ -56,6 +63,10 @@ describe("defaults", () => {
         propertyName: "placement",
         defaultValue: "bottom-start",
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
 });
@@ -80,6 +91,19 @@ describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-sort-handle"));
 });
 
+describe("propagates", () => {
+  scalePropagates(
+    (mountOptions) =>
+      mount(
+        <calcite-sort-handle
+          addToItems={[{ element: document.createElement("div"), id: "item", label: "Item" }]}
+        />,
+        mountOptions,
+      ),
+    { targetSelector: "calcite-dropdown-group, calcite-dropdown, calcite-action" },
+  );
+});
+
 describe("renders", () => {
   renders(() => mount("calcite-sort-handle"), { display: "flex" });
 });
@@ -92,6 +116,10 @@ describe("openClose", () => {
   openClose((mountOptions) =>
     mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />, mountOptions),
   );
+});
+
+describe("top layer placement", () => {
+  topLayer(() => mount(<calcite-sort-handle label="test" set-position="4" set-size="10" />));
 });
 
 describe("translation support", () => {

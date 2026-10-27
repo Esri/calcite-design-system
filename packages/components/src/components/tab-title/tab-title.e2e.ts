@@ -1,6 +1,5 @@
 import { newE2EPage, E2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it, beforeEach } from "vitest";
-import { HYDRATED_ATTR, themed } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
 
@@ -43,10 +42,8 @@ const closeSelector = `calcite-tab-title >>> .${CSS.close}`;
 it("renders with an icon-start", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-tab-title icon-start='plus'>Text</calcite-tab-title>`);
-  const element = await page.find("calcite-tab-title");
   const iconStart = await page.find(iconStartSelector);
   const iconEnd = await page.find(iconEndSelector);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(iconStart).not.toBeNull();
   expect(iconEnd).toBeNull();
 });
@@ -54,10 +51,8 @@ it("renders with an icon-start", async () => {
 it("renders with an icon-end", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-tab-title icon-end='plus'>Text</calcite-tab-title>`);
-  const element = await page.find("calcite-tab-title");
   const iconStart = await page.find(iconStartSelector);
   const iconEnd = await page.find(iconEndSelector);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(iconStart).toBeNull();
   expect(iconEnd).not.toBeNull();
 });
@@ -65,10 +60,8 @@ it("renders with an icon-end", async () => {
 it("renders with an icon-start and icon-end", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-tab-title icon-start='plus' icon-end='plus'>Text</calcite-tab-title>`);
-  const element = await page.find("calcite-tab-title");
   const iconStart = await page.find(iconStartSelector);
   const iconEnd = await page.find(iconEndSelector);
-  expect(element).toHaveAttribute(HYDRATED_ATTR);
   expect(iconStart).not.toBeNull();
   expect(iconEnd).not.toBeNull();
 });
@@ -110,7 +103,6 @@ describe("basic closing behavior", () => {
 
     let containerElOne = await page.find(`calcite-tab-title[id='one']`);
     const closeOne = await page.find(`calcite-tab-title[id='one'] >>> .${CSS.close}`);
-    expect(containerElOne).toHaveAttribute(HYDRATED_ATTR);
 
     await closeOne.click();
     await page.waitForChanges();
@@ -331,107 +323,4 @@ it("emits active event on user interaction only", async () => {
   await page.keyboard.press("Enter");
   await page.waitForChanges();
   expect(activeEventSpy).toHaveReceivedEventTimes(2);
-});
-
-describe("theme", () => {
-  describe("default", () => {
-    themed(html`<calcite-tab-title closable>Text</calcite-tab-title>`, {
-      "--calcite-tab-text-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "color",
-      },
-      "--calcite-tab-text-color-press": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "color",
-        state: { press: `calcite-tab-title >>> .${CSS.container}` },
-      },
-      "--calcite-tab-accent-color-press": {
-        shadowSelector: `.${CSS.selectedIndicator}`,
-        targetProp: "backgroundColor",
-        state: { press: `calcite-tab-title >>> .${CSS.selectedIndicator}` },
-      },
-      "--calcite-tab-close-icon-color": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-text-color",
-      },
-      "--calcite-tab-close-icon-color-press": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-text-color-press",
-        state: { press: `calcite-tab-title >>> .${CSS.close}` },
-      },
-      "--calcite-tab-close-icon-background-color-press": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-background-color-press",
-        state: { press: `calcite-tab-title >>> .${CSS.close}` },
-      },
-      "--calcite-tab-close-icon-background-color": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-background-color",
-        state: { press: `calcite-tab-title >>> .${CSS.close}` },
-      },
-      "--calcite-tab-background-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-      },
-    });
-  });
-
-  describe("bordered", () => {
-    themed(html` <calcite-tab-title bordered closable>yeah!</calcite-tab-title>`, {
-      "--calcite-tab-background-color-hover": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-    });
-  });
-
-  describe("selected", () => {
-    themed(html` <calcite-tab-title selected closable>yeah!</calcite-tab-title>`, {
-      "--calcite-tab-text-color-press": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "color",
-      },
-      "--calcite-tab-close-icon-background-color": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-background-color",
-      },
-    });
-  });
-
-  describe("bordered & selected", () => {
-    themed(html`<calcite-tab-title bordered selected>close me</calcite-tab-title>`, {
-      "--calcite-tab-border-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderInlineColor",
-      },
-      "--calcite-tab-background-color": {
-        shadowSelector: `.${CSS.container}::after`,
-        targetProp: "backgroundColor",
-      },
-    });
-  });
-
-  describe("start/end icons", () => {
-    themed(html` <calcite-tab-title icon-start="banana" icon-end="3d-glasses">close me</calcite-tab-title>`, {
-      "--calcite-tab-icon-color-start": {
-        shadowSelector: `.${CSS.iconStart}`,
-        targetProp: "color",
-      },
-      "--calcite-tab-icon-color-start-press": {
-        shadowSelector: `.${CSS.iconStart}`,
-        targetProp: "color",
-        state: { press: `calcite-tab-title >>> .${CSS.container}` },
-      },
-      "--calcite-tab-icon-color-end": {
-        shadowSelector: `.${CSS.iconEnd}`,
-        targetProp: "color",
-      },
-      "--calcite-tab-icon-color-end-press": {
-        shadowSelector: `.${CSS.iconEnd}`,
-        targetProp: "color",
-        state: { press: `calcite-tab-title >>> .${CSS.container}` },
-      },
-    });
-  });
 });

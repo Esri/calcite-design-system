@@ -1,4 +1,5 @@
-import { Scale } from "../interfaces";
+import { isTag } from "../resources";
+import { Scale } from "../types";
 
 export const CSS = {
   firstTitle: "first-title",
@@ -10,3 +11,8 @@ export const CSS = {
 };
 
 export const itemSpacingMultiplier = "--calcite-combobox-item-spacing-indent-multiplier";
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isComboboxItemGroup = isTag("calcite-combobox-item-group");

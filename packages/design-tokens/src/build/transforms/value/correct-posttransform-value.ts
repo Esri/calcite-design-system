@@ -1,17 +1,17 @@
 import type { Filter, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 
 const correctedValueTypes = ["fontFamily"] as const;
-const filterTypes: Filter["filter"] = (token) => correctedValueTypes.includes(token.type);
+const filterTypes: Filter["filter"] = (token) => correctedValueTypes.includes(token.$type);
 
 const transformValueCorrectPostprocessValue: ValueTransform["transform"] = async (token) => {
-  if (token.type === "fontFamily" && token.value.includes(",")) {
+  if (token.$type === "fontFamily" && token.$value.includes(",")) {
     // used to preserve the value type – should be removed at a breaking change release when font family type can change to string
-    return token.value.split(",");
+    return token.$value.split(",");
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueCorrectPostprocessValue: RegisterFn = () => {

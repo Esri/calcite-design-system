@@ -1,11 +1,11 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { focusElementInGroup } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import type { Card } from "../card/card";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { isCard } from "../card/resources";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { styles } from "./card-group.scss";
 import { CSS } from "./resources";
@@ -16,8 +16,35 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding one or more `calcite-card`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the gap between slotted elements.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-group-space` instead.
+     */
+    "--calcite-card-group-gap": "*";
+    /**
+     * Specifies the space between slotted elements.
+     */
+    "--calcite-card-group-space": "*";
+  }
+}
+
+interface CardGroupSlots {
+  /**
+   * A slot for adding one or more `calcite-card`s.
+   */
+  "": Node[];
+}
+
 export class CardGroup extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: CardGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -30,7 +57,7 @@ export class CardGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -42,11 +69,10 @@ export class CardGroup extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies an accessible label for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** Specifies the size of the component. Child `calcite-card`s inherit the component's value. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -93,7 +119,7 @@ export class CardGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalCardKeyEvent", this.calciteInternalCardKeyEventListener);
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteCardSelect", this.calciteCardSelectListener);
   }
 
@@ -119,29 +145,35 @@ export class CardGroup extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalCardKeyEventListener(event: KeyboardEvent): void {
-    if (event.composedPath().includes(this.el)) {
-      const interactiveItems = this.items.filter((el) => !el.disabled);
-      switch (event.detail["key"]) {
-        case "ArrowRight":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "next", true, false);
-          break;
-        case "ArrowLeft":
-          focusElementInGroup(
-            interactiveItems,
-            event.target as Card["el"],
-            "previous",
-            true,
-            false,
-          );
-          break;
-        case "Home":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "first", true, false);
-          break;
-        case "End":
-          focusElementInGroup(interactiveItems, event.target as Card["el"], "last", true, false);
-          break;
-      }
+  private keyDownHandler(event: KeyboardEvent): void {
+    if (event.defaultPrevented || this.disabled || !event.composedPath().includes(this.el)) {
+      return;
+    }
+
+    const card = this.items.find((item) => item === event.target);
+
+    if (!card || card.disabled || card.selectable) {
+      return;
+    }
+
+    const interactiveItems = this.items.filter((el) => !el.disabled);
+    switch (event.key) {
+      case "ArrowRight":
+        focusElementInGroup(interactiveItems, card, "next", true, false);
+        event.preventDefault();
+        break;
+      case "ArrowLeft":
+        focusElementInGroup(interactiveItems, card, "previous", true, false);
+        event.preventDefault();
+        break;
+      case "Home":
+        focusElementInGroup(interactiveItems, card, "first", true, false);
+        event.preventDefault();
+        break;
+      case "End":
+        focusElementInGroup(interactiveItems, card, "last", true, false);
+        event.preventDefault();
+        break;
     }
   }
 
@@ -162,11 +194,8 @@ export class CardGroup extends LitElement {
     this.updateItemsScale();
   }
 
-  private updateSlottedItems(target: HTMLSlotElement): void {
-    this.items =
-      target
-        ?.assignedElements({ flatten: true })
-        .filter((el): el is Card["el"] => el?.matches("calcite-card")) || [];
+  private updateSlottedItems(target?: HTMLSlotElement): void {
+    this.items = target?.assignedElements({ flatten: true }).filter(isCard) || [];
   }
 
   private updateItemsScale(): void {

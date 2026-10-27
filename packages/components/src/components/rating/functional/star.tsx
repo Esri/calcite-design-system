@@ -1,6 +1,6 @@
 import { TemplateResult } from "lit";
 import { h } from "@arcgis/lumina";
-import { StarIconProps } from "../interfaces";
+import { StarIconProps } from "../types";
 
 export const StarIcon = ({ full, scale, partial }: StarIconProps): TemplateResult => (
   <calcite-icon

@@ -1,31 +1,14 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
-import { describe, expect, it } from "vitest";
-import { accessible, themed } from "../../tests/commonTests";
+import { expect, it } from "vitest";
+
 import { html } from "../../../support/formatting";
 import { CSS } from "./resources";
-import { Notice } from "./notice";
 
 const noticeContent = html`
   <div slot="title">Title Text</div>
   <div slot="message">Message Text</div>
   <calcite-link slot="link" href="">Action</calcite-link>
 `;
-
-describe("accessible", () => {
-  accessible(`<calcite-notice open>${noticeContent}</calcite-notice>`);
-});
-
-describe("accessible with icon", () => {
-  accessible(`<calcite-notice icon open>${noticeContent}</calcite-notice>`);
-});
-
-describe("accessible with icon with close button", () => {
-  accessible(`<calcite-notice closable open>${noticeContent}</calcite-notice>`);
-});
-
-describe("accessible with icon and close button", () => {
-  accessible(`<calcite-notice icon closable open>${noticeContent}</calcite-notice>`);
-});
 
 it("renders default props when none are provided", async () => {
   const page = await newE2EPage();
@@ -85,102 +68,4 @@ it("successfully closes a closable notice", async () => {
   await noticeClose1.click();
   await page.waitForTimeout(animationDurationInMs);
   expect(await notice1.isVisible()).not.toBe(true);
-});
-
-describe("theme", () => {
-  const noticeHTML = (kind: Notice["kind"], appearance: Notice["appearance"] = "outline-fill"): string =>
-    html` <calcite-notice kind="${kind}" open closable appearance="${appearance}">
-      <div slot="title">Title</div>
-      <div slot="message">Message</div>
-      <calcite-link slot="link" title="my action">Retry</calcite-link>
-    </calcite-notice>`;
-
-  const kinds: Notice["kind"][] = ["brand", "danger", "info", "neutral", "success", "warning"];
-
-  describe("default", () => {
-    themed(noticeHTML("brand"), {
-      "--calcite-notice-close-icon-color": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-text-color",
-      },
-      "--calcite-notice-close-icon-color-hover": [
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-text-color-press",
-          state: { focus: { attribute: "class", value: CSS.close } },
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-text-color-press",
-          state: { hover: { attribute: "class", value: CSS.close } },
-        },
-      ],
-      "--calcite-notice-close-background-color": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-background-color",
-      },
-      "--calcite-notice-close-background-color-hover": [
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "focus",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "hover",
-        },
-      ],
-      "--calcite-notice-close-background-color-press": {
-        shadowSelector: `.${CSS.close}`,
-        targetProp: "--calcite-action-background-color-press",
-        state: { press: { attribute: "class", value: CSS.close } },
-      },
-      "--calcite-notice-border-color": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-notice-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
-      "--calcite-notice-shadow": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "boxShadow",
-      },
-    });
-  });
-
-  kinds.forEach((kind) => {
-    describe(`kind = "${kind}" `, () => {
-      themed(noticeHTML(kind), {
-        "--calcite-notice-background-color": [
-          {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "backgroundColor",
-          },
-        ],
-      });
-    });
-  });
-  describe("deprecated", () => {
-    themed(noticeHTML("brand"), {
-      "--calcite-notice-width": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "width",
-      },
-      "--calcite-notice-close-background-color-focus": [
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "focus",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "hover",
-        },
-      ],
-    });
-  });
 });

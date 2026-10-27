@@ -1,14 +1,21 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import {
+  createEvent,
+  h,
+  JsxNode,
+  LitElement,
+  method,
+  property,
+  state,
+  ToEvents,
+} from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { InteractionMode, Scale, SelectionMode } from "../interfaces";
-import { ItemData } from "../list-item/interfaces";
+import { InteractionMode, Scale, SelectionMode } from "../types";
+import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
-  isListItem,
   listItemGroupSelector,
   listItemSelector,
   listSelector,
@@ -17,11 +24,11 @@ import {
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import {
-  MoveEventDetail,
-  SortMenuItem,
-  ReorderEventDetail,
   AddEventDetail,
-} from "../sort-handle/interfaces";
+  MoveEventDetail,
+  ReorderEventDetail,
+  SortMenuItem,
+} from "../sort-handle/types";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -29,13 +36,17 @@ import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListDisplayMode, ListDragDetail, ListElement } from "./interfaces";
+import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
+import type { SortHandle } from "../sort-handle/sort-handle";
+import { logger } from "../../utils/logger";
+import { isListItem } from "../list-item/resources";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -43,18 +54,50 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-list-background-color": "*";
+  }
+}
+
+interface ListSlots {
+  /**
+   * A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+   */
+  "": Node[];
+  /**
+   * A slot for adding content to display when the component has no `calcite-list-item`s.
+   */
+  "empty-content": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements before the filter component.
+   */
+  "filter-actions-start": Node[];
+  /**
+   * A slot for adding actionable `calcite-action` elements after the filter component.
+   */
+  "filter-actions-end": Node[];
+  /**
+   * When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
+   */
+  "filter-no-results": Node[];
+}
+
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
- *
- * @slot - A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
- * @slot empty-content - A slot for adding content to display when the component has no `calcite-list-item`s.
- * @slot filter-actions-start - A slot for adding actionable `calcite-action` elements before the filter component.
- * @slot filter-actions-end - A slot for adding actionable `calcite-action` elements after the filter component.
- * @slot filter-no-results - When `filterEnabled` is `true`, a slot for adding content to display when no results are found.
  */
 export class List extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ListSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -65,15 +108,15 @@ export class List extends LitElement {
 
   dragSelector = listItemSelector;
 
-  filterEl: Filter["el"];
+  filterEl?: Filter["el"];
 
-  defaultSlotEl: HTMLSlotElement;
+  defaultSlotEl?: HTMLSlotElement;
 
   private focusableItems: ListItem["el"][] = [];
 
   handleSelector = "calcite-sort-handle";
 
-  private lastSelectedInfo: { selectedItem: ListItem["el"]; selected: boolean };
+  private lastSelectedInfo?: { selectedItem: ListItem["el"]; selected: boolean };
 
   private listItems: ListItem["el"][] = [];
 
@@ -84,7 +127,7 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
   });
 
-  private parentListEl: List["el"];
+  private parentListEl?: List["el"];
 
   private cancelable = useCancelable<this>()(this);
 
@@ -107,10 +150,10 @@ export class List extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   get hasActiveFilter(): boolean {
-    return (
+    return !!(
       this.filterEnabled &&
       this.filterText &&
       this.filteredItems.length !== this.visibleItems.length
@@ -122,7 +165,7 @@ export class List extends LitElement {
   }
 
   get showNoResultsContainer(): boolean {
-    return (
+    return !!(
       this.filterEnabled &&
       this.filterText &&
       this.hasFilterNoResults &&
@@ -154,7 +197,7 @@ export class List extends LitElement {
 
   //#region State Properties
 
-  @state() assistiveText: string;
+  @state() assistiveText?: string;
 
   @state() dataForFilter: ItemData[] = [];
 
@@ -176,11 +219,11 @@ export class List extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can move from the list. */
-  @property() canPull: (detail: ListDragDetail) => boolean | "clone";
+  /** When provided, the method will be called to determine whether the element can be moved from the component. */
+  @property() canPull?: (detail: ListDragDetail) => boolean | "clone";
 
-  /** When provided, the method will be called to determine whether the element can be added from another list. */
-  @property() canPut: (detail: ListDragDetail) => boolean;
+  /** When provided, the method will be called to determine whether the element can be added from another `calcite-list`. */
+  @property() canPut?: (detail: ListDragDetail) => boolean;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -203,13 +246,13 @@ export class List extends LitElement {
   @property() filterPredicate?: (item: ListItem["el"]) => boolean;
 
   /** Specifies an accessible name for the filter input field. */
-  @property({ reflect: true }) filterLabel: string;
+  @property({ reflect: true }) filterLabel?: string;
 
   /** Specifies placeholder text for the component's filter input field. */
-  @property({ reflect: true }) filterPlaceholder: string;
+  @property({ reflect: true }) filterPlaceholder?: string;
 
   /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`). */
-  @property() filterProps: string[];
+  @property() filterProps?: string[];
 
   /** Text for the component's filter input field. */
   @property({ reflect: true }) filterText: string = "";
@@ -229,52 +272,44 @@ export class List extends LitElement {
   @property() filteredItems: ListItem["el"][] = [];
 
   /**
-   * The component's group identifier.
+   * Specifies the component's group identifier.
    *
-   * To drag elements from one list into another, both lists must have the same group value.
+   * To drag elements from one `calcite-list` into another, both must have the same group value.
    */
   @property({ reflect: true }) group?: string;
 
   /**
-   * Specifies the interaction mode of the component, where
+   * Specifies the interaction mode of the component.
    *
-   * `"interactive"` allows interaction styling and pointer changes on hover,
-   *
-   * `"static"` does not allow interaction styling and pointer changes on hover -
-   *
-   * the `"static"` value should only be used when `selectionMode` is `"none"`.
+   * - `"interactive"` allows interaction styling and pointer changes on hover.
+   * - `"static"` does not allow interaction styling and pointer changes on hover. Should only be used when `selectionMode` is `"none"`.
    */
   @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
 
   /**
-   * Specifies an accessible label for the component.
-   *
-   * When `dragEnabled` is `true` and multiple list sorting is enabled with `group`, specifies the component's name for dragging between lists.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Overrides individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the nesting behavior of `calcite-list-item`s, where
+   * Specifies the nesting behavior of `calcite-list-item`s.
    *
-   * `"flat"` displays `calcite-list-item`s in a uniform list, and
-   *
-   * `"nested"` displays `calcite-list-item`s under their parent element.
+   * - `"flat"` displays `calcite-list-item`s in a uniform list.
+   * - `"nested"` displays `calcite-list-item`s under their parent element.
    *
    *  The parent component's behavior should follow throughout its child elements.
-   *
    */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /** Specifies the Unicode numeral system used by the component for localization. */
-  @property() numberingSystem: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -287,14 +322,11 @@ export class List extends LitElement {
   @property() selectedItems: ListItem["el"][] = [];
 
   /**
-   * Specifies the selection appearance, where
+   * Specifies the selection appearance.
    *
-   * `"icon"` displays a checkmark or dot,
-   *
-   * `"border"` [Deprecated] - Use `"highlight"` instead - displays a border, or
-   *
-   * `"highlight"` displays background highlight.
-   *
+   * - `"icon"` displays a checkmark or dot.
+   * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border" | "highlight",
@@ -302,15 +334,12 @@ export class List extends LitElement {
   > = "icon";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the selection mode of the component.
    *
-   * `"multiple"` allows any number of selections,
-   *
-   * `"single"` allows only one selection,
-   *
-   * `"single-persist"` allows one selection and prevents de-selection, and
-   *
-   * `"none"` does not allow any selections.
+   * - `"multiple"` allows any number of selections.
+   * - `"single"` allows only one selection.
+   * - `"single-persist"` allows one selection and prevents de-selection.
+   * - `"none"` does not allow any selections.
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -375,13 +404,6 @@ export class List extends LitElement {
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
 
-  /**
-   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
-   *
-   * @deprecated in v3.3.0, removal target v6.0.0 - No longer necessary.
-   */
-  calciteListMoveHalt = createEvent<ListDragDetail>({ cancelable: false });
-
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
 
@@ -400,11 +422,20 @@ export class List extends LitElement {
       this.handleCalciteInternalAssistiveTextChange,
     );
     this.listen("calciteListItemSortHandleBeforeOpen", this.updateListItemsDebounced);
-    this.listen("calciteSortHandleReorder", this.handleSortReorder);
-    this.listen("calciteSortHandleMove", this.handleSortMove);
-    this.listen("calciteSortHandleAdd", this.handleSortAdd);
+    this.listen<ToEvents<SortHandle>["calciteSortHandleReorder"]>(
+      "calciteSortHandleReorder",
+      this.handleSortReorder,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleMove"]>(
+      "calciteSortHandleMove",
+      this.handleSortMove,
+    );
+    this.listen<ToEvents<SortHandle>["calciteSortHandleAdd"]>(
+      "calciteSortHandleAdd",
+      this.handleSortAdd,
+    );
     this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
-    this.listen(
+    this.listen<ToEvents<ListItem>["calciteInternalListItemSelectMultiple"]>(
       "calciteInternalListItemSelectMultiple",
       this.handleCalciteInternalListItemSelectMultiple,
     );
@@ -472,6 +503,7 @@ export class List extends LitElement {
   //#region Private Methods
 
   private updateListItems(): void {
+    this.updateFilterRowHeight();
     this.updateGroupItems();
 
     const {
@@ -758,7 +790,7 @@ export class List extends LitElement {
   }
 
   private setParentList(): void {
-    this.parentListEl = this.el.parentElement?.closest(listSelector);
+    this.parentListEl = this.el.parentElement?.closest(listSelector) || undefined;
   }
 
   private handleDefaultSlotChange(event: Event): void {
@@ -820,7 +852,7 @@ export class List extends LitElement {
 
     el.filterHidden = filterHidden;
 
-    const closestParent = el.parentElement.closest<ListElement>(parentSelector);
+    const closestParent = el.parentElement!.closest<ListElement>(parentSelector);
 
     if (!closestParent) {
       return;
@@ -901,7 +933,9 @@ export class List extends LitElement {
   }
 
   private async filterAndUpdateData(): Promise<void> {
-    await this.filterEl?.filter(this.filterText);
+    // Keep in-progress user input as source-of-truth during rapid item updates.
+    const filterValue = this.filterEl?.value ?? this.filterText;
+    await this.filterEl?.filter(filterValue);
     this.updateFilteredData();
   }
 
@@ -945,11 +979,9 @@ export class List extends LitElement {
   }
 
   private getGroupHeading(item: ListItem["el"]): string[] {
-    const heading = this.listItemGroups
-      .filter((group) => group.contains(item))
-      .map((group) => group.heading);
-
-    return heading;
+    return this.listItemGroups
+      .filter((group) => group.contains(item) && group.heading)
+      .map((group) => group.heading!);
   }
 
   private updateGroupItems(): void {
@@ -1018,7 +1050,7 @@ export class List extends LitElement {
       event.preventDefault();
 
       if (currentIndex === 0 && this.filterEnabled) {
-        this.filterEl.setFocus();
+        this.filterEl!.setFocus();
         return;
       }
 
@@ -1050,7 +1082,7 @@ export class List extends LitElement {
       this.selectionMode !== "none" &&
       this.selectionAppearance === "border"
     ) {
-      console.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
+      logger.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 
@@ -1231,7 +1263,6 @@ export class List extends LitElement {
       dataForFilter,
       filterEnabled,
       filterPlaceholder,
-      filterText,
       filterLabel,
       hasFilterActionsStart,
       hasFilterActionsEnd,
@@ -1256,7 +1287,7 @@ export class List extends LitElement {
           {this.renderItemAriaLive()}
           {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
-            ariaBusy={loading}
+            ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
             class={CSS.table}
             onKeyDown={this.handleListKeydown}
@@ -1282,7 +1313,6 @@ export class List extends LitElement {
                         placeholder={filterPlaceholder}
                         ref={this.setFilterEl}
                         scale={this.scale}
-                        value={filterText}
                       />
                       <slot
                         name={SLOTS.filterActionsEnd}
