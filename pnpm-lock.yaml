@@ -25,8 +25,8 @@ catalogs:
       specifier: 1.0.3
       version: 1.0.3
     '@cspell/dict-scientific-terms-us':
-      specifier: 3.1.0
-      version: 3.1.0
+      specifier: 3.1.2
+      version: 3.1.2
     '@cspell/eslint-plugin':
       specifier: 10.0.1
       version: 10.0.1
@@ -421,7 +421,7 @@ importers:
         version: 1.0.3
       '@cspell/dict-scientific-terms-us':
         specifier: 'catalog:'
-        version: 3.1.0
+        version: 3.1.2
       '@cspell/eslint-plugin':
         specifier: 'catalog:'
         version: 10.0.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))
@@ -1248,6 +1248,7 @@ packages:
 
   '@arcgis/api-extractor@6.0.0-next.16':
     resolution: {integrity: sha512-uHGbmFP9bjQgpa9VL9VBBy89rhq1mZyKDfzw96oJBKXwkR5+YmOSEOcHHC7CdAtULK1stM1m/P+XUt4SkWsrEw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     hasBin: true
     peerDependencies:
       typescript: ~6.0.3
@@ -1258,12 +1259,14 @@ packages:
 
   '@arcgis/eslint-config@6.0.0-next.16':
     resolution: {integrity: sha512-hRsimAzaSwOqwyNTj6BBF6oqx3cWBoqOEZSyud/4A1jJRL6jlXpETspZt4GVABg3NB4larEdNd1Bh/pnwlvHPw==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       eslint: ^10.6.0
 
   '@arcgis/lumina-compiler@6.0.0-next.16':
     resolution: {integrity: sha512-GeMflc23OmxGSIuGRma52EqGFB82gaGonHVgNq0tJm9cVwSKkc0nYYjbX6w1AtRLADFQC4+rNazDpbmVNZZ27Q==}
     engines: {node: '>=24.11.0'}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@arcgis/lumina': ~6.0.0-next.16
       lit: ^3.3.0
@@ -1279,6 +1282,7 @@ packages:
 
   '@arcgis/lumina@6.0.0-next.16':
     resolution: {integrity: sha512-tS5/Q5+tv+nXa71Iozy3o/0HsMg0cIHcbq/coDZ3qGoT84Nec8Hlx4xkvhNS084PpMqkjZT7s5JCceOJ53W/nQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
     peerDependencies:
       '@lit/context': ^1.1.6
       lit: ^3.3.0
@@ -1288,9 +1292,11 @@ packages:
 
   '@arcgis/node-toolkit@6.0.0-next.16':
     resolution: {integrity: sha512-ngwtRbtr/mHgGjYQBna7zoc21R0eStkWgVlCKbIFaI4zC7TZ2F8aDu02ppMWQQw6QKIAgaEm8jmPMCxW7wftPQ==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@arcgis/toolkit@6.0.0-next.16':
     resolution: {integrity: sha512-l2LERqf+8r8DiO5BVipLES3XBWc+gRLpYq9d2rYoGPjB+4xb0Qk/ugNxa95cifA1yUptxhtmrNnnRO2a3RwtJA==}
+    deprecated: This version is no longer supported. Upgrade to @latest
 
   '@babel/code-frame@7.29.7':
     resolution: {integrity: sha512-Aup7aUOfpbAUg2ROOJN6Iw5f9DMBlzu0mIkm/malLQFN/YQgO48wCj0Kxa3sEHJvPVFg7siR+qRInwXd2qhQKw==}
@@ -1538,8 +1544,8 @@ packages:
   '@cspell/dict-scala@5.0.9':
     resolution: {integrity: sha512-AjVcVAELgllybr1zk93CJ5wSUNu/Zb5kIubymR/GAYkMyBdYFCZ3Zbwn4Zz8GJlFFAbazABGOu0JPVbeY59vGg==}
 
-  '@cspell/dict-scientific-terms-us@3.1.0':
-    resolution: {integrity: sha512-QKkW/bEmqlXqdBbIVmXHAUXH2TBJvYI6Ewxpba6qHCcGa35INLStBvD+N/zQ+WuJy7ZNVJlCaLFs7ZCmzw7hFA==}
+  '@cspell/dict-scientific-terms-us@3.1.2':
+    resolution: {integrity: sha512-0rlIP8+Cqau3VuThzxrufV50rdmCqw0FpcP47JQ+0h1BQLpeOe6gBZuyQkzsqz3sPDmrGnfD4XjubzRXRAOa1w==}
 
   '@cspell/dict-shell@1.2.0':
     resolution: {integrity: sha512-PVctvT22lJ49niMiakO8xieY7ELCAzjSqhejWR7bAMb5AZ9F4WDEs+XdGMnoVHWeXq7K5rcepLPmEJb+37zzIw==}
@@ -10046,7 +10052,7 @@ snapshots:
 
   '@cspell/dict-scala@5.0.9': {}
 
-  '@cspell/dict-scientific-terms-us@3.1.0': {}
+  '@cspell/dict-scientific-terms-us@3.1.2': {}
 
   '@cspell/dict-shell@1.2.0': {}
 
