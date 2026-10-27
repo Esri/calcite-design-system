@@ -511,7 +511,6 @@ export class Block extends LitElement {
     } else {
       this.expanded = !this.expanded;
     }
-    this.calciteBlockToggle.emit();
   }
 
   private menuActionsSlotChangeHandler(event: Event): void {
