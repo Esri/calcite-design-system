@@ -442,6 +442,82 @@ describe("overflowing actions", () => {
     expect(overflowedActions.length).toBeGreaterThan(0);
   });
 
+  it("keeps vertical overflow stable across repeated calculations and resizing", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expanded style={{ height: "300px" }}>
+        <calcite-action-group style={{ "--calcite-internal-action-group-gap": "32px" }}>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    const overflowedActions = page.getBySelector("calcite-action[slot='menu-actions']");
+    const initialOverflowedActions = overflowedActions.elements();
+
+    expect(initialOverflowedActions.length).toBeGreaterThan(0);
+
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    expect(overflowedActions.elements()).toEqual(initialOverflowedActions);
+
+    el.style.height = "1000px";
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    expect(overflowedActions.elements()).toHaveLength(0);
+
+    el.style.height = "300px";
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    expect(overflowedActions.elements()).toEqual(initialOverflowedActions);
+
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    expect(overflowedActions.elements()).toEqual(initialOverflowedActions);
+  });
+
+  it("keeps horizontal overflow stable across repeated calculations", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar layout="horizontal" style={{ width: "300px" }}>
+        <calcite-action-group style={{ "--calcite-internal-action-group-gap": "32px" }}>
+          <calcite-action icon="plus" text="Add" />
+          <calcite-action icon="save" text="Save" />
+          <calcite-action icon="trash" text="Delete" />
+          <calcite-action icon="pencil" text="Edit" />
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    const overflowedActions = page.getBySelector("calcite-action[slot='menu-actions']");
+    const initialOverflowedActions = overflowedActions.elements();
+
+    expect(initialOverflowedActions.length).toBeGreaterThan(0);
+
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    expect(overflowedActions.elements()).toEqual(initialOverflowedActions);
+
+    await el.overflowActions();
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.resize);
+
+    expect(overflowedActions.elements()).toEqual(initialOverflowedActions);
+  });
+
   it("uses visual slot order for overflow spacing regardless of light-DOM order", async () => {
     const { component, el } = await mount<ActionBar>(
       <calcite-action-bar expand-toggle-disabled expanded style={{ height: "220px" }}>
