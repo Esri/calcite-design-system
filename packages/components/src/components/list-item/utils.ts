@@ -42,8 +42,15 @@ export function getListItemChildren(slotEl: HTMLSlotElement): {
 }
 
 export function updateListItemChildren(slotEl: HTMLSlotElement): void {
-  const listItemChildren = slotEl.assignedElements({ flatten: true }).filter(isListItem);
+  updateListItemSetInfo(slotEl.assignedElements({ flatten: true }).filter(isListItem));
+}
 
+/**
+ * Sets `setPosition` and `setSize` on sibling list items, skipping the ones hidden by filtering.
+ *
+ * @param listItemChildren - the list items of a single list
+ */
+export function updateListItemSetInfo(listItemChildren: ListItem["el"][]): void {
   const filteredListItemChildren = listItemChildren.filter((listItem) => !listItem.filterHidden);
 
   listItemChildren.forEach((listItem) => {
