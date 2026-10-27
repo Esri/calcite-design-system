@@ -11,6 +11,9 @@
     overflow-hidden;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
+  inset: 1rem;
+  inline-size: auto;
+  block-size: auto;
 }
 
 .main {
@@ -135,21 +138,15 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   inset: 0;
 }
 
-.main.has-resizable-panel-top {
+.main.has-action-bar-position-panel-top {
   ::slotted(calcite-panel) {
-    border-block-start: none;
+    border-block-start: 0;
   }
 }
 
-.main.has-resizable-panel-bottom {
+.main.has-action-bar-position-panel-bottom {
   ::slotted(calcite-panel) {
-    border-block-end: none;
-  }
-}
-
-.main.has-action-bar-position-panel {
-  ::slotted(calcite-panel) {
-    border: 0;
+    border-block-end: 0;
   }
 }
 

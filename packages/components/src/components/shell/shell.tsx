@@ -115,13 +115,12 @@ export class Shell extends LitElement {
 
   private panelTopSlotRef = createRef<HTMLSlotElement>();
 
-  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
-    {
-      "panel-start": { elements: [], resizable: false },
-      "panel-end": { elements: [], resizable: false },
-      "panel-top": { elements: [], resizable: false },
-      "panel-bottom": { elements: [], resizable: false },
-    };
+  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][] }> = {
+    "panel-start": { elements: [] },
+    "panel-end": { elements: [] },
+    "panel-top": { elements: [] },
+    "panel-bottom": { elements: [] },
+  };
 
   //#endregion
 
@@ -135,17 +134,15 @@ export class Shell extends LitElement {
 
   @state() hasHeader = false;
 
-  @state() hasActionBarPositionPanel = false;
+  @state() hasActionBarPositionPanelBottom = false;
+
+  @state() hasActionBarPositionPanelTop = false;
 
   @state() hasOnlyPanelBottom = false;
 
   @state() hasPanelBottom = false;
 
   @state() hasPanelTop = false;
-
-  @state() hasResizablePanelBottom = false;
-
-  @state() hasResizablePanelTop = false;
 
   @state() hasSheets = false;
 
@@ -172,10 +169,6 @@ export class Shell extends LitElement {
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
     );
-    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizableChange"]>(
-      "calciteInternalShellPanelResizableChange",
-      this.handleCalciteInternalShellPanelResizableChange,
-    );
     this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelActionBarPositionChange"]>(
       "calciteInternalShellPanelActionBarPositionChange",
       this.handleCalciteInternalShellPanelActionBarPositionChange,
@@ -199,21 +192,11 @@ export class Shell extends LitElement {
 
   //#region Private Methods
 
-  private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
-    const panel = event.composedPath().find(isShellPanel);
-
-    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updateResizableSlotState(panel.slot as PanelSlot);
-    }
-
-    event.stopPropagation();
-  }
-
   private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
     const panel = event.composedPath().find(isShellPanel);
 
     if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updateResizableSlotState(panel.slot as PanelSlot);
+      this.updatePanelSlotState(panel.slot as PanelSlot);
     }
 
     event.stopPropagation();
@@ -369,7 +352,7 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "start";
     });
-    this.updateResizableSlotState("panel-top", panelElements);
+    this.updatePanelSlotState("panel-top", panelElements);
   }
 
   private handlePanelBottomChange(event: Event): void {
@@ -381,7 +364,7 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "end";
     });
-    this.updateResizableSlotState("panel-bottom", panelElements);
+    this.updatePanelSlotState("panel-bottom", panelElements);
   }
 
   private handlePanelStartChange(event: Event): void {
@@ -392,7 +375,7 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "start";
     });
-    this.updateResizableSlotState("panel-start", panelElements);
+    this.updatePanelSlotState("panel-start", panelElements);
   }
 
   private handlePanelEndChange(event: Event): void {
@@ -403,7 +386,7 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "end";
     });
-    this.updateResizableSlotState("panel-end", panelElements);
+    this.updatePanelSlotState("panel-end", panelElements);
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -415,27 +398,23 @@ export class Shell extends LitElement {
       });
   }
 
-  private updateResizableSlotState(
+  private updatePanelSlotState(
     slot: PanelSlot,
     panelElements = this.panelSlotState[slot].elements,
   ): void {
     this.panelSlotState[slot] = {
       elements: panelElements,
-      resizable: panelElements.some((panel) => panel.resizable),
     };
-    this.syncResizableState();
     this.syncActionBarPositionPanelState();
   }
 
   private syncActionBarPositionPanelState(): void {
-    this.hasActionBarPositionPanel = panelSlots.some((slot) =>
-      this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
+    this.hasActionBarPositionPanelBottom = this.panelSlotState["panel-bottom"].elements.some(
+      (panel) => !!panel.actionBarPosition,
     );
-  }
-
-  private syncResizableState(): void {
-    this.hasResizablePanelBottom = this.panelSlotState["panel-bottom"].resizable;
-    this.hasResizablePanelTop = this.panelSlotState["panel-top"].resizable;
+    this.hasActionBarPositionPanelTop = this.panelSlotState["panel-top"].elements.some(
+      (panel) => !!panel.actionBarPosition,
+    );
   }
 
   //#endregion
@@ -549,9 +528,8 @@ export class Shell extends LitElement {
       <div
         class={{
           [CSS.main]: true,
-          [CSS.hasActionBarPositionPanel]: this.hasActionBarPositionPanel,
-          [CSS.hasResizablePanelBottom]: this.hasResizablePanelBottom,
-          [CSS.hasResizablePanelTop]: this.hasResizablePanelTop,
+          [CSS.hasActionBarPositionPanelBottom]: this.hasActionBarPositionPanelBottom,
+          [CSS.hasActionBarPositionPanelTop]: this.hasActionBarPositionPanelTop,
         }}
       >
         <slot
