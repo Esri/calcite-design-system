@@ -65,6 +65,10 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "focusTrapOptions",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "panelCollapseDirection",
         defaultValue: "down",
       },
@@ -177,6 +181,67 @@ describe("internal panel", () => {
     const { el } = await mount<ShellPanel>(<calcite-shell-panel />);
 
     await expect(el.scrollContentTo()).resolves.toBeUndefined();
+  });
+
+  it("forwards focus trap options and updates to the internal panel", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel focusTrapOptions={{ initialFocus: false }} />,
+    );
+    const panel = page.getBySelector("calcite-panel");
+
+    await expect.element(panel).toHaveProperty("focusTrapOptions", { initialFocus: false });
+
+    el.focusTrapOptions = { returnFocusOnDeactivate: false };
+
+    await expect
+      .element(panel)
+      .toHaveProperty("focusTrapOptions", { returnFocusOnDeactivate: false });
+
+    el.focusTrapOptions = undefined;
+
+    await expect.element(panel).toHaveProperty("focusTrapOptions", undefined);
+  });
+
+  it("delegates focus via setFocus to the internal panel", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel close-disabled>
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
+    const setFocus = vi.spyOn(panel, "setFocus");
+    const options = { preventScroll: true };
+
+    await expect(el.setFocus(options)).resolves.toBeUndefined();
+
+    expect(setFocus).toHaveBeenCalledExactlyOnceWith(options);
+    await expect.element(page.getByRole("button", { name: "Panel content" })).toHaveFocus();
+
+    await expect(el.setFocus()).resolves.toBeUndefined();
+
+    expect(setFocus).toHaveBeenLastCalledWith(undefined);
+  });
+
+  it("updates internal panel focus trap elements with optional extra containers", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel heading="Tools">
+        <button slot="action-bar" type="button">
+          Action bar
+        </button>
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
+    const updateFocusTrapElements = vi.spyOn(panel, "updateFocusTrapElements");
+    const extraContainers = [el.querySelector<HTMLButtonElement>("button[slot='action-bar']")!];
+
+    await expect(el.updateFocusTrapElements(extraContainers)).resolves.toBeUndefined();
+
+    expect(updateFocusTrapElements).toHaveBeenCalledExactlyOnceWith(extraContainers);
+
+    await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
+
+    expect(updateFocusTrapElements).toHaveBeenLastCalledWith(undefined);
   });
 
   it("ignores collapse toggles from nested panels", async () => {

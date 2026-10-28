@@ -28,6 +28,7 @@ import type {
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
+import type { FocusTrapOptions } from "../../controllers/useFocusTrap";
 import type { ActionBar } from "../action-bar/action-bar";
 import { isActionBar } from "../action-bar/resources";
 import type { IconName } from "../icon/types";
@@ -302,6 +303,17 @@ export class ShellPanel extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
+  /**
+   * Specifies custom focus trap configuration on the internal panel.
+   *
+   * - `"allowOutsideClick"` allows outside clicks.
+   * - `"initialFocus"` enables initial focus.
+   * - `"returnFocusOnDeactivate"` returns focus when not active.
+   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   */
+  @property() focusTrapOptions?: Partial<FocusTrapOptions>;
+
   /** The component header text. */
   @property() heading?: string;
 
@@ -427,6 +439,30 @@ export class ShellPanel extends LitElement {
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
     await this.panelRef.value?.scrollContentTo(options);
+  }
+
+  /**
+   * Sets focus on the internal panel's first focusable element.
+   *
+   * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
+   *
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   */
+  @method()
+  async setFocus(options?: FocusOptions): Promise<void> {
+    await this.panelRef.value?.setFocus(options);
+  }
+
+  /**
+   * Updates the element(s) that are included in the internal panel's focus trap.
+   *
+   * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
+   */
+  @method()
+  async updateFocusTrapElements(
+    extraContainers?: FocusTrapOptions["extraContainers"],
+  ): Promise<void> {
+    await this.panelRef.value?.updateFocusTrapElements(extraContainers);
   }
 
   /**
@@ -945,6 +981,7 @@ export class ShellPanel extends LitElement {
               description={this.description}
               disabled={this.disabled}
               focusTrapDisabled={true}
+              focusTrapOptions={this.focusTrapOptions}
               heading={this.heading}
               headingLevel={this.headingLevel}
               icon={this.icon}
