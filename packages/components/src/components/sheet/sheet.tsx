@@ -18,7 +18,14 @@ import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import { Height, LogicalFlowPosition, ResizeValues, Scale, Width } from "../types";
+import {
+  CollapseDirection,
+  Height,
+  LogicalFlowPosition,
+  ResizeValues,
+  Scale,
+  Width,
+} from "../types";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
@@ -29,7 +36,12 @@ import { useFocusable } from "../../controllers/useFocusable";
 import { IconName } from "../icon/types";
 import { Panel } from "../panel/panel";
 import { HeadingLevel } from "../functional/Heading";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { useTopLayer } from "../../controllers/useTopLayer";
 import { CSS, ICONS, IDS, SLOTS } from "./resources";
 import { DisplayMode } from "./types";
@@ -51,6 +63,9 @@ declare global {
  * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
+ * @slot header-top - A slot for adding custom content above the header actions and content.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
@@ -65,9 +80,81 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-sheet-background-color": "*";
     /**
+     * Specifies the component's border color.
+     */
+    "--calcite-sheet-border-color": "*";
+    /**
      * Specifies the component's corner radius.
      */
     "--calcite-sheet-corner-radius": "*";
+    /**
+     * Specifies the border color of the component's action menu and slotted popovers.
+     */
+    "--calcite-sheet-action-menu-border-color": "*";
+    /**
+     * Specifies the padding of the component's `content-top` slot.
+     */
+    "--calcite-sheet-content-top-space": "*";
+    /**
+     * Specifies the padding of the component's `content-bottom` slot.
+     */
+    "--calcite-sheet-content-bottom-space": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-sheet-description-text-color": "*";
+    /**
+     * Specifies the background color of the component's footer.
+     */
+    "--calcite-sheet-footer-background-color": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     */
+    "--calcite-sheet-footer-space": "*";
+    /**
+     * Specifies the background color of the component's header actions.
+     */
+    "--calcite-sheet-header-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's header actions when hovered.
+     */
+    "--calcite-sheet-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's header actions when pressed.
+     */
+    "--calcite-sheet-header-action-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's header actions.
+     */
+    "--calcite-sheet-header-action-text-color": "*";
+    /**
+     * Specifies the text color of the component's header actions when pressed or hovered.
+     */
+    "--calcite-sheet-header-action-text-color-press": "*";
+    /**
+     * Specifies the background color of the component's header.
+     */
+    "--calcite-sheet-header-background-color": "*";
+    /**
+     * Specifies the padding of the component's `header-content` slot.
+     */
+    "--calcite-sheet-header-content-space": "*";
+    /**
+     * Specifies the padding of the component's `header-top` slot.
+     */
+    "--calcite-sheet-header-top-space": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-sheet-heading-text-color": "*";
+    /**
+     * Specifies the color of the component's icon.
+     */
+    "--calcite-sheet-icon-color": "*";
+    /**
+     * Specifies the padding of the component's unnamed (default) slot.
+     */
+    "--calcite-sheet-space": "*";
     /**
      * Specifies the component's shadow.
      */
@@ -120,6 +207,18 @@ interface SheetSlots {
    * A slot for adding custom content.
    */
   "": Node[];
+  /**
+   * A slot for adding custom content above the header actions and content.
+   */
+  "header-top": Node[];
+  /**
+   * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   */
+  description: Node[];
 }
 
 export class Sheet extends LitElement {
@@ -235,17 +334,29 @@ export class Sheet extends LitElement {
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
+  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
+  @property() collapseDirection: CollapseDirection = "down";
+
+  /** When `true`, hides the component's content area. */
+  @property({ reflect: true }) collapsed = false;
+
+  /** When `true`, the component is collapsible. */
+  @property({ reflect: true }) collapsible = false;
+
   /** A description for the component. */
-  @property() description!: string;
+  @property() description?: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /** The component header text. */
-  @property() heading!: string;
+  @property() heading?: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon!: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -253,8 +364,14 @@ export class Sheet extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** @copyDoc */
+  @property() menuFlipPlacements?: FlipPlacement[];
+
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
+
+  /** Determines where the action menu will be positioned. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -383,6 +500,17 @@ export class Sheet extends LitElement {
   //#region Public Methods
 
   /**
+   * Scrolls the component's content to a specified set of coordinates.
+   *
+   * @param options - Specifies the scroll coordinates and scrolling behavior.
+   * @returns A promise that resolves after the scroll request is applied.
+   */
+  @method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    await this.panelRef.value?.scrollContentTo(options);
+  }
+
+  /**
    * Sets focus on the component's "close" button - the first focusable item.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
@@ -495,6 +623,15 @@ export class Sheet extends LitElement {
     event.preventDefault();
     event.stopPropagation();
     this.open = false;
+  }
+
+  private handleInternalPanelToggle(event: CustomEvent<void>): void {
+    const panel = this.panelRef.value;
+    if (event.target !== panel) {
+      return;
+    }
+
+    this.collapsed = panel.collapsed;
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -763,7 +900,11 @@ export class Sheet extends LitElement {
               <calcite-panel
                 class={CSS.panel}
                 closable={!this.closeDisabled}
+                collapsed={this.collapsed}
+                collapseDirection={this.collapseDirection}
+                collapsible={this.collapsible}
                 description={this.description}
+                disabled={this.disabled}
                 focusTrapDisabled={true}
                 heading={this.heading}
                 headingLevel={this.headingLevel}
@@ -771,19 +912,26 @@ export class Sheet extends LitElement {
                 icon={this.icon}
                 iconFlipRtl={this.iconFlipRtl}
                 loading={this.loading}
+                menuFlipPlacements={this.menuFlipPlacements}
                 menuOpen={this.menuOpen}
+                menuPlacement={this.menuPlacement}
                 messageOverrides={this.messageOverrides}
                 oncalcitePanelClose={this.handleInternalPanelCloseClick}
                 oncalcitePanelScroll={this.handleInternalPanelScroll}
+                oncalcitePanelToggle={this.handleInternalPanelToggle}
                 onKeyDown={this.handlePanelKeyDown}
                 overlayPositioning={this.overlayPositioning}
                 ref={this.panelRef}
                 scale={this.scale}
+                topLayerDisabled={this.topLayerDisabled}
               >
                 <slot name={SLOTS.actionBar} slot={PANEL_SLOTS.actionBar} />
                 <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
                 <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
                 <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+                <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
+                <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
+                <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
                 <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
                 <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
                 <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />

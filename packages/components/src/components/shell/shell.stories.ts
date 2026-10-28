@@ -322,6 +322,73 @@ export const simple = (args: ShellStoryArgs): string => html`
   </calcite-shell>
 `;
 
+export const closedShellPanels = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel closed heading="Tools" slot="panel-start"> ${leadingPanelHTML} </calcite-shell-panel>
+    ${contentHTML}
+  </calcite-shell>
+`;
+
+export const shellPanelHeaderSlots = (): string => html`
+  <style>
+    .shell-panel-header-slots {
+      --calcite-shell-panel-background-color: var(--calcite-color-foreground-2);
+      --calcite-shell-panel-header-background-color: var(--calcite-color-background);
+      --calcite-shell-panel-heading-text-color: var(--calcite-color-brand);
+      --calcite-shell-panel-description-text-color: var(--calcite-color-text-1);
+      --calcite-shell-panel-icon-color: var(--calcite-color-brand);
+      --calcite-shell-panel-header-top-space: var(--calcite-space-lg);
+      --calcite-shell-panel-space: var(--calcite-space-md);
+      --calcite-shell-panel-footer-background-color: var(--calcite-color-foreground-3);
+      --calcite-shell-panel-footer-space: var(--calcite-space-md);
+    }
+  </style>
+  <calcite-shell>
+    <calcite-shell-panel
+      class="shell-panel-header-slots"
+      heading-level="2"
+      icon="layers"
+      menu-open
+      menu-placement="bottom-start"
+      panel-collapsible
+      slot="panel-start"
+      top-layer-disabled
+    >
+      <div slot="header-top">Map tools</div>
+      <span slot="heading"><strong>Layers</strong></span>
+      <span slot="description">Manage the layers in this map.</span>
+      <calcite-action icon="gear" slot="header-menu-actions" text="Layer settings"></calcite-action>
+      <p>Layer content</p>
+      <calcite-button slot="footer">Add layer</calcite-button>
+    </calcite-shell-panel>
+    ${contentHTML}
+  </calcite-shell>
+`;
+
+export const disabledShellPanel = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel disabled heading="Layers" slot="panel-start">
+      <calcite-button>Add layer</calcite-button>
+    </calcite-shell-panel>
+    ${contentHTML}
+  </calcite-shell>
+`;
+
+export const collapsedInternalPanel = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      heading="Layers"
+      panel-collapsible
+      panel-collapsed
+      panel-collapse-direction="up"
+      slot="panel-start"
+    >
+      <calcite-button>Add layer</calcite-button>
+    </calcite-shell-panel>
+    ${contentHTML}
+  </calcite-shell>
+`;
+
 export const fullResizeHorizontal = (): string => html`
   <calcite-shell>
     <calcite-shell-panel

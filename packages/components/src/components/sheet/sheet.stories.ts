@@ -2,6 +2,7 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
+import "../action/action";
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -100,6 +101,52 @@ export const simple = (args: SheetStoryArgs): string => html`
     height-scale="${args.heightScale}"
     >${panelHTML}</calcite-sheet
   >
+`;
+
+export const headerSlots = (): string => html`
+  <style>
+    .sheet-header-slots {
+      --calcite-sheet-background-color: var(--calcite-color-foreground-2);
+      --calcite-sheet-header-background-color: var(--calcite-color-background);
+      --calcite-sheet-heading-text-color: var(--calcite-color-brand);
+      --calcite-sheet-description-text-color: var(--calcite-color-text-1);
+      --calcite-sheet-icon-color: var(--calcite-color-brand);
+      --calcite-sheet-header-top-space: var(--calcite-space-lg);
+      --calcite-sheet-space: var(--calcite-space-md);
+      --calcite-sheet-footer-background-color: var(--calcite-color-foreground-3);
+      --calcite-sheet-footer-space: var(--calcite-space-md);
+    }
+  </style>
+  <calcite-sheet
+    class="sheet-header-slots"
+    collapsible
+    heading-level="2"
+    icon="layers"
+    label="Map layers"
+    menu-open
+    menu-placement="bottom-start"
+    open
+    top-layer-disabled
+  >
+    <div slot="header-top">Map tools</div>
+    <span slot="heading"><strong>Layers</strong></span>
+    <span slot="description">Manage the layers in this map.</span>
+    <calcite-action icon="gear" slot="header-menu-actions" text="Layer settings"></calcite-action>
+    <p>Layer content</p>
+    <calcite-button slot="footer">Add layer</calcite-button>
+  </calcite-sheet>
+`;
+
+export const disabled = (): string => html`
+  <calcite-sheet disabled heading="Layers" label="Map layers" open>
+    <calcite-button>Add layer</calcite-button>
+  </calcite-sheet>
+`;
+
+export const collapsed = (): string => html`
+  <calcite-sheet collapsible collapsed collapse-direction="up" heading="Layers" label="Map layers" open>
+    <calcite-button>Add layer</calcite-button>
+  </calcite-sheet>
 `;
 
 export const simpleDarkMode = (args: SheetStoryArgs): string => html`

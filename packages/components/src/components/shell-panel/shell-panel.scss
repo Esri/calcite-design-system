@@ -16,6 +16,29 @@
 
 @use "../../styles/shared";
 
+calcite-panel {
+  --calcite-panel-corner-radius: var(--calcite-shell-panel-corner-radius);
+  --calcite-panel-heading-text-color: var(--calcite-shell-panel-heading-text-color);
+  --calcite-panel-icon-color: var(--calcite-shell-panel-icon-color);
+  --calcite-panel-description-text-color: var(--calcite-shell-panel-description-text-color);
+  --calcite-panel-border-color: var(--calcite-shell-panel-border-color);
+  --calcite-panel-background-color: var(--calcite-shell-panel-background-color);
+  --calcite-panel-content-top-space: var(--calcite-shell-panel-content-top-space);
+  --calcite-panel-content-bottom-space: var(--calcite-shell-panel-content-bottom-space);
+  --calcite-panel-header-top-space: var(--calcite-shell-panel-header-top-space);
+  --calcite-panel-header-background-color: var(--calcite-shell-panel-header-background-color);
+  --calcite-panel-header-action-background-color: var(--calcite-shell-panel-header-action-background-color);
+  --calcite-panel-header-action-background-color-hover: var(--calcite-shell-panel-header-action-background-color-hover);
+  --calcite-panel-header-action-background-color-press: var(--calcite-shell-panel-header-action-background-color-press);
+  --calcite-panel-header-action-text-color: var(--calcite-shell-panel-header-action-text-color);
+  --calcite-panel-header-action-text-color-press: var(--calcite-shell-panel-header-action-text-color-press);
+  --calcite-panel-footer-background-color: var(--calcite-shell-panel-footer-background-color);
+  --calcite-panel-space: var(--calcite-shell-panel-space);
+  --calcite-panel-header-content-space: var(--calcite-shell-panel-header-content-space);
+  --calcite-panel-footer-space: var(--calcite-shell-panel-footer-space);
+  --calcite-popover-border-color: var(--calcite-shell-panel-action-menu-border-color, var(--calcite-color-border-1));
+}
+
 :host {
   @apply relative
     pointer-events-none

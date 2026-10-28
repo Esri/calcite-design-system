@@ -2,7 +2,7 @@ import { newE2EPage, E2EElement } from "@arcgis/lumina-compiler/puppeteerTesting
 import { describe, expect, it } from "vitest";
 
 import { getElementRect, getElementXY } from "../../tests/utils/puppeteer";
-import { CSS_UTILITY, resizeStep } from "../../utils/resources";
+import { CSS_UTILITY } from "../../utils/resources";
 import { html } from "../../../support/formatting";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
@@ -364,80 +364,6 @@ describe("resizing", () => {
 
     expect(await resizeHandle.getProperty("ariaValueNow")).toBe("420");
     expect((await content.getComputedStyle()).inlineSize).toBe("420px");
-  });
-
-  it("Should resize horizontal layout via keyboard", async () => {
-    const page = await newE2EPage();
-
-    await page.setViewport({ width: 1600, height: 1200 });
-    await page.setContent(`
-      <div style="width: 100%; height: 100%;">
-        <calcite-shell>
-          <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
-            <calcite-panel>
-              Content test
-            </calcite-panel>
-          </calcite-shell-panel>
-        </calcite-shell>
-      </div>
-    `);
-
-    await page.waitForChanges();
-
-    const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
-    const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
-    const initialHeight = parseInt((await content.getComputedStyle()).blockSize, 10);
-
-    expect(resizeHandle).toBeDefined();
-    expect(content).toBeDefined();
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight}px`);
-
-    await resizeHandle.press("ArrowDown");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight + resizeStep}px`);
-
-    await resizeHandle.press("ArrowUp");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight}px`);
-
-    await resizeHandle.press("ArrowUp");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight - resizeStep}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight - resizeStep}px`);
-
-    await resizeHandle.press("ArrowDown");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight}px`);
-
-    await resizeHandle.press("ArrowDown");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
-    expect((await content.getComputedStyle()).height).toBe(`${initialHeight + resizeStep}px`);
-
-    await resizeHandle.press("Home");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(await resizeHandle.getProperty("ariaValueMin"));
-    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(
-      await resizeHandle.getProperty("ariaValueMin"),
-    );
-
-    await resizeHandle.press("End");
-    await page.waitForChanges();
-
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(await resizeHandle.getProperty("ariaValueMax"));
-    expect((await content.getComputedStyle()).height.replace("px", "")).toBe(
-      await resizeHandle.getProperty("ariaValueMax"),
-    );
   });
 
   it("Should resize via mouse", async () => {

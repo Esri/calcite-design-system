@@ -7,11 +7,24 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { Panel } from "../panel/panel";
 import { HeadingLevel } from "../functional/Heading";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
-import { OverlayPositioning } from "../../utils/floating-ui";
+import {
+  defaultEndMenuPlacement,
+  FlipPlacement,
+  LogicalPlacement,
+  OverlayPositioning,
+} from "../../utils/floating-ui";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
-import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../types";
+import type {
+  CollapseDirection,
+  Height,
+  Layout,
+  Position,
+  ResizeValues,
+  Scale,
+  Width,
+} from "../types";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
@@ -46,6 +59,9 @@ declare global {
  * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
+ * @slot header-top - A slot for adding custom content above the header actions and content.
+ * @slot heading - A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+ * @slot description - A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
  * @slot header-content - A slot for adding custom content to the component's header.
  * @slot header-menu-actions - A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
  * @slot fab - A slot for adding a `calcite-fab` (floating action button) to perform an action.
@@ -60,13 +76,81 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-shell-panel-background-color": "*";
     /**
-     * When `displayMode` is `"float-all"`, specifies the component's border color.
+     * Specifies the component's border color.
      */
     "--calcite-shell-panel-border-color": "*";
     /**
-     * When `displayMode` is `"float-all"`, specifies the component's corner radius.
+     * Specifies the component's corner radius.
      */
     "--calcite-shell-panel-corner-radius": "*";
+    /**
+     * Specifies the border color of the component's action menu and slotted popovers.
+     */
+    "--calcite-shell-panel-action-menu-border-color": "*";
+    /**
+     * Specifies the padding of the component's `content-top` slot.
+     */
+    "--calcite-shell-panel-content-top-space": "*";
+    /**
+     * Specifies the padding of the component's `content-bottom` slot.
+     */
+    "--calcite-shell-panel-content-bottom-space": "*";
+    /**
+     * Specifies the text color of the component's `description`.
+     */
+    "--calcite-shell-panel-description-text-color": "*";
+    /**
+     * Specifies the background color of the component's footer.
+     */
+    "--calcite-shell-panel-footer-background-color": "*";
+    /**
+     * Specifies the padding of the component's footer.
+     */
+    "--calcite-shell-panel-footer-space": "*";
+    /**
+     * Specifies the background color of the component's header actions.
+     */
+    "--calcite-shell-panel-header-action-background-color": "*";
+    /**
+     * Specifies the background color of the component's header actions when hovered.
+     */
+    "--calcite-shell-panel-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's header actions when pressed.
+     */
+    "--calcite-shell-panel-header-action-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's header actions.
+     */
+    "--calcite-shell-panel-header-action-text-color": "*";
+    /**
+     * Specifies the text color of the component's header actions when pressed or hovered.
+     */
+    "--calcite-shell-panel-header-action-text-color-press": "*";
+    /**
+     * Specifies the background color of the component's header.
+     */
+    "--calcite-shell-panel-header-background-color": "*";
+    /**
+     * Specifies the padding of the component's `header-content` slot.
+     */
+    "--calcite-shell-panel-header-content-space": "*";
+    /**
+     * Specifies the padding of the component's `header-top` slot.
+     */
+    "--calcite-shell-panel-header-top-space": "*";
+    /**
+     * Specifies the text color of the component's `heading`.
+     */
+    "--calcite-shell-panel-heading-text-color": "*";
+    /**
+     * Specifies the color of the component's icon.
+     */
+    "--calcite-shell-panel-icon-color": "*";
+    /**
+     * Specifies the padding of the component's unnamed (default) slot.
+     */
+    "--calcite-shell-panel-space": "*";
     /**
      * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the component's height.
      */
@@ -115,6 +199,18 @@ interface ShellPanelSlots {
    * A slot for adding a `calcite-action-bar` to the component.
    */
   "action-bar": Node[];
+  /**
+   * A slot for adding custom content above the header actions and content.
+   */
+  "header-top": Node[];
+  /**
+   * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   */
+  description: Node[];
 }
 
 export class ShellPanel extends LitElement {
@@ -146,6 +242,9 @@ export class ShellPanel extends LitElement {
 
   private panelRef = createRef<Panel["el"]>();
   private containerRef = createRef<HTMLDivElement>();
+
+  private _closed = false;
+  private closedRequestVersion = 0;
 
   /**
    * Made into a prop for testing purposes only
@@ -182,20 +281,35 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
+  /** Passes a function to run before the component closes. */
+  @property() beforeClose?: () => Promise<void>;
+
   /** When `true`, disables the component's close button. */
   @property({ reflect: true }) closeDisabled = false;
 
+  /** When `panelCollapsible` is `true`, specifies the direction of the internal panel's collapse icon. */
+  @property() panelCollapseDirection: CollapseDirection = "down";
+
+  /** When `true`, hides the internal panel's content area. */
+  @property({ reflect: true }) panelCollapsed = false;
+
+  /** When `true`, the internal panel is collapsible. */
+  @property({ reflect: true }) panelCollapsible = false;
+
   /** A description for the component. */
-  @property() description!: string;
+  @property() description?: string;
+
+  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  @property({ reflect: true }) disabled = false;
 
   /** The component header text. */
-  @property() heading!: string;
+  @property() heading?: string;
 
   /** Specifies the heading level of the component's `heading` for proper document structure, without affecting visual styling. */
-  @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
+  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /** Specifies an icon to display. */
-  @property({ reflect: true, type: String }) icon!: IconName;
+  @property({ reflect: true, type: String }) icon?: IconName;
 
   /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
   @property({ reflect: true }) iconFlipRtl = false;
@@ -203,8 +317,14 @@ export class ShellPanel extends LitElement {
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
+  /** @copyDoc */
+  @property() menuFlipPlacements?: FlipPlacement[];
+
   /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
   @property({ reflect: true }) menuOpen = false;
+
+  /** Determines where the action menu will be positioned. */
+  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * Determines the type of positioning to use for the overlaid content.
@@ -218,8 +338,27 @@ export class ShellPanel extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
+  /**
+   * @copyDoc
+   *
+   * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
+   */
+  @property({ reflect: true }) topLayerDisabled = false;
+
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
+
+  /** When `true`, hides the component. */
+  @property({ reflect: true })
+  get closed(): boolean {
+    return this._closed;
+  }
+  set closed(value: boolean) {
+    const requestVersion = ++this.closedRequestVersion;
+    if (value !== this._closed) {
+      this.setClosedState(value, requestVersion);
+    }
+  }
 
   /**
    * Specifies the component's display mode.
@@ -278,6 +417,17 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Public Methods
+
+  /**
+   * Scrolls the component's content to a specified set of coordinates.
+   *
+   * @param options - Specifies the scroll coordinates and scrolling behavior.
+   * @returns A promise that resolves after the scroll request is applied.
+   */
+  @method()
+  async scrollContentTo(options?: ScrollToOptions): Promise<void> {
+    await this.panelRef.value?.scrollContentTo(options);
+  }
 
   /**
    * Updates the component's size by setting its inline and/or block dimensions.
@@ -341,9 +491,10 @@ export class ShellPanel extends LitElement {
 
     if (
       (changes.has("collapsed") && (this.hasUpdated || this.collapsed !== false)) ||
+      (changes.has("closed") && (this.hasUpdated || this.closed !== false)) ||
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
     ) {
-      shouldRefreshResize = this.resizable && !this.collapsed;
+      shouldRefreshResize = !this.closed && this.resizable && !this.collapsed;
 
       if (!shouldRefreshResize) {
         this.cleanUpInteractions();
@@ -371,6 +522,24 @@ export class ShellPanel extends LitElement {
 
   //#region Private Methods
 
+  private async setClosedState(value: boolean, requestVersion: number): Promise<void> {
+    if (this.beforeClose && value) {
+      try {
+        await this.beforeClose();
+      } catch {
+        return;
+      }
+
+      if (requestVersion !== this.closedRequestVersion) {
+        return;
+      }
+    }
+
+    const oldValue = this._closed;
+    this._closed = value;
+    this.requestUpdate("closed", oldValue);
+  }
+
   private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
     if (event.target !== this.panelRef.value) {
       return;
@@ -378,7 +547,16 @@ export class ShellPanel extends LitElement {
 
     event.preventDefault();
     event.stopPropagation();
-    this.collapsed = true;
+    this.closed = true;
+  }
+
+  private handleInternalPanelToggle(event: CustomEvent<void>): void {
+    const panel = this.panelRef.value;
+    if (event.target !== panel) {
+      return;
+    }
+
+    this.panelCollapsed = panel.collapsed;
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -626,10 +804,11 @@ export class ShellPanel extends LitElement {
   private setUpResizeInteractions(): void {
     this.cleanUpInteractions();
 
-    const { el, contentRef, resizable, position, collapsed, resizeHandleRef, layout } = this;
+    const { el, contentRef, resizable, position, collapsed, closed, resizeHandleRef, layout } =
+      this;
     const resizeHandle = resizeHandleRef.value;
 
-    if (!contentRef.value || collapsed || !resizable || !resizeHandle) {
+    if (!contentRef.value || closed || collapsed || !resizable || !resizeHandle) {
       return;
     }
 
@@ -685,7 +864,7 @@ export class ShellPanel extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
+    const { collapsed, closed, position, resizable, layout, displayMode, resizeValues } = this;
 
     const dir = this.direction;
     const isBlockPosition = layout === "horizontal";
@@ -760,25 +939,36 @@ export class ShellPanel extends LitElement {
             <calcite-panel
               class={CSS.panel}
               closable={!this.closeDisabled}
+              collapsed={this.panelCollapsed}
+              collapseDirection={this.panelCollapseDirection}
+              collapsible={this.panelCollapsible}
               description={this.description}
+              disabled={this.disabled}
               focusTrapDisabled={true}
               heading={this.heading}
               headingLevel={this.headingLevel}
               icon={this.icon}
               iconFlipRtl={this.iconFlipRtl}
               loading={this.loading}
+              menuFlipPlacements={this.menuFlipPlacements}
               menuOpen={this.menuOpen}
+              menuPlacement={this.menuPlacement}
               messageOverrides={this.messageOverrides}
               oncalcitePanelClose={this.handleInternalPanelCloseClick}
               oncalcitePanelScroll={this.handleInternalPanelScroll}
+              oncalcitePanelToggle={this.handleInternalPanelToggle}
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}
+              topLayerDisabled={this.topLayerDisabled}
             >
               <slot name={SLOTS.panelActionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
               <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
               <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
+              <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
+              <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
+              <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
               <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
               <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
@@ -810,6 +1000,7 @@ export class ShellPanel extends LitElement {
     return (
       <div
         class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+        hidden={closed}
         ref={this.containerRef}
       >
         {mainNodes}
