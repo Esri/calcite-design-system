@@ -668,8 +668,13 @@ export class ActionMenu extends LitElement {
       action.slot === ACTION_GROUP_SLOTS.menuActions &&
       actionGroup?.selectionMode === "none" &&
       !!actionGroup.closest("calcite-action-bar");
+    const isGroupManagedAction =
+      !!actionGroup &&
+      actionGroup.selectionMode !== "none" &&
+      actionGroup.actions.includes(action) &&
+      action.slot !== ACTION_GROUP_SLOTS.menuActions;
 
-    if (!isNonSelectableActionBarOverflowAction) {
+    if (!isNonSelectableActionBarOverflowAction && !isGroupManagedAction) {
       action.active = !action.active;
     }
 
