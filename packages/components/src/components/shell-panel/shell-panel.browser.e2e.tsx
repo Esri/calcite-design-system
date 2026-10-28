@@ -373,10 +373,12 @@ describe("internal panel", () => {
         <button type="button">Outside</button>
       </>,
     );
-    const container = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.container}`)!;
+    const container = el.shadowRoot.querySelector<HTMLDivElement>(".interaction-container")!;
     const resizeHandle = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
 
     expect(container.inert).toBe(true);
+    expect(el).toHaveAttribute("aria-disabled", "true");
+    expect(Number(getComputedStyle(el).opacity)).toBeLessThan(1);
     expect(resizeHandle.tabIndex).toBe(-1);
     await userEvent.tab();
     await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
@@ -950,14 +952,18 @@ describe("shell-panel updateSize public method", () => {
 
     return {
       actionBarContainer: panelLocator
-        .getBySelector(`:scope > .${CSS.container} > .${CSS.actionBarContainer}`)
+        .getBySelector(
+          `:scope > .interaction-container > .${CSS.container} > .${CSS.actionBarContainer}`,
+        )
         .element() as HTMLElement,
       content: panelLocator
-        .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+        .getBySelector(
+          `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`,
+        )
         .element() as HTMLElement,
       handle: panelLocator
         .getBySelector(
-          `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
+          `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
         )
         .element() as HTMLElement,
     };
@@ -1002,7 +1008,9 @@ describe("shell-panel updateSize public method", () => {
     const handle = page.getByRole("separator", { includeHidden: true });
     const content = page
       .elementLocator(el)
-      .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`);
+      .getBySelector(
+        `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`,
+      );
 
     async function expectWidth(width: number): Promise<void> {
       await expect.element(content).toHaveStyle({ inlineSize: `${width}px` });
@@ -1056,7 +1064,9 @@ describe("shell-panel updateSize public method", () => {
     const handle = page.getByRole("separator", { includeHidden: true });
     const content = page
       .elementLocator(el)
-      .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`);
+      .getBySelector(
+        `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`,
+      );
 
     await expect.element(handle).toHaveAttribute("aria-valuenow", "320");
 
@@ -1091,7 +1101,9 @@ describe("shell-panel updateSize public method", () => {
     const handle = page.getByRole("separator");
     const content = page
       .elementLocator(el)
-      .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`);
+      .getBySelector(
+        `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`,
+      );
 
     async function expectHeight(height: number): Promise<void> {
       await expect.element(handle).toHaveAttribute("aria-valuenow", `${height}`);
@@ -1366,7 +1378,7 @@ describe("shell-panel updateSize public method", () => {
     const handle = page
       .elementLocator(el)
       .getBySelector(
-        `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
+        `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
       )
       .element() as HTMLElement;
 

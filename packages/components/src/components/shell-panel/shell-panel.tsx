@@ -16,6 +16,7 @@ import {
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
+import { useInteractive } from "../../controllers/useInteractive";
 import type {
   CollapseDirection,
   Height,
@@ -201,9 +202,49 @@ interface ShellPanelSlots {
    */
   "action-bar": Node[];
   /**
+   * A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
+   */
+  "custom-content": Node[];
+  /**
+   * A slot for adding a `calcite-action-bar` to the panel.
+   */
+  "panel-action-bar": Node[];
+  /**
+   * A slot for adding `calcite-alert`s to the component.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
+   */
+  "content-bottom": Node[];
+  /**
+   * A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding actions or content to the starting side of the component's header.
+   */
+  "header-actions-start": Node[];
+  /**
+   * A slot for adding actions or content to the ending side of the component's header.
+   */
+  "header-actions-end": Node[];
+  /**
+   * A slot for adding custom content to the component's header.
+   */
+  "header-content": Node[];
+  /**
    * A slot for adding custom content above the header actions and content.
    */
   "header-top": Node[];
+  /**
+   * A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+   */
+  "header-menu-actions": Node[];
+  /**
+   * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   */
+  fab: Node[];
   /**
    * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
    */
@@ -212,6 +253,18 @@ interface ShellPanelSlots {
    * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
    */
   description: Node[];
+  /**
+   * A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding a trailing footer custom content. Should not be used with the `"footer"` slot.
+   */
+  "footer-end": Node[];
+  /**
+   * A slot for adding a leading footer custom content. Should not be used with the `"footer"` slot.
+   */
+  "footer-start": Node[];
 }
 
 export class ShellPanel extends LitElement {
@@ -234,6 +287,8 @@ export class ShellPanel extends LitElement {
   private resizeHandleRef = createRef<HTMLDivElement>();
 
   private interaction?: Interactable;
+
+  private interactiveContainer = useInteractive(this);
 
   private actionBars: ActionBar["el"][] = [];
 
@@ -1012,13 +1067,14 @@ export class ShellPanel extends LitElement {
     }
 
     return (
-      <div
-        class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
-        inert={this.disabled}
-        ref={this.containerRef}
-      >
-        {mainNodes}
-      </div>
+      <this.interactiveContainer disabled={this.disabled}>
+        <div
+          class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+          ref={this.containerRef}
+        >
+          {mainNodes}
+        </div>
+      </this.interactiveContainer>
     );
   }
 

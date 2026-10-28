@@ -194,6 +194,8 @@ calcite-panel {
   flex-direction: column;
 }
 
+@include shared.disabled();
+
 .resize-handle {
   @apply absolute flex justify-center items-center select-none box-border outline-none;
   --calcite-internal-shell-panel-resize-handle-offset: calc(

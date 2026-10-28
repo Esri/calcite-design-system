@@ -927,7 +927,7 @@ export class Panel extends LitElement {
     this.showHeaderContent = showHeaderContent;
 
     return (
-      <header
+      <div
         class={{
           [CSS.header]: true,
           [CSS.headerNoRow]: hasHeaderTop && !this.hasHeaderRow && !hasActionBar && !hasContentTop,
@@ -949,7 +949,7 @@ export class Panel extends LitElement {
         </div>
         {this.renderActionBar()}
         {this.renderContentTop()}
-      </header>
+      </div>
     );
   }
 

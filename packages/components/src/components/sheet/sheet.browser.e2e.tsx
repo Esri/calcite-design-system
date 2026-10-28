@@ -309,6 +309,23 @@ describe("internal panel", () => {
     await expect.element(panel).toHaveProperty("disabled", false);
   });
 
+  it("prevents interaction with custom content when disabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled label="Sheet" modalDisabled open>
+        <button slot="custom-content" type="button">
+          Custom content
+        </button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const button = el.querySelector<HTMLButtonElement>('[slot="custom-content"]')!;
+
+    button.focus();
+
+    expect(document.activeElement).not.toBe(button);
+  });
+
   it("forwards menuFlipPlacements updates to the internal panel", async () => {
     const { el } = await mountSheet(undefined);
     const panel = page.getBySelector("calcite-panel");
