@@ -1,4 +1,4 @@
-import { setCSSVariables } from "../../tests/utils/css-token-values";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 
 /**
  *

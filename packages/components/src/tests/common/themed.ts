@@ -2,7 +2,7 @@ import { expect, it, onTestFinished } from "vitest";
 import { type Locator, page, userEvent } from "vitest/browser";
 import { type RequireExactlyOne } from "type-fest";
 import { commands } from "../utils/commands";
-import { getTokenValue } from "../utils/css-token-values";
+import { getTokenValue } from "../utils/cssTokenValues";
 import "./utils";
 import type { TestSetUp } from "./types";
 import { focusElement } from "../../utils/dom";

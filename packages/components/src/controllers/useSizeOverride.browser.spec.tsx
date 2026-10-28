@@ -17,7 +17,7 @@ class Test extends LitElement {
   });
 
   override render(): JsxNode {
-    return <div ref={this.ref} style="width: 150px; height: 100px;" />;
+    return <div ref={this.ref} />;
   }
 }
 
@@ -55,7 +55,7 @@ it("applies inline axis without changing block axis", () => {
   expect(size.block).toBeNull();
   expect(onResizeSpy).toHaveBeenLastCalledWith({
     inlineSize: 300,
-    blockSize: 250,
+    blockSize: null,
     minInlineSize: 100,
     maxInlineSize: 500,
     minBlockSize: 60,
@@ -72,7 +72,7 @@ it("applies block axis without changing inline axis", () => {
   expect(size.inline).toBeNull();
   expect(size.block).toBe(300);
   expect(onResizeSpy).toHaveBeenLastCalledWith({
-    inlineSize: 200,
+    inlineSize: null,
     blockSize: 300,
     minInlineSize: 100,
     maxInlineSize: 500,
@@ -98,21 +98,11 @@ it("clamps size above max", () => {
 });
 
 it("clears override when size is null", () => {
-  component.sizeOverride.resize({ inline: 200, block: 250 });
-
   const size = component.sizeOverride.resize({ inline: null, block: null });
   expect(component.ref.value!.style.inlineSize).toBe("");
   expect(component.ref.value!.style.blockSize).toBe("");
   expect(size.inline).toBeNull();
   expect(size.block).toBeNull();
-  expect(onResizeSpy).toHaveBeenLastCalledWith({
-    inlineSize: 150,
-    blockSize: 100,
-    minInlineSize: 100,
-    maxInlineSize: 500,
-    minBlockSize: 60,
-    maxBlockSize: 400,
-  });
 });
 
 it("applies block and inline axis", () => {

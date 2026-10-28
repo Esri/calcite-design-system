@@ -1,6 +1,6 @@
 import { html } from "../support/formatting";
 import { allModes } from "../.storybook/modes";
-import { setCSSVariables } from "./tests/utils/css-token-values";
+import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
   actionMenu,

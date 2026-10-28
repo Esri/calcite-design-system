@@ -2,7 +2,7 @@ import { iconNames } from "../../../.storybook/helpers";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { setCSSVariables } from "../../tests/utils/css-token-values";
+import { setCSSVariables } from "../../tests/utils/cssTokenValues";
 import { Icon } from "./icon";
 import "./icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
