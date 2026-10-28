@@ -5,10 +5,10 @@
 }
 
 :host a {
-  @apply font-inherit
-    no-underline
-    cursor-pointer
-    focus-base;
+  font-family: inherit;
+  text-decoration-line: none;
+  cursor: pointer;
+  outline-color: var(--calcite-color-transparent);
   font-size: inherit;
   -webkit-appearance: none;
 
@@ -17,7 +17,7 @@
   white-space: initial;
 
   &:focus {
-    @apply focus-outset;
+    @include shared.focus-outset();
   }
 }
 
@@ -46,7 +46,7 @@ calcite-icon {
 }
 
 .link--icon {
-  @apply align-middle;
+  vertical-align: middle;
   margin-block-start: -0.25em;
 }
 

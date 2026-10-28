@@ -15,7 +15,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 
   --calcite-internal-input-number-focus-outline-color: var(
     --calcite-color-focus,
@@ -46,7 +46,8 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h;
+    @include shared.text-n2h();
+
     block-size: var(--calcite-input-number-height, 1.5rem);
   }
   & input {
@@ -85,7 +86,8 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h;
+    @include shared.text-n1h();
+
     block-size: var(--calcite-input-number-height, 2rem);
   }
   & input {
@@ -118,7 +120,8 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h;
+    @include shared.text-0h();
+
     block-size: var(--calcite-input-number-height, 2.75rem);
   }
   & input {
@@ -156,17 +159,17 @@ input {
     block-size 0,
     outline-offset 0s;
   -webkit-appearance: none;
-  @apply box-border
-    flex
-    flex-1
-    font-inherit
-    font-normal
-    m-0
-    max-h-full
-    max-w-full
-    relative
-    text-ellipsis
-    w-full;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 0%;
+  font-family: inherit;
+  font-weight: var(--calcite-font-weight-normal);
+  margin: var(--calcite-space-none);
+  max-block-size: 100%;
+  max-inline-size: 100%;
+  position: relative;
+  text-overflow: ellipsis;
+  inline-size: 100%;
   outline: none;
   background-color: var(
     --calcite-input-number-background-color,
@@ -175,7 +178,7 @@ input {
   color: var(--calcite-input-number-text-color, var(--calcite-color-text-1));
   text-align: var(--calcite-internal-input-number-alignment);
   &:placeholder-shown {
-    @apply text-ellipsis;
+    text-overflow: ellipsis;
   }
 }
 
@@ -248,7 +251,7 @@ input {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
-  @apply border-t-0;
+  border-block-start-width: var(--calcite-border-width-none);
   border-end-end-radius: var(
     --calcite-input-number-corner-radius,
     var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
@@ -271,17 +274,17 @@ input {
 
 // states
 input {
-  @apply border
-    border-solid;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
 }
 input:focus {
-  @apply border-color-brand;
+  border-color: var(--calcite-color-brand);
   color: var(--calcite-input-number-text-color-focus, var(--calcite-color-text-1));
 }
 
 input[readonly] {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   background-color: var(
     --calcite-input-number-background-color,
     var(--calcite-theme-color-surface-1, var(--calcite-color-background))
@@ -304,10 +307,10 @@ input[readonly]:focus {
 }
 
 .element-wrapper {
-  @apply relative
-    inline-flex
-    flex-1
-    items-center;
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 0%;
+  align-items: center;
   order: 3;
   isolation: isolate;
 }
@@ -388,9 +391,9 @@ input[readonly]:focus {
 .loader {
   inset-block-start: var(--calcite-border-width-sm);
   inset-inline: var(--calcite-border-width-sm);
-  @apply pointer-events-none
-    absolute
-    block;
+  pointer-events: none;
+  position: absolute;
+  display: block;
   calcite-progress {
     --calcite-progress-background-color: var(--calcite-input-loading-background-color);
     --calcite-progress-fill-color: var(--calcite-input-loading-fill-color);
@@ -410,17 +413,17 @@ input[readonly]:focus {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply box-border
-    flex
-    h-auto
-    min-h-full
-    select-none
-    content-center
-    items-center
-    break-words
-    border
-    border-solid
-    leading-none;
+  box-sizing: border-box;
+  display: flex;
+  block-size: auto;
+  min-block-size: 100%;
+  user-select: none;
+  align-content: center;
+  align-items: center;
+  overflow-wrap: break-word;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  line-height: var(--calcite-font-line-height-relative-base);
   font-weight: var(--calcite-font-weight-regular);
   border-color: var(--calcite-input-number-border-color, var(--calcite-color-border-input));
 }
@@ -472,11 +475,11 @@ input[readonly]:focus {
 
 .number-button-wrapper {
   @include shared.transition-default();
-  @apply pointer-events-none
-    box-border
-    flex
-    flex-col;
 
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   order: 6;
 }
 
@@ -503,9 +506,9 @@ input[readonly]:focus {
 .number-button-item.number-button-item--horizontal {
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
-    @apply max-h-full
-      min-h-full
-      self-stretch;
+    max-block-size: 100%;
+    min-block-size: 100%;
+    align-self: stretch;
     order: 1;
     & calcite-action {
       transform: rotate(90deg);
@@ -539,7 +542,7 @@ input[readonly]:focus {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
-  @apply border-t-0;
+  border-block-start-width: var(--calcite-border-width-none);
   border-end-end-radius: var(
     --calcite-input-number-corner-radius,
     var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
@@ -602,18 +605,18 @@ input[readonly]:focus {
 }
 
 .wrapper {
-  @apply relative
-    flex
-    flex-row
-    items-center;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 :host(.no-bottom-border) input {
-  @apply border-b-0;
+  border-block-end-width: var(--calcite-border-width-none);
 }
 
 :host(.border-top-color-one) input {
-  @apply border-t-color-1;
+  border-block-start-color: var(--calcite-color-border-1);
 }
 
 // input needed for higher specificity of these overrides
@@ -623,7 +626,7 @@ input {
 
     // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
     &.inline-editable-child {
-      @apply bg-transparent;
+      background-color: var(--calcite-color-transparent);
     }
 
     .inline-editing {
@@ -632,9 +635,10 @@ input {
   }
 
   &.inline-child:not(.inline-editing) {
-    @apply border-color-transparent
-    flex
-    cursor-pointer text-ellipsis;
+    border-color: var(--calcite-color-transparent);
+    display: flex;
+    cursor: pointer;
+    text-overflow: ellipsis;
     padding-inline-start: 0;
   }
 }

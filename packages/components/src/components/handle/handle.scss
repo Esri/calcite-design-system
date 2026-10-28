@@ -1,17 +1,16 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex;
+  display: flex;
 }
 
 .handle {
-  @apply focus-base
-    flex
-    items-center
-    justify-center
-    self-stretch
-    border-none;
-
+  outline-color: var(--calcite-color-transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  border-style: none;
   color: var(--calcite-handle-icon-color, var(--calcite-color-border-input));
   background-color: var(--calcite-handle-background-color, transparent);
   padding-block: theme("spacing.3");
@@ -24,7 +23,7 @@
 }
 
 :host(:not([disabled])) .handle {
-  @apply cursor-move;
+  cursor: move;
   &:hover {
     color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
     background-color: var(
@@ -33,7 +32,7 @@
     );
   }
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
 
     color: var(--calcite-handle-icon-color-hover, var(--calcite-color-text-1));
   }
