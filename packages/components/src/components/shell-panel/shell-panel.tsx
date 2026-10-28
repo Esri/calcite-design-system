@@ -29,7 +29,8 @@ import type {
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
-import type { FocusTrapOptions } from "../../controllers/useFocusTrap";
+import { type FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
+import { useFocusable } from "../../controllers/useFocusable";
 import type { ActionBar } from "../action-bar/action-bar";
 import { isActionBar } from "../action-bar/resources";
 import type { IconName } from "../icon/types";
@@ -300,6 +301,35 @@ export class ShellPanel extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
+  private focusTrap = useFocusTrap<this>({
+    focusTrapOptions: {
+      checkCanFocusTrap: async () => {
+        await this.updateComplete;
+      },
+      escapeDeactivates: (event) => {
+        this.keyDownHandler(event);
+        return false;
+      },
+    },
+  })(this);
+
+  private focusSetter = useFocusable<this>()(this);
+
+  private keyDownHandler = (event: KeyboardEvent): void => {
+    if (
+      event.key !== "Escape" ||
+      event.defaultPrevented ||
+      this.collapsed ||
+      this.collapseDisabled ||
+      this.disabled
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    this.collapsed = true;
+  };
+
   /**
    * Made into a prop for testing purposes only
    *
@@ -351,8 +381,11 @@ export class ShellPanel extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
+  /** When `true`, prevents focus trapping. */
+  @property({ reflect: true }) focusTrapDisabled = false;
+
   /**
-   * Specifies custom focus trap configuration on the internal panel.
+   * Specifies custom focus trap configuration on the component.
    *
    * - `"allowOutsideClick"` allows outside clicks.
    * - `"initialFocus"` enables initial focus.
@@ -478,7 +511,7 @@ export class ShellPanel extends LitElement {
   }
 
   /**
-   * Sets focus on the internal panel's first focusable element.
+   * Sets focus on the component's first focusable element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
@@ -486,11 +519,11 @@ export class ShellPanel extends LitElement {
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    await this.panelRef.value?.setFocus(options);
+    return this.focusSetter(() => this.el, options);
   }
 
   /**
-   * Updates the element(s) that are included in the internal panel's focus trap.
+   * Updates the element(s) that are included in the focus trap.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
@@ -498,7 +531,8 @@ export class ShellPanel extends LitElement {
   async updateFocusTrapElements(
     extraContainers?: FocusTrapOptions["extraContainers"],
   ): Promise<void> {
-    await this.panelRef.value?.updateFocusTrapElements(extraContainers);
+    this.focusTrap.setExtraContainers(extraContainers);
+    this.focusTrap.updateContainerElements();
   }
 
   /**
@@ -535,9 +569,15 @@ export class ShellPanel extends LitElement {
 
   //#region Lifecycle
 
+  constructor() {
+    super();
+    this.listen("keydown", this.keyDownHandler);
+  }
+
   override connectedCallback(): void {
     if (this.hasUpdated) {
       this.refreshResize();
+      this.updateFocusTrap();
     }
   }
 
@@ -586,6 +626,12 @@ export class ShellPanel extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("collapsed") || changes.has("disabled")) {
+      this.updateFocusTrap();
+    }
+  }
+
   override disconnectedCallback(): void {
     this.cleanUpInteractions();
   }
@@ -593,6 +639,14 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private updateFocusTrap(): void {
+    if (this.collapsed || this.disabled) {
+      this.focusTrap.deactivate();
+    } else {
+      this.focusTrap.activate();
+    }
+  }
 
   private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
     if (event.target !== this.panelRef.value) {
@@ -1006,7 +1060,6 @@ export class ShellPanel extends LitElement {
               description={this.description}
               disabled={this.disabled}
               focusTrapDisabled={true}
-              focusTrapOptions={this.focusTrapOptions}
               heading={this.heading}
               headingLevel={this.headingLevel}
               icon={this.icon}

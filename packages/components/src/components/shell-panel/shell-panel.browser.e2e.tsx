@@ -61,6 +61,10 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "focusTrapOptions",
         defaultValue: undefined,
       },
@@ -121,6 +125,10 @@ describe("reflects", () => {
         value: true,
       },
       {
+        propertyName: "focusTrapDisabled",
+        value: true,
+      },
+      {
         propertyName: "menuPlacement",
         value: "top-start",
       },
@@ -158,7 +166,115 @@ describe("renders", () => {
   });
 });
 
+describe("focus trapping", () => {
+  async function openShellPanel(focusTrapOptions?: ShellPanel["focusTrapOptions"]) {
+    const { el } = await mount<ShellPanel>(
+      <>
+        <calcite-shell-panel collapsed focusTrapOptions={focusTrapOptions} heading="Tools">
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Open tools</button>
+        <div id="extra-container">
+          <button id="return-target" type="button">
+            Return target
+          </button>
+        </div>
+      </>,
+    );
+    const opener = page.getByRole("button", { name: "Open tools" });
+
+    await userEvent.click(opener);
+    el.collapsed = false;
+    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
+    await el.setFocus();
+
+    return { el, opener };
+  }
+
+  it("returns focus to the opener after closing", async () => {
+    const { el, opener } = await openShellPanel();
+
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(opener).toHaveFocus();
+  });
+
+  it("returns focus to the opener after closing with Escape from the action bar", async () => {
+    const { el } = await mount<ShellPanel>(
+      <>
+        <calcite-shell-panel collapsed heading="Tools">
+          <div slot="action-bar">
+            <button type="button">Action bar</button>
+          </div>
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Open tools</button>
+      </>,
+    );
+    const opener = page.getByRole("button", { name: "Open tools" });
+
+    await userEvent.click(opener);
+    el.collapsed = false;
+    await userEvent.click(page.getByRole("button", { name: "Action bar" }));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(opener).toHaveFocus();
+  });
+
+  it("honors a custom return focus target", async () => {
+    await openShellPanel({ setReturnFocus: "#return-target" });
+
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    await expect.element(page.getByRole("button", { name: "Return target" })).toHaveFocus();
+  });
+
+  it("includes extra containers when updating the focus trap", async () => {
+    const { el } = await openShellPanel();
+    const extraContainer = page.getByRole("button", { name: "Return target" });
+
+    await el.updateFocusTrapElements([page.getBySelector("#extra-container").element()]);
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.tab();
+
+    await expect.element(extraContainer).toHaveFocus();
+
+    await el.updateFocusTrapElements();
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.tab();
+
+    await expect.element(el).toHaveFocus();
+  });
+
+  it("closes with Escape from an extra container", async () => {
+    const { el, opener } = await openShellPanel();
+
+    await el.updateFocusTrapElements([page.getBySelector("#extra-container").element()]);
+    await userEvent.click(page.getByRole("button", { name: "Return target" }));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveAttribute("collapsed");
+    await expect.element(opener).toHaveFocus();
+  });
+});
+
 describe("internal panel", () => {
+  it("focuses custom content via setFocus", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel focus-trap-disabled>
+        <button slot="custom-content" type="button">
+          Custom content
+        </button>
+      </calcite-shell-panel>,
+    );
+
+    await expect(el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
+
+    await expect.element(page.getByRole("button", { name: "Custom content" })).toHaveFocus();
+  });
+
   it("scrolls internal panel content via scrollContentTo", async () => {
     const { el } = await mount<ShellPanel>(
       <calcite-shell-panel style="block-size: 200px; inline-size: 300px">
@@ -179,65 +295,24 @@ describe("internal panel", () => {
     await expect(el.scrollContentTo()).resolves.toBeUndefined();
   });
 
-  it("forwards focus trap options and updates to the internal panel", async () => {
+  it("focuses internal panel content via setFocus", async () => {
     const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel focusTrapOptions={{ initialFocus: false }} />,
-    );
-    const panel = page.getBySelector("calcite-panel");
-
-    await expect.element(panel).toHaveProperty("focusTrapOptions", { initialFocus: false });
-
-    el.focusTrapOptions = { returnFocusOnDeactivate: false };
-
-    await expect
-      .element(panel)
-      .toHaveProperty("focusTrapOptions", { returnFocusOnDeactivate: false });
-
-    el.focusTrapOptions = undefined;
-
-    await expect.element(panel).toHaveProperty("focusTrapOptions", undefined);
-  });
-
-  it("delegates focus via setFocus to the internal panel", async () => {
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel collapse-disabled>
+      <calcite-shell-panel collapse-disabled focus-trap-disabled>
         <button type="button">Panel content</button>
       </calcite-shell-panel>,
     );
-    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
-    const setFocus = vi.spyOn(panel, "setFocus");
+    const content = page.getByRole("button", { name: "Panel content" });
+    const focus = vi.spyOn(content.element(), "focus");
     const options = { preventScroll: true };
 
     await expect(el.setFocus(options)).resolves.toBeUndefined();
 
-    expect(setFocus).toHaveBeenCalledExactlyOnceWith(options);
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toHaveFocus();
+    expect(focus).toHaveBeenCalledExactlyOnceWith(options);
+    await expect.element(content).toHaveFocus();
 
     await expect(el.setFocus()).resolves.toBeUndefined();
 
-    expect(setFocus).toHaveBeenLastCalledWith(undefined);
-  });
-
-  it("updates internal panel focus trap elements with optional extra containers", async () => {
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel heading="Tools">
-        <div slot="action-bar">
-          <button type="button">Action bar</button>
-        </div>
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
-    const updateFocusTrapElements = vi.spyOn(panel, "updateFocusTrapElements");
-    const extraContainers = [el.querySelector<HTMLDivElement>("div[slot='action-bar']")!];
-
-    await expect(el.updateFocusTrapElements(extraContainers)).resolves.toBeUndefined();
-
-    expect(updateFocusTrapElements).toHaveBeenCalledExactlyOnceWith(extraContainers);
-
-    await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
-
-    expect(updateFocusTrapElements).toHaveBeenLastCalledWith(undefined);
+    await expect.element(content).toHaveFocus();
   });
 
   it("ignores collapse toggles from nested panels", async () => {
@@ -499,7 +574,7 @@ describe("internal panel", () => {
       await expect.element(panel).toHaveFocus();
       expect(shadowRoot.activeElement).toBe(separator.element());
       await userEvent.tab();
-      await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+      await expect.element(panel.getByRole("button", { name: "Action bar" })).toHaveFocus();
 
       await userEvent.tab({ shift: true });
       await expect.element(panel).toHaveFocus();
@@ -512,7 +587,7 @@ describe("internal panel", () => {
     },
   );
 
-  it("does not steal focus when the non-modal panel is expanded", async () => {
+  it("focuses the panel when expanded", async () => {
     const { component } = await mount<ShellPanel>(
       <>
         <calcite-shell-panel collapsed heading="Tools">
@@ -527,13 +602,13 @@ describe("internal panel", () => {
     component.el.collapsed = false;
 
     await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
-    await expect.element(outside).toHaveFocus();
+    await expect.element(component.el).toHaveFocus();
   });
 
-  it("does not trap focus when collapsing is disabled", async () => {
+  it("does not trap focus when focus trapping is disabled", async () => {
     await mount(
       <div>
-        <calcite-shell-panel collapse-disabled>
+        <calcite-shell-panel collapse-disabled focus-trap-disabled>
           <button type="button">Panel content</button>
         </calcite-shell-panel>
         <button type="button">Outside</button>
@@ -546,9 +621,13 @@ describe("internal panel", () => {
     await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
   });
 
-  it.each(["collapseDisabled", "collapsed", "disabled"] as const)(
-    "does not trap focus when %s becomes true",
-    async (property) => {
+  it.each([
+    { property: "focusTrapDisabled", attribute: "focus-trap-disabled" },
+    { property: "collapsed", attribute: "collapsed" },
+    { property: "disabled", attribute: "disabled" },
+  ] as const)(
+    "does not trap focus when $property becomes true",
+    async ({ property, attribute }) => {
       const { el } = await mount<ShellPanel>(
         <>
           <calcite-shell-panel>
@@ -562,13 +641,13 @@ describe("internal panel", () => {
       await userEvent.click(page.getByRole("button", { name: "Panel content" }));
       el[property] = true;
 
-      await expect.element(page.getByRole("article", { includeHidden: true })).toBeInTheDocument();
+      await expect.element(el).toHaveAttribute(attribute);
       outside.element().focus();
       await expect.element(outside).toHaveFocus();
     },
   );
 
-  it("does not trap focus while custom content assignments change", async () => {
+  it("traps focus while custom content assignments change", async () => {
     const { component } = await mount<ShellPanel>(
       <>
         <calcite-shell-panel>
@@ -581,19 +660,86 @@ describe("internal panel", () => {
     const panel = page.elementLocator(component.el);
     const customContent = panel.getByRole("button", { name: "Custom content" });
     const customContentElement = customContent.element();
-    const outside = page.getByRole("button", { name: "Outside" });
 
     await userEvent.click(panel.getByRole("button", { name: "Panel content" }));
     customContentElement.setAttribute("slot", "custom-content");
 
     await userEvent.click(customContent);
     await userEvent.tab();
-    await expect.element(outside).toHaveFocus();
+    await expect.element(customContent).toHaveFocus();
 
     customContentElement.removeAttribute("slot");
     await userEvent.click(customContent);
     await userEvent.tab();
-    await expect.element(outside).toHaveFocus();
+    await expect.element(component.el).toHaveFocus();
+  });
+});
+
+describe("Escape without an active trap", () => {
+  async function mountShellPanel(focusTrapDisabled = true) {
+    return mount<ShellPanel>(
+      <>
+        <calcite-shell-panel focusTrapDisabled={focusTrapDisabled} heading="Tools" resizable>
+          <div slot="action-bar">
+            <button type="button">Action bar</button>
+          </div>
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Outside</button>
+      </>,
+    );
+  }
+
+  it("closes from the action bar when trapping is disabled", async () => {
+    const { el } = await mountShellPanel();
+
+    await userEvent.click(page.getByRole("button", { name: "Action bar" }));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveAttribute("collapsed");
+  });
+
+  it("closes from the resize handle when trapping is disabled", async () => {
+    const { el } = await mountShellPanel();
+
+    await userEvent.click(page.getByRole("separator"));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveAttribute("collapsed");
+  });
+
+  it("closes from the action bar after an outside click deactivates trapping", async () => {
+    const { el } = await mountShellPanel(false);
+
+    await userEvent.click(page.getByRole("button", { name: "Outside" }));
+    await userEvent.click(page.getByRole("button", { name: "Action bar" }));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveAttribute("collapsed");
+  });
+
+  it("does not close when collapsing is disabled", async () => {
+    const { el } = await mountShellPanel();
+    el.collapseDisabled = true;
+
+    await expect.element(el).toHaveAttribute("collapse-disabled");
+    await userEvent.click(page.getByRole("button", { name: "Action bar" }));
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).not.toHaveAttribute("collapsed");
+    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
+  });
+
+  it("does not close when Escape is already handled", async () => {
+    const { el } = await mountShellPanel();
+    const action = page.getByRole("button", { name: "Action bar" });
+
+    action.element().addEventListener("keydown", (event) => event.preventDefault(), { once: true });
+    await userEvent.click(action);
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).not.toHaveAttribute("collapsed");
+    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
   });
 });
 
