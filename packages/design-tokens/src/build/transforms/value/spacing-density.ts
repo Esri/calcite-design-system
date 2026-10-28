@@ -20,8 +20,8 @@ const filter: Filter["filter"] = (token) =>
 // size tokens only scale when the 0/1 include-size switch is on
 const transformValueSpacingDensity: ValueTransform["transform"] = (token) =>
   isSize(token)
-    ? `calc(${token.$value} * (1 + (var(${densityFactorVar}, 1) - 1) * var(${densityIncludeSizeVar}, 0)))`
-    : `calc(${token.$value} * var(${densityFactorVar}, 1))`;
+    ? `round(${token.$value} * (1 + (var(${densityFactorVar}, 1) - 1) * var(${densityIncludeSizeVar}, 0)), 1px)`
+    : `round(${token.$value} * var(${densityFactorVar}, 1), 1px)`;
 
 export const registerValueSpacingDensity: RegisterFn = () => {
   StyleDictionary.registerTransform({

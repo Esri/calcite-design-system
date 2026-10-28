@@ -1046,35 +1046,35 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
   --calcite-font-weight-bold: 600;
-  --calcite-font-size-xs: calc(10px * var(--calcite-font-scale, 1));
-  --calcite-font-size-sm: calc(12px * var(--calcite-font-scale, 1));
-  --calcite-font-size: calc(14px * var(--calcite-font-scale, 1));
-  --calcite-font-size-md: calc(16px * var(--calcite-font-scale, 1));
-  --calcite-font-size-lg: calc(18px * var(--calcite-font-scale, 1));
-  --calcite-font-size-xl: calc(20px * var(--calcite-font-scale, 1));
-  --calcite-font-size-xxl: calc(24px * var(--calcite-font-scale, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
-  --calcite-font-size-relative-xs: calc(0.625rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-sm: calc(0.75rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-base: calc(0.875rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-md: calc(1rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-lg: calc(1.125rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-xl: calc(1.25rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-2xl: calc(1.625rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-3xl: calc(2rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-4xl: calc(2.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-5xl: calc(3rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-6xl: calc(3.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-7xl: calc(4rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-xs: round(10px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-sm: round(12px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size: round(14px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-md: round(16px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-lg: round(18px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-xl: round(20px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-xxl: round(24px * var(--calcite-font-scale, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-relative-xs: round(0.625rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-sm: round(0.75rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-base: round(0.875rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-md: round(1rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-lg: round(1.125rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-xl: round(1.25rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-2xl: round(1.625rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-3xl: round(2rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-4xl: round(2.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-5xl: round(3rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-6xl: round(3.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-7xl: round(4rem * var(--calcite-font-scale, 1), 1px);
   --calcite-font-style-emphasis: italic; /** used in ratings */
-  --calcite-font-line-height-fixed-sm: calc(12px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-base: calc(16px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-lg: calc(20px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-xl: calc(24px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-2xl: calc(32px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-3xl: calc(40px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-4xl: calc(48px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-5xl: calc(64px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-6xl: calc(80px * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-fixed-sm: round(12px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-base: round(16px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-lg: round(20px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-xl: round(24px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-2xl: round(32px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-3xl: round(40px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-4xl: round(48px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-5xl: round(64px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-6xl: round(80px * var(--calcite-font-scale, 1), 1px);
   --calcite-font-line-height-relative: normal;
   --calcite-font-line-height-relative-base: 1;
   --calcite-font-line-height-relative-tight: 1.25;
@@ -1082,18 +1082,18 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-line-height-relative-normal: 1.5;
   --calcite-font-line-height-relative-relaxed: 1.625;
   --calcite-font-line-height-relative-loose: 2;
-  --calcite-font-line-height-xs: calc(0.75rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-sm: calc(1rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-base: calc(1rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-md: calc(1.25rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-lg: calc(1.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-xl: calc(1.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-2xl: calc(2rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-3xl: calc(2.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-4xl: calc(3rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-5xl: calc(4rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-6xl: calc(4rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-7xl: calc(5rem * var(--calcite-font-scale, 1));
+  --calcite-font-line-height-xs: round(0.75rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-sm: round(1rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-base: round(1rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-md: round(1.25rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-lg: round(1.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-xl: round(1.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-2xl: round(2rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-3xl: round(2.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-4xl: round(3rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-5xl: round(4rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-6xl: round(4rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-7xl: round(5rem * var(--calcite-font-scale, 1), 1px);
   --calcite-font-letter-spacing-tight: -0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-normal: 0; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-font-letter-spacing-wide: 0.4px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
@@ -1113,45 +1113,45 @@ exports[`CSS > global should match 1`] = `
   --calcite-shadow-sm: 0 2px 8px 0 rgba(0, 0, 0, 0.1), 0 2px 8px 0 rgba(0, 0, 0, 0.04);
   --calcite-shadow-md: 0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 4px 12px -2px rgba(0, 0, 0, 0.08);
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxs: calc(4px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xs: calc(6px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm: calc(8px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm-plus: calc(10px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
-  --calcite-size-fixed-md: calc(12px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-fixed-md-plus: calc(14px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-fixed-lg: calc(16px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
-  --calcite-size-fixed-xl: calc(20px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxl: calc(24px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
-  --calcite-size-fixed-xxxl: calc(32px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+  --calcite-size-fixed-xxs: round(4px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xs: round(6px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm: round(8px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm-plus: round(10px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
+  --calcite-size-fixed-md: round(12px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-fixed-md-plus: round(14px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-fixed-lg: round(16px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+  --calcite-size-fixed-xl: round(20px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xxl: round(24px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
+  --calcite-size-fixed-xxxl: round(32px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
-  --calcite-size-xxxs: calc(0.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-xxs: calc(0.875rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-lg: calc(2.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
-  --calcite-size-xl: calc(3rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
-  --calcite-size-xxl: calc(4rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
-  --calcite-size-xxxl: calc(6rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
-  --calcite-spacing-fixed-xxs: calc(4px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
-  --calcite-spacing-fixed-xs: calc(6px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-fixed-sm: calc(8px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-fixed-md: calc(12px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-fixed-lg: calc(14px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
-  --calcite-spacing-fixed-xl: calc(16px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
-  --calcite-spacing-fixed-xxl: calc(20px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
-  --calcite-spacing-fixed-xxxl: calc(32px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+  --calcite-size-xxxs: round(0.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-xxs: round(0.875rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-lg: round(2.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px);
+  --calcite-size-xl: round(3rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px);
+  --calcite-size-xxl: round(4rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
+  --calcite-size-xxxl: round(6rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
+  --calcite-spacing-fixed-xxs: round(4px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
+  --calcite-spacing-fixed-xs: round(6px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
+  --calcite-spacing-fixed-sm: round(8px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-fixed-md: round(12px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-fixed-lg: round(14px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-fixed-xl: round(16px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
+  --calcite-spacing-fixed-xxl: round(20px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
+  --calcite-spacing-fixed-xxxl: round(32px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
   --calcite-spacing-none: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead. */
   --calcite-spacing-px: 1px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead. */
   --calcite-spacing-base: 2px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead. */
-  --calcite-spacing-xxs: calc(0.25rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
-  --calcite-spacing-xs: calc(0.375rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-sm: calc(0.5rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-sm-plus: calc(0.625rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
-  --calcite-spacing-md: calc(0.75rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-md-plus: calc(0.875rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
-  --calcite-spacing-lg: calc(1rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
-  --calcite-spacing-xl: calc(1.25rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
-  --calcite-spacing-xxl: calc(1.5rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
-  --calcite-spacing-xxxl: calc(2rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
-  --calcite-space-4xl: calc(2.75rem * var(--calcite-density-factor, 1));
+  --calcite-spacing-xxs: round(0.25rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
+  --calcite-spacing-xs: round(0.375rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
+  --calcite-spacing-sm: round(0.5rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-sm-plus: round(0.625rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
+  --calcite-spacing-md: round(0.75rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-md-plus: round(0.875rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-lg: round(1rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
+  --calcite-spacing-xl: round(1.25rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
+  --calcite-spacing-xxl: round(1.5rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
+  --calcite-spacing-xxxl: round(2rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+  --calcite-space-4xl: round(2.75rem * var(--calcite-density-factor, 1), 1px);
   --calcite-z-index-deep: -999999;
   --calcite-z-index: 1;
   --calcite-z-index-sticky: 300;
@@ -1575,45 +1575,45 @@ exports[`CSS > semantic should match 1`] = `
 :root,
 [data-calcite-density] {
   --calcite-size-fixed-xxxs: 2px; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxs: calc(4px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xs: calc(6px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm: calc(8px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-sm-plus: calc(10px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
-  --calcite-size-fixed-md: calc(12px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-fixed-md-plus: calc(14px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-fixed-lg: calc(16px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
-  --calcite-size-fixed-xl: calc(20px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-size-fixed-xxl: calc(24px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
-  --calcite-size-fixed-xxxl: calc(32px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
+  --calcite-size-fixed-xxs: round(4px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xs: round(6px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm: round(8px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-sm-plus: round(10px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-4xs\` instead. */
+  --calcite-size-fixed-md: round(12px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-fixed-md-plus: round(14px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-fixed-lg: round(16px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-xs\` instead. */
+  --calcite-size-fixed-xl: round(20px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
+  --calcite-size-fixed-xxl: round(24px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-sm\` instead. */
+  --calcite-size-fixed-xxxl: round(32px * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-size-md\` instead. */
   --calcite-size-px: 1px;
-  --calcite-size-xxxs: calc(0.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
-  --calcite-size-xxs: calc(0.875rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
-  --calcite-size-lg: calc(2.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
-  --calcite-size-xl: calc(3rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)));
-  --calcite-size-xxl: calc(4rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
-  --calcite-size-xxxl: calc(6rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0))); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
-  --calcite-spacing-fixed-xxs: calc(4px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
-  --calcite-spacing-fixed-xs: calc(6px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-fixed-sm: calc(8px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-fixed-md: calc(12px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-fixed-lg: calc(14px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
-  --calcite-spacing-fixed-xl: calc(16px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
-  --calcite-spacing-fixed-xxl: calc(20px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
-  --calcite-spacing-fixed-xxxl: calc(32px * var(--calcite-density-factor, 1)); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+  --calcite-size-xxxs: round(0.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xs\` instead. */
+  --calcite-size-xxs: round(0.875rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xs\` instead. */
+  --calcite-size-lg: round(2.75rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px);
+  --calcite-size-xl: round(3rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px);
+  --calcite-size-xxl: round(4rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-2xl\` instead. */
+  --calcite-size-xxxl: round(6rem * (1 + (var(--calcite-density-factor, 1) - 1) * var(--calcite-density-include-size, 0)), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-size-3xl\` instead. */
+  --calcite-spacing-fixed-xxs: round(4px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
+  --calcite-spacing-fixed-xs: round(6px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
+  --calcite-spacing-fixed-sm: round(8px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-fixed-md: round(12px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-fixed-lg: round(14px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-fixed-xl: round(16px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
+  --calcite-spacing-fixed-xxl: round(20px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
+  --calcite-spacing-fixed-xxxl: round(32px * var(--calcite-density-factor, 1), 1px); /** Deprecated in v3.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
   --calcite-spacing-none: 0; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-none\` instead. */
   --calcite-spacing-px: 1px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-px\` instead. */
   --calcite-spacing-base: 2px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-base\` instead. */
-  --calcite-spacing-xxs: calc(0.25rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
-  --calcite-spacing-xs: calc(0.375rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
-  --calcite-spacing-sm: calc(0.5rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
-  --calcite-spacing-sm-plus: calc(0.625rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
-  --calcite-spacing-md: calc(0.75rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
-  --calcite-spacing-md-plus: calc(0.875rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
-  --calcite-spacing-lg: calc(1rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
-  --calcite-spacing-xl: calc(1.25rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
-  --calcite-spacing-xxl: calc(1.5rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
-  --calcite-spacing-xxxl: calc(2rem * var(--calcite-density-factor, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
-  --calcite-space-4xl: calc(2.75rem * var(--calcite-density-factor, 1));
+  --calcite-spacing-xxs: round(0.25rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xs\` instead. */
+  --calcite-spacing-xs: round(0.375rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xs\` instead. */
+  --calcite-spacing-sm: round(0.5rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm\` instead. */
+  --calcite-spacing-sm-plus: round(0.625rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-sm-plus\` instead. */
+  --calcite-spacing-md: round(0.75rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md\` instead. */
+  --calcite-spacing-md-plus: round(0.875rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-md-plus\` instead. */
+  --calcite-spacing-lg: round(1rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-lg\` instead. */
+  --calcite-spacing-xl: round(1.25rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-xl\` instead. */
+  --calcite-spacing-xxl: round(1.5rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-2xl\` instead. */
+  --calcite-spacing-xxxl: round(2rem * var(--calcite-density-factor, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-space-3xl\` instead. */
+  --calcite-space-4xl: round(2.75rem * var(--calcite-density-factor, 1), 1px);
   --calcite-size-4xs: var(--calcite-size-fixed-sm-plus); /** Replaces \`--calcite-size-fixed-sm-plus\` */
   --calcite-size-3xs: var(--calcite-size-fixed-md); /** Replaces \`--calcite-size-fixed-md\` */
   --calcite-size-2xs: var(--calcite-size-fixed-md-plus); /** Replaces \`--calcite-size-fixed-md-plus\` */
@@ -1639,46 +1639,46 @@ exports[`CSS > semantic should match 1`] = `
 
 :root,
 [data-calcite-font-scale] {
-  --calcite-font-size-xs: calc(10px * var(--calcite-font-scale, 1));
-  --calcite-font-size-sm: calc(12px * var(--calcite-font-scale, 1));
-  --calcite-font-size: calc(14px * var(--calcite-font-scale, 1));
-  --calcite-font-size-md: calc(16px * var(--calcite-font-scale, 1));
-  --calcite-font-size-lg: calc(18px * var(--calcite-font-scale, 1));
-  --calcite-font-size-xl: calc(20px * var(--calcite-font-scale, 1));
-  --calcite-font-size-xxl: calc(24px * var(--calcite-font-scale, 1)); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
-  --calcite-font-size-relative-xs: calc(0.625rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-sm: calc(0.75rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-base: calc(0.875rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-md: calc(1rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-lg: calc(1.125rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-xl: calc(1.25rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-2xl: calc(1.625rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-3xl: calc(2rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-4xl: calc(2.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-5xl: calc(3rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-6xl: calc(3.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-size-relative-7xl: calc(4rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-sm: calc(12px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-base: calc(16px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-lg: calc(20px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-xl: calc(24px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-2xl: calc(32px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-3xl: calc(40px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-4xl: calc(48px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-5xl: calc(64px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-fixed-6xl: calc(80px * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-xs: calc(0.75rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-sm: calc(1rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-base: calc(1rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-md: calc(1.25rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-lg: calc(1.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-xl: calc(1.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-2xl: calc(2rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-3xl: calc(2.5rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-4xl: calc(3rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-5xl: calc(4rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-6xl: calc(4rem * var(--calcite-font-scale, 1));
-  --calcite-font-line-height-7xl: calc(5rem * var(--calcite-font-scale, 1));
+  --calcite-font-size-xs: round(10px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-sm: round(12px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size: round(14px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-md: round(16px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-lg: round(18px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-xl: round(20px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-xxl: round(24px * var(--calcite-font-scale, 1), 1px); /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-relative-xs: round(0.625rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-sm: round(0.75rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-base: round(0.875rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-md: round(1rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-lg: round(1.125rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-xl: round(1.25rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-2xl: round(1.625rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-3xl: round(2rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-4xl: round(2.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-5xl: round(3rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-6xl: round(3.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-size-relative-7xl: round(4rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-sm: round(12px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-base: round(16px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-lg: round(20px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-xl: round(24px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-2xl: round(32px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-3xl: round(40px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-4xl: round(48px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-5xl: round(64px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-fixed-6xl: round(80px * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-xs: round(0.75rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-sm: round(1rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-base: round(1rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-md: round(1.25rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-lg: round(1.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-xl: round(1.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-2xl: round(2rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-3xl: round(2.5rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-4xl: round(3rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-5xl: round(4rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-6xl: round(4rem * var(--calcite-font-scale, 1), 1px);
+  --calcite-font-line-height-7xl: round(5rem * var(--calcite-font-scale, 1), 1px);
   --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
 }
 

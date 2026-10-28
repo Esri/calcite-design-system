@@ -9,7 +9,7 @@ const filter: Filter["filter"] = (token) =>
   token.isSource && isFontScaled(token) && !String(token.$value).includes(fontScaleVar);
 
 const transformValueFontScale: ValueTransform["transform"] = (token) =>
-  `calc(${token.$value} * var(${fontScaleVar}, 1))`;
+  `round(${token.$value} * var(${fontScaleVar}, 1), 1px)`;
 
 export const registerValueFontScale: RegisterFn = () => {
   StyleDictionary.registerTransform({

@@ -202,7 +202,7 @@ calcite-time-picker {
   }
   .input-container,
   .placeholder {
-    line-height: calc(2.25rem * var(--calcite-font-scale, 1));
+    line-height: round(2.25rem * var(--calcite-font-scale, 1), 1px);
   }
   .clear-button {
     block-size: var(--calcite-space-4xl);
