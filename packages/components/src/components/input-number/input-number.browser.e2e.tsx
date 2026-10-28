@@ -1502,27 +1502,21 @@ describe("theme", () => {
     });
 
     it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
-      const { el } = await mount<InputNumber>(
+      await mount<InputNumber>(
         <calcite-input-number
           prefix-text="prefix"
           style={{ "--calcite-input-prefix-size": "42px", "--calcite-input-suffix-size": "42px" }}
           suffix-text="suffix"
         />,
       );
+      const affixes = [CSS.prefix, CSS.suffix].map((className) =>
+        page.getBySelector(`.${className}`),
+      );
 
       await vi.waitFor(() => {
-        expect(
-          Math.ceil(
-            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.getBoundingClientRect()
-              .width,
-          ),
-        ).toBe(42);
-        expect(
-          Math.ceil(
-            el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.getBoundingClientRect()
-              .width,
-          ),
-        ).toBe(42);
+        for (const affix of affixes) {
+          expect(affix.element().getBoundingClientRect().width).toBe(42);
+        }
       });
     });
 
@@ -1530,22 +1524,19 @@ describe("theme", () => {
       const { el } = await mount<InputNumber>(
         <calcite-input-number prefix-text="prefix" suffix-text="suffix" />,
       );
+      const prefix = page.getBySelector(`.${CSS.prefix}`);
+      const suffix = page.getBySelector(`.${CSS.suffix}`);
 
-      await vi.waitFor(() => {
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)).not.toBeNull();
-        expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)).not.toBeNull();
-      });
-
-      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.prefix}`)!.style.width).toBe("");
-      expect(el.shadowRoot.querySelector<HTMLElement>(`.${CSS.suffix}`)!.style.width).toBe("");
+      await expect.element(prefix).toBeInTheDocument();
+      await expect.element(suffix).toBeInTheDocument();
+      await expect.element(prefix).toHaveProperty("style.width", "");
+      await expect.element(suffix).toHaveProperty("style.width", "");
 
       el.prefixText = undefined;
       el.suffixText = undefined;
 
-      await vi.waitFor(() => {
-        expect(el.shadowRoot.querySelector(`.${CSS.prefix}`)).toBeNull();
-        expect(el.shadowRoot.querySelector(`.${CSS.suffix}`)).toBeNull();
-      });
+      await expect.element(prefix).not.toBeInTheDocument();
+      await expect.element(suffix).not.toBeInTheDocument();
     });
   });
 
