@@ -13,18 +13,10 @@ describe("accessible", () => {
   accessible(() =>
     mount(
       <calcite-shell>
-        <calcite-shell-panel
-          messageOverrides={{ close: "Close start panel" }}
-          position="start"
-          slot={SLOTS.panelStart}
-        >
+        <calcite-shell-panel heading="Start panel" position="start" slot={SLOTS.panelStart}>
           <p>Primary Content</p>
         </calcite-shell-panel>
-        <calcite-shell-panel
-          messageOverrides={{ close: "Close end panel" }}
-          position="end"
-          slot={SLOTS.panelEnd}
-        >
+        <calcite-shell-panel heading="End panel" position="end" slot={SLOTS.panelEnd}>
           <p>Primary Content</p>
         </calcite-shell-panel>
       </calcite-shell>,

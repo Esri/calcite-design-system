@@ -6,6 +6,8 @@ import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
+mockConsole();
+
 it("content node should always be present", async () => {
   const page = await newE2EPage();
 
@@ -157,8 +159,6 @@ it("should position panel-bottom slot at content's bottom when no other panels e
 });
 
 describe("embedded", () => {
-  mockConsole();
-
   it("sheet embedded in shell slot does not prevent interaction with page content outside slot", async () => {
     const page = await newE2EPage();
     await page.setContent(

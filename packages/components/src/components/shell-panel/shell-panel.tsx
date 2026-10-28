@@ -242,9 +242,11 @@ export class ShellPanel extends LitElement {
   private contentRef = createRef<HTMLDivElement>();
 
   private panelRef = createRef<Panel["el"]>();
+
   private containerRef = createRef<HTMLDivElement>();
 
   private _closed = false;
+
   private closedRequestVersion = 0;
 
   /**
@@ -268,6 +270,8 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region State Properties
+
+  @state() private hasCustomContent = false;
 
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
@@ -971,7 +975,12 @@ export class ShellPanel extends LitElement {
           key="content"
           ref={this.contentRef}
         >
-          <slot name={SLOTS.customContent}>
+          <slot
+            name={SLOTS.customContent}
+            onSlotChange={(event) => {
+              this.hasCustomContent = event.currentTarget.assignedNodes().length > 0;
+            }}
+          >
             <calcite-panel
               class={CSS.panel}
               closable={!this.closeDisabled}
@@ -980,7 +989,7 @@ export class ShellPanel extends LitElement {
               collapsible={this.panelCollapsible}
               description={this.description}
               disabled={this.disabled}
-              focusTrapDisabled={true}
+              focusTrapDisabled={closed || collapsed || this.disabled || this.hasCustomContent}
               focusTrapOptions={this.focusTrapOptions}
               heading={this.heading}
               headingLevel={this.headingLevel}

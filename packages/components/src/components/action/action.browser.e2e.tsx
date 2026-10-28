@@ -234,7 +234,7 @@ describe("a11y attributes", () => {
 
   it("should have a indicator live region", async () => {
     const { el, reRender } = await mount("calcite-action");
-    const liveRegion = page.getByRole("region");
+    const liveRegion = page.getByRole("status");
 
     await expect.element(liveRegion).toHaveProperty("ariaLive", "polite");
     await expect.element(liveRegion).toBeInTheDocument();

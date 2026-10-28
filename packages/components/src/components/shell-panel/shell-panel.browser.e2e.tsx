@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -26,7 +26,7 @@ mockConsole();
 describe("accessible", () => {
   accessible(async () => {
     const renderResult = await mount(
-      <calcite-shell-panel position="start" slot="panel-start">
+      <calcite-shell-panel heading="Tools" position="start" slot="panel-start">
         <calcite-action-bar slot="action-bar">
           <calcite-action-group>
             <calcite-action icon="plus" text="Add" />
@@ -225,23 +225,41 @@ describe("internal panel", () => {
   it("updates internal panel focus trap elements with optional extra containers", async () => {
     const { el } = await mount<ShellPanel>(
       <calcite-shell-panel heading="Tools">
-        <button slot="action-bar" type="button">
-          Action bar
-        </button>
+        <div slot="action-bar">
+          <button type="button">Action bar</button>
+        </div>
         <button type="button">Panel content</button>
       </calcite-shell-panel>,
     );
     const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
     const updateFocusTrapElements = vi.spyOn(panel, "updateFocusTrapElements");
-    const extraContainers = [el.querySelector<HTMLButtonElement>("button[slot='action-bar']")!];
+    const extraContainers = [el.querySelector<HTMLDivElement>("div[slot='action-bar']")!];
 
     await expect(el.updateFocusTrapElements(extraContainers)).resolves.toBeUndefined();
 
     expect(updateFocusTrapElements).toHaveBeenCalledExactlyOnceWith(extraContainers);
 
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.tab();
+    await expect.element(page.getByRole("button", { name: "Action bar" })).toHaveFocus();
+    await userEvent.tab();
+    await expect
+      .poll(() =>
+        page.getByRole("button", { name: "Close", exact: true }).element().matches(":focus"),
+      )
+      .toBe(true);
+
     await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
 
     expect(updateFocusTrapElements).toHaveBeenLastCalledWith(undefined);
+
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.tab();
+    await expect
+      .poll(() =>
+        page.getByRole("button", { name: "Close", exact: true }).element().matches(":focus"),
+      )
+      .toBe(true);
   });
 
   it("ignores collapse toggles from nested panels", async () => {
@@ -664,7 +682,7 @@ describe("internal panel", () => {
     await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
   });
 
-  it("does not trap focus", async () => {
+  it("traps focus within the closable internal panel", async () => {
     await mount(
       <div>
         <calcite-shell-panel heading="Tools">
@@ -677,7 +695,97 @@ describe("internal panel", () => {
     await userEvent.click(page.getByRole("button", { name: "Panel content" }));
     await userEvent.tab();
 
+    await expect
+      .poll(() =>
+        page.getByRole("button", { name: "Close", exact: true }).element().matches(":focus"),
+      )
+      .toBe(true);
+    await userEvent.tab({ shift: true });
+    await expect.element(page.getByRole("button", { name: "Panel content" })).toHaveFocus();
+  });
+
+  it("honors the configured initial focus target", async () => {
+    await mount(
+      <calcite-shell-panel
+        focusTrapOptions={{
+          initialFocus: () => document.querySelector<HTMLButtonElement>("#preferred-focus")!,
+        }}
+        heading="Tools"
+      >
+        <button type="button">First control</button>
+        <button id="preferred-focus" type="button">
+          Preferred control
+        </button>
+      </calcite-shell-panel>,
+    );
+
+    await expect.element(page.getByRole("button", { name: "Preferred control" })).toHaveFocus();
+  });
+
+  it("does not trap focus when closing is disabled", async () => {
+    await mount(
+      <div>
+        <calcite-shell-panel close-disabled>
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Outside</button>
+      </div>,
+    );
+
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.tab();
+
     await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+  });
+
+  it.each(["closeDisabled", "closed", "collapsed", "disabled"] as const)(
+    "releases the internal focus trap when %s becomes true",
+    async (property) => {
+      const { el } = await mount<ShellPanel>(
+        <>
+          <calcite-shell-panel>
+            <button type="button">Panel content</button>
+          </calcite-shell-panel>
+          <button type="button">Outside</button>
+        </>,
+      );
+      const outside = page.getByRole("button", { name: "Outside" });
+
+      await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+      el[property] = true;
+
+      await expect.element(page.getByRole("article", { includeHidden: true })).toBeInTheDocument();
+      outside.element().focus();
+      await expect.element(outside).toHaveFocus();
+    },
+  );
+
+  it("releases the fallback panel trap while custom content is assigned", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel>
+        <button type="button">Panel content</button>
+        <button type="button">Custom content</button>
+      </calcite-shell-panel>,
+    );
+    const customContent = el.querySelector<HTMLButtonElement>("button:last-child")!;
+
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    customContent.slot = "custom-content";
+
+    await expect
+      .element(page.getBySelector("calcite-panel"))
+      .toHaveProperty("focusTrapDisabled", true);
+    customContent.focus();
+    await expect.element(page.getByRole("button", { name: "Custom content" })).toHaveFocus();
+
+    customContent.removeAttribute("slot");
+    await userEvent.click(page.getByRole("button", { name: "Custom content" }));
+    await userEvent.tab();
+    await expect
+      .poll(() =>
+        page.getByRole("button", { name: "Close", exact: true }).element().matches(":focus"),
+      )
+      .toBe(true);
   });
 
   it("collapses content without invoking beforeClose or hiding the action bar", async () => {
