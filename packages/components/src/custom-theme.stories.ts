@@ -4,11 +4,9 @@ import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
   actionMenu,
-  actionPad,
   actionTokens,
   actionBarTokens,
   actionMenuTokens,
-  actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
 import { alertTokens, alert } from "./custom-theme/alert";
@@ -182,7 +180,6 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">
         ${accordion} ${actionBar} ${autocomplete} ${notice} ${segmentedControl}
         <div style="display: flex">
-          ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
@@ -276,7 +273,6 @@ const componentTokens = {
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
-  ...actionPadTokens,
   ...actionTokens,
   ...alertTokens,
   ...autocompleteTokens,

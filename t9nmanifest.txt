@@ -2,7 +2,6 @@ packages\components\src\components\accordion-item\assets\t9n
 packages\components\src\components\action\assets\t9n
 packages\components\src\components\action-bar\assets\t9n
 packages\components\src\components\action-group\assets\t9n
-packages\components\src\components\action-pad\assets\t9n
 packages\components\src\components\alert\assets\t9n
 packages\components\src\components\autocomplete\assets\t9n
 packages\components\src\components\block\assets\t9n
