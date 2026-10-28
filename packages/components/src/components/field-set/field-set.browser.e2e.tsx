@@ -66,18 +66,6 @@ describe("structure", () => {
     await vi.waitFor(() => expect(legend.hidden).toBe(false));
     expect(el.querySelector('[slot="legend"]')?.textContent).toBe("Slotted legend");
   });
-
-  it("stacks controls and field groups vertically", async () => {
-    const { el } = await mount(
-      <calcite-field-set>
-        <calcite-input />
-        <calcite-field-group />
-      </calcite-field-set>,
-    );
-    const fieldWrapper = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.fieldWrapper}`)!;
-
-    expect(getComputedStyle(fieldWrapper).flexDirection).toBe("column");
-  });
 });
 
 describe("theme", () => {

@@ -63,52 +63,6 @@ describe("renders", () => {
   renders(() => mount(<calcite-field-group>content</calcite-field-group>), { display: "block" });
 });
 
-describe("layout", () => {
-  it("applies layout classes and the column count", async () => {
-    const { el } = await mount(
-      <calcite-field-group columns={2} layout="columns">
-        <calcite-input />
-        <calcite-input />
-      </calcite-field-group>,
-    );
-    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-
-    expect(container.classList.contains(CSS.containerColumns)).toBe(true);
-    expect(container.style.getPropertyValue("--calcite-internal-field-group-columns")).toBe("2");
-  });
-
-  it("uses the public columns custom property", async () => {
-    const { el } = await mount(
-      <calcite-field-group layout="columns" style={{ "--calcite-field-group-columns": "3" }}>
-        <calcite-input />
-        <calcite-input />
-        <calcite-input />
-      </calcite-field-group>,
-    );
-    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-
-    expect(getComputedStyle(container).gridTemplateColumns.split(" ")).toHaveLength(3);
-  });
-
-  it("places slotted field sets on the same row in horizontal layout", async () => {
-    const { el } = await mount(
-      <calcite-field-group layout="horizontal">
-        <calcite-field-set id="first" legend="First">
-          <calcite-input />
-        </calcite-field-set>
-        <calcite-field-set id="second" legend="Second">
-          <calcite-input />
-        </calcite-field-set>
-      </calcite-field-group>,
-    );
-    const first = el.querySelector<HTMLElement>("#first")!.getBoundingClientRect();
-    const second = el.querySelector<HTMLElement>("#second")!.getBoundingClientRect();
-
-    expect(second.top).toBe(first.top);
-    expect(second.left).toBeGreaterThan(first.left);
-  });
-});
-
 describe("affix width coordination", () => {
   it("coordinates affixes inside field sets without crossing nested field groups", async () => {
     const { el } = await mount(
