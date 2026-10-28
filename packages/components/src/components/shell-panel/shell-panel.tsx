@@ -258,9 +258,7 @@ export class ShellPanel extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.getMaxInlineSize() },
       block: { min: this.resizeValues.minBlockSize, max: this.getMaxBlockSize() },
     }),
-    onResize: (resizeValues) => {
-      this.resizeValues = resizeValues;
-    },
+    onResize: () => this.updateResizeValues(),
   });
 
   //#endregion

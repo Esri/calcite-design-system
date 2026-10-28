@@ -522,7 +522,10 @@ describe("internal panel", () => {
   it("traps focus within the closable internal panel", async () => {
     await mount(
       <div>
-        <calcite-shell-panel heading="Tools">
+        <calcite-shell-panel heading="Tools" resizable>
+          <div slot="action-bar">
+            <button type="button">Action bar</button>
+          </div>
           <button type="button">Panel content</button>
         </calcite-shell-panel>
         <button type="button">Outside</button>
@@ -668,6 +671,33 @@ describe("translation support", () => {
 
 describe("shell-panel updateSize public method", () => {
   mockConsole();
+
+  it.each([
+    { axis: "inline", crossAxis: "block", layout: "vertical" },
+    { axis: "block", crossAxis: "inline", layout: "horizontal" },
+  ] as const)(
+    "preserves the $axis separator value after partial sizing and reset",
+    async ({ axis, crossAxis, layout }) => {
+      const { component } = await mount<ShellPanel>(
+        <calcite-shell-panel
+          collapse-disabled
+          layout={layout}
+          resizable
+          style="display: inline-flex; --calcite-shell-panel-width: 320px; --calcite-shell-panel-min-width: 200px; --calcite-shell-panel-max-width: 600px; --calcite-shell-panel-height: 320px; --calcite-shell-panel-min-height: 200px; --calcite-shell-panel-max-height: 600px"
+        />,
+      );
+      const separator = page.getByRole("separator");
+
+      await component.el.updateSize({ [axis]: 360 });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "360");
+
+      await component.el.updateSize({ [crossAxis]: 400 });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "360");
+
+      await component.el.updateSize({ [axis]: null });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "320");
+    },
+  );
 
   type PanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
   type PanelLayout = ShellPanel["layout"];

@@ -545,7 +545,9 @@ export class Panel extends LitElement {
       }
     }
 
+    const oldValue = this._closed;
     this._closed = value;
+    this.requestUpdate("closed", oldValue);
   }
 
   private resizeHandler(): void {

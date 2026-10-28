@@ -859,6 +859,32 @@ describe("focus trap", () => {
   });
 });
 
+it("updates rendering and reflection after an asynchronous close", async () => {
+  const { promise, resolve } = Promise.withResolvers<void>();
+  const { component } = await mount<Panel>(
+    <calcite-panel beforeClose={() => promise} closable heading="Tools">
+      <button type="button">Panel content</button>
+    </calcite-panel>,
+  );
+  const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
+
+  await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+  expect(component.el.closed).toBe(false);
+  await expect.element(content).toBeVisible();
+
+  resolve();
+
+  await expect.element(component.el).toHaveAttribute("closed");
+  expect(component.el.closed).toBe(true);
+  await expect.element(content).not.toBeVisible();
+
+  component.el.closed = false;
+
+  await expect.element(component.el).not.toHaveAttribute("closed");
+  await expect.element(content).toBeVisible();
+});
+
 it("closes on Escape through keyboard interaction when closable", async () => {
   const { el } = await mount<Panel>(
     <calcite-panel closable heading="Panel heading">

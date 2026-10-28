@@ -295,9 +295,7 @@ export class Sheet extends LitElement {
       inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
       block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
     }),
-    onResize: (resizeValues) => {
-      this.resizeValues = { ...resizeValues };
-    },
+    onResize: () => this.updateResizeValues(),
   });
 
   private topLayer = useTopLayer<this>({
@@ -659,7 +657,9 @@ export class Sheet extends LitElement {
       }
     }
 
+    const oldValue = this._open;
     this._open = value;
+    this.requestUpdate("open", oldValue);
 
     if (value) {
       await this.componentOnReady();

@@ -378,6 +378,25 @@ describe("internal panel", () => {
     await expect.element(content).not.toBeVisible();
   });
 
+  it("updates reflection after an asynchronous close", async () => {
+    const { promise, resolve } = Promise.withResolvers<void>();
+    const { component } = await mountSheet(() => promise);
+    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
+
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    expect(component.el.open).toBe(true);
+    await expect.element(content).toBeVisible();
+
+    const closeEvent = waitForEvent(component.el, "calciteSheetClose");
+    resolve();
+    await closeEvent;
+
+    expect(component.el.open).toBe(false);
+    await expect.element(component.el).not.toHaveAttribute("open");
+    await expect.element(content).not.toBeVisible();
+  });
+
   it("keeps content visible when beforeClose rejects a close button request", async () => {
     const beforeClose = vi
       .fn<NonNullable<Sheet["beforeClose"]>>()
@@ -872,6 +891,37 @@ describe("renders", () => {
 
 describe("sheet updateSize public method", () => {
   mockConsole();
+
+  it.each([
+    { axis: "inline", crossAxis: "block", position: "inline-start" },
+    { axis: "block", crossAxis: "inline", position: "block-start" },
+  ] as const)(
+    "preserves the $axis separator value after partial sizing and reset",
+    async ({ axis, crossAxis, position }) => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const { component } = await mount<Sheet>(
+        <calcite-sheet
+          embedded
+          label="Sheet"
+          open
+          position={position}
+          resizable
+          style="--calcite-sheet-width: 320px; --calcite-sheet-min-width: 200px; --calcite-sheet-max-width: 600px; --calcite-sheet-height: 320px; --calcite-sheet-min-height: 200px; --calcite-sheet-max-height: 600px"
+        />,
+      );
+      await openEvent;
+      const separator = page.getByRole("separator");
+
+      await component.el.updateSize({ [axis]: 360 });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "360");
+
+      await component.el.updateSize({ [crossAxis]: 400 });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "360");
+
+      await component.el.updateSize({ [axis]: null });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "320");
+    },
+  );
 
   type Axis = "inline" | "block";
   type TestCase = {
