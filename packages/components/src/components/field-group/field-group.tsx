@@ -8,7 +8,7 @@ import { styles } from "./field-group.scss";
 type Layout = "columns" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
-type AffixInput = HTMLElement & { affixElementProvider?: UseAffixWidth };
+type AffixInput = LitElement & { affixElementProvider?: UseAffixWidth };
 
 declare global {
   interface DeclareElements {
@@ -110,13 +110,8 @@ export class FieldGroup extends LitElement {
   }
 
   private async getInputAffixWidth(input: AffixInput, affix: Affix): Promise<number> {
-    const readyInput = input as AffixInput & {
-      componentOnReady?: () => Promise<void>;
-      updateComplete?: Promise<unknown>;
-    };
-
-    await readyInput.componentOnReady?.();
-    await readyInput.updateComplete;
+    await input.componentOnReady();
+    await input.updateComplete;
 
     return input.affixElementProvider?.getAffixWidth(affix) ?? 0;
   }
