@@ -2,19 +2,13 @@ import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
+import { nextFrame } from "../../utils/dom";
+import type { Autocomplete } from "../autocomplete/autocomplete";
+import type { Input } from "../input/input";
+import type { InputNumber } from "../input-number/input-number";
+import type { InputText } from "../input-text/input-text";
 import { CSS } from "./resources";
-
-type UpdatableElement = HTMLElement & {
-  prefixAutoWidth?: boolean;
-  prefixText?: string;
-  suffixAutoWidth?: boolean;
-  suffixText?: string;
-  updateComplete?: Promise<unknown>;
-};
-
-async function waitForUpdate(element: UpdatableElement): Promise<void> {
-  await element.updateComplete;
-}
+import type { FieldGroup } from "./field-group";
 
 function getAffixWidth(element: Element, affix: "prefix" | "suffix"): string {
   const affixElement = getAffixElement(element, affix);
@@ -128,9 +122,9 @@ describe("affix width coordination", () => {
         </calcite-field-group>
       </calcite-field-group>,
     );
-    const direct = el.querySelector<UpdatableElement>("#direct")!;
-    const fieldSetInput = el.querySelector<UpdatableElement>("#field-set-input")!;
-    const nested = el.querySelector<UpdatableElement>("#nested")!;
+    const direct = el.querySelector<Input["el"]>("#direct")!;
+    const fieldSetInput = el.querySelector<Input["el"]>("#field-set-input")!;
+    const nested = el.querySelector<Input["el"]>("#nested")!;
 
     await vi.waitFor(() => {
       expect(getAffixWidth(direct, "prefix")).toMatch(/^\d+px$/);
@@ -153,9 +147,9 @@ describe("affix width coordination", () => {
         />
       </calcite-field-group>,
     );
-    const fieldGroup = el as UpdatableElement;
-    const shortInput = el.querySelector<UpdatableElement>("#short")!;
-    const longInput = el.querySelector<UpdatableElement>("#long")!;
+    const fieldGroup = el as FieldGroup["el"];
+    const shortInput = el.querySelector<Input["el"]>("#short")!;
+    const longInput = el.querySelector<Input["el"]>("#long")!;
 
     await vi.waitFor(() => {
       expect(getAffixWidth(shortInput, "prefix")).toBe(getAffixWidth(longInput, "prefix"));
@@ -164,7 +158,7 @@ describe("affix width coordination", () => {
 
     fieldGroup.prefixAutoWidth = false;
     fieldGroup.suffixAutoWidth = false;
-    await waitForUpdate(fieldGroup);
+    await nextFrame();
 
     await vi.waitFor(() => {
       expect(getAffixWidth(shortInput, "prefix")).not.toBe(getAffixWidth(longInput, "prefix"));
@@ -179,8 +173,8 @@ describe("affix width coordination", () => {
         <calcite-input prefix-text="longer prefix" />
       </calcite-field-group>,
     );
-    const fieldGroup = el as UpdatableElement;
-    const [first, second] = Array.from(el.querySelectorAll<UpdatableElement>("calcite-input"));
+    const fieldGroup = el as FieldGroup["el"];
+    const [first, second] = Array.from(el.querySelectorAll<Input["el"]>("calcite-input"));
 
     fieldGroup.prefixAutoWidth = false;
 
@@ -204,16 +198,16 @@ describe("affix width coordination", () => {
         />
       </calcite-field-group>,
     );
-    const fieldGroup = el as UpdatableElement;
-    const input = el.querySelector<UpdatableElement>("#input")!;
+    const fieldGroup = el as FieldGroup["el"];
+    const input = el.querySelector<Input["el"]>("#input")!;
 
     fieldGroup.prefixAutoWidth = true;
     fieldGroup.suffixAutoWidth = true;
-    await waitForUpdate(fieldGroup);
+    await nextFrame();
 
     fieldGroup.prefixAutoWidth = false;
     fieldGroup.suffixAutoWidth = false;
-    await waitForUpdate(fieldGroup);
+    await nextFrame();
 
     await vi.waitFor(() => {
       expect(getAffixWidth(input, "prefix")).toBe("24px");
@@ -231,8 +225,8 @@ describe("affix width coordination", () => {
         </calcite-field-set>
       </calcite-field-group>,
     );
-    const fieldGroup = el as UpdatableElement;
-    const inputs = Array.from(el.querySelectorAll<UpdatableElement>("calcite-input"));
+    const fieldGroup = el as FieldGroup["el"];
+    const inputs = Array.from(el.querySelectorAll<Input["el"]>("calcite-input"));
 
     await vi.waitFor(() => {
       expect(getAffixWidth(inputs[0], "prefix")).toMatch(/^\d+px$/);
@@ -241,7 +235,7 @@ describe("affix width coordination", () => {
 
     fieldGroup.prefixAutoWidth = false;
     fieldGroup.suffixAutoWidth = false;
-    await waitForUpdate(fieldGroup);
+    await nextFrame();
 
     await vi.waitFor(() => {
       expect(getAffixWidth(inputs[0], "prefix")).not.toBe(getAffixWidth(inputs[1], "prefix"));
@@ -256,8 +250,8 @@ describe("affix width coordination", () => {
         <calcite-input id="second" prefix-text="medium" />
       </calcite-field-group>,
     );
-    const first = el.querySelector<UpdatableElement>("#first")!;
-    const second = el.querySelector<UpdatableElement>("#second")!;
+    const first = el.querySelector<Input["el"]>("#first")!;
+    const second = el.querySelector<Input["el"]>("#second")!;
 
     await vi.waitFor(() => {
       expect(getAffixWidth(first, "prefix")).toMatch(/^\d+px$/);
@@ -277,8 +271,8 @@ describe("affix width coordination", () => {
         <calcite-input id="second" prefix-text="medium" />
       </calcite-field-group>,
     );
-    const first = el.querySelector<UpdatableElement>("#first")!;
-    const second = el.querySelector<UpdatableElement>("#second")!;
+    const first = el.querySelector<Input["el"]>("#first")!;
+    const second = el.querySelector<Input["el"]>("#second")!;
     const secondIndividualWidth = Math.ceil(
       second.shadowRoot!.querySelector<HTMLElement>(".prefix")!.getBoundingClientRect().width,
     );
@@ -307,10 +301,10 @@ describe("affix width coordination", () => {
         <calcite-autocomplete id="autocomplete" prefix-text="short" suffix-text="result" />
       </calcite-field-group>,
     );
-    const input = el.querySelector<UpdatableElement>("#input")!;
-    const inputNumber = el.querySelector<UpdatableElement>("#input-number")!;
-    const inputText = el.querySelector<UpdatableElement>("#input-text")!;
-    const autocomplete = el.querySelector<UpdatableElement>("#autocomplete")!;
+    const input = el.querySelector<Input["el"]>("#input")!;
+    const inputNumber = el.querySelector<InputNumber["el"]>("#input-number")!;
+    const inputText = el.querySelector<InputText["el"]>("#input-text")!;
+    const autocomplete = el.querySelector<Autocomplete["el"]>("#autocomplete")!;
 
     await vi.waitFor(() => {
       const prefixWidth = getAffixWidth(input, "prefix");
@@ -328,7 +322,7 @@ describe("affix width coordination", () => {
       expect(getSuffixFootprintWidth(autocomplete)).toBe(getSuffixFootprintWidth(input));
     });
 
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await nextFrame();
 
     const suffixWidth = getAffixWidth(input, "suffix");
 
@@ -403,11 +397,11 @@ describe("affix width coordination", () => {
         />
       </calcite-field-group>,
     );
-    const input = el.querySelector<UpdatableElement>("#input")!;
-    const inputNumber = el.querySelector<UpdatableElement>("#input-number")!;
-    const inputText = el.querySelector<UpdatableElement>("#input-text")!;
-    const autocomplete = el.querySelector<UpdatableElement>("#autocomplete")!;
-    const unconstrained = el.querySelector<UpdatableElement>("#unconstrained")!;
+    const input = el.querySelector<Input["el"]>("#input")!;
+    const inputNumber = el.querySelector<InputNumber["el"]>("#input-number")!;
+    const inputText = el.querySelector<InputText["el"]>("#input-text")!;
+    const autocomplete = el.querySelector<Autocomplete["el"]>("#autocomplete")!;
+    const unconstrained = el.querySelector<Input["el"]>("#unconstrained")!;
 
     await vi.waitFor(() => {
       const prefixWidth = getAffixWidth(unconstrained, "prefix");
