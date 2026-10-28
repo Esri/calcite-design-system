@@ -324,6 +324,7 @@ export class ActionBar extends LitElement {
 
   private setExpandToggleEl = (el?: Action["el"]): void => {
     this.expandToggleEl = el;
+    this.syncNavigationItemTabIndexes();
   };
 
   /**
@@ -968,11 +969,19 @@ export class ActionBar extends LitElement {
   }
 
   private updateNavigationItems(): void {
-    this.navigationItems = [
+    const navigationItems = [
       ...this.getNavigationItems(this.actionsStart),
       ...this.getNavigationItems(this.defaultSlotItems),
       ...this.getNavigationItems(this.actionsEnd),
     ];
+    const { expandToggleEl } = this;
+
+    this.navigationItems =
+      expandToggleEl && this.isNavigableAction(expandToggleEl)
+        ? this.expandPosition === "start"
+          ? [expandToggleEl, ...navigationItems]
+          : [...navigationItems, expandToggleEl]
+        : navigationItems;
   }
 
   private getNavigationItems(items: ActionBarItem[]): Array<Action["el"] | ActionMenu["el"]> {
@@ -1033,7 +1042,17 @@ export class ActionBar extends LitElement {
   }
 
   private isNavigableActionMenu(actionMenu: ActionMenu["el"]): boolean {
-    return !actionMenu.hidden && !actionMenu.inert;
+    const menuButtonEl =
+      actionMenu.menuButtonEl ??
+      actionMenu.actions.find((action) => action.slot === ACTION_MENU_SLOTS.trigger);
+
+    return (
+      !actionMenu.hidden &&
+      !actionMenu.inert &&
+      !menuButtonEl?.disabled &&
+      !menuButtonEl?.hidden &&
+      !menuButtonEl?.inert
+    );
   }
 
   private syncActions(): void {
@@ -1144,6 +1163,7 @@ export class ActionBar extends LitElement {
     }
 
     this.syncActionsAndOverflow();
+    this.syncNavigationItemTabIndexes();
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
