@@ -35,7 +35,7 @@ import { useCancelable } from "../../controllers/useCancelable";
 import type { ListItem } from "../list-item/list-item";
 import type { Filter } from "../filter/filter";
 import type { ListItemGroup } from "../list-item-group/list-item-group";
-import { DEBOUNCE } from "../../utils/resources";
+import { CSS_UTILITY, DEBOUNCE } from "../../utils/resources";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
@@ -43,6 +43,7 @@ import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";
 import { isListItem } from "../list-item/resources";
@@ -100,7 +101,7 @@ export class List extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -1280,7 +1281,7 @@ export class List extends LitElement {
           }}
         >
           {this.dragEnabled ? (
-            <span ariaLive="assertive" class={CSS.assistiveText}>
+            <span ariaLive="assertive" class={CSS_UTILITY.screenReaderText}>
               {this.assistiveText}
             </span>
           ) : null}
@@ -1361,7 +1362,7 @@ export class List extends LitElement {
     };
 
     return !parentListEl ? (
-      <div ariaLive="polite" class={CSS.assistiveText}>
+      <div ariaLive="polite" class={CSS_UTILITY.screenReaderText}>
         {this.hasActiveFilter ? (
           <div key="aria-filter-enabled">{messages.filterEnabled}</div>
         ) : null}

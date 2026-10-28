@@ -16,12 +16,12 @@
 
 :host {
   @include shared.floating-ui-elem-anim(".menu-container");
-  @apply relative
-    inline-block
-    w-full
-    overflow-visible
-    align-top;
 
+  position: relative;
+  display: inline-block;
+  inline-size: 100%;
+  overflow: visible;
+  vertical-align: top;
   box-shadow: var(--calcite-input-date-picker-shadow, var(--calcite-shadow-none));
 
   .menu-container .calcite-floating-ui-anim {
@@ -78,7 +78,7 @@
 }
 
 .input-wrapper {
-  @apply relative;
+  position: relative;
 
   .chevron-icon {
     color: var(
@@ -167,25 +167,26 @@
 
 :host([range]) {
   .container {
-    @apply flex;
+    display: flex;
   }
 
   .input-container {
-    @apply flex flex-auto;
+    display: flex;
+    flex: 1 1 auto;
   }
 
   .input-wrapper {
-    @apply flex-auto;
+    flex: 1 1 auto;
   }
 }
 
 .divider-container {
-  @apply flex items-stretch
-  border
-  border-l-0
-  border-r-0
-  border-solid;
-
+  display: flex;
+  align-items: stretch;
+  border-width: var(--calcite-border-width-sm);
+  border-inline-start-width: var(--calcite-border-width-none);
+  border-inline-end-width: var(--calcite-border-width-none);
+  border-style: solid;
   background-color: var(
     --calcite-input-date-picker-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -198,31 +199,35 @@
 }
 
 .divider {
-  @apply inline-block;
-
+  display: inline-block;
   margin-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   background-color: var(--calcite-input-date-picker-divider-color, var(--calcite-color-border-2));
   inline-size: var(--calcite-theme-space-px, var(--calcite-spacing-px));
 }
 
 :host([layout="vertical"]) .divider-container {
-  @apply h-px border-t-0 border-b-0;
+  block-size: var(--calcite-space-px);
+  border-block-start-width: var(--calcite-border-width-none);
+  border-block-end-width: var(--calcite-border-width-none);
   border-inline-start-width: var(--calcite-border-width-sm);
   border-inline-end-width: var(--calcite-border-width-none);
   inline-size: calc(100% - var(--calcite-space-md));
   padding-inline: var(--calcite-space-md);
   & .divider {
-    @apply w-full h-px my-0;
+    inline-size: 100%;
+    block-size: var(var(--calcite-space-px));
+    margin-block: var(--calcite-space-none);
   }
 }
 
 :host([range][layout="vertical"]) {
   .input-wrapper {
-    @apply w-full;
+    inline-size: 100%;
   }
 
   .input-container {
-    @apply flex-col items-start;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .vertical-actions-container {
@@ -251,7 +256,7 @@
 @include shared.floating-ui-elem-anim(".menu-container");
 
 .input .calcite-input__wrapper {
-  @apply mt-0;
+  margin-block-start: var(--calcite-space-none);
 }
 
 :host([range][layout="vertical"][scale="s"]) {
@@ -341,7 +346,8 @@
   .container:has(.input-wrapper[data-position="end"]:focus-within)
   .input-wrapper[data-position="end"] {
   --calcite-input-date-picker-border-color: var(--calcite-color-brand);
-  @apply focus-inset;
+
+  @include shared.focus-inset();
 }
 
 :host([range][layout="horizontal"])
@@ -355,7 +361,8 @@
   .container:has(.input-wrapper[data-position="end"]:focus-within)
   .input-wrapper[data-position="end"] {
   --calcite-input-date-picker-border-color: var(--calcite-color-status-danger);
-  @apply focus-inset-danger;
+
+  @include shared.focus-inset-danger();
 }
 
 :host([layout="vertical"]) .input--end {
@@ -425,10 +432,6 @@ calcite-date-picker {
   --calcite-date-picker-day-outside-range-text-color-hover: var(
     --calcite-input-date-picker-calendar-day-outside-range-text-color-hover
   );
-}
-
-.assistive-text {
-  @apply sr-only;
 }
 
 @include shared.form-validation-message();

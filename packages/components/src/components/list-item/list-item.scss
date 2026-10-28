@@ -7,7 +7,8 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 :host([scale="s"]) {
@@ -24,7 +25,7 @@
 
 :host([filter-hidden]),
 :host([closed]) {
-  @apply hidden;
+  display: none;
 }
 
 .wrapper--bordered {
@@ -34,16 +35,16 @@
 @include shared.disabled();
 
 .container {
-  @apply box-border
-  flex
-  flex-1
-  overflow-hidden;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 0%;
+  overflow: hidden;
   background-color: var(
     --calcite-list-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
   * {
-    @apply box-border;
+    box-sizing: border-box;
   }
 }
 
@@ -76,19 +77,21 @@
 }
 
 .nested-container {
-  @apply hidden flex-col
-    border-solid
-    border-0;
+  display: none;
+  flex-direction: column;
+  border-style: solid;
+  border-width: var(--calcite-border-width-none);
   border-color: 1px solid var(--calcite-list-border-color, var(--calcite-color-border-3));
   margin-inline-start: var(--calcite-list-spacing-indent, theme("spacing.6"));
 }
 
 .nested-container--expanded {
-  @apply flex;
+  display: flex;
 }
 
 .selection-container {
-  @apply flex py-0;
+  display: flex;
+  padding-block: var(--calcite-space-none);
   color: var(--calcite-list-icon-color, var(--calcite-color-border-input));
 }
 
@@ -105,15 +108,15 @@
 }
 
 .content-container {
-  @apply flex
-    flex-auto
-    font-normal
-    items-stretch;
+  display: flex;
+  flex: 1 1 auto;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
+  align-items: stretch;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
 }
 
 .content-container--unavailable {
-  @apply opacity-disabled;
+  opacity: var(--calcite-opacity-disabled);
 }
 
 :host(:not([interaction-mode="static"])) {
@@ -161,24 +164,24 @@
 
 .row,
 .grid-cell {
-  @apply focus-base;
+  outline-color: var(--calcite-color-transparent);
 }
 
 .row {
-  @apply relative;
+  position: relative;
 }
 
 .row:focus,
 .grid-cell:focus {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 .content,
 .custom-content {
-  @apply flex
-    flex-auto
-    flex-col
-    justify-center;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
@@ -359,12 +362,14 @@
 .label,
 .description,
 .content-bottom {
-  @apply word-break font-normal;
+  @include shared.word-break();
+
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
 }
 
 :host([selected]) {
   .label {
-    @apply font-medium;
+    font-weight: var(--calcite-font-weight-medium);
   }
 
   .icon {
@@ -377,29 +382,30 @@
 }
 
 .content-start {
-  @apply justify-start;
+  justify-content: flex-start;
 }
 
 .content-end {
-  @apply justify-end;
+  justify-content: flex-end;
 }
 
 .content-start,
 .content-end {
-  @apply flex-auto;
+  flex: 1 1 auto;
 
   ::slotted(calcite-icon) {
-    @apply self-center;
+    align-self: center;
   }
 }
 
 .content-bottom {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 .content-container--has-center-content .content-start,
 .content-container--has-center-content .content-end {
-  @apply flex-initial;
+  flex: 0 1 auto;
 }
 
 .expanded-container {
@@ -415,7 +421,8 @@
 .drag-container,
 .expanded-container,
 .close {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 }
 
 .drag-container,
@@ -426,12 +433,13 @@
 
 .expanded-container,
 .selection-container {
-  @apply cursor-pointer;
+  cursor: pointer;
 }
 
 .actions-start,
 .actions-end {
-  @apply p-0 relative;
+  padding: var(--calcite-space-none);
+  position: relative;
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
   ::slotted(calcite-sort-handle),
@@ -443,7 +451,7 @@
 .row:focus {
   &::after,
   &::before {
-    @apply absolute;
+    position: absolute;
     content: "";
     inline-size: theme("spacing[0.5]");
     z-index: theme("zIndex.header");
@@ -463,7 +471,7 @@
 }
 
 ::slotted(calcite-list:empty) {
-  @apply border-t-0;
+  border-block-start-width: var(--calcite-border-width-none);
 }
 
 .drag-container,
@@ -472,7 +480,7 @@
 .close {
   calcite-action,
   ::slotted(calcite-action) {
-    @apply items-center;
+    align-items: center;
   }
 }
 

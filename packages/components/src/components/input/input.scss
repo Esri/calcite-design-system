@@ -14,7 +14,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 
   --calcite-internal-input-focus-outline-color: var(
     --calcite-color-focus,
@@ -45,7 +45,9 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n2h h-6;
+    @include shared.text-n2h();
+
+    block-size: var(--calcite-space-2xl);
   }
   & input {
     padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
@@ -59,7 +61,7 @@
   }
   & .number-button-wrapper,
   & .action-wrapper {
-    @apply h-6;
+    block-size: var(--calcite-space-2xl);
   }
   & .clear-button {
     block-size: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
@@ -86,7 +88,9 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-n1h h-8;
+    @include shared.text-n1h();
+
+    block-size: var(--calcite-space-3xl);
   }
   & input {
     padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
@@ -100,7 +104,7 @@
   }
   & .number-button-wrapper,
   & .action-wrapper {
-    @apply h-8;
+    block-size: var(--calcite-space-3xl);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-button-item-horizontal-padding: var(--calcite-space-sm);
@@ -118,7 +122,9 @@
   & input,
   & .prefix,
   & .suffix {
-    @apply text-0h h-11;
+    @include shared.text-0h();
+
+    block-size: var(--calcite-space-4xl);
   }
   & input {
     padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
@@ -132,7 +138,7 @@
   }
   & .number-button-wrapper,
   & .action-wrapper {
-    @apply h-11;
+    block-size: var(--calcite-space-4xl);
   }
   &:host([number-button-type="horizontal"]) {
     --calcite-internal-input-number-button-item-horizontal-padding: var(
@@ -153,19 +159,19 @@
 @include shared.disabled();
 
 input {
-  @apply font-inherit
-    relative
-    m-0
-    box-border
-    flex
-    max-h-full
-    w-full
-    max-w-full
-    flex-1
-    font-normal
-    border
-    border-solid
-    text-ellipsis;
+  font-family: inherit;
+  position: relative;
+  margin: var(--calcite-space-none);
+  box-sizing: border-box;
+  display: flex;
+  max-block-size: 100%;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  flex: 1 1 0%;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  text-overflow: ellipsis;
   outline: none;
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   background-color: var(
@@ -180,7 +186,7 @@ input {
   -webkit-appearance: none;
 
   &:placeholder-shown {
-    @apply text-ellipsis;
+    text-overflow: ellipsis;
   }
 }
 
@@ -274,11 +280,11 @@ input[type="search"]::-webkit-search-decoration {
 // states
 
 input:focus {
-  @apply border-color-brand;
+  border-color: var(--calcite-color-brand);
   color: var(--calcite-input-text-color, var(--calcite-color-text-1));
 }
 input[readonly] {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   background-color: var(
     --calcite-input-background-color,
     var(--calcite-theme-color-surface-1, var(--calcite-color-background))
@@ -301,10 +307,10 @@ input[readonly]:focus {
 }
 
 .element-wrapper {
-  @apply relative
-    inline-flex
-    flex-1
-    items-center;
+  position: relative;
+  display: inline-flex;
+  flex: 1 1 0%;
+  align-items: center;
   order: 3;
   isolation: isolate;
 }
@@ -368,7 +374,7 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration,
 input[type="date"]::-webkit-clear-button,
 input[type="time"]::-webkit-clear-button {
-  @apply hidden;
+  display: none;
 }
 
 .clear-button {
@@ -398,9 +404,9 @@ input[type="time"]::-webkit-clear-button {
 .loader {
   inset-block-start: 1px;
   inset-inline: 1px;
-  @apply pointer-events-none
-    absolute
-    block;
+  pointer-events: none;
+  position: absolute;
+  display: block;
   --calcite-progress-background-color: var(--calcite-input-loading-background-color);
   --calcite-progress-fill-color: var(--calcite-input-loading-fill-color);
 }
@@ -418,17 +424,17 @@ input[type="time"]::-webkit-clear-button {
 // prefix and suffix
 .prefix,
 .suffix {
-  @apply box-border
-    flex
-    h-auto
-    min-h-full
-    select-none
-    content-center
-    items-center
-    break-words
-    border
-    border-solid
-    leading-none;
+  box-sizing: border-box;
+  display: flex;
+  block-size: auto;
+  min-block-size: 100%;
+  user-select: none;
+  align-content: center;
+  align-items: center;
+  overflow-wrap: break-word;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  line-height: var(--calcite-font-line-height-relative-base);
   font-weight: var(--calcite-font-weight-regular);
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
 }
@@ -487,17 +493,17 @@ input[type="number"] {
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: textfield;
-    @apply m-0;
+    margin: var(--calcite-space-none);
   }
 }
 
 .number-button-wrapper {
   @include shared.transition-default();
-  @apply pointer-events-none
-    box-border
-    flex
-    flex-col;
 
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   order: 6;
 }
 
@@ -523,11 +529,11 @@ input[type="number"] {
 
 .number-button-item.number-button-item--horizontal {
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
-  @apply max-h-full
-      min-h-full
-      self-stretch
-      border
-      border-solid;
+  max-block-size: 100%;
+  min-block-size: 100%;
+  align-self: stretch;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
 
   &[data-adjustment="down"],
   &[data-adjustment="up"] {
@@ -563,7 +569,7 @@ input[type="number"] {
 }
 
 :host([number-button-type="vertical"]) .number-button-item[data-adjustment="down"] {
-  @apply border-t-0;
+  border-block-start-width: var(--calcite-border-width-none);
   border-end-end-radius: var(
     --calcite-input-corner-radius,
     var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
@@ -626,10 +632,10 @@ input[type="number"] {
 }
 
 .wrapper {
-  @apply relative
-    flex
-    flex-row
-    items-center;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   border-radius: var(
     --calcite-input-corner-radius,
     var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
@@ -642,38 +648,41 @@ input[type="date"]::-webkit-input-placeholder {
 }
 
 :host([type="color"]) input {
-  @apply p-1;
+  padding: var(--calcite-space-2xs);
 }
 
 // file input
 :host([type="file"]) input {
-  @apply bg-foreground-1
-    cursor-pointer
-    border
-    border-dashed
-    text-center;
+  background-color: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
+  cursor: pointer;
+  border-width: var(--calcite-border-width-sm);
+  border-style: dashed;
+  text-align: center;
   border-color: var(--calcite-input-border-color, var(--calcite-color-border-input));
   block-size: initial;
 }
 
 :host([type="file"][scale="s"]) input {
-  @apply py-px px-2;
+  padding-block: var(--calcite-space-px);
+  padding-inline: var(--calcite-space-sm);
 }
 
 :host([type="file"][scale="m"]) input {
-  @apply py-1 px-3;
+  padding-block: var(--calcite-space-2xs);
+  padding-inline: var(--calcite-space-md);
 }
 
 :host([type="file"][scale="l"]) input {
-  @apply py-2 px-4;
+  padding-block: var(--calcite-space-sm);
+  padding-inline: var(--calcite-space-lg);
 }
 
 :host(.no-bottom-border) input {
-  @apply border-b-0;
+  border-block-end-width: var(--calcite-border-width-none);
 }
 
 :host(.border-top-color-one) input {
-  @apply border-t-color-1;
+  border-block-start-color: var(--calcite-color-border-1);
 }
 
 // input needed for higher specificity of these overrides
@@ -683,7 +692,7 @@ input {
 
     // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0 (remove &.inline-editable-child)
     &.inline-editable-child {
-      @apply bg-transparent;
+      background-color: transparent;
     }
 
     .inline-editing {
@@ -692,10 +701,11 @@ input {
   }
 
   &.inline-child:not(.inline-editing) {
-    @apply border-color-transparent
-      flex
-      cursor-pointer text-ellipsis;
-    padding-inline-start: 0;
+    border-color: var(--calcite-color-transparent);
+    display: flex;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    padding-inline-start: var(--calcite-space-none);
   }
 }
 

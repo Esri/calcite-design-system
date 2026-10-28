@@ -2,8 +2,15 @@
 
 :host {
   @include shared.transition-default();
-  @apply text-color-1 box-border flex h-auto w-full items-center font-medium opacity-100;
 
+  color: var(--calcite-color-text-1);
+  box-sizing: border-box;
+  display: flex;
+  block-size: auto;
+  inline-size: 100%;
+  align-items: center;
+  font-weight: var(--calcite-font-weight-medium);
+  opacity: var(--calcite-opacity-full);
   margin-block-start: var(
     --calcite-input-message-spacing,
     var(--calcite-input-message-spacing-value, var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs)))
@@ -12,7 +19,10 @@
 
 .calcite-input-message-icon {
   @include shared.transition-default();
-  @apply pointer-events-none inline-flex flex-shrink-0;
+
+  pointer-events: none;
+  display: inline-flex;
+  flex-shrink: var(--calcite-space-none);
   margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 
@@ -38,15 +48,15 @@
 }
 
 :host([scale="s"]) {
-  @apply text-n3h;
+  @include shared.text-n3h();
 }
 
 :host([scale="m"]) {
-  @apply text-n2h;
+  @include shared.text-n2h();
 }
 
 :host([scale="l"]) {
-  @apply text-n1h;
+  @include shared.text-n1h();
 }
 
 @include shared.base-component();
