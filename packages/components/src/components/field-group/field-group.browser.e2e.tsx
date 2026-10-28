@@ -66,17 +66,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(
-    () =>
-      mount(
-        <calcite-field-group>
-          <calcite-field-set>
-            <calcite-input />
-          </calcite-field-set>
-        </calcite-field-group>,
-      ),
-    { display: "block" },
-  );
+  renders(() => mount(<calcite-field-group>content</calcite-field-group>), { display: "block" });
 });
 
 describe("layout", () => {
