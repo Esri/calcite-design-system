@@ -13,7 +13,7 @@
   line-height: var(--calcite-font-line-height-sm);
 }
 
-@include text-n3h() {
+@mixin text-n3h() {
   font-size: var(--calcite-font-size-relative-xs);
   line-height: var(--calcite-font-line-height-xs);
 }
