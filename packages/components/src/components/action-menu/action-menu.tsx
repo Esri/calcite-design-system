@@ -785,7 +785,7 @@ export class ActionMenu extends LitElement {
   //#region Rendering
 
   private renderMenuButton(): JsxNode {
-    const { appearance, label, scale, expanded } = this;
+    const { appearance, label, scale, expanded, open } = this;
 
     const menuButtonSlot = (
       <slot
@@ -795,7 +795,7 @@ export class ActionMenu extends LitElement {
       >
         <calcite-action
           appearance={appearance}
-          aria={{ expanded }}
+          aria={{ expanded: open, hasPopup: "menu" }}
           class={CSS.defaultTrigger}
           icon={ICONS.menu}
           ref={this.setDefaultMenuButtonEl}

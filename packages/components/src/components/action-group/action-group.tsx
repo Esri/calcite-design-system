@@ -470,7 +470,7 @@ export class ActionGroup extends LitElement {
         topLayerDisabled={this.topLayerDisabled}
       >
         <calcite-action
-          aria={{ expanded }}
+          aria={{ expanded: menuOpen, hasPopup: "menu" }}
           icon={ICONS.menu}
           scale={scale}
           slot={ACTION_MENU_SLOTS.trigger}
