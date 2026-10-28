@@ -1,5 +1,6 @@
 import { type PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { createRef } from "lit/directives/ref.js";
 import {
   getStylePixelValue,
@@ -100,6 +101,8 @@ export class Shell extends LitElement {
   // #endregion
 
   //#region Private Properties
+
+  direction = useDirection();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
@@ -284,7 +287,7 @@ export class Shell extends LitElement {
     }
 
     const defaultSlotMinSize = this.getDefaultSlotMinSize(axis);
-    const isRTL = window.getComputedStyle(this).direction === "rtl";
+    const isRTL = this.direction === "rtl";
     let availableOccupiedSize: number;
 
     if (axis === "inline") {
