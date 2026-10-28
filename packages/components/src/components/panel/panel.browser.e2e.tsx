@@ -433,6 +433,19 @@ describe("header slots", () => {
     expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
   });
 
+  it("uses header-content instead of heading and description properties", async () => {
+    const { component } = await mount<Panel>(
+      <calcite-panel description="test description" heading="test heading">
+        <div slot={SLOTS.headerContent}>custom header content</div>
+      </calcite-panel>,
+    );
+    const panel = page.elementLocator(component.el);
+
+    await expect.element(panel.getByText("custom header content")).toBeVisible();
+    await expect.element(panel.getByText("test heading")).not.toBeVisible();
+    await expect.element(panel.getByText("test description")).not.toBeVisible();
+  });
+
   it("renders heading and description properties when heading/description slots are empty", async () => {
     await mount(
       <calcite-panel description="test description" heading="test heading">

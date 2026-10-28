@@ -371,24 +371,6 @@ it("should not render start or end actions containers when there are no start or
   expect(await actionsContainerEnd.isVisible()).toBe(false);
 });
 
-it("header-content should override heading and description properties", async () => {
-  const page = await newE2EPage();
-
-  await page.setContent(
-    html`<calcite-panel heading="test heading" description="test description">
-      <div slot=${SLOTS.headerContent}>custom header content</div>
-    </calcite-panel>`,
-  );
-
-  const heading = await page.find(`calcite-panel >>> ${CSS.heading}`);
-  const description = await page.find(`calcite-panel >>> ${CSS.description}`);
-  const header = await page.find(`calcite-panel >>> ${CSS.header}`);
-
-  expect(heading).toBeNull();
-  expect(description).toBeNull();
-  expect(header).not.toBeNull();
-});
-
 it("should not render footer node if there are no actions or content", async () => {
   const page = await newE2EPage();
 
