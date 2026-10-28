@@ -188,7 +188,7 @@ describe("affix width coordination", () => {
       expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
     });
 
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+    await nextFrame();
 
     expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
   });
