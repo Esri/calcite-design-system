@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.8...@esri/calcite-components@6.0.0-next.9) (2026-10-28)
+
+### ⚠ BREAKING CHANGES
+
+- **handle, sortable-list:** The `handle` and `sortable-list` internal components
+  have been removed.
+
+To migrate:
+
+Replace `handle` usage with `calcite-sort-handle` component.
+Replace `sortable-list` usage with `calcite-block-group` component.
+
+### Code Refactoring
+
+- **handle, sortable-list:** drop internal components ([#15470](https://github.com/Esri/calcite-design-system/issues/15470)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
 ## [6.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.7...@esri/calcite-components@6.0.0-next.8) (2026-10-28)
 
 **Note:** Version bump only for package @esri/calcite-components
