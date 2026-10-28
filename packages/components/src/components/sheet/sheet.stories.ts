@@ -137,6 +137,37 @@ export const headerSlots = (): string => html`
   </calcite-sheet>
 `;
 
+export const nestedPanelBackground = (): string => html`
+  <style>
+    .sheet-nested-panel-background {
+      --calcite-sheet-background-color: var(--calcite-color-foreground-2);
+    }
+
+    .sheet-nested-panel-background calcite-panel {
+      flex: none;
+      block-size: 200px;
+    }
+  </style>
+  <calcite-sheet class="sheet-nested-panel-background" heading="Layers" label="Map layers" open>
+    <calcite-panel heading="Layer details">
+      <p>Population density</p>
+    </calcite-panel>
+  </calcite-sheet>
+`;
+
+export const customPanelBackground = (): string => html`
+  <style>
+    .sheet-custom-panel-background {
+      --calcite-sheet-background-color: var(--calcite-color-foreground-3);
+    }
+  </style>
+  <calcite-sheet class="sheet-custom-panel-background" label="Map layers" open>
+    <calcite-panel heading="Layers" slot="custom-content">
+      <p>Population density</p>
+    </calcite-panel>
+  </calcite-sheet>
+`;
+
 export const disabled = (): string => html`
   <calcite-sheet disabled heading="Layers" label="Map layers" open>
     <calcite-button>Add layer</calcite-button>

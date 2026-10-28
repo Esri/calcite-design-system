@@ -49,15 +49,11 @@ describe("defaults", () => {
     () => mount("calcite-shell-panel"),
     [
       {
-        propertyName: "beforeClose",
-        defaultValue: undefined,
-      },
-      {
         propertyName: "collapsed",
         defaultValue: false,
       },
       {
-        propertyName: "closed",
+        propertyName: "collapseDisabled",
         defaultValue: false,
       },
       {
@@ -137,7 +133,7 @@ describe("reflects", () => {
         value: true,
       },
       {
-        propertyName: "closed",
+        propertyName: "collapseDisabled",
         value: true,
       },
       {
@@ -204,7 +200,7 @@ describe("internal panel", () => {
 
   it("delegates focus via setFocus to the internal panel", async () => {
     const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel close-disabled>
+      <calcite-shell-panel collapse-disabled>
         <button type="button">Panel content</button>
       </calcite-shell-panel>,
     );
@@ -365,6 +361,27 @@ describe("internal panel", () => {
     await expect.element(panel).toHaveProperty("disabled", false);
   });
 
+  it("prevents interaction with all panel content when disabled", async () => {
+    const { el } = await mount<ShellPanel>(
+      <>
+        <calcite-shell-panel disabled resizable>
+          <div slot="action-bar">
+            <button type="button">Action bar</button>
+          </div>
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const container = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.container}`)!;
+    const resizeHandle = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
+
+    expect(container.inert).toBe(true);
+    expect(resizeHandle.tabIndex).toBe(-1);
+    await userEvent.tab();
+    await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+  });
+
   it("forwards menuFlipPlacements updates to the internal panel", async () => {
     const { el } = await mount<ShellPanel>(
       <calcite-shell-panel menuFlipPlacements={["top", "right"]} />,
@@ -406,275 +423,95 @@ describe("internal panel", () => {
     await expect.element(panel).toHaveProperty("menuPlacement", "right");
   });
 
-  it("shows content and the action bar by default and hides both when closed", async () => {
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel heading="Tools">
-        <calcite-action-bar slot="action-bar">
-          <calcite-action text="Layers" />
-        </calcite-action-bar>
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
-    const action = page.getByRole("button", { name: "Layers", includeHidden: true });
+  it.each(["Close action", "Escape"])(
+    "returns focus to the configured target after collapsing via %s without changing the host tabindex",
+    async (closeMethod) => {
+      const { el } = await mount<ShellPanel>(
+        <>
+          <calcite-shell-panel
+            focusTrapOptions={{
+              setReturnFocus: () => document.querySelector<HTMLButtonElement>("#opener")!,
+            }}
+            heading="Tools"
+          >
+            <button type="button">Panel content</button>
+          </calcite-shell-panel>
+          <button id="opener" type="button">
+            Open tools
+          </button>
+        </>,
+      );
 
-    await expect.element(content).toBeVisible();
-    await expect.element(action).toBeVisible();
+      await userEvent.click(page.getByRole("button", { name: "Panel content" }));
 
-    el.closed = true;
+      await (closeMethod === "Escape"
+        ? userEvent.keyboard("{Escape}")
+        : userEvent.click(page.getByRole("button", { name: "Close", exact: true })));
 
-    await expect.element(content).not.toBeVisible();
-    await expect.element(action).not.toBeVisible();
+      await expect.element(el).toHaveProperty("collapsed", true);
+      await expect.element(page.getByRole("button", { name: "Open tools" })).toHaveFocus();
+      expect(el.hasAttribute("tabindex")).toBe(false);
+    },
+  );
 
-    el.closed = false;
+  it.each(["Close action", "Escape"])(
+    "collapses and expands the internal panel without hiding the action bar via %s",
+    async (closeMethod) => {
+      const collapse = vi.fn();
+      const expand = vi.fn();
+      const { el } = await mount<ShellPanel>(
+        <calcite-shell-panel
+          heading="Tools"
+          oncalciteShellPanelCollapse={collapse}
+          oncalciteShellPanelExpand={expand}
+        >
+          <calcite-action-bar slot="action-bar">
+            <calcite-action text="Layers" />
+          </calcite-action-bar>
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>,
+      );
+      const panel = page.getBySelector("calcite-panel");
+      const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
+      const action = page.getByRole("button", { name: "Layers" });
 
-    await expect.element(content).toBeVisible();
-    await expect.element(action).toBeVisible();
-  });
+      await userEvent.click(content);
+      await (closeMethod === "Escape"
+        ? userEvent.keyboard("{Escape}")
+        : userEvent.click(page.getByRole("button", { name: "Close", exact: true })));
 
-  it("calls beforeClose when closed and can be reopened", async () => {
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockResolvedValue(undefined);
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={beforeClose} heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const content = page.getByText("Panel content", { exact: true });
-    const closeButton = page.getByRole("button", { name: "Close", exact: true });
+      await expect.element(el).toHaveAttribute("collapsed");
+      await expect.element(panel).toHaveProperty("closed", true);
+      await expect.element(content).not.toBeVisible();
+      await expect.element(action).toBeVisible();
+      expect(collapse).toHaveBeenCalledOnce();
+      expect(el.panelCollapsed).toBe(false);
 
-    await expect.element(content).toBeVisible();
-    await userEvent.click(closeButton);
+      el.collapsed = false;
 
-    await expect.element(el).toHaveProperty("closed", true);
-    await expect.element(content).not.toBeVisible();
-    expect(beforeClose).toHaveBeenCalledTimes(1);
-    expect(beforeClose).toHaveBeenCalledWith();
+      await expect.element(panel).toHaveProperty("closed", false);
+      await expect.element(content).toBeVisible();
+      await expect.element(action).toBeVisible();
+      expect(expand).toHaveBeenCalledOnce();
 
-    el.closed = false;
+      el.collapsed = true;
 
-    await expect.element(content).toBeVisible();
-    await userEvent.click(closeButton);
+      await expect.element(panel).toHaveProperty("closed", true);
+      await expect.element(content).not.toBeVisible();
+      await expect.element(action).toBeVisible();
+      expect(collapse).toHaveBeenCalledTimes(2);
+    },
+  );
 
-    await expect.element(el).toHaveProperty("closed", true);
-    await expect.element(content).not.toBeVisible();
-    expect(beforeClose).toHaveBeenCalledTimes(2);
-  });
-
-  it("keeps content visible when beforeClose rejects a close button request", async () => {
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockRejectedValue(new Error("Prevent close"));
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={beforeClose} heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-
-    await page.getByRole("button", { name: "Close", exact: true }).click();
-
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-    expect(el.closed).toBe(false);
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
-    await expect.element(page.getByRole("button", { name: "Close", exact: true })).toBeVisible();
-  });
-
-  it("keeps content visible when beforeClose rejects an Escape request", async () => {
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockRejectedValue(new Error("Prevent close"));
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={beforeClose} heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const content = page.getByRole("button", { name: "Panel content" });
-
-    await content.click();
-    await userEvent.keyboard("{Escape}");
-
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-    expect(el.closed).toBe(false);
-    await expect.element(content).toBeVisible();
-  });
-
-  it("waits for beforeClose before programmatically closing", async () => {
-    const closeRequest = Promise.withResolvers<void>();
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockReturnValue(closeRequest.promise);
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={beforeClose} heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
-
-    el.closed = true;
-
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-    expect(el.closed).toBe(false);
-    await expect.element(content).toBeVisible();
-
-    closeRequest.resolve();
-
-    await expect.element(el).toHaveProperty("closed", true);
-    await expect.element(el).toHaveAttribute("closed");
-    expect(el.collapsed).toBe(false);
-    await expect.element(content).not.toBeVisible();
-  });
-
-  it("cancels a pending close when reopened", async () => {
-    const closeRequest = Promise.withResolvers<void>();
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={() => closeRequest.promise} heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-
-    el.closed = true;
-    el.closed = false;
-    closeRequest.resolve();
-    await closeRequest.promise;
-
-    expect(el.closed).toBe(false);
-    await expect.element(el).not.toHaveAttribute("closed");
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
-  });
-
-  it("ignores an older approval while a newer close request is pending", async () => {
-    const firstRequest = Promise.withResolvers<void>();
-    const secondRequest = Promise.withResolvers<void>();
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockReturnValueOnce(firstRequest.promise)
-      .mockReturnValueOnce(secondRequest.promise);
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={beforeClose} heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-
-    el.closed = true;
-    el.closed = false;
-    el.closed = true;
-    firstRequest.resolve();
-    await firstRequest.promise;
-
-    expect(el.closed).toBe(false);
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
-
-    secondRequest.resolve();
-    await secondRequest.promise;
-
-    await expect.element(el).toHaveProperty("closed", true);
-    await expect.element(el).toHaveAttribute("closed");
-    expect(beforeClose).toHaveBeenCalledTimes(2);
-  });
-
-  it("keeps collapsed independent of a pending close", async () => {
-    const closeRequest = Promise.withResolvers<void>();
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockReturnValue(closeRequest.promise);
-    const collapse = vi.fn();
-    const expand = vi.fn();
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel
-        beforeClose={beforeClose}
-        heading="Tools"
-        oncalciteShellPanelCollapse={collapse}
-        oncalciteShellPanelExpand={expand}
-      >
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-
-    el.closed = true;
-    el.collapsed = true;
-
-    await expect.element(el).toHaveProperty("collapsed", true);
-    await expect.element(el).toHaveAttribute("collapsed");
-    await expect
-      .element(page.getByRole("button", { name: "Panel content", includeHidden: true }))
-      .not.toBeVisible();
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-    expect(collapse).toHaveBeenCalledOnce();
-
-    el.collapsed = false;
-
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
-    expect(el.closed).toBe(false);
-    expect(expand).toHaveBeenCalledOnce();
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-
-    closeRequest.resolve();
-
-    await expect.element(el).toHaveProperty("closed", true);
-    expect(el.collapsed).toBe(false);
-    expect(collapse).toHaveBeenCalledOnce();
-    expect(expand).toHaveBeenCalledOnce();
-  });
-
-  it("keeps the component visible when beforeClose rejects an attribute close", async () => {
-    const beforeClose = vi
-      .fn<NonNullable<ShellPanel["beforeClose"]>>()
-      .mockRejectedValue(new Error("Prevent close"));
-    const collapse = vi.fn();
-    const expand = vi.fn();
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel
-        beforeClose={beforeClose}
-        heading="Tools"
-        oncalciteShellPanelCollapse={collapse}
-        oncalciteShellPanelExpand={expand}
-      >
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-
-    el.setAttribute("closed", "");
-
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-    expect(el.closed).toBe(false);
-    expect(el.collapsed).toBe(false);
-    expect(collapse).not.toHaveBeenCalled();
-    expect(expand).not.toHaveBeenCalled();
-  });
-
-  it("closes without beforeClose and can be reopened", async () => {
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const content = page.getByText("Panel content", { exact: true });
-    const closeButton = page.getByRole("button", { name: "Close", exact: true });
-
-    await closeButton.click();
-
-    await expect.element(el).toHaveProperty("closed", true);
-    await expect.element(el).toHaveAttribute("closed");
-    expect(el.collapsed).toBe(false);
-    await expect.element(content).not.toBeVisible();
-
-    el.closed = false;
-
-    await expect.element(content).toBeVisible();
-    await closeButton.click();
-
-    await expect.element(el).toHaveProperty("closed", true);
-    await expect.element(content).not.toBeVisible();
-  });
-
-  it("omits the close action when closing is disabled", async () => {
+  it("omits the close action when collapsing is disabled", async () => {
     await mount(
-      <calcite-shell-panel close-disabled heading="Tools">
+      <calcite-shell-panel collapse-disabled heading="Tools">
         <button type="button">Panel content</button>
       </calcite-shell-panel>,
     );
+
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.keyboard("{Escape}");
 
     await expect
       .element(page.getByRole("button", { name: "Close", exact: true }))
@@ -722,10 +559,10 @@ describe("internal panel", () => {
     await expect.element(page.getByRole("button", { name: "Preferred control" })).toHaveFocus();
   });
 
-  it("does not trap focus when closing is disabled", async () => {
+  it("does not trap focus when collapsing is disabled", async () => {
     await mount(
       <div>
-        <calcite-shell-panel close-disabled>
+        <calcite-shell-panel collapse-disabled>
           <button type="button">Panel content</button>
         </calcite-shell-panel>
         <button type="button">Outside</button>
@@ -738,7 +575,7 @@ describe("internal panel", () => {
     await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
   });
 
-  it.each(["closeDisabled", "closed", "collapsed", "disabled"] as const)(
+  it.each(["collapseDisabled", "collapsed", "disabled"] as const)(
     "releases the internal focus trap when %s becomes true",
     async (property) => {
       const { el } = await mount<ShellPanel>(
@@ -786,39 +623,6 @@ describe("internal panel", () => {
         page.getByRole("button", { name: "Close", exact: true }).element().matches(":focus"),
       )
       .toBe(true);
-  });
-
-  it("collapses content without invoking beforeClose or hiding the action bar", async () => {
-    const beforeClose = vi.fn<NonNullable<ShellPanel["beforeClose"]>>();
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel beforeClose={beforeClose} heading="Tools">
-        <calcite-action-bar slot="action-bar">
-          <calcite-action text="Layers" />
-        </calcite-action-bar>
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
-    const action = page.getByRole("button", { name: "Layers", includeHidden: true });
-
-    el.collapsed = true;
-
-    await expect.element(content).not.toBeVisible();
-    await expect.element(action).toBeVisible();
-    expect(el.closed).toBe(false);
-    expect(beforeClose).not.toHaveBeenCalled();
-
-    el.removeAttribute("collapsed");
-
-    await expect.element(content).toBeVisible();
-    expect(el.closed).toBe(false);
-    expect(beforeClose).not.toHaveBeenCalled();
-
-    el.closed = true;
-
-    expect(beforeClose).toHaveBeenCalledExactlyOnceWith();
-    await expect.element(content).not.toBeVisible();
-    await expect.element(action).not.toBeVisible();
   });
 });
 
@@ -1156,7 +960,61 @@ describe("shell-panel updateSize public method", () => {
     await panel.manager.component.updateComplete;
   }
 
-  it("resumes mouse resizing after closing and reopening", async () => {
+  it("prevents resizing while disabled and resumes resizing when enabled", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel
+        resizable
+        style="display: inline-flex; --calcite-shell-panel-width: 320px; --calcite-shell-panel-max-width: 600px"
+      >
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+    const handle = page.getByRole("separator", { includeHidden: true });
+    const content = page
+      .elementLocator(el)
+      .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`);
+
+    async function expectWidth(width: number): Promise<void> {
+      await expect.element(content).toHaveStyle({ inlineSize: `${width}px` });
+      await expect.element(handle).toHaveAttribute("aria-valuenow", `${width}`);
+    }
+
+    async function dragResizeHandle(): Promise<void> {
+      const { left, top, width, height } = handle.element().getBoundingClientRect();
+      await commands.mouseMove(left + width / 2, top + height / 2);
+      await commands.mouseDown();
+      await commands.mouseMove(left + width / 2 + 20, top + height / 2);
+      await commands.mouseUp();
+    }
+
+    await expectWidth(320);
+    await dragResizeHandle();
+    await expectWidth(340);
+    await handle.click();
+    await userEvent.keyboard("{ArrowRight}");
+    await expectWidth(340 + resizeStep);
+
+    el.disabled = true;
+
+    await expect.element(handle).toHaveAttribute("aria-disabled", "true");
+    await expect.element(handle).toHaveAttribute("tabindex", "-1");
+    await userEvent.keyboard("{ArrowRight}");
+    await expectWidth(340 + resizeStep);
+    await dragResizeHandle();
+    await expectWidth(340 + resizeStep);
+
+    el.disabled = false;
+
+    await expect.element(handle).toHaveAttribute("aria-disabled", "false");
+    await expect.element(handle).toHaveAttribute("tabindex", "0");
+    await handle.click();
+    await userEvent.keyboard("{ArrowRight}");
+    await expectWidth(340 + 2 * resizeStep);
+    await dragResizeHandle();
+    await expectWidth(360 + 2 * resizeStep);
+  });
+
+  it("resumes mouse resizing after collapsing and expanding", async () => {
     const { el } = await mount<ShellPanel>(
       <calcite-shell-panel
         resizable
@@ -1172,11 +1030,11 @@ describe("shell-panel updateSize public method", () => {
 
     await expect.element(handle).toHaveAttribute("aria-valuenow", "320");
 
-    el.closed = true;
+    el.collapsed = true;
 
-    await expect.element(handle).not.toBeVisible();
+    await expect.element(handle).not.toBeInTheDocument();
 
-    el.closed = false;
+    el.collapsed = false;
 
     await expect.element(handle).toBeVisible();
     const { left, top, width, height } = handle.element().getBoundingClientRect();

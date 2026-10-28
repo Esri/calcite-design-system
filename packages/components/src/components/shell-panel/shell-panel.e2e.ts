@@ -19,7 +19,7 @@ it("should set internal panel properties", async () => {
 
   const messageOverrides = { close: "shut the front door" };
 
-  shellPanel.setProperty("closeDisabled", true);
+  shellPanel.setProperty("collapseDisabled", true);
   shellPanel.setProperty("loading", true);
   shellPanel.setProperty("menuOpen", true);
   shellPanel.setProperty("headingLevel", 1);

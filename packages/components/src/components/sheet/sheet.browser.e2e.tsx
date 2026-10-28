@@ -407,6 +407,71 @@ describe("internal panel", () => {
     expect(component.el.open).toBe(true);
     await expect.element(content).toBeVisible();
   });
+
+  it("keeps the built-in panel visible during the closing transition", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        heading="Tools"
+        open
+        style="--calcite-internal-animation-timing-medium: 250ms"
+      />,
+    );
+    await openEvent;
+
+    const panel = page.getBySelector(`.${CSS.panel}`);
+    const beforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
+    const closeEvent = waitForEvent(el, "calciteSheetClose");
+
+    el.open = false;
+    await beforeCloseEvent;
+
+    expect(el.opened).toBe(false);
+    expect(el.hasAttribute("data-closing")).toBe(true);
+    await expect.element(panel).toHaveProperty("hidden", false);
+    await expect.element(panel).toBeVisible();
+    await closeEvent;
+    await expect.element(panel).not.toBeVisible();
+  });
+
+  it("clears the closing state when reopened during the closing transition", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        heading="Tools"
+        label="Sheet"
+        open
+        style="--calcite-internal-animation-timing-medium: 250ms"
+      />,
+    );
+    await openEvent;
+
+    const panel = page.getBySelector(`.${CSS.panel}`);
+    const closeButton = page.getByRole("button", { name: "Close", exact: true });
+    const beforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
+
+    await closeButton.click();
+    await beforeCloseEvent;
+    expect(el.hasAttribute("data-closing")).toBe(true);
+
+    const reopenEvent = waitForEvent(el, "calciteSheetOpen");
+    el.open = true;
+    await reopenEvent;
+
+    await expect.element(el).not.toHaveAttribute("data-closing");
+    await expect.element(panel).toBeVisible();
+
+    const secondBeforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
+    const closeEvent = waitForEvent(el, "calciteSheetClose");
+
+    await closeButton.click();
+    await secondBeforeCloseEvent;
+    expect(el.hasAttribute("data-closing")).toBe(true);
+    await closeEvent;
+
+    await expect.element(el).not.toHaveAttribute("data-closing");
+    await expect.element(panel).not.toBeVisible();
+  });
 });
 
 describe("slots", () => {
@@ -862,6 +927,68 @@ describe("sheet updateSize public method", () => {
 
     return { sheet: el, content, resizeHandle, component, sizeProp, keyboardKey, mouseDelta };
   }
+
+  it("prevents resizing while disabled and resumes resizing when enabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        embedded
+        label="Sheet"
+        open
+        resizable
+        style="--calcite-sheet-width: 320px; --calcite-sheet-max-width: 600px"
+      />,
+    );
+    await openEvent;
+
+    const resizeHandle = page.getByRole("separator");
+    const content = page.getBySelector(`calcite-sheet > .${CSS.container} > .${CSS.content}`);
+
+    async function dragResizeHandle(): Promise<void> {
+      const { left, top, width, height } = resizeHandle.element().getBoundingClientRect();
+      await commands.mouseMove(left + width / 2, top + height / 2);
+      await commands.mouseDown();
+      await commands.mouseMove(left + width / 2 + 20, top + height / 2);
+      await commands.mouseUp();
+    }
+
+    await expect.element(content).toHaveStyle({ inlineSize: "320px" });
+    await dragResizeHandle();
+    await expect.poll(() => content.element().getBoundingClientRect().width).toBeGreaterThan(320);
+    const pointerWidth = content.element().getBoundingClientRect().width;
+
+    await resizeHandle.click();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect
+      .poll(() => content.element().getBoundingClientRect().width)
+      .toBeGreaterThan(pointerWidth);
+    const disabledWidth = content.element().getBoundingClientRect().width;
+
+    el.disabled = true;
+
+    await expect.element(resizeHandle).toHaveAttribute("aria-disabled", "true");
+    await expect.element(resizeHandle).toHaveAttribute("tabindex", "-1");
+    await userEvent.keyboard("{ArrowRight}");
+    expect(content.element().getBoundingClientRect().width).toBe(disabledWidth);
+    await dragResizeHandle();
+    expect(content.element().getBoundingClientRect().width).toBe(disabledWidth);
+
+    el.disabled = false;
+
+    await expect.element(resizeHandle).toHaveAttribute("aria-disabled", "false");
+    await expect.element(resizeHandle).toHaveAttribute("tabindex", "0");
+    await resizeHandle.click();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect
+      .poll(() => content.element().getBoundingClientRect().width)
+      .toBeGreaterThan(disabledWidth);
+    const keyboardWidth = content.element().getBoundingClientRect().width;
+
+    await dragResizeHandle();
+    await expect
+      .poll(() => content.element().getBoundingClientRect().width)
+      .toBeGreaterThan(keyboardWidth);
+  });
 
   testCases.forEach(({ axis, dir, changeDirAfterMount }) => {
     it(`default size → token resize → KEYBOARD resize → method resize → clear method override [axis=${axis}, dir=${dir}, changeDirAfterMount=${changeDirAfterMount}]`, async () => {

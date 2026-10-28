@@ -13,7 +13,10 @@ calcite-panel {
   --calcite-panel-icon-color: var(--calcite-sheet-icon-color);
   --calcite-panel-description-text-color: var(--calcite-sheet-description-text-color);
   --calcite-panel-border-color: var(--calcite-sheet-border-color);
-  --calcite-panel-background-color: var(--calcite-sheet-background-color);
+  --calcite-panel-background-color: var(
+    --calcite-sheet-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   --calcite-panel-content-top-space: var(--calcite-sheet-content-top-space);
   --calcite-panel-content-bottom-space: var(--calcite-sheet-content-bottom-space);
   --calcite-panel-header-top-space: var(--calcite-sheet-header-top-space);
@@ -28,6 +31,10 @@ calcite-panel {
   --calcite-panel-header-content-space: var(--calcite-sheet-header-content-space);
   --calcite-panel-footer-space: var(--calcite-sheet-footer-space);
   --calcite-popover-border-color: var(--calcite-sheet-action-menu-border-color, var(--calcite-color-border-1));
+}
+
+::slotted(calcite-panel) {
+  --calcite-panel-background-color: initial;
 }
 
 :host {
@@ -53,6 +60,11 @@ calcite-panel {
 
 .assistive-text {
   @apply sr-only;
+}
+
+:host([opened]),
+:host([data-closing]) {
+  visibility: visible !important;
 }
 
 .container {
@@ -196,10 +208,6 @@ calcite-panel {
 
 [popover]:popover-open {
   display: flex;
-}
-
-:host([opened]) {
-  visibility: visible !important;
 }
 
 .content {

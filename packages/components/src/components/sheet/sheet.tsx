@@ -599,6 +599,7 @@ export class Sheet extends LitElement {
       (changes.has("open") && (this.hasUpdated || this.open !== false)) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "inline-start")) ||
       (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
+      changes.has("disabled") ||
       changes.has("direction")
     ) {
       this.refreshResize();
@@ -691,7 +692,13 @@ export class Sheet extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentRef.value || defaultPrevented || !keys.includes(key)) {
+    if (
+      this.disabled ||
+      !resizable ||
+      !contentRef.value ||
+      defaultPrevented ||
+      !keys.includes(key)
+    ) {
       return;
     }
 
@@ -782,9 +789,9 @@ export class Sheet extends LitElement {
   private setUpResizeInteractions(): void {
     this.cleanUpInteractions();
 
-    const { contentRef, el, resizable, position, open, resizeHandleEl } = this;
+    const { contentRef, el, resizable, position, open, resizeHandleEl, disabled } = this;
 
-    if (!contentRef.value || !open || !resizable || !resizeHandleEl) {
+    if (!contentRef.value || !open || !resizable || disabled || !resizeHandleEl) {
       return;
     }
 
@@ -818,6 +825,7 @@ export class Sheet extends LitElement {
   }
 
   onBeforeOpen(): void {
+    this.el.removeAttribute("data-closing");
     this.calciteSheetBeforeOpen.emit();
     this.topLayer.show();
   }
@@ -831,10 +839,12 @@ export class Sheet extends LitElement {
   }
 
   onBeforeClose(): void {
+    this.el.setAttribute("data-closing", "");
     this.calciteSheetBeforeClose.emit();
   }
 
   onClose(): void {
+    this.el.removeAttribute("data-closing");
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
     this.topLayer.hide();
@@ -908,7 +918,6 @@ export class Sheet extends LitElement {
                 focusTrapDisabled={true}
                 heading={this.heading}
                 headingLevel={this.headingLevel}
-                hidden={!this.opened}
                 icon={this.icon}
                 iconFlipRtl={this.iconFlipRtl}
                 loading={this.loading}
@@ -946,6 +955,7 @@ export class Sheet extends LitElement {
           </div>
           {resizable ? (
             <div
+              ariaDisabled={this.disabled}
               ariaLabel={this.messages.resizeEnabled}
               ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
               ariaValueMax={ariaValueFromSize(
@@ -968,7 +978,7 @@ export class Sheet extends LitElement {
               onKeyDown={this.handleKeyDown}
               ref={this.setResizeHandleEl}
               role="separator"
-              tabIndex={0}
+              tabIndex={this.disabled ? -1 : 0}
               touch-action="none"
             >
               <div class={CSS.resizeHandleBar}>

@@ -481,6 +481,7 @@ calcite-panel {
 
 :host([position="start"]) .float--content,
 :host([position="end"]) .float--content {
+  .panel,
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
     @apply border-none;
@@ -489,7 +490,8 @@ calcite-panel {
 
 slot[name="action-bar"]::slotted(calcite-action-bar),
 .content ::slotted(calcite-flow),
-.content ::slotted(calcite-panel:not([closed])) {
+.content ::slotted(calcite-panel:not([closed])),
+.content .panel:not([closed]) {
   border: var(--calcite-border-width-sm) solid var(--calcite-shell-border-color, var(--calcite-color-border-3));
 }
 
@@ -497,14 +499,16 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([position="end"][slot="panel-start"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),
-  .content ::slotted(calcite-panel) {
+  .content ::slotted(calcite-panel),
+  .content .panel {
     border-inline-start: none;
   }
 }
 
 :host([resizable][layout="vertical"]) {
   .content ::slotted(calcite-flow),
-  .content ::slotted(calcite-panel) {
+  .content ::slotted(calcite-panel),
+  .content .panel {
     border-inline-start: none;
     border-inline-end: none;
   }
@@ -512,7 +516,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 
 :host([resizable][layout="horizontal"]) {
   .content ::slotted(calcite-flow),
-  .content ::slotted(calcite-panel) {
+  .content ::slotted(calcite-panel),
+  .content .panel {
     border-block-start: none;
     border-block-end: none;
   }
@@ -522,7 +527,8 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 :host([position="start"][slot="panel-end"]) {
   slot[name="action-bar"]::slotted(calcite-action-bar),
   .content ::slotted(calcite-flow),
-  .content ::slotted(calcite-panel) {
+  .content ::slotted(calcite-panel),
+  .content .panel {
     border-inline-end: none;
   }
 }
@@ -532,13 +538,15 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
 }
 
 :host([layout="horizontal"][position="start"]) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel) {
+:host([layout="horizontal"][position="start"]) .content ::slotted(calcite-panel),
+:host([layout="horizontal"][position="start"]) .content .panel {
   border-inline: 0;
   border-block-start: 0;
 }
 
 :host([layout="horizontal"][position="end"]) .content ::slotted(calcite-flow),
-:host([layout="horizontal"][position="end"]) .content ::slotted(calcite-panel) {
+:host([layout="horizontal"][position="end"]) .content ::slotted(calcite-panel),
+:host([layout="horizontal"][position="end"]) .content .panel {
   border-inline: 0;
   border-block-end: 0;
 }

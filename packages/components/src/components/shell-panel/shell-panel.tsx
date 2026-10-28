@@ -245,10 +245,6 @@ export class ShellPanel extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  private _closed = false;
-
-  private closedRequestVersion = 0;
-
   /**
    * Made into a prop for testing purposes only
    *
@@ -286,11 +282,8 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
-  /** Passes a function to run before the component closes. */
-  @property() beforeClose?: () => Promise<void>;
-
-  /** When `true`, disables the component's close button. */
-  @property({ reflect: true }) closeDisabled = false;
+  /** When `true`, disables the internal panel's close button, which collapses the component's content area. */
+  @property({ reflect: true }) collapseDisabled = false;
 
   /** When `panelCollapsible` is `true`, specifies the direction of the internal panel's collapse icon. */
   @property() panelCollapseDirection: CollapseDirection = "down";
@@ -363,18 +356,6 @@ export class ShellPanel extends LitElement {
 
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
-
-  /** When `true`, hides the component. */
-  @property({ reflect: true })
-  get closed(): boolean {
-    return this._closed;
-  }
-  set closed(value: boolean) {
-    const requestVersion = ++this.closedRequestVersion;
-    if (value !== this._closed) {
-      this.setClosedState(value, requestVersion);
-    }
-  }
 
   /**
    * Specifies the component's display mode.
@@ -531,10 +512,10 @@ export class ShellPanel extends LitElement {
 
     if (
       (changes.has("collapsed") && (this.hasUpdated || this.collapsed !== false)) ||
-      (changes.has("closed") && (this.hasUpdated || this.closed !== false)) ||
-      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false))
+      (changes.has("resizable") && (this.hasUpdated || this.resizable !== false)) ||
+      changes.has("disabled")
     ) {
-      shouldRefreshResize = !this.closed && this.resizable && !this.collapsed;
+      shouldRefreshResize = !this.disabled && this.resizable && !this.collapsed;
 
       if (!shouldRefreshResize) {
         this.cleanUpInteractions();
@@ -562,24 +543,6 @@ export class ShellPanel extends LitElement {
 
   //#region Private Methods
 
-  private async setClosedState(value: boolean, requestVersion: number): Promise<void> {
-    if (this.beforeClose && value) {
-      try {
-        await this.beforeClose();
-      } catch {
-        return;
-      }
-
-      if (requestVersion !== this.closedRequestVersion) {
-        return;
-      }
-    }
-
-    const oldValue = this._closed;
-    this._closed = value;
-    this.requestUpdate("closed", oldValue);
-  }
-
   private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
     if (event.target !== this.panelRef.value) {
       return;
@@ -587,7 +550,7 @@ export class ShellPanel extends LitElement {
 
     event.preventDefault();
     event.stopPropagation();
-    this.closed = true;
+    this.collapsed = true;
   }
 
   private handleInternalPanelToggle(event: CustomEvent<void>): void {
@@ -631,7 +594,13 @@ export class ShellPanel extends LitElement {
 
     const keys = [...arrowKeys, "Home", "End"];
 
-    if (!resizable || !contentRef.value || defaultPrevented || !keys.includes(key)) {
+    if (
+      this.disabled ||
+      !resizable ||
+      !contentRef.value ||
+      defaultPrevented ||
+      !keys.includes(key)
+    ) {
       return;
     }
 
@@ -844,11 +813,10 @@ export class ShellPanel extends LitElement {
   private setUpResizeInteractions(): void {
     this.cleanUpInteractions();
 
-    const { el, contentRef, resizable, position, collapsed, closed, resizeHandleRef, layout } =
-      this;
+    const { el, contentRef, resizable, position, collapsed, resizeHandleRef, layout } = this;
     const resizeHandle = resizeHandleRef.value;
 
-    if (!contentRef.value || closed || collapsed || !resizable || !resizeHandle) {
+    if (!contentRef.value || collapsed || this.disabled || !resizable || !resizeHandle) {
       return;
     }
 
@@ -904,7 +872,7 @@ export class ShellPanel extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
-    const { collapsed, closed, position, resizable, layout, displayMode, resizeValues } = this;
+    const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
 
     const dir = this.direction;
     const isBlockPosition = layout === "horizontal";
@@ -912,6 +880,7 @@ export class ShellPanel extends LitElement {
     const separatorNode =
       !collapsed && resizable ? (
         <div
+          ariaDisabled={this.disabled}
           ariaLabel={this.messages.resize}
           ariaOrientation={isBlockPosition ? "vertical" : "horizontal"}
           ariaValueMax={ariaValueFromSize(
@@ -934,7 +903,7 @@ export class ShellPanel extends LitElement {
           onKeyDown={this.handleKeyDown}
           ref={this.resizeHandleRef}
           role="separator"
-          tabIndex={0}
+          tabIndex={this.disabled ? -1 : 0}
         >
           <div class={CSS.resizeHandleBar}>
             <calcite-icon icon={this.getResizeIcon()} scale="s" />
@@ -983,13 +952,14 @@ export class ShellPanel extends LitElement {
           >
             <calcite-panel
               class={CSS.panel}
-              closable={!this.closeDisabled}
+              closable={!this.collapseDisabled}
+              closed={collapsed}
               collapsed={this.panelCollapsed}
               collapseDirection={this.panelCollapseDirection}
               collapsible={this.panelCollapsible}
               description={this.description}
               disabled={this.disabled}
-              focusTrapDisabled={closed || collapsed || this.disabled || this.hasCustomContent}
+              focusTrapDisabled={collapsed || this.disabled || this.hasCustomContent}
               focusTrapOptions={this.focusTrapOptions}
               heading={this.heading}
               headingLevel={this.headingLevel}
@@ -1046,7 +1016,7 @@ export class ShellPanel extends LitElement {
     return (
       <div
         class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
-        hidden={closed}
+        inert={this.disabled}
         ref={this.containerRef}
       >
         {mainNodes}

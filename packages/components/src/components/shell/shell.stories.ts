@@ -193,7 +193,7 @@ const contentHTML = html`
 
 const advancedLeadingPanelHTML = html`
   ${actionBarStartHTML}
-  <calcite-panel heading="Advanced panel example">
+  <calcite-panel slot="custom-content" heading="Advanced panel example">
     <calcite-block expandable open heading="Start Content" description="This is the primary.">
       <calcite-block-content>
         <calcite-action text="Play" text-enabled indicator icon="play"></calcite-action>
@@ -229,7 +229,7 @@ const advancedLeadingPanelHTML = html`
 // TODO: UPDATE
 const advancedTrailingPanelHTMl = html`
   ${actionBarEndHTML}
-  <calcite-flow>
+  <calcite-flow slot="custom-content">
     <calcite-flow-item heading="Layer settings">
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
@@ -322,10 +322,40 @@ export const simple = (args: ShellStoryArgs): string => html`
   </calcite-shell>
 `;
 
-export const closedShellPanels = (): string => html`
+export const collapsedShellPanels = (): string => html`
   <calcite-shell>
-    <calcite-shell-panel closed heading="Tools" slot="panel-start"> ${leadingPanelHTML} </calcite-shell-panel>
+    <calcite-shell-panel collapsed heading="Tools" slot="panel-start"> ${leadingPanelHTML} </calcite-shell-panel>
     ${contentHTML}
+  </calcite-shell>
+`;
+
+export const shellPanelBorders = (): string => html`
+  <style>
+    .shell-panel-borders {
+      --calcite-shell-border-color: var(--calcite-color-brand);
+    }
+  </style>
+  <calcite-shell class="shell-panel-borders">
+    <calcite-shell-panel collapse-disabled heading="Layers" slot="panel-start">
+      ${actionBarStartHTML}
+      <p>Population density</p>
+    </calcite-shell-panel>
+    <calcite-shell-panel collapse-disabled heading="Legend" resizable slot="panel-end">
+      ${actionBarEndHTML}
+      <p>People per square kilometer</p>
+    </calcite-shell-panel>
+    <calcite-shell-panel collapse-disabled display-mode="float-content" heading="Map tools" slot="panel-top">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action icon="measure" text="Measure"></calcite-action>
+      </calcite-action-bar>
+      <p>Distance and area</p>
+    </calcite-shell-panel>
+    <calcite-shell-panel collapse-disabled heading="Results" resizable slot="panel-bottom">
+      <p>Selected features</p>
+    </calcite-shell-panel>
+    <calcite-panel heading="Map">
+      <p>Map content</p>
+    </calcite-panel>
   </calcite-shell>
 `;
 
@@ -902,7 +932,9 @@ export const slottedDialogAndAlert = (): string =>
           </calcite-flow-item>
         </calcite-flow>
       </calcite-shell-panel>
-      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+      <calcite-panel heading="Main content">
+        <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+      </calcite-panel>
       <footer slot="footer">Footer Example</footer>
     </calcite-shell>
     <p class="padded-content">
@@ -1581,10 +1613,8 @@ position:relative;
           <calcite-action text="What's next" icon="mega-phone"></calcite-action>
         </calcite-action-group>
       </calcite-action-bar>
-      <div class="padded-content">
-        <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-        <calcite-tooltip label="tooltip" reference-element="layer-fab">Add layers</calcite-tooltip>
-      </div>
+      <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
+      <calcite-tooltip label="tooltip" reference-element="layer-fab">Add layers</calcite-tooltip>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="overlay" resizable slot="panel-end">
       <calcite-action-bar slot="action-bar">
@@ -3179,7 +3209,9 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
       </calcite-flow>
     </calcite-shell-panel>
 
-    <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+    <calcite-panel heading="Main content">
+      <div class="padded-content">The borders are only applied to "known" components.<br />Padding is fake.</div>
+    </calcite-panel>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell>
 `;
