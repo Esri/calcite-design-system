@@ -31,6 +31,9 @@ interface ListItemGroupSlots {
    */
   "": Node[];
 }
+/**
+ * @parent calcite-list
+ */
 export class ListItemGroup extends LitElement {
   //#region Type-only metadata members
 

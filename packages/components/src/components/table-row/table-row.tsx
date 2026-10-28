@@ -63,6 +63,9 @@ interface TableRowSlots {
   "": Node[];
 }
 
+/**
+ * @parent calcite-table
+ */
 export class TableRow extends LitElement {
   //#region Type-only metadata members
 

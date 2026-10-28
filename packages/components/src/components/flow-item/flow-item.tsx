@@ -210,6 +210,9 @@ interface FlowItemSlots {
   "footer-start": Node[];
 }
 
+/**
+ * @parent calcite-flow
+ */
 export class FlowItem extends LitElement {
   //#region Type-only metadata members
 

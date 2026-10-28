@@ -36,6 +36,9 @@ interface TabSlots {
   "": Node[];
 }
 
+/**
+ * @parent calcite-tabs
+ */
 export class Tab extends LitElement {
   //#region Type-only metadata members
 
