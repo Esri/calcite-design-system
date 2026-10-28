@@ -1816,29 +1816,28 @@ export const panelEndWithPositionStart = (): string =>
         <calcite-action active icon="map" text="Map"></calcite-action>
         <calcite-action icon="layer" text="Layer"></calcite-action>
       </calcite-action-bar>
-      <div class="padded-content">
-        <calcite-button width="half" slot="footer"> Next </calcite-button>
-        <calcite-block
-          expandable
-          heading="Layer effects"
-          description="Adjust blur, highlight, and more"
-          icon-start="effects"
-        >
-          <calcite-notice open>
-            <div slot="message">Use layer effects sparingly, for emphasis</div>
-          </calcite-notice>
-        </calcite-block>
-        <calcite-block
-          expandable
-          heading="Symbology"
-          description="Select type, color, and transparency"
-          icon-start="map-pin"
-        >
-          <calcite-notice open>
-            <div slot="message">The viewers are going to love this</div>
-          </calcite-notice>
-        </calcite-block>
-        <calcite-fab slot="fab"></calcite-fab>
+      <calcite-button width="half" slot="footer"> Next </calcite-button>
+      <calcite-block
+        expandable
+        heading="Layer effects"
+        description="Adjust blur, highlight, and more"
+        icon-start="effects"
+      >
+        <calcite-notice open>
+          <div slot="message">Use layer effects sparingly, for emphasis</div>
+        </calcite-notice>
+      </calcite-block>
+      <calcite-block
+        expandable
+        heading="Symbology"
+        description="Select type, color, and transparency"
+        icon-start="map-pin"
+      >
+        <calcite-notice open>
+          <div slot="message">The viewers are going to love this</div>
+        </calcite-notice>
+      </calcite-block>
+      <calcite-fab slot="fab"></calcite-fab>
     </calcite-shell-panel>
   </calcite-shell>`;
 
