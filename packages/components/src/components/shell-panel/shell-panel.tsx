@@ -54,12 +54,12 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
+ * @slot custom-content - A slot for displaying custom content in place of the built-in panel.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot panel-action-bar - A slot for adding a `calcite-action-bar` to the panel.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
- * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `panel-action-bar` slot.
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
  * @slot header-top - A slot for adding custom content above the header actions and content.
@@ -203,7 +203,7 @@ interface ShellPanelSlots {
    */
   "action-bar": Node[];
   /**
-   * A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
+   * A slot for displaying custom content in place of the built-in panel.
    */
   "custom-content": Node[];
   /**
@@ -219,7 +219,7 @@ interface ShellPanelSlots {
    */
   "content-bottom": Node[];
   /**
-   * A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+   * A slot for adding content above the unnamed (default) slot and - if populated - below the `panel-action-bar` slot.
    */
   "content-top": Node[];
   /**

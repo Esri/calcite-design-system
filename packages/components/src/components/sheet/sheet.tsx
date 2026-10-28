@@ -56,7 +56,7 @@ declare global {
 
 /**
  * @slot - A slot for adding content.
- * @slot custom-content - A slot for displaying custom content. Will prevent the rendering of any default Dialog UI, except for `box-shadow` and `corner-radius`.
+ * @slot custom-content - A slot for displaying custom content in place of the built-in panel.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
@@ -208,7 +208,7 @@ interface SheetSlots {
    */
   "": Node[];
   /**
-   * A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
+   * A slot for displaying custom content in place of the built-in panel.
    */
   "custom-content": Node[];
   /**
@@ -513,7 +513,7 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
+   * Tracks the component's rendered open state and preserves its styles while `beforeClose` is pending.
    *
    * @private
    */
@@ -561,7 +561,7 @@ export class Sheet extends LitElement {
   }
 
   /**
-   * Sets focus on the component's "close" button - the first focusable item.
+   * Sets focus on the component's first focusable element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
