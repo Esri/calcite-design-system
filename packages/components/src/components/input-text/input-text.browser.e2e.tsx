@@ -145,6 +145,53 @@ describe("is focusable", () => {
 });
 
 describe("inline edit", () => {
+  it("preserves the caret position when editing is enabled by clicking the input", async () => {
+    const { el } = await mount<InputText>(<calcite-input-text inline-edit value="abc" />);
+    const input = page.getBySelector("calcite-input-text input");
+
+    await userEvent.click(input, {
+      position: { x: 10, y: input.element().clientHeight / 2 },
+    });
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard("d");
+
+    await expect.element(input).toHaveValue("adbc");
+  });
+
+  it("places the caret at the end when editing is enabled with the edit button", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text inline-edit value="Starting value" />,
+    );
+    const input = page.getBySelector("calcite-input-text input");
+
+    await userEvent.click(
+      page.getBySelector(`calcite-input-text .${InlineEditControlsCSS.enableEditing}`),
+    );
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard(" changed");
+
+    await expect.element(input).toHaveValue("Starting value changed");
+  });
+
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text inline-edit inline-editing value="Starting value" />,
+    );
+    const input = page.getBySelector("calcite-input-text input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard(" changed");
+    await userEvent.click(
+      page.getBySelector(`calcite-input-text .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("Starting value");
+    await expect.element(input).toHaveValue("Starting value");
+  });
+
   it("clears value on the first clear button click without controls", async () => {
     const { el } = await mount<InputText>(
       <calcite-input-text clearable inline-edit="controls-disabled" value="John Doe" />,

@@ -157,7 +157,7 @@
           "group": "size"
         },
         "$type": "fontSizes",
-        "$value": "{font.size.xxl}",
+        "$value": "{core.size.default.24}",
         "$description": "Replaces `--calcite-font-size-xxl`"
       },
       "relative": {

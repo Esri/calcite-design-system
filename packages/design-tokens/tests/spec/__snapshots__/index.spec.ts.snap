@@ -1113,6 +1113,7 @@ exports[`CSS > global should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -1244,7 +1245,6 @@ exports[`CSS > global should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
-  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
 }
 "
 `;
@@ -1607,6 +1607,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
   --calcite-font-size-xxl: 24px; /** Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead. */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -1738,7 +1739,6 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-z-index-popup: 900;
   --calcite-z-index-tooltip: 901;
   --calcite-corner-radius: var(--calcite-corner-radius-none);
-  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
 }
 "
 `;
@@ -25238,7 +25238,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -25254,6 +25253,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "typography",
       "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 1",
@@ -25278,9 +25278,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Display 2",
@@ -25305,7 +25305,6 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "extensions": {
         "calcite.extends": {
           "fontFamily": [
@@ -25321,6 +25320,7 @@ exports[`DOCS (internal) > global should match 1`] = `
       },
       "$type": "typography",
       "$value": "{\\"fontSize\\":\\"1.625rem\\",\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 1",
@@ -25345,9 +25345,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.25rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 2",
@@ -25372,9 +25372,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1.125rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 3",
@@ -25399,9 +25399,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"1rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 4",
@@ -25426,9 +25426,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontWeight\\":\\"500\\",\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Heading 5",
@@ -25453,9 +25453,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.875rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body Snug",
@@ -25480,9 +25480,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontFamily\\":[\\"Avenir Next\\",\\"Avenir\\",\\"Helvetica Neue\\",\\"sans-serif\\"],\\"fontSize\\":\\"0.875rem\\",\\"fontWeight\\":\\"400\\",\\"lineHeight\\":1.15}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Body",
@@ -25506,9 +25506,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"fontSize\\":\\"0.75rem\\",\\"textCase\\":\\"uppercase\\",\\"fontWeight\\":\\"600\\",\\"lineHeight\\":1}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Overline",
@@ -25532,9 +25532,9 @@ exports[`DOCS (internal) > global should match 1`] = `
           "tier": "semantic"
         }
       },
-      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "$type": "typography",
       "$value": "{\\"lineHeight\\":1.375,\\"fontSize\\":\\"0.75rem\\"}",
+      "$description": "Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.",
       "filePath": "src/tokens/semantic/typography.json",
       "isSource": true,
       "name": "Typography Hierarchy Caption",
@@ -33881,6 +33881,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
@@ -34012,7 +34013,6 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
-$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 "
 `;
 
@@ -34738,6 +34738,7 @@ $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
 $calcite-font-size-xxl: 24px; // Deprecated in v4.0.0, removal target v5.0.0 - Use \`--calcite-font-size-2xl\` instead.
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
@@ -34869,6 +34870,5 @@ $calcite-z-index-modal: 800;
 $calcite-z-index-popup: 900;
 $calcite-z-index-tooltip: 901;
 $calcite-corner-radius: $calcite-corner-radius-none;
-$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 "
 `;

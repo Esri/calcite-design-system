@@ -8,7 +8,6 @@ import {
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { FlipContext, Position, Scale, Status } from "../types";
 import { getIconScale } from "../../utils/component";
-import { toggleOpenClose } from "../../utils/openCloseComponent";
 import {
   defaultEndMenuPlacement,
   FlipPlacement,
@@ -176,10 +175,6 @@ export class Block extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  transitionProp = "margin-top" as const;
-
-  transitionEl: HTMLElement | undefined;
 
   private blockSectionChildren: BlockSection["el"][] = [];
 
@@ -393,39 +388,11 @@ export class Block extends LitElement {
 
   //#region Events
 
-  /**
-   * Fires when the component is requested to be closed and before the closing transition begins.
-   *
-   * @deprecated in v3.1.0, removal target v6.0.0
-   */
-  calciteBlockBeforeClose = createEvent({ cancelable: false });
-
-  /**
-   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
-   *
-   * @deprecated in v3.1.0, removal target v6.0.0
-   */
-  calciteBlockBeforeOpen = createEvent({ cancelable: false });
-
-  /**
-   * Fires when the component is closed and animation is complete.
-   *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockCollapse` instead.
-   */
-  calciteBlockClose = createEvent({ cancelable: false });
-
   /** Fires when the component's content area is collapsed. */
   calciteBlockCollapse = createEvent({ cancelable: false });
 
   /** Fires when the component's content area is expanded. */
   calciteBlockExpand = createEvent({ cancelable: false });
-
-  /**
-   * Fires when the component is open and animation is complete.
-   *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `calciteBlockExpand` instead.
-   */
-  calciteBlockOpen = createEvent({ cancelable: false });
 
   /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
   calciteBlockSortHandleBeforeClose = createEvent({ cancelable: false });
@@ -438,13 +405,6 @@ export class Block extends LitElement {
 
   /** Fires when the sort handle is open and animation is complete. */
   calciteBlockSortHandleOpen = createEvent({ cancelable: false });
-
-  /**
-   * Fires when the component's header is clicked.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use `openClose` events such as `calciteBlockOpen`, `calciteBlockClose`, `calciteBlockBeforeOpen`, and `calciteBlockBeforeClose` instead.
-   */
-  calciteBlockToggle = createEvent({ cancelable: false });
 
   /**
    *
@@ -465,7 +425,6 @@ export class Block extends LitElement {
   //#region Lifecycle
 
   override connectedCallback(): void {
-    this.transitionEl = this.el;
     this.setParentBlockGroupElement();
   }
 
@@ -482,10 +441,6 @@ export class Block extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("expanded") && (this.hasUpdated || this.expanded !== false)) {
-      toggleOpenClose(this);
-    }
-
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
       this.sortHandleOpenHandler();
     }
@@ -510,22 +465,6 @@ export class Block extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  onBeforeOpen(): void {
-    this.calciteBlockBeforeOpen.emit();
-  }
-
-  onOpen(): void {
-    this.calciteBlockOpen.emit();
-  }
-
-  onBeforeClose(): void {
-    this.calciteBlockBeforeClose.emit();
-  }
-
-  onClose(): void {
-    this.calciteBlockClose.emit();
-  }
 
   private sortHandleOpenHandler(): void {
     if (!this.sortHandleEl) {
@@ -564,7 +503,6 @@ export class Block extends LitElement {
   }
 
   private onHeaderClick(): void {
-    this.calciteBlockToggle.emit();
     if (this.parentBlockGroupElement) {
       this.calciteInternalBlockChange.emit({
         el: this.el,

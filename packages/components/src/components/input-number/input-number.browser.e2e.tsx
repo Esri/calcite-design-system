@@ -164,6 +164,51 @@ describe("disabled", () => {
 });
 
 describe("inline edit", () => {
+  it("preserves the caret position when editing is enabled by clicking the input", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-edit value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input, {
+      position: { x: 10, y: input.element().clientHeight / 2 },
+    });
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard("4");
+
+    await expect.element(input).toHaveValue("1423");
+  });
+
+  it("places the caret at the end when editing is enabled with the edit button", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number inline-edit value="123" />);
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditControlsCSS.enableEditing}`),
+    );
+
+    await expect.poll(() => el.shadowRoot.activeElement).toBe(input.element());
+    await userEvent.keyboard("4");
+
+    await expect.element(input).toHaveValue("1234");
+  });
+
+  it("restores the starting value when externally controlled inline editing is cancelled", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number inline-edit inline-editing value="123" />,
+    );
+    const input = page.getBySelector("calcite-input-number input");
+
+    await userEvent.click(input);
+    await userEvent.keyboard("4");
+    await userEvent.click(
+      page.getBySelector(`calcite-input-number .${InlineEditControlsCSS.cancelEditing}`),
+    );
+
+    expect(el.value).toBe("123");
+    await expect.element(input).toHaveValue("123");
+  });
+
   it.each([true, "controls-disabled"] as const)(
     "allows decimal entry when inlineEdit is %s",
     async (inlineEdit) => {

@@ -27,7 +27,11 @@ import { Validation } from "../functional/Validation";
 import { TextualInputComponent } from "../input/common/input";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { inlineEditConverter, UseInlineEdit } from "../../controllers/useInlineEdit";
+import {
+  INLINE_EDIT_ACTIVATION_SOURCE,
+  inlineEditConverter,
+  UseInlineEdit,
+} from "../../controllers/useInlineEdit";
 import type { Action } from "../action/action";
 import type { InlineEditable } from "../inline-editable/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import type { Label } from "../label/label";
@@ -78,35 +82,35 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-loading-fill-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component, its inline edit elements and slotted `calcite-action` wrappers, when hovered.
+     * When `inlineEdit` is defined and `inlineEditing` is not set, specifies the component's background color when hovered.
      */
     "--calcite-input-text-inline-edit-background-color-hover": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls.
      */
     "--calcite-input-text-inline-edit-control-background-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when hovered.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls when hovered.
      */
     "--calcite-input-text-inline-edit-control-background-color-hover": "*";
     /**
-     * When `inline-edit` is enabled, specifies the background color of the component's inline edit controls, when pressed.
+     * When `inlineEdit` is defined, specifies the background color of the component's editing controls when pressed.
      */
     "--calcite-input-text-inline-edit-control-background-color-press": "*";
     /**
-     * When `inline-edit` is enabled, specifies the corner radius of the component's inline edit controls.
+     * When `inlineEdit` is defined, specifies the corner radius of the component's editing controls.
      */
     "--calcite-input-text-inline-edit-control-corner-radius": "*";
     /**
-     * When `inline-edit` is enabled, specifies the loader color of the component's inline edit controls.
+     * When `inlineEdit` is `true`, specifies the loader color of the component's confirm control.
      */
     "--calcite-input-text-inline-edit-control-loader-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls.
+     * When `inlineEdit` is defined, specifies the text color of the component's editing controls.
      */
     "--calcite-input-text-inline-edit-control-text-color": "*";
     /**
-     * When `inline-edit` is enabled, specifies the text color of the component's inline edit controls, when pressed or hovered.
+     * When `inlineEdit` is defined, specifies the text color of the component's editing controls when pressed or hovered.
      */
     "--calcite-input-text-inline-edit-control-text-color-press": "*";
     /**
@@ -244,8 +248,9 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.restoreInlineEditingValue(value);
     },
     commitValue: () => this.commitInlineEditingValue(),
-    setFocus: () => {
-      void this.setFocus();
+    setFocus: async (source) => {
+      await this.setFocus();
+      this.inlineEditManager.setCaretPosition(this.childRef.value, source);
     },
     emitCancel: () => {
       this.calciteInputTextInlineEditingCancel.emit();
@@ -324,15 +329,15 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component displays its inline editing mode. */
+  /** @copyDoc  */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** Enables built-in inline editing. Set to `"controls-disabled"` to hide save and cancel controls. */
+  /** @copyDoc  */
   @property({ reflect: true, converter: inlineEditConverter }) inlineEdit:
     | boolean
     | "controls-disabled" = false;
 
-  /** Specifies an optional callback to be executed when saving inline editing changes, inline edit controls must be present */
+  /** @copyDoc  */
   @property() inlineEditingBeforeConfirm?: () => Promise<void>;
 
   /** @copyDoc */
@@ -476,19 +481,19 @@ export class InputText extends LitElement implements LabelableComponent, Textual
 
   //#region Events
 
-  /** Fires each time a new `value` is typed and committed. */
+  /** Fires each time a new `value` is committed. */
   calciteInputTextChange = createEvent();
 
-  /** Fires when built-in inline editing is cancelled. */
+  /** When `inlineEdit` is defined, fires when editing is cancelled. */
   calciteInputTextInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** Fires when built-in inline editing is enabled or disabled. */
+  /** When `inlineEdit` is defined, fires when `inlineEditing` is enabled or disabled. */
   calciteInputTextInlineEditingChange = createEvent({ cancelable: false });
 
-  /** Fires after built-in inline editing confirmation completes. */
+  /** When `inlineEdit` is `true`, fires after editing is confirmed. */
   calciteInputTextInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /** Fires each time a new `value` is typed. */
+  /** When `inlineEdit` is `false`, fires each time a new `value` is typed. */
   calciteInputTextInput = createEvent();
 
   /** @private */
@@ -523,6 +528,10 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (changes.has("inlineEditing") && this.inlineEditing) {
+      this.inlineEditManager.captureValuePriorToEditing();
+    }
+
     if (changes.has("icon")) {
       this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
@@ -920,7 +929,9 @@ export class InputText extends LitElement implements LabelableComponent, Textual
                 loading={this.inlineEditingLoading}
                 onCancelEditing={this.inlineEditCancelEditingHandler}
                 onConfirmChanges={this.inlineEditConfirmChangesHandler}
-                onEnableEditing={() => this.inlineEditManager.enable()}
+                onEnableEditing={() =>
+                  this.inlineEditManager.enable(INLINE_EDIT_ACTIVATION_SOURCE.editButton)
+                }
                 scale={this.scale}
                 showControls={this.inlineEditing && !this.inlineEditControlsDisabled}
               />

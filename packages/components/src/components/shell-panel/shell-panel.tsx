@@ -1,16 +1,7 @@
 import interact from "interactjs";
 import type { Interactable, ResizeEvent } from "@interactjs/types";
 import { type PropertyValues } from "lit";
-import {
-  createEvent,
-  h,
-  JsxNode,
-  LitElement,
-  method,
-  property,
-  state,
-  ToEvents,
-} from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
@@ -18,7 +9,6 @@ import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
 } from "../../utils/dom";
-import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../types";
 import { CSS_UTILITY, resizeShiftStep, resizeStep } from "../../utils/resources";
@@ -133,21 +123,7 @@ export class ShellPanel extends LitElement {
 
   private actionBars: ActionBar["el"][] = [];
 
-  private actionBar?: ActionBar["el"];
-
   private actionBarContainerEl?: HTMLDivElement;
-
-  private actionBarContainerResizeObserver = createObserver("resize", () =>
-    this.updateActionBarSize(),
-  );
-
-  private handleActionBarExpand = (): void => {
-    this.isActionBarExpanded = true;
-  };
-
-  private handleActionBarCollapse = (): void => {
-    this.isActionBarExpanded = false;
-  };
 
   private contentRef = createRef<HTMLDivElement>();
 
@@ -184,16 +160,11 @@ export class ShellPanel extends LitElement {
     maxBlockSize: null,
   };
 
-  @state() isActionBarExpanded = false;
-
   @state() hasHeader = false;
 
   //#endregion
 
   //#region Public Properties
-
-  /** Specifies the placement of the `calcite-action-bar` (when slotted). */
-  @property({ reflect: true }) actionBarPosition?: Position;
 
   /** When `true`, hides the component's content area. */
   @property({ reflect: true }) collapsed = false;
@@ -272,12 +243,6 @@ export class ShellPanel extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalShellPanelActionBarPositionChange = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalShellPanelResizableChange = createEvent({ cancelable: false });
-
-  /** @private */
   calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
 
   /** @private */
@@ -293,22 +258,9 @@ export class ShellPanel extends LitElement {
 
   //#region Lifecycle
 
-  constructor() {
-    super();
-    this.listen<ToEvents<ActionBar>["calciteActionBarExpand"]>(
-      "calciteActionBarExpand",
-      this.handleActionBarExpandEvent,
-    );
-    this.listen<ToEvents<ActionBar>["calciteActionBarCollapse"]>(
-      "calciteActionBarCollapse",
-      this.handleActionBarCollapseEvent,
-    );
-  }
-
   override connectedCallback(): void {
     if (this.hasUpdated) {
       this.refreshResize();
-      this.syncActionBarExpandedState();
     }
   }
 
@@ -320,7 +272,7 @@ export class ShellPanel extends LitElement {
     let shouldRefreshResize = false;
 
     if (changes.has("layout") && (this.hasUpdated || this.layout !== "vertical")) {
-      this.setActionBarLayout(this.actionBar);
+      this.setActionBarsLayout(this.actionBars);
       this.updateSizeInternal({ inline: null, block: null }); // we clear sizing as it won't be applicable across axes
       shouldRefreshResize = true;
     }
@@ -346,12 +298,7 @@ export class ShellPanel extends LitElement {
     if (shouldRefreshResize) {
       this.refreshResize();
     }
-    if (changes.has("actionBarPosition") && this.hasUpdated) {
-      this.setActionBarLayout(this.actionBar);
-    }
-    if (changes.has("resizable") && this.hasUpdated) {
-      this.calciteInternalShellPanelResizableChange.emit();
-    }
+
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.calciteShellPanelCollapse.emit();
@@ -361,18 +308,8 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("actionBarPosition")) {
-      this.calciteInternalShellPanelActionBarPositionChange.emit();
-    }
-  }
-
   override disconnectedCallback(): void {
     this.cleanUpInteractions();
-
-    if (this.actionBarContainerEl) {
-      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
-    }
   }
 
   //#endregion
@@ -502,26 +439,19 @@ export class ShellPanel extends LitElement {
   private getAvailableSize(axis: "inline" | "block"): number | null {
     const dimension = axis === "inline" ? "width" : "height";
     const shellSizingData = this.shellSizingDataProvider?.(axis);
+    const actionBarContainerSize =
+      this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0;
+    const actionBarSize = Math.max(
+      actionBarContainerSize,
+      this.actionBars.reduce(
+        (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
+        0,
+      ),
+    );
 
     if (!shellSizingData) {
       return null;
     }
-
-    const container = this.containerRef.value;
-    const stackAxis =
-      container && window.getComputedStyle(container).flexDirection.startsWith("column")
-        ? "block"
-        : "inline";
-    const actionBarSize =
-      stackAxis === axis
-        ? Math.max(
-            this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0,
-            this.actionBars.reduce(
-              (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
-              0,
-            ),
-          )
-        : 0;
 
     const { availableSize } = shellSizingData;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
@@ -659,75 +589,15 @@ export class ShellPanel extends LitElement {
     });
   }
 
-  private setActionBarContainerEl(el: HTMLDivElement): void {
-    if (this.actionBarContainerEl) {
-      this.actionBarContainerResizeObserver?.unobserve(this.actionBarContainerEl);
-    }
-
-    this.actionBarContainerEl = el;
-
-    if (el) {
-      this.actionBarContainerResizeObserver?.observe(el);
-      this.updateActionBarSize();
-    }
-  }
-
-  private updateActionBarSize(): void {
-    if (!this.actionBarContainerEl) {
-      return;
-    }
-    const rect = this.actionBarContainerEl.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-width", `${width}px`);
-    this.el.style.setProperty("--calcite-internal-shell-panel-action-bar-height", `${height}px`);
-  }
-
-  private setActionBarLayout(actionBar?: ActionBar["el"]): void {
-    if (!actionBar) {
-      return;
-    }
-
-    actionBar.position =
-      this.layout === "vertical"
-        ? this.position
-        : this.actionBarPosition === "end"
-          ? "end"
-          : "start";
-
-    if (this.actionBarPosition) {
-      actionBar.layout =
-        this.actionBarPosition === "top" || this.actionBarPosition === "bottom"
-          ? "horizontal"
-          : "vertical";
-      return;
-    }
-
-    actionBar.layout = this.layout;
+  private setActionBarsLayout(actionBars: ActionBar["el"][]): void {
+    actionBars.forEach((actionBar) => (actionBar.layout = this.layout));
   }
 
   private handleActionBarSlotChange(event: Event): void {
-    const actionBar = slotChangeGetAssignedElements(event).find(isActionBar);
+    const actionBars = slotChangeGetAssignedElements(event).filter(isActionBar);
 
-    this.actionBar = actionBar;
-    this.setActionBarLayout(actionBar);
-    this.syncActionBarExpandedState(actionBar);
-  }
-
-  private handleActionBarExpandEvent(event: CustomEvent<void>): void {
-    if (event.target !== this.actionBar) {
-      return;
-    }
-
-    this.handleActionBarExpand();
-  }
-
-  private handleActionBarCollapseEvent(event: CustomEvent<void>): void {
-    if (event.target !== this.actionBar) {
-      return;
-    }
-
-    this.handleActionBarCollapse();
+    this.actionBars = actionBars;
+    this.setActionBarsLayout(actionBars);
   }
 
   private handleHeaderSlotChange(event: Event): void {
@@ -738,10 +608,6 @@ export class ShellPanel extends LitElement {
     const { layout } = this;
 
     return layout === "horizontal" ? ICONS.dragVertical : ICONS.dragHorizontal;
-  }
-
-  private syncActionBarExpandedState(actionBar = this.actionBar): void {
-    this.isActionBarExpanded = !!actionBar?.expanded;
   }
 
   //#endregion
@@ -813,7 +679,6 @@ export class ShellPanel extends LitElement {
           class={{
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.content]: true,
-            [CSS.contentActionBarExpanded]: this.isActionBarExpanded,
             [CSS.contentOverlay]: displayMode === "overlay",
             [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
             [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
@@ -839,19 +704,14 @@ export class ShellPanel extends LitElement {
     );
 
     const actionBarNode = (
-      <div
-        class={CSS.actionBarContainer}
-        key="action-bar-container"
-        ref={this.setActionBarContainerEl}
-      >
+      <div class={CSS.actionBarContainer} key="action-bar-container">
         <slot name={SLOTS.actionBar} onSlotChange={this.handleActionBarSlotChange} />
       </div>
     );
 
-    const effectivePosition = this.actionBarPosition || position;
     const mainNodes = [actionBarNode, contentNode];
 
-    if (effectivePosition === "end" || effectivePosition === "bottom") {
+    if (position === "end") {
       mainNodes.reverse();
     }
 

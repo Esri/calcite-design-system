@@ -130,13 +130,13 @@ export class BlockGroup extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection mode of the component, where:
+   * Specifies the expansion mode of the component, where:
    *
-   * `"multiple"` allows any number of selections,
+   * `"multiple"` allows any number of `calcite-block`s to be expanded,
    *
-   * `"single"` allows only one selection, and
+   * `"single"` allows only one `calcite-block` to be expanded, and
    *
-   * `"single-persist"` allows one selection and prevents de-selection.
+   * `"single-persist"` allows one `calcite-block` to be expanded and prevents collapsing.
    */
   @property({ reflect: true }) expandMode: Extract<
     "single" | "single-persist" | "multiple",
@@ -181,13 +181,6 @@ export class BlockGroup extends LitElement {
 
   /** Fires when the component's dragging has started. */
   calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
-
-  /**
-   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
-   *
-   * @deprecated in v3.3.0, removal target v6.0.0 - No longer necessary.
-   */
-  calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
 
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });

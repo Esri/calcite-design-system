@@ -10,6 +10,7 @@ import {
   focusElement,
   focusElementInGroup,
   focusFirstTabbable,
+  getAssignedTextNodesFromSlotEl,
   getModeName,
   getShadowRootNode,
   getSlotAssignedElements,
@@ -700,6 +701,27 @@ describe("slot utils", () => {
       await reRender();
 
       expect(slotChangeHandler).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe(getAssignedTextNodesFromSlotEl, () => {
+    it("retrieves text nodes from a slot element", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const nodes = [document.createTextNode("hello"), document.createTextNode("world")];
+      el.append(...nodes);
+      await reRender();
+
+      const assignedTextNodes = getAssignedTextNodesFromSlotEl(slotEl);
+      expect(assignedTextNodes).toEqual(nodes);
+    });
+    it("does not retrieve non-text nodes from a slot element", async () => {
+      const { el, reRender, slotEl } = await setUpSimpleSlotTest();
+      const nodes = [document.createElement("div"), document.createElement("span")];
+      el.append(...nodes);
+      await reRender();
+
+      const assignedTextNodes = getAssignedTextNodesFromSlotEl(slotEl);
+      expect(assignedTextNodes).toEqual([]);
     });
   });
 });

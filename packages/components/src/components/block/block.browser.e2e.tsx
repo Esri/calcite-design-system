@@ -2,6 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
+import type { Block } from "./block";
 
 import {
   defaults,
@@ -14,7 +15,6 @@ import {
   handlesActionMenuPlacements,
   t9n,
   disabled,
-  openClose,
   accessible,
   scalePropagates,
   topLayer,
@@ -24,7 +24,6 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS as DropdownCSS } from "../dropdown/resources";
 import { CSS, SLOTS } from "./resources";
-import type { Block } from "./block";
 
 mockConsole();
 
@@ -132,10 +131,6 @@ describe("setFocus", () => {
         focusTargetSelector: `.${blockSectionClass}`,
       },
     );
-  });
-
-  describe("openClose", () => {
-    openClose((mountOptions) => mount("calcite-block", mountOptions));
   });
 });
 
@@ -364,6 +359,22 @@ describe("theme", () => {
     });
   });
 
+  describe("toggleDisplay", () => {
+    it("should toggle the expanded state when the toggleDisplay is switch", async () => {
+      const { el } = await mount(
+        <calcite-block expandable heading="heading" toggle-display="switch">
+          <div>content</div>
+        </calcite-block>,
+      );
+      expect(el).toHaveProperty("expanded", false);
+
+      await userEvent.click(el);
+      expect(el).toHaveProperty("expanded", true);
+      const slottedEl = page.getByText("content");
+      await expect.element(slottedEl).toBeVisible();
+    });
+  });
+
   describe("deprecated", () => {
     themed(
       () =>
@@ -435,21 +446,5 @@ describe("theme", () => {
         },
       },
     );
-  });
-
-  describe("toggleDisplay", () => {
-    it("should toggle the expanded state when the toggleDisplay is switch", async () => {
-      const { el } = await mount(
-        <calcite-block expandable heading="heading" toggle-display="switch">
-          <div>content</div>
-        </calcite-block>,
-      );
-      expect(el).toHaveProperty("expanded", false);
-
-      await userEvent.click(el);
-      expect(el).toHaveProperty("expanded", true);
-      const slottedEl = page.getByText("content");
-      await expect.element(slottedEl).toBeVisible();
-    });
   });
 });
