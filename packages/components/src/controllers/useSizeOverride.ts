@@ -1,6 +1,7 @@
 import { makeController } from "@arcgis/lumina/controllers";
 import { Ref } from "lit/directives/ref.js";
 import { ResizeValues } from "../components/types";
+import { getStylePixelValue } from "../utils/dom";
 
 interface AxisBounds {
   min: number | null;
@@ -16,12 +17,11 @@ interface SizeOverrideContext {
     block: AxisBounds;
   };
   /**
-   * Callback invoked after an override is applied or cleared so the host can sync internal state.
-   * The value will be a rounded pixel number or null if cleared.
+   * The element whose inline/block size overrides are applied or cleared.
    */
   readonly targetElement: Ref<HTMLElement> | (() => { value?: HTMLElement | null }) | null;
   /**
-   * Called when resize values change so the host can update its state.
+   * Called with the resulting dimensions and bounds after applying or clearing size overrides.
    */
   onResize?: (resizeValues: ResizeValues) => void;
   /**
@@ -111,14 +111,6 @@ export function applyAxes(
  */
 export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =>
   makeController(() => {
-    let lastResizeValues: ResizeValues = {
-      inlineSize: null,
-      blockSize: null,
-      minInlineSize: null,
-      minBlockSize: null,
-      maxInlineSize: null,
-      maxBlockSize: null,
-    };
     return {
       resize(sizes: { inline?: number | null; block?: number | null }) {
         let targetElement: HTMLElement | null | undefined;
@@ -141,16 +133,17 @@ export const useSizeOverride = (context: SizeOverrideContext): UseSizeOverride =
           block: { min: null, max: null },
         };
 
-        lastResizeValues = {
-          inlineSize,
-          blockSize,
+        const computedStyle = window.getComputedStyle(targetElement);
+        const resizeValues: ResizeValues = {
+          inlineSize: inlineSize ?? getStylePixelValue(computedStyle.inlineSize),
+          blockSize: blockSize ?? getStylePixelValue(computedStyle.blockSize),
           minInlineSize: bounds.inline.min,
           maxInlineSize: bounds.inline.max,
           minBlockSize: bounds.block.min,
           maxBlockSize: bounds.block.max,
         };
 
-        context.onResize?.(lastResizeValues);
+        context.onResize?.(resizeValues);
 
         return {
           inline: inlineSize,

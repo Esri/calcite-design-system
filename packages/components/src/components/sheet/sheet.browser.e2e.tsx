@@ -897,9 +897,21 @@ describe("sheet updateSize public method", () => {
       await component.updateComplete;
       expect(getComputedStyle(content)[sizeProp]).toBe(`${overrideSize}px`);
 
+      await expect
+        .element(page.getByRole("separator"))
+        .toHaveAttribute("aria-valuenow", `${overrideSize}`);
+
+      await sheet.updateSize(axis === "inline" ? { block: 250 } : { inline: 400 });
+      await expect
+        .element(page.getByRole("separator"))
+        .toHaveAttribute("aria-valuenow", `${overrideSize}`);
+
       await sheet.updateSize(axis === "inline" ? { inline: null } : { block: null });
       await component.updateComplete;
       expect(getComputedStyle(content)[sizeProp]).toBe(`${initialSize}px`);
+      await expect
+        .element(page.getByRole("separator"))
+        .toHaveAttribute("aria-valuenow", `${initialSize}`);
     });
 
     it(`default size → token resize → MOUSE resize → method resize → clear method override [axis=${axis}, dir=${dir}, changeDirAfterMount=${changeDirAfterMount}]`, async () => {

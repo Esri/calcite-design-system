@@ -24,8 +24,8 @@ import type { Panel } from "../panel/panel";
 mockConsole();
 
 describe("accessible", () => {
-  accessible(() =>
-    mount(
+  accessible(async () => {
+    const renderResult = await mount(
       <calcite-shell-panel position="start" slot="panel-start">
         <calcite-action-bar slot="action-bar">
           <calcite-action-group>
@@ -36,8 +36,12 @@ describe("accessible", () => {
         </calcite-action-bar>
         <p>Primary Content</p>
       </calcite-shell-panel>,
-    ),
-  );
+    );
+
+    await vi.waitFor(() => page.getByRole("button", { name: "Close", exact: true }).element());
+
+    return renderResult;
+  });
 });
 
 describe("defaults", () => {
@@ -811,9 +815,16 @@ describe("shell-panel updateSize public method", () => {
     await shell.manager.component.updateComplete;
     expect(getComputedStyle(content)[computedSizeProp]).toBe(`${overrideSize}px`);
 
+    const handle = page.elementLocator(panel).getByRole("separator");
+    await expect.element(handle).toHaveAttribute("aria-valuenow", `${overrideSize}`);
+
+    await panel.updateSize(axis === "inline" ? { block: 250 } : { inline: 400 });
+    await expect.element(handle).toHaveAttribute("aria-valuenow", `${overrideSize}`);
+
     await panel.updateSize({ [axis]: null });
     await shell.manager.component.updateComplete;
     expect(getComputedStyle(content)[computedSizeProp]).toBe(`${baselineContentSize}px`);
+    await expect.element(handle).toHaveAttribute("aria-valuenow", `${baselineContentSize}`);
   }
 
   async function setUpShellPanel({ dir, changeAfterMount, slot, position }: TestCase): Promise<{
