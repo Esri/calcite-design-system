@@ -8,13 +8,23 @@ import { CSS as SHELL_PANEL_CSS } from "../shell-panel/resources";
 import { SLOTS } from "./resources";
 
 describe("accessible", () => {
+  mockConsole();
+
   accessible(() =>
     mount(
       <calcite-shell>
-        <calcite-shell-panel position="start" slot={SLOTS.panelStart}>
+        <calcite-shell-panel
+          messageOverrides={{ close: "Close start panel" }}
+          position="start"
+          slot={SLOTS.panelStart}
+        >
           <p>Primary Content</p>
         </calcite-shell-panel>
-        <calcite-shell-panel position="end" slot={SLOTS.panelEnd}>
+        <calcite-shell-panel
+          messageOverrides={{ close: "Close end panel" }}
+          position="end"
+          slot={SLOTS.panelEnd}
+        >
           <p>Primary Content</p>
         </calcite-shell-panel>
       </calcite-shell>,
