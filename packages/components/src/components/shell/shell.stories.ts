@@ -11,6 +11,7 @@ import "../action-bar/action-bar"; // Force Vite to statically trace the file fo
 import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../block/block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-group/block-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -31,7 +32,6 @@ import "../popover/popover"; // Force Vite to statically trace the file for Chro
 import "../sheet/sheet"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../sortable-list/sortable-list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../tab/tab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../tab-nav/tab-nav"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../tab-title/tab-title"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -1573,7 +1573,7 @@ position:relative;
               </div>
             </div>
           </calcite-block>
-          <calcite-sortable-list>
+          <calcite-block-group drag-enabled label="Attributes">
             <calcite-block drag-handle heading="Attributes" description="2/98" expandable icon-start="feature-details">
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <calcite-list drag-enabled>
@@ -1653,7 +1653,7 @@ position:relative;
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <button class="multiline-button">Cool. he {expression/expr1} population is {expression/expr2}%...</button>
             </calcite-block>
-          </calcite-sortable-list>
+          </calcite-block-group>
           <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
           <calcite-tooltip label="tooltip" reference-element="label-fab"> Add label class </calcite-tooltip>
         </calcite-flow-item>
