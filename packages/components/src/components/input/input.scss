@@ -168,7 +168,7 @@ input {
   inline-size: 100%;
   max-inline-size: 100%;
   flex: 1 1 0%;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   border-width: var(--calcite-border-width-sm);
   border-style: solid;
   text-overflow: ellipsis;
@@ -653,7 +653,7 @@ input[type="date"]::-webkit-input-placeholder {
 
 // file input
 :host([type="file"]) input {
-  background-color: var(--calcite-color-foreground-1);
+  background-color: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
   cursor: pointer;
   border-width: var(--calcite-border-width-sm);
   border-style: dashed;

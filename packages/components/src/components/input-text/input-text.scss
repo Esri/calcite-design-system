@@ -146,7 +146,7 @@ input {
   display: flex;
   flex: 1 1 0%;
   font-family: inherit;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   margin: var(--calcite-space-none);
   max-block-size: 100%;
   max-inline-size: 100%;

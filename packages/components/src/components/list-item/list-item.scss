@@ -110,7 +110,7 @@
 .content-container {
   display: flex;
   flex: 1 1 auto;
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   align-items: stretch;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
 }
@@ -364,7 +364,7 @@
 .content-bottom {
   @include shared.word-break();
 
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
 }
 
 :host([selected]) {
