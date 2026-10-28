@@ -43,7 +43,7 @@ describe("accessible", () => {
       const openEvent = waitForEvent(document, "calciteSheetOpen");
       const renderResult = await mount(
         <calcite-sheet label="hello world" open>
-          <calcite-panel closable heading="Ultrices neque">
+          <calcite-panel closable heading="Ultrices neque" slot="custom-content">
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud

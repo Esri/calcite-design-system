@@ -352,7 +352,7 @@ export class Action extends LitElement {
         ariaLive="polite"
         class={CSS_UTILITY.screenReaderText}
         ref={this.indicatorRef}
-        role="status"
+        role="region"
       >
         {indicator ? messages.indicator : null}
       </div>
