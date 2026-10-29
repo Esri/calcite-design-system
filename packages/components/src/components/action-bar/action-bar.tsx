@@ -1044,7 +1044,7 @@ export class ActionBar extends LitElement {
   private isNavigableActionMenu(actionMenu: ActionMenu["el"]): boolean {
     const menuButtonEl =
       actionMenu.menuButtonEl ??
-      actionMenu.actions.find((action) => action.slot === ACTION_MENU_SLOTS.trigger);
+      actionMenu.actions?.find((action) => action.slot === ACTION_MENU_SLOTS.trigger);
 
     return (
       !actionMenu.hidden &&
