@@ -41,8 +41,11 @@
 
 // scales
 :host([scale="s"]) {
-  // matches action/button so controls align at any density
-  --calcite-internal-input-height: calc(round(1rem * var(--calcite-font-scale, 1), 1px) + 2 * var(--calcite-space-2xs));
+  // matches action/button so controls align at any density; max() keeps unscaled icons from clipping scaled text
+  $icon: round(1rem * var(--calcite-icon-scale, 1), 1px);
+  --calcite-internal-input-height: calc(
+    max(#{$icon}, var(--calcite-font-line-height-sm)) + 2 * var(--calcite-space-2xs)
+  );
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-sm);
 
   & input,
@@ -77,7 +80,10 @@
 }
 
 :host([scale="m"]) {
-  --calcite-internal-input-height: calc(round(1rem * var(--calcite-font-scale, 1), 1px) + 2 * var(--calcite-space-sm));
+  $icon: round(1rem * var(--calcite-icon-scale, 1), 1px);
+  --calcite-internal-input-height: calc(
+    max(#{$icon}, var(--calcite-font-line-height-base)) + 2 * var(--calcite-space-sm)
+  );
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-md);
 
   & input,
@@ -107,8 +113,9 @@
 }
 
 :host([scale="l"]) {
+  $icon: round(1.5rem * var(--calcite-icon-scale, 1), 1px);
   --calcite-internal-input-height: calc(
-    round(1.5rem * var(--calcite-font-scale, 1), 1px) + 2 * var(--calcite-space-sm-plus)
+    max(#{$icon}, var(--calcite-font-line-height-md)) + 2 * var(--calcite-space-sm-plus)
   );
   --calcite-internal-input-icon-padding-inline: var(--calcite-spacing-fixed-lg);
 

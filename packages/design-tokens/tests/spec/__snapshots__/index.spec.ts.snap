@@ -1680,12 +1680,14 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-line-height-6xl: round(4rem * var(--calcite-font-scale, 1), 1px);
   --calcite-font-line-height-7xl: round(5rem * var(--calcite-font-scale, 1), 1px);
   --calcite-font-size-2xl: var(--calcite-font-size-xxl); /** Replaces \`--calcite-font-size-xxl\` */
+  --calcite-icon-scale: calc(1 + (var(--calcite-font-scale, 1) - 1) * var(--calcite-font-scale-include-icons, 0));
 }
 
 :root {
   --calcite-density-factor: 1;
   --calcite-density-include-size: 0;
   --calcite-font-scale: 1;
+  --calcite-font-scale-include-icons: 0;
 }
 
 [data-calcite-density="50%"] {

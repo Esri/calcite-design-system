@@ -4,6 +4,8 @@ import type { RegisterFn } from "../../../types.ts";
 import { isFontScaled } from "../../utils/token-types.ts";
 
 export const fontScaleVar = "--calcite-font-scale";
+export const fontScaleIncludeIconsVar = "--calcite-font-scale-include-icons";
+export const iconScaleVar = "--calcite-icon-scale";
 
 const filter: Filter["filter"] = (token) =>
   token.isSource && isFontScaled(token) && !String(token.$value).includes(fontScaleVar);

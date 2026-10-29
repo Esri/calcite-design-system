@@ -16,7 +16,7 @@
   --calcite-internal-action-line-height: var(--calcite-font-line-height-sm);
   --calcite-internal-action-spacing: var(--calcite-spacing-xxs);
   --calcite-internal-action-min-height: calc(
-    round(1rem * var(--calcite-font-scale, 1), 1px) + 2 * var(--calcite-internal-action-spacing)
+    round(1rem * var(--calcite-icon-scale, 1), 1px) + 2 * var(--calcite-internal-action-spacing)
   );
 }
 :host([scale="m"]) {
@@ -24,7 +24,7 @@
   --calcite-internal-action-line-height: var(--calcite-font-line-height-base);
   --calcite-internal-action-spacing: var(--calcite-spacing-sm);
   --calcite-internal-action-min-height: calc(
-    round(1rem * var(--calcite-font-scale, 1), 1px) + 2 * var(--calcite-internal-action-spacing)
+    round(1rem * var(--calcite-icon-scale, 1), 1px) + 2 * var(--calcite-internal-action-spacing)
   );
 }
 :host([scale="l"]) {
@@ -32,7 +32,7 @@
   --calcite-internal-action-line-height: var(--calcite-font-line-height-md);
   --calcite-internal-action-spacing: var(--calcite-spacing-sm-plus);
   --calcite-internal-action-min-height: calc(
-    round(1.5rem * var(--calcite-font-scale, 1), 1px) + 2 * var(--calcite-internal-action-spacing)
+    round(1.5rem * var(--calcite-icon-scale, 1), 1px) + 2 * var(--calcite-internal-action-spacing)
   );
 }
 
