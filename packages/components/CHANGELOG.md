@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.9...@esri/calcite-components@6.0.0-next.10) (2026-10-29)
+
+### Bug Fixes
+
+- **action-bar:** prevent flashing at overflow thresholds ([#15464](https://github.com/Esri/calcite-design-system/issues/15464)), closes [#15460](https://github.com/Esri/calcite-design-system/issues/15460)
+
 ## [6.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.8...@esri/calcite-components@6.0.0-next.9) (2026-10-28)
 
 ### ⚠ BREAKING CHANGES
