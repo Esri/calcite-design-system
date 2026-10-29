@@ -31,7 +31,6 @@
     "util:upload-release-assets": "node support/uploadReleaseAssets.mts",
     "util:update-stylelint-custom-sass-functions": "node support/updateStylelintCustomSassFunctions.mts",
     "util:remove-prerelease-changelog-entries": "node support/removePrereleaseChangelogEntries.mts",
-    "util:sync-linked-package-versions": "node support/syncLinkedPackageVersions.mts",
     "util:update-3rd-party-notices": "turbo run util:update-3rd-party-notices --log-order=stream"
   },
   "devDependencies": {
@@ -42,6 +41,7 @@
     "@eslint/js": "catalog:",
     "@esri/calcite-components-snippets": "workspace:*",
     "@esri/calcite-typescript-config": "workspace:*",
+    "@microsoft/api-extractor": "catalog:",
     "@octokit/webhooks-types": "catalog:",
     "@types/github-script": "github:actions/github-script",
     "@types/node": "catalog:",
@@ -67,6 +67,7 @@
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
+    "unplugin-dts": "catalog:",
     "vite": "catalog:"
   },
   "license": "SEE LICENSE.md",

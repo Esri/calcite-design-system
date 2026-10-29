@@ -586,7 +586,71 @@ describe("keyboard selection", () => {
     await userEvent.keyboard("{ArrowDown}");
 
     const input = page.elementLocator(autocomplete).getByRole("combobox");
-    await expect.element(input).toHaveAttribute("aria-activedescendant", firstOption.id);
+    await expect.element(input).toHaveProperty("ariaActiveDescendantElement", firstOption);
+  });
+
+  it("exposes the active listbox option to assistive technology", async () => {
+    const { el } = await mount<Autocomplete>(renderAutocomplete);
+    const listbox = page.getByRole("listbox");
+    const firstOption = listbox.getByRole("option").first();
+    const input = page.getByRole("combobox");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    await expect.element(listbox).toBeInTheDocument();
+    await expect.element(firstOption).toHaveAttribute("role", "option");
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", firstOption.element());
+  });
+
+  it("updates the active descendant when results are replaced", async () => {
+    const { component, el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const input = page.getByRole("combobox");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    const replacementItem = document.createElement("calcite-autocomplete-item");
+    replacementItem.heading = "Replacement item";
+    replacementItem.label = "Replacement item";
+    replacementItem.value = "replacement";
+    el.replaceChildren(replacementItem);
+    await reRender();
+
+    const replacementOption = page.getByRole("listbox").getByRole("option").first();
+
+    await expect.element(replacementOption).toHaveTextContent("Replacement item");
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", replacementOption.element());
+    expect(component.items[0].active).toBe(true);
+  });
+
+  it("updates the active descendant when the active item's text is cleared and restored", async () => {
+    const { component, el, reRender } = await mount<Autocomplete>(renderAutocomplete);
+    const input = page.getByRole("combobox");
+
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown}");
+
+    const activeItem = component.items[0];
+    activeItem.heading = "";
+    activeItem.label = "";
+    await reRender();
+
+    await expect.element(input).toHaveProperty("ariaActiveDescendantElement", null);
+
+    activeItem.heading = "Restored item";
+    await reRender();
+
+    const restoredOption = page.getByRole("listbox").getByRole("option").first();
+
+    await expect.element(restoredOption).toHaveTextContent("Restored item");
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", restoredOption.element());
   });
 });
 

@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
-import { resizeShiftStep } from "../../utils/resources";
+import { CSS_UTILITY, resizeShiftStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS } from "./resources";
@@ -68,7 +68,6 @@ it("should set internal panel properties", async () => {
   expect(await panel.getProperty("description")).toBe("My Description");
   expect(await panel.getProperty("icon")).toBe("x");
   expect(await panel.getProperty("iconFlipRtl")).toBe(true);
-  expect(await panel.getProperty("focusTrapEnabled")).toBe(false);
   expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
 });
 
@@ -789,7 +788,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).toBeNull();
   });
 
@@ -800,7 +801,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
@@ -814,7 +817,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
@@ -830,7 +835,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");

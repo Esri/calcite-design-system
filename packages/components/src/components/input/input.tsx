@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
-import { Alignment, Scale, Status } from "../types";
+import { Alignment, AriaAttributesCamelCased, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
@@ -370,12 +370,36 @@ export class Input
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
+   * Specifies ARIA properties for the component's native input.
+   *
+   * @private
+   */
+  @property() aria?: Partial<
+    Pick<
+      AriaAttributesCamelCased,
+      | "activeDescendantElement"
+      | "autoComplete"
+      | "controlsElements"
+      | "expanded"
+      | "hasPopup"
+      | "label"
+    >
+  >;
+
+  /**
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete?: AutoFill;
+
+  /**
+   * Specifies the role for the component's native input.
+   *
+   * @private
+   */
+  @property() inputRole?: LuminaJsx.HTMLAttributes["role"];
 
   /** When `true` and the component has a `value`, a clear button is displayed. The clear button shows by default for `"search"`, `"time"`, and `"date"` types. */
   @property({ reflect: true }) clearable = false;
@@ -1419,8 +1443,13 @@ export class Input
         <input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
+          ariaActiveDescendantElement={this.aria?.activeDescendantElement}
+          ariaAutoComplete={this.aria?.autoComplete}
+          ariaControlsElements={this.aria?.controlsElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.aria?.label ?? getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1447,6 +1476,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childNumberRef}
           required={this.required}
+          role={this.inputRole}
           tabIndex={
             this.disabled || (this.hasInlineEditContext && !this.inlineEditingEnabledInContext)
               ? -1
@@ -1462,8 +1492,13 @@ export class Input
         <input
           accept={this.accept}
           aria-errormessage={IDS.validationMessage}
+          ariaActiveDescendantElement={this.aria?.activeDescendantElement}
+          ariaAutoComplete={this.aria?.autoComplete}
+          ariaControlsElements={this.aria?.controlsElements}
+          ariaExpanded={this.aria?.expanded}
+          ariaHasPopup={this.aria?.hasPopup}
           ariaInvalid={this.status === "invalid"}
-          ariaLabel={getLabelText(this)}
+          ariaLabel={this.aria?.label ?? getLabelText(this)}
           autocomplete={this.autocomplete}
           autofocus={autofocus}
           class={{
@@ -1492,6 +1527,7 @@ export class Input
           readOnly={this.readOnly}
           ref={this.childRef}
           required={this.required}
+          role={this.inputRole}
           spellcheck={this.el.spellcheck}
           step={this.step}
           tabIndex={

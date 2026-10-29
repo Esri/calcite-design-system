@@ -1,1 +1,1 @@
-export type DeterminateType = "determinate" | "indeterminate";
+export type DeterminateType = "determinate" | "determinate-value" | "indeterminate";
