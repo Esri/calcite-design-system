@@ -6,8 +6,11 @@ import "../input-number/input-number";
 import "../input-text/input-text";
 import "../label/label";
 import "../text-area/text-area";
+import { ATTRIBUTES } from "../../../.storybook/resources";
 import { optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
+
+const { fieldLayout } = ATTRIBUTES;
 
 type FieldGroupStoryArgs = {
   layout: "columns" | "horizontal" | "vertical";
@@ -22,7 +25,7 @@ export default {
   title: "Components/Field Group",
   parameters: { layout: "padded" },
   args: {
-    layout: "vertical",
+    layout: fieldLayout.defaultValue,
     columns: 2,
     gap: "",
     columnGap: "",
@@ -30,7 +33,7 @@ export default {
     suffixAutoWidth: false,
   },
   argTypes: {
-    layout: { options: ["vertical", "horizontal", "columns"], control: { type: "radio" } },
+    layout: { options: fieldLayout.values, control: { type: "radio" } },
     columns: { options: [1, 2, 3, 4, 5, 6], control: { type: "radio" }, if: { arg: "layout", eq: "columns" } },
     gap: { control: { type: "text" } },
     columnGap: {
