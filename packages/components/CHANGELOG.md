@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.10...@esri/calcite-components@6.0.0-next.11) (2026-10-29)
+
+### ⚠ BREAKING CHANGES
+
+- **action-pad:** The `calcite-action-pad` component have been removed.
+
+To migrate:
+Replace `calcite-action-pad` usage with `calcite-action-bar` component.
+
+### Code Refactoring
+
+- **action-pad:** drop action-pad ([#15473](https://github.com/Esri/calcite-design-system/issues/15473)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
 ## [6.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.9...@esri/calcite-components@6.0.0-next.10) (2026-10-29)
 
 ### Bug Fixes
