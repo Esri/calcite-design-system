@@ -213,8 +213,12 @@ export class ActionMenu extends LitElement {
     const { guid, activeMenuItemIndex, open } = this;
     const id = IDS.action(guid, index);
     action.tabIndex = open && index === activeMenuItemIndex ? 0 : -1;
-    action.ariaLabel = action.label || action.text;
-    action.role = "menuitem";
+    action.aria = {
+      ...action.aria,
+      checked: undefined,
+      label: action.label || action.text,
+      role: "menuitem",
+    };
     action.ariaChecked = null;
 
     if (!action.id) {

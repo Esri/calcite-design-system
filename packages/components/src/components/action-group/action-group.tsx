@@ -383,16 +383,18 @@ export class ActionGroup extends LitElement {
   }
 
   private setRoleOnActions(): void {
-    this.actions.forEach((action) => {
-      action.aria = {
-        ...action.aria,
-        role:
-          this.selectionMode === "single" || this.selectionMode === "single-persist"
-            ? "radio"
-            : "checkbox",
-      };
-      this.setActionAriaChecked(action, action.active);
-    });
+    this.actions
+      .filter((action) => !this.menuActions.includes(action))
+      .forEach((action) => {
+        action.aria = {
+          ...action.aria,
+          role:
+            this.selectionMode === "single" || this.selectionMode === "single-persist"
+              ? "radio"
+              : "checkbox",
+        };
+        this.setActionAriaChecked(action, action.active);
+      });
   }
 
   private getSelectableActions(): Action["el"][] {
@@ -408,13 +410,15 @@ export class ActionGroup extends LitElement {
 
   private clearActionAriaAttributes(): void {
     if (this.selectionMode === "none") {
-      this.actions.forEach((action) => {
-        if (action.aria) {
-          action.aria.checked = undefined;
-          action.aria.role = undefined;
-          action.aria = { ...action.aria };
-        }
-      });
+      this.actions
+        .filter((action) => !this.menuActions.includes(action))
+        .forEach((action) => {
+          if (action.aria) {
+            action.aria.checked = undefined;
+            action.aria.role = undefined;
+            action.aria = { ...action.aria };
+          }
+        });
     }
   }
 

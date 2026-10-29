@@ -163,6 +163,7 @@ export class Action extends LitElement {
       | "describedByElements"
       | "expanded"
       | "hasPopup"
+      | "label"
       | "labelledByElements"
       | "ownsElements"
       | "pressed"
@@ -435,6 +436,7 @@ export class Action extends LitElement {
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
+          ariaLabel={this.aria?.label}
           ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
@@ -457,6 +459,7 @@ export class Action extends LitElement {
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
+        ariaLabel={this.aria?.label}
         ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}

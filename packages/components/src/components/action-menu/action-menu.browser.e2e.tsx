@@ -132,8 +132,9 @@ it("applies menu item accessibility state when slotted actions change", async ()
   await component.updateComplete;
 
   const menuItem = el.actions[1];
+  const menuItemButton = page.getByRole("menuitem", { includeHidden: true, name: "Save" });
 
-  await expect.element(menuItem).toHaveAttribute("role", "menuitem");
+  await expect.element(menuItemButton).toHaveAttribute("role", "menuitem");
   await expect.element(menuItem).toHaveProperty("tabIndex", -1);
 });
 
@@ -184,7 +185,10 @@ it("tracks trigger actions projected through an intermediate slot", async () => 
   expect(actions[0].text).toBe("Open");
   expect(actions[1].text).toBe("Save");
   expect(triggerAction.getAttribute("role")).not.toBe("menuitem");
-  expect(menuAction.getAttribute("role")).toBe("menuitem");
+  expect(menuAction.getAttribute("role")).not.toBe("menuitem");
+  await expect
+    .element(page.getByRole("menuitem", { includeHidden: true, name: "Save" }))
+    .toHaveAttribute("role", "menuitem");
 });
 
 describe("is focusable", () => {
@@ -291,30 +295,32 @@ describe("accessibility", () => {
   it("sets an accessible name on menuitem actions", async () => {
     await mount(
       <calcite-action-menu>
-        <calcite-action icon="plus" label="Create item" text="Add" />
+        <calcite-action data-testid="action" icon="plus" label="Create item" text="Add" />
       </calcite-action-menu>,
     );
 
-    const action = page.getByRole("menuitem", { includeHidden: true, name: "Create item" });
+    const button = page.getByRole("menuitem", { includeHidden: true, name: "Create item" });
 
-    await expect.element(action).toHaveAttribute("aria-label", "Create item");
-    await expect.element(action).toHaveAttribute("role", "menuitem");
+    await expect.element(button).toHaveAttribute("role", "menuitem");
   });
 
   it("focuses the first action and makes it the menu's tab stop", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
-        <calcite-action icon="plus" id="create-action" text="Add" />
+        <calcite-action data-testid="action" icon="plus" text="Add" />
       </calcite-action-menu>,
     );
 
     el.open = true;
     await component.updateComplete;
 
-    const action = page.getByRole("menuitem", { name: "Add" });
+    const action = page.getByTestId("action");
 
     await expect.element(action).toHaveFocus();
     await expect.element(action).toHaveAttribute("tabindex", "0");
+    await expect
+      .element(page.getByRole("menuitem", { name: "Add" }))
+      .toHaveAttribute("role", "menuitem");
   });
 
   it("sets vertical aria orientation on the menu", async () => {
@@ -449,17 +455,17 @@ describe("accessibility", () => {
   it("toggles action active state without selection mode semantics and closes", async () => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
-        <calcite-action icon="plus" text="Add" />
+        <calcite-action data-testid="action" icon="plus" text="Add" />
       </calcite-action-menu>,
     );
 
     el.open = true;
     await component.updateComplete;
 
-    const action = page.getByRole("menuitem", { name: "Add" });
-    const actionEl = action.element() as Action["el"];
+    const action = page.getByRole("menuitem", { includeHidden: true, name: "Add" });
+    const actionEl = page.getByTestId("action").element() as Action["el"];
 
-    await expect.element(action).toHaveProperty("active", false);
+    expect(actionEl.active).toBe(false);
     await expect.element(action).toHaveAttribute("role", "menuitem");
     await expect.element(action).not.toHaveAttribute("aria-checked");
 
@@ -468,22 +474,22 @@ describe("accessibility", () => {
 
     expect(actionEl.active).toBe(true);
     expect(el.open).toBe(false);
-    expect(actionEl).toHaveAttribute("role", "menuitem");
-    expect(actionEl).not.toHaveAttribute("aria-checked");
+    await expect.element(action).toHaveAttribute("role", "menuitem");
+    await expect.element(action).not.toHaveAttribute("aria-checked");
   });
 
   it.each(["{Enter}", "{Space}"])("toggles the focused action with %s and closes", async (key) => {
     const { component, el } = await mount<"calcite-action-menu">(
       <calcite-action-menu>
-        <calcite-action icon="plus" text="Add" />
+        <calcite-action data-testid="action" icon="plus" text="Add" />
       </calcite-action-menu>,
     );
 
     el.open = true;
     await component.updateComplete;
 
-    const action = page.getByRole("menuitem", { name: "Add" });
-    const actionEl = action.element() as Action["el"];
+    const action = page.getByRole("menuitem", { includeHidden: true, name: "Add" });
+    const actionEl = page.getByTestId("action").element() as Action["el"];
 
     await el.setFocus();
     await userEvent.keyboard(key);
@@ -491,8 +497,8 @@ describe("accessibility", () => {
 
     expect(actionEl.active).toBe(true);
     expect(el.open).toBe(false);
-    expect(actionEl).toHaveAttribute("role", "menuitem");
-    expect(actionEl).not.toHaveAttribute("aria-checked");
+    await expect.element(action).toHaveAttribute("role", "menuitem");
+    await expect.element(action).not.toHaveAttribute("aria-checked");
   });
 
   it("opens from a focused trigger action without immediately activating the first menu item", async () => {

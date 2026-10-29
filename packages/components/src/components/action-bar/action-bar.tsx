@@ -1315,7 +1315,8 @@ export class ActionBar extends LitElement {
     }
 
     const menuActions = actionMenu.actions.filter(
-      (action) => action.role === "menuitem" && !action.disabled && !action.hidden && !action.inert,
+      (action) =>
+        action.aria?.role === "menuitem" && !action.disabled && !action.hidden && !action.inert,
     );
     const action = boundary === "first" ? menuActions[0] : menuActions[menuActions.length - 1];
 
