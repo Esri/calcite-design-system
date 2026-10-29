@@ -14,7 +14,7 @@ import {
   OverlayPositioning,
 } from "../../utils/floating-ui";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
-import { getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
+import { getRootNode, getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { useInteractive } from "../../controllers/useInteractive";
 import type {
@@ -658,14 +658,31 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  private handleInternalPanelCloseClick(event: CustomEvent<void>): void {
+  private async handleInternalPanelCloseClick(event: CustomEvent<void>): Promise<void> {
     if (event.target !== this.panelRef.value) {
       return;
     }
 
-    event.preventDefault();
     event.stopPropagation();
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
     this.collapsed = true;
+
+    await this.updateComplete;
+
+    if (!this.collapsed) {
+      return;
+    }
+
+    const rootNode = getRootNode(this.el);
+    const activeElement = rootNode.activeElement;
+    if (activeElement === this.el || activeElement === this.el.ownerDocument.body) {
+      this.containerRef.value!.focus();
+    }
   }
 
   private handleInternalPanelToggle(event: CustomEvent<void>): void {

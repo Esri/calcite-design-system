@@ -560,6 +560,44 @@ describe("internal panel", () => {
     },
   );
 
+  it("restores focus after the close action collapses the ShellPanel", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel heading="Tools">
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+
+    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    await expect.element(el).toHaveAttribute("collapsed");
+    await expect.element(el).toHaveFocus();
+  });
+
+  it("does not collapse when the close request is canceled or immediately superseded", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel heading="Tools">
+        <button type="button">Panel content</button>
+      </calcite-shell-panel>,
+    );
+    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
+
+    panel.addEventListener("calcitePanelClose", (event) => event.preventDefault(), {
+      capture: true,
+      once: true,
+    });
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    expect(el.collapsed).toBe(false);
+
+    el.addEventListener("calciteShellPanelCollapse", () => {
+      el.collapsed = false;
+    });
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    await expect.element(el).not.toHaveAttribute("collapsed");
+  });
+
   it("allows keyboard exit without a close action when collapsing is disabled", async () => {
     await mount(
       <>

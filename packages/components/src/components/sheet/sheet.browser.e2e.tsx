@@ -587,6 +587,23 @@ describe("disabled interactions", () => {
     handle.focus();
     expect(el.shadowRoot.activeElement).toBe(handle);
   });
+
+  it("applies disabled styling to custom content and the resize handle", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled label="Sheet" modalDisabled open resizable>
+        <button slot="custom-content" type="button">
+          Custom content
+        </button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const content = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.content}`)!;
+    const handle = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.resizeHandle}`)!;
+
+    expect(Number.parseFloat(getComputedStyle(content).opacity)).toBeLessThan(1);
+    expect(getComputedStyle(handle).pointerEvents).toBe("none");
+  });
 });
 
 describe("slots", () => {
