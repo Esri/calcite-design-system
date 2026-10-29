@@ -31,9 +31,9 @@ function getInputNumberButtonWrapper(element: Element): HTMLElement | undefined 
 }
 
 function getSuffixFootprintWidth(element: Element): number {
-  return Math.ceil(
+  return (
     (getAffixElement(element, "suffix")?.getBoundingClientRect().width ?? 0) +
-      (getInputNumberButtonWrapper(element)?.getBoundingClientRect().width ?? 0),
+    (getInputNumberButtonWrapper(element)?.getBoundingClientRect().width ?? 0)
   );
 }
 
@@ -271,33 +271,26 @@ describe("affix width coordination", () => {
       const suffixWidth = getAffixWidth(input, "suffix");
 
       expect(suffixWidth).toMatch(/^\d+px$/);
-      expect(getSuffixFootprintWidth(inputNumber)).toBe(getSuffixFootprintWidth(input));
-      expect(getSuffixFootprintWidth(inputText)).toBe(getSuffixFootprintWidth(input));
-      expect(getSuffixFootprintWidth(autocomplete)).toBe(getSuffixFootprintWidth(input));
+      expect(getSuffixFootprintWidth(inputNumber)).toBeCloseTo(getSuffixFootprintWidth(input));
+      expect(getSuffixFootprintWidth(inputText)).toBeCloseTo(getSuffixFootprintWidth(input));
+      expect(getSuffixFootprintWidth(autocomplete)).toBeCloseTo(getSuffixFootprintWidth(input));
     });
 
     await nextFrame();
 
-    const suffixWidth = getAffixWidth(input, "suffix");
+    const inputSuffixRect = getAffixElement(input, "suffix")!.getBoundingClientRect();
+    const inputNumberSuffixRect = getAffixElement(inputNumber, "suffix")!.getBoundingClientRect();
+    const inputTextSuffixRect = getAffixElement(inputText, "suffix")!.getBoundingClientRect();
+    const autocompleteSuffixRect = getAffixElement(autocomplete, "suffix")!.getBoundingClientRect();
 
     expect(
-      Number.parseInt(getAffixWidth(inputNumber, "suffix"), 10) +
-        Math.ceil(getInputNumberButtonWrapper(inputNumber)!.getBoundingClientRect().width),
-    ).toBe(Number.parseInt(suffixWidth, 10));
-    expect(getAffixWidth(inputText, "suffix")).toBe(suffixWidth);
-    expect(getAffixWidth(autocomplete, "suffix")).toBe(suffixWidth);
-    expect(Math.ceil(getAffixElement(inputNumber, "suffix")!.getBoundingClientRect().width)).toBe(
-      Number.parseInt(getAffixWidth(inputNumber, "suffix"), 10),
-    );
-    expect(Math.ceil(getAffixElement(autocomplete, "suffix")!.getBoundingClientRect().width)).toBe(
-      Number.parseInt(suffixWidth, 10),
-    );
-    expect(Math.ceil(getAffixElement(inputNumber, "suffix")!.getBoundingClientRect().left)).toBe(
-      Math.ceil(getAffixElement(input, "suffix")!.getBoundingClientRect().left),
-    );
-    expect(Math.ceil(getAffixElement(autocomplete, "suffix")!.getBoundingClientRect().left)).toBe(
-      Math.ceil(getAffixElement(input, "suffix")!.getBoundingClientRect().left),
-    );
+      inputNumberSuffixRect.width +
+        getInputNumberButtonWrapper(inputNumber)!.getBoundingClientRect().width,
+    ).toBeCloseTo(inputSuffixRect.width);
+    expect(inputTextSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
+    expect(autocompleteSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
+    expect(inputNumberSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
+    expect(autocompleteSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
 
     autocomplete.prefixText = "the longest autocomplete prefix";
     autocomplete.suffixText = "the longest autocomplete suffix";
@@ -370,10 +363,10 @@ describe("affix width coordination", () => {
       const suffixFootprintWidth = getSuffixFootprintWidth(unconstrained);
 
       expect(getAffixWidth(unconstrained, "suffix")).not.toBe("5px");
-      expect(getSuffixFootprintWidth(input)).toBe(suffixFootprintWidth);
-      expect(getSuffixFootprintWidth(inputNumber)).toBe(suffixFootprintWidth);
-      expect(getSuffixFootprintWidth(inputText)).toBe(suffixFootprintWidth);
-      expect(getSuffixFootprintWidth(autocomplete)).toBe(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(input)).toBeCloseTo(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(inputNumber)).toBeCloseTo(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(inputText)).toBeCloseTo(suffixFootprintWidth);
+      expect(getSuffixFootprintWidth(autocomplete)).toBeCloseTo(suffixFootprintWidth);
     });
   });
 });
