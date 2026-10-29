@@ -314,6 +314,34 @@ describe("selection-mode", () => {
     await expect.element(action1).toHaveFocus();
   });
 
+  it("cycles secondary-arrow navigation within a selectable group's actions", async () => {
+    await mount(
+      <calcite-action-bar expand-toggle-disabled layout="horizontal">
+        <calcite-action-group data-testid="action-group" selection-mode="single">
+          <calcite-action data-testid="first-action" icon="plus" text="Add" />
+          <calcite-action data-testid="second-action" icon="save" text="Save" />
+          <calcite-action icon="ellipsis" slot="menu-actions" text="Command" />
+        </calcite-action-group>
+      </calcite-action-bar>,
+    );
+
+    const actionGroup = page.getByTestId("action-group").element() as ActionGroup["el"];
+    const firstAction = page.getByTestId("first-action");
+    const secondAction = page.getByTestId("second-action");
+
+    await userEvent.keyboard("{Tab}{ArrowRight}");
+    await expect.element(secondAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.element(firstAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowUp}");
+    await expect.element(secondAction).toHaveFocus();
+
+    await userEvent.keyboard("{ArrowRight}");
+    expect(actionGroup.actionMenu?.matches(":focus-within")).toBe(true);
+  });
+
   it("does not use secondary arrow keys within multiple-selection action group", async () => {
     await mount<"calcite-action-bar">(
       <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>

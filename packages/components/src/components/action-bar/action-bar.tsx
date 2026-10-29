@@ -1384,6 +1384,10 @@ export class ActionBar extends LitElement {
     direction: "next" | "previous",
     current: Action["el"] | ActionMenu["el"],
   ): boolean {
+    if (!isAction(current)) {
+      return false;
+    }
+
     const currentGroup = this.getNavigationItemActionGroup(current);
 
     if (!currentGroup) {
@@ -1395,7 +1399,8 @@ export class ActionBar extends LitElement {
     }
 
     const groupItems = this.navigationItems.filter(
-      (item) => this.getNavigationItemActionGroup(item) === currentGroup,
+      (item): item is Action["el"] =>
+        isAction(item) && this.getNavigationItemActionGroup(item) === currentGroup,
     );
     const currentIndex = groupItems.indexOf(current);
 
