@@ -103,6 +103,11 @@ export class ActionMenu extends LitElement {
     }
   };
 
+  private handleDocumentFocusIn = (event: FocusEvent): void => {
+    const composedPath = event.composedPath();
+    this.menuHasFocus = this.navigableActions.some((action) => composedPath.includes(action));
+  };
+
   private menuButtonKeyDown = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
     const { navigableActions } = this;
@@ -224,6 +229,8 @@ export class ActionMenu extends LitElement {
   private menuButtonTabIndex?: string | null;
 
   private menuButtonTabIndexFrame?: number;
+
+  private menuHasFocus = false;
 
   private restoreMenuButtonTabIndexOnClose = true;
 
@@ -371,6 +378,7 @@ export class ActionMenu extends LitElement {
   override connectedCallback(): void {
     this.connectMenuButtonEl();
     this.listen("mousedown", this.mouseDownHandler);
+    this.listenOn(document, "focusin", this.handleDocumentFocusIn);
     this.listenOn(document, "mousedown", this.handleDocumentMouseDown);
   }
 
@@ -551,6 +559,9 @@ export class ActionMenu extends LitElement {
   }
 
   private syncActions(): void {
+    const activeAction = this.navigableActions[this.activeMenuItemIndex];
+    const activeMenuItemIndex = this.activeMenuItemIndex;
+    const menuHadFocus = this.menuHasFocus;
     const triggerSlot = this.triggerSlotRef.value;
     const triggerActions = triggerSlot
       ? getSlotAssignedElements<Action["el"]>(triggerSlot, "calcite-action").filter(
@@ -593,17 +604,30 @@ export class ActionMenu extends LitElement {
     this.navigableActions = dedupedActions.filter(
       (action) => !triggerActionsSet.has(action) && !action.disabled && !action.hidden,
     );
+    const activeActionIndex = this.navigableActions.indexOf(activeAction);
 
     if (!this.open || !this.navigableActions.length) {
       this.activeMenuItemIndex = -1;
-    } else if (
-      this.activeMenuItemIndex < 0 ||
-      this.activeMenuItemIndex >= this.navigableActions.length
-    ) {
+    } else if (activeActionIndex !== -1) {
+      this.activeMenuItemIndex = activeActionIndex;
+    } else if (activeMenuItemIndex < 0) {
       this.activeMenuItemIndex = 0;
+    } else {
+      this.activeMenuItemIndex = Math.min(activeMenuItemIndex, this.navigableActions.length - 1);
     }
 
     this.updateActions(this.navigableActions);
+
+    if (!menuHadFocus) {
+      return;
+    }
+
+    if (this.navigableActions.length) {
+      void this.setFocus();
+    } else {
+      this.open = false;
+      void this.focusMenuButton();
+    }
   }
 
   private setMenuButtonEl(): void {

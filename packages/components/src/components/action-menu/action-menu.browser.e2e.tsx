@@ -560,4 +560,36 @@ describe("accessibility", () => {
     await expect.element(nextButton).toHaveFocus();
     await expect.element(triggerAction).not.toHaveAttribute("tabindex");
   });
+
+  it("moves focus to a surviving action when the focused action is removed", async () => {
+    const { el } = await mount<"calcite-action-menu">(
+      <calcite-action-menu>
+        <calcite-action
+          data-testid="trigger-action"
+          icon="ellipsis"
+          slot={SLOTS.trigger}
+          text="More"
+        />
+        <calcite-action data-testid="first-action" icon="plus" text="Add" />
+        <calcite-action data-testid="second-action" icon="save" text="Save" />
+      </calcite-action-menu>,
+    );
+
+    const triggerAction = page.getByTestId("trigger-action");
+    const firstAction = page.getByTestId("first-action");
+    const secondAction = page.getByTestId("second-action");
+
+    await userEvent.click(triggerAction);
+    await expect.element(firstAction).toHaveFocus();
+
+    firstAction.element().remove();
+
+    await expect.poll(() => el.actions.length).toBe(2);
+    await expect.element(secondAction).toHaveFocus();
+    expect(el.open).toBe(true);
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(triggerAction).toHaveFocus();
+    expect(el.open).toBe(false);
+  });
 });
