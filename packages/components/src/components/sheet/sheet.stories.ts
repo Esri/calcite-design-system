@@ -145,7 +145,7 @@ export const panelBackground = (): string => html`
       --calcite-sheet-background-color: var(--calcite-color-foreground-2);
     }
   </style>
-  <calcite-sheet close-disabled class="sheet-panel-background" heading="Layers" label="Map layers" open>
+  <calcite-sheet close-disabled class="sheet-panel-background" heading="Layer details" label="Map layers" open>
     <p>Population density</p>
   </calcite-sheet>
 `;
@@ -322,7 +322,7 @@ export const resizableFloatBlockEnd = (): string =>
   >`;
 
 export const resizableLoremIpsum = (): string =>
-  html`<calcite-sheet resizable label="libero nunc" open position="inline-end"
+  html`<calcite-sheet resizable label="libero nunc" open position="inline-end" close-disabled
     >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel viverra purus. Vestibulum fringilla fringilla orci
     ac elementum. Sed viverra risus eu nibh facilisis imperdiet. Maecenas sed semper lacus, imperdiet placerat risus.
     Sed at urna sit amet tellus egestas condimentum a non nisi. Integer vehicula urna eros. Nunc ante quam, porttitor

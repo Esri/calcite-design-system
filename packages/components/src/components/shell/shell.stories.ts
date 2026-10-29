@@ -896,7 +896,7 @@ export const slottedDialogAndAlert = (): string =>
       <calcite-alert open slot="alerts" placement="top-end"
         ><span slot="title">Alert slotted in Shell</span>
       </calcite-alert>
-      <calcite-shell-panel collapse-disabled id="primary-panel" slot="panel-start">
+      <calcite-shell-panel heading="Panel" collapse-disabled id="primary-panel" slot="panel-start">
         <calcite-action-bar slot="action-bar">
           <calcite-action-group>
             <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1076,7 +1076,7 @@ const slottedSheetHtml: string[] = [];
         <calcite-button slot="footer" width="half" appearance="outline">tincidunt lobortis</calcite-button>
         <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
       </calcite-sheet>
-      <calcite-shell-panel collapse-disabled id="primary-panel" slot="panel-start">
+      <calcite-shell-panel heading="Panel" collapse-disabled id="primary-panel" slot="panel-start">
         <calcite-action-bar slot="action-bar">
           <calcite-action-group>
             <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1135,12 +1135,16 @@ export const slottedSheetFloatContent = (): string => slottedSheetHtml[1];
 export const contentBehind = (): string =>
   html`<calcite-shell content-behind>
     ${headerHTML}
-    <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+      >${leadingPanelHTML}</calcite-shell-panel
+    >
     ${contentHTML}
     <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
       >${centerPanelHTML}</calcite-shell-panel
     >
-    <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+      >${trailingPanelHTML}</calcite-shell-panel
+    >
     ${footerHTML}
   </calcite-shell>`;
 
@@ -1193,7 +1197,7 @@ const contentBehindPanelBottomHtml: string[] = [];
         background-size: 20px 20px;
         background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
       ></div>
-      <calcite-shell-panel collapse-disabled slot="panel-bottom" display-mode="${d}"
+      <calcite-shell-panel heading="Panel bottom content" collapse-disabled slot="panel-bottom" display-mode="${d}"
         >${bottomPanelHTML}</calcite-shell-panel
       >
     </calcite-shell>
@@ -1307,12 +1311,16 @@ export const slottedPanelTopAndBottomAndSides = (): string => html`
 export const shellCenterRowWithActionBar = (): string =>
   html`<calcite-shell content-behind>
     ${headerHTML}
-    <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+      >${leadingPanelHTML}</calcite-shell-panel
+    >
     ${contentHTML}
     <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
       >${centerPanelWithActionBarHTML}</calcite-shell-panel
     >
-    <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+      >${trailingPanelHTML}</calcite-shell-panel
+    >
     ${footerHTML}
   </calcite-shell>`;
 
@@ -3305,61 +3313,85 @@ export const cornerRadiusAndBoxShadow = (): string => html`
   <div class="corner-radius-and-box-shadow">
     <calcite-shell style="--calcite-shell-corner-radius: var(--calcite-size-xs);">
       ${headerHTML}
-      <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+        >${leadingPanelHTML}</calcite-shell-panel
+      >
       ${contentHTML}
       <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
         >${centerPanelHTML}</calcite-shell-panel
       >
-      <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+        >${trailingPanelHTML}</calcite-shell-panel
+      >
       ${footerHTML}
     </calcite-shell>
     <calcite-shell style="--calcite-shell-corner-radius: var(--calcite-size-xs);">
-      <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+        >${leadingPanelHTML}</calcite-shell-panel
+      >
       ${contentHTML}
       <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
         >${centerPanelHTML}</calcite-shell-panel
       >
-      <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+        >${trailingPanelHTML}</calcite-shell-panel
+      >
     </calcite-shell>
     <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
       ${headerHTML}
-      <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+        >${leadingPanelHTML}</calcite-shell-panel
+      >
       ${contentHTML}
       <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
         >${centerPanelHTML}</calcite-shell-panel
       >
-      <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+        >${trailingPanelHTML}</calcite-shell-panel
+      >
       ${footerHTML}
     </calcite-shell>
     <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
-      <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+        >${leadingPanelHTML}</calcite-shell-panel
+      >
       ${contentHTML}
       <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
         >${centerPanelHTML}</calcite-shell-panel
       >
-      <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+        >${trailingPanelHTML}</calcite-shell-panel
+      >
     </calcite-shell>
     <calcite-shell
       style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
     >
       ${headerHTML}
-      <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+        >${leadingPanelHTML}</calcite-shell-panel
+      >
       ${contentHTML}
       <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
         >${centerPanelHTML}</calcite-shell-panel
       >
-      <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+        >${trailingPanelHTML}</calcite-shell-panel
+      >
       ${footerHTML}
     </calcite-shell>
     <calcite-shell
       style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
     >
-      <calcite-shell-panel collapse-disabled slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Leading panel content" collapse-disabled slot="panel-start"
+        >${leadingPanelHTML}</calcite-shell-panel
+      >
       ${contentHTML}
       <calcite-shell-panel collapse-disabled slot="panel-bottom" heading="Center row content"
         >${centerPanelHTML}</calcite-shell-panel
       >
-      <calcite-shell-panel collapse-disabled slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel heading="Trailing panel content" collapse-disabled slot="panel-end"
+        >${trailingPanelHTML}</calcite-shell-panel
+      >
     </calcite-shell>
   </div>
 `;

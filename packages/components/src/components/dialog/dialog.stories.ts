@@ -550,7 +550,7 @@ const themedStyle = html`--calcite-dialog-scrim-background-color: purple; --calc
 export const withShellInside = (): string =>
   html`<calcite-dialog open modal heading="heading" description="description" scale="m" width-scale="l">
     <calcite-shell>
-      <calcite-shell-panel slot="panel-start">
+      <calcite-shell-panel slot="panel-start" collapse-disabled>
         <calcite-action-bar slot="action-bar" expanded>
           <calcite-action-group>
             <calcite-action text-enabled text="Action 1"></calcite-action>
