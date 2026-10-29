@@ -3,6 +3,7 @@ import "../field-group/field-group";
 import "../input/input";
 import "../label/label";
 import "../text-area/text-area";
+import { optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 type FieldSetStoryArgs = {
@@ -68,37 +69,37 @@ function renderFieldSet(args: FieldSetStoryArgs, useLabel = false): string {
       `;
 
   return html`
-    <calcite-field-set legend="${args.legend}" ${style ? `style="${style}"` : ""}> ${controls} </calcite-field-set>
+    <calcite-field-set legend="${args.legend}" ${optionalAttribute("style", style)}> ${controls} </calcite-field-set>
   `;
 }
 
-export const simple = (args: FieldSetStoryArgs): string => renderFieldSet(args);
+export const simple = (args: FieldSetStoryArgs): string => html`
+  ${renderFieldSet({ ...args, legend: args.legend ?? "calcite-input" })} <br /><br />
+  ${renderFieldSet({ ...args, legend: "calcite-label" }, true)}
+`;
+simple.args = { legend: "calcite-label" };
 
-export const slottedLegend = (): string => html`
+export const legend = (): string => html`
   <calcite-field-set>
-    <div slot="legend">Slotted legend</div>
+    <div slot="legend">Legend as slot</div>
+    <calcite-input label-text="Label"></calcite-input>
+  </calcite-field-set>
+  <br /><br />
+  <calcite-field-set legend="Legend as prop">
+    <calcite-input label-text="Label"></calcite-input>
+  </calcite-field-set>
+  <h1>no legend</h1>
+  <calcite-field-set>
     <calcite-input label-text="Label"></calcite-input>
   </calcite-field-set>
 `;
-slottedLegend.storyName = "Slotted legend";
-slottedLegend.parameters = { controls: { disable: true } };
+legend.parameters = { controls: { disable: true } };
 
-export const withoutLegend = (): string => html`
-  <calcite-field-set>
-    <calcite-input label-text="Label"></calcite-input>
-  </calcite-field-set>
-`;
-withoutLegend.storyName = "Without legend";
-withoutLegend.parameters = { controls: { disable: true } };
-
-export const simpleUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
-simpleUsingLabel.storyName = "Simple (using 'Label')";
-
-export const complex = (args: FieldSetStoryArgs): string => {
+const renderComplex = (args: FieldSetStoryArgs): string => {
   const style = getStyle(args);
 
   return html`
-    <calcite-field-set legend="${args.legend}" ${style ? `style="${style}"` : ""}>
+    <calcite-field-set legend="${args.legend}" ${optionalAttribute("style", style)}>
       <calcite-field-group layout="columns" columns="2">
         <calcite-input label-text="Label"></calcite-input>
         <calcite-input label-text="Label"></calcite-input>
@@ -107,16 +108,21 @@ export const complex = (args: FieldSetStoryArgs): string => {
         <calcite-input label-text="Label"></calcite-input>
         <calcite-input label-text="Label"></calcite-input>
       </calcite-field-group>
+      <calcite-field-group>
+        <calcite-input label-text="Label"></calcite-input>
+        <calcite-input label-text="Label"></calcite-input>
+      </calcite-field-group>
+      <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
     </calcite-field-set>
   `;
 };
 
-export const complexUsingLabel = (args: FieldSetStoryArgs): string => {
+const renderComplexUsingLabel = (args: FieldSetStoryArgs): string => {
   const style = getStyle(args);
 
   return html`
-    <calcite-field-set legend="${args.legend}" ${style ? `style="${style}"` : ""}>
+    <calcite-field-set legend="${args.legend}" ${optionalAttribute("style", style)}>
       <calcite-field-group layout="columns" columns="2">
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
@@ -125,11 +131,21 @@ export const complexUsingLabel = (args: FieldSetStoryArgs): string => {
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
         <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       </calcite-field-group>
+      <calcite-field-group>
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+      </calcite-field-group>
+      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
     </calcite-field-set>
   `;
 };
-complexUsingLabel.storyName = "Complex (using 'Label')";
+
+export const complex = (args: FieldSetStoryArgs): string => html`
+  ${renderComplex({ ...args, legend: "calcite-input" })} <br /><br />
+  ${renderComplexUsingLabel({ ...args, legend: "calcite-label" })}
+`;
+complex.parameters = { controls: { disable: true } };
 
 export const customGap = (args: FieldSetStoryArgs): string => complex(args);
 customGap.args = { gap: "40px" };
@@ -137,58 +153,8 @@ customGap.argTypes = {
   gap: { control: { type: "text" } },
   ...hiddenCustomGapArgTypes,
 };
-
-export const customGapUsingLabel = (args: FieldSetStoryArgs): string => complexUsingLabel(args);
-customGapUsingLabel.storyName = "Custom gap (using 'Label')";
-customGapUsingLabel.args = { gap: "40px" };
-customGapUsingLabel.argTypes = customGap.argTypes;
+customGap.parameters = { controls: { disable: true } };
 
 export const customLegendColor = (args: FieldSetStoryArgs): string => complex(args);
 customLegendColor.args = { legendTextColor: "pink" };
 customLegendColor.parameters = { controls: { disable: true } };
-
-export const customLegendColorUsingLabel = (args: FieldSetStoryArgs): string => complexUsingLabel(args);
-customLegendColorUsingLabel.storyName = "Custom legend color (using 'Label')";
-customLegendColorUsingLabel.args = { legendTextColor: "pink" };
-customLegendColorUsingLabel.parameters = { controls: { disable: true } };
-
-export const slottedFieldGroups = (): string => html`
-  <calcite-field-set legend="Field Set legend">
-    <calcite-field-group layout="columns" columns="2">
-      <calcite-input label-text="Label"></calcite-input>
-      <calcite-input label-text="Label"></calcite-input>
-    </calcite-field-group>
-    <calcite-field-group layout="horizontal">
-      <calcite-input label-text="Label"></calcite-input>
-      <calcite-input label-text="Label"></calcite-input>
-    </calcite-field-group>
-    <calcite-field-group>
-      <calcite-input label-text="Label"></calcite-input>
-      <calcite-input label-text="Label"></calcite-input>
-    </calcite-field-group>
-    <calcite-input label-text="Label"></calcite-input>
-    <calcite-input label-text="Label"></calcite-input>
-  </calcite-field-set>
-`;
-slottedFieldGroups.parameters = { controls: { disable: true } };
-
-export const slottedFieldGroupsUsingLabel = (): string => html`
-  <calcite-field-set legend="Field Set legend">
-    <calcite-field-group columns="2" layout="columns">
-      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-    </calcite-field-group>
-    <calcite-field-group layout="horizontal">
-      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-    </calcite-field-group>
-    <calcite-field-group>
-      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-      <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-    </calcite-field-group>
-    <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-    <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-  </calcite-field-set>
-`;
-slottedFieldGroupsUsingLabel.storyName = "Slotted Field Groups (using 'Label')";
-slottedFieldGroupsUsingLabel.parameters = { controls: { disable: true } };

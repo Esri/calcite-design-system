@@ -6,6 +6,7 @@ import "../input-number/input-number";
 import "../input-text/input-text";
 import "../label/label";
 import "../text-area/text-area";
+import { optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 
 type FieldGroupStoryArgs = {
@@ -51,7 +52,8 @@ export const simple = (args: FieldGroupStoryArgs): string => {
     .join(" ");
 
   return html`
-    <calcite-field-group columns="${args.columns}" layout="${args.layout}" ${style ? `style="${style}"` : ""}>
+    <h1>calcite-input</h1>
+    <calcite-field-group columns="${args.columns}" layout="${args.layout}" ${optionalAttribute("style", style)}>
       <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
@@ -59,22 +61,8 @@ export const simple = (args: FieldGroupStoryArgs): string => {
       <calcite-input label-text="Label"></calcite-input>
       <calcite-input label-text="Label"></calcite-input>
     </calcite-field-group>
-  `;
-};
-simple.parameters = {
-  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
-};
-
-export const simpleUsingLabel = (args: FieldGroupStoryArgs): string => {
-  const style = [
-    args.gap ? `--calcite-field-group-gap: ${args.gap};` : "",
-    args.columnGap ? `--calcite-field-group-column-gap: ${args.columnGap};` : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  return html`
-    <calcite-field-group columns="${args.columns}" layout="${args.layout}" ${style ? `style="${style}"` : ""}>
+    <h1>calcite-label with nested calcite-inputs</h1>
+    <calcite-field-group columns="${args.columns}" layout="${args.layout}" ${optionalAttribute("style", style)}>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       <calcite-label>Label<calcite-input></calcite-input></calcite-label>
@@ -84,8 +72,7 @@ export const simpleUsingLabel = (args: FieldGroupStoryArgs): string => {
     </calcite-field-group>
   `;
 };
-simpleUsingLabel.storyName = "Simple (using 'Label')";
-simpleUsingLabel.parameters = {
+simple.parameters = {
   controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
 
@@ -98,12 +85,13 @@ export const complex = (args: FieldGroupStoryArgs): string => {
     .join(" ");
 
   return html`
+    <h1>calcite-input and calcite-text-area</h1>
     <calcite-field-group
       columns="${args.columns}"
       layout="${args.layout}"
       ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
       ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
-      ${style ? `style="${style}"` : ""}
+      ${optionalAttribute("style", style)}
     >
       <calcite-field-set legend="Legend 1">
         <calcite-field-group layout="columns" columns="2">
@@ -126,50 +114,43 @@ export const complex = (args: FieldGroupStoryArgs): string => {
           <calcite-input label-text="Label"></calcite-input>
         </calcite-field-group>
         <calcite-input label-text="Label"></calcite-input>
+      </calcite-field-set>
+    </calcite-field-group>
+    <h1>calcite-label with nested calcite-inputs and calcite-text-areas</h1>
+    <calcite-field-group
+      columns="${args.columns}"
+      layout="${args.layout}"
+      ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
+      ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
+      ${optionalAttribute("style", style)}
+    >
+      <calcite-field-set legend="Legend 1">
+        <calcite-field-group layout="columns" columns="2">
+          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+          <calcite-label>Label<calcite-text-area></calcite-text-area></calcite-label>
+        </calcite-field-group>
+        <calcite-field-group layout="columns" columns="2">
+          <calcite-label>Label<calcite-text-area></calcite-text-area></calcite-label>
+          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+        </calcite-field-group>
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+      </calcite-field-set>
+      <calcite-field-set legend="Legend 2">
+        <calcite-field-group layout="columns" columns="2">
+          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+          <calcite-label>Label<calcite-text-area></calcite-text-area></calcite-label>
+        </calcite-field-group>
+        <calcite-field-group layout="columns" columns="2">
+          <calcite-label>Label<calcite-text-area></calcite-text-area></calcite-label>
+          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
+        </calcite-field-group>
+        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
       </calcite-field-set>
     </calcite-field-group>
   `;
 };
 complex.parameters = {
-  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
-};
-
-export const complexUsingLabel = (args: FieldGroupStoryArgs): string => {
-  const style = [
-    args.gap ? `--calcite-field-group-gap: ${args.gap};` : "",
-    args.columnGap ? `--calcite-field-group-column-gap: ${args.columnGap};` : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
-  return html`
-    <calcite-field-group
-      columns="${args.columns}"
-      layout="${args.layout}"
-      ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
-      ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
-      ${style ? `style="${style}"` : ""}
-    >
-      <calcite-field-set legend="Legend 1">
-        <calcite-field-group layout="columns" columns="2">
-          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-        </calcite-field-group>
-        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-      </calcite-field-set>
-      <calcite-field-set legend="Legend 2">
-        <calcite-field-group layout="columns" columns="2">
-          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-          <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-        </calcite-field-group>
-        <calcite-label>Label<calcite-input></calcite-input></calcite-label>
-      </calcite-field-set>
-    </calcite-field-group>
-  `;
-};
-complexUsingLabel.storyName = "Complex (using 'Label')";
-complexUsingLabel.parameters = {
-  controls: { exclude: ["prefixAutoWidth", "suffixAutoWidth"] },
+  controls: { disable: true },
 };
 
 const renderLayoutExample = (
@@ -186,7 +167,7 @@ const renderLayoutExample = (
     .join(" ");
 
   return html`
-    <calcite-field-group columns="${columns}" layout="${layout}" ${style ? `style="${style}"` : ""}>
+    <calcite-field-group columns="${columns}" layout="${layout}" ${optionalAttribute("style", style)}>
       ${Array.from(
         { length: fieldSetCount },
         (_, index) => html`
@@ -214,7 +195,7 @@ const renderLabelLayoutExample = (
     .join(" ");
 
   return html`
-    <calcite-field-group columns="${columns}" layout="${layout}" ${style ? `style="${style}"` : ""}>
+    <calcite-field-group columns="${columns}" layout="${layout}" ${optionalAttribute("style", style)}>
       ${Array.from(
         { length: fieldSetCount },
         (_, index) => html`
@@ -229,16 +210,14 @@ const renderLabelLayoutExample = (
 };
 
 export const layouts = (args: FieldGroupStoryArgs): string => html`
+  <h1>calcite-input</h1>
   <div style="display: flex; flex-direction: column; gap: 3rem;">
     ${renderLayoutExample(args, "vertical", 1, 3)} ${renderLayoutExample(args, "horizontal", 1, 3)}
     ${renderLayoutExample(args, "columns", 1, 1)} ${renderLayoutExample(args, "columns", 2, 2)}
     ${renderLayoutExample(args, "columns", 3, 3)} ${renderLayoutExample(args, "columns", 4, 4)}
     ${renderLayoutExample(args, "columns", 5, 5)} ${renderLayoutExample(args, "columns", 6, 6)}
   </div>
-`;
-layouts.parameters = { controls: { disable: true } };
-
-export const layoutsUsingLabel = (args: FieldGroupStoryArgs): string => html`
+  <h1>calcite-label</h1>
   <div style="display: flex; flex-direction: column; gap: 3rem;">
     ${renderLabelLayoutExample(args, "vertical", 1, 3)} ${renderLabelLayoutExample(args, "horizontal", 1, 3)}
     ${renderLabelLayoutExample(args, "columns", 1, 1)} ${renderLabelLayoutExample(args, "columns", 2, 2)}
@@ -246,38 +225,37 @@ export const layoutsUsingLabel = (args: FieldGroupStoryArgs): string => html`
     ${renderLabelLayoutExample(args, "columns", 5, 5)} ${renderLabelLayoutExample(args, "columns", 6, 6)}
   </div>
 `;
-layoutsUsingLabel.storyName = "Layout (using 'Label')";
-layoutsUsingLabel.parameters = { controls: { disable: true } };
+layouts.parameters = { controls: { disable: true } };
 
 export const customGap = (args: FieldGroupStoryArgs): string => html`
-  <calcite-field-group
-    columns="${args.columns}"
-    layout="${args.layout}"
-    style="--calcite-field-group-gap: ${args.gap};"
-  >
-    <calcite-field-set legend="Legend 1">
-      <calcite-field-group columns="2" layout="columns">
+  <h1>calcite-input</h1>
+  <div>
+    <calcite-field-group
+      columns="${args.columns}"
+      layout="${args.layout}"
+      style="--calcite-field-group-gap: ${args.gap};"
+    >
+      <calcite-field-set legend="Legend 1">
+        <calcite-field-group columns="2" layout="columns">
+          <calcite-input label-text="Label"></calcite-input>
+          <calcite-input label-text="Label"></calcite-input>
+        </calcite-field-group>
         <calcite-input label-text="Label"></calcite-input>
+      </calcite-field-set>
+      <calcite-field-set legend="Legend 2">
+        <calcite-field-group columns="2" layout="columns">
+          <calcite-input label-text="Label"></calcite-input>
+          <calcite-input label-text="Label"></calcite-input>
+        </calcite-field-group>
         <calcite-input label-text="Label"></calcite-input>
-      </calcite-field-group>
-      <calcite-input label-text="Label"></calcite-input>
-    </calcite-field-set>
-    <calcite-field-set legend="Legend 2">
-      <calcite-field-group columns="2" layout="columns">
-        <calcite-input label-text="Label"></calcite-input>
-        <calcite-input label-text="Label"></calcite-input>
-      </calcite-field-group>
-      <calcite-input label-text="Label"></calcite-input>
-    </calcite-field-set>
-  </calcite-field-group>
+      </calcite-field-set>
+    </calcite-field-group>
+  </div>
+  <h1>calcite-label</h1>
+  <div>${labels(args)}</div>
 `;
 customGap.args = { gap: "40px" };
-customGap.parameters = { controls: { include: ["gap"] } };
-
-export const customGapUsingLabel = (args: FieldGroupStoryArgs): string => labels(args);
-customGapUsingLabel.storyName = "Custom Gap (using 'Label')";
-customGapUsingLabel.args = { gap: "40px" };
-customGapUsingLabel.parameters = { controls: { include: ["gap"] } };
+customGap.parameters = { controls: { disable: true } };
 
 const labels = (args: FieldGroupStoryArgs): string => {
   const style = [
@@ -293,7 +271,7 @@ const labels = (args: FieldGroupStoryArgs): string => {
       layout="${args.layout}"
       ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
       ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
-      ${style ? `style="${style}"` : ""}
+      ${optionalAttribute("style", style)}
     >
       <calcite-field-set legend="Legend 1">
         <calcite-field-group layout="columns" columns="2">
@@ -314,11 +292,12 @@ const labels = (args: FieldGroupStoryArgs): string => {
 };
 
 export const prefixAndSuffixAutoWidth = (args: FieldGroupStoryArgs): string => html`
+  <h1>input components that support prefix/suffix</h1>
   <calcite-field-group
     ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
     ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
   >
-    <calcite-field-set legend="Input components that support prefix/suffix">
+    <calcite-field-set>
       <calcite-input
         label-text="calcite-input"
         prefix-text="prefix"
@@ -345,47 +324,44 @@ export const prefixAndSuffixAutoWidth = (args: FieldGroupStoryArgs): string => h
       ></calcite-autocomplete>
     </calcite-field-set>
   </calcite-field-group>
-`;
-prefixAndSuffixAutoWidth.args = { prefixAutoWidth: true, suffixAutoWidth: true };
-prefixAndSuffixAutoWidth.parameters = {
-  controls: { include: ["prefixAutoWidth", "suffixAutoWidth"] },
-};
-
-export const prefixAndSuffixAutoWidthUsingLabel = (args: FieldGroupStoryArgs): string => html`
+  <h1>calcite-label with nested input components that support prefix/suffix</h1>
   <calcite-field-group
     ${args.prefixAutoWidth ? "prefix-auto-width" : ""}
     ${args.suffixAutoWidth ? "suffix-auto-width" : ""}
   >
-    <calcite-field-set legend="Input components that support prefix/suffix">
+    <calcite-field-set>
       <calcite-label>
         calcite-input
         <calcite-input prefix-text="prefix" suffix-text="px" placeholder="Enter a size"></calcite-input>
       </calcite-label>
       <calcite-label>
         calcite-input-text
-        <calcite-input-text prefix-text="square" suffix-text="meters" placeholder="Enter an area"></calcite-input-text>
+        <calcite-input-text
+          prefix-text="rectangle"
+          suffix-text="inches"
+          placeholder="Enter an area"
+        ></calcite-input-text>
       </calcite-label>
       <calcite-label>
         calcite-input-number
         <calcite-input-number
-          prefix-text="approximately"
-          suffix-text="kilometers"
+          prefix-text="estimated amount"
+          suffix-text="miles"
           placeholder="Enter a length"
         ></calcite-input-number>
       </calcite-label>
       <calcite-label>
         calcite-autocomplete
         <calcite-autocomplete
-          prefix-text="nearest"
-          suffix-text="result"
+          prefix-text="closest lab"
+          suffix-text="final report"
           placeholder="Search locations"
         ></calcite-autocomplete>
       </calcite-label>
     </calcite-field-set>
   </calcite-field-group>
 `;
-prefixAndSuffixAutoWidthUsingLabel.storyName = "Prefix and Suffix Auto Width (using 'Label')";
-prefixAndSuffixAutoWidthUsingLabel.args = { prefixAutoWidth: true, suffixAutoWidth: true };
-prefixAndSuffixAutoWidthUsingLabel.parameters = {
+prefixAndSuffixAutoWidth.args = { prefixAutoWidth: true, suffixAutoWidth: true };
+prefixAndSuffixAutoWidth.parameters = {
   controls: { include: ["prefixAutoWidth", "suffixAutoWidth"] },
 };
