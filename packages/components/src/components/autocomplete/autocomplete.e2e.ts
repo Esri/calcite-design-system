@@ -5,6 +5,7 @@ import { Input } from "../input/input";
 import { findAll, isElementFocused, skipAnimations } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
 import { Autocomplete } from "./autocomplete";
+import { CSS_UTILITY } from "../../utils/resources";
 
 const emptyAutocompleteHTML = html`<calcite-autocomplete label="Item list" id="myAutocomplete"></calcite-autocomplete>`;
 
@@ -120,7 +121,7 @@ it("should set screen reader list attribute 'aria-live' to 'polite'", async () =
   const page = await newE2EPage();
   await page.setContent(simpleHTML);
 
-  const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS.screenReadersOnly}`);
+  const screenReaderList = await page.find(`calcite-autocomplete >>> .${CSS_UTILITY.screenReaderText}`);
   expect(await screenReaderList.getProperty("ariaLive")).toBe("polite");
 });
 
