@@ -55,6 +55,66 @@ it("should set 'layout' and 'position' on slotted panels", async () => {
   expect(await topPanel.getProperty("layout")).toBe("horizontal");
 });
 
+describe("action bar position panel", () => {
+  mockConsole();
+
+  it.each([
+    {
+      slot: SLOTS.panelTop,
+      className: CSS.hasActionBarPositionPanelTop,
+      otherSlot: SLOTS.panelBottom,
+      otherClassName: CSS.hasActionBarPositionPanelBottom,
+    },
+    {
+      slot: SLOTS.panelBottom,
+      className: CSS.hasActionBarPositionPanelBottom,
+      otherSlot: SLOTS.panelTop,
+      otherClassName: CSS.hasActionBarPositionPanelTop,
+    },
+  ])(
+    "should reflect action bar position independently for $slot",
+    async ({ slot, className, otherSlot, otherClassName }) => {
+      const page = await newE2EPage();
+
+      await page.setContent(
+        html`<calcite-shell>
+          <calcite-panel heading="Content"></calcite-panel>
+          <calcite-shell-panel action-bar-position="bottom" slot="${slot}">
+            <p>Content</p>
+          </calcite-shell-panel>
+          <calcite-shell-panel action-bar-position="top" slot="${otherSlot}">
+            <p>Other content</p>
+          </calcite-shell-panel>
+        </calcite-shell>`,
+      );
+
+      await page.waitForChanges();
+
+      const shellPanel = await page.find(`[slot="${slot}"]`);
+
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${className}`)).not.toBeNull();
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${otherClassName}`)).not.toBeNull();
+
+      await shellPanel.setProperty("actionBarPosition", undefined);
+      await page.waitForChanges();
+
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${className}`)).toBeNull();
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${otherClassName}`)).not.toBeNull();
+
+      await shellPanel.setProperty("actionBarPosition", "top");
+      await page.waitForChanges();
+
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${className}`)).not.toBeNull();
+
+      await shellPanel.setProperty("slot", SLOTS.panelStart);
+      await page.waitForChanges();
+
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${className}`)).toBeNull();
+      expect(await page.find(`calcite-shell >>> .${CSS.main}.${otherClassName}`)).not.toBeNull();
+    },
+  );
+});
+
 it("should place content behind", async () => {
   const page = await newE2EPage();
 

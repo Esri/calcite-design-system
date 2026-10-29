@@ -11,6 +11,9 @@
     overflow-hidden;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
+  inset: 1rem;
+  inline-size: auto;
+  block-size: auto;
 }
 
 .main {
@@ -133,6 +136,18 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   position: absolute;
   pointer-events: none;
   inset: 0;
+}
+
+.main.has-action-bar-position-panel-top {
+  ::slotted(calcite-panel) {
+    border-block-start: 0;
+  }
+}
+
+.main.has-action-bar-position-panel-bottom {
+  ::slotted(calcite-panel) {
+    border-block-end: 0;
+  }
 }
 
 @include shared.base-component();
