@@ -1,31 +1,33 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .container {
-  @apply text-start;
+  text-align: start;
 }
 
 .title {
-  @apply -mb-px
-  block
-  cursor-default
-  break-words
-  border-0
-  font-bold;
+  margin-block-end: calc(-1 * var(--calcite-space-px));
+  display: block;
+  cursor: default;
+  overflow-wrap: break-word;
+  border-width: var(--calcite-border-width-none);
+  font-weight: var(--calcite-font-weight-bold);
 
   color: var(--calcite-dropdown-group-title-text-color, var(--calcite-color-text-1));
 }
 
 .separator {
-  @apply block h-px;
+  display: block;
+  block-size: var(--calcite-space-px);
   background-color: var(--calcite-dropdown-group-border-color, var(--calcite-color-border-3));
 }
 
 :host([scale="s"]) {
-  @apply text-n2h;
+  @include shared.text-n2h();
+
   .title {
     padding-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
     padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
@@ -40,7 +42,8 @@
 }
 
 :host([scale="m"]) {
-  @apply text-n1h;
+  @include shared.text-n1h();
+
   .title {
     padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
@@ -55,7 +58,8 @@
 }
 
 :host([scale="l"]) {
-  @apply text-0h;
+  @include shared.text-0h();
+
   .title {
     padding-block: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
     padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
