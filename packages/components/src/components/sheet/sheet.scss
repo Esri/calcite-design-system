@@ -7,6 +7,36 @@
 @use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
+calcite-panel {
+  --calcite-panel-corner-radius: var(--calcite-sheet-corner-radius);
+  --calcite-panel-heading-text-color: var(--calcite-sheet-heading-text-color);
+  --calcite-panel-icon-color: var(--calcite-sheet-icon-color);
+  --calcite-panel-description-text-color: var(--calcite-sheet-description-text-color);
+  --calcite-panel-border-color: var(--calcite-sheet-border-color);
+  --calcite-panel-background-color: var(
+    --calcite-sheet-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+  --calcite-panel-content-top-space: var(--calcite-sheet-content-top-space);
+  --calcite-panel-content-bottom-space: var(--calcite-sheet-content-bottom-space);
+  --calcite-panel-header-top-space: var(--calcite-sheet-header-top-space);
+  --calcite-panel-header-background-color: var(--calcite-sheet-header-background-color);
+  --calcite-panel-header-action-background-color: var(--calcite-sheet-header-action-background-color);
+  --calcite-panel-header-action-background-color-hover: var(--calcite-sheet-header-action-background-color-hover);
+  --calcite-panel-header-action-background-color-press: var(--calcite-sheet-header-action-background-color-press);
+  --calcite-panel-header-action-text-color: var(--calcite-sheet-header-action-text-color);
+  --calcite-panel-header-action-text-color-press: var(--calcite-sheet-header-action-text-color-press);
+  --calcite-panel-footer-background-color: var(--calcite-sheet-footer-background-color);
+  --calcite-panel-space: var(--calcite-sheet-space);
+  --calcite-panel-header-content-space: var(--calcite-sheet-header-content-space);
+  --calcite-panel-footer-space: var(--calcite-sheet-footer-space);
+  --calcite-popover-border-color: var(--calcite-sheet-action-menu-border-color, var(--calcite-color-border-1));
+}
+
+::slotted(calcite-panel) {
+  --calcite-panel-background-color: initial;
+}
+
 :host {
   @apply flex absolute inset-0;
   visibility: hidden !important;
@@ -30,6 +60,11 @@
 
 .assistive-text {
   @apply sr-only;
+}
+
+:host([opened]),
+:host([data-closing]) {
+  visibility: visible !important;
 }
 
 .container {
@@ -175,10 +210,6 @@
   display: flex;
 }
 
-:host([opened]) {
-  visibility: visible !important;
-}
-
 .content {
   @apply flex relative box-border p-0 max-h-full max-w-full;
   background-color: var(
@@ -192,6 +223,15 @@
     visibility 0ms linear var(--calcite-internal-animation-timing-medium),
     opacity var(--calcite-internal-animation-timing-medium) shared.$easing-function;
   transform: var(--calcite-sheet-hidden-position-internal);
+}
+
+:host([disabled]) .content {
+  @extend %disabled-host-only;
+
+  ::slotted([calcite-hydrated][disabled]),
+  [calcite-hydrated][disabled] {
+    @apply opacity-100;
+  }
 }
 
 :host([top-layer-disabled]),

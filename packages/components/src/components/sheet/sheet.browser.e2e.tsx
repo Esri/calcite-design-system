@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { Fragment, h } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -43,7 +43,7 @@ describe("accessible", () => {
       const openEvent = waitForEvent(document, "calciteSheetOpen");
       const renderResult = await mount(
         <calcite-sheet label="hello world" open>
-          <calcite-panel closable heading="Ultrices neque">
+          <calcite-panel closable heading="Ultrices neque" slot="custom-content">
             <p>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -89,6 +89,34 @@ describe("defaults", () => {
     [
       {
         propertyName: "open",
+        defaultValue: false,
+      },
+      {
+        propertyName: "disabled",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapseDirection",
+        defaultValue: "down",
+      },
+      {
+        propertyName: "collapsed",
+        defaultValue: false,
+      },
+      {
+        propertyName: "collapsible",
+        defaultValue: false,
+      },
+      {
+        propertyName: "menuFlipPlacements",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "menuPlacement",
+        defaultValue: "bottom-end",
+      },
+      {
+        propertyName: "topLayerDisabled",
         defaultValue: false,
       },
       {
@@ -139,39 +167,532 @@ describe("defaults", () => {
   );
 });
 
+describe("internal panel", () => {
+  async function mountSheet(beforeClose: Sheet["beforeClose"]) {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const renderResult = await mount<Sheet>(
+      <calcite-sheet beforeClose={beforeClose} heading="Tools" open>
+        <button type="button">Sheet content</button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    return renderResult;
+  }
+
+  it("scrolls internal panel content via scrollContentTo", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        label="Sheet"
+        open
+        position="block-start"
+        style="--calcite-sheet-height: 200px; --calcite-sheet-max-height: 200px"
+      >
+        <div style="block-size: 1000px; flex-shrink: 0">Scrollable content</div>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const content = page.getByText("Scrollable content", { exact: true }).element();
+    const initialTop = content.getBoundingClientRect().top;
+
+    await el.scrollContentTo({ behavior: "instant", top: 100 });
+
+    await expect.poll(() => content.getBoundingClientRect().top).toBe(initialTop - 100);
+  });
+
+  it("accepts omitted scrollContentTo options", async () => {
+    const { el } = await mountSheet(undefined);
+
+    await expect(el.scrollContentTo()).resolves.toBeUndefined();
+  });
+
+  it("ignores collapse toggles from nested panels", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet collapsible heading="Tools" label="Sheet" open>
+        <calcite-panel collapsible heading="Nested panel" id="nested-panel">
+          <button type="button">Nested content</button>
+        </calcite-panel>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await userEvent.click(
+      page.getBySelector("#nested-panel").getByRole("button", { name: "Collapse", exact: true }),
+    );
+
+    await expect
+      .element(page.getByRole("button", { name: "Nested content", includeHidden: true }))
+      .not.toBeVisible();
+    expect(el.collapsed).toBe(false);
+    expect(el.open).toBe(true);
+  });
+
+  it("syncs collapsed state when the internal panel is toggled", async () => {
+    const { el } = await mountSheet(undefined);
+    el.collapsible = true;
+    const toggle = page.getByRole("button", { name: "Collapse", exact: true });
+    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
+
+    await expect.element(content).toBeVisible();
+    await userEvent.click(toggle);
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(content).not.toBeVisible();
+    await expect.element(page.getByText("Tools", { exact: true })).toBeVisible();
+    expect(el.open).toBe(true);
+
+    await userEvent.click(toggle);
+
+    await expect.element(el).toHaveProperty("collapsed", false);
+    await expect.element(content).toBeVisible();
+  });
+
+  it("forwards collapseDirection updates to the internal panel", async () => {
+    const { el } = await mountSheet(undefined);
+    const panel = page.getBySelector("calcite-panel");
+
+    el.collapseDirection = "up";
+
+    await expect.element(panel).toHaveProperty("collapseDirection", "up");
+
+    el.collapseDirection = "down";
+
+    await expect.element(panel).toHaveProperty("collapseDirection", "down");
+  });
+
+  it("forwards collapsible updates to the internal panel", async () => {
+    const { el } = await mountSheet(undefined);
+    const toggle = page.getByRole("button", { name: "Collapse", exact: true });
+
+    el.collapsible = true;
+
+    await expect.element(toggle).toBeVisible();
+
+    el.collapsible = false;
+
+    await expect.element(toggle).not.toBeInTheDocument();
+  });
+
+  it("forwards collapsed updates to the internal panel", async () => {
+    const { el } = await mountSheet(undefined);
+    el.collapsible = true;
+    const panel = page.getBySelector("calcite-panel");
+    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
+
+    el.collapsed = true;
+
+    await expect.element(panel).toHaveProperty("collapsed", true);
+    await expect.element(content).not.toBeVisible();
+    await expect.element(page.getByText("Tools", { exact: true })).toBeVisible();
+
+    el.collapsed = false;
+
+    await expect.element(panel).toHaveProperty("collapsed", false);
+    await expect.element(content).toBeVisible();
+  });
+
+  it("forwards disabled updates to the internal panel", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled heading="Tools" label="Sheet" open>
+        <button type="button">Sheet content</button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const panel = page.getBySelector("calcite-panel");
+
+    await expect.element(panel).toHaveProperty("disabled", true);
+
+    el.disabled = false;
+
+    await expect.element(panel).toHaveProperty("disabled", false);
+  });
+
+  it("prevents interaction with custom content when disabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled label="Sheet" modalDisabled open>
+        <button slot="custom-content" type="button">
+          Custom content
+        </button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const button = el.querySelector<HTMLButtonElement>('[slot="custom-content"]')!;
+
+    button.focus();
+
+    expect(document.activeElement).not.toBe(button);
+  });
+
+  it("forwards menuFlipPlacements updates to the internal panel", async () => {
+    const { el } = await mountSheet(undefined);
+    const panel = page.getBySelector("calcite-panel");
+
+    el.menuFlipPlacements = ["top", "right"];
+
+    await expect.element(panel).toHaveProperty("menuFlipPlacements", ["top", "right"]);
+
+    el.menuFlipPlacements = ["bottom"];
+
+    await expect.element(panel).toHaveProperty("menuFlipPlacements", ["bottom"]);
+
+    el.menuFlipPlacements = undefined;
+
+    await expect.element(panel).toHaveProperty("menuFlipPlacements", undefined);
+  });
+
+  it("forwards topLayerDisabled updates to the internal panel", async () => {
+    const { el } = await mountSheet(undefined);
+    const panel = page.getBySelector("calcite-panel");
+
+    el.topLayerDisabled = true;
+
+    await expect.element(panel).toHaveProperty("topLayerDisabled", true);
+
+    el.topLayerDisabled = false;
+
+    await expect.element(panel).toHaveProperty("topLayerDisabled", false);
+  });
+
+  it("forwards menuPlacement updates to the internal panel", async () => {
+    const { el } = await mountSheet(undefined);
+    const panel = page.getBySelector("calcite-panel");
+
+    el.menuPlacement = "top-start";
+
+    await expect.element(panel).toHaveProperty("menuPlacement", "top-start");
+
+    el.menuPlacement = "right";
+
+    await expect.element(panel).toHaveProperty("menuPlacement", "right");
+  });
+
+  it("closes through beforeClose and can be reopened", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const { component } = await mountSheet(beforeClose);
+    const closeButton = page.getByRole("button", { name: "Close", exact: true });
+    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
+    const closeEvent = waitForEvent(component.el, "calciteSheetClose");
+
+    await closeButton.click();
+    await closeEvent;
+
+    expect(beforeClose).toHaveBeenCalledExactlyOnceWith(component.el);
+    await expect.element(content).not.toBeVisible();
+
+    const openEvent = waitForEvent(component.el, "calciteSheetOpen");
+    component.el.open = true;
+    await openEvent;
+    await expect.element(content).toBeVisible();
+
+    const secondCloseEvent = waitForEvent(component.el, "calciteSheetClose");
+    await closeButton.click();
+    await secondCloseEvent;
+
+    expect(beforeClose).toHaveBeenCalledTimes(2);
+    await expect.element(content).not.toBeVisible();
+  });
+
+  it("updates reflection after an asynchronous close", async () => {
+    const { promise, resolve } = Promise.withResolvers<void>();
+    const { component } = await mountSheet(() => promise);
+    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
+
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+    expect(component.el.open).toBe(true);
+    await expect.element(content).toBeVisible();
+
+    const closeEvent = waitForEvent(component.el, "calciteSheetClose");
+    resolve();
+    await closeEvent;
+
+    expect(component.el.open).toBe(false);
+    await expect.element(component.el).not.toHaveAttribute("open");
+    await expect.element(content).not.toBeVisible();
+  });
+
+  it("keeps content visible when beforeClose rejects a close button request", async () => {
+    const beforeClose = vi
+      .fn<NonNullable<Sheet["beforeClose"]>>()
+      .mockRejectedValue(new Error("Prevent close"));
+    const { component } = await mountSheet(beforeClose);
+    const closeButton = page.getByRole("button", { name: "Close", exact: true });
+
+    await closeButton.click();
+
+    expect(beforeClose).toHaveBeenCalledExactlyOnceWith(component.el);
+    expect(component.el.open).toBe(true);
+    await expect.element(page.getByRole("button", { name: "Sheet content" })).toBeVisible();
+    await expect.element(closeButton).toBeVisible();
+  });
+
+  it("keeps content visible when beforeClose rejects an Escape request", async () => {
+    const beforeClose = vi
+      .fn<NonNullable<Sheet["beforeClose"]>>()
+      .mockRejectedValue(new Error("Prevent close"));
+    const { component } = await mountSheet(beforeClose);
+    const content = page.getByRole("button", { name: "Sheet content" });
+
+    await content.click();
+    await userEvent.keyboard("{Escape}");
+
+    expect(beforeClose).toHaveBeenCalledExactlyOnceWith(component.el);
+    expect(component.el.open).toBe(true);
+    await expect.element(content).toBeVisible();
+  });
+
+  it("keeps the built-in panel visible during the closing transition", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        heading="Tools"
+        open
+        style="--calcite-internal-animation-timing-medium: 250ms"
+      />,
+    );
+    await openEvent;
+
+    const panel = page.getBySelector(`.${CSS.panel}`);
+    const beforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
+    const closeEvent = waitForEvent(el, "calciteSheetClose");
+
+    el.open = false;
+    await beforeCloseEvent;
+
+    expect(el.opened).toBe(false);
+    expect(el.hasAttribute("data-closing")).toBe(true);
+    await expect.element(panel).toHaveProperty("hidden", false);
+    await expect.element(panel).toBeVisible();
+    await closeEvent;
+    await expect.element(panel).not.toBeVisible();
+  });
+
+  it("clears the closing state when reopened during the closing transition", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        heading="Tools"
+        label="Sheet"
+        open
+        style="--calcite-internal-animation-timing-medium: 250ms"
+      />,
+    );
+    await openEvent;
+
+    const panel = page.getBySelector(`.${CSS.panel}`);
+    const closeButton = page.getByRole("button", { name: "Close", exact: true });
+    const beforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
+
+    await closeButton.click();
+    await beforeCloseEvent;
+    expect(el.hasAttribute("data-closing")).toBe(true);
+
+    const reopenEvent = waitForEvent(el, "calciteSheetOpen");
+    el.open = true;
+    await reopenEvent;
+
+    await expect.element(el).not.toHaveAttribute("data-closing");
+    await expect.element(panel).toBeVisible();
+
+    const secondBeforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
+    const closeEvent = waitForEvent(el, "calciteSheetClose");
+
+    await closeButton.click();
+    await secondBeforeCloseEvent;
+    expect(el.hasAttribute("data-closing")).toBe(true);
+    await closeEvent;
+
+    await expect.element(el).not.toHaveAttribute("data-closing");
+    await expect.element(panel).not.toBeVisible();
+  });
+});
+
+describe("disabled interactions", () => {
+  it("ignores scrim clicks while disabled", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet beforeClose={beforeClose} disabled label="Sheet" open position="inline-end">
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await page.getBySelector(`calcite-scrim.${CSS.scrim}`).click({ position: { x: 1, y: 1 } });
+
+    expect(beforeClose).not.toHaveBeenCalled();
+    expect(el.open).toBe(true);
+  });
+
+  it("ignores Escape while disabled", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet beforeClose={beforeClose} disabled label="Sheet" open>
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(beforeClose).not.toHaveBeenCalled();
+    expect(el.open).toBe(true);
+  });
+
+  it("ignores Escape while disabled without focus trapping", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        beforeClose={beforeClose}
+        disabled
+        focusTrapDisabled
+        label="Sheet"
+        open
+        tabIndex={-1}
+      >
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+    el.focus();
+    await expect.element(el).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(beforeClose).not.toHaveBeenCalled();
+    expect(el.open).toBe(true);
+  });
+
+  it("prevents focusing the resize handle while disabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled label="Sheet" open resizable>
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const handle = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.resizeHandle}`)!;
+
+    handle.focus();
+
+    expect(el.shadowRoot.activeElement).not.toBe(handle);
+
+    el.disabled = false;
+    await expect.element(handle).toHaveAttribute("tabindex", "0");
+    handle.focus();
+    expect(el.shadowRoot.activeElement).toBe(handle);
+  });
+
+  it("applies disabled styling to custom content and the resize handle", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled label="Sheet" modalDisabled open resizable>
+        <button slot="custom-content" type="button">
+          Custom content
+        </button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const content = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.content}`)!;
+    const handle = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.resizeHandle}`)!;
+
+    expect(Number.parseFloat(getComputedStyle(content).opacity)).toBeLessThan(1);
+    expect(getComputedStyle(handle).pointerEvents).toBe("none");
+  });
+});
+
+describe("slots", () => {
+  it("forwards heading content to the internal panel", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount(
+      <calcite-sheet heading="Property heading" headingLevel={2} label="Sheet" open>
+        <span slot="heading">Slotted heading</span>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect.element(page.getByRole("heading", { name: "Slotted heading" })).toBeVisible();
+    await expect.element(page.getByText("Property heading")).not.toBeInTheDocument();
+  });
+
+  it("forwards description content to the internal panel", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount(
+      <calcite-sheet description="Property description" heading="Tools" label="Sheet" open>
+        <span slot="description">Slotted description</span>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect.element(page.getByText("Slotted description")).toBeVisible();
+    await expect.element(page.getByText("Property description")).not.toBeInTheDocument();
+  });
+
+  it("forwards header-top content to the internal panel", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount(
+      <calcite-sheet heading="Tools" label="Sheet" open>
+        <div slot="header-top">Header top</div>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
+  });
+});
+
 describe("is focusable", () => {
   const focusableContentTargetClass = "test";
 
-  describe("focuses content by default", () => {
-    focusable(
-      () =>
-        mount(
-          <calcite-sheet open>
-            <button class={focusableContentTargetClass} type="button">
-              test
-            </button>
-          </calcite-sheet>,
-        ),
-      {
-        focusTargetSelector: `.${focusableContentTargetClass}`,
-      },
+  function renderSheet(closeDisabled = false) {
+    return (
+      <calcite-sheet closeDisabled={closeDisabled} open>
+        <button class={focusableContentTargetClass} type="button">
+          test
+        </button>
+      </calcite-sheet>
     );
+  }
+
+  describe("focuses internal panel by default", () => {
+    focusable(() => mount(renderSheet), {
+      shadowFocusTargetSelector: `.${CSS.panel}`,
+    });
+  });
+
+  describe("focuses content if there is no close button", () => {
+    focusable(() => mount(renderSheet(true)), {
+      focusTargetSelector: `.${focusableContentTargetClass}`,
+    });
   });
 });
 
 describe("focus-trap", () => {
-  focusTrap(
-    () =>
-      mount(
-        <calcite-sheet>
-          <input id="focusable-content" />
-        </calcite-sheet>,
-      ),
-    {
+  describe("default", () => {
+    focusTrap(() => mount(<calcite-sheet>Content</calcite-sheet>), {
       toggleProp: "open",
-      focusTarget: () => page.getBySelector("#focusable-content"),
-    },
-  );
+    });
+  });
+
+  describe("without a close button", () => {
+    focusTrap(
+      () =>
+        mount(
+          <calcite-sheet closeDisabled>
+            <input id="focusable-content" />
+          </calcite-sheet>,
+        ),
+      {
+        toggleProp: "open",
+        focusTarget: () => page.getBySelector("#focusable-content"),
+      },
+    );
+  });
 });
 
 describe("Escape key closing", () => {
@@ -422,6 +943,26 @@ describe("reflects", () => {
     () => mount("calcite-sheet"),
     [
       {
+        propertyName: "collapsed",
+        value: true,
+      },
+      {
+        propertyName: "collapsible",
+        value: true,
+      },
+      {
+        propertyName: "disabled",
+        value: true,
+      },
+      {
+        propertyName: "menuPlacement",
+        value: "top-start",
+      },
+      {
+        propertyName: "topLayerDisabled",
+        value: true,
+      },
+      {
         propertyName: "height",
         value: "m",
       },
@@ -463,6 +1004,37 @@ describe("renders", () => {
 
 describe("sheet updateSize public method", () => {
   mockConsole();
+
+  it.each([
+    { axis: "inline", crossAxis: "block", position: "inline-start" },
+    { axis: "block", crossAxis: "inline", position: "block-start" },
+  ] as const)(
+    "preserves the $axis separator value after partial sizing and reset",
+    async ({ axis, crossAxis, position }) => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const { component } = await mount<Sheet>(
+        <calcite-sheet
+          embedded
+          label="Sheet"
+          open
+          position={position}
+          resizable
+          style="--calcite-sheet-width: 320px; --calcite-sheet-min-width: 200px; --calcite-sheet-max-width: 600px; --calcite-sheet-height: 320px; --calcite-sheet-min-height: 200px; --calcite-sheet-max-height: 600px"
+        />,
+      );
+      await openEvent;
+      const separator = page.getByRole("separator");
+
+      await component.el.updateSize({ [axis]: 360 });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "360");
+
+      await component.el.updateSize({ [crossAxis]: 400 });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "360");
+
+      await component.el.updateSize({ [axis]: null });
+      await expect.element(separator).toHaveAttribute("aria-valuenow", "320");
+    },
+  );
 
   type Axis = "inline" | "block";
   type TestCase = {
@@ -519,6 +1091,68 @@ describe("sheet updateSize public method", () => {
     return { sheet: el, content, resizeHandle, component, sizeProp, keyboardKey, mouseDelta };
   }
 
+  it("prevents resizing while disabled and resumes resizing when enabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        embedded
+        label="Sheet"
+        open
+        resizable
+        style="--calcite-sheet-width: 320px; --calcite-sheet-max-width: 600px"
+      />,
+    );
+    await openEvent;
+
+    const resizeHandle = page.getByRole("separator");
+    const content = page.getBySelector(`calcite-sheet > .${CSS.container} > .${CSS.content}`);
+
+    async function dragResizeHandle(): Promise<void> {
+      const { left, top, width, height } = resizeHandle.element().getBoundingClientRect();
+      await commands.mouseMove(left + width / 2, top + height / 2);
+      await commands.mouseDown();
+      await commands.mouseMove(left + width / 2 + 20, top + height / 2);
+      await commands.mouseUp();
+    }
+
+    await expect.element(content).toHaveStyle({ inlineSize: "320px" });
+    await dragResizeHandle();
+    await expect.poll(() => content.element().getBoundingClientRect().width).toBeGreaterThan(320);
+    const pointerWidth = content.element().getBoundingClientRect().width;
+
+    await resizeHandle.click();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect
+      .poll(() => content.element().getBoundingClientRect().width)
+      .toBeGreaterThan(pointerWidth);
+    const disabledWidth = content.element().getBoundingClientRect().width;
+
+    el.disabled = true;
+
+    await expect.element(resizeHandle).toHaveAttribute("aria-disabled", "true");
+    await expect.element(resizeHandle).toHaveAttribute("tabindex", "-1");
+    await userEvent.keyboard("{ArrowRight}");
+    expect(content.element().getBoundingClientRect().width).toBe(disabledWidth);
+    await dragResizeHandle();
+    expect(content.element().getBoundingClientRect().width).toBe(disabledWidth);
+
+    el.disabled = false;
+
+    await expect.element(resizeHandle).toHaveAttribute("aria-disabled", "false");
+    await expect.element(resizeHandle).toHaveAttribute("tabindex", "0");
+    await resizeHandle.click();
+    await userEvent.keyboard("{ArrowRight}");
+    await expect
+      .poll(() => content.element().getBoundingClientRect().width)
+      .toBeGreaterThan(disabledWidth);
+    const keyboardWidth = content.element().getBoundingClientRect().width;
+
+    await dragResizeHandle();
+    await expect
+      .poll(() => content.element().getBoundingClientRect().width)
+      .toBeGreaterThan(keyboardWidth);
+  });
+
   testCases.forEach(({ axis, dir, changeDirAfterMount }) => {
     it(`default size → token resize → KEYBOARD resize → method resize → clear method override [axis=${axis}, dir=${dir}, changeDirAfterMount=${changeDirAfterMount}]`, async () => {
       const initialSize = axis === "inline" ? 320 : 200;
@@ -534,7 +1168,8 @@ describe("sheet updateSize public method", () => {
       await component.updateComplete;
       expect(getComputedStyle(content)[sizeProp]).toBe(`${initialSize}px`);
 
-      await userEvent.keyboard(`{Tab}${keyboardKey}`);
+      await page.getByRole("separator").click();
+      await userEvent.keyboard(keyboardKey);
       const afterUserResize = parseFloat(getComputedStyle(content)[sizeProp]);
       expect(afterUserResize).not.toBe(initialSize);
 
@@ -605,10 +1240,109 @@ describe("sheet updateSize public method", () => {
 });
 
 describe("top layer placement", () => {
-  topLayer(() => mount("calcite-sheet"));
+  topLayer(() => mount("calcite-sheet"), {
+    topLayerTarget: page.getBySelector(`calcite-sheet .${CSS.container}[popover]`),
+  });
 });
 
 describe("themed", () => {
+  describe("internal panel", () => {
+    themed(
+      async () => {
+        const openEvent = waitForEvent(document, "calciteSheetOpen");
+        const renderResult = await mount(
+          <calcite-sheet heading="Panel heading" label="Sheet" open>
+            Panel content
+          </calcite-sheet>,
+        );
+        await openEvent;
+        return renderResult;
+      },
+      {
+        "--calcite-sheet-corner-radius": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-corner-radius",
+        },
+        "--calcite-sheet-heading-text-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-heading-text-color",
+        },
+        "--calcite-sheet-icon-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-icon-color",
+        },
+        "--calcite-sheet-description-text-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-description-text-color",
+        },
+        "--calcite-sheet-border-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-border-color",
+        },
+        "--calcite-sheet-background-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-background-color",
+        },
+        "--calcite-sheet-content-top-space": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-content-top-space",
+        },
+        "--calcite-sheet-content-bottom-space": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-content-bottom-space",
+        },
+        "--calcite-sheet-header-top-space": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-top-space",
+        },
+        "--calcite-sheet-header-background-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-background-color",
+        },
+        "--calcite-sheet-header-action-background-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-action-background-color",
+        },
+        "--calcite-sheet-header-action-background-color-hover": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-action-background-color-hover",
+        },
+        "--calcite-sheet-header-action-background-color-press": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-action-background-color-press",
+        },
+        "--calcite-sheet-header-action-text-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-action-text-color",
+        },
+        "--calcite-sheet-header-action-text-color-press": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-action-text-color-press",
+        },
+        "--calcite-sheet-footer-background-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-footer-background-color",
+        },
+        "--calcite-sheet-space": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-space",
+        },
+        "--calcite-sheet-header-content-space": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-header-content-space",
+        },
+        "--calcite-sheet-footer-space": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-panel-footer-space",
+        },
+        "--calcite-sheet-action-menu-border-color": {
+          shadowSelector: "calcite-panel",
+          targetProp: "--calcite-popover-border-color",
+        },
+      },
+    );
+  });
+
   describe("default", () => {
     themed(
       () =>

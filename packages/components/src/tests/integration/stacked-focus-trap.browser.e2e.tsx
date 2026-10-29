@@ -67,10 +67,7 @@ async function testEscapeAndAssertOpenState(
       await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
     }
 
-    // sheet itself is not focusable, so focus should return to sheet-button before sheet closes
-    const expectedElement =
-      focusTrapOrderEl.id === "sheet" ? page.getBySelector("#sheet-button") : focusTrapOrderEl;
-    await expect.element(expectedElement).toHaveFocus();
+    await expect.element(focusTrapOrderEl).toHaveFocus();
 
     await userEvent.keyboard("{Escape}");
     await closeEventPromise;
@@ -94,10 +91,8 @@ describe("stacked focus-trap components", () => {
       await mount(
         <>
           <calcite-sheet id="sheet">
-            <calcite-panel>
-              <calcite-block open />
-              <calcite-button id="sheet-button">Open Dialog from Sheet</calcite-button>
-            </calcite-panel>
+            <calcite-block open />
+            <calcite-button id="sheet-button">Open Dialog from Sheet</calcite-button>
           </calcite-sheet>
 
           <calcite-dialog heading="Dialog" id="dialog">

@@ -2,7 +2,6 @@ import "../components/action/action";
 import "../components/button/button";
 import "../components/checkbox/checkbox";
 import "../components/label/label";
-import "../components/panel/panel";
 import "../components/shell-panel/shell-panel";
 import { html } from "../../support/formatting";
 
@@ -24,8 +23,8 @@ export const shellPanelTokens = {
   calciteShellTextColor: "",
 };
 
-export const shellPanel = html`<calcite-shell-panel
-  ><calcite-panel heading="Panel Heading" description="Panel description" closable collapsible>
+export const shellPanel = html`
+  <calcite-shell-panel heading="Panel Heading" description="Panel description" panel-collapsible>
     <calcite-action text="Action 1" text-enabled icon="number-circle-1" slot="header-menu-actions"></calcite-action>
     <calcite-action text="Action 2" text-enabled icon="number-circle-2" slot="header-menu-actions"></calcite-action>
     <calcite-action text="Action 3" icon="number-circle-3" slot="header-actions-end"></calcite-action>
@@ -38,5 +37,5 @@ export const shellPanel = html`<calcite-shell-panel
       dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris.
     </p>
     <calcite-button slot="footer-end">Done</calcite-button>
-  </calcite-panel>
-</calcite-shell-panel>`;
+  </calcite-shell-panel>
+`;
