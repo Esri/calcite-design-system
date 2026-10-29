@@ -59,6 +59,20 @@ describe("structure", () => {
 
     await expect.element(page.getByRole("group")).toHaveAccessibleName("Slotted legend");
   });
+
+  it("updates the accessible name when a slotted legend is added and removed", async () => {
+    const { el } = await mount<"calcite-field-set">(<calcite-field-set />);
+    const group = page.getByRole("group");
+    const legend = document.createElement("div");
+    legend.slot = "legend";
+    legend.textContent = "Slotted legend";
+
+    await expect.element(group).toHaveAccessibleName("");
+    el.append(legend);
+    await expect.element(group).toHaveAccessibleName("Slotted legend");
+    legend.remove();
+    await expect.element(group).toHaveAccessibleName("");
+  });
 });
 
 describe("theme", () => {

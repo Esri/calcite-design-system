@@ -1,4 +1,5 @@
 import { LitElement, h, JsxNode, property, state } from "@arcgis/lumina";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-set.scss";
 
@@ -34,7 +35,7 @@ export class FieldSet extends LitElement {
 
   //#region State Properties
 
-  @state() private hasLegendSlot = false;
+  @state() private hasSlottedLegendElement = false;
 
   //#endregion
 
@@ -48,7 +49,7 @@ export class FieldSet extends LitElement {
   //#region Private Methods
 
   private handleLegendSlotChange(event: Event): void {
-    this.hasLegendSlot = (event.target as HTMLSlotElement).assignedElements().length > 0;
+    this.hasSlottedLegendElement = slotChangeHasAssignedElement(event);
   }
   //#endregion
 
@@ -57,7 +58,7 @@ export class FieldSet extends LitElement {
   override render(): JsxNode {
     return (
       <fieldset class={CSS.container}>
-        <legend class={CSS.legend} hidden={!this.legend && !this.hasLegendSlot}>
+        <legend class={CSS.legend} hidden={!this.legend && !this.hasSlottedLegendElement}>
           <slot name="legend" onSlotChange={this.handleLegendSlotChange}>
             {this.legend}
           </slot>
