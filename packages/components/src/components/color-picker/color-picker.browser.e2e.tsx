@@ -2572,6 +2572,30 @@ it("does not throw when initialized with different format value (format='auto')"
 });
 
 describe("themed", () => {
+  it.each(["--calcite-corner-radius", "--calcite-color-picker-corner-radius"])(
+    "keeps the top corners square when %s is customized",
+    async (token) => {
+      const { el } = await mount(<calcite-color-picker value="#ff0000" />);
+      el.style.setProperty(token, "32px");
+
+      const picker = page.elementLocator(el);
+      await expect.element(picker.getBySelector(`.${CSS.container}`).first()).toHaveStyle({
+        "border-top-left-radius": "0px",
+        "border-top-right-radius": "0px",
+        "border-bottom-left-radius": "32px",
+        "border-bottom-right-radius": "32px",
+      });
+      await expect.element(picker.getBySelector(`.${CSS.colorField}`)).toHaveStyle({
+        "border-top-left-radius": "0px",
+        "border-top-right-radius": "0px",
+      });
+      await expect.element(picker.getBySelector(`.${CSS.controlAndScope}`).first()).toHaveStyle({
+        "border-top-left-radius": "0px",
+        "border-top-right-radius": "0px",
+      });
+    },
+  );
+
   describe("default", () => {
     themed(() => mount(<calcite-color-picker alpha-channel />), {
       "--calcite-color-picker-background-color": {
@@ -2585,6 +2609,7 @@ describe("themed", () => {
       "--calcite-color-picker-corner-radius": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "borderRadius",
+        expectedValue: "0px 0px 42px 42px",
       },
       "--calcite-color-picker-shadow": {
         shadowSelector: `.${CSS.container}`,
