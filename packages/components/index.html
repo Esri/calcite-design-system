@@ -62,15 +62,30 @@
       inset-block-start: 50%;
       inset-inline-start: 100%;
       margin-inline-start: var(--calcite-space-xs);
-      padding: var(--calcite-space-px) var(--calcite-space-xs);
       transform: translateY(-50%);
-      border-radius: var(--calcite-corner-radius-sm);
       background-color: var(--calcite-color-status-danger);
+    }
+
+    .height-overlay-label,
+    .text-inspector-label {
+      padding: var(--calcite-space-px) var(--calcite-space-xs);
+      border-radius: var(--calcite-corner-radius-sm);
       color: var(--calcite-color-text-inverse);
       font-size: var(--calcite-font-size-relative-sm);
       font-weight: var(--calcite-font-weight-semibold);
       line-height: var(--calcite-font-line-height-sm);
       white-space: nowrap;
+    }
+
+    .text-inspector-box {
+      position: fixed;
+      box-sizing: border-box;
+      outline: var(--calcite-border-width-sm) solid var(--calcite-color-brand);
+    }
+
+    .text-inspector-label {
+      position: fixed;
+      background-color: var(--calcite-color-brand);
     }
   </style>
 
@@ -296,7 +311,7 @@
         </section>
         <section class="control-section" aria-labelledby="inspect-heading">
           <h2 id="inspect-heading" class="control-section-heading">Inspect</h2>
-          <calcite-switch id="height-overlay-switch" label-text-end="Show component heights"></calcite-switch>
+          <calcite-switch id="height-overlay-switch" label-text-end="Show heights and text sizes"></calcite-switch>
         </section>
       </div>
     </calcite-dialog>
@@ -331,6 +346,71 @@
 
       let heightOverlay;
       let heightOverlayFrame;
+      let textInspectorBox;
+      let textInspectorLabel;
+
+      function getComposedParent(element) {
+        return element.assignedSlot ?? element.parentElement ?? element.getRootNode().host;
+      }
+
+      // slotted text renders inside the shadow element that holds the slot, so check assigned nodes too
+      function hasOwnText(element) {
+        if (element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement) {
+          return true;
+        }
+        return [...element.childNodes].some((node) =>
+          (node instanceof HTMLSlotElement ? node.assignedNodes({ flatten: true }) : [node]).some(
+            (child) => child.nodeType === Node.TEXT_NODE && child.textContent.trim(),
+          ),
+        );
+      }
+
+      function findTextElement(x, y) {
+        const swapper = document.querySelector("demo-dom-swapper");
+        let element = document.elementFromPoint(x, y);
+        if (!element || (element !== swapper && !swapper.contains(element))) {
+          return null;
+        }
+        while (element.shadowRoot) {
+          const inner = element.shadowRoot.elementFromPoint(x, y);
+          if (!inner || inner === element) {
+            break;
+          }
+          element = inner;
+        }
+        for (let depth = 0; element && depth < 4; depth++) {
+          if (hasOwnText(element)) {
+            return element;
+          }
+          element = getComposedParent(element);
+        }
+        return null;
+      }
+
+      function formatPx(value) {
+        return value.endsWith("px") ? `${Number(parseFloat(value).toFixed(2))}px` : value;
+      }
+
+      function inspectText(event) {
+        const element = findTextElement(event.clientX, event.clientY);
+        textInspectorBox.hidden = textInspectorLabel.hidden = !element;
+        if (!element) {
+          return;
+        }
+        const rect = element.getBoundingClientRect();
+        const { fontSize, lineHeight } = getComputedStyle(element);
+        Object.assign(textInspectorBox.style, {
+          top: `${rect.top}px`,
+          left: `${rect.left}px`,
+          width: `${rect.width}px`,
+          height: `${rect.height}px`,
+        });
+        Object.assign(textInspectorLabel.style, {
+          top: `${event.clientY + 16}px`,
+          left: `${event.clientX + 12}px`,
+        });
+        textInspectorLabel.textContent = `${formatPx(fontSize)} / ${formatPx(lineHeight)}`;
+      }
 
       function renderHeightOverlay() {
         const root = getDemoRoot();
@@ -356,6 +436,7 @@
       function toggleHeightOverlay() {
         if (!heightOverlaySwitch.checked) {
           cancelAnimationFrame(heightOverlayFrame);
+          document.removeEventListener("pointermove", inspectText);
           heightOverlay?.remove();
           return;
         }
@@ -369,7 +450,14 @@
           box.append(label);
           heightOverlay.append(box);
         });
+        textInspectorBox = document.createElement("div");
+        textInspectorBox.className = "text-inspector-box";
+        textInspectorLabel = document.createElement("span");
+        textInspectorLabel.className = "text-inspector-label";
+        textInspectorBox.hidden = textInspectorLabel.hidden = true;
+        heightOverlay.append(textInspectorBox, textInspectorLabel);
         document.body.append(heightOverlay);
+        document.addEventListener("pointermove", inspectText);
         renderHeightOverlay();
       }
 
