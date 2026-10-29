@@ -1336,7 +1336,7 @@ position:relative;
           <calcite-tooltip slot="expand-tooltip">Expand</calcite-tooltip>
         </calcite-action-bar>
       </calcite-shell-panel>
-      <calcite-shell-panel slot="panel-bottom">
+      <calcite-shell-panel slot="panel-bottom" collapse-disabled>
         <div style="height: 100%; width: 600px; background-color: black;"></div>
       </calcite-shell-panel>
     </calcite-shell>
@@ -1429,7 +1429,7 @@ position:relative;
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel resizable slot="panel-top">
+    <calcite-shell-panel resizable slot="panel-top" collapse-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1453,7 +1453,7 @@ position:relative;
       </calcite-action-bar>
       <p>Top Panel</p>
     </calcite-shell-panel>
-    <calcite-shell-panel resizable slot="panel-bottom">
+    <calcite-shell-panel resizable slot="panel-bottom" collapse-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1563,7 +1563,7 @@ position:relative;
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel resizable slot="panel-top">
+    <calcite-shell-panel resizable slot="panel-top" collapse-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -1587,7 +1587,7 @@ position:relative;
       </calcite-action-bar>
       <p>Top Panel</p>
     </calcite-shell-panel>
-    <calcite-shell-panel resizable slot="panel-bottom">
+    <calcite-shell-panel resizable slot="panel-bottom" collapse-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
@@ -2182,7 +2182,7 @@ export const panelWithPopoverZIndex = (): string =>
     </style>
     <calcite-shell content-behind>
       <div id="viewDiv"></div>
-      <calcite-shell-panel slot="panel-start"></calcite-shell-panel>
+      <calcite-shell-panel slot="panel-start" collapse-disabled></calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">
         <calcite-flow slot="custom-content">
           <calcite-flow-item heading="panel header">
@@ -2251,7 +2251,7 @@ export const floatAllArrangements = (): string =>
       </calcite-action-bar>
      <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all" slot="panel-end" heading="Configure popup">
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" heading="Configure popup" description="Popular Demographics in the United States (Beta) - County">
       <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -2362,7 +2362,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-action-bar>
         <calcite-block open heading="Preview display-mode"> </calcite-block>
     </calcite-shell-panel>
-    <calcite-shell-panel display-mode="float-all" slot="panel-end" heading="Configure popup">
+    <calcite-shell-panel display-mode="float-all" slot="panel-end" heading="Configure popup" description="Popular Demographics in the United States (Beta) - County">
       <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
@@ -2742,11 +2742,11 @@ export const panelsWithHeightsDefined = (): string =>
       }</style
     ><calcite-shell content-behind>
       <div id="viewDiv"></div>
-      <calcite-shell-panel id="start" slot="panel-start">Start</calcite-shell-panel>
+      <calcite-shell-panel id="start" slot="panel-start" collapse-disabled>Start</calcite-shell-panel>
       <calcite-shell-panel collapse-disabled id="bottom" slot="panel-bottom">
         <div>The panel should fill the entire bottom half of the bounding box.</div>
       </calcite-shell-panel>
-      <calcite-shell-panel id="end" slot="panel-end">End</calcite-shell-panel>
+      <calcite-shell-panel id="end" slot="panel-end" collapse-disabled>End</calcite-shell-panel>
     </calcite-shell>`;
 
 panelsWithHeightsDefined.parameters = {

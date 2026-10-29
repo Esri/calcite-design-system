@@ -560,7 +560,7 @@ export const withShellInside = (): string =>
           </calcite-action-group>
         </calcite-action-bar>
       </calcite-shell-panel>
-      <calcite-shell-panel slot="panel-bottom">
+      <calcite-shell-panel slot="panel-bottom" collapse-disabled>
         <calcite-button>button</calcite-button>
       </calcite-shell-panel>
     </calcite-shell>
