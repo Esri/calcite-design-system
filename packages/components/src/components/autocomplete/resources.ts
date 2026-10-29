@@ -14,7 +14,6 @@ export const CSS = {
   contentHidden: "content--hidden",
   floatingUIContainer: "floating-ui-container",
   floatingUIContainerActive: "floating-ui-container--active",
-  screenReadersOnly: "screen-readers-only",
 } as const;
 
 const idPrefix = "autocomplete";
