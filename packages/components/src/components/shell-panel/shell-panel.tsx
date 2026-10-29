@@ -363,7 +363,7 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, disables the internal panel's close button, which collapses the component's content area. */
+  /** When `true`, disables focus trapping and the internal panel's close button, which collapses the component's content area. */
   @property({ reflect: true }) collapseDisabled = false;
 
   /** When `panelCollapsible` is `true`, specifies the direction of the internal panel's collapse icon. */
@@ -627,7 +627,12 @@ export class ShellPanel extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("collapsed") || changes.has("disabled")) {
+    if (
+      changes.has("collapsed") ||
+      changes.has("collapseDisabled") ||
+      changes.has("disabled") ||
+      changes.has("focusTrapDisabled")
+    ) {
       this.updateFocusTrap();
     }
   }
@@ -640,8 +645,12 @@ export class ShellPanel extends LitElement {
 
   //#region Private Methods
 
+  focusTrapDisabledOverride(): boolean {
+    return this.collapsed || this.collapseDisabled || this.disabled || this.focusTrapDisabled;
+  }
+
   private updateFocusTrap(): void {
-    if (this.collapsed || this.disabled) {
+    if (this.focusTrapDisabledOverride()) {
       this.focusTrap.deactivate();
     } else {
       this.focusTrap.activate();

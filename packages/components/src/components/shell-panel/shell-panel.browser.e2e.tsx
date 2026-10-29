@@ -531,20 +531,103 @@ describe("internal panel", () => {
     },
   );
 
-  it("omits the close action when collapsing is disabled", async () => {
+  it("allows keyboard exit without a close action when collapsing is disabled", async () => {
     await mount(
-      <calcite-shell-panel collapse-disabled heading="Tools">
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
+      <>
+        <button type="button">Before</button>
+        <calcite-shell-panel collapse-disabled heading="Tools">
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">After</button>
+      </>,
     );
 
-    await userEvent.click(page.getByRole("button", { name: "Panel content" }));
+    const content = page.getByRole("button", { name: "Panel content" });
+
+    await userEvent.click(content);
     await userEvent.keyboard("{Escape}");
 
     await expect
       .element(page.getByRole("button", { name: "Close", exact: true }))
       .not.toBeInTheDocument();
-    await expect.element(page.getByRole("button", { name: "Panel content" })).toBeVisible();
+    await expect.element(content).toBeVisible();
+
+    await userEvent.tab();
+    await expect.element(page.getByRole("button", { name: "After", exact: true })).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    await expect.element(content).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    await expect.element(page.getByRole("button", { name: "Before", exact: true })).toHaveFocus();
+  });
+
+  it("releases and restores focus trapping when collapseDisabled changes", async () => {
+    const { component } = await mount<ShellPanel>(
+      <>
+        <calcite-shell-panel heading="Tools">
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const content = page.getByRole("button", { name: "Panel content" });
+    const outside = page.getByRole("button", { name: "Outside" });
+    const close = page.getByRole("button", { name: "Close", exact: true });
+
+    await userEvent.click(content);
+    component.el.collapseDisabled = true;
+
+    await expect.element(component.el).toHaveAttribute("collapse-disabled");
+    await userEvent.click(content);
+    await userEvent.tab();
+    await expect.element(outside).toHaveFocus();
+
+    component.el.collapseDisabled = false;
+
+    await expect.element(close).toBeVisible();
+    await userEvent.click(content);
+    await userEvent.tab();
+    await expect.element(component.el).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(component.el).toHaveProperty("collapsed", true);
+    await expect.element(outside).toHaveFocus();
+  });
+
+  it("honors both focus trapping opt-outs when either is enabled at runtime", async () => {
+    const { component } = await mount<ShellPanel>(
+      <>
+        <calcite-shell-panel collapse-disabled focus-trap-disabled heading="Tools">
+          <button type="button">Panel content</button>
+        </calcite-shell-panel>
+        <button type="button">Outside</button>
+      </>,
+    );
+    const content = page.getByRole("button", { name: "Panel content" });
+    const outside = page.getByRole("button", { name: "Outside" });
+
+    component.el.focusTrapDisabled = false;
+
+    await expect.element(component.el).not.toHaveAttribute("focus-trap-disabled");
+    await userEvent.click(content);
+    await userEvent.tab();
+    await expect.element(outside).toHaveFocus();
+
+    component.el.focusTrapDisabled = true;
+    component.el.collapseDisabled = false;
+
+    await expect.element(component.el).not.toHaveAttribute("collapse-disabled");
+    await userEvent.click(content);
+    await userEvent.tab();
+    await expect.element(outside).toHaveFocus();
+
+    component.el.focusTrapDisabled = false;
+
+    await expect.element(component.el).not.toHaveAttribute("focus-trap-disabled");
+    await userEvent.click(content);
+    await userEvent.tab();
+    await expect.element(component.el).toHaveFocus();
   });
 
   it.each(["vertical", "horizontal"] as const)(
