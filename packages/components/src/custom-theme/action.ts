@@ -15,8 +15,11 @@ export const actionTokens = {
 };
 
 export const actionBarTokens = {
+  calciteActionBarBackgroundColor: "",
+  calciteActionBarCornerRadius: "",
   calciteActionBarExpandedMaxWidth: "",
   calciteActionBarItemsSpace: "",
+  calciteActionBarShadow: "",
 };
 
 export const actionBar = html`<calcite-action-bar layout="horizontal" style="width:100%">
@@ -33,6 +36,18 @@ export const actionBar = html`<calcite-action-bar layout="horizontal" style="wid
   <calcite-action slot="actions-end" text="hello world" icon="layers"></calcite-action>
   <calcite-action slot="actions-end" text="hello world 2" icon="information"></calcite-action>
 </calcite-action-bar>`;
+
+export const floatingActionBar = html`<div style="padding: 20px;">
+  <calcite-action-bar floating>
+    <calcite-action-group>
+      <calcite-action text="Undo" icon="undo"></calcite-action>
+      <calcite-action text="Redo" icon="redo"></calcite-action>
+    </calcite-action-group>
+    <calcite-action-group>
+      <calcite-action text="Delete" icon="trash"></calcite-action>
+    </calcite-action-group>
+  </calcite-action-bar>
+</div>`;
 
 export const actionGroupTokens = {
   calciteActionGroupBorderColor: "",

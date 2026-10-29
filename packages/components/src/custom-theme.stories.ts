@@ -3,6 +3,7 @@ import { allModes } from "../.storybook/modes";
 import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
+  floatingActionBar,
   actionMenu,
   actionTokens,
   actionBarTokens,
@@ -178,7 +179,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${autocomplete} ${notice} ${segmentedControl}
+        ${accordion} ${actionBar} ${floatingActionBar} ${autocomplete} ${notice} ${segmentedControl}
         <div style="display: flex">
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
