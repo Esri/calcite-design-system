@@ -300,7 +300,7 @@ export class Sheet extends LitElement {
       // scrim closes on click, so we let it take over
       clickOutsideDeactivates: () => this.modalDisabled || this.embedded,
       escapeDeactivates: (event) => {
-        if (!event.defaultPrevented && !this.escapeDisabled) {
+        if (!event.defaultPrevented && !this.disabled && !this.escapeDisabled) {
           this.open = false;
           event.preventDefault();
         }
@@ -335,7 +335,13 @@ export class Sheet extends LitElement {
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;
 
-    if (!defaultPrevented && !this.escapeDisabled && this.open && key === "Escape") {
+    if (
+      !defaultPrevented &&
+      !this.disabled &&
+      !this.escapeDisabled &&
+      this.open &&
+      key === "Escape"
+    ) {
       event.preventDefault();
       this.open = false;
     }
@@ -908,7 +914,7 @@ export class Sheet extends LitElement {
   }
 
   private handleOutsideClose(): void {
-    if (this.outsideCloseDisabled) {
+    if (this.disabled || this.outsideCloseDisabled) {
       return;
     }
 
@@ -956,8 +962,8 @@ export class Sheet extends LitElement {
         {this.modalDisabled ? null : (
           <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
         )}
-        <div class={CSS.content} id={IDS.sheetContent} ref={this.contentRef}>
-          <div class={CSS.contentContainer} inert={this.disabled}>
+        <div class={CSS.content} id={IDS.sheetContent} inert={this.disabled} ref={this.contentRef}>
+          <div class={CSS.contentContainer}>
             <slot name={SLOTS.customContent}>
               <calcite-panel
                 class={CSS.panel}

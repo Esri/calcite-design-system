@@ -191,6 +191,35 @@ describe("focus trapping", () => {
     return { el, opener };
   }
 
+  it("traps focus when static custom content is expanded", async () => {
+    const { el } = await mount<ShellPanel>(
+      <>
+        <calcite-shell-panel collapsed>
+          <p slot="custom-content">Static content</p>
+        </calcite-shell-panel>
+        <button type="button">Open tools</button>
+      </>,
+    );
+    const opener = page.getByRole("button", { name: "Open tools" });
+
+    await opener.click();
+    el.collapsed = false;
+
+    await expect.element(page.getByText("Static content")).toBeVisible();
+    await expect.element(el).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(el).toHaveFocus();
+
+    await userEvent.tab({ shift: true });
+    await expect.element(el).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(opener).toHaveFocus();
+  });
+
   it("returns focus to the opener after closing", async () => {
     const { el, opener } = await openShellPanel();
 

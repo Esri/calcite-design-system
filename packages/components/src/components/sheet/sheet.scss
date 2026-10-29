@@ -225,6 +225,15 @@ calcite-panel {
   transform: var(--calcite-sheet-hidden-position-internal);
 }
 
+:host([disabled]) .content {
+  @extend %disabled-host-only;
+
+  ::slotted([calcite-hydrated][disabled]),
+  [calcite-hydrated][disabled] {
+    @apply opacity-100;
+  }
+}
+
 :host([top-layer-disabled]),
 :host([top-layer-disabled]) .content,
 :host([embedded]) .content {

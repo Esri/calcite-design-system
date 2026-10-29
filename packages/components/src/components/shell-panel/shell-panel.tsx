@@ -303,6 +303,7 @@ export class ShellPanel extends LitElement {
 
   private focusTrap = useFocusTrap<this>({
     focusTrapOptions: {
+      fallbackFocus: () => this.containerRef.value!,
       checkCanFocusTrap: async () => {
         await this.updateComplete;
       },
@@ -1126,6 +1127,7 @@ export class ShellPanel extends LitElement {
         <div
           class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
           ref={this.containerRef}
+          tabIndex={-1}
         >
           {mainNodes}
         </div>

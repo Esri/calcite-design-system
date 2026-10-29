@@ -169,8 +169,16 @@ export const customPanelBackground = (): string => html`
 `;
 
 export const disabled = (): string => html`
-  <calcite-sheet disabled heading="Layers" label="Map layers" open>
+  <calcite-sheet disabled heading="Layers" label="Map layers" open resizable>
     <calcite-button>Add layer</calcite-button>
+  </calcite-sheet>
+`;
+
+export const disabledCustomContent = (): string => html`
+  <calcite-sheet disabled label="Map layers" open resizable>
+    <calcite-panel heading="Layers" slot="custom-content">
+      <calcite-button>Add layer</calcite-button>
+    </calcite-panel>
   </calcite-sheet>
 `;
 

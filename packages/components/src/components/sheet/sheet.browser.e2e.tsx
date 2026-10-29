@@ -510,6 +510,85 @@ describe("internal panel", () => {
   });
 });
 
+describe("disabled interactions", () => {
+  it("ignores scrim clicks while disabled", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet beforeClose={beforeClose} disabled label="Sheet" open position="inline-end">
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await page.getBySelector(`calcite-scrim.${CSS.scrim}`).click({ position: { x: 1, y: 1 } });
+
+    expect(beforeClose).not.toHaveBeenCalled();
+    expect(el.open).toBe(true);
+  });
+
+  it("ignores Escape while disabled", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet beforeClose={beforeClose} disabled label="Sheet" open>
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(beforeClose).not.toHaveBeenCalled();
+    expect(el.open).toBe(true);
+  });
+
+  it("ignores Escape while disabled without focus trapping", async () => {
+    const beforeClose = vi.fn<NonNullable<Sheet["beforeClose"]>>().mockResolvedValue(undefined);
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        beforeClose={beforeClose}
+        disabled
+        focusTrapDisabled
+        label="Sheet"
+        open
+        tabIndex={-1}
+      >
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+    el.focus();
+    await expect.element(el).toHaveFocus();
+
+    await userEvent.keyboard("{Escape}");
+
+    expect(beforeClose).not.toHaveBeenCalled();
+    expect(el.open).toBe(true);
+  });
+
+  it("prevents focusing the resize handle while disabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el } = await mount<Sheet>(
+      <calcite-sheet disabled label="Sheet" open resizable>
+        Content
+      </calcite-sheet>,
+    );
+    await openEvent;
+    const handle = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.resizeHandle}`)!;
+
+    handle.focus();
+
+    expect(el.shadowRoot.activeElement).not.toBe(handle);
+
+    el.disabled = false;
+    await expect.element(handle).toHaveAttribute("tabindex", "0");
+    handle.focus();
+    expect(el.shadowRoot.activeElement).toBe(handle);
+  });
+});
+
 describe("slots", () => {
   it("forwards heading content to the internal panel", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
