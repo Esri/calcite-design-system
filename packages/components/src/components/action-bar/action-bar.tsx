@@ -1617,7 +1617,7 @@ export class ActionBar extends LitElement {
       const { menuButtonEl } = item;
 
       if (menuButtonEl) {
-        if (isActive) {
+        if (isActive && !item.open) {
           menuButtonEl.removeAttribute("tabindex");
         } else {
           menuButtonEl.tabIndex = -1;
