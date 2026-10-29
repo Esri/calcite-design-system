@@ -1329,7 +1329,6 @@ export class ActionBar extends LitElement {
 
     if (event instanceof MouseEvent) {
       if (event.detail > 0 && focusedItem && isAction(focusedItem)) {
-        void focusedItem.setFocus();
         this.setNavigationItemTabIndexes(focusedItem);
       }
       return;
