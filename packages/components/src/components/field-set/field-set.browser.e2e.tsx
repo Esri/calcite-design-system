@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
 import type { FieldSet } from "./field-set";
 import { CSS } from "./resources";
@@ -32,39 +33,31 @@ describe("renders", () => {
 });
 
 describe("structure", () => {
-  it("renders a fieldset with a hidden legend when no legend is provided", async () => {
-    const { el } = await mount<"calcite-field-set">(<calcite-field-set />);
-    const container = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.container}`)!;
-    const legend = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
-
-    expect(container.tagName).toBe("FIELDSET");
-    expect(legend.hidden).toBe(true);
+  it("has no accessible name when no legend is provided", async () => {
+    await mount<"calcite-field-set">(<calcite-field-set />);
+    await expect.element(page.getByRole("group")).toHaveAccessibleName("");
   });
 
-  it("renders and updates a native legend", async () => {
+  it("updates the accessible name when the native legend changes", async () => {
     const { el } = await mount<"calcite-field-set">(<calcite-field-set legend="Initial legend" />);
     const fieldSet = el as FieldSet["el"];
-    const legend = fieldSet.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
+    const group = page.getByRole("group");
 
-    expect(legend.tagName).toBe("LEGEND");
-    expect(legend.textContent).toBe("Initial legend");
+    await expect.element(group).toHaveAccessibleName("Initial legend");
 
     fieldSet.legend = "Updated legend";
-    await fieldSet.updateComplete;
 
-    expect(legend.textContent).toBe("Updated legend");
+    await expect.element(group).toHaveAccessibleName("Updated legend");
   });
 
-  it("renders a slotted legend", async () => {
-    const { el } = await mount(
+  it("uses the slotted legend as the accessible name", async () => {
+    await mount(
       <calcite-field-set>
         <div slot="legend">Slotted legend</div>
       </calcite-field-set>,
     );
-    const legend = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.legend}`)!;
 
-    await vi.waitFor(() => expect(legend.hidden).toBe(false));
-    expect(el.querySelector('[slot="legend"]')?.textContent).toBe("Slotted legend");
+    await expect.element(page.getByRole("group")).toHaveAccessibleName("Slotted legend");
   });
 });
 

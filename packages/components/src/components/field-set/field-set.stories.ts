@@ -74,6 +74,23 @@ function renderFieldSet(args: FieldSetStoryArgs, useLabel = false): string {
 
 export const simple = (args: FieldSetStoryArgs): string => renderFieldSet(args);
 
+export const slottedLegend = (): string => html`
+  <calcite-field-set>
+    <div slot="legend">Slotted legend</div>
+    <calcite-input label-text="Label"></calcite-input>
+  </calcite-field-set>
+`;
+slottedLegend.storyName = "Slotted legend";
+slottedLegend.parameters = { controls: { disable: true } };
+
+export const withoutLegend = (): string => html`
+  <calcite-field-set>
+    <calcite-input label-text="Label"></calcite-input>
+  </calcite-field-set>
+`;
+withoutLegend.storyName = "Without legend";
+withoutLegend.parameters = { controls: { disable: true } };
+
 export const simpleUsingLabel = (args: FieldSetStoryArgs): string => renderFieldSet(args, true);
 simpleUsingLabel.storyName = "Simple (using 'Label')";
 
