@@ -422,6 +422,7 @@ export const fixedHeightNoVerticalScrollbar = (): string => html`
 export const noVerticalScrollbarInsideShellPanel = (): string => html`
   <calcite-shell content-behind>
     <calcite-shell-panel
+      collapse-disabled
       slot="panel-end"
       width-scale="l"
       position="end"
