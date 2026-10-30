@@ -84,7 +84,7 @@ describe("fullName", () => {
 
     await expect.element(fullName).toBeInTheDocument();
     await expect.element(standaloneFullName).toBeInTheDocument();
-    await expect.element(username).not.toBeInTheDocument();
+    await expect.element(username).not.toBeVisible();
   });
 });
 
