@@ -21,6 +21,7 @@ import {
   isPrimaryPointerButton,
   nextFrame,
   queryElementRoots,
+  queryElementRootsAll,
   setRequestedIcon,
   slotChangeGetAssignedElements,
   slotChangeGetAssignedNodes,
@@ -1325,5 +1326,29 @@ describe(queryElementRoots, () => {
     const source = page.getBySelector("span");
 
     expect(queryElementRoots(source.element(), { id: myButtonId })).toHaveTextContent(outsideHost);
+  });
+});
+
+describe(queryElementRootsAll, () => {
+  it("queries the shadow root of a slot containing an ancestor of a shadow host", () => {
+    const outerHost = document.createElement("div");
+    const outerRoot = outerHost.attachShadow({ mode: "open" });
+    const match = document.createElement("div");
+    const slot = document.createElement("slot");
+    const wrapper = document.createElement("div");
+    const innerHost = document.createElement("div");
+    const source = document.createElement("span");
+
+    match.className = myButtonClass;
+    outerRoot.append(match, slot);
+    innerHost.attachShadow({ mode: "open" }).append(source);
+    wrapper.append(innerHost);
+    outerHost.append(wrapper);
+    document.body.append(outerHost);
+
+    expect(queryElementRoots(source, { selector: `.${myButtonClass}` })).toBe(match);
+    expect(queryElementRootsAll(source, `.${myButtonClass}`)).toEqual([match]);
+
+    outerHost.remove();
   });
 });
