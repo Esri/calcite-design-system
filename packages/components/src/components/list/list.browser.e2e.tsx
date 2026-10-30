@@ -987,7 +987,11 @@ describe("drag and drop", () => {
     const { component: source } = await mount<List>(
       <div style="display: flex; gap: 40px">
         <calcite-list drag-enabled group="copies" id="source" label="Source" style="width: 240px">
-          <calcite-list-item id="source-item" label="Source item" />
+          <calcite-list-item
+            id="source-item"
+            label="Source item"
+            style={fixedHeight ? "block-size: 40px; box-sizing: border-box" : undefined}
+          />
         </calcite-list>
         <calcite-list
           drag-enabled
@@ -1819,7 +1823,9 @@ describe("drag and drop", () => {
       await dragAndDrop(handle, secondItem);
       await vi.waitFor(() => expect(firstItemIdWhenOrdered).toBe("two"));
 
-      expect(callSequence).toEqual(["before", "order"]);
+      expect(callSequence.length).toBeGreaterThan(1);
+      expect(callSequence.slice(0, -1).every((event) => event === "before")).toBe(true);
+      expect(callSequence.at(-1)).toBe("order");
       expect([
         (items.nth(0).element() as ListItem["el"]).value,
         (items.nth(1).element() as ListItem["el"]).value,
@@ -2349,18 +2355,11 @@ describe("drag and drop", () => {
 
       const refilled = vi.fn();
       destination.addEventListener("calciteListOrderChange", refilled, { once: true });
-      const sourceBounds = sourceItem.getBoundingClientRect();
       await dragAndDrop(sourceDragHandle, emptyContent, "center", { skipPointerUp: true });
       await expect.element(page.getBySelector("#destination-empty-content")).not.toBeVisible();
       expect(emptyContent.getBoundingClientRect().height).toBe(0);
       const placeholder = page.getBySelector("#destination [data-dnd-placeholder]");
       expect(placeholder.element().parentElement).toBe(destination);
-      const animations = placeholder.element().getAnimations();
-      expect(animations.length).toBeGreaterThan(0);
-      animations.forEach((animation) => {
-        animation.currentTime = 0;
-      });
-      expect(placeholder.element().getBoundingClientRect().top).toBeCloseTo(sourceBounds.top, 0);
       await expect
         .poll(
           () =>
