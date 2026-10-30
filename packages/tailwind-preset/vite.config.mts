@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import dts from 'vite-plugin-dts'
+import dts from 'unplugin-dts/vite'
 import packageJson from "./package.json" with { type: "json" };
 
 export default defineConfig({
@@ -26,7 +26,7 @@ See https://github.com/Esri/calcite-design-system/blob/${packageJson.version}/LI
   },
   plugins: [
     dts({
-      rollupTypes: true
+      bundleTypes: true
     }),
   ],
 });

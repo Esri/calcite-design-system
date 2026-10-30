@@ -1,24 +1,13 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-combobox-item-group-text-color: Specifies the component's text color.
- * @prop --calcite-combobox-item-group-border-color: Specifies the component's border color.
- */
-
-@use "../../styles/includes";
-@use "../../styles/shared/outline-none";
-@use "../../styles/shared/text";
+@use "../../styles/shared";
 
 .scale--s {
-  @include text.text-n2h();
+  @include shared.text-n2h();
 
-  --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-sm);
-  --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xxs);
+  --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+  --calcite-combobox-item-vertical-spacing-unit: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 
   .first-title {
-    padding-block-start: var(--calcite-spacing-sm);
+    padding-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 
   .separator {
@@ -32,13 +21,13 @@
 }
 
 .scale--m {
-  @include text.text-n1h();
+  @include shared.text-n1h();
 
-  --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-md);
-  --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-xs);
+  --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+  --calcite-combobox-item-vertical-spacing-unit: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
 
   .first-title {
-    padding-block-start: var(--calcite-spacing-md);
+    padding-block-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 
   .separator {
@@ -52,13 +41,13 @@
 }
 
 .scale--l {
-  @include text.text-0h();
+  @include shared.text-0h();
 
-  --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-spacing-lg);
-  --calcite-combobox-item-vertical-spacing-unit: var(--calcite-spacing-sm-plus);
+  --calcite-combobox-item-horizontal-spacing-unit: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
+  --calcite-combobox-item-vertical-spacing-unit: var(--calcite-theme-space-sm-plus, var(--calcite-spacing-sm-plus));
 
   .first-title {
-    padding-block-start: var(--calcite-spacing-xl);
+    padding-block-start: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   }
 
   .separator {
@@ -81,11 +70,11 @@
 
 :host(:focus),
 .list:focus {
-  @include outline-none.outline-none();
+  @include shared.outline-none();
 }
 
 .separator {
-  block-size: var(--calcite-spacing-px);
+  block-size: var(--calcite-theme-space-px, var(--calcite-spacing-px));
   background-color: var(--calcite-combobox-item-group-border-color, var(--calcite-color-border-3));
 }
 
@@ -98,7 +87,7 @@
 }
 
 .title {
-  @include includes.word-break();
+  @include shared.word-break();
 
   --calcite-combobox-item-indent-value: calc(
     var(--calcite-combobox-item-horizontal-spacing-unit) * var(--calcite-combobox-item-spacing-indent-multiplier)
@@ -115,5 +104,5 @@
   color: var(--calcite-combobox-item-group-text-color, var(--calcite-color-text-1));
 }
 
-@include includes.base-component();
-@include includes.item-hidden();
+@include shared.base-component();
+@include shared.item-hidden();

@@ -1,46 +1,34 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-dropdown-item-background-color-hover: Specifies the component's background color when hovered.
- * @prop --calcite-dropdown-item-background-color-press: Specifies the component's background color when `selected` or active.
- * @prop --calcite-dropdown-item-icon-color-hover: [Deprecated] in v5.0.0, removal target v6.0.0 - Specifies the color of the component's selection icon when hovered.
- * @prop --calcite-dropdown-item-icon-color-press: Specifies the color of the component's selection icon when `selected` or active.
- * @prop --calcite-dropdown-item-text-color-press: Specifies the component's text color when `selected` or active.
- * @prop --calcite-dropdown-item-text-color: Specifies the component's text color.
-*/
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-dropdown-item-text-color
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 @mixin item-styling {
-  @apply relative
-    flex
-    flex-grow
-    cursor-pointer
-    items-center
-    no-underline;
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  cursor: pointer;
+  align-items: center;
+  text-decoration-line: none;
 
   color: var(--calcite-dropdown-item-text-color, var(--calcite-color-text-1));
 }
 
 :host {
-  @apply relative
-    flex
-    flex-grow
-    items-center
-    outline-none;
+  @include shared.outline-none();
+
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
 }
 
 .container {
   @include item-styling;
-  @apply text-start;
+  text-align: start;
 
   & a {
     outline: none;
@@ -49,14 +37,14 @@
 }
 
 .content {
-  @apply flex-auto;
+  flex: 1 1 auto;
 }
 
 // item icon
 .icon {
-  @apply relative
-    opacity-0
-    ease-in-out;
+  position: relative;
+  opacity: 0;
+  transition-timing-function: var(--calcite-animation-easing-function);
   transform: scale(0.9);
 }
 
@@ -67,46 +55,55 @@
 
 :host([scale="s"]) {
   .container {
-    @apply text-n2h py-1 px-2;
+    @include shared.text-n2h();
+
+    padding-block: var(--calcite-space-2xs);
+    padding-inline: var(--calcite-space-sm);
   }
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-sm);
+    padding-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-sm);
+    padding-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
 :host([scale="m"]) {
   .container {
-    @apply text-n1h py-2 px-3;
+    @include shared.text-n1h();
+
+    padding-block: var(--calcite-space-sm);
+    padding-inline: var(--calcite-space-md);
   }
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-md);
+    padding-inline-end: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-md);
+    padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   }
 }
 
 :host([scale="l"]) {
   .container {
-    @apply text-0h py-2.5 px-4;
+    @include shared.text-0h();
+
+    padding-block: var(--calcite-space-sm-plus);
+    padding-inline: var(--calcite-space-lg);
   }
 
   .icon,
   .icon--start {
-    padding-inline-end: var(--calcite-spacing-lg);
+    padding-inline-end: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 
   .icon--end {
-    padding-inline-start: var(--calcite-spacing-lg);
+    padding-inline-start: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   }
 }
 
@@ -114,24 +111,32 @@
 :host(:focus),
 :host([active-descendant]) {
   .container {
-    @apply focus-inset no-underline;
+    @include shared.focus-inset();
+
+    text-decoration-line: none;
   }
 }
 
 :host(:hover:not([disabled])) {
   .container {
-    background-color: var(--calcite-dropdown-item-background-color-hover, var(--calcite-color-foreground-2));
+    background-color: var(
+      --calcite-dropdown-item-background-color-hover,
+      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+    );
   }
 }
 
 :host(:active:not([disabled])) .container {
-  background-color: var(--calcite-dropdown-item-background-color-press, var(--calcite-color-foreground-3));
+  background-color: var(
+    --calcite-dropdown-item-background-color-press,
+    var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+  );
 }
 
 :host(:hover:not([disabled])),
 :host(:active:not([disabled])) {
   .container {
-    @apply no-underline;
+    text-decoration-line: none;
     color: var(--calcite-dropdown-item-text-color-press, var(--calcite-color-text-1));
   }
 
@@ -147,7 +152,7 @@
 
 :host([selected]) .container:not(.container--none-selection),
 :host([selected]) .link {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   --calcite-internal-dropdown-item-text-color: var(
     --calcite-dropdown-item-text-color-press,
     var(--calcite-color-text-1)
@@ -170,8 +175,8 @@
 }
 
 :host([selected]) .icon {
-  @apply opacity-100;
+  opacity: var(--calcite-opacity-full);
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

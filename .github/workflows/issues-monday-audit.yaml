@@ -1,0 +1,38 @@
+name: Audit Monday.com Issues
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 16 1 * *"
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/setup@v3
+        with:
+          install: false
+      - name: Install CLI dependencies
+        run: pnpm install --frozen-lockfile --filter @esri/monorepo-cli --ignore-scripts
+      - name: Audit open issues
+        id: audit
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          MONDAY_KEY: ${{ secrets.MONDAY_KEY }}
+          MONDAY_BOARD: ${{ secrets.MONDAY_BOARD }}
+          MONDAY_ISSUE_NUMBER_COLUMN_ID: ${{ vars.MONDAY_ISSUE_NUMBER_COLUMN_ID }}
+        run: node cli issues-monday-audit
+      - name: Notify Teams
+        if: ${{ !cancelled() && steps.audit.outcome != 'skipped' }}
+        env:
+          TEAMS_WEBHOOK: ${{ secrets.TEAMS_NOTIFICATIONS_WEBHOOK_URI }}
+          TEAMS_TITLE: "Monday.com issue audit: ${{ steps.audit.outcome == 'success' && steps.audit.outputs.outcome || 'Incomplete' }}"
+          TEAMS_MESSAGE: ${{ steps.audit.outcome == 'success' && steps.audit.outputs.teams-message || 'The audit did not complete, check the workflow logs.' }}
+          TEAMS_ACTION_TEXT: "View full report and logs"
+          TEAMS_ACTION_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: node cli notify-teams

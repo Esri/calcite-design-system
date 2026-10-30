@@ -20,34 +20,84 @@ type ShellPanelWithSizingProvider = ShellPanel["el"] & {
 
 type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
 
-const panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
-
-type PanelSlot = (typeof panelSlots)[number];
-
 declare global {
   interface DeclareElements {
     "calcite-shell": Shell;
   }
 }
 
-/**
- * @slot - A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
- * @slot header - A slot for adding header content. This content will be positioned at the top of the component.
- * @slot footer - A slot for adding footer content. This content will be positioned at the bottom of the component.
- * @slot panel-start - A slot for adding the starting `calcite-shell-panel`.
- * @slot panel-end - A slot for adding the ending `calcite-shell-panel`.
- * @slot panel-top - A slot for adding the top `calcite-shell-panel`.
- * @slot panel-bottom - A slot for adding the bottom `calcite-shell-panel`.
- * @slot dialogs - A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
- * @slot alerts - A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
- * @slot sheets - A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-shell-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-shell-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-shell-shadow": "*";
+  }
+}
+
+interface ShellSlots {
+  /**
+   * A slot for adding custom content. This content will appear between any leading and trailing panels added to the component, such as a map.
+   */
+  "": Node[];
+  /**
+   * A slot for adding header content. This content will be positioned at the top of the component.
+   */
+  header: Node[];
+  /**
+   * A slot for adding footer content. This content will be positioned at the bottom of the component.
+   */
+  footer: Node[];
+  /**
+   * A slot for adding the starting `calcite-shell-panel`.
+   */
+  "panel-start": Node[];
+  /**
+   * A slot for adding the ending `calcite-shell-panel`.
+   */
+  "panel-end": Node[];
+  /**
+   * A slot for adding the top `calcite-shell-panel`.
+   */
+  "panel-top": Node[];
+  /**
+   * A slot for adding the bottom `calcite-shell-panel`.
+   */
+  "panel-bottom": Node[];
+  /**
+   * A slot for adding `calcite-dialog` components. When placed in this slot, the dialog position will be constrained to the extent of the `calcite-shell`.
+   */
+  dialogs: Node[];
+  /**
+   * A slot for adding `calcite-alert` components. When placed in this slot, the alert position will be constrained to the extent of the `calcite-shell`.
+   */
+  alerts: Node[];
+  /**
+   * A slot for adding `calcite-sheet` components. When placed in this slot, the sheet position will be constrained to the extent of the `calcite-shell`.
+   */
+  sheets: Node[];
+}
+
 export class Shell extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ShellSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
 
-  //#endregion
+  // #endregion
 
   //#region Private Properties
 
@@ -61,17 +111,7 @@ export class Shell extends LitElement {
 
   private panelTopSlotRef = createRef<HTMLSlotElement>();
 
-  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
-    {
-      "panel-start": { elements: [], resizable: false },
-      "panel-end": { elements: [], resizable: false },
-      "panel-top": { elements: [], resizable: false },
-      "panel-bottom": { elements: [], resizable: false },
-    };
-
-  //#endregion
-
-  //#region State Properties
+  // #region State Properties
 
   @state() hasAlerts = false;
 
@@ -81,32 +121,26 @@ export class Shell extends LitElement {
 
   @state() hasHeader = false;
 
-  @state() hasActionBarPositionPanel = false;
-
   @state() hasOnlyPanelBottom = false;
 
   @state() hasPanelBottom = false;
 
   @state() hasPanelTop = false;
 
-  @state() hasResizablePanelBottom = false;
-
-  @state() hasResizablePanelTop = false;
-
   @state() hasSheets = false;
 
   @state() panelIsResizing = false;
 
-  //#endregion
+  // #endregion
 
-  //#region Public Properties
+  // #region Public Properties
 
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
-  //#endregion
+  // #endregion
 
-  //#region Lifecycle
+  // #region Lifecycle
 
   constructor() {
     super();
@@ -117,14 +151,6 @@ export class Shell extends LitElement {
     this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeEnd"]>(
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
-    );
-    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizableChange"]>(
-      "calciteInternalShellPanelResizableChange",
-      this.handleCalciteInternalShellPanelResizableChange,
-    );
-    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelActionBarPositionChange"]>(
-      "calciteInternalShellPanelActionBarPositionChange",
-      this.handleCalciteInternalShellPanelActionBarPositionChange,
     );
   }
 
@@ -141,29 +167,9 @@ export class Shell extends LitElement {
     }
   }
 
-  //#endregion
+  // #endregion
 
-  //#region Private Methods
-
-  private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
-    const panel = event.composedPath().find(isShellPanel);
-
-    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updateResizableSlotState(panel.slot as PanelSlot);
-    }
-
-    event.stopPropagation();
-  }
-
-  private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
-    const panel = event.composedPath().find(isShellPanel);
-
-    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updateResizableSlotState(panel.slot as PanelSlot);
-    }
-
-    event.stopPropagation();
-  }
+  // #region Private Methods
 
   private handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
     this.panelIsResizing = true;
@@ -315,7 +321,6 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "start";
     });
-    this.updateResizableSlotState("panel-top", panelElements);
   }
 
   private handlePanelBottomChange(event: Event): void {
@@ -327,7 +332,6 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "end";
     });
-    this.updateResizableSlotState("panel-bottom", panelElements);
   }
 
   private handlePanelStartChange(event: Event): void {
@@ -338,7 +342,6 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "start";
     });
-    this.updateResizableSlotState("panel-start", panelElements);
   }
 
   private handlePanelEndChange(event: Event): void {
@@ -349,7 +352,6 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "end";
     });
-    this.updateResizableSlotState("panel-end", panelElements);
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -361,32 +363,9 @@ export class Shell extends LitElement {
       });
   }
 
-  private updateResizableSlotState(
-    slot: PanelSlot,
-    panelElements = this.panelSlotState[slot].elements,
-  ): void {
-    this.panelSlotState[slot] = {
-      elements: panelElements,
-      resizable: panelElements.some((panel) => panel.resizable),
-    };
-    this.syncResizableState();
-    this.syncActionBarPositionPanelState();
-  }
+  // #endregion
 
-  private syncActionBarPositionPanelState(): void {
-    this.hasActionBarPositionPanel = panelSlots.some((slot) =>
-      this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
-    );
-  }
-
-  private syncResizableState(): void {
-    this.hasResizablePanelBottom = this.panelSlotState["panel-bottom"].resizable;
-    this.hasResizablePanelTop = this.panelSlotState["panel-top"].resizable;
-  }
-
-  //#endregion
-
-  //#region Rendering
+  // #region Rendering
 
   private renderHeader(): JsxNode {
     return (
@@ -492,14 +471,7 @@ export class Shell extends LitElement {
 
   private renderMain(): JsxNode {
     return (
-      <div
-        class={{
-          [CSS.main]: true,
-          [CSS.hasActionBarPositionPanel]: this.hasActionBarPositionPanel,
-          [CSS.hasResizablePanelBottom]: this.hasResizablePanelBottom,
-          [CSS.hasResizablePanelTop]: this.hasResizablePanelTop,
-        }}
-      >
+      <div class={CSS.main}>
         <slot
           name={SLOTS.panelStart}
           onSlotChange={this.handlePanelStartChange}
@@ -536,5 +508,5 @@ export class Shell extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

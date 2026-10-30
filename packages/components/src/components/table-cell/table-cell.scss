@@ -1,17 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-table-cell-background: [Deprecated] in v3.3.0, removal target v6.0.0 - Use `--calcite-table-cell-background-color` instead. Specifies the component's background color.
- * @prop --calcite-table-cell-background-color: Specifies the component's background color.
- * @prop --calcite-table-cell-border-color: Specifies the component's border color.
- * @prop --calcite-table-cell-text-color: Specifies the component's text color.
-
- */
-
-@use "../../styles/shared/focus";
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: contents;
@@ -44,7 +31,7 @@ td {
   &:not(.static-cell) {
     outline-color: transparent;
     &:focus {
-      @include focus.focus-inset();
+      @include shared.focus-inset();
     }
   }
 }
@@ -70,7 +57,7 @@ td.last-cell {
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-table-cell-background-color,
-    var(--calcite-table-cell-background, var(--calcite-color-background))
+    var(--calcite-table-cell-background, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
   );
 
   border-block-end: 0;
@@ -89,11 +76,14 @@ td.last-cell {
 
 .number-cell {
   color: var(--calcite-table-number-cell-text-color, var(--calcite-color-text-1));
-  background-color: var(--calcite-table-number-cell-background-color, var(--calcite-color-foreground-2));
+  background-color: var(
+    --calcite-table-number-cell-background-color,
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+  );
   &.footer-cell {
     background-color: var(
       --calcite-table-number-cell-background-color,
-      var(--calcite-table-cell-background-color, var(--calcite-color-background))
+      var(--calcite-table-cell-background-color, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
     );
   }
 }
@@ -110,7 +100,7 @@ td.last-cell {
   &.footer-cell {
     background-color: var(
       --calcite-table-selection-cell-background-color,
-      var(--calcite-table-cell-background-color, var(--calcite-color-background))
+      var(--calcite-table-cell-background-color, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
     );
   }
 }
@@ -139,4 +129,4 @@ td.last-cell {
   }
 }
 
-@include includes.disabled();
+@include shared.disabled();

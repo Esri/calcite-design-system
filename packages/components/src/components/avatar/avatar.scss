@@ -1,15 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-avatar-corner-radius: Specifies the component's corner radius.
- * @prop --calcite-avatar-color: Specifies the component's icon or initial color.
- * @prop --calcite-avatar-background-color: Specifies the component's background color.
- *
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply inline-block overflow-hidden;
@@ -47,4 +36,4 @@
   border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
-@include includes.base-component();
+@include shared.base-component();

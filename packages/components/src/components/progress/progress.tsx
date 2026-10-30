@@ -10,6 +10,23 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-progress-background-color": "*";
+    /**
+     * Specifies the component's fill color.
+     */
+    "--calcite-progress-fill-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-progress-text-color": "*";
+  }
+}
+
 export class Progress extends LitElement {
   //#region Static Members
 

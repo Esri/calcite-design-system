@@ -3,17 +3,33 @@ import type { FormatFn, TransformedToken } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
 import type { RegisterFn } from "../../types.ts";
 import { cleanAttributes } from "./utils/index.ts";
+import { isThemeableToken } from "../utils/token-types.ts";
+
+function themeNames(token: TransformedToken): { name: string } | undefined {
+  const names = (token.attributes as { names?: { css?: string } } | undefined)?.names;
+
+  if (!names?.css) {
+    return undefined;
+  }
+
+  return {
+    name: names.css.replace(/^var\((.*)\)$/, "$1").replace("--calcite-", "--calcite-theme-"),
+  };
+}
 
 export const formatDocsPlatform: FormatFn = async ({ dictionary }) => {
   const output = {
     timestamp: Date.now(),
     tokens: dictionary.allTokens.map((token) => {
-      token.$value = typeof token.$value !== "string" ? JSON.stringify(token.$value) : token.$value;
+      const docsToken = structuredClone(token);
+      const theme = isThemeableToken(docsToken) ? themeNames(docsToken) : undefined;
 
-      delete (token as Partial<Pick<TransformedToken, "original">>).original;
-      cleanAttributes(token);
+      docsToken.$value = typeof docsToken.$value !== "string" ? JSON.stringify(docsToken.$value) : docsToken.$value;
 
-      return token;
+      delete (docsToken as Partial<Pick<TransformedToken, "original">>).original;
+      cleanAttributes(docsToken);
+
+      return { ...docsToken, ...(theme ? { theme } : {}) };
     }),
   };
 

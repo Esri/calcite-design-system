@@ -13,7 +13,7 @@ import {
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { Scale, SelectionMode } from "../types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -27,10 +27,29 @@ declare global {
   }
 }
 
-/**
- * @slot image - A slot for adding an image or pattern.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-swatch-corner-radius": "*";
+  }
+}
+
+interface SwatchSlots {
+  /**
+   * A slot for adding an image or pattern.
+   */
+  image: Node[];
+}
+
 export class Swatch extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SwatchSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -43,7 +62,7 @@ export class Swatch extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 

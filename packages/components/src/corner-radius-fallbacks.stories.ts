@@ -8,6 +8,7 @@ import { buttons } from "./custom-theme/button";
 import { card } from "./custom-theme/card";
 import { colorPicker } from "./custom-theme/color-picker";
 import { datePicker } from "./custom-theme/date-picker";
+import { filter } from "./custom-theme/filter";
 import { input } from "./custom-theme/input";
 import { inputNumber } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
@@ -17,6 +18,7 @@ import { select } from "./custom-theme/select";
 import { segmentedControl } from "./custom-theme/segmented-control";
 import { splitButton } from "./custom-theme/split-button";
 import { table } from "./custom-theme/table";
+import { textArea } from "./custom-theme/text-area";
 import { tile } from "./custom-theme/tile";
 import { timePicker } from "./custom-theme/time-picker";
 
@@ -54,6 +56,10 @@ const kitchenSink = () =>
       <div class="fallback-row">${inputText} ${inputNumber} ${inputTimeZone}</div>
 
       <div class="fallback-row">${input} ${autocomplete} ${select}</div>
+
+      <div class="fallback-row">${textArea}</div>
+
+      <div class="fallback-row">${filter}</div>
 
       <div class="fallback-row">${colorPicker} ${datePicker} ${timePicker}</div>
 

@@ -1,12 +1,11 @@
-@use "../../styles/includes";
-@use "../../styles/shared/outline-none";
+@use "../../styles/shared";
 
 :host {
   display: block;
 }
 
 :host(:focus) {
-  @include outline-none.outline-none();
+  @include shared.outline-none();
 }
 
-@include includes.base-component();
+@include shared.base-component();

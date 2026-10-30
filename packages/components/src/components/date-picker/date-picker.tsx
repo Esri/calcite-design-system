@@ -16,6 +16,7 @@ import {
   dateToISO,
   getDaysDiff,
   getFirstValidDateInMonth,
+  hasSameMonthAndYear,
   HoverRange,
   inRange,
   nextMonth,
@@ -25,7 +26,7 @@ import {
 import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, DATE_PICKER_FORMAT_OPTIONS, HEADING_LEVEL } from "./resources";
 import {
@@ -41,6 +42,111 @@ import { logger } from "../../utils/logger";
 declare global {
   interface DeclareElements {
     "calcite-date-picker": DatePicker;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-date-picker-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-date-picker-corner-radius": "*";
+    /**
+     * When `range` is `true`, specifies the divider color between the component's calendars.
+     */
+    "--calcite-date-picker-range-calendar-divider-color": "*";
+    /**
+     * Specifies the text color of the component's week header.
+     */
+    "--calcite-date-picker-week-header-text-color": "*";
+    /**
+     * Specifies the background color of component`s header actions.
+     */
+    "--calcite-date-picker-header-action-background-color": "*";
+    /**
+     * Specifies the background color of component`s header actions when hovered.
+     */
+    "--calcite-date-picker-header-action-background-color-hover": "*";
+    /**
+     * Specifies the background color of component`s header actions when pressed.
+     */
+    "--calcite-date-picker-header-action-background-color-press": "*";
+    /**
+     * Specifies the text color of the component's header actions.
+     */
+    "--calcite-date-picker-header-action-text-color": "*";
+    /**
+     * Specifies the text color of the component's header actions when pressed.
+     */
+    "--calcite-date-picker-header-action-text-color-press": "*";
+    /**
+     * Specifies the text color of the component's year and suffix.
+     */
+    "--calcite-date-picker-year-text-color": "*";
+    /**
+     * Specifies the font size of the component's month selector.
+     */
+    "--calcite-date-picker-month-select-font-size": "*";
+    /**
+     * Specifies the text color of the component's month selector.
+     */
+    "--calcite-date-picker-month-select-text-color": "*";
+    /**
+     * Specifies the icon color of the component's month selector.
+     */
+    "--calcite-date-picker-month-select-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's month selector when hovered.
+     */
+    "--calcite-date-picker-month-select-icon-color-hover": "*";
+    /**
+     * Specifies the background color of the component's day elements.
+     */
+    "--calcite-date-picker-day-background-color": "*";
+    /**
+     * Specifies the background color of the component's day elements when hovered.
+     */
+    "--calcite-date-picker-day-background-color-hover": "*";
+    /**
+     * Specifies the text color of the component's day elements.
+     */
+    "--calcite-date-picker-day-text-color": "*";
+    /**
+     * Specifies the text color of the component's day elements when hovered.
+     */
+    "--calcite-date-picker-day-text-color-hover": "*";
+    /**
+     * Specifies the text color of the component's current day.
+     */
+    "--calcite-date-picker-current-day-text-color": "*";
+    /**
+     * Specifies the background color of the component's selected day.
+     */
+    "--calcite-date-picker-day-background-color-selected": "*";
+    /**
+     * Specifies the text color of the component's selected day elements.
+     */
+    "--calcite-date-picker-day-text-color-selected": "*";
+    /**
+     * Specifies the text color of component's selected day range.
+     */
+    "--calcite-date-picker-day-range-text-color": "*";
+    /**
+     * Specifies the background color the component's selected day range.
+     */
+    "--calcite-date-picker-day-range-background-color": "*";
+    /**
+     * Specifies the background color of the component's day elements outside the current range when hovered.
+     */
+    "--calcite-date-picker-day-outside-range-background-color-hover": "*";
+    /**
+     * Specifies the text color of the component's day elements outside the current range when hovered.
+     */
+    "--calcite-date-picker-day-outside-range-text-color-hover": "*";
   }
 }
 
@@ -62,7 +168,7 @@ export class DatePicker extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
@@ -626,16 +732,26 @@ export class DatePicker extends LitElement {
       this.activeEndDate = this.getActiveEndDate(endDate, this.minAsDate, this.maxAsDate);
 
       if (sameDate(this.activeStartDate, this.activeEndDate)) {
-        const previousMonthActiveDate = getFirstValidDateInMonth(
-          this.activeEndDate ? prevMonth(this.activeEndDate) : undefined,
-          this.minAsDate,
-          this.maxAsDate,
-        );
-        const nextMonthActiveDate = this.activeEndDate ? nextMonth(this.activeEndDate) : undefined;
-        if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
-          this.activeStartDate = previousMonthActiveDate;
-        } else if (inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+        const nextMonthDate = this.activeEndDate ? nextMonth(this.activeEndDate) : undefined;
+        const nextMonthActiveDate = inRange(nextMonthDate, this.minAsDate, this.maxAsDate)
+          ? nextMonthDate
+          : getFirstValidDateInMonth(nextMonthDate, this.minAsDate, this.maxAsDate);
+
+        if (
+          hasSameMonthAndYear(nextMonthActiveDate, nextMonthDate) &&
+          inRange(nextMonthActiveDate, this.minAsDate, this.maxAsDate)
+        ) {
           this.activeEndDate = nextMonthActiveDate;
+        } else if (this.calendars === 2) {
+          const previousMonthActiveDate = getFirstValidDateInMonth(
+            this.activeStartDate ? prevMonth(this.activeStartDate) : undefined,
+            this.minAsDate,
+            this.maxAsDate,
+          );
+
+          if (inRange(previousMonthActiveDate, this.minAsDate, this.maxAsDate)) {
+            this.activeStartDate = previousMonthActiveDate;
+          }
         }
       }
     }

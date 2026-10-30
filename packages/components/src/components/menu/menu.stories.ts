@@ -231,32 +231,21 @@ export const allScales = (): string => html`
           <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" />
         </calcite-menu>
 
-        <div class="row-heading">Has children</div>
+        <div class="row-heading">Has children + Is child</div>
         <calcite-menu class="vertical-scale-s" layout="vertical" scale="s">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" open>
             <calcite-menu-item icon-end="diamond" icon-start="diamond" slot="submenu-item" text="Menu item" />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu class="vertical-scale-m" layout="vertical">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" open>
             <calcite-menu-item icon-end="diamond" icon-start="diamond" slot="submenu-item" text="Menu item" />
           </calcite-menu-item>
         </calcite-menu>
         <calcite-menu class="vertical-scale-l" layout="vertical" scale="l">
-          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item">
+          <calcite-menu-item icon-end="diamond" icon-start="diamond" text="Menu item" open>
             <calcite-menu-item icon-end="diamond" icon-start="diamond" slot="submenu-item" text="Menu item" />
           </calcite-menu-item>
-        </calcite-menu>
-
-        <div class="row-heading">Is child</div>
-        <calcite-menu class="vertical-scale-s" layout="vertical" scale="s">
-          <calcite-menu-item class="is-child" icon-end="diamond" icon-start="diamond" text="Menu item" />
-        </calcite-menu>
-        <calcite-menu class="vertical-scale-m" layout="vertical">
-          <calcite-menu-item class="is-child" icon-end="diamond" icon-start="diamond" text="Menu item" />
-        </calcite-menu>
-        <calcite-menu class="vertical-scale-l" layout="vertical" scale="l">
-          <calcite-menu-item class="is-child" icon-end="diamond" icon-start="diamond" text="Menu item" />
         </calcite-menu>
 
         <div class="row-heading">Has children + href</div>
