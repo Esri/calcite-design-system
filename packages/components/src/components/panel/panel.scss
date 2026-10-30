@@ -29,11 +29,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .header-content {
     .heading {
-      font-size: var(--calcite-font-size--1);
+      font-size: var(--calcite-font-size-relative-base);
     }
 
     .description {
-      font-size: var(--calcite-font-size--2);
+      font-size: var(--calcite-font-size-relative-sm);
     }
 
     .icon {
@@ -48,11 +48,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .header-content {
     .heading {
-      font-size: var(--calcite-font-size-0);
+      font-size: var(--calcite-font-size-relative-md);
     }
 
     .description {
-      font-size: var(--calcite-font-size--1);
+      font-size: var(--calcite-font-size-relative-base);
     }
 
     .icon {
@@ -72,11 +72,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .header-content {
     .heading {
-      font-size: var(--calcite-font-size-1);
+      font-size: var(--calcite-font-size-relative-lg);
     }
 
     .description {
-      font-size: var(--calcite-font-size-0);
+      font-size: var(--calcite-font-size-relative-md);
     }
 
     .icon {
@@ -109,7 +109,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
   box-sizing: border-box;
-  font-size: var(--calcite-font-size--1);
+  font-size: var(--calcite-font-size-relative-base);
 }
 
 .container * {

@@ -157,11 +157,11 @@ calcite-link {
   max-inline-size: 400px;
   min-inline-size: 100px;
   .heading {
-    font-size: var(--calcite-font-size--2);
+    font-size: var(--calcite-font-size-relative-sm);
     line-height: 1.03125rem;
   }
   .description {
-    font-size: var(--calcite-font-size--3);
+    font-size: var(--calcite-font-size-relative-xs);
     line-height: 0.85938rem;
   }
 }
@@ -172,11 +172,11 @@ calcite-link {
   max-inline-size: 460px;
   min-inline-size: 140px;
   .heading {
-    font-size: var(--calcite-font-size--1);
+    font-size: var(--calcite-font-size-relative-base);
     line-height: 1.20313rem;
   }
   .description {
-    font-size: var(--calcite-font-size--2);
+    font-size: var(--calcite-font-size-relative-sm);
     line-height: 1.03125rem;
   }
 }
@@ -188,11 +188,11 @@ calcite-link {
   min-inline-size: 160px;
 
   .heading {
-    font-size: var(--calcite-font-size-0);
+    font-size: var(--calcite-font-size-relative-md);
     line-height: 1.375rem;
   }
   .description {
-    font-size: var(--calcite-font-size--1);
+    font-size: var(--calcite-font-size-relative-base);
     line-height: 1.20313rem;
   }
 }
