@@ -2579,20 +2579,20 @@ describe("themed", () => {
       el.style.setProperty(token, "32px");
 
       const picker = page.elementLocator(el);
-      await expect.element(picker.getBySelector(`.${CSS.container}`).first()).toHaveStyle({
-        "border-top-left-radius": "0px",
-        "border-top-right-radius": "0px",
-        "border-bottom-left-radius": "32px",
-        "border-bottom-right-radius": "32px",
-      });
-      await expect.element(picker.getBySelector(`.${CSS.colorField}`)).toHaveStyle({
-        "border-top-left-radius": "0px",
-        "border-top-right-radius": "0px",
-      });
-      await expect.element(picker.getBySelector(`.${CSS.controlAndScope}`).first()).toHaveStyle({
-        "border-top-left-radius": "0px",
-        "border-top-right-radius": "0px",
-      });
+      await expect.element(picker.getBySelector(`.${CSS.container}`).first()).toHaveStyle(`
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 32px;
+        border-bottom-right-radius: 32px;
+      `);
+      await expect.element(picker.getBySelector(`.${CSS.colorField}`)).toHaveStyle(`
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+      `);
+      await expect.element(picker.getBySelector(`.${CSS.controlAndScope}`).first()).toHaveStyle(`
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+      `);
     },
   );
 
