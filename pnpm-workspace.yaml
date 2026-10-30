@@ -133,6 +133,7 @@ catalogs:
     "@arcgis/lumina": ">=6.0.0-next.16 <7.0.0"
     "@arcgis/lumina-compiler": ">=6.0.0-next.16 <7.0.0"
     "@arcgis/toolkit": ">=6.0.0-next.16 <7.0.0"
+    "@dnd-kit/dom": "^0.5.1"
     "@floating-ui/dom": "^1.8.0"
     "@floating-ui/utils": "^0.2.8"
     "@interactjs/types": "^1.10.27"
