@@ -615,7 +615,6 @@ export class BlockGroup extends LitElement {
               {this.assistiveText}
             </span>
           ) : null}
-          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
             ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
@@ -624,6 +623,7 @@ export class BlockGroup extends LitElement {
           >
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         </div>
       </this.interactiveContainer>
     );

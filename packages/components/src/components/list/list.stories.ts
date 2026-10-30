@@ -6555,6 +6555,25 @@ export const filterGroups = (): string =>
 export const emptyFixedHeight = (): string =>
   html`<calcite-list style="block-size: 600px; inline-size: 400px;" loading></calcite-list>`;
 
+export const loadingNestedContent = (): string => html`
+  <style>
+    .loading-list {
+      inline-size: 400px;
+    }
+  </style>
+  <calcite-list class="loading-list" display-mode="nested" label="Loading parent list" loading>
+    <calcite-list-item label="Expanded parent item" expanded>
+      <calcite-list label="Loading child list" loading>
+        <calcite-list-item label="Nested item one"></calcite-list-item>
+        <calcite-list-item label="Nested item two"></calcite-list-item>
+      </calcite-list>
+    </calcite-list-item>
+    <calcite-list-item label="Sibling item one"></calcite-list-item>
+    <calcite-list-item label="Sibling item two"></calcite-list-item>
+    <calcite-list-item label="Sibling item three"></calcite-list-item>
+  </calcite-list>
+`;
+
 export const emptyContent = (): string =>
   html`<h1>Empty List</h1>
     <calcite-list group="items" drag-enabled label="Park features">
