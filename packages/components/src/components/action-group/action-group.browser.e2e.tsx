@@ -273,15 +273,28 @@ it("should honor label", async () => {
 it("preserves explicitly slotted menu actions when selection mode is enabled", async () => {
   await mount(
     <calcite-action-group selection-mode="multiple">
-      <calcite-action icon="plus" id="plus" slot="menu-actions" text="Add" />
+      <calcite-action
+        data-testid="menu-action"
+        icon="plus"
+        id="plus"
+        slot="menu-actions"
+        text="Add"
+      />
       <calcite-action icon="banana" id="banana" slot="menu-actions" text="Banana" />
       <calcite-action icon="save" text="Save" />
     </calcite-action-group>,
   );
 
-  const menu = page.getBySelector(`calcite-action-group calcite-action-menu`);
+  const menu = page.getByRole("button", { name: "More" });
+  const menuAction = page.getByTestId("menu-action");
 
   await expect.element(menu).not.toHaveAttribute("hidden");
+
+  await userEvent.click(menu);
+  await expect.element(menuAction).toHaveFocus();
+  await userEvent.keyboard("{Enter}");
+
+  await expect.element(menuAction).toHaveProperty("active", true);
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {

@@ -306,7 +306,7 @@ export class ActionGroup extends LitElement {
       return;
     }
 
-    this.updateSelectedActions(this.actions.filter((action) => action.active));
+    this.updateSelectedActions(actions.filter((action) => action.active));
     this.calciteActionGroupChange.emit();
   }
 
@@ -315,6 +315,8 @@ export class ActionGroup extends LitElement {
   }
 
   private syncSelectionState(): void {
+    const selectableActions = this.getSelectableActions();
+
     if (this.selectionMode !== "none") {
       this.setRoleOnActions();
     } else {
@@ -322,14 +324,16 @@ export class ActionGroup extends LitElement {
     }
 
     if (this.selectionMode === "single" || this.selectionMode === "single-persist") {
-      const selected = this.actions.filter((action) => action.active);
+      const selected = selectableActions.filter((action) => action.active);
       if (selected.length > 1) {
-        this.actions.forEach((action) => this.updateAction(action, action === selected.at(-1)));
+        selectableActions.forEach((action) =>
+          this.updateAction(action, action === selected.at(-1)),
+        );
       }
     }
 
     this.updateSelectedActions(
-      this.selectionMode === "none" ? [] : this.actions.filter((action) => action.active),
+      this.selectionMode === "none" ? [] : selectableActions.filter((action) => action.active),
     );
   }
 
@@ -383,22 +387,20 @@ export class ActionGroup extends LitElement {
   }
 
   private setRoleOnActions(): void {
-    this.actions
-      .filter((action) => !this.menuActions.includes(action))
-      .forEach((action) => {
-        action.aria = {
-          ...action.aria,
-          role:
-            this.selectionMode === "single" || this.selectionMode === "single-persist"
-              ? "radio"
-              : "checkbox",
-        };
-        this.setActionAriaChecked(action, action.active);
-      });
+    this.getSelectableActions().forEach((action) => {
+      action.aria = {
+        ...action.aria,
+        role:
+          this.selectionMode === "single" || this.selectionMode === "single-persist"
+            ? "radio"
+            : "checkbox",
+      };
+      this.setActionAriaChecked(action, action.active);
+    });
   }
 
   private getSelectableActions(): Action["el"][] {
-    return this.actions ?? [];
+    return this.actions.filter((action) => !this.menuActions.includes(action));
   }
 
   private setActionAriaChecked(action: Action["el"], checked: boolean): void {
@@ -410,15 +412,13 @@ export class ActionGroup extends LitElement {
 
   private clearActionAriaAttributes(): void {
     if (this.selectionMode === "none") {
-      this.actions
-        .filter((action) => !this.menuActions.includes(action))
-        .forEach((action) => {
-          if (action.aria) {
-            action.aria.checked = undefined;
-            action.aria.role = undefined;
-            action.aria = { ...action.aria };
-          }
-        });
+      this.getSelectableActions().forEach((action) => {
+        if (action.aria) {
+          action.aria.checked = undefined;
+          action.aria.role = undefined;
+          action.aria = { ...action.aria };
+        }
+      });
     }
   }
 
