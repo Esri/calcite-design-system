@@ -8,11 +8,33 @@
   </head>
 
   <style>
+    .content-spacing {
+      margin: var(--calcite-space-md);
+    }
+
+    .block-content-flush {
+      --calcite-block-content-space: 0px;
+    }
+
+    .button-spacing {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--calcite-space-md);
+      margin-block-start: var(--calcite-space-md);
+      margin-inline-start: var(--calcite-space-md);
+    }
+
     .input-spacing {
       display: flex;
       flex-direction: column;
       gap: var(--calcite-space-lg);
       margin-top: var(--calcite-space-lg);
+    }
+
+    .loader-alignment {
+      align-items: flex-start;
+      margin-inline: var(--calcite-space-md);
     }
 
     #control-panel {
@@ -148,7 +170,7 @@
                 description="More settings"
                 icon-start="gear"
                 toggle-display="switch"
-                style="--calcite-block-content-space: 0px"
+                class="block-content-flush"
               >
                 <calcite-list label="Park features" display-mode="nested">
                   <calcite-list-item label="Destinations" value="destinations" expanded>
@@ -188,11 +210,7 @@
           </calcite-panel>
         </calcite-shell-panel>
         <calcite-panel heading="Content">
-          <calcite-chip-group
-            label="demo-group-label"
-            selection-mode="multiple"
-            style="margin: var(--calcite-space-md)"
-          >
+          <calcite-chip-group class="content-spacing" label="demo-group-label" selection-mode="multiple">
             <calcite-chip icon="file-csv" closable value="csv" label="CSV" appearance="outline-fill" kind="inverse">
               CSV
             </calcite-chip>
@@ -224,7 +242,7 @@
               PDF
             </calcite-chip>
           </calcite-chip-group>
-          <calcite-radio-button-group name="plantType" layout="vertical" style="margin: var(--calcite-space-md)">
+          <calcite-radio-button-group class="content-spacing" name="plantType" layout="vertical">
             <calcite-radio-button value="trees" label-text="Trees" checked></calcite-radio-button>
             <calcite-radio-button value="shrubs" label-text="Shrubs"></calcite-radio-button>
             <calcite-radio-button value="flowers" label-text="Flowers"></calcite-radio-button>
@@ -232,17 +250,24 @@
             <calcite-radio-button value="bushes" label-text="Bushes"></calcite-radio-button>
           </calcite-radio-button-group>
           <calcite-checkbox
+            class="content-spacing"
             label-text="I agree to the terms and conditions."
-            style="margin: var(--calcite-space-md)"
           ></calcite-checkbox>
           <calcite-checkbox
+            class="content-spacing"
             checked
             label-text="I agree to the terms and conditions."
-            style="margin: var(--calcite-space-md)"
           ></calcite-checkbox>
-          <calcite-loader active type="determinate-value" value="33" text="loader text"></calcite-loader>
-          <div style="margin: var(--calcite-space-md)">
-            <calcite-button loading> Loading </calcite-button>
+          <calcite-loader
+            class="loader-alignment"
+            active
+            type="determinate-value"
+            value="33"
+            text="loader text"
+          ></calcite-loader>
+          <div class="button-spacing">
+            <calcite-button loading width="auto">Loading</calcite-button>
+            <calcite-button icon-start="basemap">Basemap</calcite-button>
           </div>
         </calcite-panel>
       </calcite-shell>
@@ -342,6 +367,7 @@
         (root) => [...root.querySelectorAll("calcite-chip")].at(-1)?.shadowRoot?.querySelector(".container"),
         (root) => root.querySelector("calcite-radio-button")?.shadowRoot?.querySelector(".radio"),
         (root) => root.querySelectorAll("calcite-checkbox")[1]?.shadowRoot?.querySelector(".toggle"),
+        (root) => root.querySelector('calcite-button[icon-start="basemap"]')?.shadowRoot?.querySelector("button"),
       ];
 
       let heightOverlay;
