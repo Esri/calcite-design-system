@@ -69,7 +69,7 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-color-picker-border-color": "*";
     /**
-     * Specifies the component's corner radius.
+     * Specifies the component's bottom corner radius.
      */
     "--calcite-color-picker-corner-radius": "*";
     /**
