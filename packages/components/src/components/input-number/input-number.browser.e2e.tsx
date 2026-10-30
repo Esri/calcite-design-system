@@ -1753,24 +1753,59 @@ it("selecting all input content replaces everything with the allowed non-digit c
   expect(input).toHaveDisplayValue("-");
 });
 
-it("should not focus when clicking validation message", async () => {
-  const { el } = await mount(
-    <form>
-      <calcite-input-number label="calciteInputNumber" required />
-      <button type="submit">Submit</button>
-    </form>,
-  );
-  const button = page.getByRole("button");
-  const inputMessage = page.getBySelector("calcite-input-message");
+describe("validation", () => {
+  it("should not focus when clicking validation message", async () => {
+    const { el } = await mount(
+      <form>
+        <calcite-input-number label="calciteInputNumber" required />
+        <button type="submit">Submit</button>
+      </form>,
+    );
+    const button = page.getByRole("button");
+    const inputMessage = page.getBySelector("calcite-input-message");
 
-  expect(el).not.toHaveFocus();
+    expect(el).not.toHaveFocus();
 
-  await button.click();
-  await userEvent.click(inputMessage);
+    await button.click();
+    await userEvent.click(inputMessage);
 
-  expect(el).not.toHaveFocus();
+    expect(el).not.toHaveFocus();
 
-  await userEvent.keyboard("{Shift>}{Tab}");
+    await userEvent.keyboard("{Shift>}{Tab}");
 
-  expect(el).toHaveFocus();
+    expect(el).toHaveFocus();
+  });
+
+  it("typed expressions with trailing e triggers valid:false", async () => {
+    await mount(
+      <form>
+        <calcite-input-number label="calciteInputNumber" required />
+        <button type="submit">Submit</button>
+      </form>,
+    );
+    const inputNumber = page.getBySelector("calcite-input-number");
+
+    await expect.element(inputNumber).toHaveProperty("validity.valid", false);
+
+    await userEvent.keyboard("{Tab}");
+    await userEvent.keyboard("2");
+
+    await expect.element(inputNumber).toHaveProperty("validity.valid", true);
+
+    await userEvent.keyboard("e");
+
+    await expect.element(inputNumber).toHaveProperty("validity.valid", false);
+
+    await userEvent.keyboard("2");
+
+    await expect.element(inputNumber).toHaveProperty("validity.valid", true);
+
+    await userEvent.keyboard("{Backspace}");
+
+    await expect.element(inputNumber).toHaveProperty("validity.valid", false);
+
+    await userEvent.keyboard("{Backspace}");
+
+    await expect.element(inputNumber).toHaveProperty("validity.valid", true);
+  });
 });
