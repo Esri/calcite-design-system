@@ -3,7 +3,7 @@
 .scale--s {
   --calcite-slider-handle-size: theme("spacing[2.5]");
   --calcite-slider-handle-extension-height: 0.4rem;
-  --calcite-slider-container-font-size: var(--calcite-font-size--3);
+  --calcite-slider-container-font-size: var(--calcite-font-size-relative-xs);
   .handle__label,
   .tick__label {
     @apply leading-3;
@@ -13,7 +13,7 @@
 .scale--m {
   --calcite-slider-handle-size: theme("spacing[3.5]");
   --calcite-slider-handle-extension-height: 0.5rem;
-  --calcite-slider-container-font-size: var(--calcite-font-size--2);
+  --calcite-slider-container-font-size: var(--calcite-font-size-relative-sm);
   .handle__label,
   .tick__label {
     @apply leading-4;
@@ -23,7 +23,7 @@
 .scale--l {
   --calcite-slider-handle-size: 1rem;
   --calcite-slider-handle-extension-height: 0.65rem;
-  --calcite-slider-container-font-size: var(--calcite-font-size--1);
+  --calcite-slider-container-font-size: var(--calcite-font-size-relative-base);
   .handle__label,
   .tick__label {
     @apply leading-4;
