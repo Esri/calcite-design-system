@@ -216,7 +216,7 @@ export interface SortableComponentItem {
    * Notes:
    *
    * This property should use the `@property` decorator and reflect.
-   * This property should be used to set the `calcite-handle` disabled property.
+   * This property should be used to set the configured handle element's disabled property.
    */
   dragDisabled: boolean;
 }

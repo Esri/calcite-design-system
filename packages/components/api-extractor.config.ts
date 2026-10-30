@@ -89,8 +89,7 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
           description: "When `true` and `inlineEdit` is defined, the component is editable.",
         },
         inlineEditingBeforeConfirm: {
-          description:
-            "When `inlineEdit` is `true`, specifies a callback to be run when changes are saved.",
+          description: "When `inlineEdit` is `true`, specifies a callback to be run when changes are saved.",
         },
         label(_apiProperty, apiClass) {
           const baseDescription = "Specifies an accessible label for the component.";
@@ -127,9 +126,23 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
           description:
             'Specifies the type of positioning to use for overlaid content.\n\n- `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout.\n\n- `"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
         },
-        referenceElement: {
-          description:
-            "The `referenceElement` is used to position the component according to its `placement` value.\n\nSetting the value to an `HTMLElement` is preferred so the component does not need to query the DOM.\n\nHowever, a string `id` of the reference element can also be used.\n\nThe component should not be placed within its own `referenceElement` to avoid unintended behavior.",
+        referenceElement(_apiProperty, apiClass) {
+          const interactivityOverrides: Record<string, string> = {
+            Dropdown:
+              "When a DOM element is specified, clicking or pressing the `referenceElement` toggles the component's `open` state.",
+            Popover:
+              "When a DOM element is specified and `triggerDisabled` is not specified, clicking or pressing the `referenceElement` toggles the component's `open` state.",
+            Tooltip:
+              "When a DOM element is specified, hovering or focusing the `referenceElement` toggles the component's `open` state.",
+          };
+
+          return {
+            description: `The \`referenceElement\` is used to position the component according to its \`placement\` value. ${interactivityOverrides[apiClass.name] ?? ""}
+
+Setting the value to an \`HTMLElement\` is preferred so the component does not need to query the DOM. However, a string \`id\` of the reference element can also be used.
+
+The component should not be placed within its own \`referenceElement\` to avoid unintended behavior.`,
+          };
         },
         topLayerDisabled: {
           description:

@@ -3,12 +3,11 @@ import { allModes } from "../.storybook/modes";
 import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
+  floatingActionBar,
   actionMenu,
-  actionPad,
   actionTokens,
   actionBarTokens,
   actionMenuTokens,
-  actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
 import { alertTokens, alert } from "./custom-theme/alert";
@@ -29,8 +28,8 @@ import { fab, fabLoading, fabTokens } from "./custom-theme/fab";
 import { filter, filterTokens } from "./custom-theme/filter";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
-import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
+import { sortHandle } from "./custom-theme/sort-handle";
 import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import { input, inputTokens } from "./custom-theme/input";
 import {
@@ -180,9 +179,8 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${autocomplete} ${notice} ${segmentedControl}
+        ${accordion} ${actionBar} ${floatingActionBar} ${autocomplete} ${notice} ${segmentedControl}
         <div style="display: flex">
-          ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
@@ -202,7 +200,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
+        ${avatarThumbnail} ${progress} ${sortHandle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
         ${comboboxItem} ${selectedComboboxItem}
       </div>
       <div class="demo-column">
@@ -276,7 +274,6 @@ const componentTokens = {
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
-  ...actionPadTokens,
   ...actionTokens,
   ...alertTokens,
   ...autocompleteTokens,
@@ -296,7 +293,6 @@ const componentTokens = {
   ...fabTokens,
   ...filterTokens,
   ...flowTokens,
-  ...handleTokens,
   ...inlineEditableTokens,
   ...inputNumberTokens,
   ...graphTokens,

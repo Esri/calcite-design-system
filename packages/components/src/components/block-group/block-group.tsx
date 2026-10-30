@@ -196,13 +196,6 @@ export class BlockGroup extends LitElement {
   calciteBlockGroupDragStart = createEvent<BlockDragStartDetail>({ cancelable: false });
 
   /**
-   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
-   *
-   * @deprecated in v3.3.0, removal target v6.0.0 - No longer necessary.
-   */
-  calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
-
-  /**
    * Fires before the component's item order changes.
    *
    * Calling `event.preventDefault()` cancels the proposed reorder, allowing apps to control item order.
