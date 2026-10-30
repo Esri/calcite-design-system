@@ -352,6 +352,9 @@ catalogs:
     '@arcgis/toolkit':
       specifier: '>=6.0.0-next.16 <7.0.0'
       version: 6.0.0-next.16
+    '@dnd-kit/dom':
+      specifier: ^0.5.1
+      version: 0.5.1
     '@floating-ui/dom':
       specifier: ^1.8.0
       version: 1.8.0
@@ -361,9 +364,6 @@ catalogs:
     '@interactjs/types':
       specifier: ^1.10.27
       version: 1.10.28
-    '@types/sortablejs':
-      specifier: ^1.15.8
-      version: 1.15.9
     color:
       specifier: ^5.0.3
       version: 5.0.3
@@ -382,9 +382,6 @@ catalogs:
     lit:
       specifier: ^3.3.0
       version: 3.3.3
-    sortablejs:
-      specifier: ^1.15.6
-      version: 1.15.7
     tabbable:
       specifier: ^6.5.0
       version: 6.5.0
@@ -540,6 +537,9 @@ importers:
       '@arcgis/toolkit':
         specifier: catalog:dependency-ranges
         version: 6.0.0-next.16
+      '@dnd-kit/dom':
+        specifier: catalog:dependency-ranges
+        version: 0.5.1
       '@esri/calcite-design-tokens':
         specifier: workspace:*
         version: link:../design-tokens
@@ -555,9 +555,6 @@ importers:
       '@interactjs/types':
         specifier: catalog:dependency-ranges
         version: 1.10.28
-      '@types/sortablejs':
-        specifier: catalog:dependency-ranges
-        version: 1.15.9
       color:
         specifier: catalog:dependency-ranges
         version: 5.0.3
@@ -576,9 +573,6 @@ importers:
       lit:
         specifier: catalog:dependency-ranges
         version: 3.3.3
-      sortablejs:
-        specifier: catalog:dependency-ranges
-        version: 1.15.7
       tabbable:
         specifier: catalog:dependency-ranges
         version: 6.5.0
@@ -1637,6 +1631,21 @@ packages:
     engines: {node: '>=20.19.0'}
     peerDependencies:
       postcss-selector-parser: ^7.1.1
+
+  '@dnd-kit/abstract@0.5.1':
+    resolution: {integrity: sha512-XI13sUYRvRgggMocjHlQhLRgENm/2GF94KF7mk+c0uxse7sbn75r0BgxoNPDlzLTDPWx6PkS0YHoeXN9JWhnOA==}
+
+  '@dnd-kit/collision@0.5.1':
+    resolution: {integrity: sha512-exQmBlWWQ6calIup4KNQudiEF8Do61Lpzw/F0M3UOhqdKi9dx0ZXGf+qfdfmew8rJzPMj3MzKeGqNMEbCKA22g==}
+
+  '@dnd-kit/dom@0.5.1':
+    resolution: {integrity: sha512-r7/l4D+nsH1mFXWkplXCkZC9JlY7UjxsVuTu4yCqzC00XgX+SXiK3Oazp42KKG3mshfBNVtm15BI9rKNlkw2fA==}
+
+  '@dnd-kit/geometry@0.5.1':
+    resolution: {integrity: sha512-7X/Ro2U5qW96SihIukMitnc3pYc5n/PmHmJ28oApLBIJRfLxPLgrL6X0ZbQT7qUEfdUIqXnehobJ3jXAc4hdAA==}
+
+  '@dnd-kit/state@0.5.1':
+    resolution: {integrity: sha512-SN0BZ0d/ob9dK8sTqk/0z3eNBWV6xPSrLbHUBbiCo9Sj3xfhPFk6ej2oZpDcqk7LWaujT57ocgdtznY7wQ2yFw==}
 
   '@emnapi/core@1.10.0':
     resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
@@ -3169,6 +3178,9 @@ packages:
   '@polka/url@1.0.0-next.29':
     resolution: {integrity: sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww==}
 
+  '@preact/signals-core@1.14.5':
+    resolution: {integrity: sha512-vcRv7Ityz5JVmeiVqIluLFzT/PDS/AlhHUpw3/aUWqcVUs6bDGIPXE/6RSC4evBNWYvnniozg5Syfj33al3gkg==}
+
   '@prettier/sync@0.6.1':
     resolution: {integrity: sha512-yF9G8vK/LYUTF3Cijd7VC9La3b20F20/J/fgoR4H0B8JGOWnZVZX6+I6+vODPosjmMcpdlUV+gUqJQZp3kLOcw==}
     peerDependencies:
@@ -3669,9 +3681,6 @@ packages:
 
   '@types/shell-quote@1.7.5':
     resolution: {integrity: sha512-+UE8GAGRPbJVQDdxi16dgadcBfQ+KG2vgZhV1+3A1XmHbmwcdwhCUwIdy+d3pAGrbvgRoVSjeI9vOWyq376Yzw==}
-
-  '@types/sortablejs@1.15.9':
-    resolution: {integrity: sha512-7HP+rZGE2p886PKV9c9OJzLBI6BBJu1O7lJGYnPyG3fS4/duUCcngkNCjsLwIMV+WMqANe3tt4irrXHSIe68OQ==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -8583,9 +8592,6 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  sortablejs@1.15.7:
-    resolution: {integrity: sha512-Kk8wLQPlS+yi1ZEf48a4+fzHa4yxjC30M/Sr2AnQu+f/MPwvvX9XjZ6OWejiz8crBsLwSq8GHqaxaET7u6ux0A==}
-
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -10114,6 +10120,36 @@ snapshots:
   '@csstools/selector-specificity@6.0.0(postcss-selector-parser@7.1.4)':
     dependencies:
       postcss-selector-parser: 7.1.4
+
+  '@dnd-kit/abstract@0.5.1':
+    dependencies:
+      '@dnd-kit/geometry': 0.5.1
+      '@dnd-kit/state': 0.5.1
+      tslib: 2.8.1
+
+  '@dnd-kit/collision@0.5.1':
+    dependencies:
+      '@dnd-kit/abstract': 0.5.1
+      '@dnd-kit/geometry': 0.5.1
+      tslib: 2.8.1
+
+  '@dnd-kit/dom@0.5.1':
+    dependencies:
+      '@dnd-kit/abstract': 0.5.1
+      '@dnd-kit/collision': 0.5.1
+      '@dnd-kit/geometry': 0.5.1
+      '@dnd-kit/state': 0.5.1
+      tslib: 2.8.1
+
+  '@dnd-kit/geometry@0.5.1':
+    dependencies:
+      '@dnd-kit/state': 0.5.1
+      tslib: 2.8.1
+
+  '@dnd-kit/state@0.5.1':
+    dependencies:
+      '@preact/signals-core': 1.14.5
+      tslib: 2.8.1
 
   '@emnapi/core@1.10.0':
     dependencies:
@@ -11684,6 +11720,8 @@ snapshots:
 
   '@polka/url@1.0.0-next.29': {}
 
+  '@preact/signals-core@1.14.5': {}
+
   '@prettier/sync@0.6.1(prettier@3.8.4)':
     dependencies:
       make-synchronized: 0.8.0
@@ -12171,8 +12209,6 @@ snapshots:
   '@types/semver@7.7.1': {}
 
   '@types/shell-quote@1.7.5': {}
-
-  '@types/sortablejs@1.15.9': {}
 
   '@types/stack-utils@2.0.3': {}
 
@@ -17911,8 +17947,6 @@ snapshots:
       semver: 7.8.5
       sort-object-keys: 2.1.0
       tinyglobby: 0.2.17
-
-  sortablejs@1.15.7: {}
 
   source-map-js@1.2.1: {}
 
