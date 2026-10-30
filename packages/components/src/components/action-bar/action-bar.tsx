@@ -1263,7 +1263,9 @@ export class ActionBar extends LitElement {
         break;
       case "Tab":
         if (
-          !event.composedPath().some((element) => isAction(element) && element.role === "menuitem")
+          !event
+            .composedPath()
+            .some((element) => isAction(element) && element.aria?.role === "menuitem")
         ) {
           this.setNavigationItemTabIndexes(current);
         }
