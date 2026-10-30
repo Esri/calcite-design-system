@@ -106,7 +106,8 @@ calcite-swatch {
     --calcite-color-picker-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  border-radius: 0 0 var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius))
+  border-radius: var(--calcite-corner-radius-none) var(--calcite-corner-radius-none)
+    var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius))
     var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));
 }
