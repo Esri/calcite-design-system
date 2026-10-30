@@ -54,12 +54,13 @@
 }
 
 .container {
-  @apply flex
+  @apply grid
     m-0
     items-center
     justify-center
     text-0h;
 
+  grid-template-columns: auto minmax(0, 1fr);
   background-color: var(
     --calcite-navigation-background-color,
     var(
@@ -133,7 +134,6 @@
 .text-container {
   @apply flex
   flex-col
-  truncate
   text-start
   mt-0.5;
 
@@ -142,7 +142,6 @@
 
 .heading {
   @apply ms-0
-  truncate
   font-medium;
   color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-internal-navigation-logo-heading-font-size);
@@ -156,7 +155,7 @@
 }
 
 .description {
-  @apply text-color-2 truncate;
+  @apply text-color-2;
   color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-internal-navigation-logo-description-font-size);
   line-height: var(--calcite-internal-navigation-logo-description-line-height);

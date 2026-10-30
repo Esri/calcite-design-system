@@ -1,8 +1,9 @@
-import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
+import { LitElement, property, h, method, JsxNode, state } from "@arcgis/lumina";
 import { useFocusable } from "../../controllers/useFocusable";
 import { Scale } from "../types";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import { styles } from "./navigation-user.scss";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 declare global {
   interface DeclareElements {
@@ -40,21 +41,37 @@ declare module "@arcgis/lumina" {
 }
 
 export class NavigationUser extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private focusSetter = useFocusable<this>()(this);
 
-  // #endregion
+  private handleFullNameSlotChange = (event: Event): void => {
+    this.hasFullName = slotChangeHasAssignedElement(event);
+  };
 
-  // #region Public Properties
+  private handleUsernameSlotChange = (event: Event): void => {
+    this.hasUsername = slotChangeHasAssignedElement(event);
+  };
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() hasFullName = false;
+
+  @state() hasUsername = false;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
@@ -84,9 +101,9 @@ export class NavigationUser extends LitElement {
   /** Specifies the username of the user. */
   @property() username?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -100,9 +117,9 @@ export class NavigationUser extends LitElement {
     return this.focusSetter(() => this.el, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     return (
@@ -115,29 +132,34 @@ export class NavigationUser extends LitElement {
           userId={this.userId}
           username={this.username}
         />
-        {(this.fullName || this.username) && !this.textDisabled && (
+        {!this.textDisabled && (
           <div class={CSS.textContainer}>
-            {this.fullName && (
-              <span
-                class={{
-                  [CSS.fullName]: true,
-                  [CSS.standalone]: !this.username,
-                }}
-                key={CSS.fullName}
-              >
-                {this.fullName}
-              </span>
-            )}
-            {this.username && (
-              <span class={CSS.username} key={CSS.username}>
-                {this.username}
-              </span>
-            )}
+            <span
+              class={{
+                [CSS.fullName]: true,
+                [CSS.standalone]: !this.username,
+              }}
+              hidden={!this.fullName && !this.hasFullName}
+              key={CSS.fullName}
+            >
+              {this.fullName || (
+                <slot name={SLOTS.fullName} onSlotChange={this.handleFullNameSlotChange} />
+              )}
+            </span>
+            <span
+              class={CSS.username}
+              hidden={!this.username && !this.hasUsername}
+              key={CSS.username}
+            >
+              {this.username || (
+                <slot name={SLOTS.username} onSlotChange={this.handleUsernameSlotChange} />
+              )}
+            </span>
           </div>
         )}
       </button>
     );
   }
 
-  // #endregion
+  //#endregion
 }

@@ -15,3 +15,8 @@ export const CSS = {
  * Use this type guard to narrow an element or event target to this component's element type.
  */
 export const isNavigationLogo = isTag("calcite-navigation-logo");
+
+export const SLOTS = {
+  heading: "heading",
+  description: "description",
+};

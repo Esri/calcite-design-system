@@ -108,7 +108,7 @@ describe("heading", () => {
 
     await expect.element(heading).toBeInTheDocument();
     await expect.element(standaloneHeading).toBeInTheDocument();
-    await expect.element(description).not.toBeInTheDocument();
+    await expect.element(description).not.toBeVisible();
   });
 });
 

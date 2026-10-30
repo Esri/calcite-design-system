@@ -30,6 +30,10 @@ interface ListItemGroupSlots {
    * A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
    */
   "": Node[];
+  /**
+   * A slot for adding a custom heading element.
+   */
+  heading?: Node[];
 }
 export class ListItemGroup extends LitElement {
   //#region Type-only metadata members
@@ -118,7 +122,7 @@ export class ListItemGroup extends LitElement {
       <this.interactiveContainer disabled={disabled}>
         <div class={CSS.container} role="row">
           <div ariaColSpan={MAX_COLUMNS} class={CSS.heading} role="cell">
-            {heading}
+            {heading ? heading : <slot name="heading" />}
           </div>
         </div>
         <slot onSlotChange={this.handleDefaultSlotChange} />

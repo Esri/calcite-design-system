@@ -28,6 +28,7 @@
 
 .container {
   @include item-styling;
+  min-inline-size: 0;
   text-align: start;
 
   & a {
@@ -37,6 +38,8 @@
 }
 
 .content {
+  overflow-wrap: break-word;
+  min-inline-size: 0;
   flex: 1 1 auto;
 }
 

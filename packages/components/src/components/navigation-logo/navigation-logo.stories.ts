@@ -103,3 +103,50 @@ export const headingLevel = (): string => html`
     thumbnail="${placeholderImage({ width: 50, height: 50 })}"
   />
 `;
+
+export const slottedHeadingAndDescription = (): string => html`
+  <style>
+    div.container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 400px;
+    }
+  </style>
+  <div class="container">
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo">
+        <calcite-text slot="heading"> ArcGIS Location Platform</calcite-text>
+      </calcite-navigation-logo>
+      <calcite-navigation-user slot="user" full-name="Catherine Zeta-Jones"> </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo">
+        <calcite-text slot="heading"> ArcGIS Location Platform</calcite-text>
+        <calcite-text slot="description">Mooselookmeguntic Lake</calcite-text>
+      </calcite-navigation-logo>
+      <calcite-navigation-user slot="user" full-name="Catherine Zeta-Jones"> </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo">
+        <calcite-text slot="heading" truncate-position="end"> ArcGIS Location Platform</calcite-text>
+        <calcite-text slot="description" truncate-position="end"> Mooselookmeguntic Lake</calcite-text>
+      </calcite-navigation-logo>
+      <calcite-navigation-user slot="user" full-name="Catherine Zeta-Jones"> </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo">
+        <calcite-text slot="heading" truncate-position="middle"> ArcGIS Location Platform</calcite-text>
+        <calcite-text slot="description" truncate-position="middle"> Mooselookmeguntic Lake</calcite-text>
+      </calcite-navigation-logo>
+      <calcite-navigation-user slot="user" full-name="Catherine Zeta-Jones"> </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo">
+        <calcite-text slot="heading" max-lines="1"> ArcGIS Location Platform</calcite-text>
+        <calcite-text slot="description" max-lines="1"> Mooselookmeguntic Lake</calcite-text>
+      </calcite-navigation-logo>
+      <calcite-navigation-user slot="user" full-name="Catherine Zeta-Jones"> </calcite-navigation-user>
+    </calcite-navigation>
+  </div>
+`;
