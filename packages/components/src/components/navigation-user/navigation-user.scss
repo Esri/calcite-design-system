@@ -38,13 +38,15 @@
 :host {
   @apply inline-flex outline-none;
   & .button {
-    @apply flex
+    @apply grid
       m-0
       items-center
       justify-center
       cursor-pointer
       focus-base
       text-0h;
+
+    grid-template-columns: auto minmax(0, 1fr);
     font-family: inherit;
     border: none;
     padding-inline: 0;

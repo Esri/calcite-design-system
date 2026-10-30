@@ -1,10 +1,11 @@
-import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
+import { h, Fragment, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconName } from "../icon/types";
 import { useFocusable } from "../../controllers/useFocusable";
 import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
+import { slotChangeHasAssignedElement } from "../../utils/dom";
 
 declare global {
   interface DeclareElements {
@@ -34,21 +35,38 @@ declare module "@arcgis/lumina" {
 }
 
 export class NavigationLogo extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private focusSetter = useFocusable<this>()(this);
 
-  // #endregion
+  // # region Private Methods
+  private handleDescriptionSlotChange = (event: Event): void => {
+    this.hasDescription = slotChangeHasAssignedElement(event);
+  };
 
-  // #region Public Properties
+  private handleHeadingSlotChange = (event: Event): void => {
+    this.hasHeading = slotChangeHasAssignedElement(event);
+  };
+
+  //#endregion
+
+  //#region State Properties
+
+  @state() hasDescription = false;
+
+  @state() hasHeading = false;
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
@@ -98,9 +116,9 @@ export class NavigationLogo extends LitElement {
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -114,9 +132,9 @@ export class NavigationLogo extends LitElement {
     return this.focusSetter(() => (this.href ? this.el : undefined), options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderIcon(): JsxNode {
     return (
@@ -131,24 +149,31 @@ export class NavigationLogo extends LitElement {
 
   private renderHeaderContent(): JsxNode {
     const { heading, headingLevel, description } = this;
-    const headingNode = heading ? (
+    const headingNode = (
       <Heading
         class={{
           [CSS.heading]: true,
-          [CSS.standalone]: !this.description,
+          [CSS.standalone]: !this.description && !this.hasDescription,
         }}
+        hidden={!heading && !this.hasHeading}
         key={CSS.heading}
         level={headingLevel}
       >
-        {heading}
+        {heading || <slot name={CSS.heading} onSlotChange={this.handleHeadingSlotChange} />}
       </Heading>
-    ) : null;
+    );
 
-    const descriptionNode = description ? (
-      <span class={CSS.description} key={CSS.description}>
-        {description}
+    const descriptionNode = (
+      <span
+        class={CSS.description}
+        hidden={!description && !this.hasDescription}
+        key={CSS.description}
+      >
+        {description || (
+          <slot name={CSS.description} onSlotChange={this.handleDescriptionSlotChange} />
+        )}
       </span>
-    ) : null;
+    );
 
     return headingNode || descriptionNode ? (
       <div class={CSS.textContainer} key={CSS.textContainer}>
@@ -185,5 +210,5 @@ export class NavigationLogo extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

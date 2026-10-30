@@ -22,12 +22,7 @@
   text-overflow: inherit;
 }
 
-:host([truncate-position="middle"]:not([max-lines])) slot {
-  display: none;
-}
-
-:host(:not([truncate-position="middle"])) .middle-truncated-text,
-:host([max-lines]) .middle-truncated-text {
+.middle-truncated-text {
   display: none;
 }
 
@@ -39,6 +34,22 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: var(--calcite-internal-text-max-lines, none);
   white-space: normal;
+}
+
+:host([truncate-position="middle"]:not([max-lines])) {
+  .text-container {
+    position: relative;
+  }
+
+  slot {
+    visibility: hidden;
+  }
+
+  .middle-truncated-text {
+    display: inline;
+    position: absolute;
+    inset: 0;
+  }
 }
 
 @include shared.base-component();
