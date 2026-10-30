@@ -140,7 +140,7 @@ function getLocalizedIntegerParts(
 }
 
 export function isValidNumber(numberString?: string | null): boolean {
-  return !(!numberString || numberString.endsWith(".") || isNaN(Number(numberString)));
+  return !(!numberString || isNaN(Number(numberString)));
 }
 
 export function parseNumberString(numberString?: string): string {

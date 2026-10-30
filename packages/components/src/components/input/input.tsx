@@ -1230,8 +1230,8 @@ export class Input
       const isValueLengthShortened =
         this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
       const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
-      const sanitizedValue =
-        hasTrailingDecimalSeparator && isValueLengthShortened ? value : sanitizeNumberString(value);
+
+      const sanitizedValue = sanitizeNumberString(value);
 
       const newValue =
         value && !sanitizedValue
@@ -1267,7 +1267,7 @@ export class Input
         this.draftValue = validNewValue;
       } else {
         this.userChangedValue = origin === "user" && this.value !== newValue;
-        this.value = isValidNumber(newValue) ? newValue : "";
+        this.value = validNewValue;
       }
     } else {
       if (shouldStageValue) {
