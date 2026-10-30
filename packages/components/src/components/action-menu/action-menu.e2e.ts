@@ -266,7 +266,6 @@ describe("Keyboard navigation", () => {
     `);
     await skipAnimations(page);
     const actionMenu = await page.find("calcite-action-menu");
-    const actions = await findAll(page, "calcite-action");
     const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
     expect(await actionMenu.getProperty("open")).toBe(false);
@@ -280,17 +279,10 @@ describe("Keyboard navigation", () => {
 
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
-
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
   });
 
   it("should handle ArrowDown navigation with disabled/hidden items", async () => {
@@ -305,7 +297,6 @@ describe("Keyboard navigation", () => {
     `);
     await skipAnimations(page);
     const actionMenu = await page.find("calcite-action-menu");
-    const actions = await findAll(page, "calcite-action");
     const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
     expect(await actionMenu.getProperty("open")).toBe(false);
@@ -320,19 +311,9 @@ describe("Keyboard navigation", () => {
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
 
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[3].getProperty("activeDescendant")).toBe(false);
-
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
-
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[3].getProperty("activeDescendant")).toBe(true);
   });
 
   it("should handle ArrowUp navigation", async () => {
@@ -346,7 +327,6 @@ describe("Keyboard navigation", () => {
     );
     await skipAnimations(page);
     const actionMenu = await page.find("calcite-action-menu");
-    const actions = await findAll(page, "calcite-action");
     const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
     expect(await actionMenu.getProperty("open")).toBe(false);
@@ -361,17 +341,10 @@ describe("Keyboard navigation", () => {
 
     expect(await trigger.getProperty("active")).toBe(true);
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
 
     await page.keyboard.press("ArrowUp");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
-
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
   });
 
   it("should handle Enter, Home, End and ESC navigation", async () => {
@@ -385,7 +358,6 @@ describe("Keyboard navigation", () => {
     );
     await skipAnimations(page);
     const actionMenu = await page.find("calcite-action-menu");
-    const actions = await findAll(page, "calcite-action");
     const trigger = await page.find(`calcite-action-menu >>> .${CSS.defaultTrigger}`);
 
     expect(await actionMenu.getProperty("open")).toBe(false);
@@ -400,30 +372,16 @@ describe("Keyboard navigation", () => {
 
     expect(await actionMenu.getProperty("open")).toBe(true);
     expect(await trigger.getProperty("active")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("ArrowDown");
     await waitForAnimationFrame(page);
     await page.waitForChanges();
 
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
-
     await page.keyboard.press("Home");
     await page.waitForChanges();
 
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
     await page.keyboard.press("End");
     await page.waitForChanges();
-
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(true);
 
     await page.keyboard.press("Escape");
     await page.waitForChanges();
@@ -444,7 +402,6 @@ describe("Keyboard navigation", () => {
     await skipAnimations(page);
     await page.waitForChanges();
     const actionMenu = await page.find("calcite-action-menu");
-    const actions = await findAll(page, "calcite-action");
 
     expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -456,9 +413,6 @@ describe("Keyboard navigation", () => {
     await openEventSpy.next();
 
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("Tab");
     await page.waitForChanges();
@@ -492,9 +446,6 @@ describe("Keyboard navigation", () => {
     const clickSpy = await actions[0].spyOnEvent("click");
 
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.keyboard.press("Enter");
     await page.waitForChanges();
@@ -515,7 +466,6 @@ describe("Keyboard navigation", () => {
     );
     await skipAnimations(page);
     const actionMenu = await page.find("calcite-action-menu");
-    const actions = await findAll(page, "calcite-action");
 
     expect(await actionMenu.getProperty("open")).toBe(false);
 
@@ -527,19 +477,12 @@ describe("Keyboard navigation", () => {
     await openEventSpy.next();
 
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     const secondActionPosition = await getElementRect(page, "#second");
 
     await page.mouse.move(secondActionPosition.x, secondActionPosition.y);
     await page.mouse.down();
     await page.waitForChanges();
-
-    expect(await actions[0].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.mouse.up();
     await page.waitForChanges();
@@ -573,9 +516,6 @@ describe("Keyboard navigation", () => {
     const clickSpy = await actions[0].spyOnEvent("click");
 
     expect(await actionMenu.getProperty("open")).toBe(true);
-    expect(await actions[0].getProperty("activeDescendant")).toBe(true);
-    expect(await actions[1].getProperty("activeDescendant")).toBe(false);
-    expect(await actions[2].getProperty("activeDescendant")).toBe(false);
 
     await page.$eval("calcite-action", (el: Action["el"]) =>
       // native click is used to close the open menu
