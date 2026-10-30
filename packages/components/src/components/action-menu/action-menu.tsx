@@ -707,7 +707,9 @@ export class ActionMenu extends LitElement {
     }
 
     this.open = false;
-    void this.setFocus();
+    if (this.menuHasFocus) {
+      void this.setFocus();
+    }
   }
 
   private updateTooltip(event: Event): void {
@@ -802,13 +804,13 @@ export class ActionMenu extends LitElement {
   }
 
   private handlePopoverClose(event: CustomEvent<void>): void {
-    const { focusMenuButtonOnClose } = this;
+    const { focusMenuButtonOnClose, menuHasFocus } = this;
 
     this.focusMenuButtonOnClose = true;
     event.stopPropagation();
     this.open = false;
 
-    if (focusMenuButtonOnClose) {
+    if (focusMenuButtonOnClose && menuHasFocus) {
       void this.focusMenuButton();
     }
   }
