@@ -514,7 +514,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     value: string;
   }>();
   /** @private */
-  calciteInternalInputAffixChange = createEvent({ cancelable: false });
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   //#endregion
 

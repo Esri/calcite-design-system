@@ -71,7 +71,7 @@ export class FieldGroup extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalInputAffixChange", this.handleAffixChange);
+    this.listen("calciteInternalAffixChange", this.handleAffixChange);
   }
 
   override updated(changes: PropertyValues<this>): void {

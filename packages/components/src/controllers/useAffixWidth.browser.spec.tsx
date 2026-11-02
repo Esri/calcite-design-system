@@ -14,7 +14,7 @@ class AffixWidthTestComponent extends LitElement {
 
   @property() disabled = false;
 
-  calciteInternalInputAffixChange = createEvent({ cancelable: false });
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   prefixRef = createRef<HTMLDivElement>();
 
@@ -46,7 +46,7 @@ describe("useAffixWidth", () => {
         component.suffixRef.value!.textContent,
         component.prefixRef.value!.dataset.scale,
       ]);
-      el.addEventListener("calciteInternalInputAffixChange", listener);
+      el.addEventListener("calciteInternalAffixChange", listener);
 
       el[property] = "l";
       await component.updateComplete;
@@ -59,7 +59,7 @@ describe("useAffixWidth", () => {
   it("emits one bubbling, composed, non-cancelable event for a batched affix update", async () => {
     const { component, el } = await mount(AffixWidthTestComponent);
     const listener = vi.fn();
-    el.addEventListener("calciteInternalInputAffixChange", listener);
+    el.addEventListener("calciteInternalAffixChange", listener);
 
     el.prefixText = "Prefix";
     el.suffixText = "Suffix";
@@ -77,7 +77,7 @@ describe("useAffixWidth", () => {
   it("does not emit for unrelated changes", async () => {
     const { component, el } = await mount(AffixWidthTestComponent);
     const listener = vi.fn();
-    el.addEventListener("calciteInternalInputAffixChange", listener);
+    el.addEventListener("calciteInternalAffixChange", listener);
 
     el.disabled = true;
     await component.updateComplete;

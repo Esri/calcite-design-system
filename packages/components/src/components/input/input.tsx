@@ -661,7 +661,7 @@ export class Input
   calciteInternalInputBlur = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalInputAffixChange = createEvent({ cancelable: false });
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });

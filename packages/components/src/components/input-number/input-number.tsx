@@ -585,7 +585,7 @@ export class InputNumber
   /** @private */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
   /** @private */
-  calciteInternalInputAffixChange = createEvent({ cancelable: false });
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   //#endregion
 

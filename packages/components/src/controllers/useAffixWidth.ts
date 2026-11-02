@@ -10,7 +10,7 @@ interface AffixWidthComponent extends LitElement {
   prefixText?: string;
   suffixText?: string;
   scale: Scale;
-  calciteInternalInputAffixChange: EventEmitter;
+  calciteInternalAffixChange: EventEmitter;
 }
 
 type AffixWidthOptions = {
@@ -31,7 +31,7 @@ export interface UseAffixWidth {
 }
 
 /**
- * Exposes prefix/suffix affix elements for Field Group affix-width coordination.
+ * Provides affix measurements, width overrides, and change notifications for Field Group affix-width coordination.
  */
 export const useAffixWidth = <T extends AffixWidthComponent>(
   options: AffixWidthOptions = {},
@@ -39,7 +39,7 @@ export const useAffixWidth = <T extends AffixWidthComponent>(
   return makeGenericController<UseAffixWidth, T>((component, controller) => {
     controller.onUpdated((changes: PropertyValues<AffixWidthComponent>) => {
       if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-        component.calciteInternalInputAffixChange.emit();
+        component.calciteInternalAffixChange.emit();
       }
     });
 
