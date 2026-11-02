@@ -1,7 +1,7 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Affix, UseAffixWidth } from "../../controllers/useAffixWidth";
-import { nextFrame, slotChangeGetAssignedElements } from "../../utils/dom";
+import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { CSS } from "./resources";
 import { styles } from "./field-group.scss";
 
@@ -45,10 +45,7 @@ export class FieldGroup extends LitElement {
 
   //#region Private Properties
 
-  private affixWidthRequestIds = {
-    prefix: 0,
-    suffix: 0,
-  };
+  private affixWidthRequestId = 0;
 
   private affixInputs: AffixInput[] = [];
 
@@ -109,69 +106,55 @@ export class FieldGroup extends LitElement {
     void this.syncInputsAffixWidths();
   }
 
-  private async getInputAffixWidth(input: AffixInput, affix: Affix): Promise<number> {
-    await input.componentOnReady();
-    await input.updateComplete;
-
-    return input.affixElementProvider?.getAffixWidth(affix) ?? 0;
-  }
-
-  private getInputAffixTrailingWidth(input: AffixInput, affix: Affix): number {
-    return input.affixElementProvider?.getTrailingWidth(affix) ?? 0;
-  }
-
   private handleAffixChange(event: Event): void {
     event.stopPropagation();
     void this.syncInputsAffixWidths();
   }
 
-  private async syncInputAffixWidth(affix: Affix, shouldSync: boolean): Promise<void> {
-    const requestId = ++this.affixWidthRequestIds[affix];
+  private async syncInputsAffixWidths(): Promise<void> {
+    const requestId = ++this.affixWidthRequestId;
     const inputs = this.affixInputs;
+    const affixes: Affix[] = ["prefix", "suffix"];
 
-    inputs.forEach((input) => {
-      input.affixElementProvider?.setAffixWidth(affix, undefined);
-    });
-
-    if (!shouldSync) {
-      return;
-    }
-
-    await nextFrame();
-
-    if (requestId !== this.affixWidthRequestIds[affix]) {
-      return;
-    }
-
-    const nextWidth = Math.max(
-      0,
-      ...(await Promise.all(
-        inputs.map(
-          async (input) =>
-            (await this.getInputAffixWidth(input, affix)) +
-            this.getInputAffixTrailingWidth(input, affix),
-        ),
-      )),
+    await Promise.all(
+      inputs.map(async (input) => {
+        await input.componentOnReady();
+        await input.updateComplete;
+      }),
     );
 
-    if (requestId !== this.affixWidthRequestIds[affix]) {
+    if (requestId !== this.affixWidthRequestId) {
       return;
     }
 
-    inputs.forEach((input) => {
-      if (nextWidth) {
-        input.affixElementProvider?.setAffixWidth(
-          affix,
-          nextWidth - this.getInputAffixTrailingWidth(input, affix),
-        );
-      }
-    });
-  }
+    for (const affix of affixes) {
+      inputs.forEach((input) => input.affixElementProvider?.setAffixWidth(affix, undefined));
+    }
 
-  private async syncInputsAffixWidths(): Promise<void> {
-    await nextFrame();
-    await this.syncInputAffixWidth("prefix", this.prefixAutoWidth);
-    await this.syncInputAffixWidth("suffix", this.suffixAutoWidth);
+    const measurements = affixes
+      .filter((affix) => (affix === "prefix" ? this.prefixAutoWidth : this.suffixAutoWidth))
+      .map((affix) => {
+        const widths = inputs.map((input) => {
+          const provider = input.affixElementProvider;
+          const trailingWidth = provider?.getTrailingWidth(affix) ?? 0;
+
+          return {
+            provider,
+            trailingWidth,
+            width: (provider?.getAffixWidth(affix) ?? 0) + trailingWidth,
+          };
+        });
+
+        return { affix, widths, nextWidth: Math.max(0, ...widths.map(({ width }) => width)) };
+      });
+
+    for (const { affix, widths, nextWidth } of measurements) {
+      if (nextWidth) {
+        widths.forEach(({ provider, trailingWidth }) => {
+          provider?.setAffixWidth(affix, nextWidth - trailingWidth);
+        });
+      }
+    }
   }
 
   //#endregion

@@ -246,6 +246,63 @@ describe("affix width coordination", () => {
     expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
   });
 
+  it("uses the latest affix values after rapid auto width changes", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width suffix-auto-width>
+        <calcite-input prefix-text="short" suffix-text="short" />
+        <calcite-input prefix-text="long prefix" suffix-text="long suffix" />
+      </calcite-field-group>,
+    );
+    const fieldGroup = el as FieldGroup["el"];
+    const [first, second] = Array.from(el.querySelectorAll<Input["el"]>("calcite-input"));
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "suffix")).toBe(getAffixWidth(second, "suffix"));
+    });
+    const originalWidth = parseFloat(getAffixWidth(first, "suffix"));
+
+    fieldGroup.suffixAutoWidth = false;
+    await nextFrame();
+    first.suffixText = "a considerably longer suffix";
+    fieldGroup.suffixAutoWidth = true;
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "suffix")).toBe(getAffixWidth(second, "suffix"));
+      expect(parseFloat(getAffixWidth(first, "suffix"))).toBeGreaterThan(originalWidth);
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(second, "prefix"));
+    });
+  });
+
+  it("recalculates affix widths when slotted inputs are added and removed", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width>
+        <calcite-input prefix-text="short" />
+        <calcite-input prefix-text="medium prefix" />
+      </calcite-field-group>,
+    );
+    const [first, second] = Array.from(el.querySelectorAll<Input["el"]>("calcite-input"));
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(second, "prefix"));
+    });
+    const originalWidth = parseFloat(getAffixWidth(first, "prefix"));
+    const addedInput = document.createElement("calcite-input");
+    addedInput.prefixText = "a considerably longer prefix";
+    el.append(addedInput);
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(addedInput, "prefix"));
+      expect(parseFloat(getAffixWidth(first, "prefix"))).toBeGreaterThan(originalWidth);
+    });
+
+    addedInput.remove();
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(second, "prefix"));
+      expect(parseFloat(getAffixWidth(first, "prefix"))).toBe(originalWidth);
+    });
+  });
+
   it("honors the public affix size override once auto width is disabled", async () => {
     const { el } = await mount(
       <calcite-field-group>
@@ -325,7 +382,7 @@ describe("affix width coordination", () => {
 
   it("recalculates widths when a slotted input affix is removed", async () => {
     const { el } = await mount(
-      <calcite-field-group prefix-auto-width>
+      <calcite-field-group>
         <calcite-input id="first" prefix-text="a much longer prefix" />
         <calcite-input id="second" prefix-text="medium" />
       </calcite-field-group>,
@@ -335,6 +392,8 @@ describe("affix width coordination", () => {
     const secondIndividualWidth = Math.ceil(
       second.shadowRoot!.querySelector<HTMLElement>(".prefix")!.getBoundingClientRect().width,
     );
+
+    (el as FieldGroup["el"]).prefixAutoWidth = true;
 
     await vi.waitFor(() => {
       expect(getAffixWidth(second, "prefix")).not.toBe(`${secondIndividualWidth}px`);
@@ -397,6 +456,8 @@ describe("affix width coordination", () => {
     expect(inputNumberSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
     expect(autocompleteSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
 
+    const originalPrefixWidth = parseFloat(getAffixWidth(autocomplete, "prefix"));
+    const originalSuffixWidth = parseFloat(getAffixWidth(autocomplete, "suffix"));
     autocomplete.prefixText = "the longest autocomplete prefix";
     autocomplete.suffixText = "the longest autocomplete suffix";
 
@@ -404,6 +465,8 @@ describe("affix width coordination", () => {
       const prefixWidth = getAffixWidth(autocomplete, "prefix");
       const suffixWidth = getAffixWidth(autocomplete, "suffix");
 
+      expect(parseFloat(prefixWidth)).toBeGreaterThan(originalPrefixWidth);
+      expect(parseFloat(suffixWidth)).toBeGreaterThan(originalSuffixWidth);
       expect(getAffixWidth(input, "prefix")).toBe(prefixWidth);
       expect(getAffixWidth(inputNumber, "prefix")).toBe(prefixWidth);
       expect(getAffixWidth(inputText, "prefix")).toBe(prefixWidth);
