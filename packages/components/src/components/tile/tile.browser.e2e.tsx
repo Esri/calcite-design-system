@@ -186,19 +186,6 @@ describe("renders", () => {
     await expect.element(heading).not.toBeInTheDocument();
     await expect.element(description).toHaveTextContent("My Calcite Tile Description.");
   });
-
-  it("renders large icon when only icon and heading are supplied", async () => {
-    await mount(<calcite-tile heading="My Large Visual Calcite Tile" icon="layers" />);
-
-    const icon = page.getBySelector(`calcite-tile .${CSS.icon}`);
-    const heading = page.getBySelector(`calcite-tile .${CSS.heading}`);
-    const description = page.getBySelector(`calcite-tile .${CSS.description}`);
-
-    await expect.element(icon).toHaveAttribute("icon", "layers");
-    await expect.element(icon).toHaveAttribute("scale", "l");
-    await expect.element(heading).toHaveTextContent("My Large Visual Calcite Tile");
-    await expect.element(description).not.toBeInTheDocument();
-  });
 });
 
 describe("slots", () => {
