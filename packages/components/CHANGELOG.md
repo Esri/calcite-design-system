@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.12...@esri/calcite-components@6.0.0-next.13) (2026-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- **tile:** `tile`'s undocumented behavior of rendering a larger
+  icon has been removed for consistency. To achieve a similar look, use
+  the `content-top` slot and set `alignment="center"` (see
+  [example](https://codepen.io/jcfranco/pen/bNBeBNm?editors=1000)).
+
+### Bug Fixes
+
+- **tile:** avoid large icon display when description is omitted ([#15445](https://github.com/Esri/calcite-design-system/issues/15445)), closes [#10124](https://github.com/Esri/calcite-design-system/issues/10124)
+
 ## [6.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.11...@esri/calcite-components@6.0.0-next.12) (2026-11-02)
 
 ### ⚠ BREAKING CHANGES
