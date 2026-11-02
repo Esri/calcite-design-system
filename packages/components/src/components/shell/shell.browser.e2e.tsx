@@ -99,7 +99,7 @@ describe("shell provides sizing context", () => {
       await expect.element(handle).toHaveAttribute("aria-valuenow", "700");
     });
 
-    it.each([SLOTS.panelEnd, SLOTS.panelBottom])(
+    it.each([SLOTS.panelStart, SLOTS.panelEnd, SLOTS.panelTop, SLOTS.panelBottom])(
       "updates %s relative bounds after shrinking and growing the viewport",
       async (slot) => {
         await page.viewport(1600, 1600);
@@ -128,12 +128,13 @@ describe("shell provides sizing context", () => {
         await expect.element(handle).toHaveAttribute("aria-valuenow", "420");
 
         const rect = handle.element().getBoundingClientRect();
-        const isBlock = slot === SLOTS.panelBottom;
+        const isBlock = slot === SLOTS.panelTop || slot === SLOTS.panelBottom;
+        const shrinksRight = (slot === SLOTS.panelEnd) === (dir === "ltr");
         await userEvent.hover(handle);
         await commands.mouseDown();
         await commands.mouseMove(
-          rect.left + rect.width / 2 + (isBlock ? 0 : dir === "ltr" ? 400 : -400),
-          rect.top + rect.height / 2 + (isBlock ? 400 : 0),
+          rect.left + rect.width / 2 + (isBlock ? 0 : shrinksRight ? 400 : -400),
+          rect.top + rect.height / 2 + (isBlock ? (slot === SLOTS.panelBottom ? 400 : -400) : 0),
         );
         await commands.mouseUp();
         await expect.element(handle).toHaveAttribute("aria-valuenow", "180");
