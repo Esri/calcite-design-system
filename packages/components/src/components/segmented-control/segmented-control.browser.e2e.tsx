@@ -41,8 +41,8 @@ describe("defaults", () => {
     () => mount("calcite-segmented-control"),
     [
       {
-        propertyName: "appearance",
-        defaultValue: "solid",
+        propertyName: "selectionAppearance",
+        defaultValue: "neutral",
       },
       {
         propertyName: "layout",
@@ -178,8 +178,8 @@ describe("reflects", () => {
         value: "horizontal",
       },
       {
-        propertyName: "appearance",
-        value: "solid",
+        propertyName: "selectionAppearance",
+        value: "brand",
       },
       {
         propertyName: "width",

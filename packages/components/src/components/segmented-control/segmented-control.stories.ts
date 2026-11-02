@@ -7,12 +7,16 @@ import "../label/label"; // Force Vite to statically trace the file for Chromati
 import "./segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { layout, appearance, scale, width, status } = ATTRIBUTES;
+const { layout, scale, width, status } = ATTRIBUTES;
+const selectionAppearance = {
+  defaultValue: "neutral",
+  values: ["brand", "neutral", "highlight"],
+} as const;
 
 type SegmentedControlStoryArgs = Pick<
   SegmentedControl,
   | "layout"
-  | "appearance"
+  | "selectionAppearance"
   | "scale"
   | "width"
   | "disabled"
@@ -27,7 +31,7 @@ export default {
   title: "Components/Controls/Radio/Segmented Control",
   args: {
     layout: layout.defaultValue,
-    appearance: appearance.defaultValue,
+    selectionAppearance: selectionAppearance.defaultValue,
     scale: scale.defaultValue,
     width: width.defaultValue,
     disabled: false,
@@ -51,8 +55,8 @@ export default {
       ),
       control: { type: "select" },
     },
-    appearance: {
-      options: appearance.values.filter((option) => option !== "transparent"),
+    selectionAppearance: {
+      options: selectionAppearance.values,
       control: { type: "select" },
     },
     scale: {
@@ -77,7 +81,7 @@ export default {
 export const simple = (args: SegmentedControlStoryArgs): string => html`
   <calcite-segmented-control
     layout="${args.layout}"
-    appearance="${args.appearance}"
+    selection-appearance="${args.selectionAppearance}"
     scale="${args.scale}"
     width="${args.width}"
     ${boolean("disabled", args.disabled)}
@@ -98,7 +102,7 @@ export const fullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
     <calcite-label scale="m">
       My great segmented control
-      <calcite-segmented-control layout="horizontal" appearance="solid" width="full" status="idle">
+      <calcite-segmented-control layout="horizontal" selection-appearance="brand" width="full" status="idle">
         <calcite-segmented-control-item icon-start="car" value="car" checked>Car</calcite-segmented-control-item>
         <calcite-segmented-control-item icon-start="plane" value="plane">Plane</calcite-segmented-control-item>
         <calcite-segmented-control-item icon-start="biking" value="bicycle">Bicycle</calcite-segmented-control-item>

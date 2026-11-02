@@ -111,6 +111,10 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     Appearance
   > = "solid";
 
+  /** Specifies the appearance style of the component. */
+  @property({ reflect: true })
+  selectionAppearance: "brand" | "highlight" | "neutral" = "neutral";
+
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -216,7 +220,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
+      (changes.has("selectionAppearance") &&
+        (this.hasUpdated || this.selectionAppearance !== "neutral")) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
@@ -339,7 +344,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     const { items } = this;
 
     items.forEach((item) => {
-      item.appearance = this.appearance;
+      item.appearance = this.selectionAppearance;
       item.layout = this.layout;
       item.scale = this.scale;
     });

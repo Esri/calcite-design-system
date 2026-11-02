@@ -79,8 +79,8 @@
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
 
-:host([checked]) .label--outline,
-:host([checked]) .label--outline-fill {
+:host([checked]) .label--neutral,
+:host([checked]) .label--highlight {
   background-color: var(
     --calcite-segmented-control-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -89,7 +89,7 @@
   color: var(--calcite-segmented-control-color, var(--calcite-color-brand));
 }
 
-:host([checked]) .label--outline {
+:host([checked]) .label--neutral {
   background-color: var(--calcite-segmented-control-background-color, transparent);
 }
 
@@ -101,11 +101,11 @@
   :host([checked]) .label {
     background-color: highlight;
   }
-  :host([checked]) .label--outline,
-  :host([checked]) .label--outline-fill {
+  :host([checked]) .label--neutral,
+  :host([checked]) .label--highlight {
     @apply outline-none;
   }
-  :host([checked]) .label:not([class~="label--outline"]) .icon {
+  :host([checked]) .label:not([class~="label--neutral"]) .icon {
     color: highlightText;
   }
 }
