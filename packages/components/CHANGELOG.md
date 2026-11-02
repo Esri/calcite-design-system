@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.13...@esri/calcite-components@6.0.0-next.14) (2026-11-02)
+
+### Bug Fixes
+
+- **label:** drop unsupported disabled styles ([#15457](https://github.com/Esri/calcite-design-system/issues/15457)), closes [#15313](https://github.com/Esri/calcite-design-system/issues/15313)
+- **shell-panel:** ensure consistent size constraints ([#15450](https://github.com/Esri/calcite-design-system/issues/15450)), closes [#15271](https://github.com/Esri/calcite-design-system/issues/15271)
+
 ## [6.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.12...@esri/calcite-components@6.0.0-next.13) (2026-11-02)
 
 ### ⚠ BREAKING CHANGES
