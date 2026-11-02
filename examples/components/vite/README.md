@@ -63,7 +63,7 @@ export default defineConfig({
 
 > [!NOTE]
 >
-> ### Avoid the Vite/LightningCSS `light-dark()` issue
+> ### Avoid the Vite/Lightning CSS `light-dark()` issue
 >
 > Vite 8 enables Lightning CSS for minification by default, which has a [known issue](https://github.com/parcel-bundler/lightningcss/issues/821) with its polyfill for the [`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/light-dark) CSS function. During minification the polyfill sets Calcite's color CSS variables incorrectly, causing components to appear as transparent or without background colors.
 >
