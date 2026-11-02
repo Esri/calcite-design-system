@@ -199,11 +199,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   private childRef = createRef<HTMLInputElement>();
   prefixRef = createRef<HTMLDivElement>();
   suffixRef = createRef<HTMLDivElement>();
-  private affixWidth = useAffixWidth<InputText>()(this);
+  private _affixWidth = useAffixWidth<InputText>()(this);
 
   /** @private */
-  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
-    return this.affixWidth;
+  @property({ attribute: false }) get affixWidth(): UseAffixWidth {
+    return this._affixWidth;
   }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();

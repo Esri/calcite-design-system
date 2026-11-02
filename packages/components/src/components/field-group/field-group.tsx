@@ -8,7 +8,7 @@ import { styles } from "./field-group.scss";
 type Layout = "columns" | "horizontal" | "vertical";
 type Columns = 1 | 2 | 3 | 4 | 5 | 6;
 
-type AffixInput = LitElement & { affixElementProvider?: UseAffixWidth };
+type AffixInput = LitElement & { affixWidth?: UseAffixWidth };
 
 declare global {
   interface DeclareElements {
@@ -85,7 +85,7 @@ export class FieldGroup extends LitElement {
   //#region Private Methods
 
   private collectOwnedAffixInputs(element: HTMLElement): AffixInput[] {
-    if ("affixElementProvider" in element) {
+    if ("affixWidth" in element) {
       return [element as AffixInput];
     }
 
@@ -128,14 +128,14 @@ export class FieldGroup extends LitElement {
     }
 
     for (const affix of affixes) {
-      inputs.forEach((input) => input.affixElementProvider?.setAffixWidth(affix, undefined));
+      inputs.forEach((input) => input.affixWidth?.setAffixWidth(affix, undefined));
     }
 
     const measurements = affixes
       .filter((affix) => (affix === "prefix" ? this.prefixAutoWidth : this.suffixAutoWidth))
       .map((affix) => {
         const widths = inputs.map((input) => {
-          const provider = input.affixElementProvider;
+          const provider = input.affixWidth;
           const trailingWidth = provider?.getTrailingWidth(affix) ?? 0;
 
           return {

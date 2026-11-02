@@ -227,11 +227,11 @@ export class Input
 
   suffixRef = createRef<HTMLDivElement>();
 
-  private affixWidth = useAffixWidth<Input>()(this);
+  private _affixWidth = useAffixWidth<Input>()(this);
 
   /** @private */
-  @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {
-    return this.affixWidth;
+  @property({ attribute: false }) get affixWidth(): UseAffixWidth {
+    return this._affixWidth;
   }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();

@@ -232,8 +232,8 @@ export class Autocomplete
   referenceEl?: Input["el"];
 
   /** @private */
-  @property() get affixElementProvider(): UseAffixWidth | undefined {
-    return this.referenceEl?.affixElementProvider;
+  @property() get affixWidth(): UseAffixWidth | undefined {
+    return this.referenceEl?.affixWidth;
   }
 
   transitionRef = createRef<HTMLDivElement>();
