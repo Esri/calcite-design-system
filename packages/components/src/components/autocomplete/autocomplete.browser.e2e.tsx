@@ -655,7 +655,7 @@ describe("keyboard selection", () => {
 });
 
 describe("theme", () => {
-  themed(() => mount(<calcite-autocomplete open />), {
+  themed(() => mount(<calcite-autocomplete open prefix-text="prefix" suffix-text="suffix" />), {
     "--calcite-autocomplete-background-color": {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "backgroundColor",
@@ -672,14 +672,26 @@ describe("theme", () => {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "maxBlockSize",
     },
-    "--calcite-autocomplete-input-prefix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-size",
-    },
-    "--calcite-autocomplete-input-suffix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-size",
-    },
+    "--calcite-autocomplete-input-prefix-size": [
+      {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-prefix-size",
+      },
+      {
+        shadowSelector: `.${CSS.input} >>> .prefix`,
+        targetProp: "inlineSize",
+      },
+    ],
+    "--calcite-autocomplete-input-suffix-size": [
+      {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-suffix-size",
+      },
+      {
+        shadowSelector: `.${CSS.input} >>> .suffix`,
+        targetProp: "inlineSize",
+      },
+    ],
     "--calcite-autocomplete-input-background-color": {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-background-color",
@@ -748,25 +760,5 @@ describe("theme", () => {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-suffix-text-color",
     },
-  });
-
-  it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
-    await mount<Autocomplete>(
-      <calcite-autocomplete
-        prefix-text="prefix"
-        style={{
-          "--calcite-autocomplete-input-prefix-size": "42px",
-          "--calcite-autocomplete-input-suffix-size": "42px",
-        }}
-        suffix-text="suffix"
-      />,
-    );
-    const prefix = page.getBySelector(`calcite-autocomplete .${CSS.input} .prefix`);
-    const suffix = page.getBySelector(`calcite-autocomplete .${CSS.input} .suffix`);
-
-    await vi.waitFor(() => {
-      expect(getComputedStyle(prefix.element() as HTMLElement).inlineSize).toBe("42px");
-      expect(getComputedStyle(suffix.element() as HTMLElement).inlineSize).toBe("42px");
-    });
   });
 });
