@@ -8,7 +8,8 @@
 @use "../../styles/shared";
 
 .scale--s {
-  @apply text-n2h;
+  @include shared.text-n2h();
+
   --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(
     --calcite-theme-space-sm,
     var(--calcite-spacing-sm)
@@ -29,7 +30,8 @@
 }
 
 .scale--m {
-  @apply text-n1h;
+  @include shared.text-n1h();
+
   --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(
     --calcite-theme-space-md,
     var(--calcite-spacing-md)
@@ -50,7 +52,8 @@
 }
 
 .scale--l {
-  @apply text-0h;
+  @include shared.text-0h();
+
   --calcite-internal-autocomplete-item-group-horizontal-spacing-unit: var(
     --calcite-theme-space-lg,
     var(--calcite-spacing-lg)
@@ -71,14 +74,14 @@
 }
 
 :host {
-  @apply m-0
-    flex
-    flex-col;
+  margin: var(--calcite-space-none);
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-  @apply flex
-    flex-col;
+  display: flex;
+  flex-direction: column;
   background-color: var(
     --calcite-autocomplete-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -95,12 +98,13 @@
 }
 
 .heading {
-  @apply box-border
-    w-full
-    min-w-0
-    max-w-full
-    word-break
-    font-bold;
+  @include shared.word-break();
+
+  box-sizing: border-box;
+  inline-size: 100%;
+  min-inline-size: var(--calcite-space-none);
+  max-inline-size: 100%;
+  font-weight: var(--calcite-font-weight-bold);
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
   padding-block: var(--calcite-internal-autocomplete-item-group-vertical-spacing-unit);
   padding-inline: var(--calcite-internal-autocomplete-item-group-horizontal-spacing-unit);
