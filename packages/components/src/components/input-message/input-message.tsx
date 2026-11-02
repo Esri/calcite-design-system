@@ -47,9 +47,6 @@ interface InputMessageSlots {
   "": Node[];
 }
 
-/**
- * @deprecated in v5.0.0, removal target v6.0.0 - Use the `calcite-notice` component with `appearance="transparent"` instead.
- */
 export class InputMessage extends LitElement {
   //#region Type-only metadata members
 
