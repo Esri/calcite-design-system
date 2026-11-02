@@ -21,27 +21,26 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 :host {
-  @apply block;
-
+  display: block;
   inline-size: var(--calcite-alert-width);
 }
 
 .container {
   &--embedded,
   &[popover] {
-    @apply box-border
-  fixed
-  flex
-  items-center
-  justify-center
-  min-w-min
-  mx-auto
-  my-0
-  p-0
-  opacity-0
-  pointer-events-none
-  text-start
-  w-full;
+    box-sizing: border-box;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: min-content;
+    margin-inline: auto;
+    margin-block: var(--calcite-space-none);
+    padding: var(--calcite-space-none);
+    opacity: 0;
+    pointer-events: none;
+    text-align: start;
+    inline-size: 100%;
     inset: initial;
     box-shadow: var(--calcite-alert-shadow, var(--calcite-shadow-md));
     background-color: var(
@@ -85,7 +84,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .icon {
-  @apply flex flex-col items-center justify-center p-0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--calcite-space-none);
   margin-block: auto;
   margin-inline-end: auto;
 }
@@ -96,39 +99,41 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 .queue-count {
   @include shared.transition-default();
-  @apply cursor-default
-  flex
-  font-medium
-  invisible
-  items-center
-  justify-around
-  min-w-min
-  opacity-0
-  overflow-hidden
-  self-stretch
-  text-center
-  text-color-2;
+
+  cursor: default;
+  display: flex;
+  font-weight: var(--calcite-font-weight-medium);
+  visibility: hidden;
+  align-items: center;
+  justify-content: space-around;
+  min-inline-size: min-content;
+  opacity: 0;
+  overflow: hidden;
+  align-self: stretch;
+  text-align: center;
+  color: var(--calcite-color-text-2);
   border-inline: 0 solid transparent;
   border-start-end-radius: 0;
 
   &--active {
-    @apply visible opacity-100;
+    visibility: visible;
+    opacity: var(--calcite-opacity-full);
   }
 }
 
 .dismiss-progress {
-  @apply absolute
-  block
-  w-full
-  overflow-hidden;
+  position: absolute;
+  display: block;
+  inline-size: 100%;
+  overflow: hidden;
   inset-inline: 0;
   inset-block-start: -2px;
   block-size: 2px;
   border-radius: var(--calcite-border-radius) var(--calcite-border-radius) 0 0;
   &::after {
-    @apply absolute
-    top-0
-    block;
+    position: absolute;
+    inset-block-start: var(--calcite-space-none);
+    display: block;
     block-size: 2px;
     content: "";
     background-color: var(--calcite-color-transparent-tint);
@@ -144,27 +149,37 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 .text-container {
-  @apply box-border flex flex-auto min-w-0 flex-col break-words;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  min-inline-size: var(--calcite-space-none);
+  flex-direction: column;
+  overflow-wrap: break-word;
 }
 
 .footer {
-  @apply flex justify-end pt-px relative self-stretch w-auto;
+  display: flex;
+  justify-content: flex-end;
+  padding-block-start: var(--calcite-space-px);
+  position: relative;
+  align-self: stretch;
+  inline-size: auto;
   block-size: inherit;
 }
 
 // scale variables
 :host([scale="s"]) {
   @include shared.slotted("title", "*") {
-    @apply text-n1-wrap;
+    @include shared.text-n1-wrap();
   }
   @include shared.slotted("message", "*") {
-    @apply text-n2-wrap;
+    @include shared.text-n2-wrap();
   }
   @include shared.slotted("link", "*") {
-    @apply text-n2-wrap;
+    @include shared.text-n2-wrap();
   }
   .queue-count {
-    @apply mx-2;
+    margin-inline: var(--calcite-space-sm);
   }
   .container {
     --calcite-internal-alert-min-height: 3.5rem;
@@ -181,16 +196,16 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host([scale="m"]) {
   @include shared.slotted("title", "*") {
-    @apply text-0-wrap;
+    @include shared.text-0-wrap();
   }
   @include shared.slotted("message", "*") {
-    @apply text-n1-wrap;
+    @include shared.text-n1-wrap();
   }
   @include shared.slotted("link", "*") {
-    @apply text-n1-wrap;
+    @include shared.text-n1-wrap();
   }
   .queue-count {
-    @apply mx-3;
+    margin-inline: var(--calcite-space-md);
   }
   .container {
     --calcite-internal-alert-min-height: 4.1875rem;
@@ -207,16 +222,16 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host([scale="l"]) {
   @include shared.slotted("title", "*") {
-    @apply text-1-wrap;
+    @include shared.text-1-wrap();
   }
   @include shared.slotted("message", "*") {
-    @apply text-0-wrap;
+    @include shared.text-0-wrap();
   }
   @include shared.slotted("link", "*") {
-    @apply text-0-wrap;
+    @include shared.text-0-wrap();
   }
   .queue-count {
-    @apply mx-4;
+    margin-inline: var(--calcite-space-lg);
   }
   .container {
     --calcite-internal-alert-min-height: 5.625rem;
@@ -233,7 +248,8 @@ $border-style: 1px solid var(--calcite-color-border-3);
 
 :host([open]) {
   .container--active {
-    @apply border-t-2 opacity-100;
+    border-block-start-width: var(--calcite-border-width-md);
+    opacity: var(--calcite-opacity-full);
     pointer-events: initial;
     &[class*="bottom"] {
       transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, theme("spacing.8"))), inherit);
@@ -249,27 +265,28 @@ $border-style: 1px solid var(--calcite-color-border-3);
 }
 
 @include shared.slotted("title", "*") {
-  @apply text-0-wrap
-    font-medium;
+  @include shared.text-0-wrap();
 
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-color-text-1);
 }
 
 @include shared.slotted("message", "*") {
-  @apply text-n1-wrap
-    m-0
-    inline
-    font-normal;
+  @include shared.text-n1-wrap();
+
+  margin: var(--calcite-space-none);
+  display: inline;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   margin-inline-end: theme("margin.2");
   color: var(--calcite-color-text-2);
 }
 
 @include shared.slotted("link", "*") {
-  @apply text-color-link;
+  color: var(--calcite-color-text-link);
 }
 
 slot[name="link"]::slotted(:not(calcite-link)) {
-  @apply inline-flex;
+  display: inline-flex;
 }
 
 $alert-kinds:
@@ -318,10 +335,12 @@ $alert-durations:
 
 @keyframes dismissProgress {
   0% {
-    @apply w-0 opacity-75;
+    inline-size: var(--calcite-space-none);
+    opacity: 0.75;
   }
   100% {
-    @apply w-full opacity-100;
+    inline-size: 100%;
+    opacity: var(--calcite-opacity-full);
   }
 }
 
