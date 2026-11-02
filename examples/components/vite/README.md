@@ -61,22 +61,24 @@ export default defineConfig({
 });
 ```
 
-### Avoid the Vite/LightningCSS `light-dark()` issue
-
-Vite 8 enabled Lightning CSS for minification by default, which has a [known issue](https://github.com/parcel-bundler/lightningcss/issues/821) with its polyfill for the [`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/light-dark) CSS function. The issue results in Calcite's color CSS variables to be set incorrectly, causing components to appear as transparent or without background colors, etc.
-
-To avoid this issue, disable Lightning CSS for the `light-dark()` function with the below Vite config. If importing Lightning CSS directly is undesired, use the corresponding number for `LightDark` from the package's [`flags.js`](https://cdn.jsdelivr.net/npm/lightningcss@latest/node/flags.js) file.
-
-```ts
-import { defineConfig } from "vite";
-import { Features } from "lightningcss";
-
-export default defineConfig({
-  ...
-  css: {
-    lightningcss: {
-      exclude: Features.LightDark,
-    },
-  },
-});
-```
+> [!NOTE]
+>
+> ### Avoid the Vite/LightningCSS `light-dark()` issue
+>
+> Vite 8 enables Lightning CSS for minification by default, which has a [known issue](https://github.com/parcel-bundler/lightningcss/issues/821) with its polyfill for the [`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/light-dark) CSS function. During minification the polyfill sets Calcite's color CSS variables incorrectly, causing components to appear as transparent or without background colors.
+>
+> To ensure Calcite displays as expected until the bug is mitigated by Lightning CSS, disable the `light-dark()` polyfill in the Vite config (_refer to the code snippet below_). If importing Lightning CSS directly is undesired, use the corresponding `LightDark` enum member from the package's [`flags.js`](https://cdn.jsdelivr.net/npm/lightningcss@latest/node/flags.js) file.
+>
+> ```ts
+> import { defineConfig } from "vite";
+> import { Features } from "lightningcss";
+>
+> export default defineConfig({
+>  ...
+>  css: {
+>    lightningcss: {
+>      exclude: Features.LightDark,
+>    },
+>  },
+> });
+> ```
