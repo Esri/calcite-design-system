@@ -1,6 +1,7 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import { focusable, tabbable } from "tabbable";
-import { getRootNode, tabbableOptions } from "../utils/dom";
+import { tabbable } from "tabbable";
+import { getRootNode, isFocusableElement, tabbableOptions } from "../utils/dom";
+import { useFocusable } from "./useFocusable";
 
 /** Navigation directions supported by the roving tab-stop controller. */
 export type RovingTabIndexDirection = "next" | "previous" | "first" | "last";
@@ -11,31 +12,6 @@ const managedTabIndexes = new WeakMap<
   Element,
   { attribute: string | null; tabIndex: number; referenceCount: number }
 >();
-
-function isFocusableElement(element: Element): element is FocusableElement {
-  return (
-    "focus" in element &&
-    typeof element.focus === "function" &&
-    "tabIndex" in element &&
-    typeof element.tabIndex === "number"
-  );
-}
-
-function getFocusableEntryElements(entryElement: Element | undefined): FocusableElement[] {
-  if (!entryElement) {
-    return [];
-  }
-
-  const focusableElements = focusable(entryElement, { ...tabbableOptions, includeContainer: true }).filter(
-    isFocusableElement,
-  );
-
-  if (isFocusableElement(entryElement) && entryElement.tabIndex >= 0) {
-    focusableElements.push(entryElement);
-  }
-
-  return [...new Set(focusableElements)];
-}
 
 function getTabbableEntryElements(
   entryElement: Element | undefined,
@@ -180,6 +156,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
   options: RovingTabIndexOptions<ElementType> = {},
 ): ReturnType<typeof makeGenericController<RovingTabIndex<ElementType>>> =>
   makeGenericController<RovingTabIndex<ElementType>>((component, controller) => {
+    const focusable = useFocusable()(component);
     const trackedElements = new Set<Element>();
     let itemElements: ElementType[] = [];
     let activeElement: ElementType | null = null;
@@ -193,11 +170,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
 
     function getTraversableElements(): readonly ElementType[] {
       return options.getTraversableElements?.() ?? options.getElements?.() ?? itemElements;
-    }
-
-    function isFocusedWithin(element: Element): boolean {
-      const activeElement = getRootNode(element).activeElement;
-      return activeElement !== null && element.contains(activeElement);
     }
 
     function restoreElement(element: Element): void {
@@ -248,22 +220,11 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       get activeIndex(): number {
         return activeIndex;
       },
-      getDeepActiveElement(): Element | null {
-        const rootNode = getRootNode(component.el);
-        let focusedElement = rootNode.activeElement ?? component.el.ownerDocument.activeElement;
-        while (focusedElement?.shadowRoot?.activeElement) {
-          focusedElement = focusedElement.shadowRoot.activeElement;
-        }
-        return focusedElement;
-      },
+      getDeepActiveElement: focusable.getDeepActiveElement,
       get hasFocus(): boolean {
-        return (
-          component.el.matches(":focus-within") || (options.getEntryElement?.()?.matches(":focus-within") ?? false)
-        );
+        return focusable.hasFocus || (options.getEntryElement?.()?.matches(":focus-within") ?? false);
       },
-      isFocusUnchanged(focusedElement): boolean {
-        return rovingTabIndex.getDeepActiveElement() === focusedElement;
-      },
+      isFocusUnchanged: focusable.isFocusUnchanged,
       isFocusFromItem(event): boolean {
         return focusEventsFromItems.has(event);
       },
@@ -327,7 +288,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       update(elements, nextActiveElement): void {
         const entryElement = options.getEntryElement?.();
         entryTabStops.forEach(restoreElement);
-        const entryFocusCandidates = getFocusableEntryElements(entryElement);
+        const entryFocusCandidates = focusable.getFocusableElements(entryElement);
         const nextEntryTabStops = getTabbableEntryElements(entryElement, entryFocusCandidates);
         const managedEntryTabStops =
           nextEntryTabStops.length > 0
@@ -419,9 +380,9 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       },
       restoreFocus(force = false): void {
         const focusIsWithinManagedControls =
-          itemElements.some(isFocusedWithin) ||
-          entryTabStops.some(isFocusedWithin) ||
-          (entryFocusTarget !== undefined && isFocusedWithin(entryFocusTarget));
+          itemElements.some(focusable.isFocusedWithin) ||
+          entryTabStops.some(focusable.isFocusedWithin) ||
+          (entryFocusTarget !== undefined && focusable.isFocusedWithin(entryFocusTarget));
 
         if ((!force && !focusIsWithinManagedControls) || !entryFocusTarget || !entryFocusTarget.isConnected) {
           return;

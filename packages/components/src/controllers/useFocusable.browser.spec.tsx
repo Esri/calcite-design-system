@@ -1,13 +1,164 @@
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { createRef } from "lit/directives/ref.js";
-import { h, JsxNode, LitElement, ToElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement, ToElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
 import { Input } from "../components/input/input";
 import { useFocusable } from "./useFocusable";
 
+describe("focus queries", () => {
+  class Test extends LitElement {
+    focusable = useFocusable()(this);
+
+    override render(): JsxNode {
+      return (
+        <>
+          <div />
+          <button type="button">Other</button>
+        </>
+      );
+    }
+  }
+
+  async function mountNestedFocusTarget() {
+    const { component } = await mount(Test);
+    const host = page.elementLocator(component.el).getBySelector("div").element();
+    const button = document.createElement("button");
+    host.attachShadow({ mode: "open" }).append(button);
+    return { component, host, button };
+  }
+
+  it("finds focusable elements across shadow boundaries", async () => {
+    const { component, button } = await mountNestedFocusTarget();
+    const other = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+    button.tabIndex = -1;
+
+    expect(component.focusable.getFocusableElements(component.el)).toEqual([button, other]);
+  });
+
+  it("includes a focusable container only once", async () => {
+    const { component } = await mount(Test);
+    const button = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+
+    expect(component.focusable.getFocusableElements(button)).toEqual([button]);
+  });
+
+  it("excludes a disabled container", async () => {
+    const { component } = await mount(Test);
+    const button = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+    expect(component.focusable.getFocusableElements(button)).toEqual([button]);
+
+    button.setAttribute("disabled", "");
+
+    expect(component.focusable.getFocusableElements(button)).toEqual([]);
+  });
+
+  it("excludes a hidden container", async () => {
+    const { component } = await mount(Test);
+    const button = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+    expect(component.focusable.getFocusableElements(button)).toEqual([button]);
+
+    button.setAttribute("hidden", "");
+
+    expect(component.focusable.getFocusableElements(button)).toEqual([]);
+  });
+
+  it("excludes an inert container", async () => {
+    const { component } = await mount(Test);
+    const button = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+    expect(component.focusable.getFocusableElements(button)).toEqual([button]);
+
+    button.setAttribute("inert", "");
+
+    expect(component.focusable.getFocusableElements(button)).toEqual([]);
+  });
+
+  it("excludes disabled and hidden descendants", async () => {
+    const { component, button } = await mountNestedFocusTarget();
+    const other = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+    other.setAttribute("disabled", "");
+    button.hidden = true;
+
+    expect(component.focusable.getFocusableElements(component.el)).toEqual([]);
+  });
+
+  it("returns no focusable elements without a container", async () => {
+    const { component } = await mount(Test);
+
+    expect(component.focusable.getFocusableElements(undefined)).toEqual([]);
+  });
+
+  it("resolves the deepest active element through nested shadow roots", async () => {
+    const { component, button } = await mountNestedFocusTarget();
+
+    button.focus();
+
+    expect(component.focusable.getDeepActiveElement()).toBe(button);
+  });
+
+  it("reports whether focus is within the component", async () => {
+    const { component, button } = await mountNestedFocusTarget();
+    expect(component.focusable.hasFocus).toBe(false);
+
+    button.focus();
+    expect(component.focusable.hasFocus).toBe(true);
+
+    button.blur();
+    expect(component.focusable.hasFocus).toBe(false);
+  });
+
+  it("checks containment across shadow boundaries", async () => {
+    const { component, host, button } = await mountNestedFocusTarget();
+    const other = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+
+    button.focus();
+
+    expect(component.focusable.isFocusedWithin(component.el)).toBe(true);
+    expect(component.focusable.isFocusedWithin(host)).toBe(true);
+    expect(component.focusable.isFocusedWithin(button)).toBe(true);
+    expect(component.focusable.isFocusedWithin(other)).toBe(false);
+  });
+
+  it("detects focus changes within the same shadow host", async () => {
+    const { component, button } = await mountNestedFocusTarget();
+    const other = page
+      .elementLocator(component.el)
+      .getByRole("button", { name: "Other" })
+      .element();
+    button.focus();
+    const focusedElement = component.focusable.getDeepActiveElement();
+    expect(component.focusable.isFocusUnchanged(focusedElement)).toBe(true);
+
+    other.focus();
+
+    expect(component.focusable.isFocusUnchanged(focusedElement)).toBe(false);
+  });
+});
+
 it("focuses native elements", async () => {
   class Test extends LitElement {
-    private focusSetter = useFocusable()(this);
+    private focusSetter = useFocusable()(this).setFocus;
     private inputRef = createRef<HTMLInputElement>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -28,7 +179,7 @@ it("focuses native elements", async () => {
 
 it("focuses custom elements", async () => {
   class Test extends LitElement {
-    private focusSetter = useFocusable()(this);
+    private focusSetter = useFocusable()(this).setFocus;
     private inputRef = createRef<ToElement<Input["el"]>>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -49,7 +200,7 @@ it("focuses custom elements", async () => {
 
 it("focuses focusable host component", async () => {
   class Test extends LitElement {
-    private focusSetter = useFocusable()(this);
+    private focusSetter = useFocusable()(this).setFocus;
 
     async setFocus(options?: FocusOptions): Promise<void> {
       return this.focusSetter(() => this.el, options);
@@ -69,7 +220,7 @@ it("focuses focusable host component", async () => {
 
 it("bails if component is disabled", async () => {
   class Test extends LitElement {
-    private focusSetter = useFocusable()(this);
+    private focusSetter = useFocusable()(this).setFocus;
 
     disabled = true;
 
@@ -95,7 +246,7 @@ it("bails if component is disabled", async () => {
 
 it("bails if component is blurred before setFocus resolves", async () => {
   class Test extends LitElement {
-    focusSetter = useFocusable()(this);
+    focusSetter = useFocusable()(this).setFocus;
     private inputRef = createRef<ToElement<Input["el"]>>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -127,7 +278,7 @@ it("bails if component is blurred before setFocus resolves", async () => {
 
 it("bails if target focus element is not available", async () => {
   class Test extends LitElement {
-    private focusSetter = useFocusable()(this);
+    private focusSetter = useFocusable()(this).setFocus;
     private inputRef = createRef<ToElement<Input["el"]>>();
     private ready = false;
 
@@ -149,7 +300,7 @@ it("bails if target focus element is not available", async () => {
 
 it("bails if component already has focus", async () => {
   class Test extends LitElement {
-    focusSetter = useFocusable()(this);
+    focusSetter = useFocusable()(this).setFocus;
     private inputRef = createRef<ToElement<Input["el"]>>();
 
     async setFocus(options?: FocusOptions): Promise<void> {
@@ -183,7 +334,7 @@ it("bails if component already has focus", async () => {
 
 it("bails if focus moves from previously focused element to another before component's setFocus resolves", async () => {
   class Test extends LitElement {
-    focusSetter = useFocusable()(this);
+    focusSetter = useFocusable()(this).setFocus;
 
     private inputRef = createRef<ToElement<Input["el"]>>();
 
@@ -215,7 +366,7 @@ it("bails if focus moves from previously focused element to another before compo
 describe("focus behavior options", () => {
   it("allows setting includeContainer", async () => {
     class Test extends LitElement {
-      private focusSetter = useFocusable()(this);
+      private focusSetter = useFocusable()(this).setFocus;
       private ref = createRef<HTMLDivElement>();
 
       async setFocus(options?: FocusOptions): Promise<void> {
@@ -245,7 +396,7 @@ describe("focus behavior options", () => {
 
   it("allows setting focus strategy", async () => {
     class Test extends LitElement {
-      private focusSetter = useFocusable()(this);
+      private focusSetter = useFocusable()(this).setFocus;
       private ref = createRef<HTMLDivElement>();
 
       async setFocus(options?: FocusOptions): Promise<void> {
@@ -277,7 +428,7 @@ describe("focus behavior options", () => {
 
 it("supports passing focus options", async () => {
   class Test extends LitElement {
-    private focusSetter = useFocusable()(this);
+    private focusSetter = useFocusable()(this).setFocus;
 
     inputRef = createRef<HTMLInputElement>();
 

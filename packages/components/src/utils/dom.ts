@@ -1,4 +1,4 @@
-import { focusable, tabbable } from "tabbable";
+import { focusable, isFocusable, tabbable } from "tabbable";
 import { LitElement } from "@arcgis/lumina";
 import { IconName } from "../components/icon/types";
 import { guid } from "./guid";
@@ -219,6 +219,33 @@ export type FocusableElement = SetFocusable | HTMLElement;
 
 export interface SetFocusable extends LitElement {
   setFocus: (options?: FocusOptions) => Promise<void>;
+}
+
+/** Checks whether an element exposes native focus and tabIndex APIs. */
+export function isFocusableElement(element: Element): element is HTMLElement | SVGElement {
+  return (
+    "focus" in element &&
+    typeof element.focus === "function" &&
+    "tabIndex" in element &&
+    typeof element.tabIndex === "number"
+  );
+}
+
+/** Returns unique focusable elements, including the container and its shadow trees. */
+export function getFocusableElements(container: Element | undefined): (HTMLElement | SVGElement)[] {
+  if (!container) {
+    return [];
+  }
+
+  const focusableElements = focusable(container, { ...tabbableOptions, includeContainer: true }).filter(
+    isFocusableElement,
+  );
+
+  if (isFocusableElement(container) && container.tabIndex >= 0 && isFocusable(container, tabbableOptions)) {
+    focusableElements.push(container);
+  }
+
+  return [...new Set(focusableElements)];
 }
 
 /**

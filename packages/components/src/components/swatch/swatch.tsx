@@ -62,7 +62,7 @@ export class Swatch extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

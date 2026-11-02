@@ -33,7 +33,7 @@ export class FocusTrap extends LitElement {
 
   private _active = false;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {

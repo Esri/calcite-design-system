@@ -77,7 +77,7 @@ export class RadioButtonGroup extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private _disabled = false;
 

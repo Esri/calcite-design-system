@@ -91,7 +91,7 @@ export class DropdownItem extends LitElement {
   /** requested item */
   private requestedDropdownItem?: DropdownItem["el"];
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

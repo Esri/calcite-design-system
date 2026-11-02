@@ -292,7 +292,7 @@ export class Dialog extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private sizeOverride = useSizeOverride({
     targetElement: () => ({ value: this.transitionEl }),

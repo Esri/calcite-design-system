@@ -157,7 +157,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
   };
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private rovingTabIndex = useRovingTabIndex<DropdownItem["el"]>({
     getElements: () => this.items,
