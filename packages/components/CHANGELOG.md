@@ -3,6 +3,72 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.12...@esri/calcite-components@6.0.0-next.13) (2026-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- **tile:** `tile`'s undocumented behavior of rendering a larger
+  icon has been removed for consistency. To achieve a similar look, use
+  the `content-top` slot and set `alignment="center"` (see
+  [example](https://codepen.io/jcfranco/pen/bNBeBNm?editors=1000)).
+
+### Bug Fixes
+
+- **tile:** avoid large icon display when description is omitted ([#15445](https://github.com/Esri/calcite-design-system/issues/15445)), closes [#10124](https://github.com/Esri/calcite-design-system/issues/10124)
+
+## [6.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.11...@esri/calcite-components@6.0.0-next.12) (2026-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker-swatch, focus-trap:** The `focus-trap` and `color-picker-swatch` internal
+  components have been removed. To migrate:
+- Replace `focus-trap` usage with `panel`'s built-in focus-trapping
+  functionality.
+- Replace `color-picker-swatch` usage with `swatch`.
+
+### Code Refactoring
+
+- **color-picker-swatch, focus-trap:** drop internal components ([#14989](https://github.com/Esri/calcite-design-system/issues/14989)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
+## [6.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.10...@esri/calcite-components@6.0.0-next.11) (2026-10-29)
+
+### ⚠ BREAKING CHANGES
+
+- **action-pad:** The `calcite-action-pad` component have been removed.
+
+To migrate:
+Replace `calcite-action-pad` usage with `calcite-action-bar` component.
+
+### Code Refactoring
+
+- **action-pad:** drop action-pad ([#15473](https://github.com/Esri/calcite-design-system/issues/15473)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
+## [6.0.0-next.10](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.9...@esri/calcite-components@6.0.0-next.10) (2026-10-29)
+
+### Bug Fixes
+
+- **action-bar:** prevent flashing at overflow thresholds ([#15464](https://github.com/Esri/calcite-design-system/issues/15464)), closes [#15460](https://github.com/Esri/calcite-design-system/issues/15460)
+
+## [6.0.0-next.9](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.8...@esri/calcite-components@6.0.0-next.9) (2026-10-28)
+
+### ⚠ BREAKING CHANGES
+
+- **handle, sortable-list:** The `handle` and `sortable-list` internal components
+  have been removed.
+
+To migrate:
+
+Replace `handle` usage with `calcite-sort-handle` component.
+Replace `sortable-list` usage with `calcite-block-group` component.
+
+### Code Refactoring
+
+- **handle, sortable-list:** drop internal components ([#15470](https://github.com/Esri/calcite-design-system/issues/15470)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
+## [6.0.0-next.8](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.7...@esri/calcite-components@6.0.0-next.8) (2026-10-28)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [6.0.0-next.7](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.6...@esri/calcite-components@6.0.0-next.7) (2026-10-27)
 
 ### ⚠ BREAKING CHANGES
