@@ -1,0 +1,36 @@
+body {
+  margin: 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+form {
+  display: grid;
+  gap: 0.5rem;
+  margin-block-end: 1rem;
+}
+
+textarea {
+  font: inherit;
+}
+
+input,
+button {
+  justify-self: start;
+  font: inherit;
+}
+
+.comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+iframe {
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 75vh;
+}
+
+.picker {
+  min-block-size: 25rem;
+}

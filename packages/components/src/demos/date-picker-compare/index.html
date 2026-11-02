@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Date picker locale comparison</title>
+    <link rel="stylesheet" href="./compare.css" />
+    <script type="module" src="./compare.ts"></script>
+  </head>
+  <body>
+    <h1>Date picker locale comparison</h1>
+    <form>
+      <label for="locales">Locales (comma- or whitespace-separated; leave empty for all supported locales)</label>
+      <textarea id="locales" name="locales" rows="3" placeholder="en, fr, ar, de-CH"></textarea>
+      <label for="date">Selected date</label>
+      <input id="date" name="date" type="date" value="2026-11-15" required />
+      <button type="submit">Compare</button>
+      <a href="./index.html">All supported locales</a>
+      <p id="status" role="status"></p>
+    </form>
+    <main class="comparison">
+      <section>
+        <h2>@latest</h2>
+        <iframe id="latest" title="Latest published date pickers"></iframe>
+      </section>
+      <section>
+        <h2>Current branch</h2>
+        <iframe id="current" title="Current branch date pickers"></iframe>
+      </section>
+    </main>
+  </body>
+</html>

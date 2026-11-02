@@ -50,6 +50,7 @@
     "screenshot-tests:preview": "pnpm util:prep-build-reqs && NODE_OPTIONS=--openssl-legacy-provider STORYBOOK_SCREENSHOT_LOCAL_BUILD=true storybook dev",
     "screenshot-tests:publish": "pnpm screenshot-tests && storybook-to-ghpages --existing-output-dir=docs",
     "start": "pnpm util:clean-js-files && concurrently --kill-others --raw \"trap 'pnpm util:clean-js-files' INT TERM EXIT >/dev/null 2>&1 || true && tsc --project ./tsconfig.demos.json --watch\" \"pnpm build:watch-dev\"",
+    "start:date-picker-compare": "vite --mode development --host 127.0.0.1 --port 5173 --strictPort --open /src/demos/date-picker-compare/index.html",
     "test": "concurrently --passthrough-arguments \"pnpm test:node -- {@}\" \"pnpm test:browser -- {@}\" --",
     "test:ci": "concurrently --passthrough-arguments --names node,browser,time-zone \"pnpm test:node 2>test-node.err.log\" \"pnpm test:browser 2>test-browser.err.log\" \"pnpm test:browser:time-zone 2>test-time-zone.err.log\" || node support/log-test-output.ts",
     "test:node": "vitest run",
