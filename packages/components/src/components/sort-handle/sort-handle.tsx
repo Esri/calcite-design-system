@@ -1,6 +1,6 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import {
   FlipPlacement,
   LogicalPlacement,
@@ -9,7 +9,7 @@ import {
 } from "../../utils/floating-ui";
 import { useT9n } from "../../controllers/useT9n";
 import type { Dropdown } from "../dropdown/dropdown";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, IDS, REORDER_VALUES, SLOTS, SUBSTITUTIONS } from "./resources";
@@ -19,7 +19,7 @@ import {
   Reorder,
   ReorderEventDetail,
   AddEventDetail,
-} from "./interfaces";
+} from "./types";
 import { styles } from "./sort-handle.scss";
 
 declare global {
@@ -39,7 +39,7 @@ export class SortHandle extends LitElement {
 
   private dropdownEl?: Dropdown["el"];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   get hasSetInfo(): boolean {
     return typeof this.setPosition === "number" && typeof this.setSize === "number";

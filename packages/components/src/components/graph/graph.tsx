@@ -1,14 +1,23 @@
 import { h, LitElement, property, JsxNode } from "@arcgis/lumina";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
-import { ColorStop, DataSeries, Point } from "./interfaces";
-import { area, range, translate } from "./util";
+import { ColorStop, DataSeries, Point } from "./types";
+import { area, range, translate } from "./utils";
 import { styles } from "./graph.scss";
 import { CSS, IDS } from "./resources";
 
 declare global {
   interface DeclareElements {
     "calcite-graph": Graph;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the fill color of the `highlight` element, when present.
+     */
+    "--calcite-graph-highlight-fill-color": "*";
   }
 }
 

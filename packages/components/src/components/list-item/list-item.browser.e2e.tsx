@@ -9,10 +9,11 @@ import {
   hidden,
   reflects,
   renders,
+  scalePropagates,
   slots,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import type { ListItem } from "./list-item";
@@ -93,8 +94,18 @@ describe("defaults", () => {
         propertyName: "sortDisabled",
         defaultValue: false,
       },
+      {
+        propertyName: "scale",
+        defaultValue: "m",
+      },
     ],
   );
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-list-item closable />, mountOptions), {
+    targetSelector: "calcite-action",
+  });
 });
 
 describe("reflects", () => {

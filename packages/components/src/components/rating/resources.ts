@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   fieldSet: "fieldset",
   star: "star",
@@ -18,3 +20,8 @@ export const IDS = {
   validationMessage: "validationMessage",
   host: (id: any) => `${idPrefix}-${id}` as const,
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isRating = isTag("calcite-rating");

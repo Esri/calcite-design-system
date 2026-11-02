@@ -1,5 +1,6 @@
-import { IconName } from "../icon/interfaces";
-import { Scale } from "../interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
+import { Scale } from "../types";
 
 export const CSS = {
   active: "label--active",
@@ -31,3 +32,8 @@ export const SLOTS = {
 };
 
 export const itemSpacingMultiplier = "--calcite-combobox-item-spacing-indent-multiplier";
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isComboboxItem = isTag("calcite-combobox-item");

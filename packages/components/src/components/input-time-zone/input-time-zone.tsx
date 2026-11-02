@@ -11,14 +11,14 @@ import {
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import { Scale, Status } from "../interfaces";
+import { Scale, Status } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Combobox } from "../combobox/combobox";
 import type { Label } from "../label/label";
 import { SLOTS as COMBOBOX_SLOTS } from "../combobox/resources";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, SLOTS } from "./resources";
@@ -31,7 +31,7 @@ import {
   getUserTimeZoneOffset,
 } from "./utils";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./interfaces";
+import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 import { styles } from "./input-time-zone.scss";
 
 declare global {
@@ -40,10 +40,29 @@ declare global {
   }
 }
 
-/**
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-input-time-zone-corner-radius": "*";
+  }
+}
+
+interface InputTimeZoneSlots {
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class InputTimeZone extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: InputTimeZoneSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -77,11 +96,9 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   /**
    * Note: The `internal` context is reserved for future use to provide more granular update context information.
@@ -112,6 +129,9 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   /** @copyDoc */
   @property({ reflect: true }) form?: string;
+
+  /** @copyDoc */
+  @property() label?: string;
 
   /** @copyDoc */
   @property() labelText?: string;
@@ -256,6 +276,11 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    useLabel(this);
+  }
 
   async load(): Promise<void> {
     this.normalizer = await getNormalizer(this.mode);
@@ -495,7 +520,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
         <calcite-combobox
           clearDisabled={!this.clearable}
           disabled={this.disabled}
-          label={this.messages.chooseTimeZone}
+          label={this.label || this.messages.chooseTimeZone}
           labelText={this.labelText}
           lang={this.messages._lang}
           maxItems={this.maxItems}
@@ -529,7 +554,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return this.renderRegionItems();
     }
 
-    return this.timeZoneItems?.map((group) => {
+    return (this.timeZoneItems as TimeZoneItem[] | undefined)?.map((group) => {
       const selected = this.selectedTimeZoneItem === group;
       const { label, metadata, value } = group;
 

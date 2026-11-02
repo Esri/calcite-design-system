@@ -3,6 +3,8 @@ import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute }
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { InputTimePicker } from "./input-time-picker";
+import "./input-time-picker"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { hourFormat, menuPlacement, scale, status } = ATTRIBUTES;
 
@@ -285,4 +287,21 @@ export const timePartsAlignedInBothDirectionsWhenWide = (): string => html`
   <calcite-input-time-picker value="22:37"></calcite-input-time-picker>
   <br />
   <calcite-input-time-picker dir="rtl" lang="ar" numbering-system="arab" value="22:37"></calcite-input-time-picker>
+`;
+
+export const hasMinContentWidth = (): string => html`
+  <style>
+    .narrow-input-time-picker {
+      width: 1rem;
+    }
+  </style>
+  <calcite-input-time-picker class="narrow-input-time-picker" label-text="Default"></calcite-input-time-picker>
+  <br />
+  <br />
+  <calcite-input-time-picker
+    class="narrow-input-time-picker"
+    label-text="With fractional seconds"
+    step="0.1"
+  ></calcite-input-time-picker>
+  </div>
 `;

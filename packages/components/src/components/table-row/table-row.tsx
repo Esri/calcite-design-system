@@ -2,17 +2,19 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode, Fragment } from "@arcgis/lumina";
 import { render } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { Alignment, Scale, SelectionMode } from "../interfaces";
+import { Alignment, Scale, SelectionMode } from "../types";
 import {
   focusElementInGroup,
   FocusElementInGroupDestination,
   getSlotAssignedElements,
 } from "../../utils/dom";
-import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/interfaces";
+import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
 import type { TableHeader } from "../table-header/table-header";
+import { isTableHeader } from "../table-header/resources";
 import type { TableCell } from "../table-cell/table-cell";
+import { isTableCell } from "../table-cell/resources";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-row.scss";
@@ -23,8 +25,51 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-table-cell` or `calcite-table-header` elements. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-row-background-color` instead.
+     */
+    "--calcite-table-row-background": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-table-row-background-color": "*";
+    /**
+     * When `striped` is `true` on `calcite-table`, specifies the background color of the component's `striped` rows.
+     */
+    "--calcite-table-row-background-color-striped": "*";
+    /**
+     * When `selected`, specifies the background color of the component's `selected` rows.
+     */
+    "--calcite-table-row-background-color-selected": "*";
+    /**
+     * Specifies the component's selected accent color.
+     */
+    "--calcite-table-row-accent-color-selected": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-row-border-color": "*";
+  }
+}
+
+interface TableRowSlots {
+  /**
+   * A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
+   */
+  "": Node[];
+}
+
 export class TableRow extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TableRowSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -32,8 +77,6 @@ export class TableRow extends LitElement {
   //#endregion
 
   //#region Private Properties
-
-  messages;
 
   private numberedCellRef = createRef<TableCell["el"]>();
 
@@ -166,14 +209,14 @@ export class TableRow extends LitElement {
 
   constructor() {
     super();
+  }
+
+  load(): void {
     this.listenOn<CustomEvent>(
       document,
       "calciteInternalTableRowFocusChange",
       this.calciteInternalTableRowFocusChangeHandler,
     );
-  }
-
-  load(): void {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
@@ -263,11 +306,11 @@ export class TableRow extends LitElement {
     if (this.interactionMode !== "interactive") {
       return;
     }
-    const el = event.target as TableCell["el"] | TableHeader["el"];
+    const el = event.target;
     const key = event.key;
     const isControl = event.ctrlKey;
     const cells = this.rowCells;
-    if (el.matches("calcite-table-cell") || el.matches("calcite-table-header")) {
+    if (isTableCell(el) || isTableHeader(el)) {
       switch (key) {
         case "ArrowUp":
           this.emitTableRowFocusRequest(el.positionInRow, this.positionAll, "previous");

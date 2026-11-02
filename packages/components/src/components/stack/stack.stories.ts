@@ -2,6 +2,17 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import type { Stack } from "./stack";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-menu/action-menu"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../avatar/avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../sort-handle/sort-handle"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./stack"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 export default {
   title: "Components/Support/Stack",
@@ -27,7 +38,7 @@ export const simple = (args: StackStoryArgs): string => simpleHTML(args);
 
 export const stretchSlottedContent = (): string => html`
   <calcite-stack>
-    <calcite-handle slot="actions-start"></calcite-handle>
+    <calcite-sort-handle set-position="1" set-size="2" slot="actions-start"></calcite-sort-handle>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
     Hello World
     <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>

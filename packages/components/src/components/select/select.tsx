@@ -13,15 +13,17 @@ import { useT9n } from "../../controllers/useT9n";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { createObserver } from "../../utils/observers";
-import { Scale, Status, Width } from "../interfaces";
+import { Scale, Status, Width } from "../types";
 import { getIconScale } from "../../utils/component";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { Option } from "../option/option";
+import { isOption } from "../option/resources";
 import type { OptionGroup } from "../option-group/option-group";
+import { isOptionGroup } from "../option-group/resources";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
@@ -34,22 +36,64 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the font size of `calcite-option`s in the component.
+     */
+    "--calcite-select-font-size": "*";
+    /**
+     * Specifies the text color of `calcite-option`s in the component.
+     */
+    "--calcite-select-text-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-select-border-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-select-icon-color": "*";
+    /**
+     * Specifies the component's icon color when hovered or active.
+     */
+    "--calcite-select-icon-color-hover": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-select-background-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-select-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-select-shadow": "*";
+  }
+}
+
+interface SelectSlots {
+  /**
+   * A slot for adding `calcite-option`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
-function isOption(optionOrGroup: OptionOrGroup): optionOrGroup is Option["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION";
-}
-
-function isOptionGroup(optionOrGroup: OptionOrGroup): optionOrGroup is OptionGroup["el"] {
-  return optionOrGroup.tagName === "CALCITE-OPTION-GROUP";
-}
-
-/**
- * @slot - A slot for adding `calcite-option`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
 export class Select extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SelectSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -79,11 +123,9 @@ export class Select extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
@@ -182,6 +224,7 @@ export class Select extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen("calciteInternalOptionChange", this.handleOptionOrGroupChange);
     this.listen("calciteInternalOptionGroupChange", this.handleOptionOrGroupChange);
   }
@@ -282,9 +325,7 @@ export class Select extends LitElement implements LabelableComponent {
   private populateInternalSelect(): void {
     const optionsAndGroups = Array.from(
       this.el.children as HTMLCollectionOf<OptionOrGroup | HTMLSlotElement>,
-    ).filter(
-      (child) => child.tagName === "CALCITE-OPTION" || child.tagName === "CALCITE-OPTION-GROUP",
-    ) as OptionOrGroup[];
+    ).filter((child) => isOption(child) || isOptionGroup(child));
 
     this.clearInternalSelect();
 

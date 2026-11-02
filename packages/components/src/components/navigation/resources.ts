@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   container: "container",
   containerContent: "container-content",
@@ -23,3 +25,8 @@ export const SLOTS = {
 export const ICONS = {
   hamburger: "hamburger",
 } as const;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isNavigation = isTag("calcite-navigation");

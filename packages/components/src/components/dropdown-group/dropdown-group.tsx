@@ -1,11 +1,11 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
-import { Scale, SelectionMode } from "../interfaces";
+import { Scale, SelectionMode } from "../types";
 import { createObserver } from "../../utils/observers";
 import { CSS as ItemCSS } from "../dropdown-item/resources";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import { CSS } from "./resources";
-import { RequestedItem } from "./interfaces";
+import { RequestedItem } from "./types";
 import { styles } from "./dropdown-group.scss";
 
 declare global {
@@ -14,17 +14,42 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-dropdown-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-dropdown-group-border-color": "*";
+    /**
+     * Specifies the component's `groupTitle` color.
+     */
+    "--calcite-dropdown-group-title-text-color": "*";
+  }
+}
+
+interface DropdownGroupSlots {
+  /**
+   * A slot for adding `calcite-dropdown-item`s.
+   */
+  "": Node[];
+}
+
 export class DropdownGroup extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: DropdownGroupSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private mutationObserver = createObserver("mutation", () => this.updateItems());
 
@@ -34,9 +59,15 @@ export class DropdownGroup extends LitElement {
   /** the requested item */
   private requestedDropdownItem?: DropdownItem["el"];
 
-  // #endregion
+  private items: DropdownItem["el"][] = [];
 
-  // #region Public Properties
+  private describedItems = new Set<DropdownItem["el"]>();
+
+  private currentItems = new Set<DropdownItem["el"]>();
+
+  //#endregion
+
+  //#region Public Properties
 
   /** When specified, displays a group title. */
   @property({ reflect: true }) groupTitle?: string;
@@ -67,16 +98,16 @@ export class DropdownGroup extends LitElement {
     SelectionMode
   > = "single";
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** @private */
   calciteInternalDropdownItemChange = createEvent<RequestedItem>({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -98,13 +129,29 @@ export class DropdownGroup extends LitElement {
     }
   }
 
-  override disconnectedCallback(): void {
-    this.mutationObserver?.disconnect();
+  override updated(changes: PropertyValues<this>): void {
+    if (changes.has("groupTitle")) {
+      this.syncItemGroupDescriptions(this.getItems());
+    }
   }
 
-  // #endregion
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
 
-  // #region Private Methods
+    this.describedItems.forEach((item) => {
+      item.ariaDescribedByElements =
+        item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? null;
+    });
+
+    this.describedItems.clear();
+    this.currentItems.clear();
+    this.items = [];
+  }
+
+  //#endregion
+
+  //#region Private Methods
+
   private updateActiveItemOnChange(event: CustomEvent): void {
     this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
     this.requestedDropdownItem = event.detail.requestedDropdownItem;
@@ -115,14 +162,57 @@ export class DropdownGroup extends LitElement {
   }
 
   private updateItems(): void {
-    Array.from(this.el.querySelectorAll("calcite-dropdown-item")).forEach(
-      (item) => (item.selectionMode = this.selectionMode),
-    );
+    const items = this.getItems();
+
+    this.items = items;
+
+    items.forEach((item) => {
+      item.selectionMode = this.selectionMode;
+    });
+
+    this.syncItemGroupDescriptions(items);
   }
 
-  // #endregion
+  private getItems(): DropdownItem["el"][] {
+    return Array.from(this.el.querySelectorAll("calcite-dropdown-item"));
+  }
 
-  // #region Rendering
+  private syncItemGroupDescriptions(items: DropdownItem["el"][] = this.items): void {
+    const descriptionEl = this.groupTitle ? this.el : null;
+
+    const currentItems = this.currentItems;
+    currentItems.clear();
+    items.forEach((item) => currentItems.add(item));
+
+    const staleItems: DropdownItem["el"][] = [];
+
+    this.describedItems.forEach((item) => {
+      if (!currentItems.has(item)) {
+        item.ariaDescribedByElements =
+          item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? null;
+        staleItems.push(item);
+      }
+    });
+
+    staleItems.forEach((item) => this.describedItems.delete(item));
+
+    currentItems.forEach((item) => {
+      const currentDescriptions =
+        item.ariaDescribedByElements?.filter((el) => el !== this.el) ?? [];
+
+      item.ariaDescribedByElements = descriptionEl
+        ? [...currentDescriptions, descriptionEl]
+        : currentDescriptions;
+
+      this.describedItems.add(item);
+    });
+
+    this.items = items;
+  }
+
+  //#endregion
+
+  //#region Rendering
 
   override render(): JsxNode {
     const groupTitle = this.groupTitle ? (
@@ -151,5 +241,5 @@ export class DropdownGroup extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

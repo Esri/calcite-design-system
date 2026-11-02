@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 
 import { CSS as DropdownCSS } from "../dropdown/resources";
+import type { Scale } from "../types";
 import { findAll } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 
@@ -110,12 +111,12 @@ it("changes the size and width of the dropdown + primary button based on scale",
     s: "s",
     m: "m",
     l: "l",
-  };
+  } as const;
   const elementScaleToButtonScale = {
     s: "s",
     m: "m",
     l: "l",
-  };
+  } as const;
   const page = await newE2EPage();
   await page.setContent(`
       <calcite-split-button>
@@ -123,7 +124,7 @@ it("changes the size and width of the dropdown + primary button based on scale",
   const element = await page.find("calcite-split-button");
   const primaryButton = await page.find("calcite-split-button >>> calcite-button");
   const dropdown = await page.find("calcite-split-button >>> calcite-dropdown");
-  for (const elementScale of Object.keys(elementScaleToDropdownScale)) {
+  for (const elementScale of Object.keys(elementScaleToDropdownScale) as Scale[]) {
     element.setProperty("scale", elementScale);
     await page.waitForChanges();
     const dropdownScale = elementScaleToDropdownScale[elementScale];

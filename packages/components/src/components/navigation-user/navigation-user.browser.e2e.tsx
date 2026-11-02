@@ -9,8 +9,9 @@ import {
   renders,
   focusable,
   accessible,
+  scalePropagates,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS } from "./resources";
 
 describe("accessible", () => {
@@ -55,6 +56,12 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount("calcite-navigation-user"));
+});
+
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-navigation-user />, mountOptions), {
+    targetSelector: "calcite-avatar",
+  });
 });
 
 describe("renders", () => {

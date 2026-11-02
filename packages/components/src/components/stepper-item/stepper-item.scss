@@ -1,28 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-stepper-item-background-color-press: Specifies the component's background-color when active.
- * @prop --calcite-stepper-item-header-text-color: Specifies the component's header text color.
- * @prop --calcite-stepper-item-header-text-color-hover: Specifies the component's header text color when hovered or focused.
- * @prop --calcite-stepper-item-selected-header-text-color: When `selected`, specifies the component's header text color.
- * @prop --calcite-stepper-item-icon-color: Specifies the component's icon color.
- * @prop --calcite-stepper-item-complete-icon-color: When `complete`, specifies the component's icon color.
- * @prop --calcite-stepper-item-error-icon-color: When `error`, specifies the component's icon and number color.
- * @prop --calcite-stepper-item-selected-icon-color: When `selected`, specifies the component's icon and number color.
- * @prop --calcite-stepper-item-description-text-color: Specifies the component's description and number text color.
- * @prop --calcite-stepper-item-description-text-color-hover: When `selected`, hovered, or focused, specifies the component's description text color.
- * @prop --calcite-stepper-bar-gap: Specifies the component's bottom spacing.
- * @prop --calcite-stepper-bar-fill-color: Specifies the component's fill color.
- * @prop --calcite-stepper-bar-fill-color-hover: Specifies the component's fill color when hovered or focused.
- * @prop --calcite-stepper-bar-complete-fill-color: When `complete`, specifies the component's fill color.
- * @prop --calcite-stepper-bar-complete-fill-color-hover: When `complete`, specifies the component's fill color when hovered or focused.
- * @prop --calcite-stepper-bar-error-fill-color: When `error`, specifies the component's fill color.
- * @prop --calcite-stepper-bar-error-fill-color-hover: When `error`, specifies the component's fill color when hovered or focused.
- * @prop --calcite-stepper-bar-selected-fill-color: When `selected`, specifies the component's fill color.
-*/
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -33,14 +8,14 @@
 // --calcite-internal-stepper-item-spacing-unit-m
 // --calcite-internal-stepper-item-spacing-unit-s
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.4");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-md);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   --calcite-internal-stepper-action-inline-size: theme("spacing.8");
   @apply text-n1h;
   margin-inline-end: theme("margin.1");
@@ -53,7 +28,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.4");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.5");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-lg);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   --calcite-internal-stepper-action-inline-size: theme("spacing.10");
   @apply text-0h;
   margin-inline-end: theme("margin.2");
@@ -66,7 +41,7 @@
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
   --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.5");
   --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.6");
-  --calcite-internal-stepper-item-header-padding: var(--calcite-spacing-xl);
+  --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
   --calcite-internal-stepper-action-inline-size: theme("spacing.12");
   @apply text-1h;
   margin-inline-end: theme("margin.3");
@@ -99,7 +74,10 @@
     outline-none;
 
   &:active {
-    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-stepper-item-background-color-press,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 
@@ -126,7 +104,10 @@
   padding-block: var(--calcite-internal-stepper-item-header-padding);
 
   &:active {
-    background-color: var(--calcite-stepper-item-background-color-press, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-stepper-item-background-color-press,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 
@@ -150,7 +131,7 @@
     flex-shrink-0
     self-start;
 
-  margin-block-start: var(--calcite-spacing-base);
+  margin-block-start: var(--calcite-theme-space-base, var(--calcite-spacing-base));
   color: var(--calcite-stepper-item-icon-color, var(--calcite-color-border-input));
 }
 
@@ -177,7 +158,7 @@
 }
 
 :host .stepper-item-heading {
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   color: var(--calcite-stepper-item-header-text-color, var(--calcite-color-text-1));
 }
 :host .stepper-item-description {
@@ -185,12 +166,12 @@
 }
 
 :host .stepper-item-number {
-  font-weight: var(--calcite-font-weight-normal);
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   margin-inline-end: var(--calcite-internal-stepper-item-spacing-unit-m);
   color: var(--calcite-stepper-item-description-text-color, var(--calcite-color-text-1));
 }
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([complete]) .container {
   // todo dark mode
@@ -475,5 +456,5 @@
   @apply sr-only;
 }
 
-@include includes.base-component();
-@include includes.item-hidden();
+@include shared.base-component();
+@include shared.item-hidden();

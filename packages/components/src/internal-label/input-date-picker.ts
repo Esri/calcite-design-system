@@ -1,4 +1,6 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/input-date-picker/input-date-picker";
 
 export const inputDatePicker = html`<calcite-input-date-picker
   scale="m"

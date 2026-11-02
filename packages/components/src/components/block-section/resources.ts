@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const IDS = {
   content: "content",
@@ -27,3 +28,8 @@ export const ICONS: Record<string, IconName> = {
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isBlockSection = isTag("calcite-block-section");

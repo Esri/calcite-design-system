@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   scrim: "scrim",
   content: "content",
@@ -8,3 +10,8 @@ export const BREAKPOINTS = {
   // medium is assumed default.
   l: 480, // Greater than or equal to 480px.
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isScrim = isTag("calcite-scrim");

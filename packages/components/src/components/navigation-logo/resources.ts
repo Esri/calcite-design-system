@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   container: "container",
   containerLink: "container--link",
@@ -8,3 +10,8 @@ export const CSS = {
   standalone: "standalone",
   icon: "icon",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isNavigationLogo = isTag("calcite-navigation-logo");

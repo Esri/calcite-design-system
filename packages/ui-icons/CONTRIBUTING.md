@@ -7,13 +7,13 @@ The Creative Lab at Esri is the primary contributor to the icons provided in `@e
 First install all dependencies:
 
 ```sh
-npm install
+pnpm install
 ```
 
 Next, run the development server:
 
 ```sh
-npm start
+pnpm start
 ```
 
 This will optimize the icons, create a JSON file with all the icon path data, and start up a development server with live reload capabilities.

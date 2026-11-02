@@ -1,7 +1,7 @@
 import { isServer } from "lit";
 import { nodeListToArray } from "../../utils/dom";
 import { ComboboxItem } from "../combobox-item/combobox-item";
-import { ComboboxChildElement } from "./interfaces";
+import { ComboboxChildElement } from "./types";
 import { ComboboxItemGroupSelector, ComboboxItemSelector, AllComboboxChildrenSelector } from "./resources";
 import { Combobox } from "./combobox";
 

@@ -10,15 +10,20 @@ import {
   formAssociated,
   hidden,
   internalLabel,
+  labelable,
   reflects,
   renders,
   t9n,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
 import { Select } from "./select";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  labelable((mountOptions) => mount("calcite-select", mountOptions));
+});
 
 describe("accessible", () => {
   accessible(() =>

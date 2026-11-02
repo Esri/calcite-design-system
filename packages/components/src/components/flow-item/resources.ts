@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   backButton: "back-button",
@@ -14,6 +15,7 @@ export const SLOTS = {
   alerts: "alerts",
   contentTop: "content-top",
   contentBottom: "content-bottom",
+  headerTop: "header-top",
   headerActionsStart: "header-actions-start",
   headerActionsEnd: "header-actions-end",
   description: "description",
@@ -25,3 +27,8 @@ export const SLOTS = {
   footerEnd: "footer-end",
   footerStart: "footer-start",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isFlowItem = isTag("calcite-flow-item");

@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 
 import {
   defaults,
@@ -13,7 +13,7 @@ import {
   slots,
   accessible,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 
 describe("accessible", () => {
@@ -83,6 +83,29 @@ describe("disabled", () => {
 
 describe("hidden", () => {
   hidden(() => mount("calcite-tile"));
+});
+
+describe("link interactivity", () => {
+  it("navigates when activated with Enter", async () => {
+    const targetPage = "#test";
+    const navigateHandler = vi.fn().mockImplementation((event) => {
+      event.preventDefault();
+    });
+    window.navigation.addEventListener("navigate", navigateHandler);
+
+    try {
+      await mount(<calcite-tile href={`/${targetPage}`} />);
+
+      await userEvent.keyboard("{Tab}{Enter}");
+
+      expect(navigateHandler).toHaveBeenCalledTimes(1);
+      expect(navigateHandler.mock.lastCall![0].destination.url).toBe(
+        `${window.location.origin}/${targetPage}`,
+      );
+    } finally {
+      window.navigation.removeEventListener("navigate", navigateHandler);
+    }
+  });
 });
 
 describe("reflects", () => {

@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   imageContainer: "image-container",
   container: "container",
@@ -31,3 +33,8 @@ export const IDS = {
   swatchSolid: "swatch-solid",
   swatchTransparent: "swatch-transparent",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isSwatch = isTag("calcite-swatch");

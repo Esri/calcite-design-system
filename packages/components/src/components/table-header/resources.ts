@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   contentCell: "content-cell",
@@ -9,7 +10,6 @@ export const CSS = {
   heading: "heading",
   description: "description",
   multipleSelectionCell: "cell--multiple-selection",
-  assistiveText: "assistive-text",
   active: "active",
   selectedCell: "selected-cell",
   lastCell: "last-cell",
@@ -21,3 +21,8 @@ export const ICONS: Record<string, IconName> = {
   indeterminate: "minus-square-f",
   unchecked: "square",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTableHeader = isTag("calcite-table-header");

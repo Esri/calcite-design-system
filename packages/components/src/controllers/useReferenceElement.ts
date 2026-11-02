@@ -77,7 +77,7 @@ export type ReferenceElementComponent = LitElement & PublicProps & InternalProps
  * Creates a controller that resolves and tracks a component's reference element.
  *
  * It registers the component with the provided manager and keeps registration state
- * synchronized when `referenceElement`, `referenceEl`, or `open` changes.
+ * synchronized when `referenceElement`, `referenceEl`, `open`, or `triggerDisabled` changes.
  *
  * Note: reference elements are managed automatically when the component is disconnected.
  */
@@ -170,7 +170,7 @@ export const useReferenceElement = <T extends ReferenceElementComponent>(
       if (changes.has("referenceEl")) {
         unregisterReferenceElement(changes.get("referenceEl") as ReferenceElement | undefined);
         registerReferenceElement(component.referenceEl);
-      } else if (changes.has("open")) {
+      } else if (changes.has("open") || changes.has("triggerDisabled")) {
         manager.updateElement(component, component.referenceEl);
       }
     });

@@ -1,3 +1,4 @@
+import "../components/color-picker/color-picker";
 import { html } from "../../support/formatting";
 
 export const colorPickerTokens = {

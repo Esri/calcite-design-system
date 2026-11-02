@@ -4,6 +4,9 @@ import { allModes } from "../../../.storybook/modes";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { defaultPopoverPlacement } from "./resources";
 import type { Popover } from "./popover";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./popover"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { placement, scale } = ATTRIBUTES;
 
@@ -227,7 +230,7 @@ export const largeScaleLayout = (): string => html`
 export const transparentBG = (): string => html`
   <style>
     calcite-popover {
-      --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-theme-color-surface-2: rgba(0, 0, 0, 0.5);
       --calcite-color-text-1: orange;
     }
   </style>

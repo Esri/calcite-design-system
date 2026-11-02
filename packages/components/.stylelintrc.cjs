@@ -1,10 +1,7 @@
 // @ts-check
 
 // ⚠️ AUTO-GENERATED CODE - DO NOT EDIT
-const customFunctions = [
-  "get-trailing-text-input-padding",
-  "scale-duration"
-];
+const customFunctions = ["get-trailing-text-input-padding", "scale-duration"];
 // ⚠️ END OF AUTO-GENERATED CODE
 
 const scssPatternRules = [
@@ -60,12 +57,6 @@ const rules = {
     true,
     {
       ignoreFunctions: [...customFunctions, "theme", "var"],
-      severity: "error",
-    },
-  ],
-  "@esri/calcite-components/deprecation-format": [
-    true,
-    {
       severity: "error",
     },
   ],

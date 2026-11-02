@@ -30,23 +30,12 @@
   border-radius: 0.5rem;
   text-align: left;
   text-decoration: none;
-  color: #000;
-  background-color: #f1f1f1;
+  color: light-dark(#000, #fff);
+  background-color: light-dark(#f1f1f1, #181818);
   border: 1px solid transparent;
 }
 
 .resource:hover {
-  border: 1px solid #000;
+  border: 1px solid light-dark(#000, #bbb);
   box-shadow: 0 25px 50px -12px #673ab888;
-}
-
-@media (prefers-color-scheme: dark) {
-  .resource {
-    color: #fff;
-    background-color: #181818;
-  }
-  .resource:hover {
-    border: 1px solid #bbb;
-    box-shadow: 0 25px 50px -12px #673ab888;
-  }
 }

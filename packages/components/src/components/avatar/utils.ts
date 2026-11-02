@@ -1,4 +1,4 @@
-import { RGB } from "../color-picker/interfaces";
+import { RGB } from "../color-picker/types";
 import { hexToRGB } from "../color-picker/utils";
 
 /**

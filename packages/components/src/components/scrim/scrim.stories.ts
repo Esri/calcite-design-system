@@ -1,6 +1,7 @@
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { Scrim } from "./scrim";
+import "./scrim"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 type ScrimStoryArgs = Pick<Scrim, "loading">;
 

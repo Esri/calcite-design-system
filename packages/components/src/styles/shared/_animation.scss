@@ -10,6 +10,7 @@
 $easing-function: ease-in-out;
 
 @mixin animation-base() {
+  --calcite-animation-easing-function: cubic-bezier(0.4, 0, 0.2, 1);
   --calcite-animation-timing: calc(150ms * var(--calcite-internal-duration-factor));
   --calcite-internal-duration-factor: var(--calcite-duration-factor, 1);
   --calcite-internal-animation-timing-fast: calc(100ms * var(--calcite-internal-duration-factor));

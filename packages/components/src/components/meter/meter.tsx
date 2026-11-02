@@ -1,19 +1,52 @@
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
-import { Appearance, Scale } from "../interfaces";
+import { Appearance, Scale } from "../types";
 import { Locale, NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { intersects } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { useT9n } from "../../controllers/useT9n";
 import type { Label } from "../label/label";
 import { CSS } from "./resources";
-import { MeterFillType, MeterLabelType } from "./interfaces";
+import { MeterFillType, MeterLabelType } from "./types";
 import { styles } from "./meter.scss";
 
 declare global {
   interface DeclareElements {
     "calcite-meter": Meter;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component.
+     */
+    "--calcite-meter-background-color": "*";
+    /**
+     * Specifies the border color of the component and displayed step lines.
+     */
+    "--calcite-meter-border-color": "*";
+    /**
+     * Specifies the box shadow of the component.
+     */
+    "--calcite-meter-shadow": "*";
+    /**
+     * Specifies the corner radius of the component.
+     */
+    "--calcite-meter-corner-radius": "*";
+    /**
+     * Specifies the color of the component's fill.
+     */
+    "--calcite-meter-fill-color": "*";
+    /**
+     * Specifies the color of the component's range labels.
+     */
+    "--calcite-meter-range-text-color": "*";
+    /**
+     * Specifies the color of the component's value label.
+     */
+    "--calcite-meter-value-text-color": "*";
   }
 }
 

@@ -281,8 +281,8 @@ describe("number locale support", () => {
       expect(withSeparator).toEqual(formattedValuesArr);
     };
 
-    for (const lang in formattedValuesPerLanguageObject) {
-      await testLocalizedGroupSeparator(lang, formattedValuesPerLanguageObject[lang]);
+    for (const [lang, formattedValues] of Object.entries(formattedValuesPerLanguageObject)) {
+      await testLocalizedGroupSeparator(lang, formattedValues);
     }
   });
 });

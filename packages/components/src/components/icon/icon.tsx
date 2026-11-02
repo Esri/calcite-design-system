@@ -4,15 +4,30 @@ import { LitElement, property, h, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { toAriaBoolean } from "../../utils/aria";
 import { createObserver } from "../../utils/observers";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { fetchIcon, getCachedIconData, scaleToPx } from "./utils";
-import { IconName } from "./interfaces";
+import { IconName } from "./types";
 import { styles } from "./icon.scss";
 
 declare global {
   interface DeclareElements {
     "calcite-icon": Icon;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's color. Defaults to current color.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
+     */
+    "--calcite-ui-icon-color": "*";
+    /**
+     * Specifies the component's color. Defaults to current color.
+     */
+    "--calcite-icon-color": "*";
   }
 }
 

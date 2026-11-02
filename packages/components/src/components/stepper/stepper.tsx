@@ -1,17 +1,8 @@
 import { PropertyValues } from "lit";
-import {
-  createEvent,
-  h,
-  JsxNode,
-  LitElement,
-  method,
-  property,
-  state,
-  ToEvents,
-} from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import { focusElementInGroup, slotChangeGetAssignedElements } from "../../utils/dom";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale } from "../types";
 import { createObserver } from "../../utils/observers";
 import { guid } from "../../utils/guid";
 import { NumberingSystem } from "../../utils/locale";
@@ -20,11 +11,7 @@ import type { StepperItem } from "../stepper-item/stepper-item";
 import type { Action } from "../action/action";
 import { CSS, ICONS, IDS } from "./resources";
 import { StepBar } from "./functional/step-bar";
-import {
-  StepperItemChangeEventDetail,
-  StepperItemKeyEventDetail,
-  StepperLayout,
-} from "./interfaces";
+import { StepperItemChangeEventDetail, StepperLayout } from "./types";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper.scss";
 import { isStepperItem } from "../stepper-item/resources";
@@ -35,8 +22,49 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-stepper-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the space between the component's `calcite-stepper-item`s.
+     */
+    "--calcite-stepper-bar-gap": "*";
+    /**
+     * Specifies the `calcite-stepper-item`s' bar fill color of the component's `calcite-stepper-item`s.
+     *
+     * @deprecated in 5.1.0, removal target v6.0.0 - Use `--calcite-stepper-bar-fill-color` instead.
+     */
+    "--calcite-stepper-bar-inactive-fill-color": "*";
+    /**
+     * Specifies the `calcite-stepper-item`s' bar fill color of the component's active `calcite-stepper-item`s.
+     *
+     * @deprecated in 5.1.0, removal target v6.0.0 - Use `--calcite-stepper-bar-selected-fill-color` instead.
+     */
+    "--calcite-stepper-bar-active-fill-color": "*";
+    /**
+     * When `calcite-stepper-item`s are `complete`, specifies the component's `calcite-stepper-item`s' bar fill color.
+     */
+    "--calcite-stepper-bar-complete-fill-color": "*";
+    /**
+     * When `calcite-stepper-item`s contain an `error`, specifies the component's `calcite-stepper-item`s' bar fill color.
+     */
+    "--calcite-stepper-bar-error-fill-color": "*";
+  }
+}
+
+interface StepperSlots {
+  /**
+   * A slot for adding `calcite-stepper-item`s.
+   */
+  "": Node[];
+}
+
 export class Stepper extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: StepperSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -190,10 +218,7 @@ export class Stepper extends LitElement {
 
   constructor() {
     super();
-    this.listen<ToEvents<StepperItem>["calciteInternalStepperItemKeyEvent"]>(
-      "calciteInternalStepperItemKeyEvent",
-      this.calciteInternalStepperItemKeyEvent,
-    );
+    this.listen("keydown", this.keyDownHandler);
     this.listen("calciteInternalStepperItemUpdate", (event: Event): void => {
       event.stopPropagation();
       this.updateItems();
@@ -249,27 +274,37 @@ export class Stepper extends LitElement {
 
   //#region Private Methods
 
-  private calciteInternalStepperItemKeyEvent(event: CustomEvent<StepperItemKeyEventDetail>): void {
-    const item = event.detail.item;
-    const itemToFocus = event.target as StepperItem["el"];
+  private keyDownHandler(event: KeyboardEvent): void {
+    if (event.defaultPrevented || !event.composedPath().includes(this.el)) {
+      return;
+    }
 
-    switch (item.key) {
+    const item = this.items.find((item) => item === event.target);
+
+    if (!item || item.disabled) {
+      return;
+    }
+
+    switch (event.key) {
       case "ArrowDown":
       case "ArrowRight":
-        focusElementInGroup(this.focusableItems, itemToFocus, "next");
+        focusElementInGroup(this.focusableItems, item, "next");
+        event.preventDefault();
         break;
       case "ArrowUp":
       case "ArrowLeft":
-        focusElementInGroup(this.focusableItems, itemToFocus, "previous");
+        focusElementInGroup(this.focusableItems, item, "previous");
+        event.preventDefault();
         break;
       case "Home":
-        focusElementInGroup(this.focusableItems, itemToFocus, "first");
+        focusElementInGroup(this.focusableItems, item, "first");
+        event.preventDefault();
         break;
       case "End":
-        focusElementInGroup(this.focusableItems, itemToFocus, "last");
+        focusElementInGroup(this.focusableItems, item, "last");
+        event.preventDefault();
         break;
     }
-    event.stopPropagation();
   }
 
   private updateItem(event: CustomEvent): void {

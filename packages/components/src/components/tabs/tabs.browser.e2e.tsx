@@ -3,14 +3,7 @@ import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { JsxNode } from "@arcgis/lumina";
 import { page, userEvent } from "vitest/browser";
-import {
-  accessible,
-  defaults,
-  reflects,
-  hidden,
-  renders,
-  themed,
-} from "../../tests/commonTests/browser";
+import { accessible, defaults, reflects, hidden, renders, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";

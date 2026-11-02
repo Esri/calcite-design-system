@@ -5,6 +5,7 @@ import {
   getMeridiemOrder,
   isValidTime,
   localizeTimeString,
+  type Meridiem,
   parseTimeString,
   toISOTimeString,
 } from "./time";
@@ -36,7 +37,7 @@ describe("formatTimePart", () => {
 });
 
 describe("getLocalizedMeridiem", () => {
-  function getTimeParts(locale, meridiem) {
+  function getTimeParts(locale: Intl.LocalesArgument, meridiem: Meridiem): Intl.DateTimeFormatPart[] {
     const formatter = new Intl.DateTimeFormat(locale, {
       hour: "2-digit",
       hour12: true,

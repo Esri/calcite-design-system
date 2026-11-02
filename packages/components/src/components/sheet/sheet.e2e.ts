@@ -5,7 +5,7 @@ import { html } from "../../../support/formatting";
 import { skipAnimations } from "../../tests/utils/puppeteer";
 import { resizeStep, resizeShiftStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
-import { GlobalTestProps } from "../../tests/utils/interfaces";
+import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS, IDS } from "./resources";
 import type { Sheet } from "./sheet";
 

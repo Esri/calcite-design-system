@@ -11,7 +11,7 @@ mockConsole();
 it("has a loading state", async () => {
   const page = await newE2EPage({
     html: `
-        <calcite-block heading="heading" description="description" expanded collapsible>
+        <calcite-block heading="heading" description="description" expanded expandable>
           <div class="content">content</div>
         </calcite-block>
     `,
@@ -61,36 +61,35 @@ it("can display/hide content", async () => {
 it("allows toggling its content", async () => {
   const heading = "heading";
   const page = await newE2EPage();
-  await page.setContent(html`<calcite-block collapsible heading=${heading}></calcite-block>`);
+  await page.setContent(html`<calcite-block expandable heading=${heading}></calcite-block>`);
   await skipAnimations(page);
   const messages = await import("./assets/t9n/messages.json");
 
   const element = await page.find("calcite-block");
-  const toggleSpy = await element.spyOnEvent("calciteBlockToggle");
-  const openSpy = await element.spyOnEvent("calciteBlockOpen");
-  const closeSpy = await element.spyOnEvent("calciteBlockClose");
+  const expandSpy = await element.spyOnEvent("calciteBlockExpand");
+  const collapseSpy = await element.spyOnEvent("calciteBlockCollapse");
 
   const toggle = await page.find(`calcite-block >>> .${CSS.toggle}`);
 
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
   expect(toggle.getAttribute("title")).toBe(messages.expand);
 
-  const openEventSpy = await element.spyOnEvent("calciteBlockOpen");
+  const expandEventSpy = await element.spyOnEvent("calciteBlockExpand");
   await toggle.click();
-  await openEventSpy.next();
+  await expandEventSpy.next();
 
-  expect(toggleSpy).toHaveReceivedEventTimes(1);
-  expect(openSpy).toHaveReceivedEventTimes(1);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(0);
   expect(await element.getProperty("expanded")).toBe(true);
   expect(toggle.getAttribute("aria-expanded")).toBe("true");
   expect(toggle.getAttribute("title")).toBe(messages.collapse);
 
-  const closeEventSpy = await element.spyOnEvent("calciteBlockClose");
+  const collapseEventSpy = await element.spyOnEvent("calciteBlockCollapse");
   await toggle.click();
-  await closeEventSpy.next();
+  await collapseEventSpy.next();
 
-  expect(toggleSpy).toHaveReceivedEventTimes(2);
-  expect(closeSpy).toHaveReceivedEventTimes(1);
+  expect(expandSpy).toHaveReceivedEventTimes(1);
+  expect(collapseSpy).toHaveReceivedEventTimes(1);
   expect(await element.getProperty("expanded")).toBe(false);
   expect(toggle.getAttribute("aria-expanded")).toBe("false");
   expect(toggle.getAttribute("title")).toBe(messages.expand);
@@ -112,6 +111,23 @@ it("should map deprecated 'open' prop to 'expanded' prop", async () => {
   block.setProperty("open", false);
   await page.waitForChanges();
   expect(await block.getProperty("expanded")).toBe(false);
+});
+
+it("should map deprecated 'collapsible' prop to 'expandable' prop", async () => {
+  const page = await newE2EPage({
+    html: html`<calcite-block></calcite-block>`,
+  });
+  const block = await page.find("calcite-block");
+
+  expect(await block.getProperty("expandable")).toBe(false);
+
+  block.setProperty("collapsible", true);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(true);
+
+  block.setProperty("collapsible", false);
+  await page.waitForChanges();
+  expect(await block.getProperty("expandable")).toBe(false);
 });
 
 describe("header", () => {

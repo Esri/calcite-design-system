@@ -1,6 +1,5 @@
 import { E2EElement, E2EPage, EventSpy, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { beforeEach, describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { html } from "../../../support/formatting";
 import { CSS as ComboboxItemCSS } from "../combobox-item/resources";
 import {
@@ -13,16 +12,13 @@ import {
 } from "../../tests/utils/puppeteer";
 import { DEBOUNCE } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
+import { CSS_UTILITY } from "../../utils/resources";
 import { CSS } from "./resources";
 import { Combobox } from "./combobox";
 
 const selectionModes = ["single", "single-persist", "ancestors", "multiple"];
 
 mockConsole();
-
-describe("labelable", () => {
-  labelable("calcite-combobox");
-});
 
 it("should update screen reader list items", async () => {
   const page = await newE2EPage();
@@ -34,7 +30,7 @@ it("should update screen reader list items", async () => {
   );
 
   const item = await page.find("calcite-combobox-item#item-0");
-  let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+  let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li`);
 
   expect(a11yItem).not.toBeNull();
   expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
@@ -44,7 +40,7 @@ it("should update screen reader list items", async () => {
   item.setProperty("selected", true);
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.nextTick);
-  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li`);
 
   expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
 
@@ -52,7 +48,7 @@ it("should update screen reader list items", async () => {
   item.setProperty("label", label);
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.nextTick);
-  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li`);
 
   expect(await a11yItem.getProperty("ariaLabel")).toBe(label);
 
@@ -60,14 +56,14 @@ it("should update screen reader list items", async () => {
   item.setProperty("heading", heading);
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.nextTick);
-  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li`);
 
   expect(await a11yItem.getProperty("textContent")).toBe(heading);
 
   item.setProperty("disabled", true);
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.nextTick);
-  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+  a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li`);
 
   expect(a11yItem).toBeNull();
 });
@@ -1752,16 +1748,16 @@ describe("selectAllEnabled", async () => {
     await selectAll.click();
     await page.waitForChanges();
 
-    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(2)`);
+    let a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li:nth-of-type(2)`);
     expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
 
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li:nth-of-type(3)`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li:nth-of-type(3)`);
     expect(await a11yItem.getProperty("ariaSelected")).toBe("true");
 
     await selectAll.click();
     await page.waitForChanges();
 
-    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS.screenReadersOnly} li`);
+    a11yItem = await page.find(`calcite-combobox >>> ul.${CSS_UTILITY.screenReaderText} li`);
     expect(await a11yItem.getProperty("ariaSelected")).toBe("false");
   });
 });

@@ -1,3 +1,4 @@
+import "../components/input-message/input-message";
 import { html } from "../../support/formatting";
 
 export const inputMessageTokens = {

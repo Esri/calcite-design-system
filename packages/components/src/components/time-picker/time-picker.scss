@@ -1,42 +1,29 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-time-picker-background-color: Specifies the component's background color.
- * @prop --calcite-time-picker-border-color: Specifies the component's border color.
- * @prop --calcite-time-picker-corner-radius: Specifies the component's border radius.
- * @prop --calcite-time-picker-button-background-color-hover: Specifies the button's background color when hovered or focused.
- * @prop --calcite-time-picker-button-background-color-press: Specifies the button's background color when active.
- * @prop --calcite-time-picker-color: Specifies the component's text color.
- * @prop --calcite-time-picker-icon-color: Specifies the component's icon color.
- * @prop --calcite-time-picker-input-border-color-press: Specifies the input's border color when active.
- * @prop --calcite-time-picker-input-border-color-hover: Specifies the input's border color when hovered.
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply inline-block;
+  display: inline-block;
 }
 
 .time-picker {
-  @apply flex
-    select-none
-    items-center
-    border-solid
-    border
-    font-medium;
+  display: flex;
+  user-select: none;
+  align-items: center;
+  border-style: solid;
+  border-width: var(--calcite-border-width-sm);
+  font-weight: var(--calcite-font-weight-medium);
   border-color: var(--calcite-time-picker-border-color, var(--calcite-color-border-3));
-  border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+  border-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
   color: var(--calcite-time-picker-color, var(--calcite-color-text-1));
-  background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+  background-color: var(
+    --calcite-time-picker-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
   line-height: var(--calcite-font-line-height-md);
   overflow: hidden;
 
   .column {
-    @apply flex
-      flex-col;
+    display: flex;
+    flex-direction: column;
   }
 
   .meridiem--start {
@@ -44,34 +31,43 @@
   }
 
   .button {
-    @apply inline-flex
-      cursor-pointer
-      items-center
-      justify-center;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
 
-    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+    background-color: var(
+      --calcite-time-picker-background-color,
+      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    );
 
     &:hover,
     &:focus {
-      @apply outline-none;
+      outline: var(--calcite-border-width-md) solid transparent;
       z-index: var(--calcite-z-index-header);
       outline-offset: 0;
-      background-color: var(--calcite-time-picker-button-background-color-hover, var(--calcite-color-foreground-2));
+      background-color: var(
+        --calcite-time-picker-button-background-color-hover,
+        var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+      );
     }
     &:active {
-      background-color: var(--calcite-time-picker-button-background-color-press, var(--calcite-color-foreground-3));
+      background-color: var(
+        --calcite-time-picker-button-background-color-press,
+        var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+      );
     }
     &.top-left {
-      border-start-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-start-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     &.bottom-left {
-      border-end-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-end-start-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     &.top-right {
-      border-start-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-start-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     &.bottom-right {
-      border-end-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-border-radius-round));
+      border-end-end-radius: var(--calcite-time-picker-corner-radius, var(--calcite-corner-radius));
     }
     calcite-icon {
       color: var(--calcite-time-picker-icon-color, var(--calcite-color-text-3));
@@ -79,22 +75,29 @@
   }
 
   .input {
-    @apply inline-flex
-      cursor-pointer
-      items-center
-      justify-center;
+    display: inline-flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
 
     font-weight: var(--calcite-font-weight-medium);
-    background-color: var(--calcite-time-picker-background-color, var(--calcite-color-foreground-1));
+    background-color: var(
+      --calcite-time-picker-background-color,
+      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    );
 
     &:hover {
-      box-shadow: inset 0 0 0 2px var(--calcite-time-picker-input-border-color-hover, var(--calcite-color-foreground-2));
+      box-shadow: inset 0 0 0 2px
+        var(
+          --calcite-time-picker-input-border-color-hover,
+          var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+        );
       z-index: var(--calcite-z-index-header);
     }
     &:focus,
     &:hover:focus {
-      @apply outline-none;
-      outline-offset: 0;
+      outline: var(--calcite-border-width-md) solid transparent;
+      outline-offset: var(--calcite-border-width-none);
     }
     &.inputFocus,
     &:hover.inputFocus {
@@ -104,46 +107,46 @@
   }
 
   &.scale-s {
-    @apply text-n1;
+    font-size: var(--calcite-font-size-relative-base);
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-sm);
-      padding-block: var(--calcite-spacing-xxs);
+      padding-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+      padding-block: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-spacing-md);
+        padding-inline-end: var(--calcite-theme-space-md, var(--calcite-spacing-md));
       }
     }
   }
 
   &.scale-m {
-    @apply text-0;
+    font-size: var(--calcite-font-size-relative-md);
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-md);
-      padding-block: var(--calcite-spacing-sm);
+      padding-inline: var(--calcite-theme-space-md, var(--calcite-spacing-md));
+      padding-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-spacing-xl);
+        padding-inline-end: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
       }
     }
   }
 
   &.scale-l {
-    @apply text-1;
+    font-size: var(--calcite-font-size-relative-lg);
     .button,
     .input {
-      padding-inline: var(--calcite-spacing-lg);
-      padding-block: var(--calcite-spacing-md);
+      padding-inline: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
+      padding-block: var(--calcite-theme-space-md, var(--calcite-spacing-md));
     }
     &:not(.show-meridiem) {
       .delimiter:last-child {
-        padding-inline-end: var(--calcite-spacing-xxl);
+        padding-inline-end: var(--calcite-theme-space-2xl, var(--calcite-spacing-xxl));
       }
     }
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

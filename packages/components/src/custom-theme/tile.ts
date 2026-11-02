@@ -1,3 +1,4 @@
+import "../components/tile/tile";
 import { html } from "../../support/formatting";
 
 export const tileTokens = {

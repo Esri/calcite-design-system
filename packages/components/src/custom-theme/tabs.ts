@@ -1,3 +1,7 @@
+import "../components/tab-nav/tab-nav";
+import "../components/tab-title/tab-title";
+import "../components/tab/tab";
+import "../components/tabs/tabs";
 import { html } from "../../support/formatting";
 
 export const tabsTokens = {

@@ -2,10 +2,12 @@ import { afterEach, beforeEach, describe, expect, it, Mock, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { LitElement } from "@arcgis/lumina";
 import { SetOptional } from "type-fest";
-import { GlobalTestProps } from "../tests/utils/interfaces";
+import { GlobalTestProps } from "../tests/utils/types";
 import { mockConsole } from "../tests/utils/logging";
 import { type LogLevel, loggedDeprecations, logger } from "./logger";
 import { type CalciteConfig, clearConfig } from "./config";
+
+type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "logLevel"> }>;
 
 class Test extends LitElement {
   static tagName = "calcite-foo";
@@ -14,7 +16,7 @@ class Test extends LitElement {
 mockConsole(["debug", "error", "info", "trace", "warn"]);
 
 beforeEach(async () => {
-  globalThis.calciteConfig = {
+  (globalThis as TestGlobal).calciteConfig = {
     // non-test default log level
     logLevel: "info",
   };
@@ -124,8 +126,6 @@ describe(logger.deprecated, () => {
 });
 
 describe("logLevel", () => {
-  type TestGlobal = GlobalTestProps<{ calciteConfig: Pick<CalciteConfig, "logLevel"> }>;
-
   function messageAllLevels(): void {
     const levels = ["debug", "info", "warn", "error", "trace"] as const;
 

@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   container: "container",
   actionsStart: "actions-start",
@@ -13,3 +15,8 @@ export const SLOTS = {
   contentEnd: "content-end",
   actionsEnd: "actions-end",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isStack = isTag("calcite-stack");

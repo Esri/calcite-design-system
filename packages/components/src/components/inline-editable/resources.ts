@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   wrapper: "wrapper",
@@ -16,3 +17,8 @@ export const ICONS: Record<string, IconName> = {
   close: "x",
   pencil: "pencil",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isInlineEditable = isTag("calcite-inline-editable");

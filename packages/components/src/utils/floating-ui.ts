@@ -17,7 +17,7 @@ import {
 } from "@floating-ui/dom";
 import { debounce, DebouncedFunction } from "es-toolkit";
 import { offsetParent } from "composed-offset-position";
-import { Layout } from "../components/interfaces";
+import { Layout } from "../components/types";
 import { DEBOUNCE } from "./resources";
 import { Direction } from "./dom";
 import { logger } from "./logger";

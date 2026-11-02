@@ -1,12 +1,7 @@
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { describe, expect, it } from "vitest";
-import { labelable } from "../../tests/commonTests";
 import { getElementRect, newProgrammaticE2EPage } from "../../tests/utils/puppeteer";
 import { CSS } from "./resources";
-
-describe("labelable", () => {
-  labelable("calcite-text-area");
-});
 
 it("should emit calciteTextAreaInput event when user type in the textarea and emit calciteTextAreaChange when users tabs out", async () => {
   const page = await newE2EPage();
@@ -203,7 +198,7 @@ it("should not set width and height to auto when resizing viewport to narrow hei
   await page.evaluate((resizableContainerRect) => {
     const resizableContainer = document.getElementById("resizable-container");
     const resizer = document.getElementById("resizer")!;
-    let resizableContainerY;
+    let resizableContainerY: number;
 
     resizer.addEventListener("mousedown", (event) => {
       resizableContainerY = event.clientY;
@@ -211,7 +206,7 @@ it("should not set width and height to auto when resizing viewport to narrow hei
       document.addEventListener("mouseup", onMouseUp);
     });
 
-    function onMouseMove(event) {
+    function onMouseMove(event: MouseEvent) {
       const dy = event.clientY - resizableContainerY;
       resizableContainer!.style.height = `${resizableContainerRect.height - dy}px`;
       resizableContainer!.style.top = `${resizableContainerRect.top + dy}px`;

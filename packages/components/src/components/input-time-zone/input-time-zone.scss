@@ -1,12 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-input-time-zone-corner-radius: Specifies the component's corner radius.
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -17,5 +9,5 @@
   white-space: nowrap;
 }
 
-@include includes.base-component();
-@include includes.disabled();
+@include shared.base-component();
+@include shared.disabled();

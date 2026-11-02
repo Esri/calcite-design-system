@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   actionIcon: "action-icon",
@@ -24,3 +25,8 @@ const idPrefix = "calcite-stepper-action";
 export const IDS = {
   position: (id: any, isPositionStart: boolean) => `${idPrefix}-${id}-${isPositionStart ? "start" : "end"}`,
 } as const;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isStepper = isTag("calcite-stepper");

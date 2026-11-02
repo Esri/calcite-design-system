@@ -10,24 +10,24 @@ import {
   setAttribute,
   state,
 } from "@arcgis/lumina";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import {
   StepperItemChangeEventDetail,
   StepperItemEventDetail,
-  StepperItemKeyEventDetail,
   StepperLayout,
-} from "../stepper/interfaces";
+} from "../stepper/types";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Stepper } from "../stepper/stepper";
 import { isHidden } from "../../utils/component";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { slotChangeHasContent } from "../../utils/dom";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -35,8 +35,97 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding custom content. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background-color when active.
+     */
+    "--calcite-stepper-item-background-color-press": "*";
+    /**
+     * Specifies the component's header text color.
+     */
+    "--calcite-stepper-item-header-text-color": "*";
+    /**
+     * Specifies the component's header text color when hovered or focused.
+     */
+    "--calcite-stepper-item-header-text-color-hover": "*";
+    /**
+     * When `selected`, specifies the component's header text color.
+     */
+    "--calcite-stepper-item-selected-header-text-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-stepper-item-icon-color": "*";
+    /**
+     * When `complete`, specifies the component's icon color.
+     */
+    "--calcite-stepper-item-complete-icon-color": "*";
+    /**
+     * When `error`, specifies the component's icon and number color.
+     */
+    "--calcite-stepper-item-error-icon-color": "*";
+    /**
+     * When `selected`, specifies the component's icon and number color.
+     */
+    "--calcite-stepper-item-selected-icon-color": "*";
+    /**
+     * Specifies the component's description and number text color.
+     */
+    "--calcite-stepper-item-description-text-color": "*";
+    /**
+     * When `selected`, hovered, or focused, specifies the component's description text color.
+     */
+    "--calcite-stepper-item-description-text-color-hover": "*";
+    /**
+     * Specifies the component's bottom spacing.
+     */
+    "--calcite-stepper-bar-gap": "*";
+    /**
+     * Specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-fill-color": "*";
+    /**
+     * Specifies the component's fill color when hovered or focused.
+     */
+    "--calcite-stepper-bar-fill-color-hover": "*";
+    /**
+     * When `complete`, specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-complete-fill-color": "*";
+    /**
+     * When `complete`, specifies the component's fill color when hovered or focused.
+     */
+    "--calcite-stepper-bar-complete-fill-color-hover": "*";
+    /**
+     * When `error`, specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-error-fill-color": "*";
+    /**
+     * When `error`, specifies the component's fill color when hovered or focused.
+     */
+    "--calcite-stepper-bar-error-fill-color-hover": "*";
+    /**
+     * When `selected`, specifies the component's fill color.
+     */
+    "--calcite-stepper-bar-selected-fill-color": "*";
+  }
+}
+
+interface StepperItemSlots {
+  /**
+   * A slot for adding custom content.
+   */
+  "": Node[];
+}
+
 export class StepperItem extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: StepperItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -63,7 +152,7 @@ export class StepperItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -163,15 +252,10 @@ export class StepperItem extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalStepperItemKeyEvent = createEvent<StepperItemKeyEventDetail>({
-    cancelable: false,
-  });
+  calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** @private */
   calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
-
-  /** @private */
-  calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
 
   /** Fires when the active `calcite-stepper-item` changes. */
   calciteStepperItemSelect = createEvent({ cancelable: false });
@@ -252,23 +336,9 @@ export class StepperItem extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (!this.disabled && event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.emitUserRequestedItem();
-          event.preventDefault();
-          break;
-        case "ArrowUp":
-        case "ArrowDown":
-        case "ArrowLeft":
-        case "ArrowRight":
-        case "Home":
-        case "End":
-          this.calciteInternalStepperItemKeyEvent.emit({ item: event });
-          event.preventDefault();
-          break;
-      }
+    if (!this.disabled && event.target === this.el && isActivationKey(event.key)) {
+      this.emitUserRequestedItem();
+      event.preventDefault();
     }
   }
 

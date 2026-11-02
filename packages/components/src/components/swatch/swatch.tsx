@@ -12,13 +12,14 @@ import {
 } from "@arcgis/lumina";
 import Color, { ColorInstance } from "color";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { Scale, SelectionMode } from "../interfaces";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { Scale, SelectionMode } from "../types";
+import { useFocusable } from "../../controllers/useFocusable";
 import type { SwatchGroup } from "../swatch-group/swatch-group";
 import { hexify } from "../color-picker/utils";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, SLOTS, IDS, CHECKER_DIMENSIONS } from "./resources";
 import { styles } from "./swatch.scss";
+import { isActivationKey } from "../../utils/key";
 
 declare global {
   interface DeclareElements {
@@ -26,10 +27,29 @@ declare global {
   }
 }
 
-/**
- * @slot image - A slot for adding an image or pattern.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-swatch-corner-radius": "*";
+  }
+}
+
+interface SwatchSlots {
+  /**
+   * A slot for adding an image or pattern.
+   */
+  image: Node[];
+}
+
 export class Swatch extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SwatchSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -42,7 +62,7 @@ export class Swatch extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -122,9 +142,6 @@ export class Swatch extends LitElement {
   //#region Events
 
   /** @private */
-  calciteInternalSwatchKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalSwatchSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -173,21 +190,9 @@ export class Swatch extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.el) {
-      switch (event.key) {
-        case " ":
-        case "Enter":
-          this.handleEmittingEvent();
-          event.preventDefault();
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalSwatchKeyEvent.emit(event);
-          event.preventDefault();
-          break;
-      }
+    if (event.target === this.el && isActivationKey(event.key)) {
+      this.handleEmittingEvent();
+      event.preventDefault();
     }
   }
 

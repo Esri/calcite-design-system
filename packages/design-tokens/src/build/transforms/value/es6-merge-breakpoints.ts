@@ -1,6 +1,6 @@
 import type { ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 import { semantic } from "../../dictionaries/index.ts";
 import { isBreakpointMinToken } from "../../utils/token-types.ts";
 import { get } from "es-toolkit/compat";

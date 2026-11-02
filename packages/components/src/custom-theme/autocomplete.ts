@@ -1,3 +1,6 @@
+import "../components/autocomplete-item-group/autocomplete-item-group";
+import "../components/autocomplete-item/autocomplete-item";
+import "../components/autocomplete/autocomplete";
 import { html } from "../../support/formatting";
 import { SLOTS } from "../components/autocomplete/resources";
 

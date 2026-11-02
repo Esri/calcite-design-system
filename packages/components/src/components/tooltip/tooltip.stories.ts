@@ -4,6 +4,8 @@ import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import type { Tooltip } from "./tooltip";
 import { allModes } from "../../../.storybook/modes";
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { overlayPositioning, placement, scale } = ATTRIBUTES;
 
@@ -241,7 +243,7 @@ export const rightAligned = (): string =>
 export const transparentBG = (): string => html`
   <style>
     calcite-tooltip {
-      --calcite-color-foreground-1: rgba(0, 0, 0, 0.5);
+      --calcite-theme-color-surface-2: rgba(0, 0, 0, 0.5);
       --calcite-color-text-1: orange;
     }
   </style>

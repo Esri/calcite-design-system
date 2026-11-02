@@ -1,0 +1,4 @@
+@mixin outline-none() {
+  outline: var(--calcite-border-width-md) solid transparent;
+  outline-offset: var(--calcite-border-width-md);
+}

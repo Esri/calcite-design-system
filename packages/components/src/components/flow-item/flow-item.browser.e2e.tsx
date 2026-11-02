@@ -7,6 +7,7 @@ import {
   reflects,
   hidden,
   renders,
+  scalePropagates,
   slots,
   delegatesToFloatingUiOwningComponent,
   focusable,
@@ -15,9 +16,10 @@ import {
   accessible,
   topLayer,
   themed,
-} from "../../tests/commonTests/browser";
+} from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
-import { scrolling } from "../../tests/browser/utils/content";
+import { scrolling } from "../../tests/utils/content";
+import type { Panel } from "../panel/panel";
 import type { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
@@ -100,6 +102,10 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
+        propertyName: "focusTrapDisabled",
+        defaultValue: false,
+      },
+      {
         propertyName: "menuOpen",
         defaultValue: false,
       },
@@ -117,10 +123,6 @@ describe("defaults", () => {
       },
       {
         propertyName: "showBackButton",
-        defaultValue: false,
-      },
-      {
-        propertyName: "focusTrapEnabled",
         defaultValue: false,
       },
     ],
@@ -185,10 +187,6 @@ describe("reflects", () => {
         propertyName: "overlayPositioning",
         value: "fixed",
       },
-      {
-        propertyName: "focusTrapEnabled",
-        value: true,
-      },
     ],
   );
 });
@@ -203,8 +201,24 @@ describe("renders", () => {
   });
 });
 
+describe("propagates", () => {
+  scalePropagates((mountOptions) => mount(<calcite-flow-item show-back-button />, mountOptions), {
+    targetSelector: "calcite-panel, calcite-action",
+  });
+});
+
 describe("slots", () => {
   slots(() => mount("calcite-flow-item"), SLOTS);
+
+  it("forwards header-top content to the internal panel", async () => {
+    await mount(
+      <calcite-flow-item selected>
+        <div slot={SLOTS.headerTop}>Header top</div>
+      </calcite-flow-item>,
+    );
+
+    await expect.element(page.getByText("Header top")).toBeVisible();
+  });
 });
 
 describe("delegates to floating-ui-owner component", () => {
@@ -319,6 +333,10 @@ describe("theme", () => {
       shadowSelector: "calcite-panel",
       targetProp: "--calcite-panel-header-content-space",
     },
+    "--calcite-flow-header-top-space": {
+      shadowSelector: "calcite-panel",
+      targetProp: "--calcite-panel-header-top-space",
+    },
     "--calcite-flow-content-top-space": {
       shadowSelector: "calcite-panel",
       targetProp: "--calcite-panel-content-top-space",
@@ -359,71 +377,110 @@ describe("theme", () => {
 });
 
 describe("focus trap", () => {
-  it("passes focusTrapEnabled to the internal panel", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable heading="Flow heading" selected />,
+  it("allows selected Flow Items to opt out", async () => {
+    const { el } = await mount<FlowItem>(
+      <calcite-flow-item closable focusTrapDisabled heading="Flow heading" selected />,
     );
 
-    await expect
-      .element(page.getByRole("dialog", { name: "Flow heading" }))
-      .not.toBeInTheDocument();
+    const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
 
-    component.el.focusTrapEnabled = true;
-
-    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
-  });
-
-  it("reflects focusTrapEnabled through internal panel semantics", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable heading="Flow heading" selected />,
-    );
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Flow heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapEnabled = true;
-
-    await expect.element(page.getByRole("dialog", { name: "Flow heading" })).toBeInTheDocument();
-
-    component.el.focusTrapEnabled = false;
-
+    expect(panel.focusTrapDisabled).toBe(true);
     await expect
       .element(page.getByRole("dialog", { name: "Flow heading" }))
       .not.toBeInTheDocument();
   });
 
-  it("supports focus trap behavior through keyboard interaction", async () => {
-    const { component } = await mount<FlowItem>(
-      <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
-        <button type="button">inside one</button>
-        <button type="button">inside two</button>
+  it("labels a closable dialog with a forwarded slotted heading", async () => {
+    await mount(
+      <calcite-flow-item closable selected>
+        <span slot={SLOTS.heading}>Slotted heading</span>
       </calcite-flow-item>,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
+  });
+
+  it("applies dialog semantics to a selected root Flow Item", async () => {
+    await mount(
+      <calcite-flow>
+        <calcite-flow-item heading="Root heading" selected />
+      </calcite-flow>,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Root heading" })).toBeVisible();
+  });
+
+  it("traps focus in a selected root Flow Item", async () => {
+    await mount(
+      <>
+        <calcite-flow>
+          <calcite-flow-item heading="Root heading" selected>
+            <button type="button">inside one</button>
+            <button type="button">inside two</button>
+          </calcite-flow-item>
+        </calcite-flow>
+        <button type="button">outside control</button>
+      </>,
     );
 
     const insideOne = page.getByText("inside one", { exact: true });
     const insideTwo = page.getByText("inside two", { exact: true });
 
-    await expect(component.el.setFocus({ preventScroll: true })).resolves.toBeUndefined();
-    await expect.element(component.el).toHaveFocus();
+    await userEvent.click(insideTwo);
+    await expect.element(insideTwo).toHaveFocus();
 
     await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
 
     await userEvent.tab();
     await expect.element(insideTwo).toHaveFocus();
+  });
+
+  it("enables focus trap behavior on its Panel when Back is shown", async () => {
+    await mount(
+      <>
+        <calcite-flow>
+          <calcite-flow-item heading="Root heading" id="root-item">
+            <button type="button">root control</button>
+          </calcite-flow-item>
+          <calcite-flow-item heading="Flow heading" id="nested-item" selected>
+            <button type="button">inside one</button>
+            <button type="button">inside two</button>
+          </calcite-flow-item>
+        </calcite-flow>
+        <button type="button">outside control</button>
+      </>,
+    );
+
+    const insideOne = page.getByText("inside one", { exact: true });
+    const insideTwo = page.getByText("inside two", { exact: true });
+    const rootControl = page.getByText("root control", { exact: true });
+    const flowItem = page.getBySelector("#nested-item").element() as FlowItem["el"];
+    const panel = flowItem?.shadowRoot?.querySelector("calcite-panel");
+
+    expect(panel?.focusTrapEnabledByParent).toBe(true);
+
+    await userEvent.click(insideTwo);
+    await expect.element(insideTwo).toHaveFocus();
 
     await userEvent.tab();
-    await expect.element(component.el).toHaveFocus();
+    await expect.element(flowItem).toHaveFocus();
 
     await userEvent.tab();
     await expect.element(insideOne).toHaveFocus();
+
+    await userEvent.click(page.getByTitle("Back"));
+    await expect.element(flowItem).toHaveProperty("selected", false);
+    await expect.element(rootControl).toHaveFocus();
+
+    await userEvent.tab();
+    await expect.element(rootControl).toHaveFocus();
   });
 
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
     const { el } = await mount<FlowItem>(
       <>
-        <calcite-flow-item closable focusTrapEnabled heading="Flow heading" selected>
+        <calcite-flow-item closable heading="Flow heading" selected>
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-flow-item>

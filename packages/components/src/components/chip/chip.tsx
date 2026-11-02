@@ -2,14 +2,14 @@ import { PropertyValues, isServer } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
 import { focusElement, slotChangeHasAssignedElement } from "../../utils/dom";
-import { Appearance, Kind, Scale, SelectionMode } from "../interfaces";
+import { Appearance, Kind, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { ChipGroup } from "../chip-group/chip-group";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, SLOTS, ICONS } from "./resources";
@@ -21,11 +21,67 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding text.
- * @slot image - A slot for adding an image.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-chip-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-chip-border-color": "*";
+    /**
+     * Specifies the component's close element icon color.
+     */
+    "--calcite-chip-close-icon-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-chip-corner-radius": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-chip-icon-color": "*";
+    /**
+     * Specifies the component's selection element icon color when active.
+     */
+    "--calcite-chip-select-icon-color-press": "*";
+    /**
+     * Specifies the component's selection element icon color when active.
+     *
+     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-chip-select-icon-color-press` instead.
+     */
+    "--calcite-chip-select-icon-color-pressed": "*";
+    /**
+     * Specifies the component's selection element icon color.
+     */
+    "--calcite-chip-select-icon-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-chip-text-color": "*";
+  }
+}
+
+interface ChipSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+  /**
+   * A slot for adding an image.
+   */
+  image: Node[];
+}
+
 export class Chip extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ChipSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -45,7 +101,7 @@ export class Chip extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -166,9 +222,6 @@ export class Chip extends LitElement {
   calciteChipSelect = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalChipKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalChipSelect = createEvent({ cancelable: false });
 
   /** @private */
@@ -231,13 +284,6 @@ export class Chip extends LitElement {
             event.preventDefault();
             this.close();
           }
-          break;
-        case "ArrowRight":
-        case "ArrowLeft":
-        case "Home":
-        case "End":
-          this.calciteInternalChipKeyEvent.emit(event);
-          event.preventDefault();
           break;
       }
     }

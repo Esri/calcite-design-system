@@ -4,6 +4,8 @@ import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storyboo
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Chip } from "./chip";
+import "./chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../avatar/avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale, appearance, kind } = ATTRIBUTES;
 
@@ -114,11 +116,9 @@ export const withAvatarAndIcon = (): string => {
   `;
 };
 
-// <div style="background-color:var(--calcite-color-foreground-current); padding:50px; display=inline-grid; grid-template-columns: 1fr; gap:var(--calcite-spacing-xxs);">
-
 export const withClosable = (args: ChipStoryArgs): string => html`
   <div
-    style="display: grid; background-color:var(--calcite-color-foreground-current); padding: 50px; gap:var(--calcite-spacing-xxs);"
+    style="display: grid; background-color:var(--calcite-color-surface-highlight); padding: 50px; gap:var(--calcite-space-2xs);"
   >
     <calcite-chip icon="${iconNames[0]}" scale="m" appearance="solid" kind="neutral" label="${args.label}" closable>
       My great chip</calcite-chip

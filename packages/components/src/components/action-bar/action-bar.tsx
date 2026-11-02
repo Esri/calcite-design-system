@@ -13,6 +13,7 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
+  filterDirectChildren,
   focusElementInGroup,
   getSlotAssignedElements,
   getStylePixelValue,
@@ -20,19 +21,20 @@ import {
 } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { ExpandToggle, toggleActionBarChildActionText } from "../functional/ExpandToggle";
-import { Layout, Position, Scale, SelectionAppearance } from "../interfaces";
+import { Layout, Position, Scale, SelectionAppearance } from "../types";
 import { OverlayPositioning } from "../../utils/floating-ui";
 import { DEBOUNCE } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
 import { logger } from "../../utils/logger";
 import type { Tooltip } from "../tooltip/tooltip";
+import { isTooltip } from "../tooltip/resources";
 import type { ActionGroup } from "../action-group/action-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { Action } from "../action/action";
 import { isAction } from "../action/resources";
 import { isActionGroup, SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
-import { isActionMenu } from "../action-menu/resources";
+import { isActionMenu, SLOTS as ACTION_MENU_SLOTS } from "../action-menu/resources";
 import { getOverflowCount } from "../../utils/overflow";
 import { type ActionMenu } from "../action-menu/action-menu";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -46,13 +48,57 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-action`s that will appear at the top of the component.
- * @slot actions-end - A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
- * @slot actions-start - A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
- * @slot expand-tooltip - A slot to set the `calcite-tooltip` for the expand toggle.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-action-bar-background-color": "*";
+    /**
+     * Specifies the component's border radius when `floating` is `true`.
+     */
+    "--calcite-action-bar-corner-radius": "*";
+    /**
+     * When `layout` is `"vertical"`, specifies the component's maximum width.
+     */
+    "--calcite-action-bar-expanded-max-width": "*";
+    /**
+     * Specifies the space between slotted components in the component.
+     */
+    "--calcite-action-bar-items-space": "*";
+    /**
+     * Specifies the component's shadow when `floating` is `true`.
+     */
+    "--calcite-action-bar-shadow": "*";
+  }
+}
+
+interface ActionBarSlots {
+  /**
+   * A slot for adding `calcite-action`s that will appear at the top of the component.
+   */
+  "": Node[];
+  /**
+   * A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+   */
+  "actions-end": Node[];
+  /**
+   * A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
+   */
+  "actions-start": Node[];
+  /**
+   * A slot to set the `calcite-tooltip` for the expand toggle.
+   */
+  "expand-tooltip": Node[];
+}
+
 export class ActionBar extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: ActionBarSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -170,13 +216,7 @@ export class ActionBar extends LitElement {
       slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const defaultActionsCount = actionGroup.actions.filter(
-          (action) => action.slot !== ACTION_GROUP_SLOTS.menuActions,
-        ).length;
-        const hasMenuActions = actionGroup.actions.some(
-          (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
-        );
-        const actionGroupItemCount = defaultActionsCount + (hasMenuActions ? 1 : 0);
+        const actionGroupItemCount = this.getActionGroupItemCount(actionGroup);
         const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
         bufferSize += actionGroupGap * actionGroupGapQuantity;
 
@@ -260,11 +300,19 @@ export class ActionBar extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private setExpandToggleEl = (el: Action["el"] | undefined): void => {
     this.expandToggleEl = el;
   };
+
+  /**
+   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
+   * `"wrap"`.
+   */
+  private get usesWrap(): boolean {
+    return this.overflowMode === "wrap" && this.layout !== "grid";
+  }
 
   //#endregion
 
@@ -517,18 +565,18 @@ export class ActionBar extends LitElement {
     }
   }
 
+  override updated(): void {
+    if (this.usesWrap && this.lineMeasureFrame == null) {
+      this.scheduleLineMeasure();
+    }
+  }
+
   loaded(): void {
     this.syncDefaultSlot();
     this.syncActionsStartSlot();
     this.syncActionsEndSlot();
     this.syncActionsState();
     this.overflowActions();
-  }
-
-  override updated(): void {
-    if (this.usesWrap && this.lineMeasureFrame == null) {
-      this.scheduleLineMeasure();
-    }
   }
 
   override disconnectedCallback(): void {
@@ -545,16 +593,40 @@ export class ActionBar extends LitElement {
 
   private getItemSizes(): number[] {
     const { layout, expandToggleEl } = this;
+    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
 
-    const actions = [...this.actions];
+    const itemSizes = this.actions.map((action) => action[clientSize] || 0);
+    const slottedActionGroupMenus = this.getTrackedActionGroups().flatMap((group) =>
+      filterDirectChildren<ActionMenu["el"]>(group, "calcite-action-menu"),
+    );
+
+    slottedActionGroupMenus.forEach((menu) => {
+      const triggerAction = menu.actions.find(
+        (action) => action.slot === ACTION_MENU_SLOTS.trigger,
+      );
+
+      // Use the host element size when no custom trigger is slotted.
+      itemSizes.push((triggerAction ?? menu)[clientSize] || 0);
+    });
 
     if (expandToggleEl) {
-      actions.push(expandToggleEl);
+      itemSizes.push(expandToggleEl[clientSize] || 0);
     }
 
-    const clientSize = layout === "horizontal" ? "clientWidth" : "clientHeight";
-    const fallbackSize = Math.max(...actions.map((action) => action[clientSize] || 0));
-    return actions.map((action) => action[clientSize] || fallbackSize);
+    const fallbackSize = Math.max(...itemSizes, 0);
+    return itemSizes.map((size) => size || fallbackSize);
+  }
+
+  private getActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
+    const directActionGroupActions = actionGroup.actions.filter(
+      (action) => action.parentElement === actionGroup,
+    );
+    const directActionMenusCount = filterDirectChildren<ActionMenu["el"]>(
+      actionGroup,
+      "calcite-action-menu",
+    ).length;
+
+    return directActionGroupActions.length + directActionMenusCount;
   }
 
   private expandedHandler(): void {
@@ -576,7 +648,7 @@ export class ActionBar extends LitElement {
     const composedPath = event.composedPath();
     const source = composedPath.find(
       (element): element is ActionGroup["el"] | ActionMenu["el"] =>
-        isActionGroup(element as Element) || isActionMenu(element as Element),
+        isActionGroup(element) || isActionMenu(element),
     );
 
     if (!source) {
@@ -676,14 +748,6 @@ export class ActionBar extends LitElement {
   }
 
   /**
-   * Whether wrap dividers are active. True for `"horizontal"`/`"vertical"` when the overflow mode is
-   * `"wrap"`.
-   */
-  private get usesWrap(): boolean {
-    return this.overflowMode === "wrap" && this.layout !== "grid";
-  }
-
-  /**
    * Coalesces line measurement into a single animation frame so repeated renders/resizes don't each
    * force a synchronous layout read. A frame-aligned update avoids the latency a time-based debounce
    * would add for this visual measurement.
@@ -780,9 +844,7 @@ export class ActionBar extends LitElement {
   }
 
   private handleTooltipSlotChange(event: Event): void {
-    const tooltips = slotChangeGetAssignedElements(event).filter((el): el is Tooltip["el"] =>
-      el?.matches("calcite-tooltip"),
-    );
+    const tooltips = slotChangeGetAssignedElements(event).filter(isTooltip);
 
     this.expandTooltip = tooltips[0];
   }

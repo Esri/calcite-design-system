@@ -4,6 +4,14 @@ import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.st
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Tabs } from "./tabs";
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell/shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab/tab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-nav/tab-nav"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-title/tab-title"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./tabs"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { layout, position, scale } = ATTRIBUTES;
 

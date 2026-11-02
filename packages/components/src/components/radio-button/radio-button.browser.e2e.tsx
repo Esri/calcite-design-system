@@ -1,6 +1,7 @@
 import { describe } from "vitest";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   focusable,
@@ -12,25 +13,26 @@ import {
   reflects,
   hidden,
   accessible,
+  labelable,
   themed,
-} from "../../tests/commonTests/browser";
-import { defaultValidity } from "../../tests/commonTests/browser/defaults";
+} from "../../tests/common";
+import { defaultValidity } from "../../tests/common/defaults";
+import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+
+describe("labelable", () => {
+  mockConsole();
+
+  labelable((mountOptions) => mount(<calcite-radio-button name="group-name" />, mountOptions), {
+    propertyToToggle: "checked",
+    focusTarget: () => page.getByRole("radio").first(),
+  });
+});
 
 describe("accessible", () => {
   accessible(() =>
-    mount(
-      <calcite-label>
-        <calcite-radio-button id="example" name="example" value="one" />
-        label
-      </calcite-label>,
-    ),
-  );
-});
-
-describe("accessible without calcite-label", () => {
-  accessible(() =>
-    mount(<calcite-radio-button id="example" label="label" name="example" value="one" />),
+    // using private `label` until https://github.com/Esri/calcite-design-system/issues/14872 is addressed
+    mount(<calcite-radio-button label="test-label" value="one" />),
   );
 });
 

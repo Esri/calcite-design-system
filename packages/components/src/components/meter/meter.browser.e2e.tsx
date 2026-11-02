@@ -1,14 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
-import {
-  defaults,
-  hidden,
-  reflects,
-  renders,
-  accessible,
-  themed,
-} from "../../tests/commonTests/browser";
+import { defaults, hidden, reflects, renders, accessible, themed } from "../../tests/common";
 import { CSS } from "./resources";
 
 describe("accessible", () => {

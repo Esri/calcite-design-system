@@ -4,6 +4,9 @@ import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Select } from "./select";
+import "../option/option"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../option-group/option-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./select"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { status, width, scale } = ATTRIBUTES;
 

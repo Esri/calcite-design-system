@@ -1,4 +1,6 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/slider/slider";
 
 export const slider = html`<calcite-slider
   scale="m"

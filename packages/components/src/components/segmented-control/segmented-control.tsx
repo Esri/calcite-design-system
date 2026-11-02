@@ -14,14 +14,15 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import type { Appearance, Layout, Scale, Status, Width } from "../interfaces";
+import type { Appearance, Layout, Scale, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
-import type { IconName } from "../icon/interfaces";
+import type { IconName } from "../icon/types";
 import type { SegmentedControlItem } from "../segmented-control-item/segmented-control-item";
+import { isSegmentedControlItem } from "../segmented-control-item/resources";
 import type { Label } from "../label/label";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS } from "./resources";
@@ -34,11 +35,37 @@ declare global {
   }
 }
 
-/**
- * @slot - A slot for adding `calcite-segmented-control-item`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-segmented-control-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-segmented-control-corner-radius": "*";
+  }
+}
+
+interface SegmentedControlSlots {
+  /**
+   * A slot for adding `calcite-segmented-control-item`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 export class SegmentedControl extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SegmentedControlSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -66,17 +93,19 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
-
-  labelable = useLabel(this);
 
   //#endregion
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /**
+   * Specifies the appearance style of the component.
+   *
+   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
@@ -172,6 +201,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   constructor() {
     super();
+    useLabel(this);
     this.listen<ToEvents<SegmentedControlItem>["calciteInternalSegmentedControlItemChange"]>(
       "calciteInternalSegmentedControlItemChange",
       this.handleSelected,
@@ -238,8 +268,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
       return;
     }
 
-    if ((event.target as HTMLElement).localName === "calcite-segmented-control-item") {
-      this.selectItem(event.target as SegmentedControlItem["el"], true);
+    if (isSegmentedControlItem(event.target)) {
+      this.selectItem(event.target, true);
     }
   }
 
@@ -328,9 +358,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   }
 
   private async handleDefaultSlotChange(event: Event): Promise<void> {
-    const items = slotChangeGetAssignedElements(event).filter(
-      (el): el is SegmentedControlItem["el"] => el.matches("calcite-segmented-control-item"),
-    );
+    const items = slotChangeGetAssignedElements(event).filter(isSegmentedControlItem);
 
     await Promise.all(items.map((item) => item.componentOnReady()));
     this.items = items;
