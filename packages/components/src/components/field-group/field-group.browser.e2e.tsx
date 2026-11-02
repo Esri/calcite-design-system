@@ -380,6 +380,32 @@ describe("affix width coordination", () => {
     });
   });
 
+  it("recalculates affix widths when a slotted input scale changes", async () => {
+    const { el } = await mount(
+      <calcite-field-group prefix-auto-width suffix-auto-width>
+        <calcite-input prefix-text="a longer prefix" scale="s" suffix-text="a longer suffix" />
+        <calcite-input prefix-text="short" scale="s" suffix-text="short" />
+      </calcite-field-group>,
+    );
+    const [first, second] = Array.from(el.querySelectorAll<Input["el"]>("calcite-input"));
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(second, "prefix"));
+      expect(getAffixWidth(first, "suffix")).toBe(getAffixWidth(second, "suffix"));
+    });
+    const originalPrefixWidth = parseFloat(getAffixWidth(first, "prefix"));
+    const originalSuffixWidth = parseFloat(getAffixWidth(first, "suffix"));
+
+    first.scale = "l";
+
+    await vi.waitFor(() => {
+      expect(parseFloat(getAffixWidth(first, "prefix"))).toBeGreaterThan(originalPrefixWidth);
+      expect(parseFloat(getAffixWidth(first, "suffix"))).toBeGreaterThan(originalSuffixWidth);
+      expect(getAffixWidth(second, "prefix")).toBe(getAffixWidth(first, "prefix"));
+      expect(getAffixWidth(second, "suffix")).toBe(getAffixWidth(first, "suffix"));
+    });
+  });
+
   it("recalculates widths when a slotted input affix is removed", async () => {
     const { el } = await mount(
       <calcite-field-group>

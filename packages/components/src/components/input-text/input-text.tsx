@@ -547,11 +547,6 @@ export class InputText extends LitElement implements LabelableComponent, Textual
       this.requestedIcon = setRequestedIcon({}, this.icon, "text");
     }
   }
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-      this.calciteInternalInputAffixChange.emit();
-    }
-  }
 
   //#endregion
 

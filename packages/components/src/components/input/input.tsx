@@ -733,12 +733,6 @@ export class Input
     }
   }
 
-  override updated(changes: PropertyValues<this>): void {
-    if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
-      this.calciteInternalInputAffixChange.emit();
-    }
-  }
-
   override disconnectedCallback(): void {
     this.stopNudging();
   }

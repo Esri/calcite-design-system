@@ -1,10 +1,16 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import type { LitElement } from "@arcgis/lumina";
+import type { EventEmitter, LitElement } from "@arcgis/lumina";
+import type { PropertyValues } from "lit";
 import type { Ref } from "lit/directives/ref.js";
+import type { Scale } from "../components/types";
 
 interface AffixWidthComponent extends LitElement {
   prefixRef: Ref<HTMLElement>;
   suffixRef: Ref<HTMLElement>;
+  prefixText?: string;
+  suffixText?: string;
+  scale: Scale;
+  calciteInternalInputAffixChange: EventEmitter;
 }
 
 type AffixWidthOptions = {
@@ -30,7 +36,13 @@ export interface UseAffixWidth {
 export const useAffixWidth = <T extends AffixWidthComponent>(
   options: AffixWidthOptions = {},
 ): ReturnType<typeof makeGenericController<UseAffixWidth, T>> => {
-  return makeGenericController<UseAffixWidth, T>((component) => {
+  return makeGenericController<UseAffixWidth, T>((component, controller) => {
+    controller.onUpdated((changes: PropertyValues<AffixWidthComponent>) => {
+      if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
+        component.calciteInternalInputAffixChange.emit();
+      }
+    });
+
     return {
       getAffixWidth: (affix): number => Math.ceil(component[`${affix}Ref`].value?.getBoundingClientRect().width ?? 0),
       getTrailingWidth: (affix): number => options.getTrailingWidth?.(affix) ?? 0,
