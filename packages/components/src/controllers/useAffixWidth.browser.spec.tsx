@@ -1,4 +1,4 @@
-import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { createRef } from "lit/directives/ref.js";
 import { describe, expect, it, vi } from "vitest";
