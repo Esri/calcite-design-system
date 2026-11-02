@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.11...@esri/calcite-components@6.0.0-next.12) (2026-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker-swatch, focus-trap:** The `focus-trap` and `color-picker-swatch` internal
+  components have been removed. To migrate:
+- Replace `focus-trap` usage with `panel`'s built-in focus-trapping
+  functionality.
+- Replace `color-picker-swatch` usage with `swatch`.
+
+### Code Refactoring
+
+- **color-picker-swatch, focus-trap:** drop internal components ([#14989](https://github.com/Esri/calcite-design-system/issues/14989)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
 ## [6.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.10...@esri/calcite-components@6.0.0-next.11) (2026-10-29)
 
 ### ⚠ BREAKING CHANGES
