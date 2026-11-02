@@ -3,6 +3,16 @@
   line-height: var(--calcite-font-line-height-md);
 }
 
+@mixin text-0-wrap() {
+  font-size: var(--calcite-font-size-relative-md);
+  line-height: var(--calcite-font-line-height-relative-snug);
+}
+
+@mixin text-1-wrap() {
+  font-size: var(--calcite-font-size-relative-lg);
+  line-height: var(--calcite-font-line-height-relative-snug);
+}
+
 @mixin text-n1h() {
   font-size: var(--calcite-font-size-relative-base);
   line-height: var(--calcite-font-line-height-base);
