@@ -910,7 +910,7 @@ describe("input type number increment/decrement functionality", () => {
       <calcite-input
         step={10}
         type="number"
-        value="100000000000000000000000000000000000000000000000000"
+        value="100000000000000000000000000000000000000000000000000."
       />,
     );
 
