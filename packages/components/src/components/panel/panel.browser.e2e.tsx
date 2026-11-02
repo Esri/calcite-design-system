@@ -22,7 +22,7 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "./panel";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
 
@@ -100,6 +100,20 @@ describe("accessible", () => {
       </calcite-panel>,
     ),
   );
+
+  it("labels a closable dialog with a slotted heading", async () => {
+    const { component } = await mount(
+      <calcite-panel closable>
+        <span slot={SLOTS.heading}>Slotted heading</span>
+      </calcite-panel>,
+    );
+
+    const dialog = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.container}`)!;
+
+    expect(dialog.getAttribute("aria-label")).toBeNull();
+    expect(dialog.getAttribute("aria-labelledby")).toBe(IDS.heading);
+    await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
+  });
 });
 
 describe("defaults", () => {
@@ -151,7 +165,7 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "focusTrapEnabled",
+        propertyName: "focusTrapEnabledByParent",
         defaultValue: false,
       },
     ],
@@ -233,10 +247,6 @@ describe("reflects", () => {
       {
         propertyName: "iconFlipRtl",
         value: "true",
-      },
-      {
-        propertyName: "focusTrapEnabled",
-        value: true,
       },
     ],
   );
@@ -760,15 +770,8 @@ describe("deprecated", () => {
 });
 
 describe("focus trap", () => {
-  it("applies dialog semantics only when focus trap is enabled", async () => {
-    const { component } = await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Panel heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapEnabled = true;
-
+  it("applies dialog semantics when closable", async () => {
+    await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
   });
 
@@ -800,10 +803,10 @@ describe("focus trap", () => {
     expect(closeEventCount).toBe(0);
   });
 
-  it("deactivates focus trap and dialog semantics when focusTrapEnabled is set to false", async () => {
+  it("deactivates focus trap and dialog semantics when closable is set to false", async () => {
     const { component } = await mount<Panel>(
       <>
-        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+        <calcite-panel closable heading="Panel heading">
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-panel>
@@ -816,7 +819,7 @@ describe("focus trap", () => {
 
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
 
-    component.el.focusTrapEnabled = false;
+    component.el.closable = false;
 
     await expect
       .element(page.getByRole("dialog", { name: "Panel heading" }))
@@ -825,7 +828,6 @@ describe("focus trap", () => {
 
     await expect(component.el.setFocus()).resolves.toBeUndefined();
 
-    await userEvent.tab();
     await userEvent.tab();
     await expect.element(insideTwo).toHaveFocus();
 
@@ -836,7 +838,7 @@ describe("focus trap", () => {
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
     const { component } = await mount<Panel>(
       <>
-        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+        <calcite-panel closable heading="Panel heading">
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-panel>

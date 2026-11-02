@@ -366,10 +366,18 @@ export class Panel extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
-   * @private
+   * When `true`, enables focus trapping and dialog semantics on behalf of a parent component.
+   *
+   * @internal
    */
-  @property({ reflect: true }) focusTrapEnabled = false;
+  @property() focusTrapEnabledByParent = false;
+
+  /**
+   * When `true`, disables focus trapping and dialog semantics.
+   *
+   * @since 6.0
+   */
+  @property() focusTrapDisabled = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -495,8 +503,13 @@ export class Panel extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if (changes.has("focusTrapEnabled") || changes.has("closable") || changes.has("closed")) {
-      if (!this.closed && this.closable && this.focusTrapEnabled) {
+    if (
+      changes.has("closable") ||
+      changes.has("closed") ||
+      changes.has("focusTrapDisabled") ||
+      changes.has("focusTrapEnabledByParent")
+    ) {
+      if (this.hasDialogBehavior) {
         this.focusTrapController.activate();
       } else {
         this.focusTrapController.deactivate();
@@ -514,7 +527,13 @@ export class Panel extends LitElement {
 
   /** When defined, provides a condition to disable focus trapping. When `true`, prevents focus trapping. */
   focusTrapDisabledOverride(): boolean {
-    return !this.focusTrapEnabled || !this.closable || this.closed;
+    return this.focusTrapDisabled || !this.hasDialogBehavior;
+  }
+
+  private get hasDialogBehavior(): boolean {
+    return (
+      !this.focusTrapDisabled && !this.closed && (this.closable || this.focusTrapEnabledByParent)
+    );
   }
 
   private async setClosedState(value: boolean): Promise<void> {
@@ -691,7 +710,12 @@ export class Panel extends LitElement {
     ) : null;
 
     const headingNode = (
-      <Heading class={CSS.heading} hidden={!showHeaderHeading} level={headingLevel}>
+      <Heading
+        class={CSS.heading}
+        hidden={!showHeaderHeading}
+        id={IDS.heading}
+        level={headingLevel}
+      >
         <slot
           hidden={!hasHeaderHeading}
           name={SLOTS.heading}
@@ -992,14 +1016,16 @@ export class Panel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { disabled, loading, closed, heading, description, focusTrapEnabled, closable } = this;
-    const hasDialogRole = focusTrapEnabled && closable;
+    const { disabled, loading, closed, heading, description } = this;
+    const hasDialogRole = this.hasDialogBehavior;
+    const hasDialogHeading = !!heading || this.hasHeaderHeading;
 
     const panelNode = (
       <div
+        aria-labelledby={hasDialogRole && hasDialogHeading ? IDS.heading : undefined}
         ariaBusy={toAriaBoolean(loading, undefined)}
         ariaDescription={hasDialogRole && description ? description : undefined}
-        ariaLabel={hasDialogRole && heading ? heading : undefined}
+        ariaLabel={hasDialogRole && heading && !this.hasHeaderHeading ? heading : undefined}
         ariaLive={hasDialogRole ? "polite" : undefined}
         class={CSS.container}
         hidden={closed}
