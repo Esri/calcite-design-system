@@ -609,6 +609,14 @@ describe("theme", () => {
           shadowSelector: `.${CSS.inputIcon}`,
           targetProp: "color",
         },
+        "--calcite-input-prefix-size-x": {
+          shadowSelector: `.${CSS.prefix}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-input-suffix-size-x": {
+          shadowSelector: `.${CSS.suffix}`,
+          targetProp: "inlineSize",
+        },
         "--calcite-input-prefix-text-color": {
           shadowSelector: `.${CSS.prefix}`,
           targetProp: "color",
@@ -684,28 +692,6 @@ describe("theme", () => {
         },
       },
     );
-
-    it("respects prefix/suffix size CSS custom properties when used standalone", async () => {
-      await mount<InputText>(
-        <calcite-input-text
-          prefix-text="prefix"
-          style={{
-            "--calcite-input-prefix-size-x": "42px",
-            "--calcite-input-suffix-size-x": "42px",
-          }}
-          suffix-text="suffix"
-        />,
-      );
-      const affixes = [CSS.prefix, CSS.suffix].map((className) =>
-        page.getBySelector(`.${className}`),
-      );
-
-      await vi.waitFor(() => {
-        for (const affix of affixes) {
-          expect(affix.element().getBoundingClientRect().width).toBe(42);
-        }
-      });
-    });
 
     it("does not apply an inline affix width when used standalone", async () => {
       const { el } = await mount<InputText>(
