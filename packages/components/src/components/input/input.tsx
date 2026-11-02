@@ -223,14 +223,11 @@ export class Input
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
 
-  private prefixRef = createRef<HTMLDivElement>();
+  prefixRef = createRef<HTMLDivElement>();
 
-  private suffixRef = createRef<HTMLDivElement>();
+  suffixRef = createRef<HTMLDivElement>();
 
-  private affixWidth = useAffixWidth<Input>({
-    prefixRef: this.prefixRef,
-    suffixRef: this.suffixRef,
-  })(this);
+  private affixWidth = useAffixWidth<Input>()(this);
 
   /** @private */
   @property({ attribute: false }) get affixElementProvider(): UseAffixWidth {

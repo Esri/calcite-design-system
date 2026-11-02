@@ -10,8 +10,6 @@ class AffixWidthTestComponent extends LitElement {
   suffixRef = createRef<HTMLDivElement>();
 
   affixWidth = useAffixWidth<AffixWidthTestComponent>({
-    prefixRef: this.prefixRef,
-    suffixRef: this.suffixRef,
     getTrailingWidth: (affix) => (affix === "prefix" ? 3 : 5),
   })(this);
 

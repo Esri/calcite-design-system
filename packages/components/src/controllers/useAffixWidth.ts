@@ -2,11 +2,12 @@ import { makeGenericController } from "@arcgis/lumina/controllers";
 import type { LitElement } from "@arcgis/lumina";
 import type { Ref } from "lit/directives/ref.js";
 
-type AffixWidthComponent = LitElement;
-
-type AffixWidthRefs = {
+interface AffixWidthComponent extends LitElement {
   prefixRef: Ref<HTMLElement>;
   suffixRef: Ref<HTMLElement>;
+}
+
+type AffixWidthOptions = {
   getTrailingWidth?: (affix: Affix) => number;
 };
 
@@ -27,12 +28,12 @@ export interface UseAffixWidth {
  * Exposes prefix/suffix affix elements for Field Group affix-width coordination.
  */
 export const useAffixWidth = <T extends AffixWidthComponent>(
-  refs: AffixWidthRefs,
+  options: AffixWidthOptions = {},
 ): ReturnType<typeof makeGenericController<UseAffixWidth, T>> => {
   return makeGenericController<UseAffixWidth, T>((component) => {
     return {
-      getAffixWidth: (affix): number => Math.ceil(refs[`${affix}Ref`].value?.getBoundingClientRect().width ?? 0),
-      getTrailingWidth: (affix): number => refs.getTrailingWidth?.(affix) ?? 0,
+      getAffixWidth: (affix): number => Math.ceil(component[`${affix}Ref`].value?.getBoundingClientRect().width ?? 0),
+      getTrailingWidth: (affix): number => options.getTrailingWidth?.(affix) ?? 0,
       setAffixWidth: (affix, width): void => {
         const property = affixWidthCustomProperty[affix];
 

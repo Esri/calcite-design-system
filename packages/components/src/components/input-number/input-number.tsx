@@ -215,11 +215,9 @@ export class InputNumber
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
-  private prefixRef = createRef<HTMLDivElement>();
-  private suffixRef = createRef<HTMLDivElement>();
+  prefixRef = createRef<HTMLDivElement>();
+  suffixRef = createRef<HTMLDivElement>();
   private affixWidth = useAffixWidth<InputNumber>({
-    prefixRef: this.prefixRef,
-    suffixRef: this.suffixRef,
     getTrailingWidth: (affix) =>
       affix === "suffix"
         ? Math.ceil(this.numberButtonWrapperRef.value?.getBoundingClientRect().width ?? 0)
