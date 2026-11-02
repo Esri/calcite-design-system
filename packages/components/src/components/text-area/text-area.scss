@@ -50,7 +50,7 @@
 
 .text-area,
 .footer {
-  font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
+  font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-relative-base));
   padding-block: var(--calcite-internal-text-area-padding-block);
   padding-inline: var(--calcite-internal-text-area-padding-inline);
 }
@@ -147,7 +147,7 @@
   align-items: center;
   white-space: nowrap;
 
-  font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--1));
+  font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-relative-base));
   font-weight: var(--calcite-font-weight-regular);
   color: var(--calcite-text-area-character-limit-text-color, var(--calcite-color-text-2));
   padding-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
@@ -213,7 +213,7 @@
   .text-area,
   .footer,
   .character-limit {
-    font-size: var(--calcite-text-area-font-size, var(--calcite-font-size--2));
+    font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-relative-sm));
   }
 
   .character-limit {
@@ -235,7 +235,7 @@
   .text-area,
   .footer,
   .character-limit {
-    font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-0));
+    font-size: var(--calcite-text-area-font-size, var(--calcite-font-size-relative-md));
   }
 
   .character-limit {

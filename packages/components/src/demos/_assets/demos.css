@@ -6,7 +6,7 @@ body {
 main {
   margin: 0;
   padding: 0;
-  font-size: var(--calcite-font-size-0);
+  font-size: var(--calcite-font-size-relative-md);
 }
 
 .example-container {
@@ -86,6 +86,6 @@ main {
 .calcite-comp {
   color: var(--calcite-color-text-3);
   font-family: var(--calcite-font-family);
-  font-size: var(--calcite-font-size-0);
+  font-size: var(--calcite-font-size-relative-md);
   font-weight: var(--calcite-font-weight-medium);
 }

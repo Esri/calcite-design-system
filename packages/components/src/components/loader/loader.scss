@@ -25,7 +25,7 @@
 :host([scale="s"]) {
   --calcite-internal-stroke-width: 3;
   --calcite-internal-text-offset: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
-  --calcite-internal-loader-font-size: var(--calcite-font-size--3);
+  --calcite-internal-loader-font-size: var(--calcite-font-size-relative-xs);
   --calcite-internal-loader-size: theme("spacing.8");
   --calcite-internal-loader-size-inline: theme("spacing.3");
   --calcite-internal-loader-value-line-height: 0.625rem; // 10px
