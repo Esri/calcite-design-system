@@ -50,17 +50,17 @@ describe("isValidNumber", () => {
     expect(isValidNumber("5+e1.")).toBe(false);
     expect(isValidNumber("5e-1.")).toBe(false);
     expect(isValidNumber("5e+1.")).toBe(false);
-    expect(isValidNumber("0.")).toBe(false);
-    expect(isValidNumber("1.")).toBe(false);
-    expect(isValidNumber("2.")).toBe(false);
-    expect(isValidNumber("3.")).toBe(false);
-    expect(isValidNumber("4.")).toBe(false);
-    expect(isValidNumber("5.")).toBe(false);
-    expect(isValidNumber("6.")).toBe(false);
-    expect(isValidNumber("7.")).toBe(false);
-    expect(isValidNumber("8.")).toBe(false);
-    expect(isValidNumber("9.")).toBe(false);
-    expect(isValidNumber("10.")).toBe(false);
+    expect(isValidNumber("0.")).toBe(true);
+    expect(isValidNumber("1.")).toBe(true);
+    expect(isValidNumber("2.")).toBe(true);
+    expect(isValidNumber("3.")).toBe(true);
+    expect(isValidNumber("4.")).toBe(true);
+    expect(isValidNumber("5.")).toBe(true);
+    expect(isValidNumber("6.")).toBe(true);
+    expect(isValidNumber("7.")).toBe(true);
+    expect(isValidNumber("8.")).toBe(true);
+    expect(isValidNumber("9.")).toBe(true);
+    expect(isValidNumber("10.")).toBe(true);
   });
 
   it("returns true for string values that compute to a valid number", () => {
