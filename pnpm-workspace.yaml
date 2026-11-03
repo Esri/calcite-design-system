@@ -17,7 +17,6 @@ catalog:
   "@inquirer/select": "5.2.6"
   "@interactjs/types": "1.10.28"
   "@lit/react": "1.0.8"
-  "@microsoft/api-extractor": ^7.59.4
   "@morev/stylelint-testing-library": "1.1.1"
   "@nx/nx-darwin-arm64": "21.6.11"
   "@nx/nx-linux-x64-gnu": "21.6.11"
@@ -120,7 +119,6 @@ catalog:
   "type-fest": "5.6.0"
   "typescript": "6.0.3"
   "typescript-eslint": "8.64.0"
-  "unplugin-dts": "1.1.2"
   "vite": "7.3.6"
   "vitest": "4.1.11"
   "vitest-browser-commands": "0.2.1"
