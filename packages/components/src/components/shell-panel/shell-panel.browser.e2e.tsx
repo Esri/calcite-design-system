@@ -693,7 +693,10 @@ describe("internal panel", () => {
 
   it("restores focus after Escape from the separator inside a shadow root", async () => {
     const { component } = await mount(ShellPanelShadowRoot);
-    const shellPanel = component.shadowRoot.querySelector<ShellPanel["el"]>("calcite-shell-panel")!;
+    const componentShadowRoot = component.shadowRoot;
+    assert.isNotNull(componentShadowRoot);
+    const shellPanel = componentShadowRoot.querySelector<ShellPanel["el"]>("calcite-shell-panel");
+    assert.isNotNull(shellPanel);
     const separator = page.getByRole("separator");
     const container = page
       .elementLocator(shellPanel)
@@ -703,7 +706,9 @@ describe("internal panel", () => {
     await userEvent.keyboard("{Escape}");
 
     await expect.element(shellPanel).toHaveProperty("collapsed", true);
-    expect(shellPanel.shadowRoot.activeElement).toBe(container.element());
+    const shellPanelShadowRoot = shellPanel.shadowRoot;
+    assert.isNotNull(shellPanelShadowRoot);
+    expect(shellPanelShadowRoot.activeElement).toBe(container.element());
   });
 
   it("restores focus after Escape from the separator when initially expanded", async () => {
