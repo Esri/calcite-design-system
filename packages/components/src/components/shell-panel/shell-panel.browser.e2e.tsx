@@ -1,4 +1,4 @@
-import { Fragment, h } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { assert, describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
@@ -20,6 +20,14 @@ import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
 import type { Panel } from "../panel/panel";
+
+class ShellPanelShadowRoot extends LitElement {
+  static tagName = "shell-panel-shadow-root";
+
+  override render(): JsxNode {
+    return <calcite-shell-panel focusTrapDisabled heading="Tools" resizable />;
+  }
+}
 
 mockConsole();
 
@@ -681,6 +689,21 @@ describe("internal panel", () => {
 
     await expect.element(el).toHaveProperty("collapsed", true);
     expect(el.shadowRoot.activeElement).toBe(container.element());
+  });
+
+  it("restores focus after Escape from the separator inside a shadow root", async () => {
+    const { component } = await mount(ShellPanelShadowRoot);
+    const shellPanel = component.shadowRoot.querySelector<ShellPanel["el"]>("calcite-shell-panel")!;
+    const separator = page.getByRole("separator");
+    const container = page
+      .elementLocator(shellPanel)
+      .getBySelector(":scope > .interaction-container > .container");
+
+    await userEvent.click(separator);
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(shellPanel).toHaveProperty("collapsed", true);
+    expect(shellPanel.shadowRoot.activeElement).toBe(container.element());
   });
 
   it("restores focus after Escape from the separator when initially expanded", async () => {

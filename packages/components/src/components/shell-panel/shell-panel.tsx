@@ -685,7 +685,10 @@ export class ShellPanel extends LitElement {
 
     const rootNode = getRootNode(this.el);
     const activeElement = rootNode.activeElement;
-    if (activeElement === this.el || activeElement === this.el.ownerDocument.body) {
+    if (
+      activeElement === this.el ||
+      this.el.ownerDocument.activeElement === this.el.ownerDocument.body
+    ) {
       this.containerRef.value!.focus();
     }
   }
