@@ -315,7 +315,6 @@ export class Tile extends LitElement implements SelectableComponent {
       interactive,
       selectionMode,
     } = this;
-    const isLargeVisual = heading && icon && !description;
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
       selectionMode === "multiple" && interactive
@@ -335,8 +334,6 @@ export class Tile extends LitElement implements SelectableComponent {
         class={{
           [CSS.container]: true,
           [CSS.interactive]: interactive,
-          // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
-          [CSS.largeVisualDeprecated]: isLargeVisual,
           [CSS.row]: true,
           [CSS.selected]: this.selected,
         }}

@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.13...@esri/calcite-components@6.0.0-next.14) (2026-11-02)
+
+### Bug Fixes
+
+- **label:** drop unsupported disabled styles ([#15457](https://github.com/Esri/calcite-design-system/issues/15457)), closes [#15313](https://github.com/Esri/calcite-design-system/issues/15313)
+- **shell-panel:** ensure consistent size constraints ([#15450](https://github.com/Esri/calcite-design-system/issues/15450)), closes [#15271](https://github.com/Esri/calcite-design-system/issues/15271)
+
+## [6.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.12...@esri/calcite-components@6.0.0-next.13) (2026-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- **tile:** `tile`'s undocumented behavior of rendering a larger
+  icon has been removed for consistency. To achieve a similar look, use
+  the `content-top` slot and set `alignment="center"` (see
+  [example](https://codepen.io/jcfranco/pen/bNBeBNm?editors=1000)).
+
+### Bug Fixes
+
+- **tile:** avoid large icon display when description is omitted ([#15445](https://github.com/Esri/calcite-design-system/issues/15445)), closes [#10124](https://github.com/Esri/calcite-design-system/issues/10124)
+
+## [6.0.0-next.12](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.11...@esri/calcite-components@6.0.0-next.12) (2026-11-02)
+
+### ⚠ BREAKING CHANGES
+
+- **color-picker-swatch, focus-trap:** The `focus-trap` and `color-picker-swatch` internal
+  components have been removed. To migrate:
+- Replace `focus-trap` usage with `panel`'s built-in focus-trapping
+  functionality.
+- Replace `color-picker-swatch` usage with `swatch`.
+
+### Code Refactoring
+
+- **color-picker-swatch, focus-trap:** drop internal components ([#14989](https://github.com/Esri/calcite-design-system/issues/14989)), closes [#15207](https://github.com/Esri/calcite-design-system/issues/15207)
+
 ## [6.0.0-next.11](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.10...@esri/calcite-components@6.0.0-next.11) (2026-10-29)
 
 ### ⚠ BREAKING CHANGES
