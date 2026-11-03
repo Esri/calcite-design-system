@@ -33,6 +33,7 @@ interface ComboboxItemGroupSlots {
 }
 
 /**
+ * @docGroup Combobox
  * @parent calcite-combobox
  */
 export class ComboboxItemGroup extends LitElement {

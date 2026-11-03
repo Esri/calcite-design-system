@@ -211,6 +211,7 @@ interface FlowItemSlots {
 }
 
 /**
+ * @docGroup Flow
  * @parent calcite-flow
  */
 export class FlowItem extends LitElement {

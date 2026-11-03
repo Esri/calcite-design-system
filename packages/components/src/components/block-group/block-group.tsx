@@ -49,6 +49,9 @@ interface BlockGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class BlockGroup extends LitElement {
   //#region Type-only metadata members
 

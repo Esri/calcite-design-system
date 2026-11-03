@@ -50,6 +50,7 @@ interface TableCellSlots {
 }
 
 /**
+ * @docGroup Table
  * @parent calcite-table
  */
 export class TableCell extends LitElement {

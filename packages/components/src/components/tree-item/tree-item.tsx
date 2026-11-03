@@ -58,6 +58,7 @@ interface TreeItemSlots {
 }
 
 /**
+ * @docGroup Tree
  * @parent calcite-tree
  */
 export class TreeItem extends LitElement {

@@ -64,6 +64,7 @@ interface TableRowSlots {
 }
 
 /**
+ * @docGroup Table
  * @parent calcite-table
  */
 export class TableRow extends LitElement {

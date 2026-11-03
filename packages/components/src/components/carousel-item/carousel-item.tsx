@@ -17,6 +17,7 @@ interface CarouselItemSlots {
 }
 
 /**
+ * @docGroup Carousel
  * @parent calcite-carousel
  */
 export class CarouselItem extends LitElement {

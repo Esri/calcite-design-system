@@ -48,6 +48,7 @@ interface AutocompleteItemSlots {
 }
 
 /**
+ * @docGroup Autocomplete
  * @parent calcite-autocomplete
  */
 export class AutocompleteItem extends LitElement {

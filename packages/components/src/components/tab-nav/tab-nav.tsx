@@ -51,6 +51,7 @@ interface TabNavSlots {
 }
 
 /**
+ * @docGroup Tabs
  * @parent calcite-tabs
  */
 export class TabNav extends LitElement {

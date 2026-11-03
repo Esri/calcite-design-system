@@ -37,6 +37,7 @@ interface TabSlots {
 }
 
 /**
+ * @docGroup Tabs
  * @parent calcite-tabs
  */
 export class Tab extends LitElement {

@@ -34,6 +34,7 @@ declare module "@arcgis/lumina" {
 }
 
 /**
+ * @docGroup Navigation
  * @parent calcite-navigation
  */
 export class NavigationLogo extends LitElement {

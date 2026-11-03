@@ -13,6 +13,7 @@ const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
 /**
+ * @docGroup Select
  * @parent calcite-select
  */
 export class Option extends LitElement {

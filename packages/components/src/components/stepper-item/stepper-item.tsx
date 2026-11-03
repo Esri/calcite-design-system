@@ -120,6 +120,7 @@ interface StepperItemSlots {
 }
 
 /**
+ * @docGroup Stepper
  * @parent calcite-stepper
  */
 export class StepperItem extends LitElement {

@@ -87,6 +87,9 @@ interface SelectSlots {
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
+/**
+ * @docGroup Select
+ */
 export class Select extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 

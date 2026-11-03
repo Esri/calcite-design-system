@@ -14,6 +14,7 @@ interface OptionGroupSlots {
   "": Node[];
 }
 /**
+ * @docGroup Select
  * @parent calcite-select
  */
 export class OptionGroup extends LitElement {

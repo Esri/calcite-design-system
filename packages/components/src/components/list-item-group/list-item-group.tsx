@@ -32,6 +32,7 @@ interface ListItemGroupSlots {
   "": Node[];
 }
 /**
+ * @docGroup List
  * @parent calcite-list
  */
 export class ListItemGroup extends LitElement {

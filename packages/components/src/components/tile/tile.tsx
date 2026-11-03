@@ -68,6 +68,9 @@ interface TileSlots {
   "content-bottom": Node[];
 }
 
+/**
+ * @docGroup Tiles
+ */
 export class Tile extends LitElement implements SelectableComponent {
   //#region Type-only metadata members
 

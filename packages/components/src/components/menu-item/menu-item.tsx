@@ -61,6 +61,7 @@ interface MenuItemSlots {
 }
 
 /**
+ * @docGroup Menu
  * @parent calcite-menu
  */
 export class MenuItem extends LitElement {

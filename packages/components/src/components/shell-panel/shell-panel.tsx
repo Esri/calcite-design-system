@@ -101,6 +101,7 @@ interface ShellPanelSlots {
 }
 
 /**
+ * @docGroup Shell
  * @parent calcite-shell
  */
 export class ShellPanel extends LitElement {

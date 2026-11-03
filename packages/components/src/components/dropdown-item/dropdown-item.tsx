@@ -64,6 +64,7 @@ interface DropdownItemSlots {
 }
 
 /**
+ * @docGroup Dropdown
  * @parent calcite-dropdown
  */
 export class DropdownItem extends LitElement {
