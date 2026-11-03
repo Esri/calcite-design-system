@@ -325,6 +325,13 @@
   transition: opacity var(--calcite-animation-timing);
 }
 
+.tick__label--min,
+.tick__label--max {
+  position: absolute;
+  inset-block-start: -1px;
+  inline-size: max-content;
+}
+
 .tick__label--max {
   transition: opacity var(--calcite-internal-animation-timing-fast);
 }

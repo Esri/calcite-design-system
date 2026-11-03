@@ -318,7 +318,16 @@ export class Slider extends LitElement implements LabelableComponent {
   /** @copyDoc */
   @property() label?: string;
 
-  /** When specified, allows users to customize handle labels. */
+  /**
+   * When specified, allows users to customize handle and tick labels.
+   *
+   * Return an empty string to omit a label, for example when tick labels overlap.
+   * Return `undefined` to use the default formatting.
+   *
+   * @example
+   * slider.labelFormatter = (value, type, defaultFormatter) =>
+   *   type === "tick" && value !== slider.min && value !== slider.max ? "" : defaultFormatter(value);
+   */
   @property() labelFormatter?: (
     value: number,
     type: "value" | "min" | "max" | "tick",
@@ -328,7 +337,12 @@ export class Slider extends LitElement implements LabelableComponent {
   /** When `true`, displays numeric value labels on handles. */
   @property({ reflect: true }) labelHandles = false;
 
-  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
+  /**
+   * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
+   *
+   * The minimum and maximum tick labels align to the component bounds.
+   * Use `labelFormatter` to omit overlapping tick labels.
+   */
   @property({ reflect: true }) labelTicks = false;
 
   /** The component's maximum selectable value. */
@@ -1244,6 +1258,7 @@ export class Slider extends LitElement implements LabelableComponent {
             <div class={CSS.ticks}>
               {this.tickValues.map((tick) => {
                 const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                const isAtEdge = tick === this.min || tick === this.max;
 
                 let activeTicks: boolean = false;
 
@@ -1258,18 +1273,21 @@ export class Slider extends LitElement implements LabelableComponent {
                 }
 
                 return (
-                  <span
-                    class={{
-                      [CSS.tick]: true,
-                      [CSS.tickActive]: activeTicks,
-                    }}
-                    style={{
-                      left: mirror ? "" : tickOffset,
-                      right: mirror ? tickOffset : "",
-                    }}
-                  >
-                    {this.renderTickLabel(tick)}
-                  </span>
+                  <>
+                    <span
+                      class={{
+                        [CSS.tick]: true,
+                        [CSS.tickActive]: activeTicks,
+                      }}
+                      style={{
+                        left: mirror ? "" : tickOffset,
+                        right: mirror ? tickOffset : "",
+                      }}
+                    >
+                      {!isAtEdge && this.renderTickLabel(tick)}
+                    </span>
+                    {isAtEdge && this.renderTickLabel(tick)}
+                  </>
                 );
               })}
             </div>
@@ -1435,10 +1453,14 @@ export class Slider extends LitElement implements LabelableComponent {
       [CSS.tickMax]: isMaxTickLabel,
     };
     const tickLabel = this.internalLabelFormatter(tick, "tick");
+    const edgeLabelStyle = {
+      [isMinTickLabel !== this.shouldMirror() ? "left" : "right"]:
+        "calc(var(--calcite-slider-handle-size) * -0.5)",
+    };
 
     if (isMinTickLabel) {
       return (
-        <span class={tickLabelClasses} ref={this.minTickLabelRef}>
+        <span class={tickLabelClasses} ref={this.minTickLabelRef} style={edgeLabelStyle}>
           {tickLabel}
         </span>
       );
@@ -1446,7 +1468,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
     if (isMaxTickLabel) {
       return (
-        <span class={tickLabelClasses} ref={this.maxTickLabelRef}>
+        <span class={tickLabelClasses} ref={this.maxTickLabelRef} style={edgeLabelStyle}>
           {tickLabel}
         </span>
       );
