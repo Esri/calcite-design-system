@@ -14,7 +14,12 @@ import {
   OverlayPositioning,
 } from "../../utils/floating-ui";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
-import { getRootNode, getStylePixelValue, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  getRootNode,
+  getStylePixelValue,
+  hasVisibleContent,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { useInteractive } from "../../controllers/useInteractive";
 import type {
@@ -665,9 +670,8 @@ export class ShellPanel extends LitElement {
   }
 
   private handleHeadingSlotChange(event: Event): void {
-    this.headingSlotElements = (event.currentTarget as HTMLSlotElement).assignedElements({
-      flatten: true,
-    });
+    this.headingSlotElements =
+      slotChangeGetAssignedElements<HTMLElement>(event).filter(hasVisibleContent);
   }
 
   private async collapseContent(): Promise<void> {

@@ -252,6 +252,16 @@ describe("focus trapping", () => {
     expect(dialog.ariaLabelledByElements).toContain(heading);
   });
 
+  it("falls back to the heading property when the heading slot is empty", async () => {
+    await mount<ShellPanel>(
+      <calcite-shell-panel heading="Tools">
+        <span slot="heading" />
+      </calcite-shell-panel>,
+    );
+
+    await expect.element(page.getByRole("dialog", { name: "Tools" })).toBeVisible();
+  });
+
   it("does not expose an unnamed dialog when no heading is provided", async () => {
     await mount<ShellPanel>(<calcite-shell-panel />);
 
