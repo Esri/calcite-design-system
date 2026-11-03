@@ -636,6 +636,27 @@ describe("disabled interactions", () => {
 });
 
 describe("slots", () => {
+  it("preserves inherited Panel background tokens in custom content", async () => {
+    const { el } = await mount<Sheet>(
+      <calcite-sheet
+        label="Sheet"
+        modalDisabled
+        open
+        style="--calcite-panel-background-color: rgb(1, 2, 3)"
+      >
+        <calcite-panel heading="Custom panel" slot="custom-content" />
+      </calcite-sheet>,
+    );
+    const customPanel = page
+      .elementLocator(el)
+      .getBySelector(':scope > calcite-panel[slot="custom-content"]')
+      .element();
+
+    expect(getComputedStyle(customPanel).getPropertyValue("--calcite-panel-background-color")).toBe(
+      "rgb(1, 2, 3)",
+    );
+  });
+
   it("forwards heading content to the internal panel", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     await mount(

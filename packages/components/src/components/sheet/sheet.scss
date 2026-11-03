@@ -33,7 +33,7 @@ calcite-panel {
   --calcite-popover-border-color: var(--calcite-sheet-action-menu-border-color, var(--calcite-color-border-1));
 }
 
-::slotted(calcite-panel) {
+slot:not([name])::slotted(calcite-panel) {
   --calcite-panel-background-color: initial;
 }
 

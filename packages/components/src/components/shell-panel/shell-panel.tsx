@@ -328,7 +328,7 @@ export class ShellPanel extends LitElement {
     }
 
     event.preventDefault();
-    this.collapsed = true;
+    void this.collapseContent();
   };
 
   /**
@@ -359,6 +359,8 @@ export class ShellPanel extends LitElement {
     maxInlineSize: null,
     maxBlockSize: null,
   };
+
+  @state() headingSlotElements: Element[] = [];
 
   //#endregion
 
@@ -662,18 +664,13 @@ export class ShellPanel extends LitElement {
     }
   }
 
-  private async handleInternalPanelCloseClick(event: CustomEvent<void>): Promise<void> {
-    if (event.target !== this.panelRef.value) {
-      return;
-    }
+  private handleHeadingSlotChange(event: Event): void {
+    this.headingSlotElements = (event.currentTarget as HTMLSlotElement).assignedElements({
+      flatten: true,
+    });
+  }
 
-    event.stopPropagation();
-
-    if (event.defaultPrevented) {
-      return;
-    }
-
-    event.preventDefault();
+  private async collapseContent(): Promise<void> {
     this.collapsed = true;
 
     await this.updateComplete;
@@ -687,6 +684,21 @@ export class ShellPanel extends LitElement {
     if (activeElement === this.el || activeElement === this.el.ownerDocument.body) {
       this.containerRef.value!.focus();
     }
+  }
+
+  private async handleInternalPanelCloseClick(event: CustomEvent<void>): Promise<void> {
+    if (event.target !== this.panelRef.value) {
+      return;
+    }
+
+    event.stopPropagation();
+
+    if (event.defaultPrevented) {
+      return;
+    }
+
+    event.preventDefault();
+    await this.collapseContent();
   }
 
   private handleInternalPanelToggle(event: CustomEvent<void>): void {
@@ -1015,6 +1027,10 @@ export class ShellPanel extends LitElement {
 
   override render(): JsxNode {
     const { collapsed, position, resizable, layout, displayMode, resizeValues } = this;
+    const focusTrapEnabled = !this.focusTrapDisabledOverride();
+    const hasSlottedHeading = this.headingSlotElements.length > 0;
+    const heading = this.heading?.trim() ?? "";
+    const hasDialogName = hasSlottedHeading || heading.length > 0;
 
     const dir = this.direction;
     const isBlockPosition = layout === "horizontal";
@@ -1120,7 +1136,11 @@ export class ShellPanel extends LitElement {
               <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />
               <slot name={SLOTS.headerTop} slot={PANEL_SLOTS.headerTop} />
               <slot name={SLOTS.description} slot={PANEL_SLOTS.description} />
-              <slot name={SLOTS.heading} slot={PANEL_SLOTS.heading} />
+              <slot
+                name={SLOTS.heading}
+                onSlotChange={this.handleHeadingSlotChange}
+                slot={PANEL_SLOTS.heading}
+              />
               <slot name={SLOTS.headerContent} slot={PANEL_SLOTS.headerContent} />
               <slot name={SLOTS.headerMenuActions} slot={PANEL_SLOTS.headerMenuActions} />
               <slot name={SLOTS.fab} slot={PANEL_SLOTS.fab} />
@@ -1152,8 +1172,13 @@ export class ShellPanel extends LitElement {
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
+          ariaLabel={focusTrapEnabled && !hasSlottedHeading && heading ? heading : undefined}
+          ariaLabelledByElements={
+            focusTrapEnabled && hasSlottedHeading ? this.headingSlotElements : undefined
+          }
           class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
           ref={this.containerRef}
+          role={focusTrapEnabled && hasDialogName ? "dialog" : undefined}
           tabIndex={-1}
         >
           {mainNodes}

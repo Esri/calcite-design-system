@@ -27,7 +27,7 @@ describe("accessible", () => {
   accessible(async () => {
     const renderResult = await mount(
       <calcite-shell-panel heading="Tools" position="start" slot="panel-start">
-        <calcite-action-bar slot="action-bar">
+        <calcite-action-bar overflowMode="none" slot="action-bar">
           <calcite-action-group>
             <calcite-action icon="plus" text="Add" />
             <calcite-action icon="save" text="Save" />
@@ -39,6 +39,16 @@ describe("accessible", () => {
     );
 
     await vi.waitFor(() => page.getByRole("button", { name: "Close", exact: true }).element());
+
+    return renderResult;
+  });
+
+  accessible(async () => {
+    const renderResult = await mount(
+      <calcite-shell-panel>
+        <span slot="heading">Slotted tools</span>
+      </calcite-shell-panel>,
+    );
 
     return renderResult;
   });
@@ -218,6 +228,34 @@ describe("focus trapping", () => {
 
     await expect.element(el).toHaveProperty("collapsed", true);
     await expect.element(opener).toHaveFocus();
+  });
+
+  it("exposes a named dialog for a heading property while trapping focus", async () => {
+    await mount<ShellPanel>(<calcite-shell-panel heading="Tools" />);
+
+    await expect.element(page.getByRole("dialog", { name: "Tools" })).toBeVisible();
+  });
+
+  it("labels the dialog with the slotted heading element", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel>
+        <span slot="heading">Slotted tools</span>
+      </calcite-shell-panel>,
+    );
+    const dialog = page
+      .elementLocator(el)
+      .getBySelector(":scope > .interaction-container > .container")
+      .element() as HTMLElement;
+    const heading = page.getBySelector('calcite-shell-panel > span[slot="heading"]').element();
+
+    await expect.element(page.getByRole("dialog")).toBeVisible();
+    expect(dialog.ariaLabelledByElements).toContain(heading);
+  });
+
+  it("does not expose an unnamed dialog when no heading is provided", async () => {
+    await mount<ShellPanel>(<calcite-shell-panel />);
+
+    await expect.element(page.getByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("returns focus to the opener after closing", async () => {
@@ -617,6 +655,36 @@ describe("internal panel", () => {
 
     await expect.element(el).toHaveAttribute("collapsed");
     await expect.element(el).toHaveFocus();
+  });
+
+  it("restores focus to the container after Escape from the separator when trapping is disabled", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel focusTrapDisabled heading="Tools" resizable />,
+    );
+    const separator = page.getByRole("separator");
+    const container = page
+      .elementLocator(el)
+      .getBySelector(":scope > .interaction-container > .container");
+
+    await userEvent.click(separator);
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    expect(el.shadowRoot.activeElement).toBe(container.element());
+  });
+
+  it("restores focus after Escape from the separator when initially expanded", async () => {
+    const { el } = await mount<ShellPanel>(<calcite-shell-panel heading="Tools" resizable />);
+    const separator = page.getByRole("separator");
+    const container = page
+      .elementLocator(el)
+      .getBySelector(":scope > .interaction-container > .container");
+
+    await userEvent.click(separator);
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    expect(el.shadowRoot.activeElement).toBe(container.element());
   });
 
   it("does not collapse when the close request is canceled or immediately superseded", async () => {
