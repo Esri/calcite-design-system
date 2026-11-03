@@ -51,15 +51,15 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-shell-panel-corner-radius": "*";
     /**
-     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the component's height.
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float-all`, specifies the component's height.
      */
     "--calcite-shell-panel-height": "*";
     /**
-     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's maximum height.
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the component's maximum height.
      */
     "--calcite-shell-panel-max-height": "*";
     /**
-     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's minimum height.
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the component's minimum height.
      */
     "--calcite-shell-panel-min-height": "*";
     /**
@@ -176,7 +176,6 @@ export class ShellPanel extends LitElement {
    * - `"overlay"` displays at full height on top of center content.
    * - `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    * - `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
-   * - `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content. [Deprecated] in v2.11.0, removal target v6.0.0 - use `"float-content"` instead.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
@@ -690,7 +689,7 @@ export class ShellPanel extends LitElement {
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.content]: true,
             [CSS.contentOverlay]: displayMode === "overlay",
-            [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
+            [CSS.floatContent]: displayMode === "float-content",
             [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
             [getAnimationDir()]: displayMode === "overlay",
             [getDimensionClass("width", this.width, this.widthScale)]: !!(

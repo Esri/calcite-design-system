@@ -2523,7 +2523,7 @@ export const scales = (): string => html`
     <div class="child right-aligned-text">scales border (deprecated)</div>
 
     <div class="child">
-      <calcite-list scale="s" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list scale="s" selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="small" value="small" description="small hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -2566,7 +2566,7 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
 
-      <calcite-list selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -2609,7 +2609,7 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
 
-      <calcite-list scale="l" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list scale="l" selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="large" value="large" description="large hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -2659,7 +2659,13 @@ export const scales = (): string => html`
     <div class="child right-aligned-text">scales border (deprecated) nested</div>
 
     <div class="child">
-      <calcite-list display-mode="nested" scale="s" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list
+        display-mode="nested"
+        scale="s"
+        selection-appearance="highlight"
+        selection-mode="single"
+        label="test"
+      >
         <calcite-list-item closable label="small" value="small" description="small hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -2759,7 +2765,7 @@ export const scales = (): string => html`
           </calcite-list-item>
         </calcite-list-item>
       </calcite-list>
-      <calcite-list display-mode="nested" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list display-mode="nested" selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -2853,7 +2859,13 @@ export const scales = (): string => html`
           </calcite-list-item>
         </calcite-list-item>
       </calcite-list>
-      <calcite-list display-mode="nested" scale="l" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list
+        display-mode="nested"
+        scale="l"
+        selection-appearance="highlight"
+        selection-mode="single"
+        label="test"
+      >
         <calcite-list-item closable label="large" value="large" description="large hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -2961,7 +2973,7 @@ export const scales = (): string => html`
     <div class="child right-aligned-text">scales border (deprecated) draggable</div>
 
     <div class="child">
-      <calcite-list drag-enabled scale="s" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list drag-enabled scale="s" selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="small" value="small" description="small hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -3024,7 +3036,7 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
 
-      <calcite-list drag-enabled selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list drag-enabled selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="medium" value="medium" description="medium hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -3087,7 +3099,7 @@ export const scales = (): string => html`
         </calcite-list-item>
       </calcite-list>
 
-      <calcite-list drag-enabled scale="l" selection-appearance="border" selection-mode="single" label="test">
+      <calcite-list drag-enabled scale="l" selection-appearance="highlight" selection-mode="single" label="test">
         <calcite-list-item closable label="large" value="large" description="large hello world" selected>
           <calcite-action
             appearance="transparent"
@@ -3161,7 +3173,7 @@ export const scales = (): string => html`
         display-mode="nested"
         drag-enabled
         scale="s"
-        selection-appearance="border"
+        selection-appearance="highlight"
         selection-mode="single"
         label="test"
       >
@@ -3267,7 +3279,7 @@ export const scales = (): string => html`
       <calcite-list
         display-mode="nested"
         drag-enabled
-        selection-appearance="border"
+        selection-appearance="highlight"
         selection-mode="single"
         label="test"
       >
@@ -3374,7 +3386,7 @@ export const scales = (): string => html`
         display-mode="nested"
         drag-enabled
         scale="l"
-        selection-appearance="border"
+        selection-appearance="highlight"
         selection-mode="single"
         label="test"
       >
@@ -5297,7 +5309,7 @@ export const scales = (): string => html`
 `;
 
 const selectionModes: List["selectionMode"][] = ["none", "single", "single-persist", "multiple"];
-const selectionAppearances: List["selectionAppearance"][] = ["icon", "border", "highlight"];
+const selectionAppearances: List["selectionAppearance"][] = ["icon", "highlight"];
 
 export const selection = (): string => {
   return selectionModes
@@ -5714,11 +5726,11 @@ export const darkModeRTL = (): string => html`
     </calcite-list-item>
   </calcite-list>
 
-  <h1>selection-mode="single-persist" + selection-appearance="border" + dir="rtl"</h1>
+  <h1>selection-mode="single-persist" + selection-appearance="highlight" + dir="rtl"</h1>
   <calcite-list
     class="calcite-mode-dark"
     label="RTL list"
-    selection-appearance="border"
+    selection-appearance="highlight"
     selection-mode="single-persist"
     dir="rtl"
   >
@@ -5870,7 +5882,7 @@ export const filteredChildListItems = (): string =>
       filter-enabled
       filter-text="est"
       filter-placeholder="Find content"
-      selection-appearance="border"
+      selection-appearance="highlight"
       selection-mode="single"
     >
       <calcite-list-item label="Estuaries" value="estuaries" hidden></calcite-list-item>
@@ -5961,7 +5973,7 @@ export const filteredChildListItems = (): string =>
       filter-enabled
       filter-text="water"
       filter-placeholder="Find content"
-      selection-appearance="border"
+      selection-appearance="highlight"
       selection-mode="single"
     >
       <calcite-list-item-group heading="Layers">
@@ -6323,7 +6335,7 @@ export const listWithGroupedAndSlottedItems = (): string =>
   </calcite-list>`;
 
 export const filteredListItemsNoResults = (): string =>
-  html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
+  html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="highlight" selection-mode="single">
     <calcite-list-item label="Apples" value="apples"></calcite-list-item>
     <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
     <calcite-list-item label="Pears" value="pears"></calcite-list-item>
@@ -6484,9 +6496,9 @@ export const interactiveMode = (): string => html`
   </calcite-list>
   <br />
 
-  <h2>interaction-mode="static" and selection-appearance="border" (interactive)</h2>
+  <h2>interaction-mode="static" and selection-appearance="highlight" (interactive)</h2>
 
-  <calcite-list interaction-mode="static" selection-appearance="border" selection-mode="single">
+  <calcite-list interaction-mode="static" selection-appearance="highlight" selection-mode="single">
     <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
     <calcite-list-item
       label="List Item 2"

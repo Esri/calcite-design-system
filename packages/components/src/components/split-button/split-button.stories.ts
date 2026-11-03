@@ -121,16 +121,6 @@ export const allWidths = (): string => html`
         <calcite-dropdown-item>Bean</calcite-dropdown-item>
       </calcite-dropdown-group>
     </calcite-split-button>
-    <calcite-split-button primary-text="half width" width="half">
-      <calcite-dropdown-group selection-mode="none" group-title="Veggies">
-        <calcite-dropdown-item>Pea</calcite-dropdown-item>
-        <calcite-dropdown-item>Parsnip</calcite-dropdown-item>
-        <calcite-dropdown-item>Radish</calcite-dropdown-item>
-        <calcite-dropdown-item>Tomato</calcite-dropdown-item>
-        <calcite-dropdown-item>Rutabaga</calcite-dropdown-item>
-        <calcite-dropdown-item>Bean</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-split-button>
     <calcite-split-button primary-text="full width" width="full">
       <calcite-dropdown-group selection-mode="none" group-title="Veggies">
         <calcite-dropdown-item>Pea</calcite-dropdown-item>

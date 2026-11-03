@@ -60,7 +60,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values.filter((option) => option !== "half"),
+      options: width.values,
       control: { type: "select" },
     },
     status: {

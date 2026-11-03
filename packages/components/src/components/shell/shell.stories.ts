@@ -374,7 +374,7 @@ export const fullResizeHorizontal = (): string => html`
 export const fullResizeHorizontalFloat = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-start"
       resizable
       style="
@@ -393,7 +393,7 @@ export const fullResizeHorizontalFloat = (): string => html`
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-end"
       resizable
       style="
@@ -504,7 +504,7 @@ export const fullResizeVertical = (): string => html`
 export const fullResizeVerticalFloat = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-top"
       resizable
       style="
@@ -523,7 +523,7 @@ export const fullResizeVerticalFloat = (): string => html`
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-bottom"
       resizable
       style="
@@ -2698,7 +2698,7 @@ export const customPanelWithOverflowingContent = (): string =>
     --calcite-shell-panel-min-height: auto;
     --calcite-shell-panel-height: auto;"
     >
-      <calcite-shell-panel display-mode="float" width-scale="l" slot="panel-bottom" style="height: 100%;">
+      <calcite-shell-panel display-mode="float-content" width-scale="l" slot="panel-bottom" style="height: 100%;">
         <calcite-panel heading="Panel">
           <div style="display: flex; flex-direction: row; height: 100%; width:100%">
             <calcite-action-bar

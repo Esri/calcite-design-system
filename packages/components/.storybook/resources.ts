@@ -151,7 +151,7 @@ const textTypeOptions: TextType[] = [
 const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "neutral", "highlight"];
 const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
-const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
+const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float-content", "overlay"];
 const calendarCountOptions = [1, 2];
 const colorPickerFormatOptions = [
   "auto",
