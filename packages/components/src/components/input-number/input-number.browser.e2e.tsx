@@ -1757,7 +1757,7 @@ describe("validation", () => {
   it("should not focus when clicking validation message", async () => {
     const { el } = await mount(
       <form>
-        <calcite-input-number label="calciteInputNumber" required />
+        <calcite-input-number name="calciteInputNumber" required />
         <button type="submit">Submit</button>
       </form>,
     );
@@ -1779,7 +1779,7 @@ describe("validation", () => {
   it("typed expressions with trailing e triggers valid:false", async () => {
     await mount(
       <form>
-        <calcite-input-number label="calciteInputNumber" required />
+        <calcite-input-number name="calciteInputNumber" required />
         <button type="submit">Submit</button>
       </form>,
     );
@@ -1807,5 +1807,37 @@ describe("validation", () => {
     await userEvent.keyboard("{Backspace}");
 
     await expect.element(inputNumber).toHaveProperty("validity.valid", true);
+  });
+
+  it("allows deleting exponential number from decimal and adding trailing zeros", async () => {
+    await mount(
+      <form>
+        <calcite-input-number name="calciteInputNumber" required />
+        <button type="submit">Submit</button>
+      </form>,
+    );
+    const component = page.getBySelector("calcite-input-number").element();
+    const input = component.shadowRoot?.querySelector("input");
+
+    await userEvent.keyboard("{Tab}");
+    await userEvent.keyboard("2.100e10");
+
+    expect(component).toHaveProperty("value", "2.1e10");
+    expect(input).toHaveProperty("value", "2.1e10");
+
+    await userEvent.keyboard("{Backspace}");
+
+    expect(component).toHaveProperty("value", "2.1e1");
+    expect(input).toHaveProperty("value", "2.1e1");
+
+    await userEvent.keyboard("{Backspace}");
+
+    expect(component).toHaveProperty("value", "");
+    expect(input).toHaveProperty("value", "2.1e");
+
+    await userEvent.keyboard("000");
+
+    expect(component).toHaveProperty("value", "2.1e0");
+    expect(input).toHaveProperty("value", "2.1e000");
   });
 });
