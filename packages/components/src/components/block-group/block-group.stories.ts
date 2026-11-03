@@ -12,10 +12,7 @@ const expandMode: BlockGroup["expandMode"][] = ["single", "multiple", "single-pe
 
 type ExpandModeStoryArgs = Pick<BlockGroup, "expandMode">;
 
-type BlockGroupStoryArgs = Pick<
-  BlockGroup,
-  "disabled" | "group" | "dragEnabled" | "label" | "loading" | "scale" | "sortMode"
->;
+type BlockGroupStoryArgs = Pick<BlockGroup, "disabled" | "group" | "dragEnabled" | "label" | "loading" | "scale">;
 
 export default {
   title: "Components/Block Group",
@@ -26,13 +23,8 @@ export default {
     label: "My Group",
     loading: false,
     scale: scale.defaultValue,
-    sortMode: "automatic",
   },
   argTypes: {
-    sortMode: {
-      options: ["automatic", "manual"],
-      control: { type: "select" },
-    },
     scale: {
       options: scale.values,
       control: { type: "select" },
@@ -79,7 +71,6 @@ export const simple = (args: BlockGroupStoryArgs): string => html`
     label="${args.label}"
     group="${args.group}"
     scale="${args.scale}"
-    sort-mode="${args.sortMode}"
   >
     ${blockHTML}
   </calcite-block-group>

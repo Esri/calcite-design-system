@@ -44,10 +44,10 @@ import type { ListItemGroup } from "../list-item-group/list-item-group";
 import { DEBOUNCE } from "../../utils/resources";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
-import { useSortable, type SortMode } from "../../controllers/useSortable";
+import { useSortable } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ListDisplayMode, ListDragDetail, ListElement, ListOrderRequestDetail } from "./types";
+import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
@@ -228,7 +228,7 @@ export class List extends LitElement {
 
   /**
    * When provided, the method will be called to determine whether the element can be moved from the component.
-   * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop in automatic sort mode.
+   * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop.
    * Drag-and-drop copies use native `cloneNode(true)` behavior, preserving attributes and light DOM.
    * Non-reflected custom element properties and event listeners are not copied.
    */
@@ -361,17 +361,19 @@ export class List extends LitElement {
   /** When `true`, and a `group` is defined, `calcite-list-item`s are no longer sortable. */
   @property({ reflect: true }) sortDisabled = false;
 
-  /**
-   * Specifies who manages item order.
-   *
-   * In `"manual"` mode, the application handles `calciteListOrderRequest` and renders the new order.
-   * Items do not reorder during dragging. Transfers require both components to have the same mode.
-   */
-  @property({ reflect: true }) sortMode: SortMode = "automatic";
-
   //#endregion
 
   //#region Public Methods
+
+  /**
+   * Emits the `calciteListOrderChange` event.
+   *
+   * @private
+   */
+  @method()
+  emitOrderChangeEvent(detail: ListDragDetail): void {
+    this.calciteListOrderChange.emit(detail);
+  }
 
   /**
    * Sets focus on the component's first focusable element.
@@ -416,15 +418,6 @@ export class List extends LitElement {
 
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
-
-  /**
-   * Fires on the source component when a drop or sort-menu action requests an order change in `"manual"` mode.
-   *
-   * The application must update its data and render the new order. No items are moved or cloned by the component.
-   * `newIndex` is the destination index after removing the source item for a move.
-   * Canceled and unchanged operations do not emit this event. `calciteListOrderChange` is not emitted in this mode.
-   */
-  calciteListOrderRequest = createEvent<ListOrderRequestDetail>({ cancelable: false });
 
   //#endregion
 
@@ -499,7 +492,6 @@ export class List extends LitElement {
       changes.has("group") ||
       (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
-      (changes.has("sortMode") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
       (changes.has("selectionAppearance") &&
@@ -552,28 +544,24 @@ export class List extends LitElement {
         item.interactionMode = interactionMode;
 
         item.moveToItems = sortHandleMenuItems.filter((moveToItem) =>
-          this.sortable.canTransfer({
-            operation: "move",
-            detail: {
-              fromEl,
-              toEl: moveToItem.element,
-              dragEl: item,
-              newIndex: 0,
-              oldIndex: fromElItems.indexOf(item),
-            },
+          this.validateSortMenuItem({
+            type: "move",
+            fromEl,
+            toEl: moveToItem.element as List["el"],
+            dragEl: item,
+            newIndex: 0,
+            oldIndex: fromElItems.indexOf(item),
           }),
         );
 
         item.addToItems = this.sortHandleMenuItems.filter((moveToItem) =>
-          this.sortable.canTransfer({
-            operation: "clone",
-            detail: {
-              fromEl,
-              toEl: moveToItem.element,
-              dragEl: item,
-              newIndex: 0,
-              oldIndex: fromElItems.indexOf(item),
-            },
+          this.validateSortMenuItem({
+            type: "add",
+            fromEl,
+            toEl: moveToItem.element as List["el"],
+            dragEl: item,
+            newIndex: 0,
+            oldIndex: fromElItems.indexOf(item),
           }),
         );
 
@@ -684,7 +672,7 @@ export class List extends LitElement {
   }
 
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
-    if ((this.parentListEl && this.sortMode !== "manual") || event.defaultPrevented) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
@@ -693,7 +681,7 @@ export class List extends LitElement {
   }
 
   private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
-    if ((this.parentListEl && this.sortMode !== "manual") || event.defaultPrevented) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
@@ -702,7 +690,7 @@ export class List extends LitElement {
   }
 
   private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
-    if ((this.parentListEl && this.sortMode !== "manual") || event.defaultPrevented) {
+    if (this.parentListEl || event.defaultPrevented) {
       return;
     }
 
@@ -791,16 +779,12 @@ export class List extends LitElement {
   }
 
   onGlobalDragStart(): void {
-    if (this.sortMode !== "manual") {
-      this.disconnectObserver();
-    }
+    this.disconnectObserver();
   }
 
   onGlobalDragEnd(): void {
     this.connectObserver();
-    if (this.sortMode !== "manual") {
-      this.updateListItemsDebounced();
-    }
+    this.updateListItemsDebounced();
   }
 
   onDragEnd(detail: ListDragDetail): void {
@@ -817,10 +801,6 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
 
     this.calciteListOrderChange.emit(detail);
-  }
-
-  onOrderRequest(detail: ListOrderRequestDetail): void {
-    this.calciteListOrderRequest.emit(detail);
   }
 
   private setParentList(): void {
@@ -1123,61 +1103,124 @@ export class List extends LitElement {
     }
   }
 
-  private handleAdd(event: CustomEvent<AddEventDetail>): void {
-    this.handleTransfer(
-      event.target as ListItem["el"],
-      event.detail.addTo.element as List["el"],
-      "clone",
-    );
-  }
-
-  private handleMove(event: CustomEvent<MoveEventDetail>): void {
-    this.handleTransfer(
-      event.target as ListItem["el"],
-      event.detail.moveTo.element as List["el"],
-      "move",
-    );
-  }
-
-  private handleTransfer(
-    dragEl: ListItem["el"],
-    toEl: List["el"],
-    operation: "move" | "clone",
-  ): void {
-    const parentEl = dragEl?.parentElement;
-    const fromEl = dragEl?.closest<List["el"]>(listSelector);
-
-    if (!parentEl || !fromEl) {
-      return;
+  private validateSortMenuItem({
+    fromEl,
+    toEl,
+    dragEl,
+    newIndex,
+    oldIndex,
+    type,
+  }: {
+    fromEl?: List["el"];
+    toEl?: List["el"];
+    dragEl: ListItem["el"];
+    newIndex: number;
+    oldIndex: number;
+    type: "move" | "add";
+  }): boolean {
+    if (!fromEl || !toEl || toEl === fromEl || dragEl.contains(toEl)) {
+      return false;
     }
 
-    const fromElItems = Array.from(parentEl.children).filter(isListItem);
+    const canPull =
+      fromEl.canPull?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) ?? true;
+
+    const canPut =
+      toEl.canPut?.({
+        toEl,
+        fromEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      }) ?? true;
+
+    return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
+  }
+
+  private handleAdd(event: CustomEvent<AddEventDetail>): void {
+    const { addTo } = event.detail;
+
+    const dragEl = event.target as ListItem["el"];
+    const fromEl = dragEl?.parentElement as List["el"];
+    const toEl = addTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    const eventDetail = { dragEl, fromEl, toEl, newIndex, oldIndex };
+    if (!this.validateSortMenuItem({ type: "add", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+      return;
+    }
 
-    this.sortable.requestOrderChange({
-      detail: eventDetail,
-      operation,
-      onAccepted: () => (dragEl.sortHandleOpen = false),
-      apply: () => {
-        this.disconnectObserver();
-        toEl.prepend(operation === "clone" ? dragEl.cloneNode() : dragEl);
-        expandedAncestors(dragEl);
-        this.connectObserver();
-      },
-    });
+    dragEl.sortHandleOpen = false;
+
+    this.disconnectObserver();
+
+    const newEl = dragEl.cloneNode();
+    toEl.prepend(newEl);
+    expandedAncestors(dragEl);
+    this.updateListItemsDebounced();
+    this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
+  }
+
+  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+    const { moveTo } = event.detail;
+
+    const dragEl = event.target as ListItem["el"];
+    const fromEl = dragEl?.parentElement as List["el"];
+    const toEl = moveTo.element as List["el"];
+    const fromElItems = Array.from(fromEl.children).filter(isListItem);
+    const oldIndex = fromElItems.indexOf(dragEl);
+    const newIndex = 0;
+
+    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+      return;
+    }
+
+    dragEl.sortHandleOpen = false;
+
+    this.disconnectObserver();
+
+    toEl.prepend(dragEl);
+    expandedAncestors(dragEl);
+    this.updateListItemsDebounced();
+    this.connectObserver();
+
+    const eventDetail = {
+      dragEl,
+      fromEl,
+      toEl,
+      newIndex,
+      oldIndex,
+    };
+
+    this.calciteListOrderChange.emit(eventDetail);
+    toEl.emitOrderChangeEvent(eventDetail);
   }
 
   private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
     const { reorder } = event.detail;
 
     const dragEl = event.target as ListItem["el"];
-    const parentEl = dragEl?.parentElement;
-    const listEl = dragEl?.closest<List["el"]>(listSelector);
+    const parentEl = dragEl?.parentElement as List["el"];
 
-    if (!parentEl || !listEl) {
+    if (!parentEl) {
       return;
     }
 
@@ -1204,20 +1247,24 @@ export class List extends LitElement {
         break;
     }
 
-    const eventDetail = { dragEl, fromEl: listEl, toEl: listEl, newIndex, oldIndex };
+    this.disconnectObserver();
 
-    this.sortable.requestOrderChange({
-      detail: eventDetail,
-      operation: "move",
-      apply: () => {
-        this.disconnectObserver();
-        const referenceEl =
-          reorder === "up" || reorder === "top"
-            ? sameParentItems[newIndex]
-            : sameParentItems[newIndex].nextSibling;
-        parentEl.insertBefore(dragEl, referenceEl);
-        this.connectObserver();
-      },
+    const referenceEl =
+      reorder === "up" || reorder === "top"
+        ? sameParentItems[newIndex]
+        : sameParentItems[newIndex].nextSibling;
+
+    parentEl.insertBefore(dragEl, referenceEl);
+
+    this.updateListItemsDebounced();
+    this.connectObserver();
+
+    this.calciteListOrderChange.emit({
+      dragEl,
+      fromEl: parentEl,
+      toEl: parentEl,
+      newIndex,
+      oldIndex,
     });
   }
 

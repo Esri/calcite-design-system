@@ -155,10 +155,6 @@ describe("defaults", () => {
         propertyName: "sortDisabled",
         defaultValue: false,
       },
-      {
-        propertyName: "sortMode",
-        defaultValue: "automatic",
-      },
     ],
   );
 });
@@ -174,10 +170,6 @@ describe("reflects", () => {
       {
         propertyName: "sortDisabled",
         value: true,
-      },
-      {
-        propertyName: "sortMode",
-        value: "manual",
       },
     ],
   );
@@ -1374,11 +1366,11 @@ describe("drag and drop", () => {
     expect(empty.style.minBlockSize).toBe("");
   });
 
-  async function setupEmptyContentHover(sortMode: "automatic" | "manual") {
+  async function setupEmptyContentHover() {
     vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const { component: source } = await mount<List>(
       <div style="display: flex; gap: 40px">
-        <calcite-list drag-enabled group="empty-hover" label="Source" sort-mode={sortMode}>
+        <calcite-list drag-enabled group="empty-hover" label="Source">
           <calcite-list-item id="hover-source-item" label="Source item" />
         </calcite-list>
         <calcite-list
@@ -1386,7 +1378,6 @@ describe("drag and drop", () => {
           group="empty-hover"
           id="hover-destination"
           label="Destination"
-          sort-mode={sortMode}
           style="inline-size: 240px"
         >
           <div slot="empty-content">No items</div>
@@ -1403,7 +1394,7 @@ describe("drag and drop", () => {
   }
 
   it("hides empty content during a copy hover and restores it when leaving", async () => {
-    const { source, handle, destination, emptyContent } = await setupEmptyContentHover("automatic");
+    const { source, handle, destination, emptyContent } = await setupEmptyContentHover();
     source.canPull = () => "clone";
     await dragAndDrop(handle.element(), destination.element(), "center", { skipPointerUp: true });
     await expect.element(emptyContent).not.toBeVisible();
@@ -1422,28 +1413,6 @@ describe("drag and drop", () => {
     await commands.mouseUp();
     await expect.element(destination.getBySelector("calcite-list-item")).toBeInTheDocument();
     await expect.element(emptyContent).not.toBeVisible();
-  });
-
-  it("preserves empty content during a manual hover and after cancellation or a request", async () => {
-    const { source, handle, destination, emptyContent } = await setupEmptyContentHover("manual");
-    const requested = vi.spyOn(source, "onOrderRequest");
-    await dragAndDrop(handle.element(), destination.element(), "center", { skipPointerUp: true });
-    await expect.element(emptyContent).toBeVisible();
-    expect(destination.getBySelector("calcite-list-item").elements()).toHaveLength(0);
-    await userEvent.keyboard("{Escape}");
-    await expect.element(emptyContent).toBeVisible();
-    expect(destination.getBySelector("calcite-list-item").elements()).toHaveLength(0);
-    expect(requested).not.toHaveBeenCalled();
-
-    await commands.mouseUp();
-    await dragAndDrop(handle.element(), destination.element(), "center", { skipPointerUp: true });
-    await expect.element(emptyContent).toBeVisible();
-    const bounds = destination.element().getBoundingClientRect();
-    await commands.mouseMove(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
-    await commands.mouseUp();
-    await vi.waitFor(() => expect(requested).toHaveBeenCalledTimes(1));
-    await expect.element(emptyContent).toBeVisible();
-    expect(destination.getBySelector("calcite-list-item").elements()).toHaveLength(0);
   });
 
   it("hides clone feedback when moving into an empty destination", async () => {
@@ -1665,71 +1634,6 @@ describe("drag and drop", () => {
     );
   };
 
-  async function renderGroupedItems(sortMode: "automatic" | "manual" = "automatic") {
-    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    onTestFinished(() => warnSpy.mockRestore());
-    const { el } = await mount<List>(
-      <calcite-list drag-enabled label="Items" sort-mode={sortMode}>
-        <calcite-list-item-group heading="Group" id="item-group">
-          <calcite-list-item id="one" label="One" />
-          <calcite-list-item id="two" label="Two" />
-        </calcite-list-item-group>
-      </calcite-list>,
-    );
-    const group = page.getBySelector("#item-group").element();
-    const first = page.getBySelector("#one").element();
-    const changed = vi.fn();
-    const request = vi.fn();
-    el.addEventListener("calciteListOrderChange", changed);
-    el.addEventListener("calciteListOrderRequest", request);
-
-    async function reorder() {
-      const handle = page.getBySelector("#one calcite-sort-handle");
-      await expect.element(handle).toBeVisible();
-      await (handle.element() as SortHandle["el"]).setFocus();
-      await userEvent.keyboard("{Enter}");
-      await expect.element(handle).toHaveProperty("open", true);
-      await page.getByRole("menuitem", { name: "Move down", exact: true }).click();
-      await vi.waitFor(() =>
-        expect(sortMode === "manual" ? request : changed).toHaveBeenCalledTimes(1),
-      );
-    }
-
-    return { el, group, first, changed, request, reorder };
-  }
-
-  it("reorders grouped list items within their DOM parent from the sort menu", async () => {
-    const { el, group, first, changed, reorder } = await renderGroupedItems();
-    await reorder();
-
-    expect(Array.from(group.children, (item) => item.id)).toEqual(["two", "one"]);
-    expect(changed.mock.calls[0][0].detail).toEqual({
-      dragEl: first,
-      fromEl: el,
-      toEl: el,
-      oldIndex: 0,
-      newIndex: 1,
-    });
-    expect(changed).toHaveBeenCalledTimes(1);
-  });
-
-  it("uses the owning list's manual mode for grouped menu reordering", async () => {
-    const { el, group, first, changed, request, reorder } = await renderGroupedItems("manual");
-    await reorder();
-
-    expect(Array.from(group.children, (item) => item.id)).toEqual(["one", "two"]);
-    expect(changed).not.toHaveBeenCalled();
-    expect(request).toHaveBeenCalledTimes(1);
-    expect(request.mock.calls[0][0].detail).toEqual({
-      dragEl: first,
-      fromEl: el,
-      toEl: el,
-      oldIndex: 0,
-      newIndex: 1,
-      operation: "move",
-    });
-  });
-
   it("keeps grandchild reordering inside the nested list", async () => {
     const { el } = await renderNestedList();
     const list = page.getBySelector("#grandchildren").element();
@@ -1812,95 +1716,6 @@ describe("drag and drop", () => {
     } finally {
       warnSpy.mockRestore();
     }
-  });
-
-  async function renderGroupedTransfer(sortMode: "automatic" | "manual" = "automatic") {
-    const fixture = await renderGroupedItems(sortMode);
-    fixture.el.group = "grouped-transfers";
-    const { el: destination } = await mount<List>(
-      <calcite-list drag-enabled group="grouped-transfers" label="Destination" sort-mode={sortMode}>
-        <calcite-list-item label="Destination item" />
-      </calcite-list>,
-    );
-    const item = page.getBySelector("#two").element();
-    const destinationChanged = vi.fn();
-    destination.addEventListener("calciteListOrderChange", destinationChanged);
-
-    async function transfer() {
-      const handle = page.getBySelector("#two calcite-sort-handle");
-      await expect.element(handle).toBeVisible();
-      await (handle.element() as SortHandle["el"]).setFocus();
-      await userEvent.keyboard("{Enter}");
-      await page.getByRole("menuitem", { name: "Destination", exact: true }).click();
-    }
-
-    const detail = {
-      dragEl: item,
-      fromEl: fixture.el,
-      toEl: destination,
-      oldIndex: 1,
-      newIndex: 0,
-    };
-    return {
-      ...fixture,
-      destination,
-      item,
-      destinationChanged,
-      detail,
-      transfer,
-    };
-  }
-
-  it("moves a grouped item from the menu using its owning list and sibling index", async () => {
-    const { group, destination, item, changed, destinationChanged, detail, transfer } =
-      await renderGroupedTransfer();
-    await transfer();
-
-    expect(Array.from(group.children, (child) => child.id)).toEqual(["one"]);
-    expect(destination.firstElementChild).toBe(item);
-    expect(changed.mock.calls[0][0].detail).toEqual(detail);
-    expect(changed).toHaveBeenCalledTimes(1);
-    expect(destinationChanged).toHaveBeenCalledTimes(1);
-  });
-
-  it("clones a grouped item from the menu using its owning list and sibling index", async () => {
-    const { el, group, destination, item, changed, destinationChanged, detail, transfer } =
-      await renderGroupedTransfer();
-    el.canPull = () => "clone";
-    await transfer();
-
-    expect(Array.from(group.children, (child) => child.id)).toEqual(["one", "two"]);
-    expect(destination.children).toHaveLength(2);
-    expect(destination.firstElementChild).not.toBe(item);
-    expect(destination.firstElementChild).toHaveProperty("id", "two");
-    expect(changed.mock.calls[0][0].detail).toEqual(detail);
-    expect(changed).toHaveBeenCalledTimes(1);
-    expect(destinationChanged).toHaveBeenCalledTimes(1);
-  });
-
-  it("requests a manual grouped-item menu move without changing its parent", async () => {
-    const { group, destination, item, changed, request, detail, transfer } =
-      await renderGroupedTransfer("manual");
-    await transfer();
-
-    expect(item.parentElement).toBe(group);
-    expect(destination.children).toHaveLength(1);
-    expect(request).toHaveBeenCalledTimes(1);
-    expect(request.mock.calls[0][0].detail).toEqual({ ...detail, operation: "move" });
-    expect(changed).not.toHaveBeenCalled();
-  });
-
-  it("requests a manual grouped-item menu clone without inserting a copy", async () => {
-    const { el, group, destination, item, changed, request, detail, transfer } =
-      await renderGroupedTransfer("manual");
-    el.canPull = () => "clone";
-    await transfer();
-
-    expect(item.parentElement).toBe(group);
-    expect(destination.children).toHaveLength(1);
-    expect(request).toHaveBeenCalledTimes(1);
-    expect(request.mock.calls[0][0].detail).toEqual({ ...detail, operation: "clone" });
-    expect(changed).not.toHaveBeenCalled();
   });
 
   it("moves items between lists with the same group", async () => {
