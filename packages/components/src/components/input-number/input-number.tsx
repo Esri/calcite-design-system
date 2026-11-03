@@ -1164,14 +1164,11 @@ export class InputNumber
       const valid = isValidNumber(newValue);
       if (!valid) {
         this.formSupport.setCustomValidity("Please enter a number.");
-        this.status = "invalid";
       } else {
         this.formSupport.setCustomValidity("");
-        this.status = "valid";
       }
     } else if (!this.required && origin !== "connected") {
       this.formSupport.setCustomValidity("");
-      this.status = "valid";
     }
 
     const validNewValue = isValidNumber(newValue)
