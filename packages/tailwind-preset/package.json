@@ -15,7 +15,7 @@
     "THIRD-PARTY-NOTICES.md"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && tsc --project tsconfig.types.json",
     "clean": "rimraf dist node_modules .turbo",
     "lint": "concurrently npm:lint:*",
     "lint:json": "prettier --ignore-path \"../../.prettierignore\" --write \"**/*.json\" >/dev/null",
@@ -41,7 +41,6 @@
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
-    "unplugin-dts": "catalog:",
     "vite": "catalog:"
   }
 }
