@@ -588,22 +588,51 @@ describe("disabled interactions", () => {
     expect(el.shadowRoot.activeElement).toBe(handle);
   });
 
-  it("applies disabled styling to custom content and the resize handle", async () => {
-    const openEvent = waitForEvent(document, "calciteSheetOpen");
-    const { el } = await mount<Sheet>(
-      <calcite-sheet disabled label="Sheet" modalDisabled open resizable>
-        <button slot="custom-content" type="button">
-          Custom content
-        </button>
-      </calcite-sheet>,
-    );
-    await openEvent;
-    const content = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.content}`)!;
-    const handle = el.shadowRoot.querySelector<HTMLDivElement>(`.${CSS.resizeHandle}`)!;
+  it.each(["built-in", "custom-content"] as const)(
+    "keeps disabled %s content opaque and non-interactive",
+    async (slot) => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const { el } = await mount<Sheet>(
+        <calcite-sheet
+          disabled
+          heading="Disabled heading"
+          label="Sheet"
+          modalDisabled
+          open
+          resizable
+        >
+          <button slot={slot === "custom-content" ? slot : undefined} type="button">
+            Custom content
+          </button>
+        </calcite-sheet>,
+      );
+      await openEvent;
+      const sheetLocator = page.elementLocator(el);
+      const content = sheetLocator
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.content}`)
+        .element() as HTMLDivElement;
+      const contentContainer = sheetLocator
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.content} > .${CSS.contentContainer}`)
+        .element() as HTMLDivElement;
+      const handle = sheetLocator
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.content} > .${CSS.resizeHandle}`)
+        .element() as HTMLDivElement;
 
-    expect(Number.parseFloat(getComputedStyle(content).opacity)).toBeLessThan(1);
-    expect(getComputedStyle(handle).pointerEvents).toBe("none");
-  });
+      expect(getComputedStyle(content).opacity).toBe("1");
+      const disabledOpacity = getComputedStyle(el)
+        .getPropertyValue("--calcite-opacity-disabled")
+        .trim();
+      expect(getComputedStyle(contentContainer).opacity).toBe(disabledOpacity);
+      expect(getComputedStyle(handle).opacity).toBe(disabledOpacity);
+      expect(getComputedStyle(handle).pointerEvents).toBe("none");
+
+      el.disabled = false;
+      await expect.element(el).not.toHaveAttribute("disabled");
+      await vi.waitFor(() => {
+        expect(getComputedStyle(contentContainer).opacity).toBe("1");
+      });
+    },
+  );
 });
 
 describe("slots", () => {

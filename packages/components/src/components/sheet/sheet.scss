@@ -227,6 +227,12 @@ calcite-panel {
 
 :host([disabled]) .content {
   @extend %disabled-host-only;
+  @apply opacity-100;
+
+  .content-container,
+  .resize-handle {
+    @apply opacity-disabled;
+  }
 
   ::slotted([calcite-hydrated][disabled]),
   [calcite-hydrated][disabled] {

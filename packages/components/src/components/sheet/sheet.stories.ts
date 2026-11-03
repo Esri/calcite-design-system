@@ -177,6 +177,40 @@ export const disabledCustomContent = (): string => html`
   </calcite-sheet>
 `;
 
+export const disabledBackgroundOcclusion = (): string => html`
+  <style>
+    .disabled-sheet-background {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--calcite-color-brand) 0 var(--calcite-space-lg),
+        var(--calcite-color-background) var(--calcite-space-lg) calc(2 * var(--calcite-space-lg))
+      );
+    }
+  </style>
+  <div class="disabled-sheet-background"></div>
+  <calcite-sheet disabled heading="Built-in panel" label="Built-in panel" modal-disabled open resizable width="s">
+    <p>The background stripes must not show through this disabled sheet.</p>
+    <calcite-button slot="footer">Add layer</calcite-button>
+  </calcite-sheet>
+  <calcite-sheet
+    disabled
+    display-mode="float"
+    label="Custom panel"
+    modal-disabled
+    open
+    position="inline-end"
+    resizable
+    width="s"
+  >
+    <calcite-panel heading="Custom panel" slot="custom-content">
+      <p>The background stripes must not show through this disabled sheet.</p>
+      <calcite-button slot="footer">Add layer</calcite-button>
+    </calcite-panel>
+  </calcite-sheet>
+`;
+
 export const collapsed = (): string => html`
   <calcite-sheet collapsible collapsed collapse-direction="up" heading="Layers" label="Map layers" open>
     <calcite-button>Add layer</calcite-button>

@@ -447,28 +447,73 @@ describe("internal panel", () => {
     await expect.element(panel).toHaveProperty("disabled", false);
   });
 
-  it("prevents interaction with all panel content when disabled", async () => {
-    const { el } = await mount<ShellPanel>(
-      <>
-        <calcite-shell-panel disabled resizable>
-          <div slot="action-bar">
-            <button type="button">Action bar</button>
-          </div>
-          <button type="button">Panel content</button>
-        </calcite-shell-panel>
-        <button type="button">Outside</button>
-      </>,
-    );
-    const container = el.shadowRoot.querySelector<HTMLDivElement>(".interaction-container")!;
-    const resizeHandle = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.resizeHandle}`)!;
+  it.each(["built-in", "custom-content"] as const)(
+    "dims disabled %s content and prevents interaction",
+    async (slot) => {
+      const { el } = await mount<ShellPanel>(
+        <>
+          <calcite-shell-panel disabled heading="Disabled heading" resizable>
+            <div slot="action-bar">
+              <button type="button">Action bar</button>
+            </div>
+            <button slot={slot === "custom-content" ? slot : undefined} type="button">
+              Panel content
+            </button>
+          </calcite-shell-panel>
+          <button type="button">Outside</button>
+        </>,
+      );
+      const panelLocator = page.elementLocator(el);
+      const container = panelLocator
+        .getBySelector(":scope > .interaction-container")
+        .element() as HTMLDivElement;
+      const contentSelector = `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`;
+      const content = panelLocator.getBySelector(contentSelector).element() as HTMLElement;
+      const contentContainer = panelLocator
+        .getBySelector(
+          `:scope > .interaction-container > .${CSS.container} > .${CSS.contentContainer}`,
+        )
+        .element() as HTMLElement;
+      const resizeHandle = panelLocator
+        .getBySelector(`${contentSelector} > .${CSS.resizeHandle}`)
+        .element() as HTMLElement;
 
-    expect(container.inert).toBe(true);
-    expect(el).toHaveAttribute("aria-disabled", "true");
-    expect(Number(getComputedStyle(el).opacity)).toBeLessThan(1);
-    expect(resizeHandle.tabIndex).toBe(-1);
-    await userEvent.tab();
-    await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
-  });
+      expect(container.inert).toBe(true);
+      expect(el).toHaveAttribute("aria-disabled", "true");
+      expect(getComputedStyle(el).opacity).toBe("1");
+      expect(getComputedStyle(content).opacity).toBe("1");
+      const disabledOpacity = getComputedStyle(el)
+        .getPropertyValue("--calcite-opacity-disabled")
+        .trim();
+      expect(getComputedStyle(contentContainer).opacity).toBe(disabledOpacity);
+      const panelContentLocator =
+        slot === "custom-content"
+          ? panelLocator.getBySelector('[slot="custom-content"]')
+          : panelLocator.getBySelector(`${contentSelector} > slot > .${CSS.panel}`);
+      const panelContent = panelContentLocator.element() as HTMLElement;
+      expect(getComputedStyle(panelContent).opacity).toBe("1");
+      const actionBar = panelLocator
+        .getBySelector(
+          `:scope > .interaction-container > .${CSS.container} > .${CSS.actionBarContainer}`,
+        )
+        .element() as HTMLElement;
+      expect(getComputedStyle(actionBar).opacity).toBe("1");
+      const actionBarContent = panelLocator
+        .getBySelector(':scope > [slot="action-bar"]')
+        .element() as HTMLElement;
+      expect(getComputedStyle(actionBarContent).opacity).toBe(disabledOpacity);
+      expect(resizeHandle.tabIndex).toBe(-1);
+      await userEvent.tab();
+      await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+
+      el.disabled = false;
+      await vi.waitFor(() => {
+        expect(getComputedStyle(contentContainer).opacity).toBe("1");
+        expect(getComputedStyle(panelContent).opacity).toBe("1");
+        expect(getComputedStyle(actionBarContent).opacity).toBe("1");
+      });
+    },
+  );
 
   it("forwards menuFlipPlacements updates to the internal panel", async () => {
     const { el } = await mount<ShellPanel>(

@@ -402,7 +402,7 @@ export class Sheet extends LitElement {
   /** A description for the component. */
   @property() description?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, interaction is prevented and the component's content is visually dimmed. */
   @property({ reflect: true }) disabled = false;
 
   /** The component header text. */

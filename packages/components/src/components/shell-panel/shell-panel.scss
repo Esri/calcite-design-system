@@ -194,7 +194,24 @@ calcite-panel {
   flex-direction: column;
 }
 
-@include shared.disabled();
+@include shared.disabled() {
+  @apply opacity-100;
+
+  .content-container {
+    @apply opacity-disabled;
+  }
+
+  .action-bar-container {
+    background-color: var(
+      --calcite-action-bar-background-color,
+      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+    );
+
+    slot[name="action-bar"]::slotted(*) {
+      @apply opacity-disabled;
+    }
+  }
+}
 
 .resize-handle {
   @apply absolute flex justify-center items-center select-none box-border outline-none;

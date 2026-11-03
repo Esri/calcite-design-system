@@ -401,6 +401,46 @@ export const disabledShellPanel = (): string => html`
   </calcite-shell>
 `;
 
+export const disabledShellPanelBackgroundOcclusion = (): string => html`
+  <style>
+    .disabled-shell-panel-background {
+      inline-size: 100%;
+      block-size: 100%;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--calcite-color-brand) 0 var(--calcite-space-lg),
+        var(--calcite-color-background) var(--calcite-space-lg) calc(2 * var(--calcite-space-lg))
+      );
+    }
+  </style>
+  <calcite-shell content-behind>
+    <calcite-shell-panel
+      disabled
+      display-mode="overlay"
+      heading="Built-in panel"
+      resizable
+      slot="panel-start"
+      width="s"
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action icon="layers" text="Layers"></calcite-action>
+      </calcite-action-bar>
+      <p>The background stripes must not show through this disabled shell panel.</p>
+      <calcite-button slot="footer">Add layer</calcite-button>
+    </calcite-shell-panel>
+    <calcite-shell-panel disabled display-mode="float-all" resizable slot="panel-end" width="s">
+      <calcite-action-bar slot="action-bar">
+        <calcite-action icon="legend" text="Legend"></calcite-action>
+      </calcite-action-bar>
+      <calcite-panel heading="Custom panel" slot="custom-content">
+        <p>The background stripes must not show through this disabled shell panel.</p>
+        <calcite-button slot="footer">Add layer</calcite-button>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <div class="disabled-shell-panel-background"></div>
+  </calcite-shell>
+`;
+
 export const collapsedInternalPanel = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
