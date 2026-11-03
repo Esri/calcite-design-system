@@ -11,7 +11,7 @@ export const CSS = {
   containerHeight: "container-height",
 };
 
-export type SelectionAppearance = "border" | "highlight" | "icon";
+export type SelectionAppearance = "highlight" | "icon";
 
 export const SLOTS = {
   emptyContent: "empty-content",

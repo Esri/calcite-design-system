@@ -20,10 +20,10 @@ it("displays hover class", async () => {
   expect(await page.find(`calcite-list-item >>> .${CSS.containerHover}`)).not.toBeNull();
 });
 
-it("does not display hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === border", async () => {
+it("does not display hover class as fallback when selection-mode !== none and interaction-mode === static and selection-appearance === highlight", async () => {
   const page = await newE2EPage();
   await page.setContent(
-    `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="border"></calcite-list-item>`,
+    `<calcite-list-item selection-mode="single" interaction-mode="static" selection-appearance="highlight"></calcite-list-item>`,
   );
   await page.waitForChanges();
 

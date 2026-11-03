@@ -276,37 +276,4 @@ describe("themed", () => {
       },
     );
   });
-
-  describe(`selection-appearance="border"`, () => {
-    themed(
-      () =>
-        mount(
-          <calcite-list-item
-            bordered
-            description="Home base for park staff to converse with visitors."
-            icon-end="banana"
-            icon-start="banana"
-            interaction-mode="interactive"
-            label="Park offices"
-            selected
-            selection-appearance="border"
-            selection-mode="single"
-            value="offices"
-          />,
-        ),
-      {
-        "--calcite-list-selection-border-color": [
-          {
-            shadowSelector: `.${CSS.container}::before`,
-            targetProp: "backgroundColor",
-          },
-          {
-            shadowSelector: `.${CSS.containerBorderSelected}`,
-            targetProp: "boxShadow",
-            state: "focus",
-          },
-        ],
-      },
-    );
-  });
 });
