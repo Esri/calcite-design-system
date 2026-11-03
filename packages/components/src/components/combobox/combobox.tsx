@@ -824,6 +824,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.pointerDownStartedInside = false;
 
     if (
+      event.defaultPrevented ||
       this.disabled ||
       event.composedPath().includes(this.el) ||
       (event.detail > 0 && pointerDownStartedInside)
