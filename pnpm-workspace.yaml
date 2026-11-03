@@ -5,7 +5,7 @@ catalog:
   "@commander-js/extra-typings": "15.0.0"
   "@cspell/dict-gis": "1.0.3"
   "@cspell/dict-pokemon": "1.0.3"
-  "@cspell/dict-scientific-terms-us": "3.1.0"
+  "@cspell/dict-scientific-terms-us": "3.1.2"
   "@cspell/eslint-plugin": "10.0.1"
   "@eslint-react/eslint-plugin": "5.21.3"
   "@eslint-react/kit": "5.21.3"

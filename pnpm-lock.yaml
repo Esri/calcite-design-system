@@ -25,8 +25,8 @@ catalogs:
       specifier: 1.0.3
       version: 1.0.3
     '@cspell/dict-scientific-terms-us':
-      specifier: 3.1.0
-      version: 3.1.0
+      specifier: 3.1.2
+      version: 3.1.2
     '@cspell/eslint-plugin':
       specifier: 10.0.1
       version: 10.0.1
@@ -415,7 +415,7 @@ importers:
         version: 1.0.3
       '@cspell/dict-scientific-terms-us':
         specifier: 'catalog:'
-        version: 3.1.0
+        version: 3.1.2
       '@cspell/eslint-plugin':
         specifier: 'catalog:'
         version: 10.0.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))
@@ -1529,8 +1529,8 @@ packages:
   '@cspell/dict-scala@5.0.9':
     resolution: {integrity: sha512-AjVcVAELgllybr1zk93CJ5wSUNu/Zb5kIubymR/GAYkMyBdYFCZ3Zbwn4Zz8GJlFFAbazABGOu0JPVbeY59vGg==}
 
-  '@cspell/dict-scientific-terms-us@3.1.0':
-    resolution: {integrity: sha512-QKkW/bEmqlXqdBbIVmXHAUXH2TBJvYI6Ewxpba6qHCcGa35INLStBvD+N/zQ+WuJy7ZNVJlCaLFs7ZCmzw7hFA==}
+  '@cspell/dict-scientific-terms-us@3.1.2':
+    resolution: {integrity: sha512-0rlIP8+Cqau3VuThzxrufV50rdmCqw0FpcP47JQ+0h1BQLpeOe6gBZuyQkzsqz3sPDmrGnfD4XjubzRXRAOa1w==}
 
   '@cspell/dict-shell@1.2.0':
     resolution: {integrity: sha512-PVctvT22lJ49niMiakO8xieY7ELCAzjSqhejWR7bAMb5AZ9F4WDEs+XdGMnoVHWeXq7K5rcepLPmEJb+37zzIw==}
@@ -9856,7 +9856,7 @@ snapshots:
 
   '@cspell/dict-scala@5.0.9': {}
 
-  '@cspell/dict-scientific-terms-us@3.1.0': {}
+  '@cspell/dict-scientific-terms-us@3.1.2': {}
 
   '@cspell/dict-shell@1.2.0': {}
 
