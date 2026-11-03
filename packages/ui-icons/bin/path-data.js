@@ -94,12 +94,12 @@ export default (function generatePathFile() {
   export type IconPath = string | MultiPathEntry[];
 
   /**
-   * @deprecated use IconPath type instead
+   * @deprecated in v5.2.0, removal target v7.0.0. Use the \`IconPath\` type instead.
    */
   export type CalciteIconPath = IconPath;
 
   /**
-   * @deprecated use MultiPathEntry type instead
+   * @deprecated in v5.2.0, removal target v7.0.0. Use the \`MultiPathEntry \` type instead.
    */
   export type CalciteMultiPathEntry = MultiPathEntry;
   \n

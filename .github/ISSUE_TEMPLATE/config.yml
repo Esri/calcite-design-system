@@ -1,3 +1,5 @@
+# The .yml file extension is needed for GitHub to configure issue templates
+blank_issues_enabled: false
 contact_links:
   - name: Esri Support
     url: https://support.esri.com/en/contact-tech-support

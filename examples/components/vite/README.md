@@ -1,12 +1,12 @@
 # Vite and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/vite?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/vite?configPath=examples/components/vite)
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install --ignore-workspace --lockfile=false
+pnpm dev
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm run dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
 
 ### Setup components
@@ -60,3 +60,25 @@ export default defineConfig({
   ],
 });
 ```
+
+> [!NOTE]
+>
+> ### Avoid the Vite/Lightning CSS `light-dark()` issue
+>
+> Vite 8 enables Lightning CSS for minification by default, which has a [known issue](https://github.com/parcel-bundler/lightningcss/issues/821) with its polyfill for the [`light-dark()`](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/color_value/light-dark) CSS function. During minification the polyfill sets Calcite's color CSS variables incorrectly, causing components to appear as transparent or without background colors.
+>
+> To ensure Calcite displays as expected until the bug is mitigated by Lightning CSS, disable the `light-dark()` polyfill in the Vite config (_refer to the code snippet below_). If importing Lightning CSS directly is undesired, use the corresponding `LightDark` enum member from the package's [`flags.js`](https://cdn.jsdelivr.net/npm/lightningcss@latest/node/flags.js) file.
+>
+> ```ts
+> import { defineConfig } from "vite";
+> import { Features } from "lightningcss";
+>
+> export default defineConfig({
+>  ...
+>  css: {
+>    lightningcss: {
+>      exclude: Features.LightDark,
+>    },
+>  },
+> });
+> ```

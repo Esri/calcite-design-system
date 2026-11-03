@@ -1,4 +1,4 @@
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   display: block;
@@ -8,9 +8,9 @@
   position: relative;
 }
 
-@include includes.base-component();
+@include shared.base-component();
 
-@include includes.disabled();
+@include shared.disabled();
 
 :host([slot="children"]) {
   slot::slotted(calcite-block) {

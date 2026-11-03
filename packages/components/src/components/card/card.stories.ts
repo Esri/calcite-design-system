@@ -50,8 +50,8 @@ const footerButtonHtml = html` <calcite-button slot="footer-start" width="full">
 const footerStartTextHtml = html`<span slot="footer-start">Nov 25, 2018</span>`;
 
 const footerLinksHtml = html`
-  <calcite-link class="calcite-mode-dark" slot="footer-start">Lead footer</calcite-link>
-  <calcite-link class="calcite-mode-dark" slot="footer-end">Trail footer</calcite-link>
+  <calcite-link slot="footer-start">Lead footer</calcite-link>
+  <calcite-link slot="footer-end">Trail footer</calcite-link>
 `;
 
 const thumbnailHtml = html`<img

@@ -10,7 +10,7 @@ import { getIconScale } from "../../utils/component";
 import { componentFocusable } from "../../utils/component";
 import { decimalPlaces } from "../../utils/math";
 import { useT9n } from "../../controllers/useT9n";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { TimeComponent, useTime } from "../../controllers/useTime";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -19,6 +19,47 @@ import { styles } from "./time-picker.scss";
 declare global {
   interface DeclareElements {
     "calcite-time-picker": TimePicker;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-time-picker-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-time-picker-border-color": "*";
+    /**
+     * Specifies the component's border radius.
+     */
+    "--calcite-time-picker-corner-radius": "*";
+    /**
+     * Specifies the button's background color when hovered or focused.
+     */
+    "--calcite-time-picker-button-background-color-hover": "*";
+    /**
+     * Specifies the button's background color when active.
+     */
+    "--calcite-time-picker-button-background-color-press": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-time-picker-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-time-picker-icon-color": "*";
+    /**
+     * Specifies the input's border color when active.
+     */
+    "--calcite-time-picker-input-border-color-press": "*";
+    /**
+     * Specifies the input's border color when hovered.
+     */
+    "--calcite-time-picker-input-border-color-hover": "*";
   }
 }
 
@@ -56,7 +97,7 @@ export class TimePicker extends LitElement implements TimeComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 

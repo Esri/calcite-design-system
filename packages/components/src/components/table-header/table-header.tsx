@@ -5,9 +5,11 @@ import { Alignment, Scale, SelectionMode } from "../types";
 import type { Table } from "../table/table";
 import { RowType, TableInteractionMode } from "../table/types";
 import { getIconScale } from "../../utils/component";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-header.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -15,10 +17,37 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     *
+     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-header-background-color` instead.
+     */
+    "--calcite-table-header-background": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-table-header-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-table-header-border-color": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-table-header-heading-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-table-header-description-text-color": "*";
+  }
+}
+
 export class TableHeader extends LitElement {
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -26,7 +55,7 @@ export class TableHeader extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   //#endregion
 
@@ -215,7 +244,7 @@ export class TableHeader extends LitElement {
           />
         )}
         {(this.selectionCell || this.numberCell) && (
-          <span ariaLive={this.focused ? "polite" : "off"} class={CSS.assistiveText}>
+          <span ariaLive={this.focused ? "polite" : "off"} class={CSS_UTILITY.screenReaderText}>
             {this.screenReaderText}
           </span>
         )}

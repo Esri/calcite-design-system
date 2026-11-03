@@ -10,7 +10,6 @@ export const CSS = {
   tableContainer: "table-container",
   tableContainerOverflow: "table-container--overflow",
   tableFixed: "table--fixed",
-  assistiveText: "assistive-text",
   selectionActions: "selection-actions",
   dismissButton: "dismiss-button",
   selectionChipActive: "selection-chip--active",

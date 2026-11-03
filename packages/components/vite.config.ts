@@ -39,12 +39,6 @@ export function createConfig({
         // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
         bundleIn: nonEsmDependencies,
       },
-      wrappers: [
-        {
-          type: "react18",
-          proxiesFile: "../components-react/src/components.ts",
-        },
-      ],
     },
     css: {
       globalStylesPath: "src/styles/global/index.scss",
@@ -64,7 +58,7 @@ export function createConfig({
 
   return {
     build: { minify: false },
-    cacheDir: runBrowserTests ? undefined : "node_modules/.vite/puppeteer",
+    cacheDir: runBrowserTests ? undefined : "node_modules/.pnpm/.vite/puppeteer",
 
     ssr: {
       noExternal: nonEsmDependencies,

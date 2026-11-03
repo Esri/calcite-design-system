@@ -2,6 +2,8 @@
 set -e
 
 # This script is used to version and publish releases and pre-releases.
+# Lerna commits and tags locally. Release automation pushes only after building,
+# testing, and publishing.
 #
 # @arg1 The deployment step to run, must be either "version" or "publish".
 # @arg2 [optional] The pre-release tag, e.g., "next", "hotfix", or "rc".
@@ -51,22 +53,22 @@ version() {
     sanity_checks
 
     if [ -z "$dist_tag" ] || [ "$dist_tag" = "latest" ]; then
-        lerna version --no-push --no-git-tag-version --yes \
+        lerna version --no-push --yes \
             --conventional-commits \
-            --create-release github
+            --message "chore: release $branch"
     else
-        lerna version --no-push --no-git-tag-version --yes \
+        lerna version --no-push --yes \
             --conventional-prerelease \
-            --preid "$dist_tag"
+            --preid "$dist_tag" \
+            --message "chore: release $dist_tag"
     fi
-
-    # default to latest if no dist tag was provided in the second argument
-    npm run util:sync-linked-package-versions -- "${dist_tag:-latest}"
 }
 
 publish() {
-    # only add the dist-tag flag if the second argument was provided
-    lerna publish from-package --yes ${dist_tag:+--dist-tag $dist_tag}
+    # only add the tag flag if the second argument was provided
+    pnpm recursive publish \
+        --publish-branch "$branch" \
+        ${dist_tag:+--tag "$dist_tag"}
 }
 
 main() {
