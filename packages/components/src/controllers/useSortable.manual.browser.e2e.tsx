@@ -16,8 +16,6 @@ mockConsole();
 describe.each(["list", "block-group"] as const)("%s manual sorting", (component) => {
   const requestEvent =
     component === "list" ? "calciteListOrderRequest" : "calciteBlockGroupOrderRequest";
-  const beforeEvent =
-    component === "list" ? "calciteListBeforeOrderChange" : "calciteBlockGroupBeforeOrderChange";
   const changeEvent =
     component === "list" ? "calciteListOrderChange" : "calciteBlockGroupOrderChange";
   const endEvent = component === "list" ? "calciteListDragEnd" : "calciteBlockGroupDragEnd";
@@ -225,30 +223,6 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
       newIndex: 1,
     });
     expect(Array.from(source.children)).toEqual([first, second, third]);
-  });
-
-  it("honors the before-order veto on drop", async () => {
-    const { source, first, third, handle, request } = await setup();
-    const before = vi.fn((event: Event) => event.preventDefault());
-    const ended = vi.fn();
-    source.addEventListener(beforeEvent, before);
-    source.addEventListener(endEvent, ended);
-    await dragAndDrop(handle, third, "bottom");
-    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(before).toHaveBeenCalledTimes(1);
-    expect(request).not.toHaveBeenCalled();
-    expect(source.firstElementChild).toBe(first);
-  });
-
-  it("honors the before-order veto for keyboard/menu requests", async () => {
-    const { source, first, handle, request } = await setup();
-    source.addEventListener(beforeEvent, (event) => event.preventDefault());
-    await handle.setFocus();
-    await userEvent.keyboard("{Enter}");
-    await expect.element(page.elementLocator(handle)).toHaveProperty("open", true);
-    await userEvent.keyboard("{ArrowDown}{Enter}");
-    expect(request).not.toHaveBeenCalled();
-    expect(source.firstElementChild).toBe(first);
   });
 
   it("does not request a canceled drag", async () => {
@@ -742,47 +716,6 @@ describe.each(["list", "block-group"] as const)("%s manual sorting", (component)
     expect(request.mock.calls[1][0].detail).toMatchObject({ newIndex: 1, operation: "clone" });
     expect(first.parentElement).toBe(source);
     expect(Array.from(destination.children)).toEqual([destinationItem]);
-  });
-
-  it("honors the destination before-order veto on pointer transfer", async () => {
-    const { source, destination, first, handle, request } = await setup();
-    const before = vi.fn((event: Event) => event.preventDefault());
-    const ended = vi.fn();
-    destination.addEventListener(beforeEvent, before);
-    source.addEventListener(endEvent, ended);
-    await dragAndDrop(handle, destination);
-    await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(before).toHaveBeenCalledTimes(1);
-    expect(request).not.toHaveBeenCalled();
-    expect(first.parentElement).toBe(source);
-    expect(destination.children).toHaveLength(0);
-  });
-
-  it("honors the destination before-order veto on a menu move", async () => {
-    const { source, destination, first, handle, request } = await setup();
-    const before = vi.fn((event: Event) => event.preventDefault());
-    destination.addEventListener(beforeEvent, before);
-    await handle.setFocus();
-    await userEvent.keyboard("{Enter}");
-    await page.getByRole("menuitem", { name: "Destination", exact: true }).click();
-    expect(before).toHaveBeenCalledTimes(1);
-    expect(request).not.toHaveBeenCalled();
-    expect(first.parentElement).toBe(source);
-    expect(destination.children).toHaveLength(0);
-  });
-
-  it("honors the destination before-order veto on a menu clone", async () => {
-    const { source, destination, first, handle, request } = await setup();
-    source.canPull = (): "clone" => "clone";
-    const before = vi.fn((event: Event) => event.preventDefault());
-    destination.addEventListener(beforeEvent, before);
-    await handle.setFocus();
-    await userEvent.keyboard("{Enter}");
-    await page.getByRole("menuitem", { name: "Destination", exact: true }).click();
-    expect(before).toHaveBeenCalledTimes(1);
-    expect(request).not.toHaveBeenCalled();
-    expect(first.parentElement).toBe(source);
-    expect(destination.children).toHaveLength(0);
   });
 
   it("rejects pointer and menu transfers when canPull returns false", async () => {

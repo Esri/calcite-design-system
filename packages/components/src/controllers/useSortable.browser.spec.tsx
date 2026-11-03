@@ -162,7 +162,6 @@ class Test extends LitElement {
   onDragEnd = vi.fn();
   onDragMove = vi.fn();
   onDragStart = vi.fn<(detail: DragDetail) => void>();
-  onDragBeforeSort = vi.fn<(detail: DragDetail) => Event | void>();
   onDragSort = vi.fn();
   onOrderRequest = vi.fn<(detail: OrderRequestDetail) => void>();
   canPull?: (detail: DragDetail) => boolean | "clone";
@@ -217,18 +216,12 @@ const getSortableFor = (component: Test, itemId: string) =>
     return data.component === component && data.item.id === itemId;
   });
 
-it("commits menu transactions between before-order and order-change callbacks", async () => {
+it("commits menu transactions before order-change callbacks", async () => {
   const { component: source } = await mountDragEnabled();
   const { component: destination } = await mountDragEnabled();
   const dragEl = page.elementLocator(source.el).getBySelector("#two").element() as HTMLElement;
   const detail = { fromEl: source.el, toEl: destination.el, dragEl, oldIndex: 1, newIndex: 0 };
   const calls: string[] = [];
-  source.onDragBeforeSort.mockImplementation(() => {
-    calls.push("source-before");
-  });
-  destination.onDragBeforeSort.mockImplementation(() => {
-    calls.push("destination-before");
-  });
   source.onDragSort.mockImplementation(() => {
     expect(dragEl.parentElement).toBe(destination.el);
     calls.push("source-sort");
@@ -246,39 +239,7 @@ it("commits menu transactions between before-order and order-change callbacks", 
     }),
   ).toBe(true);
 
-  expect(calls).toEqual([
-    "source-before",
-    "destination-before",
-    "apply",
-    "source-sort",
-    "destination-sort",
-  ]);
-});
-
-it("rejects menu transactions vetoed by the destination", async () => {
-  const { component: source } = await mountDragEnabled();
-  const { component: destination } = await mountDragEnabled();
-  const dragEl = page.elementLocator(source.el).getBySelector("#two").element() as HTMLElement;
-  const veto = new Event("before-order", { cancelable: true });
-  veto.preventDefault();
-  destination.onDragBeforeSort.mockReturnValue(veto);
-  const apply = vi.fn();
-  const onAccepted = vi.fn();
-
-  expect(
-    source.sortable.requestOrderChange({
-      detail: { fromEl: source.el, toEl: destination.el, dragEl, oldIndex: 1, newIndex: 0 },
-      operation: "move",
-      apply,
-      onAccepted,
-    }),
-  ).toBe(false);
-
-  expect(apply).not.toHaveBeenCalled();
-  expect(onAccepted).not.toHaveBeenCalled();
-  expect(source.onDragSort).not.toHaveBeenCalled();
-  expect(destination.onDragSort).not.toHaveBeenCalled();
-  expect(dragEl.parentElement).toBe(source.el);
+  expect(calls).toEqual(["apply", "source-sort", "destination-sort"]);
 });
 
 it("requests manual menu clones on the source without applying DOM changes", async () => {

@@ -47,13 +47,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable, type SortMode } from "../../controllers/useSortable";
 import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import {
-  ListDisplayMode,
-  ListDragDetail,
-  ListDragStartDetail,
-  ListElement,
-  ListOrderRequestDetail,
-} from "./types";
+import { ListDisplayMode, ListDragDetail, ListElement, ListOrderRequestDetail } from "./types";
 import { styles } from "./list.scss";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
@@ -415,19 +409,10 @@ export class List extends LitElement {
   calciteListDragEnd = createEvent<ListDragDetail>({ cancelable: false });
 
   /** Fires when the component's dragging has started. */
-  calciteListDragStart = createEvent<ListDragStartDetail>({ cancelable: false });
+  calciteListDragStart = createEvent<ListDragDetail>({ cancelable: false });
 
   /** Fires when the component's filter has changed. */
   calciteListFilter = createEvent({ cancelable: false });
-
-  /**
-   * Fires before the component's item order changes.
-   *
-   * Calling `event.preventDefault()` cancels the proposed reorder, allowing apps to control item order.
-   * In automatic mode, earlier accepted changes in the same drag still emit an order-change event unless the drag is canceled.
-   * In manual mode, fires on drop or a sort-menu action before an order request, rather than during dragging.
-   */
-  calciteListBeforeOrderChange = createEvent<ListDragDetail>({ cancelable: true });
 
   /** Fires when the component's item order changes. */
   calciteListOrderChange = createEvent<ListDragDetail>({ cancelable: false });
@@ -822,13 +807,9 @@ export class List extends LitElement {
     this.calciteListDragEnd.emit(detail);
   }
 
-  onDragStart(detail: ListDragStartDetail): void {
+  onDragStart(detail: ListDragDetail): void {
     detail.dragEl.sortHandleOpen = false;
     this.calciteListDragStart.emit(detail);
-  }
-
-  onDragBeforeSort(detail: ListDragDetail): Event {
-    return this.calciteListBeforeOrderChange.emit(detail);
   }
 
   onDragSort(detail: ListDragDetail): void {
