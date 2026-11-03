@@ -1,4 +1,3 @@
-import { without } from "es-toolkit";
 import { ListItem } from "../list-item/list-item";
 import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -19,7 +18,8 @@ import "../list-item/list-item"; // Force Vite to statically trace the file for 
 import "../list-item-group/list-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { listDisplayMode, selectionMode, interactionMode, selectionAppearance, scale } = ATTRIBUTES;
+const { listDisplayMode, selectionMode, interactionMode, scale } = ATTRIBUTES;
+const selectionAppearances: List["selectionAppearance"][] = ["icon", "highlight"];
 
 interface ListStoryArgs
   extends
@@ -59,7 +59,7 @@ export default {
     loading: false,
     sortDisabled: false,
     scale: scale.defaultValue,
-    selectionAppearance: selectionAppearance.defaultValue,
+    selectionAppearance: selectionAppearances[0],
     selectionMode: selectionMode.values[1],
     filterLabel: "Filter list",
     filterPlaceholder: "Filter items",
@@ -87,7 +87,7 @@ export default {
       control: { type: "select" },
     },
     selectionAppearance: {
-      options: without(selectionAppearance.values, "neutral"),
+      options: selectionAppearances,
       control: { type: "select" },
     },
     iconStart: {
@@ -2520,7 +2520,7 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border (deprecated)</div>
+    <div class="child right-aligned-text">scales highlight</div>
 
     <div class="child">
       <calcite-list scale="s" selection-appearance="highlight" selection-mode="single" label="test">
@@ -2656,7 +2656,7 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border (deprecated) nested</div>
+    <div class="child right-aligned-text">scales highlight nested</div>
 
     <div class="child">
       <calcite-list
@@ -2970,7 +2970,7 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border (deprecated) draggable</div>
+    <div class="child right-aligned-text">scales highlight draggable</div>
 
     <div class="child">
       <calcite-list drag-enabled scale="s" selection-appearance="highlight" selection-mode="single" label="test">
@@ -3166,7 +3166,7 @@ export const scales = (): string => html`
 
   <!-- scales -->
   <div class="parent">
-    <div class="child right-aligned-text">scales border (deprecated) draggable nested</div>
+    <div class="child right-aligned-text">scales highlight draggable nested</div>
 
     <div class="child">
       <calcite-list
@@ -5309,7 +5309,6 @@ export const scales = (): string => html`
 `;
 
 const selectionModes: List["selectionMode"][] = ["none", "single", "single-persist", "multiple"];
-const selectionAppearances: List["selectionAppearance"][] = ["icon", "highlight"];
 
 export const selection = (): string => {
   return selectionModes

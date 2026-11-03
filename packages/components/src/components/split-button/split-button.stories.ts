@@ -8,7 +8,8 @@ import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./split-button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { appearance, kind, placement, scale, width, iconType } = ATTRIBUTES;
+const { appearance, kind, placement, scale, iconType } = ATTRIBUTES;
+const widthOptions: SplitButton["width"][] = ["auto", "full"];
 
 type SplitButtonStoryArgs = Pick<
   SplitButton,
@@ -35,7 +36,7 @@ export default {
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
-    width: width.defaultValue,
+    width: widthOptions[0],
     loading: false,
     disabled: false,
     placement: "bottom-end",
@@ -60,7 +61,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: widthOptions,
       control: { type: "select" },
     },
     placement: {
