@@ -36,6 +36,7 @@ import { styles } from "./block-group.scss";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { BlockDragDetail } from "./types";
+import type { BlockDragStartDetail } from "./types";
 import type { BlockOrderRequestDetail } from "./types";
 import { updateBlockChildren } from "./utils";
 import type { SortHandle } from "../sort-handle/sort-handle";
@@ -192,7 +193,16 @@ export class BlockGroup extends LitElement {
   calciteBlockGroupDragEnd = createEvent<BlockDragDetail>({ cancelable: false });
 
   /** Fires when the component's dragging has started. */
-  calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
+  calciteBlockGroupDragStart = createEvent<BlockDragStartDetail>({ cancelable: false });
+
+  /**
+   * Fires before the component's item order changes.
+   *
+   * Calling `event.preventDefault()` cancels the proposed reorder, allowing apps to control item order.
+   * In automatic mode, earlier accepted changes in the same drag still emit an order-change event unless the drag is canceled.
+   * In manual mode, fires on drop or a sort-menu action before an order request, rather than during dragging.
+   */
+  calciteBlockGroupBeforeOrderChange = createEvent<BlockDragDetail>({ cancelable: true });
 
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
@@ -408,9 +418,13 @@ export class BlockGroup extends LitElement {
     this.calciteBlockGroupDragEnd.emit(detail);
   }
 
-  onDragStart(detail: BlockDragDetail): void {
+  onDragStart(detail: BlockDragStartDetail): void {
     detail.dragEl.sortHandleOpen = false;
     this.calciteBlockGroupDragStart.emit(detail);
+  }
+
+  onDragBeforeSort(detail: BlockDragDetail): Event {
+    return this.calciteBlockGroupBeforeOrderChange.emit(detail);
   }
 
   onDragSort(detail: BlockDragDetail): void {

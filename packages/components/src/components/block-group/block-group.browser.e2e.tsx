@@ -398,8 +398,10 @@ describe("drag and drop", () => {
     );
     const wrapper = page.getBySelector("#wrapper").element();
     const first = page.getBySelector("#one").element();
+    const before = vi.fn();
     const changed = vi.fn();
     const request = vi.fn();
+    el.addEventListener("calciteBlockGroupBeforeOrderChange", before);
     el.addEventListener("calciteBlockGroupOrderChange", changed);
     el.addEventListener("calciteBlockGroupOrderRequest", request);
 
@@ -410,20 +412,18 @@ describe("drag and drop", () => {
       await userEvent.keyboard("{Enter}");
       await expect.element(handle).toHaveProperty("open", true);
       await page.getByRole("menuitem", { name: "Move down", exact: true }).click();
-      await vi.waitFor(() =>
-        expect(sortMode === "manual" ? request : changed).toHaveBeenCalledTimes(1),
-      );
+      await vi.waitFor(() => expect(before).toHaveBeenCalledTimes(1));
     }
 
-    return { el, wrapper, first, changed, request, reorder };
+    return { el, wrapper, first, before, changed, request, reorder };
   }
 
   it("reorders wrapped blocks within their DOM parent from the sort menu", async () => {
-    const { el, wrapper, first, changed, reorder } = await renderWrappedBlocks();
+    const { el, wrapper, first, before, changed, reorder } = await renderWrappedBlocks();
     await reorder();
 
     expect(Array.from(wrapper.children, (item) => item.id)).toEqual(["two", "one"]);
-    expect(changed.mock.calls[0][0].detail).toEqual({
+    expect(before.mock.calls[0][0].detail).toEqual({
       dragEl: first,
       fromEl: el,
       toEl: el,
@@ -431,6 +431,15 @@ describe("drag and drop", () => {
       newIndex: 1,
     });
     expect(changed).toHaveBeenCalledTimes(1);
+  });
+
+  it("honors the owning block group's veto for wrapped menu reordering", async () => {
+    const { wrapper, before, changed, reorder } = await renderWrappedBlocks();
+    before.mockImplementation((event: Event) => event.preventDefault());
+    await reorder();
+
+    expect(Array.from(wrapper.children, (item) => item.id)).toEqual(["one", "two"]);
+    expect(changed).not.toHaveBeenCalled();
   });
 
   it("uses the owning block group's manual mode for wrapped menu reordering", async () => {
@@ -464,7 +473,9 @@ describe("drag and drop", () => {
       </calcite-block-group>,
     );
     const item = page.getBySelector("#two").element();
+    const destinationBefore = vi.fn();
     const destinationChanged = vi.fn();
+    destination.addEventListener("calciteBlockGroupBeforeOrderChange", destinationBefore);
     destination.addEventListener("calciteBlockGroupOrderChange", destinationChanged);
 
     async function transfer() {
@@ -486,6 +497,7 @@ describe("drag and drop", () => {
       ...fixture,
       destination,
       item,
+      destinationBefore,
       destinationChanged,
       detail,
       transfer,
@@ -493,20 +505,29 @@ describe("drag and drop", () => {
   }
 
   it("moves a wrapped block from the menu using its owning group and sibling index", async () => {
-    const { wrapper, destination, item, changed, destinationChanged, detail, transfer } =
+    const { wrapper, destination, item, before, changed, destinationChanged, detail, transfer } =
       await renderWrappedTransfer();
     await transfer();
 
     expect(Array.from(wrapper.children, (child) => child.id)).toEqual(["one"]);
     expect(destination.firstElementChild).toBe(item);
-    expect(changed.mock.calls[0][0].detail).toEqual(detail);
+    expect(before.mock.calls[0][0].detail).toEqual(detail);
     expect(changed).toHaveBeenCalledTimes(1);
     expect(destinationChanged).toHaveBeenCalledTimes(1);
   });
 
   it("clones a wrapped block from the menu using its owning group and sibling index", async () => {
-    const { el, wrapper, destination, item, changed, destinationChanged, detail, transfer } =
-      await renderWrappedTransfer();
+    const {
+      el,
+      wrapper,
+      destination,
+      item,
+      before,
+      changed,
+      destinationChanged,
+      detail,
+      transfer,
+    } = await renderWrappedTransfer();
     el.canPull = () => "clone";
     await transfer();
 
@@ -514,9 +535,44 @@ describe("drag and drop", () => {
     expect(destination.children).toHaveLength(2);
     expect(destination.firstElementChild).not.toBe(item);
     expect(destination.firstElementChild).toHaveProperty("id", "two");
-    expect(changed.mock.calls[0][0].detail).toEqual(detail);
+    expect(before.mock.calls[0][0].detail).toEqual(detail);
     expect(changed).toHaveBeenCalledTimes(1);
     expect(destinationChanged).toHaveBeenCalledTimes(1);
+  });
+
+  it("honors the owning group's veto when moving a wrapped block from the menu", async () => {
+    const { wrapper, destination, item, before, changed, destinationChanged, transfer } =
+      await renderWrappedTransfer();
+    before.mockImplementation((event: Event) => event.preventDefault());
+    await transfer();
+
+    expect(before).toHaveBeenCalledTimes(1);
+    expect(item.parentElement).toBe(wrapper);
+    expect(destination.children).toHaveLength(1);
+    expect(changed).not.toHaveBeenCalled();
+    expect(destinationChanged).not.toHaveBeenCalled();
+  });
+
+  it("honors the destination veto when cloning a wrapped block from the menu", async () => {
+    const {
+      el,
+      wrapper,
+      destination,
+      item,
+      destinationBefore,
+      changed,
+      destinationChanged,
+      transfer,
+    } = await renderWrappedTransfer();
+    el.canPull = () => "clone";
+    destinationBefore.mockImplementation((event: Event) => event.preventDefault());
+    await transfer();
+
+    expect(destinationBefore).toHaveBeenCalledTimes(1);
+    expect(item.parentElement).toBe(wrapper);
+    expect(destination.children).toHaveLength(1);
+    expect(changed).not.toHaveBeenCalled();
+    expect(destinationChanged).not.toHaveBeenCalled();
   });
 
   it("requests a manual wrapped-block menu move without changing its parent", async () => {
@@ -583,6 +639,44 @@ describe("drag and drop", () => {
     ]).toEqual(["two", "one"]);
   });
 
+  it("honors cancellation of keyboard sort-menu reordering", async () => {
+    const { el } = await renderBlockGroup();
+    const firstBlock = page.elementLocator(el).getBySelector("#one").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    // The sort handle is internal to the block's shadow root.
+    let orderCalledTimes = 0;
+    const beforeOrderChange = new Promise<void>((resolve) => {
+      el.addEventListener(
+        "calciteBlockGroupBeforeOrderChange",
+        (event) => {
+          event.preventDefault();
+          resolve();
+        },
+        { once: true },
+      );
+    });
+
+    el.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Enter}");
+    await expect.element(page.elementLocator(handle)).toHaveProperty("open", true);
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await beforeOrderChange;
+
+    expect(orderCalledTimes).toBe(0);
+    const blocks = page
+      .elementLocator(el)
+      .getBySelector("calcite-block:not([data-dnd-placeholder])");
+    expect((blocks.nth(0).element() as Block["el"]).heading).toBe("one");
+    expect((blocks.nth(1).element() as Block["el"]).heading).toBe("two");
+  });
+
   it("updates sorting when a block's dragDisabled state changes", async () => {
     const { el } = await mount(
       <calcite-block-group drag-enabled id="block-group">
@@ -616,6 +710,105 @@ describe("drag and drop", () => {
     expect((blocks.nth(1).element() as Block["el"]).heading).toBe("one");
   });
 
+  it("honors cancellation when moving a block from the sort menu", async () => {
+    const { el: source } = await mount(
+      <div>
+        <calcite-block-group drag-enabled group="letters" id="source">
+          <calcite-block heading="one" id="one" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="letters" id="destination">
+          <calcite-block heading="two" id="two" />
+        </calcite-block-group>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const destinationBlock = page.getBySelector("#two").element() as Block["el"];
+    await vi.waitFor(() =>
+      expect(
+        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    let orderCalledTimes = 0;
+    const beforeOrderChange = new Promise<void>((resolve) =>
+      destination.addEventListener(
+        "calciteBlockGroupBeforeOrderChange",
+        (event) => {
+          event.preventDefault();
+          resolve();
+        },
+        { once: true },
+      ),
+    );
+
+    source.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+    destination.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Enter}");
+    const moveAction = page.getByRole("menuitem", { name: "Destination" });
+    await expect.element(moveAction).toBeVisible();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await beforeOrderChange;
+
+    expect(sourceBlock.parentElement).toBe(source);
+    expect(destinationBlock.parentElement).toBe(destination);
+    expect(orderCalledTimes).toBe(0);
+  });
+
+  it("honors cancellation when adding a block from the sort menu", async () => {
+    const { el: source } = await mount<BlockGroup>(
+      <div>
+        <calcite-block-group drag-enabled group="letters" id="source">
+          <calcite-block heading="one" id="one" />
+        </calcite-block-group>
+        <calcite-block-group drag-enabled group="letters" id="destination">
+          <calcite-block heading="two" id="two" />
+        </calcite-block-group>
+      </div>,
+    );
+    const sourceLocator = page.elementLocator(source);
+    const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
+    const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const destinationBlock = page.getBySelector("#two").element() as Block["el"];
+    source.canPull = () => "clone";
+    await vi.waitFor(() =>
+      expect(
+        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
+      ).not.toBeNull(),
+    );
+    // The sort handle is internal to the block's shadow root.
+    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    let orderCalledTimes = 0;
+    const beforeOrderChange = new Promise<void>((resolve) =>
+      source.addEventListener(
+        "calciteBlockGroupBeforeOrderChange",
+        (event) => {
+          event.preventDefault();
+          resolve();
+        },
+        { once: true },
+      ),
+    );
+
+    source.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+    destination.addEventListener("calciteBlockGroupOrderChange", () => orderCalledTimes++);
+
+    await handle.setFocus();
+    await userEvent.keyboard("{Enter}");
+    const addAction = page.getByRole("menuitem", { name: "Destination" });
+    await expect.element(addAction).toBeVisible();
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+    await beforeOrderChange;
+
+    expect(sourceBlock.parentElement).toBe(source);
+    expect(destinationBlock.parentElement).toBe(destination);
+    expect(orderCalledTimes).toBe(0);
+  });
+
   async function startAutomaticTransfer() {
     const { component: source } = await mount<BlockGroup>(
       <div>
@@ -633,13 +826,15 @@ describe("drag and drop", () => {
     const second = page.getBySelector("#two").element();
     const handle = page.getBySelector("#one calcite-sort-handle");
     await expect.element(handle).toBeVisible();
+    const before = vi.fn();
     const ended = vi.fn();
     const changed = vi.fn();
+    destination.addEventListener("calciteBlockGroupBeforeOrderChange", before);
     destination.addEventListener("calciteBlockGroupOrderChange", changed);
     source.el.addEventListener("calciteBlockGroupOrderChange", changed);
     source.el.addEventListener("calciteBlockGroupDragEnd", ended);
     await dragAndDrop(handle.element(), destination, "center", { skipPointerUp: true });
-    await expect.poll(() => first.parentElement).toBe(destination);
+    await vi.waitFor(() => expect(before).toHaveBeenCalled());
     return { source, destination, first, second, ended, changed };
   }
 
