@@ -112,7 +112,7 @@
   block-size: 100%;
   flex-direction: row;
   flex-wrap: nowrap;
-  border-radius: var(--calcite-space-2xs);
+  border-radius: var(--calcite-border-width-lg);
   color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
 
   &.has-header {
