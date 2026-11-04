@@ -112,6 +112,10 @@ calcite-swatch {
   box-shadow: var(--calcite-color-picker-shadow, var(--calcite-shadow-none));
 }
 
+:host([field-disabled]) .container {
+  border-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
+}
+
 .control-and-scope {
   display: flex;
   position: relative;
