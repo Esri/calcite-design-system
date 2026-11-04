@@ -1161,7 +1161,7 @@ export class InputNumber
       if (!valid) {
         this.formSupport.setCustomValidity("Please enter a number.");
         /*
-          TODO: setting displayedValue the raw input value here breaks localization.
+          TODO: setting displayedValue to the raw user input value here breaks localization.
           To remedy this, we need a way to localize invalid number values for display only.
           We need to also keep the existing way of localizing that sanitizes the incoming value too, for initial, reset and direct value changes.
         */
