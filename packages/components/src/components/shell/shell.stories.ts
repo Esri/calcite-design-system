@@ -2351,15 +2351,7 @@ export const resizableShellPanelWithDropdown = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel
-      collapse-disabled
-      slot="panel-start"
-      id="shell-panel-start"
-      resizable
-      width="s"
-      heading="Map"
-      focus-trap-disabled
-    >
+    <calcite-shell-panel collapse-disabled slot="panel-start" id="shell-panel-start" resizable width="s" heading="Map">
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
         <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
