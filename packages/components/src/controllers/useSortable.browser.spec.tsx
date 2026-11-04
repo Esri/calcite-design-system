@@ -122,6 +122,7 @@ vi.mock("@dnd-kit/dom/sortable", () => {
     readonly initialIndex: number;
     readonly group: unknown;
     readonly data: unknown;
+    readonly element: HTMLElement;
     readonly droppable: { shape: { center: { x: number; y: number } } };
 
     constructor(
@@ -133,6 +134,7 @@ vi.mock("@dnd-kit/dom/sortable", () => {
       this.initialIndex = this.index;
       this.group = options.group;
       this.data = options.data;
+      this.element = options.element as HTMLElement;
       this.droppable = { shape: { center: { x: this.index * 100 + 50, y: 50 } } };
       sortableInstances.push(this);
       createSortableSpy(options);
