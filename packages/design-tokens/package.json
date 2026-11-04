@@ -9,8 +9,6 @@
     "tokens"
   ],
   "type": "module",
-  "main": "./dist/es6/global.js",
-  "types": "./dist/es6/global.d.ts",
   "files": [
     "./dist/**/*",
     "THIRD-PARTY-NOTICES.md"
