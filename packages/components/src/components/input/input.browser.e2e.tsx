@@ -44,6 +44,27 @@ describe("global props", () => {
   );
 });
 
+describe("accessibility", () => {
+  it("forwards the active descendant element to the native input", async () => {
+    const activeDescendantElement = document.createElement("div");
+    activeDescendantElement.id = "active-option";
+    activeDescendantElement.role = "option";
+    document.body.append(activeDescendantElement);
+
+    await mount<Input>(
+      <calcite-input aria={{ activeDescendantElement }} label="Search" type="search" />,
+    );
+
+    const input = page.getByRole("searchbox", { name: "Search" });
+
+    await expect
+      .element(input)
+      .toHaveProperty("ariaActiveDescendantElement", activeDescendantElement);
+
+    activeDescendantElement.remove();
+  });
+});
+
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-input", mountOptions));
 });

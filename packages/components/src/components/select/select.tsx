@@ -185,12 +185,8 @@ export class Select extends LitElement implements LabelableComponent {
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;

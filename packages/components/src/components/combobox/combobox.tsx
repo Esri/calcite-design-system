@@ -267,6 +267,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.setFocus();
   };
 
+  private pointerDownStartedInside = false;
+
   transitionProp = "opacity" as const;
 
   referenceEl?: HTMLDivElement;
@@ -675,6 +677,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   async load(): Promise<void> {
+    this.listenOn(document, "pointerdown", this.documentPointerDownHandler, { capture: true });
     this.listenOn(document, "click", this.documentClickHandler);
     this.handleSelectionModeWarning();
   }
@@ -724,6 +727,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   override disconnectedCallback(): void {
+    this.pointerDownStartedInside = false;
     this.mutationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     disconnectFloatingUI(this);
@@ -811,8 +815,19 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
   }
 
+  private documentPointerDownHandler(event: PointerEvent): void {
+    this.pointerDownStartedInside = event.composedPath().includes(this.el);
+  }
+
   private async documentClickHandler(event: MouseEvent): Promise<void> {
-    if (this.disabled || event.composedPath().includes(this.el)) {
+    const pointerDownStartedInside = this.pointerDownStartedInside;
+    this.pointerDownStartedInside = false;
+
+    if (
+      this.disabled ||
+      event.composedPath().includes(this.el) ||
+      (event.detail > 0 && pointerDownStartedInside)
+    ) {
       return;
     }
 

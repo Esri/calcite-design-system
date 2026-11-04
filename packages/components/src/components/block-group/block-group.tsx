@@ -182,13 +182,6 @@ export class BlockGroup extends LitElement {
   /** Fires when the component's dragging has started. */
   calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
 
-  /**
-   * Fires when a user attempts to move an element using the sort menu and 'canPut' or 'canPull' returns falsy.
-   *
-   * @deprecated in v3.3.0, removal target v6.0.0 - No longer necessary.
-   */
-  calciteBlockGroupMoveHalt = createEvent<BlockDragDetail>({ cancelable: false });
-
   /** Fires when the component's item order changes. */
   calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
 
@@ -622,7 +615,6 @@ export class BlockGroup extends LitElement {
               {this.assistiveText}
             </span>
           ) : null}
-          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
             ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
@@ -631,6 +623,7 @@ export class BlockGroup extends LitElement {
           >
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         </div>
       </this.interactiveContainer>
     );
