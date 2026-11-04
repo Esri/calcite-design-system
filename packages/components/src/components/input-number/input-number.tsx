@@ -490,11 +490,7 @@ export class InputNumber
   /** Specifies text to display at the end of the component. */
   @property() suffixText?: string;
 
-  /**
-   * Specifies the validation icon to display under the component.
-   *
-   * @futureBreaking Remove boolean type since it blocks user-supplied icon from taking effect.
-   */
+  /** Specifies the validation icon to display under the component. */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /** Specifies the validation message to display under the component. */
