@@ -150,6 +150,7 @@ export const resizableWithDropdown = (): string =>
     <script>
       document.addEventListener("calciteSheetOpen", (event) => {
         document.querySelector("calcite-dropdown").open = true;
+        document.querySelector("calcite-dropdown").setFocus();
       });
     </script>`;
 
