@@ -9,8 +9,8 @@
     "tokens"
   ],
   "type": "module",
-  "main": "./dist/es6/global.js",
-  "types": "./dist/es6/global.d.ts",
+  "main": "./dist/es6/semantic.js",
+  "types": "./dist/es6/semantic.d.ts",
   "files": [
     "./dist/**/*",
     "THIRD-PARTY-NOTICES.md"
