@@ -1,4 +1,4 @@
-import { defaultLocale } from "@arcgis/toolkit/intl";
+import { defaultLocale, supportedLocales } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
@@ -437,42 +437,45 @@ export const Focus = (): string =>
       })();
     </script>`;
 
-export const localized = (): string => {
-  const locales = ["ar", "bs", "fr-CA", "it-CH", "zh-CN"];
+export const localized = (): string => html`
+  <style>
+    .localized-input-calendars {
+      display: grid;
+      grid-template-columns: repeat(4, 300px);
+      gap: 48px 24px;
+    }
 
-  return html`
-    <style>
-      .use-cases {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        gap: 350px 25px;
-        max-width: 1200px;
-      }
-      calcite-input-date-picker {
-        width: 300px;
-        height: 300px;
-      }
-    </style>
-    <div class="use-cases">
-      ${locales.map(
-        (locale) =>
-          html`<div>
-            <h3>${locale}</h3>
-            <calcite-input-date-picker
-              lang="${locale}"
-              open
-              placement="bottom-start"
-              value="2020-12-12"
-            ></calcite-input-date-picker>
-          </div>`,
-      )}
-    </div>
-  `;
-};
+    .localized-input-calendar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 360px;
+    }
+
+    .localized-input-calendar calcite-input-date-picker {
+      width: 300px;
+    }
+  </style>
+  <div class="localized-input-calendars">
+    ${[...supportedLocales].map(
+      (locale) => html`
+        <div class="localized-input-calendar">
+          <strong>${locale}</strong>
+          <calcite-input-date-picker
+            lang="${locale}"
+            open
+            placement="bottom-start"
+            value="2020-12-12"
+          ></calcite-input-date-picker>
+        </div>
+      `,
+    )}
+  </div>
+`;
 localized.parameters = {
   chromatic: {
     delay: 1000,
+    cropToViewport: false,
   },
 };
 
