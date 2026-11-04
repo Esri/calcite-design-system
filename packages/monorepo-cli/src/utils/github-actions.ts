@@ -18,15 +18,14 @@ export function getGithubToken(token?: string): string {
   const authError =
     "Unable to read local GitHub authentication. Install the GitHub CLI and run " +
     "'gh auth login --hostname github.com', or provide --token, GH_TOKEN, or GITHUB_TOKEN.";
-  let localToken: string;
+  let localToken: string | undefined;
   try {
     localToken = execFileSync("gh", ["auth", "token", "--hostname", "github.com"], {
       encoding: "utf8",
       stdio: ["ignore", "pipe", "pipe"],
     }).trim();
   } catch {
-    // Subprocess errors may include captured credentials; only report remediation.
-    throw new Error(authError);
+    // intentional no-op as subprocess errors may include captured credentials; remediation error handled below.
   }
   if (!localToken) {
     throw new Error(authError);
