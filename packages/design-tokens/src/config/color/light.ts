@@ -6,7 +6,7 @@ import {
 } from "style-dictionary/enums";
 import { expandTypesMap as sdTypes } from "@tokens-studio/sd-transforms";
 import type { Config } from "../../types.ts";
-import { transformers, filters, headers } from "../../build/registry/index.ts";
+import { transformers, filters, headers, formats } from "../../build/registry/index.ts";
 import { primitiveValueOutputReferences } from "../../build/utils/output-references.ts";
 
 const config: Config = {
@@ -70,6 +70,24 @@ const config: Config = {
         {
           destination: "light.d.ts",
           format: sdFormats.typescriptEs6Declarations,
+          filter: filters.FilterSourceTokens,
+        },
+      ],
+    },
+    docs: {
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: [transformers.TransformNameRemovePrefix, transformers.TransformNameCapitalCase],
+      buildPath: "dist/docs/",
+      prefix: "calcite",
+      options: {
+        platform: "docs",
+        fileExtension: ".json",
+        fileHeader: headers.HeaderDefault,
+      },
+      files: [
+        {
+          destination: "light.json",
+          format: formats.FormatCalciteDocs,
           filter: filters.FilterSourceTokens,
         },
       ],
