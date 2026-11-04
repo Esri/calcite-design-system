@@ -61,7 +61,11 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${filter}</div>
 
-      <div class="fallback-row">${colorPicker} ${datePicker} ${timePicker}</div>
+      <div class="fallback-row">
+        ${colorPicker}
+        <calcite-color-picker field-disabled></calcite-color-picker>
+        ${datePicker} ${timePicker}
+      </div>
 
       <div class="fallback-row">${card} ${tile}</div>
 
