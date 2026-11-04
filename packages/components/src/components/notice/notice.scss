@@ -116,6 +116,7 @@
 
 @include shared.slotted("message", "*", ".container") {
   margin: var(--calcite-space-none);
+  display: inline;
   font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   color: var(--calcite-notice-content-text-color, var(--calcite-color-text-2));
 }
@@ -160,13 +161,15 @@
 .notice-icon {
   @include notice-element-base;
 
-  overflow-wrap: break-word;
+  display: flex;
   align-items: center;
   padding-inline: var(--calcite-notice-spacing-token-small);
 }
 
 .notice-close {
   @include shared.transition-default();
+
+  display: flex;
   cursor: pointer;
   align-items: center;
   box-sizing: border-box;
