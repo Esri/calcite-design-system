@@ -133,7 +133,7 @@ export const resizableRTL = (): string =>
 
 export const resizableWithDropdown = (): string =>
   html`<calcite-sheet width="s" resizable label="libero nunc" open position="inline-start" focus-trap-disabled>
-      <calcite-panel heading="Map" id="panel-start">
+      <calcite-panel heading="Map" id="panel-start" focus-trap-disabled>
         <calcite-dropdown width="m" overlay-positioning="fixed">
           <calcite-button slot="trigger">Select landform</calcite-button>
           <calcite-dropdown-group group-title="Natural places">
