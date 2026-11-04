@@ -1798,17 +1798,6 @@ describe("drag and drop", () => {
       newIndex: 2,
     });
     expect(dragEndDetails[0]).toEqual(orderChangeDetails[0]);
-    expect(dragStartDetails).toHaveLength(1);
-    expect(orderChangeDetails).toHaveLength(1);
-    expect(dragEndDetails).toHaveLength(1);
-    expect(orderChangeDetails[0]).toEqual({
-      dragEl: firstItem.element(),
-      fromEl: list,
-      toEl: list,
-      oldIndex: 0,
-      newIndex: 2,
-    });
-    expect(dragEndDetails[0]).toEqual(orderChangeDetails[0]);
   });
 
   it("allows moving a grandchild into an ancestor list", async () => {
