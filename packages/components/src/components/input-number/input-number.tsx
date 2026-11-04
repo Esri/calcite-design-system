@@ -1157,9 +1157,10 @@ export class InputNumber
     this.userChangedValue = origin === "user" && this.value !== newValue;
 
     if (newValue) {
-      const valid = isValidNumber(newValue);
+      const valid = isValidNumber(value);
       if (!valid) {
         this.formSupport.setCustomValidity("Please enter a number.");
+        this.displayedValue = value;
       } else {
         this.formSupport.setCustomValidity("");
       }
