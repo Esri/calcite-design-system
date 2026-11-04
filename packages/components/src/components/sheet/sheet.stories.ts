@@ -278,6 +278,7 @@ export const resizableWithDropdown = (): string =>
       close-disabled
       width="s"
       resizable
+      focus-trap-disabled
       label="libero nunc"
       open
       position="inline-start"
