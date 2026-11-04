@@ -1,10 +1,9 @@
+import dedent from "dedent";
+import { randomInt } from "node:crypto";
 import { getOctokit } from "@actions/github";
 import { Command } from "@commander-js/extra-typings";
-import dedent from "dedent";
-import { execFileSync } from "node:child_process";
-import { createServer, type Server } from "node:http";
 import { errorAndExit, getSummary } from "./utils/commands.ts";
-import calcitePackageJson from "../../components/package.json" with { type: "json" };
+import { addLineToSummary, getGithubToken, setGithubOutput, writeSummary } from "./utils/github-actions.ts";
 
 type TeamStatusOptions = {
   /** Show only the local roster without fetching GitHub data. */
@@ -46,12 +45,14 @@ const team = [
 /* eslint-enable @cspell/spellchecker */
 
 const description = dedent`
-  Display the team's outstanding issues in the current milestone via a HTML page.
+  Print the team's outstanding issues in the current milestone as \`notify-teams\` compatible Markdown.
+
+  The command prints a snapshot locally and exits. In GitHub Actions, it writes
+  the snapshot to the run summary and the "message" step output. Roster order is
+  randomized on every run.
 
   When running locally, the command can be run without a token if the GitHub CLI
   is installed and authorized for the Esri organization via SSO.
-
-  A HTML page is used to support rich text copying into applications like Microsoft Teams.
 `;
 const tokenUsage = "-t, --token <TOKEN>";
 
@@ -61,55 +62,55 @@ export const registerCommand = (command: Command): void =>
     .summary(getSummary(description))
     .description(description)
     .option("--list-only", "Show only the team list, without GitHub overview, links, or counts.")
-    .option(tokenUsage, "GitHub token. Defaults to GH_TOKEN, then local gh authentication.")
+    .option(tokenUsage, "GitHub token. Defaults to GH_TOKEN, GITHUB_TOKEN, then local gh authentication.")
     .action(run);
 
 async function run({ listOnly, token }: TeamStatusOptions): Promise<void> {
   try {
-    const statusInfo = listOnly ? undefined : await getStatusInfo(getTeamStatusToken(token));
-    const server = createTeamStatusServer(renderTeamStatus(statusInfo));
-    server.on("error", (error) => errorAndExit(`Failed to serve team status. ${error.message}`));
-    server.listen(0, "127.0.0.1", () => {
-      const address = server.address();
-      if (!address || typeof address === "string") {
-        errorAndExit("Failed to determine the team status server address.");
-      }
-      /* eslint-disable-next-line no-console -- Required for CLI output. */
-      console.log(
-        `\nServer: http://127.0.0.1:${address.port}\n\nPress Ctrl+C to stop.${listOnly ? "" : " Rerun the command to refresh data."}`,
-      );
-    });
+    const statusInfo = listOnly ? undefined : await getStatusInfo(getGithubToken(token));
+    const markdown = renderTeamStatusMarkdown(statusInfo);
+    addLineToSummary(markdown);
+    await writeSummary();
+    setGithubOutput("message", markdown);
   } catch (error) {
     errorAndExit(`Failed to load team status. ${error instanceof Error ? error.message : String(error)}`);
   }
 }
 
+function getSearchUrl(query: string): URL {
+  const url = new URL(`https://github.com/${repository.owner}/${repository.repo}/issues`);
+  url.searchParams.set("q", query);
+  return url;
+}
+
+function shuffleListItems<T>(items: readonly T[]): T[] {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const swapIndex = randomInt(index + 1);
+    [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
 /**
- * Resolves explicit or environment credentials before using the local GitHub CLI login.
+ * Generates basic Markdown with a randomized roster for Teams notifications or local command output.
  */
-export function getTeamStatusToken(token?: string): string {
-  const providedToken = token || process.env.GH_TOKEN;
-  if (providedToken) {
-    return providedToken;
+export function renderTeamStatusMarkdown(statusInfo?: StatusInfo): string {
+  if (!statusInfo) {
+    return shuffleListItems(team)
+      .map(({ firstName }) => `- ${firstName}`)
+      .join("\n");
   }
 
-  const authError =
-    "Unable to read local GitHub authentication. Install the GitHub CLI and run " +
-    "'gh auth login --hostname github.com', or provide --token or GH_TOKEN.";
-  let localToken: string;
-  try {
-    localToken = execFileSync("gh", ["auth", "token", "--hostname", "github.com"], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-    }).trim();
-  } catch {
-    // Subprocess errors may include captured credentials; only report remediation.
-    throw new Error(authError);
-  }
-  if (!localToken) {
-    throw new Error(authError);
-  }
-  return localToken;
+  return [
+    `[Open issues](${getSearchUrl(statusInfo.issues.query)}): ${statusInfo.issues.count}`,
+    `[Pull requests needing review](${getSearchUrl(statusInfo.pulls.query)}): ${statusInfo.pulls.count}`,
+    "",
+    ...shuffleListItems(statusInfo.assignees).map(
+      ({ username, firstName, issueCount }) =>
+        `- [${firstName}](${getSearchUrl(`${statusInfo.issues.query} assignee:${username}`)}) - ${issueCount}`,
+    ),
+  ].join("\n");
 }
 
 /**
@@ -161,109 +162,4 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
     pulls: { query: pullRequestQuery, count: pullCount },
     assignees,
   };
-}
-
-/**
- * Generates a snapshot with issue links and counts, or just the local roster when no status is provided.
- */
-export function renderTeamStatus(statusInfo?: StatusInfo): string {
-  const calciteVersion = calcitePackageJson.version ?? "latest";
-  const baseUrl = `https://github.com/${repository.owner}/${repository.repo}/issues`;
-
-  function getSearchUrl(query: string): URL {
-    const url = new URL(baseUrl);
-    url.searchParams.set("q", query);
-    return url;
-  }
-
-  const items = statusInfo
-    ? statusInfo.assignees.map(({ username, firstName, issueCount }) => {
-        const url = getSearchUrl(`${statusInfo.issues.query} assignee:${username}`);
-        return `<li><a href="${url.href}" target="_blank" rel="noreferrer">${firstName}</a> - ${issueCount}</li>`;
-      })
-    : team.map(({ firstName }) => `<li>${firstName}</li>`);
-  const totals = statusInfo
-    ? dedent`
-        <div>
-          <a href="${getSearchUrl(statusInfo.issues.query)}" target="_blank" rel="noreferrer">Open issues:</a>&nbsp;${statusInfo.issues.count}
-        </div>
-        <div>
-          <a href="${getSearchUrl(statusInfo.pulls.query)}" target="_blank" rel="noreferrer">Pull requests needing review:</a>&nbsp;${statusInfo.pulls.count}
-        </div>
-      `
-    : "";
-
-  return dedent`
-    <!doctype html>
-    <html lang="en">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Calcite team status</title>
-        <script type="module" src="https://cdn.jsdelivr.net/npm/@esri/calcite-components@${calciteVersion}/dist/cdn/index.js"></script>
-        <style>
-          a {
-            color: var(--calcite-color-text-link);
-          }
-        </style>
-      </head>
-      <body>
-        <main>
-          <h1 style="font-weight: 500;">Calcite team status</h1>
-          <section id="copy">
-            ${totals}
-            <ul id="team">
-              ${items.join("\n")}
-            </ul>
-          </section>
-          <calcite-button id="randomize-button" kind="neutral">Randomize order</calcite-button>
-          <calcite-button id="copy-button" icon-end="copy-to-clipboard">Copy</calcite-button>
-        </main>
-        <script>
-          const copyButtonEl = document.querySelector("#copy-button");
-          const contentEl = document.querySelector("#copy");
-          const randomizeButtonEl = document.querySelector("#randomize-button");
-          const teamEl = document.querySelector("#team");
-
-          function randomizeOrder() {
-            const items = Array.from(teamEl.children);
-            for (let index = items.length - 1; index > 0; index--) {
-              const swapIndex = Math.floor(Math.random() * (index + 1));
-              [items[index], items[swapIndex]] = [items[swapIndex], items[index]];
-            }
-            teamEl.replaceChildren(...items);
-          }
-
-          randomizeButtonEl.addEventListener("click", randomizeOrder);
-          randomizeOrder();
-
-          copyButtonEl.addEventListener("click", async () => {
-            try {
-              await navigator.clipboard.write([
-                new ClipboardItem({
-                  "text/html": new Blob([contentEl.innerHTML], { type: "text/html" }),
-                  "text/plain": new Blob([contentEl.innerText], { type: "text/plain" }),
-                }),
-              ]);
-            } catch (error) {
-              console.error("Failed to copy team status:", error);
-            }
-          });
-        </script>
-      </body>
-    </html>
-  `;
-}
-
-/**
- * Creates a local HTTP server for the generated page without serving filesystem paths.
- */
-export function createTeamStatusServer(html: string): Server {
-  return createServer((request, response) => {
-    response.writeHead(200, {
-      "Cache-Control": "no-store",
-      "Content-Type": "text/html; charset=utf-8",
-    });
-    response.end(request.method === "HEAD" ? undefined : html);
-  });
 }
