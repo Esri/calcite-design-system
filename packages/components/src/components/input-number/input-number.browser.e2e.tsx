@@ -1840,4 +1840,56 @@ describe("validation", () => {
     expect(component).toHaveProperty("value", "2.1e0");
     expect(input).toHaveProperty("value", "2.1e000");
   });
+
+  it("user-entered invalid minus sign expressions trigger valid:false", async () => {
+    await mount(
+      <form>
+        <calcite-input-number name="calciteInputNumber" required />
+        <button type="submit">Submit</button>
+      </form>,
+    );
+    const component = page.getBySelector("calcite-input-number").element();
+    const inputLocator = page.getBySelector("calcite-input-number input");
+    const input = inputLocator.element();
+
+    await userEvent.keyboard("{Tab}");
+    await userEvent.keyboard("1-");
+
+    expect(input).toHaveProperty("value", "1-");
+
+    // TODO: revisit this assertion to determine if this should be "NaN"
+    expect(component).toHaveProperty("value", "1");
+
+    await userEvent.keyboard("{Enter}");
+
+    expect(component).toHaveProperty("validity.valid", false);
+    expect(input).toHaveProperty("value", "1-");
+
+    // TODO: revisit this assertion to determine if this should be "NaN"
+    expect(component).toHaveProperty("value", "1");
+
+    await userEvent.keyboard("-");
+
+    expect(component).toHaveProperty("validity.valid", false);
+    expect(input).toHaveProperty("value", "1--");
+
+    // TODO: revisit this assertion to determine if this should be "NaN"
+    expect(component).toHaveProperty("value", "1");
+
+    await userEvent.keyboard("{Backspace}2");
+
+    expect(component).toHaveProperty("validity.valid", false);
+    expect(input).toHaveProperty("value", "1-2");
+
+    // TODO: revisit this assertion to determine if this should be "NaN"
+    expect(component).toHaveProperty("value", "12");
+
+    await userEvent.fill(inputLocator, "-1-");
+
+    expect(component).toHaveProperty("validity.valid", false);
+    expect(input).toHaveProperty("value", "-1-");
+
+    // TODO: revisit this assertion to determine if this should be "NaN"
+    expect(component).toHaveProperty("value", "-1");
+  });
 });
