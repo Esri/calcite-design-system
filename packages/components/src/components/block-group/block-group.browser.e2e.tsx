@@ -1071,18 +1071,17 @@ describe("drag and drop", () => {
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
-    const sourceGroup = page.getBySelector("#source").element() as BlockGroup["el"];
     const dragStart = vi.fn();
     const sourceOrderChangeDetails: BlockDragDetail[] = [];
     const sourceDragEndDetails: BlockDragDetail[] = [];
     const destinationOrderChangeDetails: BlockDragDetail[] = [];
-    sourceGroup.addEventListener("calciteBlockGroupDragStart", dragStart);
-    sourceGroup.addEventListener("calciteBlockGroupOrderChange", (event) =>
+    source.addEventListener("calciteBlockGroupOrderChange", (event) =>
       sourceOrderChangeDetails.push((event as CustomEvent<BlockDragDetail>).detail),
     );
-    sourceGroup.addEventListener("calciteBlockGroupDragEnd", (event) =>
+    source.addEventListener("calciteBlockGroupDragEnd", (event) =>
       sourceDragEndDetails.push((event as CustomEvent<BlockDragDetail>).detail),
     );
+    source.addEventListener("calciteBlockGroupDragStart", dragStart);
     destination.addEventListener("calciteBlockGroupOrderChange", (event) =>
       destinationOrderChangeDetails.push((event as CustomEvent<BlockDragDetail>).detail),
     );
@@ -1118,7 +1117,7 @@ describe("drag and drop", () => {
     expect(destinationOrderChangeDetails).toHaveLength(1);
     expect(sourceOrderChangeDetails[0]).toEqual({
       dragEl: sourceBlock,
-      fromEl: sourceGroup,
+      fromEl: source,
       toEl: destination,
       oldIndex: 0,
       newIndex: 1,

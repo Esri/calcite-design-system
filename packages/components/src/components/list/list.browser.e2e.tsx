@@ -1750,7 +1750,7 @@ describe("drag and drop", () => {
 
   it("keeps grandchild reordering inside the nested list", async () => {
     const { el } = await renderNestedList();
-    const list = page.getBySelector("#grandchildren").element();
+    const list = page.getBySelector("#grandchildren").element() as List["el"];
     const firstItem = page.getBySelector("#grandchild-one");
     const handle = firstItem.getBySelector("calcite-sort-handle");
     const target = page.getBySelector("#grandchild-three");
@@ -1759,6 +1759,21 @@ describe("drag and drop", () => {
     const destinations: HTMLElement[] = [];
     el.addEventListener("calciteListBeforeOrderChange", (event) => {
       destinations.push((event as ToEvents<List>["calciteListBeforeOrderChange"]).detail.toEl);
+    });
+    const dragStartDetails: ListDragDetail[] = [];
+    const orderChangeDetails: ListDragDetail[] = [];
+    const dragEndDetails: ListDragDetail[] = [];
+    list.addEventListener("calciteListDragStart", (event) =>
+      dragStartDetails.push((event as CustomEvent<ListDragDetail>).detail),
+    );
+    list.addEventListener("calciteListOrderChange", (event) =>
+      orderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+    );
+    list.addEventListener("calciteListDragEnd", (event) =>
+      dragEndDetails.push((event as CustomEvent<ListDragDetail>).detail),
+    );
+    el.addEventListener("calciteListOrderChange", (event) => {
+      destinations.push((event as ToEvents<List>["calciteListOrderChange"]).detail.toEl);
     });
 
     await dragAndDrop(handle.element(), target.element(), "center", { moveSteps: 20 });
@@ -1772,6 +1787,28 @@ describe("drag and drop", () => {
     });
     expect(destinations.length).toBeGreaterThan(0);
     expect(destinations.every((destination) => destination === list)).toBe(true);
+    expect(dragStartDetails).toHaveLength(1);
+    expect(orderChangeDetails).toHaveLength(1);
+    expect(dragEndDetails).toHaveLength(1);
+    expect(orderChangeDetails[0]).toEqual({
+      dragEl: firstItem.element(),
+      fromEl: list,
+      toEl: list,
+      oldIndex: 0,
+      newIndex: 2,
+    });
+    expect(dragEndDetails[0]).toEqual(orderChangeDetails[0]);
+    expect(dragStartDetails).toHaveLength(1);
+    expect(orderChangeDetails).toHaveLength(1);
+    expect(dragEndDetails).toHaveLength(1);
+    expect(orderChangeDetails[0]).toEqual({
+      dragEl: firstItem.element(),
+      fromEl: list,
+      toEl: list,
+      oldIndex: 0,
+      newIndex: 2,
+    });
+    expect(dragEndDetails[0]).toEqual(orderChangeDetails[0]);
   });
 
   it("allows moving a grandchild into an ancestor list", async () => {
