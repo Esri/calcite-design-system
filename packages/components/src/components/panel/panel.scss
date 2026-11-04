@@ -122,11 +122,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
   align-items: stretch;
   padding: var(--calcite-space-none);
   overflow: hidden;
+  box-sizing: border-box;
   color: var(--calcite-color-text-2);
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
-  box-sizing: border-box;
   font-size: var(--calcite-font-size--1);
 }
 
