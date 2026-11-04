@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.14...@esri/calcite-components@6.0.0-next.15) (2026-11-04)
+
+### Bug Fixes
+
+- ensure scrim covers content ([#15395](https://github.com/Esri/calcite-design-system/issues/15395)), closes [#14751](https://github.com/Esri/calcite-design-system/issues/14751) [#15198](https://github.com/Esri/calcite-design-system/issues/15198)
+
 ## [6.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.13...@esri/calcite-components@6.0.0-next.14) (2026-11-02)
 
 ### Bug Fixes
