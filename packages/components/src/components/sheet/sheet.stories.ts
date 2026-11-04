@@ -150,9 +150,10 @@ export const resizableWithDropdown = (): string =>
     <script>
       document.addEventListener("calciteSheetOpen", (event) => {
         document.querySelector("calcite-dropdown").open = true;
-        document.querySelector("calcite-dropdown").setFocus();
       });
     </script>`;
+
+resizableWithDropdown.parameters = { chromatic: { delay: 3000 } };
 
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
