@@ -474,7 +474,7 @@ export const localized = (): string => html`
 `;
 localized.parameters = {
   chromatic: {
-    delay: 1000,
+    delay: 2000,
     cropToViewport: false,
   },
 };
