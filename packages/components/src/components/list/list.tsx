@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -10,7 +11,12 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
-import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
+import {
+  getRootNode,
+  getSlotAssignedElements,
+  slotChangeHasAssignedElement,
+  slotChangeHasContent,
+} from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../types";
 import { ItemData } from "../list-item/types";
@@ -43,6 +49,7 @@ import { CSS, SelectionAppearance, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { logger } from "../../utils/logger";
 import { isListItem } from "../list-item/resources";
@@ -100,7 +107,7 @@ export class List extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, sortableStyles];
 
   //#endregion
 
@@ -110,7 +117,7 @@ export class List extends LitElement {
 
   filterEl?: Filter["el"];
 
-  defaultSlotEl?: HTMLSlotElement;
+  defaultSlotEl = createRef<HTMLSlotElement>();
 
   private focusableItems: ListItem["el"][] = [];
 
@@ -131,7 +138,7 @@ export class List extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private sortable = useSortable<this>()(this);
+  private sortable = useSortable<this>({ getSlot: () => this.defaultSlotEl.value })(this);
 
   private updateListItemsDebounced = debounce(this.updateListItems, DEBOUNCE.nextTick);
 
@@ -219,7 +226,12 @@ export class List extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can be moved from the component. */
+  /**
+   * When provided, the method will be called to determine whether the element can be moved from the component.
+   * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop.
+   * Drag-and-drop copies use native `cloneNode(true)` behavior, preserving attributes and light DOM.
+   * Non-reflected custom element properties and event listeners are not copied.
+   */
   @property() canPull?: (detail: ListDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another `calcite-list`. */
@@ -478,6 +490,7 @@ export class List extends LitElement {
     if (
       (changes.has("filterEnabled") && (this.hasUpdated || this.filterEnabled !== false)) ||
       changes.has("group") ||
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("sortDisabled") && (this.hasUpdated || this.sortDisabled !== false)) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
       (changes.has("selectionMode") && (this.hasUpdated || this.selectionMode !== "none")) ||
@@ -758,8 +771,8 @@ export class List extends LitElement {
   private setUpSorting(): void {
     const { dragEnabled, defaultSlotEl } = this;
 
-    if (dragEnabled && defaultSlotEl) {
-      updateListItemChildren(defaultSlotEl);
+    if (dragEnabled && defaultSlotEl.value) {
+      updateListItemChildren(defaultSlotEl.value);
     }
 
     this.sortable.reset();
@@ -771,6 +784,7 @@ export class List extends LitElement {
 
   onGlobalDragEnd(): void {
     this.connectObserver();
+    this.updateListItemsDebounced();
   }
 
   onDragEnd(detail: ListDragDetail): void {
@@ -798,6 +812,7 @@ export class List extends LitElement {
       this.calciteInternalListDefaultSlotChange.emit();
     }
     this.hasContent = slotChangeHasContent(event);
+    this.sortable.reset();
   }
 
   private handleEmptyContentSlotChange(event: Event): void {
@@ -951,8 +966,10 @@ export class List extends LitElement {
     this.filterAndUpdateData();
   }
 
-  private setDefaultSlotEl(el: HTMLSlotElement): void {
-    this.defaultSlotEl = el;
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
   }
 
   private setFilterEl(el: Filter["el"]): void {
@@ -1328,7 +1345,7 @@ export class List extends LitElement {
               <div hidden={!this.showEmptyContentContainer}>
                 <slot name={SLOTS.emptyContent} onSlotChange={this.handleEmptyContentSlotChange} />
               </div>
-              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.setDefaultSlotEl} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
             </div>
           </div>
           <div

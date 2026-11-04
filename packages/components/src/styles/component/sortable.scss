@@ -1,13 +1,14 @@
-:host(.calcite-sortable--chosen),
-:host(.calcite-sortable--drag),
-:host(.calcite-sortable--fallback),
-:host(.calcite-sortable--ghost) {
+:host([data-dnd-dragging]),
+:host([data-dnd-placeholder]),
+::slotted([data-dnd-placeholder]) {
   position: relative;
   overflow: hidden;
 }
 
-:host(.calcite-sortable--ghost)::before {
+:host([data-dnd-placeholder="hidden"])::before,
+::slotted([data-dnd-placeholder="hidden"])::before {
   content: "";
+  visibility: visible;
   @apply box-border
       border
       border-dashed
@@ -21,6 +22,11 @@
       z-default;
 }
 
-:host(.calcite-sortable--drag) {
+:host([data-dnd-dragging]) {
   @apply shadow-2;
+}
+
+::slotted([data-dnd-placeholder="copy"]) {
+  @apply block box-border flex-none border border-dashed border-color-brand bg-foreground-2;
+  pointer-events: none;
 }

@@ -1,5 +1,6 @@
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -19,7 +20,11 @@ import {
 } from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
+import {
+  getRootNode,
+  getSlotAssignedElements,
+  slotChangeGetAssignedElements,
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -28,6 +33,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
 import { blockGroupSelector, blockSelector, CSS, isBlockGroup } from "./resources";
 import { styles } from "./block-group.scss";
+import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { BlockDragDetail } from "./types";
 import { updateBlockChildren } from "./utils";
@@ -58,11 +64,13 @@ export class BlockGroup extends LitElement {
 
   //#region Static Members
 
-  static override styles = [styles, screenReaderStyles];
+  static override styles = [styles, screenReaderStyles, sortableStyles];
 
   //#endregion
 
   //#region Private Properties
+
+  defaultSlotEl = createRef<HTMLSlotElement>();
 
   dragSelector = blockSelector;
 
@@ -80,7 +88,7 @@ export class BlockGroup extends LitElement {
 
   private parentBlockGroupEl?: BlockGroup["el"];
 
-  private sortable = useSortable<this>()(this);
+  private sortable = useSortable<this>({ getSlot: () => this.defaultSlotEl.value })(this);
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
@@ -98,7 +106,12 @@ export class BlockGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can be moved from the component. */
+  /**
+   * When provided, the method will be called to determine whether the element can be moved from the component.
+   * Returning `"clone"` keeps the item visible in the source while dragging and copies it on drop.
+   * Drag-and-drop copies use native `cloneNode(true)` behavior, preserving attributes and light DOM.
+   * Non-reflected custom element properties and event listeners are not copied.
+   */
   @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
   /** When provided, the method will be called to determine whether the element can be added from another `calcite-block-group`. */
@@ -213,6 +226,10 @@ export class BlockGroup extends LitElement {
       "calciteInternalBlockChange",
       this.updateBlockChildrenExpanded,
     );
+    this.listen<ToEvents<Block>["calciteInternalBlockDragDisabledChange"]>(
+      "calciteInternalBlockDragDisabledChange",
+      this.handleCalciteInternalBlockDragDisabledChange,
+    );
   }
 
   override connectedCallback(): void {
@@ -226,6 +243,7 @@ export class BlockGroup extends LitElement {
   override willUpdate(changes: PropertyValues<this>): void {
     if (
       changes.has("group") ||
+      (changes.has("disabled") && (this.hasUpdated || this.disabled !== false)) ||
       (changes.has("canPull") && this.hasUpdated) ||
       (changes.has("canPut") && this.hasUpdated) ||
       (changes.has("dragEnabled") && (this.hasUpdated || this.dragEnabled !== false)) ||
@@ -245,6 +263,12 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  getSortableItems(): HTMLElement[] {
+    return this.defaultSlotEl.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+      : [];
+  }
 
   private updateBlockItems(): void {
     this.updateGroupItems();
@@ -308,6 +332,17 @@ export class BlockGroup extends LitElement {
     event.stopPropagation();
   }
 
+  private handleCalciteInternalBlockDragDisabledChange(
+    event: CustomEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>,
+  ): void {
+    if (event.detail.parentElement !== this.el) {
+      return;
+    }
+
+    event.stopPropagation();
+    this.updateBlockItemsDebounced();
+  }
+
   private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
     if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
@@ -349,6 +384,7 @@ export class BlockGroup extends LitElement {
 
   onGlobalDragEnd(): void {
     this.connectObserver();
+    this.updateBlockItemsDebounced();
   }
 
   onDragEnd(detail: BlockDragDetail): void {
@@ -386,6 +422,7 @@ export class BlockGroup extends LitElement {
 
     updateBlockChildren(blockChildren);
     this.updateBlockAndGroupScale();
+    this.sortable.reset();
   }
 
   private updateBlockAndGroupScale(): void {
@@ -622,7 +659,7 @@ export class BlockGroup extends LitElement {
             class={CSS.groupContainer}
             role="group"
           >
-            <slot onSlotChange={this.handleDefaultSlotChange} />
+            <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
           </div>
         </div>
       </this.interactiveContainer>
