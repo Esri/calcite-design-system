@@ -190,7 +190,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's direction.
    *
-   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -200,7 +200,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
