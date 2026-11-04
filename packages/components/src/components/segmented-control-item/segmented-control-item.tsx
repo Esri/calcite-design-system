@@ -31,6 +31,10 @@ declare module "@arcgis/lumina" {
      * Specifies the icons's color.
      */
     "--calcite-segmented-control-icon-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-segmented-control-item-border-color": "*";
   }
 }
 
