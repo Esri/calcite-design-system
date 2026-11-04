@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0...@esri/calcite-components@5.2.1) (2026-11-04)
+
+
+### Bug Fixes
+
+* **action-bar:** Prevent flashing at overflow thresholds ([#15464](https://github.com/Esri/calcite-design-system/issues/15464)) ([40d127d](https://github.com/Esri/calcite-design-system/commit/40d127d96eba2aeef6ed57ef163e1f8c76d47eee))
+* **block:** Allow persisting expanded state in calciteBlockToggle callback ([#15429](https://github.com/Esri/calcite-design-system/issues/15429)) ([a308833](https://github.com/Esri/calcite-design-system/commit/a308833e97feb00db1a2d064bd9b69eafadc5ad4))
+* **input-time-picker:** Make placeholder accessible ([#15412](https://github.com/Esri/calcite-design-system/issues/15412)) ([7ecc752](https://github.com/Esri/calcite-design-system/commit/7ecc7529a6b21e86ac1ef6ead2830b29bdb87f61))
+* **shell-panel:** Ensure consistent size constraints ([#15450](https://github.com/Esri/calcite-design-system/issues/15450)) ([16706e1](https://github.com/Esri/calcite-design-system/commit/16706e14f76118fed80f0c3139032aeef444a283))
+
 ## [5.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2...@esri/calcite-components@5.2.0) (2026-10-20)
 
 ### Features
