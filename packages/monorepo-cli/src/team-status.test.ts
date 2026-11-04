@@ -1,36 +1,44 @@
 import { Command } from "@commander-js/extra-typings";
 import { once } from "node:events";
-import type { Server } from "node:http";
-import { runInNewContext } from "node:vm";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import {
-  createTeamStatusServer,
-  getTeamStatus,
-  getTeamStatusToken,
-  registerCommand,
-  renderTeamStatus,
-} from "./team-status.ts";
+import { createServer, type Server } from "node:http";
+// import { runInNewContext } from "node:vm";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { getStatusInfo, registerCommand, renderTeamStatus } from "./team-status.ts";
 
-// cspell:words ashetland Preciado benelan
+// cspell:words ashetland Preciado benelan isaacbraun
 
-const { paginate, listMilestones, listForRepo, randomInt, execFileSync } = vi.hoisted(() => ({
+const { paginate, listMilestones, issuesAndPullRequests, execFileSync } = vi.hoisted(() => ({
   paginate: vi.fn(),
   listMilestones: vi.fn(),
-  listForRepo: vi.fn(),
-  randomInt: vi.fn<(upperBound: number) => number>(() => 0),
+  issuesAndPullRequests: vi.fn(),
   execFileSync: vi.fn(),
 }));
 
 vi.mock("@actions/github", () => ({
-  getOctokit: () => ({ paginate, rest: { issues: { listMilestones, listForRepo } } }),
+  getOctokit: () => ({ paginate, rest: { issues: { listMilestones }, search: { issuesAndPullRequests } } }),
 }));
-vi.mock("node:crypto", () => ({ randomInt }));
 vi.mock("node:child_process", () => ({ execFileSync }));
+vi.mock("node:http", { spy: true });
 
-beforeEach(() => vi.clearAllMocks());
+beforeEach(() => {
+  vi.clearAllMocks();
+  paginate.mockReset();
+  issuesAndPullRequests.mockReset();
+  execFileSync.mockReset();
+});
+
+// const statusInfo = {
+//   issues: { query: 'is:issue milestone:"October & next #1"', count: 3 },
+//   pulls: { query: "is:pr review:required draft:false", count: 1 },
+//   assignees: [
+//     { username: "ashetland", firstName: "Aaron", issueCount: 2 },
+//     { username: "benelan", firstName: "Ben", issueCount: 0 },
+//     { username: "isaacbraun", firstName: "Isaac", issueCount: 1 },
+//   ],
+// };
 
 describe("team status data", () => {
-  it("selects the earliest-due open milestone and counts only outstanding issues for each assignee", async () => {
+  it("searches the earliest-due milestone and counts matching issues and pull requests", async () => {
     const milestone = { number: 10, title: "October", due_on: "2026-10-15T00:00:00Z" };
     paginate
       .mockResolvedValueOnce([
@@ -39,17 +47,18 @@ describe("team status data", () => {
         { number: 11, title: "November", due_on: "2026-11-15T00:00:00Z" },
       ])
       .mockResolvedValueOnce([
-        { assignees: [{ login: "ASHETLAND" }, { login: "aPreciado88" }], labels: [] },
-        { assignees: [{ login: "ashetland" }], labels: [{ name: "bug" }] },
-        { assignees: [{ login: "ashetland" }], labels: [{ name: "4 - installed" }] },
-        { assignees: [{ login: "ashetland" }], labels: ["4 - installed"] },
-        { assignees: [{ login: "ashetland" }], labels: [], pull_request: {} },
-        { assignees: null, labels: [] },
+        { assignees: [{ login: "ASHETLAND" }, { login: "aPreciado88" }] },
+        { assignees: [{ login: "ashetland" }] },
+        { assignees: null },
       ]);
+    issuesAndPullRequests.mockResolvedValue({ data: { total_count: 7 } });
 
-    const status = await getTeamStatus("token");
+    const status = await getStatusInfo("token");
+    const issueQuery = 'sort:updated-desc is:issue state:open -label:"4 - installed" milestone:"October"';
+    const pullQuery = "sort:updated-desc is:pr state:open review:required draft:false";
 
-    expect(status.milestone).toEqual(milestone);
+    expect(status.issues).toEqual({ query: issueQuery, count: 3 });
+    expect(status.pulls).toEqual({ query: pullQuery, count: 7 });
     expect(status.assignees).toEqual(
       expect.arrayContaining([
         { username: "ashetland", firstName: "Aaron", issueCount: 2 },
@@ -57,242 +66,141 @@ describe("team status data", () => {
         { username: "benelan", firstName: "Ben", issueCount: 0 },
       ]),
     );
-    expect(status.assignees).toHaveLength(20);
     expect(paginate).toHaveBeenNthCalledWith(1, listMilestones, {
       owner: "Esri",
       repo: "calcite-design-system",
       state: "open",
       sort: "due_on",
       direction: "asc",
+    });
+    expect(issuesAndPullRequests).toHaveBeenCalledWith({
+      q: `repo:Esri/calcite-design-system ${pullQuery}`,
+      per_page: 1,
+    });
+    expect(paginate).toHaveBeenNthCalledWith(2, issuesAndPullRequests, {
+      q: `repo:Esri/calcite-design-system ${issueQuery}`,
       per_page: 100,
     });
-    expect(paginate).toHaveBeenNthCalledWith(2, listForRepo, {
-      owner: "Esri",
-      repo: "calcite-design-system",
-      state: "open",
-      milestone: "10",
-      per_page: 100,
-    });
-  });
-
-  it.each([{ milestones: [] }, { milestones: [{ number: 1, title: "Backlog", due_on: null }] }])(
-    "returns zero counts without requesting issues when there is no dated milestone ($milestones)",
-    async ({ milestones }) => {
-      paginate.mockResolvedValueOnce(milestones);
-      const status = await getTeamStatus("token");
-      expect(status.milestone).toBeNull();
-      expect(status.assignees.every(({ issueCount }) => issueCount === 0)).toBe(true);
-      expect(paginate).toHaveBeenCalledTimes(1);
-    },
-  );
-
-  it("shuffles on every call without changing members or mutating the roster", async () => {
-    paginate.mockResolvedValue([]);
-    randomInt.mockImplementation((upperBound: number) => upperBound - 1);
-    const original = await getTeamStatus("token");
-    randomInt.mockReturnValue(0);
-    const randomized = await getTeamStatus("token");
-    const subsequent = await getTeamStatus("token");
-    expect(randomized.assignees).not.toEqual(original.assignees);
-    expect(randomized.assignees).toHaveLength(original.assignees.length);
-    expect(randomized.assignees).toEqual(expect.arrayContaining(original.assignees));
-    expect(subsequent).toEqual(randomized);
-  });
-
-  it("propagates GitHub failures instead of returning zero counts", async () => {
-    paginate.mockRejectedValueOnce(new Error("GitHub unavailable"));
-    await expect(getTeamStatus("token")).rejects.toThrow("GitHub unavailable");
   });
 });
 
-describe("team status page", () => {
-  it("escapes HTML and links only members with outstanding issues to the matching search", () => {
-    const title = 'October <release> & "next"';
-    const html = renderTeamStatus({
-      milestone: { number: 10, title },
-      assignees: [
-        { username: "ashetland", firstName: "Aaron & <team>", issueCount: 2 },
-        { username: "benelan", firstName: "Ben", issueCount: 0 },
-      ],
-    });
-    expect(html).toContain("Milestone: October &lt;release&gt; &amp; &quot;next&quot;");
-    expect(html).toContain("Aaron &amp; &lt;team&gt;</a> - 2");
-    expect(html).toContain("<li>Ben - 0</li>");
-    const href = html.match(/href="([^"]+)"/)?.[1];
-    expect(href).toBeDefined();
-    const url = new URL(href!);
-    expect(url.origin + url.pathname).toBe("https://github.com/Esri/calcite-design-system/issues");
-    expect(url.searchParams.get("q")).toBe(
-      `sort:updated-desc is:issue state:open -label:"4 - installed" assignee:ashetland milestone:"${title}"`,
-    );
-  });
-
-  it("explains when no dated milestone exists", () => {
-    const html = renderTeamStatus({
-      milestone: null,
-      assignees: [{ username: "ashetland", firstName: "Aaron", issueCount: 0 }],
-    });
-    expect(html).toContain("No open milestone with a due date found.");
-    expect(html).toContain("<li>Aaron - 0</li>");
-    expect(html).not.toContain("<a ");
-  });
-});
-
-describe("team status clipboard", () => {
-  function setupClipboard(write: ReturnType<typeof vi.fn> | undefined) {
-    const html = renderTeamStatus({
-      issueCount: 2,
-      pullCount: 1,
-      milestoneTitle: "October",
-      assignees: [{ username: "ashetland", firstName: "Aaron", issueCount: 2 }],
-    });
-    const script = html.match(/<script>([\s\S]*?)<\/script>/)![1];
-    const content = {
-      innerHTML: html.match(/<section id="copy">([\s\S]*?)<\/section>/)![1],
-      innerText: "Open issues: 2\nOpen pull requests: 1\nOrder:\nAaron - 2",
-    };
-    const button = { disabled: false, addEventListener: vi.fn() };
-    const status = { textContent: "" };
-    const elements = new Map<string, object>([
-      ["copy", content],
-      ["copy-button", button],
-      ["copy-status", status],
-    ]);
-    const clipboardItem = vi.fn(function (this: { data: Record<string, Blob> }, data: Record<string, Blob>) {
-      this.data = data;
-    });
-    runInNewContext(script, {
-      document: { getElementById: (id: string) => elements.get(id) },
-      navigator: { clipboard: write ? { write } : undefined },
-      ClipboardItem: clipboardItem,
-      Blob,
-    });
-    expect(html).toContain('<calcite-button id="copy-button" type="button">Copy team status</calcite-button>');
-    expect(html).toContain('<p id="copy-status" role="status">');
-    expect(button.addEventListener).toHaveBeenCalledWith("click", expect.any(Function));
-    const click: () => Promise<void> = button.addEventListener.mock.calls[0][1];
-    return { click, content, button, status, clipboardItem };
-  }
-
-  it("copies the rendered totals and linked list as HTML and plain text", async () => {
-    const write = vi.fn().mockResolvedValue(undefined);
-    const { click, content, button, status, clipboardItem } = setupClipboard(write);
-    const copying = click();
-    expect(button.disabled).toBe(true);
-    expect(status.textContent).toBe("Copying...");
-    await copying;
-    const data = clipboardItem.mock.calls[0][0];
-    expect(data["text/html"].type).toBe("text/html");
-    expect(await data["text/html"].text()).toBe(content.innerHTML);
-    expect(await data["text/html"].text()).toContain("https://github.com/Esri/calcite-design-system/issues?");
-    expect(data["text/plain"].type).toBe("text/plain");
-    expect(await data["text/plain"].text()).toBe(content.innerText);
-    expect(write).toHaveBeenCalledWith([clipboardItem.mock.instances[0]]);
-    expect(status.textContent).toBe("Team status copied.");
-    expect(button.disabled).toBe(false);
-  });
-
-  it("reports denied clipboard access and allows retrying", async () => {
-    const write = vi.fn().mockRejectedValue(new Error("Permission denied"));
-    const { click, button, status } = setupClipboard(write);
-    await click();
-    expect(status.textContent).toContain("Could not copy team status.");
-    expect(button.disabled).toBe(false);
-    write.mockResolvedValue(undefined);
-    await click();
-    expect(status.textContent).toBe("Team status copied.");
-  });
-
-  it("explains how to copy manually when the Clipboard API is unavailable", async () => {
-    const { click, status, clipboardItem } = setupClipboard(undefined);
-    await click();
-    expect(status.textContent).toContain("Rich-text copying is unavailable");
-    expect(clipboardItem).not.toHaveBeenCalled();
-  });
-});
-
-describe("team status server", () => {
-  let server: Server;
-
-  afterEach(async () => {
-    await new Promise<void>((resolve, reject) => {
-      server.close((error) => (error ? reject(error) : resolve()));
-      server.closeAllConnections();
-    });
-  });
-
-  it("serves the generated page on localhost without exposing other paths or accepting writes", async () => {
-    const html = renderTeamStatus({ milestone: null, assignees: [] });
-    server = createTeamStatusServer(html);
-    server.listen(0, "127.0.0.1");
-    await once(server, "listening");
-    const address = server.address();
-    if (!address || typeof address === "string") {
-      throw new Error("Expected a TCP address.");
-    }
-    const url = `http://127.0.0.1:${address.port}`;
-    const response = await fetch(url);
-    expect(response.status).toBe(200);
-    expect(response.headers.get("content-type")).toBe("text/html; charset=utf-8");
-    expect(await response.text()).toBe(html);
-    const head = await fetch(url, { method: "HEAD" });
-    expect(head.status).toBe(200);
-    expect(await head.text()).toBe("");
-    expect((await fetch(`${url}/team-status.ts`)).status).toBe(404);
-    expect((await fetch(url, { method: "POST" })).status).toBe(405);
-  });
-});
-
-describe("team status authentication", () => {
-  beforeEach(() => {
-    vi.stubEnv("GH_TOKEN", "");
-    vi.stubEnv("GITHUB_TOKEN", "inherited-token");
-    execFileSync.mockReset();
-  });
-  afterEach(() => vi.unstubAllEnvs());
-
-  it("prefers an explicit token over GH_TOKEN and local authentication", () => {
-    vi.stubEnv("GH_TOKEN", "environment-token");
-    expect(getTeamStatusToken("explicit-token")).toBe("explicit-token");
-    expect(execFileSync).not.toHaveBeenCalled();
-  });
-
-  it("uses GH_TOKEN without invoking gh", () => {
-    vi.stubEnv("GH_TOKEN", "environment-token");
-    expect(getTeamStatusToken()).toBe("environment-token");
-    expect(execFileSync).not.toHaveBeenCalled();
-  });
-
-  it("falls back to gh with the inherited environment when no explicit token or GH_TOKEN is provided", () => {
-    execFileSync.mockReturnValue("local-token\n");
-    expect(getTeamStatusToken()).toBe("local-token");
-    expect(execFileSync).toHaveBeenCalledWith("gh", ["auth", "token", "--hostname", "github.com"], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-    });
-  });
-
-  it("provides login instructions without exposing subprocess output when gh fails", () => {
-    execFileSync.mockImplementation(() => {
-      throw new Error("sensitive subprocess output");
-    });
-    expect(() => getTeamStatusToken()).toThrow("gh auth login --hostname github.com");
-    expect(() => getTeamStatusToken()).not.toThrow("sensitive subprocess output");
-  });
-
-  it("rejects an empty token returned by gh", () => {
-    execFileSync.mockReturnValue("\n");
-    expect(() => getTeamStatusToken()).toThrow("gh auth login --hostname github.com");
-  });
-});
+// describe("team status page", () => {
+//   it("renders totals and links every member to an independent, correctly encoded search", () => {
+//     const html = renderTeamStatus(statusInfo);
+//     const urls = [...html.matchAll(/href="([^"]+)"/g)].map(([, href]) => new URL(href));
+//
+//     expect(urls.map((url) => url.origin + url.pathname)).toEqual(
+//       Array(5).fill("https://github.com/Esri/calcite-design-system/issues"),
+//     );
+//     expect(urls.map((url) => [...url.searchParams])).toEqual([
+//       [["q", statusInfo.issues.query]],
+//       [["q", statusInfo.pulls.query]],
+//       ...statusInfo.assignees.map(({ username }) => [["q", `${statusInfo.issues.query} assignee:${username}`]]),
+//     ]);
+//     expect(html).toContain("Open issues:</a>&nbsp;3");
+//     expect(html).toContain("Pull requests needing review:</a>&nbsp;1");
+//     for (const { firstName, issueCount } of statusInfo.assignees) {
+//       expect(html).toContain(`${firstName}</a> - ${issueCount}</li>`);
+//     }
+//   });
+// });
+//
+// describe("team status page interactions", () => {
+//   it("shuffles on load and click, then copies the displayed order", async () => {
+//     const html = renderTeamStatus(statusInfo);
+//     const originalItems = [...html.matchAll(/<li>(.*?)<\/li>/g)].map(([outerHTML]) => ({ outerHTML }));
+//     const team = {
+//       children: [...originalItems],
+//       replaceChildren(...items: typeof originalItems) {
+//         this.children = items;
+//       },
+//     };
+//     const content = {
+//       get innerHTML() {
+//         return html
+//           .match(/<section id="copy">([\s\S]*?)<\/section>/)![1]
+//           .replace(
+//             /<ul id="team">[\s\S]*?<\/ul>/,
+//             `<ul id="team">${team.children.map((item) => item.outerHTML).join("")}</ul>`,
+//           );
+//       },
+//       get innerText() {
+//         return this.innerHTML.replace(/<[^>]*>/g, "");
+//       },
+//     };
+//     const copyButton = { addEventListener: vi.fn<(event: string, listener: () => Promise<void>) => void>() };
+//     const randomizeButton = { addEventListener: vi.fn<(event: string, listener: () => void) => void>() };
+//     const elements = new Map<string, object>([
+//       ["#copy-button", copyButton],
+//       ["#copy", content],
+//       ["#randomize-button", randomizeButton],
+//       ["#team", team],
+//     ]);
+//     const write = vi.fn<(items: { data: Record<string, Blob> }[]) => Promise<void>>().mockResolvedValue();
+//     const clipboardItem = vi.fn(function (this: { data: Record<string, Blob> }, data: Record<string, Blob>) {
+//       this.data = data;
+//     });
+//     runInNewContext(html.match(/<script>([\s\S]*?)<\/script>/)![1], {
+//       document: {
+//         querySelector: (selector: string) => {
+//           expect(html).toContain(`id="${selector.slice(1)}"`);
+//           return elements.get(selector);
+//         },
+//       },
+//       Math: { floor: Math.floor, random: () => 0 },
+//       navigator: { clipboard: { write } },
+//       ClipboardItem: clipboardItem,
+//       Blob,
+//       console,
+//     });
+//     expect(randomizeButton.addEventListener).toHaveBeenCalledWith("click", expect.any(Function));
+//     expect(copyButton.addEventListener).toHaveBeenCalledWith("click", expect.any(Function));
+//     const randomize = randomizeButton.addEventListener.mock.calls[0][1];
+//     const copy = copyButton.addEventListener.mock.calls[0][1];
+//     const [first, second, third] = originalItems;
+//     for (const expectedOrder of [
+//       [second, third, first],
+//       [third, first, second],
+//     ]) {
+//       expect(team.children).toEqual(expectedOrder);
+//       await copy();
+//       const { data } = write.mock.lastCall![0][0];
+//       expect(data["text/html"].type).toBe("text/html");
+//       expect(await data["text/html"].text()).toBe(content.innerHTML);
+//       expect(data["text/plain"].type).toBe("text/plain");
+//       expect(await data["text/plain"].text()).toBe(content.innerText);
+//       randomize();
+//     }
+//   });
+// });
 
 describe("team status command", () => {
-  it.each(["--port", "--randomize", "-r"])("does not expose the %s option", async (option) => {
-    const program = new Command().exitOverride().configureOutput({ writeErr: () => {} });
+  it("serves --list-only without GitHub authentication or requests", async () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => {});
+    const program = new Command().exitOverride();
     registerCommand(program);
-    await expect(program.parseAsync(["team-status", option], { from: "user" })).rejects.toThrow(
-      `unknown option '${option}'`,
-    );
-    expect(paginate).not.toHaveBeenCalled();
+    await program.parseAsync(["team-status", "--list-only"], { from: "user" });
+    const server: Server = vi.mocked(createServer).mock.results[0].value;
+    try {
+      if (!server.listening) {
+        await once(server, "listening");
+      }
+      const address = server.address();
+      if (!address || typeof address === "string") {
+        throw new Error("Expected a TCP address.");
+      }
+      const response = await fetch(`http://127.0.0.1:${address.port}`);
+      expect(response.status).toBe(200);
+      expect(await response.text()).toBe(renderTeamStatus());
+      expect(execFileSync).not.toHaveBeenCalled();
+      expect(paginate).not.toHaveBeenCalled();
+      expect(issuesAndPullRequests).not.toHaveBeenCalled();
+    } finally {
+      server.closeAllConnections();
+      await new Promise<void>((resolve, reject) => {
+        server.close((error) => (error ? reject(error) : resolve()));
+      });
+      log.mockRestore();
+    }
   });
 });

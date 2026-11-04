@@ -130,7 +130,7 @@ export async function getStatusInfo(token: string): Promise<StatusInfo> {
 
   const counts = new Map<string, number>();
   const issueQuery = `sort:updated-desc is:issue state:open -label:"4 - installed" milestone:"${milestone.title}"`;
-  const pullRequestQuery = "sort:updated-desc is:pr state:open review:required draft:false";
+  const pullRequestQuery = "sort:updated-desc is:pr state:open review:required draft:false -label:dependencies";
 
   const {
     data: { total_count: pullCount },
