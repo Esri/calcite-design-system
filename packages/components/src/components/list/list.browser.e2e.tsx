@@ -20,6 +20,7 @@ import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
+import { mockConsole } from "../../tests/utils/logging";
 import type { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -741,6 +742,54 @@ describe("filter item data updates", () => {
       filterEl,
       (item) => item.el === listItem && !!item.heading?.includes(headingToken),
     );
+  });
+});
+
+describe("nested set info with filter", () => {
+  mockConsole();
+
+  function getSetInfo(id: string): [number | undefined, number | undefined] {
+    const item = page.getBySelector(`#${id}`).element() as ListItem["el"];
+    return [item.setPosition, item.setSize];
+  }
+
+  it("updates setPosition and setSize of nested items when filtering or adding items", async () => {
+    const { el } = await mount<List>(
+      <calcite-list drag-enabled filter-enabled group="root" label="root">
+        <calcite-list-item expanded id="section" label="Section">
+          <calcite-list drag-enabled group="nested" label="Section">
+            <calcite-list-item id="column-1" label="Column 1" />
+            <calcite-list-item id="column-2" label="Column 2" />
+            <calcite-list-item expanded id="row" label="Row">
+              <calcite-list drag-enabled group="nested" id="row-list" label="Row" />
+            </calcite-list-item>
+          </calcite-list>
+        </calcite-list-item>
+      </calcite-list>,
+    );
+
+    el.filterText = "Column";
+    await vi.waitUntil(() => (page.getBySelector("#row").element() as ListItem["el"]).filterHidden);
+    await vi.waitUntil(() => getSetInfo("column-2")[1] === 2);
+
+    expect(getSetInfo("column-1")).toEqual([1, 2]);
+    expect(getSetInfo("column-2")).toEqual([2, 2]);
+    expect(getSetInfo("row")).toEqual([undefined, undefined]);
+
+    const addedItem = document.createElement("calcite-list-item");
+    addedItem.id = "column-3";
+    addedItem.label = "Column 3";
+    page.getBySelector("#row-list").element().append(addedItem);
+
+    await vi.waitUntil(
+      () => !(page.getBySelector("#row").element() as ListItem["el"]).filterHidden,
+    );
+    await vi.waitUntil(() => getSetInfo("row")[1] === 3);
+
+    expect(getSetInfo("column-1")).toEqual([1, 3]);
+    expect(getSetInfo("column-2")).toEqual([2, 3]);
+    expect(getSetInfo("row")).toEqual([3, 3]);
+    expect(getSetInfo("column-3")).toEqual([1, 1]);
   });
 });
 
