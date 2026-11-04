@@ -56,7 +56,7 @@ describe("accessible", () => {
         <calcite-list
           filter-enabled
           filter-text="Bananas"
-          selection-appearance="highlight"
+          selection-appearance="border"
           selection-mode="single"
         >
           <calcite-list-item label="Apples" value="apples" />

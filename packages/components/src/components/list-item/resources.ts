@@ -9,6 +9,8 @@ export const CSS = {
   collapsed: "collapsed",
   container: "container",
   containerHover: "container--hover",
+  containerBorder: "container--border",
+  containerBorderSelected: "container--border-selected",
   containerHighlightSelected: "container--highlight-selected",
   content: "content",
   contentBottom: "content-bottom",

@@ -19,7 +19,7 @@ import "../list-item-group/list-item-group"; // Force Vite to statically trace t
 import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { listDisplayMode, selectionMode, interactionMode, scale } = ATTRIBUTES;
-const selectionAppearances: List["selectionAppearance"][] = ["icon", "highlight"];
+const selectionAppearances: List["selectionAppearance"][] = ["icon", "border", "highlight"];
 
 interface ListStoryArgs
   extends
@@ -4755,6 +4755,18 @@ export const darkModeRTL = (): string => html`
   <calcite-list
     class="calcite-mode-dark"
     label="RTL list"
+    selection-appearance="border"
+    selection-mode="single-persist"
+    dir="rtl"
+  >
+    <calcite-list-item label="My first list item" selected>First </calcite-list-item>
+    <calcite-list-item label="My second list item">Second </calcite-list-item>
+  </calcite-list>
+
+  <h1>selection-mode="single-persist" + selection-appearance="highlight" + dir="rtl"</h1>
+  <calcite-list
+    class="calcite-mode-dark"
+    label="RTL list"
     selection-appearance="highlight"
     selection-mode="single-persist"
     dir="rtl"
@@ -4895,7 +4907,7 @@ export const filteredChildListItems = (): string =>
       filter-enabled
       filter-text="est"
       filter-placeholder="Find content"
-      selection-appearance="highlight"
+      selection-appearance="border"
       selection-mode="single"
     >
       <calcite-list-item label="Estuaries" value="estuaries" hidden></calcite-list-item>
@@ -4986,7 +4998,7 @@ export const filteredChildListItems = (): string =>
       filter-enabled
       filter-text="water"
       filter-placeholder="Find content"
-      selection-appearance="highlight"
+      selection-appearance="border"
       selection-mode="single"
     >
       <calcite-list-item-group heading="Layers">
@@ -5348,7 +5360,7 @@ export const listWithGroupedAndSlottedItems = (): string =>
   </calcite-list>`;
 
 export const filteredListItemsNoResults = (): string =>
-  html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="highlight" selection-mode="single">
+  html`<calcite-list filter-enabled filter-text="Bananas" selection-appearance="border" selection-mode="single">
     <calcite-list-item label="Apples" value="apples"></calcite-list-item>
     <calcite-list-item label="Oranges" value="oranges"></calcite-list-item>
     <calcite-list-item label="Pears" value="pears"></calcite-list-item>
@@ -5512,6 +5524,19 @@ export const interactiveMode = (): string => html`
   <h2>interaction-mode="static" and selection-appearance="highlight" (interactive)</h2>
 
   <calcite-list interaction-mode="static" selection-appearance="highlight" selection-mode="single">
+    <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
+    <calcite-list-item
+      label="List Item 2"
+      description="Descriptive description about something"
+      selected
+    ></calcite-list-item>
+    <calcite-list-item label="List Item 3" description="Descriptive description about something"></calcite-list-item>
+  </calcite-list>
+  <br />
+
+  <h2>interaction-mode="static" and selection-appearance="border" (interactive)</h2>
+
+  <calcite-list interaction-mode="static" selection-appearance="border" selection-mode="single">
     <calcite-list-item label="List Item 1" description="Descriptive description about something"></calcite-list-item>
     <calcite-list-item
       label="List Item 2"

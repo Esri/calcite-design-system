@@ -46,6 +46,7 @@ import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
 import { isListItem } from "../list-item/resources";
 import { toAriaBoolean } from "../../utils/aria";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -325,9 +326,10 @@ export class List extends LitElement {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight",
+    "icon" | "highlight" | "border",
     SelectionAppearance
   > = "icon";
 
@@ -455,7 +457,9 @@ export class List extends LitElement {
     this.cancelable.add(this.updateListItemsDebounced);
   }
 
-  async load(): Promise<void> {}
+  async load(): Promise<void> {
+    this.handleInteractionModeWarning();
+  }
 
   /**
    * TODO: [MIGRATION] Consider inlining some of the watch functions called inside of this method to reduce boilerplate code
@@ -1069,6 +1073,16 @@ export class List extends LitElement {
       if (endItem) {
         this.focusRow(endItem);
       }
+    }
+  }
+
+  private handleInteractionModeWarning(): void {
+    if (
+      this.interactionMode === "static" &&
+      this.selectionMode !== "none" &&
+      this.selectionAppearance === "border"
+    ) {
+      logger.warn(`selection-appearance="border" requires interaction-mode="interactive"`);
     }
   }
 

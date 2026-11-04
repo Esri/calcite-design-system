@@ -73,6 +73,10 @@ declare module "@arcgis/lumina" {
      * Specifies the `label` color.
      */
     "--calcite-list-label-text-color": "*";
+    /**
+     * Specifies the component's selection border color.
+     */
+    "--calcite-list-selection-border-color": "*";
   }
 }
 
@@ -301,11 +305,12 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
    *
    * @private
    */
   @property({ reflect: true }) selectionAppearance!: Extract<
-    "icon" | "highlight",
+    "icon" | "highlight" | "border",
     SelectionAppearance
   >;
 
@@ -1141,6 +1146,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     const wrapperBordered = bordered && hasContentBottom;
     const contentContainerWrapperBordered = bordered && !hasContentBottom;
+    const showSelectionBorder = selectionMode !== "none" && selectionAppearance === "border";
     const showSelectionHighlight = selectionMode !== "none" && selectionAppearance === "highlight";
     const containerInteractive = interactionMode === "interactive";
 
@@ -1156,6 +1162,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
               [CSS.row]: true,
               [CSS.container]: true,
               [CSS.containerHover]: containerInteractive,
+              [CSS.containerBorder]: showSelectionBorder,
+              [CSS.containerBorderSelected]: showSelectionBorder && selected,
               [CSS.containerHighlightSelected]: showSelectionHighlight && selected,
             }}
             hidden={closed || filterHidden}
