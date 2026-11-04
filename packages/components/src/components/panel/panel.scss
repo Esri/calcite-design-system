@@ -10,7 +10,13 @@
 @use "sass:meta";
 
 :host {
-  @apply relative flex w-full h-full flex-auto overflow-hidden box-border;
+  position: relative;
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  flex: 1 1 auto;
+  overflow: hidden;
+  box-sizing: border-box;
   border-radius: var(
     --calcite-panel-corner-radius,
     var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
@@ -87,7 +93,9 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
 .content-top,
 .content-bottom {
-  @apply flex items-start self-stretch;
+  display: flex;
+  align-items: flex-start;
+  align-self: stretch;
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
   background-color: var(
     --calcite-panel-background-color,
@@ -104,7 +112,17 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .container {
-  @apply relative bg-background m-0 flex w-full flex-auto flex-col items-stretch p-0 overflow-hidden box-border text-n1 text-color-2;
+  position: relative;
+  background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
+  margin: var(--calcite-space-none);
+  display: flex;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: stretch;
+  padding: var(--calcite-space-none);
+  overflow: hidden;
+  color: var(--calcite-color-text-2);
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
@@ -113,12 +131,13 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .container * {
-  @apply box-border;
+  box-sizing: border-box;
 }
 
 .header {
-  @apply flex flex-col z-header;
-
+  display: flex;
+  flex-direction: column;
+  z-index: var(--calcite-z-index-header);
   background-color: var(
     --calcite-panel-header-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -136,9 +155,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .header-container {
-  @apply flex flex-row w-full
-  items-stretch
-  justify-start;
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+  align-items: stretch;
+  justify-content: flex-start;
   flex: 0 0 auto;
 }
 
@@ -147,27 +168,25 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .header-top {
-  @apply w-full;
-
+  inline-size: 100%;
   border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
   padding: var(--calcite-panel-header-top-space, var(--calcite-internal-panel-default-space));
 }
 
 .action-bar-container {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .action-bar-container ::slotted(calcite-action-bar) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .header-content {
-  @apply flex
-    flex-col
-    overflow-hidden
-    px-3
-    py-3.5;
-
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-inline: var(--calcite-space-md);
+  padding-block: var(--calcite-space-md-plus);
   margin-inline-end: auto;
   justify-content: center;
 
@@ -178,19 +197,19 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .heading,
   .description {
-    @apply block
-    flex-none
-    break-words
-    p-0;
+    display: block;
+    flex: none;
+    overflow-wrap: break-word;
+    padding: var(--calcite-space-none);
     line-height: var(--calcite-font-line-height-relative-snug);
   }
 
   .heading {
-    @apply font-medium;
+    font-weight: var(--calcite-font-weight-medium);
     color: var(--calcite-panel-heading-text-color, var(--calcite-color-text-1));
 
     &:only-child {
-      @apply mb-0;
+      margin-block-end: var(--calcite-space-none);
     }
   }
 
@@ -210,9 +229,9 @@ calcite-action-menu {
 }
 
 .header-actions {
-  @apply flex
-  flex-row
-  flex-nowrap;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   margin: auto;
 }
 
@@ -229,16 +248,16 @@ calcite-action-menu {
 }
 
 .content-wrapper {
-  @apply flex
-  flex-auto
-  flex-col
-  flex-nowrap
-  items-stretch
-  overflow-auto
-  h-full
-  focus-base
-  text-color-2
-  relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  overflow: auto;
+  block-size: 100%;
+  outline-color: var(--calcite-color-transparent);
+  color: var(--calcite-color-text-2);
+  position: relative;
   padding: var(--calcite-panel-space, var(--calcite-panel-content-space, 0));
   background: var(
     --calcite-panel-background-color,
@@ -247,7 +266,7 @@ calcite-action-menu {
 }
 
 .content-wrapper:focus-visible {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 .header-content {
@@ -270,7 +289,14 @@ calcite-action-menu {
 }
 
 .footer {
-  @apply flex mt-auto flex-row content-between justify-center items-center text-n2-wrap;
+  @include shared.text-n2-wrap();
+
+  display: flex;
+  margin-block-start: auto;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: center;
+  align-items: center;
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
   padding: var(
     --calcite-panel-footer-space,
@@ -283,29 +309,41 @@ calcite-action-menu {
 }
 
 .footer-content {
-  @apply flex flex-row items-center justify-center flex-1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 0%;
 }
 
 .footer-start {
-  @apply flex flex-row items-center justify-start flex-1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex: 1 1 0%;
   margin-inline-end: auto;
   gap: var(--calcite-internal-panel-default-space);
 }
 
 .footer-end {
-  @apply flex flex-row items-center justify-end flex-1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 0%;
   margin-inline-start: auto;
   gap: var(--calcite-internal-panel-default-space);
 }
 
 .fab-container {
-  @apply sticky
-  bottom-0
-  my-0
-  mx-auto
-  block
-  p-2
-  z-sticky;
+  position: sticky;
+  inset-block-end: var(--calcite-space-none);
+  margin-block: var(--calcite-space-none);
+  margin-inline: auto;
+  display: block;
+  padding: var(--calcite-space-sm);
+  z-index: var(--calcite-z-index-sticky);
   inset-inline: 0;
   inline-size: fit-content;
 }

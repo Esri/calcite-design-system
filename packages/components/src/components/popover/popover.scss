@@ -7,7 +7,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply contents;
+  display: contents;
 }
 
 :host([top-layer-disabled]) {
@@ -16,6 +16,7 @@
 
 .position-container {
   @include shared.floating-ui-container();
+
   max-inline-size: var(--calcite-popover-max-size-x, 100vw);
 }
 
@@ -25,9 +26,10 @@
 
 :host([scale="s"]) {
   .heading {
-    @apply text-n1-wrap
-    px-3
-    py-2;
+    @include shared.text-n1-wrap();
+
+    padding-inline: var(--calcite-space-md);
+    padding-block: var(--calcite-space-sm);
   }
 }
 
@@ -37,9 +39,10 @@
 
 :host([scale="m"]) {
   .heading {
-    @apply text-0-wrap
-    px-4
-    py-3;
+    @include shared.text-0-wrap();
+
+    padding-inline: var(--calcite-space-lg);
+    padding-block: var(--calcite-space-md);
   }
 }
 
@@ -47,16 +50,16 @@
   --calcite-internal-popover-close-spacing: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 
   .heading {
-    @apply text-1-wrap
-    px-5
-    py-4;
+    @include shared.text-1-wrap();
+
+    padding-inline: var(--calcite-space-xl);
+    padding-block: var(--calcite-space-lg);
   }
 }
 
 .position-container .calcite-floating-ui-anim {
-  @apply border
-    border-solid;
-
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   box-shadow: var(--calcite-shadow-md);
   background-color: var(
     --calcite-popover-background-color,
@@ -81,51 +84,51 @@
 }
 
 .header {
-  @apply flex
-    flex-auto
-    items-stretch
-    justify-start
-    border-0
-    border-b
-    border-solid;
-
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  justify-content: flex-start;
+  border-width: var(--calcite-border-width-none);
+  border-block-end-width: var(--calcite-border-width-sm);
+  border-style: solid;
   border-block-end-color: var(--calcite-popover-border-color, var(--calcite-color-border-3));
 }
 
 .heading {
-  @apply word-break
-  m-0
-  block
-  flex-auto
-  self-center
-  whitespace-normal
-  font-medium;
+  @include shared.word-break();
 
+  margin: var(--calcite-space-none);
+  display: block;
+  flex: 1 1 auto;
+  align-self: center;
+  white-space: normal;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
 }
 
 .header-container {
-  @apply relative
-    flex
-    h-full
-    flex-row
-    flex-nowrap
-    rounded;
+  position: relative;
+  display: flex;
+  block-size: 100%;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  border-radius: var(--calcite-space-2xs);
   color: var(--calcite-popover-text-color, var(--calcite-color-text-1));
 
   &.has-header {
-    @apply flex-col;
+    flex-direction: column;
   }
 }
 
 .content {
-  @apply word-break
-  flex
-  h-full
-  w-full
-  flex-col
-  flex-nowrap
-  self-center;
+  @include shared.word-break();
+
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-self: center;
 }
 
 .close-button {
@@ -134,13 +137,13 @@
 }
 
 .close-button-container {
-  @apply flex;
+  display: flex;
   flex: 0 0 auto;
 }
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply h-full;
+  block-size: 100%;
 }
 
 @include shared.base-component();
