@@ -172,14 +172,13 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
    * @private
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight" | "border",
+    "icon" | "highlight",
     SelectionAppearance
   > = "icon";
 
