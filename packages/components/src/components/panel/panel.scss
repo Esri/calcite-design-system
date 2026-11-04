@@ -127,7 +127,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
   transition:
     max-block-size var(--calcite-animation-timing),
     inline-size var(--calcite-animation-timing);
-  font-size: var(--calcite-font-size--1);
+  font-size: var(--calcite-font-size-relative-base);
 }
 
 .container * {
