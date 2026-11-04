@@ -308,12 +308,23 @@ function observeSortableItems(component: SortableComponent, state: SortableItemS
 
 function isAfterTarget(
   component: SortableComponent,
+  targetItem: HTMLElement,
   position: { x: number; y: number },
   center: { x: number; y: number },
+  sortables: Map<HTMLElement, Sortable> | undefined,
 ): boolean {
+  const adjacentItem = [targetItem.nextElementSibling, targetItem.previousElementSibling].find(
+    (item): item is HTMLElement => item instanceof HTMLElement && !!sortables?.has(item),
+  );
+  const adjacentBounds = adjacentItem?.getBoundingClientRect();
   const horizontal =
     component.layout === "horizontal" ||
-    (component.layout === "grid" && Math.abs(position.x - center.x) > Math.abs(position.y - center.y));
+    (component.layout === "grid" && Math.abs(position.x - center.x) > Math.abs(position.y - center.y)) ||
+    (!component.layout &&
+      (adjacentBounds
+        ? Math.abs(adjacentBounds.left + adjacentBounds.width / 2 - center.x) >
+          Math.abs(adjacentBounds.top + adjacentBounds.height / 2 - center.y)
+        : getComputedStyle(targetItem).display.startsWith("inline")));
   const rightToLeft = horizontal && getComputedStyle(component.el).direction === "rtl";
   return horizontal
     ? rightToLeft
@@ -348,7 +359,14 @@ function getDropIndex(
       y: bounds.top + bounds.height / 2,
     };
   }
-  return targetIndex + Number(!!center && isAfterTarget(toComponent, position, center));
+  return (
+    targetIndex +
+    Number(
+      !!center &&
+        targetItem instanceof HTMLElement &&
+        isAfterTarget(toComponent, targetItem, position, center, record.sortables.get(toComponent)),
+    )
+  );
 }
 
 function clearDropPosition(record: SortableManagerRecord): void {
@@ -1018,7 +1036,7 @@ export const useSortable = <T extends SortableComponent>(
     let setupGeneration = 0;
 
     function dragActive(): boolean {
-      return !!sortableComponent.dragEnabled && !!record?.isDragging;
+      return !!record?.isDragging;
     }
 
     async function setUpSortable(): Promise<void> {

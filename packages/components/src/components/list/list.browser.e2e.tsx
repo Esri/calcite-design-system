@@ -24,6 +24,7 @@ import { commands } from "../../tests/utils/commands";
 import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
 import type { List } from "./list";
+import type { ListDragDetail } from "./types";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
@@ -1636,13 +1637,25 @@ describe("drag and drop", () => {
 
   it("keeps grandchild reordering inside the nested list", async () => {
     const { el } = await renderNestedList();
-    const list = page.getBySelector("#grandchildren").element();
+    const list = page.getBySelector("#grandchildren").element() as List["el"];
     const firstItem = page.getBySelector("#grandchild-one");
     const handle = firstItem.getBySelector("calcite-sort-handle");
     const target = page.getBySelector("#grandchild-three");
     await expect.element(handle).toBeVisible();
     await expect.element(target).toBeVisible();
     const destinations: HTMLElement[] = [];
+    const dragStartDetails: ListDragDetail[] = [];
+    const orderChangeDetails: ListDragDetail[] = [];
+    const dragEndDetails: ListDragDetail[] = [];
+    list.addEventListener("calciteListDragStart", (event) =>
+      dragStartDetails.push((event as CustomEvent<ListDragDetail>).detail),
+    );
+    list.addEventListener("calciteListOrderChange", (event) =>
+      orderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+    );
+    list.addEventListener("calciteListDragEnd", (event) =>
+      dragEndDetails.push((event as CustomEvent<ListDragDetail>).detail),
+    );
     el.addEventListener("calciteListOrderChange", (event) => {
       destinations.push((event as ToEvents<List>["calciteListOrderChange"]).detail.toEl);
     });
@@ -1658,6 +1671,17 @@ describe("drag and drop", () => {
     });
     expect(destinations.length).toBeGreaterThan(0);
     expect(destinations.every((destination) => destination === list)).toBe(true);
+    expect(dragStartDetails).toHaveLength(1);
+    expect(orderChangeDetails).toHaveLength(1);
+    expect(dragEndDetails).toHaveLength(1);
+    expect(orderChangeDetails[0]).toEqual({
+      dragEl: firstItem.element(),
+      fromEl: list,
+      toEl: list,
+      oldIndex: 0,
+      newIndex: 2,
+    });
+    expect(dragEndDetails[0]).toEqual(orderChangeDetails[0]);
   });
 
   it("allows moving a grandchild into an ancestor list", async () => {
@@ -1736,6 +1760,8 @@ describe("drag and drop", () => {
       );
 
       const draggedItem = page.getBySelector("#d").element() as ListItem["el"];
+      const sourceList = page.getBySelector("#second").element() as List["el"];
+      const destinationList = page.getBySelector("#first").element() as List["el"];
       const targetItemLocator = page.getBySelector("#b");
       await expect.element(targetItemLocator).toBeVisible();
       await vi.waitFor(() =>
@@ -1748,6 +1774,22 @@ describe("drag and drop", () => {
       const targetItem = targetItemLocator.element();
       const firstItems = page.elementLocator(firstList).getBySelector("calcite-list-item");
       const secondItems = page.getBySelector("#second > calcite-list-item");
+      const sourceDragStartDetails: ListDragDetail[] = [];
+      const sourceOrderChangeDetails: ListDragDetail[] = [];
+      const sourceDragEndDetails: ListDragDetail[] = [];
+      const destinationOrderChangeDetails: ListDragDetail[] = [];
+      sourceList.addEventListener("calciteListDragStart", (event) =>
+        sourceDragStartDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      );
+      sourceList.addEventListener("calciteListOrderChange", (event) =>
+        sourceOrderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      );
+      sourceList.addEventListener("calciteListDragEnd", (event) =>
+        sourceDragEndDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      );
+      destinationList.addEventListener("calciteListOrderChange", (event) =>
+        destinationOrderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      );
 
       await dragAndDrop(handle, targetItem, "bottom");
       await vi.waitFor(() =>
@@ -1761,6 +1803,19 @@ describe("drag and drop", () => {
       );
 
       expect((secondItems.nth(0).element() as ListItem["el"]).value).toBe("c");
+      expect(sourceDragStartDetails).toHaveLength(1);
+      expect(sourceDragEndDetails).toHaveLength(1);
+      expect(sourceOrderChangeDetails).toHaveLength(1);
+      expect(destinationOrderChangeDetails).toHaveLength(1);
+      expect(sourceOrderChangeDetails[0]).toEqual({
+        dragEl: draggedItem,
+        fromEl: sourceList,
+        toEl: destinationList,
+        oldIndex: 1,
+        newIndex: 2,
+      });
+      expect(destinationOrderChangeDetails[0]).toEqual(sourceOrderChangeDetails[0]);
+      expect(sourceDragEndDetails[0]).toEqual(sourceOrderChangeDetails[0]);
     } finally {
       warnSpy.mockRestore();
     }
