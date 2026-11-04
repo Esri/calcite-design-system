@@ -74,7 +74,6 @@ export function setSummaryAsGithubOutput(key = "summary"): void {
 
 /**
  * Add a heading to the summary output.
- * This is useful for adding a heading to the summary.
  */
 export function addHeadingToSummary(text: string, level: 1 | 2 | 3 | 4 = 1): void {
   if (isUnderGitHubActions) {
@@ -86,8 +85,7 @@ export function addHeadingToSummary(text: string, level: 1 | 2 | 3 | 4 = 1): voi
 }
 
 /**
- * Add a line to the summary output.
- * This is useful for adding a single line of text to the summary.
+ * Add a line of text to the summary output.
  */
 export function addLineToSummary(text: string): void {
   if (isUnderGitHubActions) {
@@ -100,8 +98,7 @@ export function addLineToSummary(text: string): void {
 }
 
 /**
- * Add a list to the summary output.
- * This is useful for displaying a list of items in the summary.
+ * Add a list of items to the summary output.
  */
 export function addListToSummary(items: string[], ordered?: boolean): void {
   if (isUnderGitHubActions) {
@@ -118,8 +115,7 @@ export function addListToSummary(items: string[], ordered?: boolean): void {
 }
 
 /**
- * Write the summary to the GitHub Actions summary file.
- * This is useful for adding a summary of the actions taken during the workflow.
+ * Write the summary of actions taken to the GitHub Actions summary file.
  */
 export async function writeSummary(): Promise<void> {
   if (isUnderGitHubActions) {
