@@ -310,7 +310,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * @private
    */
   @property({ reflect: true }) selectionAppearance!: Extract<
-    "icon" | "highlight" | "border",
+    "icon" | "border" | "highlight",
     SelectionAppearance
   >;
 
