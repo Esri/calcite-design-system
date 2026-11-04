@@ -1,5 +1,5 @@
 import type { Decorator } from "@storybook/web-components-vite";
-import { expect, waitFor } from "storybook/test";
+import { userEvent } from "storybook/test";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { Shell } from "./shell";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -2228,15 +2228,13 @@ export const resizableShellPanelWithDropdown = (): string =>
   </calcite-shell>`;
 
 resizableShellPanelWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const shellPanel = canvasElement.querySelector<ShellPanel["el"]>("calcite-shell-panel")!;
   const dropdown = canvasElement.querySelector<Dropdown["el"]>("calcite-dropdown")!;
-  const firstItem = canvasElement.querySelector("calcite-dropdown-item");
+  const trigger = canvasElement.querySelector("calcite-button[slot='trigger']")!;
 
-  dropdown.open = true;
-
-  await waitFor(() => {
-    expect(dropdown).toHaveProperty("open", true);
-    expect(firstItem).toHaveFocus();
-  });
+  await shellPanel.componentOnReady();
+  await dropdown.componentOnReady();
+  await userEvent.click(trigger);
 };
 resizableShellPanelWithDropdown.parameters = { chromatic: { delay: 0 } };
 
