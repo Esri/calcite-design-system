@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.15...@esri/calcite-components@6.0.0-next.16) (2026-11-04)
+
+### ⚠ BREAKING CHANGES
+
+- **label, notice, segmented-control, select, shell-panel, split-button, tile, tile-group:** Deprecated props on label, list, list-item, notice,
+  segmented-control, select, shell-panel, split-button, tile, tile-group
+  have been removed.
+
+To migrate:
+
+Replace
+
+- `layout="default"` with `layout="block"` on `label`
+- `selectionAppearance="border"` with `selectionAppearance="highlight"`
+  on `tile`, `tile-group`
+- `width="half"` with `width="full"` on `notice`, `segmented-control`,
+  `select`, `split-button`
+- `displayMode="float"` with `displayMode="float-content"` on
+  `shell-panel`
+
+### Code Refactoring
+
+- **label, notice, segmented-control, select, shell-panel, split-button, tile, tile-group:** drop deprecated property values ([#15505](https://github.com/Esri/calcite-design-system/issues/15505)), closes [#15489](https://github.com/Esri/calcite-design-system/issues/15489)
+
 ## [6.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.14...@esri/calcite-components@6.0.0-next.15) (2026-11-04)
 
 ### Bug Fixes
