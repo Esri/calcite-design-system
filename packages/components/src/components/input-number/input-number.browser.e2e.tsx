@@ -1495,6 +1495,10 @@ describe("theme", () => {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "inlineSize",
       },
+      "--calcite-input-suffix-size": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "inlineSize",
+      },
       "--calcite-input-prefix-text-color": {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "color",
@@ -1503,10 +1507,25 @@ describe("theme", () => {
         shadowSelector: `.${CSS.suffix}`,
         targetProp: "color",
       },
-      "--calcite-input-suffix-size": {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "inlineSize",
-      },
+    });
+
+    it("does not apply an inline affix width when used standalone", async () => {
+      const { el } = await mount<InputNumber>(
+        <calcite-input-number prefix-text="prefix" suffix-text="suffix" />,
+      );
+      const prefix = page.getBySelector(`.${CSS.prefix}`);
+      const suffix = page.getBySelector(`.${CSS.suffix}`);
+
+      await expect.element(prefix).toBeInTheDocument();
+      await expect.element(suffix).toBeInTheDocument();
+      await expect.element(prefix).toHaveProperty("style.width", "");
+      await expect.element(suffix).toHaveProperty("style.width", "");
+
+      el.prefixText = undefined;
+      el.suffixText = undefined;
+
+      await expect.element(prefix).not.toBeInTheDocument();
+      await expect.element(suffix).not.toBeInTheDocument();
     });
   });
 

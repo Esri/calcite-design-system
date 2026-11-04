@@ -42,6 +42,7 @@ import type { InlineEditable } from "../inline-editable/inline-editable"; // `ca
 import type { Label } from "../label/label";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { ClearButton } from "../functional/ClearButton";
 import { useForm } from "../../controllers/useForm";
 import T9nStrings from "./assets/t9n/messages.en.json";
@@ -221,6 +222,17 @@ export class Input
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
+
+  prefixRef = createRef<HTMLDivElement>();
+
+  suffixRef = createRef<HTMLDivElement>();
+
+  private _affixWidth = useAffixWidth<Input>()(this);
+
+  /** @private */
+  @property({ attribute: false }) get affixWidth(): UseAffixWidth {
+    return this._affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -647,6 +659,9 @@ export class Input
 
   /** @private */
   calciteInternalInputBlur = createEvent({ cancelable: false });
+
+  /** @private */
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
@@ -1399,8 +1414,16 @@ export class Input
       </div>
     );
 
-    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+    const prefixText = (
+      <div class={CSS.prefix} ref={this.prefixRef}>
+        {this.prefixText}
+      </div>
+    );
+    const suffixText = (
+      <div class={CSS.suffix} ref={this.suffixRef}>
+        {this.suffixText}
+      </div>
+    );
 
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];

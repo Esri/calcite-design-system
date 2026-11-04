@@ -655,7 +655,7 @@ describe("keyboard selection", () => {
 });
 
 describe("theme", () => {
-  themed(() => mount(<calcite-autocomplete open />), {
+  themed(() => mount(<calcite-autocomplete open prefix-text="prefix" suffix-text="suffix" />), {
     "--calcite-autocomplete-background-color": {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "backgroundColor",
@@ -672,14 +672,26 @@ describe("theme", () => {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "maxBlockSize",
     },
-    "--calcite-autocomplete-input-prefix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-size",
-    },
-    "--calcite-autocomplete-input-suffix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-size",
-    },
+    "--calcite-autocomplete-input-prefix-size": [
+      {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-prefix-size",
+      },
+      {
+        shadowSelector: `.${CSS.input} >>> .prefix`,
+        targetProp: "inlineSize",
+      },
+    ],
+    "--calcite-autocomplete-input-suffix-size": [
+      {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-suffix-size",
+      },
+      {
+        shadowSelector: `.${CSS.input} >>> .suffix`,
+        targetProp: "inlineSize",
+      },
+    ],
     "--calcite-autocomplete-input-background-color": {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-background-color",
