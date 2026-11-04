@@ -1,9 +1,10 @@
+import { expect, waitFor } from "storybook/test";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import { Dropdown } from "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -133,27 +134,37 @@ export const resizableRTL = (): string =>
 
 export const resizableWithDropdown = (): string =>
   html`<calcite-sheet width="s" resizable label="libero nunc" open position="inline-start" focus-trap-disabled>
-      <calcite-panel heading="Map" id="panel-start" focus-trap-disabled>
-        <calcite-dropdown width="m" overlay-positioning="fixed">
-          <calcite-button slot="trigger">Select landform</calcite-button>
-          <calcite-dropdown-group group-title="Natural places">
-            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
-            <calcite-dropdown-item>River</calcite-dropdown-item>
-            <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
-            <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-            <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-            <calcite-dropdown-item>Desert</calcite-dropdown-item>
-          </calcite-dropdown-group>
-        </calcite-dropdown>
-      </calcite-panel></calcite-sheet
-    >
-    <script>
-      document.addEventListener("calciteSheetOpen", (event) => {
-        document.querySelector("calcite-dropdown").open = true;
-      });
-    </script>`;
+    <calcite-panel heading="Map" id="panel-start" focus-trap-disabled>
+      <calcite-dropdown width="m" overlay-positioning="fixed">
+        <calcite-button slot="trigger">Select landform</calcite-button>
+        <calcite-dropdown-group group-title="Natural places">
+          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          <calcite-dropdown-item>River</calcite-dropdown-item>
+          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+          <calcite-dropdown-item>Desert</calcite-dropdown-item>
+        </calcite-dropdown-group>
+      </calcite-dropdown>
+    </calcite-panel></calcite-sheet
+  >`;
 
-resizableWithDropdown.parameters = { chromatic: { delay: 3000 } };
+resizableWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const sheet = canvasElement.querySelector("calcite-sheet")!;
+  const dropdown = canvasElement.querySelector<Dropdown["el"]>("calcite-dropdown")!;
+  const firstItem = canvasElement.querySelector("calcite-dropdown-item");
+
+  await new Promise<void>((resolve) => {
+    sheet.addEventListener("calciteSheetOpen", () => resolve(), { once: true });
+  });
+  dropdown.open = true;
+
+  await waitFor(() => {
+    expect(dropdown).toHaveProperty("open", true);
+    expect(firstItem).toHaveFocus();
+  });
+};
+resizableWithDropdown.parameters = { chromatic: { delay: 0 } };
 
 export const resizableBlockStart = (): string =>
   html`<calcite-sheet resizable label="libero nunc" open position="block-start">${panelHTML}</calcite-sheet>`;
