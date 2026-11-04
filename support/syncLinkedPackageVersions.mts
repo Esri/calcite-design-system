@@ -84,7 +84,7 @@ import { gt } from "semver";
 
     // get updated data for deployable packages
     const changedPackagesData: Array<PackageData> = JSON.parse(
-      (await execAsync("pnpm exec lerna changed --json")).stdout.trim(),
+      (await execAsync("pnpm exec lerna changed --json --all")).stdout.trim(),
     );
 
     console.log("Deployable packages:", changedPackagesData);

@@ -1,13 +1,4 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-label-margin-bottom: Specifies the component's bottom spacing.
- * @prop --calcite-label-text-color: Specifies the component's text color.
- */
-
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
   @apply flex;
@@ -52,8 +43,7 @@
   color: var(--calcite-label-text-color, var(--calcite-color-text-1));
 }
 
-:host([layout="block"]),
-:host([layout="default"]) {
+:host([layout="block"]) {
   .container {
     @apply flex flex-col;
   }
@@ -77,19 +67,4 @@
   }
 }
 
-@include includes.disabled() {
-  & > .container {
-    @apply opacity-disabled;
-  }
-
-  // prevent opacity stacking with already disabled child elements
-  ::slotted(*[disabled]),
-  ::slotted(*[disabled] *) {
-    @apply bg-opacity-100;
-  }
-  ::slotted(calcite-input-message:not([active])) {
-    @apply bg-opacity-0;
-  }
-}
-
-@include includes.base-component();
+@include shared.base-component();

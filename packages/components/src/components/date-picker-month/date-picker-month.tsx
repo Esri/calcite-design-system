@@ -639,7 +639,7 @@ export class DatePickerMonth extends LitElement {
     );
 
     return (
-      <div class={{ [CSS.calendarContainer]: true }} role="grid">
+      <div class={{ [CSS.calendarContainer]: true }}>
         {this.renderCalendar(adjustedWeekDays, days)}
         {this.range &&
           this.calendars === 2 &&
@@ -666,7 +666,7 @@ export class DatePickerMonth extends LitElement {
     const isDateInRange = inRange(date, this.min, this.max);
 
     return (
-      <div class={{ [CSS.dayContainer]: true }} key={key} role="gridcell">
+      <div class={{ [CSS.dayContainer]: true }} key={key}>
         <calcite-date-picker-day
           active={active}
           class={{
@@ -725,7 +725,7 @@ export class DatePickerMonth extends LitElement {
   private renderMonthCalendar(weekDays: string[], days: Day[], isEndCalendar = false): JsxNode {
     const endCalendarStartIndex = 50;
     return (
-      <div class={{ [CSS.month]: true }} onKeyDown={this.keyDownHandler}>
+      <div class={{ [CSS.month]: true }} onKeyDown={this.keyDownHandler} role="grid">
         <div class={{ [CSS.weekHeaderContainer]: true }} role="row">
           {weekDays.map((weekday) => (
             <span class={{ [CSS.weekHeader]: true }} role="columnheader">

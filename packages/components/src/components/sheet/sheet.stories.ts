@@ -68,14 +68,14 @@ const nonModalPageContent = html`
     .non-modal-page-content {
       box-sizing: border-box;
       display: grid;
-      gap: var(--calcite-spacing-md);
+      gap: var(--calcite-space-md);
       min-block-size: 100vh;
-      padding: var(--calcite-spacing-xl);
+      padding: var(--calcite-space-xl);
     }
 
     .non-modal-page-content__actions {
       display: flex;
-      gap: var(--calcite-spacing-sm);
+      gap: var(--calcite-space-sm);
     }
   </style>
   <main class="non-modal-page-content">

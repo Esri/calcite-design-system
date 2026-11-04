@@ -16,8 +16,20 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-tile` elements. */
+interface TileGroupSlots {
+  /**
+   * A slot for adding `calcite-tile` elements.
+   */
+  "": Node[];
+}
+
 export class TileGroup extends LitElement implements SelectableGroupComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TileGroupSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -72,10 +84,9 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight" | "border",
+    "icon" | "highlight",
     SelectionAppearance
   > = "icon";
 

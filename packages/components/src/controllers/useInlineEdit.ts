@@ -1,10 +1,17 @@
+export const INLINE_EDIT_ACTIVATION_SOURCE = {
+  editButton: "edit-button",
+  input: "input",
+} as const;
+
+type InlineEditActivationSource = (typeof INLINE_EDIT_ACTIVATION_SOURCE)[keyof typeof INLINE_EDIT_ACTIVATION_SOURCE];
+
 export interface InlineEditOptions {
   getInlineEditing: () => boolean;
   setInlineEditing: (inlineEditing: boolean) => void;
   getValue: () => string;
   restoreValue: (value: string) => void;
   commitValue: () => void;
-  setFocus: () => void;
+  setFocus: (source: InlineEditActivationSource) => void;
   emitCancel: () => void;
   emitConfirm: () => void;
   emitEnableEditingChange: () => void;
@@ -15,13 +22,23 @@ export class UseInlineEdit {
 
   constructor(private options: InlineEditOptions) {}
 
-  enable(): void {
-    this.valuePriorToEditing = this.options.getValue();
+  enable(source: InlineEditActivationSource = INLINE_EDIT_ACTIVATION_SOURCE.input): void {
+    this.captureValuePriorToEditing();
     this.options.setInlineEditing(true);
     requestAnimationFrame(() => {
-      this.options.setFocus();
+      this.options.setFocus(source);
     });
     this.options.emitEnableEditingChange();
+  }
+
+  setCaretPosition(input: HTMLInputElement | undefined, source: InlineEditActivationSource): void {
+    if (source === INLINE_EDIT_ACTIVATION_SOURCE.editButton && input && input.selectionStart !== null) {
+      input.setSelectionRange(input.value.length, input.value.length);
+    }
+  }
+
+  captureValuePriorToEditing(): void {
+    this.valuePriorToEditing = this.options.getValue();
   }
 
   disable(): void {

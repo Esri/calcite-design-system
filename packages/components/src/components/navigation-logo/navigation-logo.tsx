@@ -1,7 +1,7 @@
 import { h, Fragment, JsxNode, LitElement, method, property } from "@arcgis/lumina";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-logo.scss";
@@ -9,6 +9,27 @@ import { styles } from "./navigation-logo.scss";
 declare global {
   interface DeclareElements {
     "calcite-navigation-logo": NavigationLogo;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-navigation-accent-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-navigation-logo-heading-text-color": "*";
+    /**
+     * Specifies the component's `description` text color.
+     */
+    "--calcite-navigation-logo-text-color": "*";
   }
 }
 
@@ -23,7 +44,7 @@ export class NavigationLogo extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   // #endregion
 

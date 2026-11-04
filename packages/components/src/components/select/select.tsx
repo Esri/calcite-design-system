@@ -23,7 +23,7 @@ import { isOption } from "../option/resources";
 import type { OptionGroup } from "../option-group/option-group";
 import { isOptionGroup } from "../option-group/resources";
 import type { Label } from "../label/label";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { styles } from "./select.scss";
@@ -36,14 +36,64 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the font size of `calcite-option`s in the component.
+     */
+    "--calcite-select-font-size": "*";
+    /**
+     * Specifies the text color of `calcite-option`s in the component.
+     */
+    "--calcite-select-text-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-select-border-color": "*";
+    /**
+     * Specifies the component's icon color.
+     */
+    "--calcite-select-icon-color": "*";
+    /**
+     * Specifies the component's icon color when hovered or active.
+     */
+    "--calcite-select-icon-color-hover": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-select-background-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-select-corner-radius": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-select-shadow": "*";
+  }
+}
+
+interface SelectSlots {
+  /**
+   * A slot for adding `calcite-option`s.
+   */
+  "": Node[];
+  /**
+   * A slot for rendering content next to the component's `labelText`.
+   */
+  "label-content": Node[];
+}
+
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
-/**
- * @slot - A slot for adding `calcite-option`s.
- * @slot label-content - A slot for rendering content next to the component's `labelText`.
- */
 export class Select extends LitElement implements LabelableComponent {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: SelectSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static formAssociated = true;
@@ -73,7 +123,7 @@ export class Select extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
@@ -135,12 +185,8 @@ export class Select extends LitElement implements LabelableComponent {
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;

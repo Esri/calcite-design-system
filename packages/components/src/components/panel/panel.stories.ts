@@ -18,6 +18,25 @@ import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chro
 
 const { collapseDirection, placement, scale } = ATTRIBUTES;
 
+export const loadingNestedContent = (): string => html`
+  <style>
+    .loading-parent-panel {
+      inline-size: 400px;
+      block-size: 400px;
+    }
+    .loading-child-panel {
+      block-size: 160px;
+      flex: none;
+    }
+  </style>
+  <calcite-panel class="loading-parent-panel" heading="Loading parent" loading>
+    <calcite-button slot="header-actions-end" icon-start="gear" appearance="transparent">Settings</calcite-button>
+    <calcite-panel class="loading-child-panel" heading="Loading child" loading> Nested content </calcite-panel>
+    <p>Parent content below the loading child</p>
+    <calcite-button slot="footer" width="full">Footer action</calcite-button>
+  </calcite-panel>
+`;
+
 interface PanelStoryArgs extends Pick<
   Panel,
   | "closed"
@@ -219,11 +238,11 @@ export const withPaginationHeaderTop = (): string => html`
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      background-color: var(--calcite-color-foreground-1);
+      background-color: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
     }
 
     .pagination-menu-button {
-      padding-inline: var(--calcite-spacing-xxs);
+      padding-inline: var(--calcite-space-2xs);
       border-inline-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
     }
 

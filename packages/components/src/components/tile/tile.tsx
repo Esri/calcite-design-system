@@ -3,7 +3,7 @@ import { Alignment, Layout, Scale, SelectionAppearance, SelectionMode } from "..
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { SelectableComponent } from "../../utils/selectableComponent";
 import { IconName } from "../icon/types";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { Heading, HeadingLevel } from "../functional/Heading";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -16,36 +16,90 @@ declare global {
   }
 }
 
-/**
- * @slot content-top - A slot for adding non-actionable elements above the component's content.
- * @slot content-bottom - A slot for adding non-actionable elements below the component's content.
- */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border.
+     */
+    "--calcite-tile-accent-color-press": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-tile-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-tile-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-tile-corner-radius": "*";
+    /**
+     * Specifies the component's `heading` text color.
+     */
+    "--calcite-tile-heading-text-color": "*";
+    /**
+     * When `href` is present, specifies the component's link color.
+     */
+    "--calcite-tile-link-color": "*";
+    /**
+     * Specifies the shadow around the component.
+     */
+    "--calcite-tile-shadow": "*";
+    /**
+     * Specifies the component's `description` and `icon` text color, but not the `heading` text color.
+     */
+    "--calcite-tile-text-color": "*";
+    /**
+     * Specifies the component's link text color.
+     */
+    "--calcite-tile-link-text-color": "*";
+  }
+}
+
+interface TileSlots {
+  /**
+   * A slot for adding non-actionable elements above the component's content.
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding non-actionable elements below the component's content.
+   */
+  "content-bottom": Node[];
+}
+
 export class Tile extends LitElement implements SelectableComponent {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: TileSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private containerEl?: HTMLDivElement;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() hasContentBottom = false;
 
   @state() hasContentTop = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, the component is active.
@@ -118,14 +172,13 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
    * @private
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight" | "border",
+    "icon" | "highlight",
     SelectionAppearance
   > = "icon";
 
@@ -146,9 +199,9 @@ export class Tile extends LitElement implements SelectableComponent {
     SelectionMode
   > = "none";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
    * Sets focus on the component.
@@ -162,25 +215,25 @@ export class Tile extends LitElement implements SelectableComponent {
     return this.focusSetter(() => (this.interactive ? this.containerEl : undefined), options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** Fires when the selected state of the component changes. */
   calciteTileSelect = createEvent();
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
     this.listen("keydown", this.keyDownHandler);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private clickHandler(): void {
     if (this.interactive) {
@@ -222,9 +275,9 @@ export class Tile extends LitElement implements SelectableComponent {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   private renderSelectionIcon(): JsxNode {
     const { selected, selectionAppearance, selectionMode } = this;
@@ -261,7 +314,6 @@ export class Tile extends LitElement implements SelectableComponent {
       interactive,
       selectionMode,
     } = this;
-    const isLargeVisual = heading && icon && !description;
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
       selectionMode === "multiple" && interactive
@@ -281,8 +333,6 @@ export class Tile extends LitElement implements SelectableComponent {
         class={{
           [CSS.container]: true,
           [CSS.interactive]: interactive,
-          // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
-          [CSS.largeVisualDeprecated]: isLargeVisual,
           [CSS.row]: true,
           [CSS.selected]: this.selected,
         }}
@@ -333,5 +383,5 @@ export class Tile extends LitElement implements SelectableComponent {
     );
   }
 
-  // #endregion
+  //#endregion
 }
