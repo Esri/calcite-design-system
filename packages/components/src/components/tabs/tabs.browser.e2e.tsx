@@ -9,6 +9,7 @@ import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
 import type { Tabs } from "./tabs";
+import { CSS as TabNavCSS } from "../tab-nav/resources";
 import { CSS } from "./resources";
 
 mockConsole("error");
@@ -206,6 +207,16 @@ describe("theme", () => {
       },
       "--calcite-tab-background-color": {
         targetProp: "backgroundColor",
+      },
+    });
+  });
+
+  describe("with tab-nav", () => {
+    themed(() => mount(<calcite-tabs>{createTabsContent()}</calcite-tabs>), {
+      "--calcite-tabs-gap": {
+        selector: "calcite-tab-nav",
+        shadowSelector: `.${TabNavCSS.tabTitleSlotWrapper}`,
+        targetProp: "gap",
       },
     });
   });
