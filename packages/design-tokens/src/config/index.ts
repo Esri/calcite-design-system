@@ -183,6 +183,40 @@ const config: Config = {
         },
       ],
     },
+    docs: {
+      transformGroup: transformers.TransformCalciteGroup,
+      transforms: [
+        transformers.TransformNameRemovePrefix,
+        transformers.TransformNameCapitalCase,
+        transformers.TransformValueCorrectPropName,
+        transformers.TransformValueMergeValues,
+      ],
+      buildPath: "dist/docs/",
+      prefix: "calcite",
+      expand: {
+        typesMap: commonExpand.typesMap,
+        include: (token) => {
+          return token.type === "color";
+        },
+      },
+      options: {
+        platform: "docs",
+        fileExtension: ".json",
+        fileHeader: headers.HeaderDefault,
+      },
+      files: [
+        {
+          destination: "semantic.json",
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterSemanticTokens,
+        },
+        {
+          destination: "core.json",
+          format: formats.FormatCalciteDocs,
+          filter: filters.FilterIncludeTokens,
+        },
+      ],
+    },
   },
   log: {
     warnings: logWarningLevels.warn,
