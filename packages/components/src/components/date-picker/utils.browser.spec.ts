@@ -38,6 +38,13 @@ describe(getLocaleData, () => {
     expect(localeData.days.short).toBe(localeData.days.abbreviated);
   });
 
+  it("uses compact Portuguese weekday names for pt-PT", () => {
+    const localeData = getLocaleData("pt-PT");
+
+    expect(localeData.days.abbreviated).toEqual(["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"]);
+    expect(localeData.days.short).toEqual(["dom.", "seg.", "ter.", "qua.", "qui.", "sex.", "sáb."]);
+  });
+
   it("derives calendar metadata from Intl", () => {
     const localeData = getLocaleData("en-GB");
 

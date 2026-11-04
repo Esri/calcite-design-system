@@ -147,9 +147,10 @@ function getWeekdayNames(locale: Locale, width: "abbreviated" | "narrow"): strin
   return weekDates.map((date) => formatter.format(date));
 }
 
-function getShortWeekdayNames(abbreviatedWeekdays: string[]): string[] {
+function getShortWeekdayNames(locale: Locale, abbreviatedWeekdays: string[]): string[] {
   // Intl does not expose CLDR's two-character weekday width. Use the next-best short width for now.
-  return abbreviatedWeekdays;
+  // pt-PT's short width contains full words, while generic Portuguese exposes the expected compact forms.
+  return locale === "pt-PT" ? getWeekdayNames("pt", "abbreviated") : abbreviatedWeekdays;
 }
 
 function getWeekStart(locale: Locale): number {
@@ -193,7 +194,7 @@ export function getLocaleData(locale: Locale): DateLocaleData {
   const wideMonths = memoize(() => getMonthNames(dateTextLocale, "wide"));
   const abbreviatedWeekdays = memoize(() => getWeekdayNames(dateTextLocale, "abbreviated"));
   const narrowWeekdays = memoize(() => getWeekdayNames(dateTextLocale, "narrow"));
-  const shortWeekdays = memoize(() => getShortWeekdayNames(abbreviatedWeekdays()));
+  const shortWeekdays = memoize(() => getShortWeekdayNames(dateTextLocale, abbreviatedWeekdays()));
   const weekStart = memoize(() => getWeekStart(locale));
   const yearSuffix = memoize(() => getYearSuffix(dateTextLocale));
   const localeData: DateLocaleData = {
