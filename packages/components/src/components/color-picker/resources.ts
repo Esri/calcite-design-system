@@ -4,7 +4,7 @@ import {
   calciteSpacingFixedSm,
   calciteSpacingFixedMd,
   calciteSpacingFixedXl,
-} from "@esri/calcite-design-tokens/dist/es6/global.js";
+} from "@esri/calcite-design-tokens/dist/es6/semantic.js";
 import { IconName } from "../icon/types";
 
 export const CSS = {
