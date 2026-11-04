@@ -2573,6 +2573,18 @@ it("does not throw when initialized with different format value (format='auto')"
 
 describe("themed", () => {
   it.each(["--calcite-corner-radius", "--calcite-color-picker-corner-radius"])(
+    "applies radius to all corners when the field is disabled and %s is customized",
+    async (token) => {
+      const { el } = await mount(<calcite-color-picker fieldDisabled value="#ff0000" />);
+      el.style.setProperty(token, "32px");
+
+      await expect
+        .element(page.elementLocator(el).getBySelector(`.${CSS.container}`).first())
+        .toHaveStyle("border-radius: 32px;");
+    },
+  );
+
+  it.each(["--calcite-corner-radius", "--calcite-color-picker-corner-radius"])(
     "keeps the top corners square when %s is customized",
     async (token) => {
       const { el } = await mount(<calcite-color-picker value="#ff0000" />);
