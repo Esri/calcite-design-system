@@ -2,7 +2,7 @@ import {
   calciteSpacingBase,
   calciteSpacingXxs,
   calciteSpacingSm,
-} from "@esri/calcite-design-tokens/dist/es6/global.js";
+} from "@esri/calcite-design-tokens/dist/es6/semantic.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";

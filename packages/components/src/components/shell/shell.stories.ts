@@ -488,7 +488,7 @@ export const fullResizeHorizontal = (): string => html`
 export const fullResizeHorizontalFloat = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-start"
       resizable
       style="
@@ -497,7 +497,7 @@ export const fullResizeHorizontalFloat = (): string => html`
       "
       heading="Layers"
     >
-      <calcite-action-bar slot="action-bar">
+            display-mode="float-content"
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
         </calcite-action-group>
@@ -507,7 +507,7 @@ export const fullResizeHorizontalFloat = (): string => html`
       </calcite-block>
     </calcite-shell-panel>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-end"
       resizable
       style="
@@ -516,7 +516,7 @@ export const fullResizeHorizontalFloat = (): string => html`
       "
       heading="Layers"
     >
-      <calcite-action-bar slot="action-bar">
+            display-mode="float-content"
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
         </calcite-action-group>
@@ -618,7 +618,7 @@ export const fullResizeVertical = (): string => html`
 export const fullResizeVerticalFloat = (): string => html`
   <calcite-shell>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-top"
       resizable
       style="
@@ -637,7 +637,7 @@ export const fullResizeVerticalFloat = (): string => html`
       </calcite-block>
     </calcite-shell-panel>
     <calcite-shell-panel
-      display-mode="float"
+      display-mode="float-content"
       slot="panel-bottom"
       resizable
       style="
@@ -722,7 +722,7 @@ export const darkModeRTL = (): string => html`
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
 const closedPanelsHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
+["float-content"].forEach((d, i) => {
   closedPanelsHtml[i] = html`<calcite-shell content-behind>
     <calcite-shell-panel slot="panel-start" display-mode="${d}">
       <calcite-action-bar slot="action-bar">
@@ -752,11 +752,10 @@ const closedPanelsHtml: string[] = [];
     </calcite-shell-panel>
   </calcite-shell>`;
 });
-export const closedPanelsFloat = (): string => closedPanelsHtml[0];
-export const closedPanelsFloatContent = (): string => closedPanelsHtml[1];
+export const closedPanelsFloatContent = (): string => closedPanelsHtml[0];
 
 const endPanelHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
+["float-content"].forEach((d, i) => {
   endPanelHtml[i] = html`<calcite-shell content-behind>
     <header slot="header">
       <h2>My Shell Header</h2>
@@ -895,8 +894,7 @@ background-position: 0 0, 0 10px, 10px -10px, -10px 0;
     <footer slot="footer">My Shell Footer</footer>
   </calcite-shell>`;
 });
-export const endPanelFloat = (): string => endPanelHtml[0];
-export const endPanelFloatContent = (): string => endPanelHtml[1];
+export const endPanelFloatContent = (): string => endPanelHtml[0];
 
 export const slottedDialogAndAlert = (): string =>
   html` <main>
@@ -1066,7 +1064,7 @@ export const slottedSheetOverlay = (): string => html`
 `;
 
 const slottedSheetHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
+["float"].forEach((d, i) => {
   slottedSheetHtml[i] = html`
     <p class="padded-content">
       <calcite-notice width="full" open><span slot="title">Other page content outside of shell</span></calcite-notice>
@@ -1157,7 +1155,6 @@ const slottedSheetHtml: string[] = [];
   `;
 });
 export const slottedSheetFloat = (): string => slottedSheetHtml[0];
-export const slottedSheetFloatContent = (): string => slottedSheetHtml[1];
 
 export const contentBehind = (): string =>
   html`<calcite-shell content-behind>
@@ -1203,7 +1200,7 @@ export const slottedPanelTop = (): string =>
   </calcite-shell> `;
 
 const contentBehindPanelBottomHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
+["float-content"].forEach((d, i) => {
   contentBehindPanelBottomHtml[i] = html`
     <calcite-shell
       content-behind
@@ -1230,8 +1227,7 @@ const contentBehindPanelBottomHtml: string[] = [];
     </calcite-shell>
   `;
 });
-export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
-export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
+export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[0];
 
 export const slottedPanelBottom = (): string => html`
   <calcite-shell
@@ -2811,7 +2807,7 @@ export const customPanelWithOverflowingContent = (): string =>
     >
       <calcite-shell-panel
         collapse-disabled
-        display-mode="float"
+        display-mode="float-content"
         width-scale="l"
         slot="panel-bottom"
         style="height: 100%;"

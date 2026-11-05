@@ -145,7 +145,7 @@ it("should position panel-bottom slot at content's bottom when no other panels e
 
   await page.setContent(
     html`<calcite-shell>
-      <calcite-shell-panel slot="${SLOTS.panelBottom}" display-mode="float" layout="horizontal">
+      <calcite-shell-panel slot="${SLOTS.panelBottom}" display-mode="float-content" layout="horizontal">
         <p>Primary Content</p>
       </calcite-shell-panel>
     </calcite-shell>`,

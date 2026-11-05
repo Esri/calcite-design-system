@@ -305,50 +305,6 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
       </div>
     </div>
 
-    <!-- single selection-appearance="border" (deprecated) -->
-    <div class="parent">
-      <div class="child right-aligned-text">single selection-appearance="border" (deprecated)</div>
-      <div class="child">
-        ${getTileGroupHtml(
-          {
-            heading: true,
-            description: true,
-            icon: true,
-          },
-          layout,
-          "single",
-          "s",
-          "border",
-        )}
-      </div>
-      <div class="child">
-        ${getTileGroupHtml(
-          {
-            heading: true,
-            description: true,
-            icon: true,
-          },
-          layout,
-          "single",
-          "m",
-          "border",
-        )}
-      </div>
-      <div class="child">
-        ${getTileGroupHtml(
-          {
-            heading: true,
-            description: true,
-            icon: true,
-          },
-          layout,
-          "single",
-          "l",
-          "border",
-        )}
-      </div>
-    </div>
-
     <!-- multiple -->
     <div class="parent">
       <div class="child right-aligned-text">multiple</div>
@@ -430,50 +386,6 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
           "multiple",
           "l",
           "highlight",
-        )}
-      </div>
-    </div>
-
-    <!-- multiple selection-appearance="border" (deprecated) -->
-    <div class="parent">
-      <div class="child right-aligned-text">multiple selection-appearance="border" (deprecated)</div>
-      <div class="child">
-        ${getTileGroupHtml(
-          {
-            heading: true,
-            description: true,
-            icon: true,
-          },
-          layout,
-          "multiple",
-          "s",
-          "border",
-        )}
-      </div>
-      <div class="child">
-        ${getTileGroupHtml(
-          {
-            heading: true,
-            description: true,
-            icon: true,
-          },
-          layout,
-          "multiple",
-          "m",
-          "border",
-        )}
-      </div>
-      <div class="child">
-        ${getTileGroupHtml(
-          {
-            heading: true,
-            description: true,
-            icon: true,
-          },
-          layout,
-          "multiple",
-          "l",
-          "border",
         )}
       </div>
     </div>

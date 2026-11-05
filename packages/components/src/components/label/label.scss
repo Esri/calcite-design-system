@@ -43,8 +43,7 @@
   color: var(--calcite-label-text-color, var(--calcite-color-text-1));
 }
 
-:host([layout="block"]),
-:host([layout="default"]) {
+:host([layout="block"]) {
   .container {
     @apply flex flex-col;
   }

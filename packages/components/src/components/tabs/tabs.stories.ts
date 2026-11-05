@@ -426,7 +426,7 @@ export const noVerticalScrollbarInsideShellPanel = (): string => html`
       slot="panel-end"
       width-scale="l"
       position="end"
-      display-mode="float"
+      display-mode="float-content"
       heading="Panel with Tabs >> vertical scrollbar"
     >
       <calcite-tabs>

@@ -8,7 +8,6 @@ export const CSS = {
   content: "content",
   panel: "panel",
   contentOverlay: "content--overlay",
-  float: "float",
   floatAll: "float-all",
   floatContent: "float--content",
   resizeHandle: "resize-handle",

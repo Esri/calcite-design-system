@@ -151,7 +151,7 @@ const textTypeOptions: TextType[] = [
 const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "neutral", "highlight"];
 const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
-const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
+const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float-content", "overlay"];
 const calendarCountOptions = [1, 2];
 const colorPickerFormatOptions = [
   "auto",
@@ -173,7 +173,7 @@ const fontWeightOptions = ["300", "400", "500", "700"];
 const headingLevelOptions: number[] = [1, 2, 3, 4, 5, 6];
 const headingLevelWithNoneOptions: (number | "")[] = ["", ...headingLevelOptions];
 const horizontalVerticalLayoutOptions: Extract<Layout, "horizontal" | "vertical">[] = ["horizontal", "vertical"];
-const labelLayoutOptions = ["default", "block", "inline", "inline-space-between"];
+const labelLayoutOptions = ["block", "inline", "inline-space-between"];
 const listDisplayModeOptions = ["flat", "nested"];
 const monthStyleOptions = ["wide", "abbreviated"];
 const numberingSystemWithNoneOptions = ["", "arab", "latn"];
@@ -360,7 +360,7 @@ export const ATTRIBUTES: CommonAttributes = {
   },
   labelLayout: {
     values: labelLayoutOptions,
-    defaultValue: labelLayoutOptions[1],
+    defaultValue: labelLayoutOptions[0],
   },
   listDisplayMode: {
     values: listDisplayModeOptions,

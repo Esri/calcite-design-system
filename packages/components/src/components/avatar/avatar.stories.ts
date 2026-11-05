@@ -43,6 +43,27 @@ export const missingThumbnail = (): string => html`
   </calcite-avatar>
 `;
 
+export const constrainedSpace = (): string => html`
+  <style>
+    .constrained-flex {
+      display: flex;
+      inline-size: 300px;
+    }
+  </style>
+  <div class="constrained-flex">
+    <p>A lot of filler text so that the avatar does not have space.</p>
+    <calcite-avatar full-name="Urbano Monti"></calcite-avatar>
+  </div>
+  <br />
+  <div class="constrained-flex">
+    <p>A lot of filler text so that the avatar does not have space.</p>
+    <calcite-avatar
+      full-name="Urbano Monti"
+      thumbnail="${placeholderImage({ width: 120, height: 120 })}"
+    ></calcite-avatar>
+  </div>
+`;
+
 const users = [
   { id: "52e44e112b1f429182515dba79b71eb8", name: "au" },
   { id: "1c863a764d6de370e220e7d3aeddd8a9", name: "bv" },
