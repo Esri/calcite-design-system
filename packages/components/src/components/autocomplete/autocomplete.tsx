@@ -48,8 +48,10 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { styles } from "./autocomplete.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -190,7 +192,7 @@ export class Autocomplete
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -1024,7 +1026,7 @@ export class Autocomplete
       <ul
         ariaLabel={getLabelText(this)}
         ariaLive="polite"
-        class={CSS.screenReadersOnly}
+        class={CSS_UTILITY.screenReaderText}
         id={this.listId}
         ref={this.listboxRef}
         role="listbox"

@@ -2,11 +2,16 @@
 
 :host {
   @extend %component-host;
-  @apply relative hidden w-full flex-auto overflow-hidden;
+
+  position: relative;
+  display: none;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
 :host([selected]) {
-  @apply flex;
+  display: flex;
 }
 
 @include shared.disabled();

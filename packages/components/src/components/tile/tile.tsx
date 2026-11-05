@@ -172,14 +172,13 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    *
    * This property is set by the parent tile-group.
    *
    * @private
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight" | "border",
+    "icon" | "highlight",
     SelectionAppearance
   > = "icon";
 
@@ -315,7 +314,6 @@ export class Tile extends LitElement implements SelectableComponent {
       interactive,
       selectionMode,
     } = this;
-    const isLargeVisual = heading && icon && !description;
     const disableInteraction = Boolean(this.href) || !interactive;
     const role =
       selectionMode === "multiple" && interactive
@@ -335,8 +333,6 @@ export class Tile extends LitElement implements SelectableComponent {
         class={{
           [CSS.container]: true,
           [CSS.interactive]: interactive,
-          // [Deprecated] Use the content-top slot for rendering icon with alignment="center" instead
-          [CSS.largeVisualDeprecated]: isLargeVisual,
           [CSS.row]: true,
           [CSS.selected]: this.selected,
         }}

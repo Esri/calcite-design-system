@@ -48,8 +48,7 @@
   color: var(--calcite-label-text-color, var(--calcite-color-text-1));
 }
 
-:host([layout="block"]),
-:host([layout="default"]) {
+:host([layout="block"]) {
   .container {
     display: flex;
     flex-direction: column;
@@ -74,21 +73,6 @@
 :host([layout="inline-space-between"]) {
   .container {
     justify-content: space-between;
-  }
-}
-
-@include shared.disabled() {
-  & > .container {
-    opacity: var(--calcite-opacity-disabled);
-  }
-
-  // prevent opacity stacking with already disabled child elements
-  ::slotted(*[disabled]),
-  ::slotted(*[disabled] *) {
-    --tw-bg-opacity: 1;
-  }
-  ::slotted(calcite-input-message:not([active])) {
-    --tw-bg-opacity: 0;
   }
 }
 

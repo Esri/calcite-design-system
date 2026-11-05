@@ -1,38 +1,51 @@
 @use "../../styles/shared";
 
 :host {
-  @apply inline-block overflow-hidden;
+  display: inline-block;
+  overflow: hidden;
   border-radius: var(--calcite-avatar-corner-radius, 50%);
   color: var(--calcite-avatar-color, var(--calcite-color-text-2));
 }
 
 :host([scale="s"]) {
-  @apply text-n3 h-6 w-6;
+  font-size: var(--calcite-font-size-relative-xs);
+  block-size: var(--calcite-space-2xl);
+  inline-size: var(--calcite-space-2xl);
 }
 
 :host([scale="m"]) {
-  @apply text-n2 h-8 w-8;
+  font-size: var(--calcite-font-size-relative-sm);
+  block-size: var(--calcite-space-3xl);
+  inline-size: var(--calcite-space-3xl);
 }
 
 :host([scale="l"]) {
-  @apply text-0 h-11 w-11;
+  font-size: var(--calcite-font-size-relative-md);
+  block-size: var(--calcite-space-4xl);
+  inline-size: var(--calcite-space-4xl);
 }
 
 .icon {
-  @apply flex;
+  display: flex;
 }
 
 .background {
-  @apply flex h-full w-full items-center justify-center;
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  align-items: center;
+  justify-content: center;
   border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
 .initials {
-  @apply font-bold uppercase;
+  font-weight: var(--calcite-font-weight-bold);
+  text-transform: uppercase;
 }
 
 .thumbnail {
-  @apply h-full w-full;
+  block-size: 100%;
+  inline-size: 100%;
   border-radius: var(--calcite-avatar-corner-radius, 50%);
 }
 
