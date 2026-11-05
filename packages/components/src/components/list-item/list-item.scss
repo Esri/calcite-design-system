@@ -144,7 +144,7 @@
     );
   }
 
-  .container:active {
+  .container:active:not(.container--highlight-selected) {
     background-color: var(
       --calcite-list-background-color-press,
       var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
