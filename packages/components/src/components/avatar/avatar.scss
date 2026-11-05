@@ -2,6 +2,7 @@
 
 :host {
   display: inline-block;
+  flex-shrink: 0;
   overflow: hidden;
   border-radius: var(--calcite-avatar-corner-radius, 50%);
   color: var(--calcite-avatar-color, var(--calcite-color-text-2));
