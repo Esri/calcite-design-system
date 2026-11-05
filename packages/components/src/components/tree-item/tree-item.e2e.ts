@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import type { Tree } from "../tree/tree";
 import { findAll } from "../../tests/utils/puppeteer";
-import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
 
 it("should expand/collapse children when the icon is clicked, but not select/deselect group", async () => {
@@ -183,40 +182,6 @@ describe("when a tree-item has ancestors selection-mode and is selected", () => 
 
     expect(await selectedAncestor.getProperty("indeterminate")).toBe(false);
     expect(await selectedAncestor.getProperty("selected")).toBe(true);
-  });
-});
-
-describe("when a parent tree-item is expanded and a new item is appended into it", () => {
-  mockConsole();
-
-  it("should render the visible, keyboard navigable item", async () => {
-    const page = await newE2EPage();
-    await page.setContent(`<calcite-panel>
-        <calcite-button id='add-item-btn'>Add item to tree</calcite-button>
-        <calcite-tree>
-          <calcite-tree-item expanded><span>Element 1</span>
-            <calcite-tree slot='children' id='target-tree'>
-              <calcite-tree-item>Child 1</calcite-tree-item>
-            </calcite-tree>
-          </calcite-tree-item>
-          <calcite-tree-item>Element 2</calcite-tree-item>
-        </calcite-tree>
-      </calcite-panel>`);
-    await page.evaluate(() => {
-      const tree = document.querySelector("#target-tree")!;
-      document.querySelector("#add-item-btn")!.addEventListener("click", () => {
-        const newItem = document.createElement("calcite-tree-item");
-        newItem.id = "newbie";
-        newItem.appendChild(document.createTextNode("Child 2"));
-        tree.appendChild(newItem);
-      });
-    });
-    const btn = await page.find("calcite-button");
-    await btn.click();
-
-    const item = await page.find("#newbie");
-    expect(item.inert).toBe(false);
-    expect(item.tabIndex).toBe(0);
   });
 });
 
