@@ -215,7 +215,7 @@
   padding-inline: var(--calcite-space-md);
   & .divider {
     inline-size: 100%;
-    block-size: var(var(--calcite-space-px));
+    block-size: var(--calcite-space-px);
     margin-block: var(--calcite-space-none);
   }
 }
