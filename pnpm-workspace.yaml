@@ -92,7 +92,7 @@ catalog:
   "markdownlint-cli2": "0.22.1"
   "patch-package": "8.0.1"
   "playwright": "1.62.1"
-  "postcss": "8.5.28"
+  "postcss": "8.5.32"
   "postcss-scss": "4.0.9"
   "prettier": "3.8.4"
   "puppeteer": "23.4.1"
