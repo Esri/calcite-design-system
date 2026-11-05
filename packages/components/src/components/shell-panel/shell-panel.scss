@@ -131,10 +131,14 @@
   --calcite-internal-shell-panel-min-width: var(--calcite-shell-panel-min-width, 340px);
 }
 
-:host([layout="horizontal"]) .content {
+:host([layout="horizontal"]) .container {
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
+
+  block-size: var(--calcite-internal-shell-panel-height);
+  max-block-size: var(--calcite-internal-shell-panel-max-height);
+  min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
 :host([layout="horizontal"]) .height-s {
@@ -172,7 +176,8 @@
   flex-auto
   items-stretch
   bg-transparent
-  h-full;
+  h-full
+  relative;
 
   color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
 
@@ -195,7 +200,7 @@
 }
 
 .float-all {
-  max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
+  max-block-size: calc(100% - 1rem);
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
   border-radius: var(
     --calcite-shell-panel-corner-radius,
@@ -446,6 +451,94 @@
   }
 }
 
+:host([position="start"][layout="horizontal"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
+  .container {
+    padding-block-end: var(--calcite-size-fixed-sm-plus);
+  }
+
+  .content-container > .content {
+    padding-block-end: 0;
+  }
+
+  .container > .resize-handle {
+    pointer-events: auto;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    inset-block-start: auto;
+    inset-block-end: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inline-size: auto;
+    block-size: var(--calcite-size-fixed-xxl);
+  }
+}
+
+:host([position="end"][layout="horizontal"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
+  .container {
+    padding-block-start: var(--calcite-size-fixed-sm-plus);
+  }
+
+  .content-container > .content {
+    padding-block-start: 0;
+  }
+
+  .container > .resize-handle {
+    pointer-events: auto;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: auto;
+    inset-block-start: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inline-size: auto;
+    block-size: var(--calcite-size-fixed-xxl);
+  }
+}
+
+:host([position="start"][layout="vertical"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
+  .container {
+    padding-inline-end: var(--calcite-size-fixed-sm-plus);
+  }
+
+  .content-container > .content {
+    padding-inline-end: 0;
+  }
+
+  .container > .resize-handle {
+    pointer-events: auto;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-start: auto;
+    inset-inline-end: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inline-size: var(--calcite-size-fixed-xxl);
+    block-size: 100%;
+  }
+}
+
+:host([position="end"][layout="vertical"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
+  .container {
+    padding-inline-start: var(--calcite-size-fixed-sm-plus);
+  }
+
+  .content-container > .content {
+    padding-inline-start: 0;
+  }
+
+  .container > .resize-handle {
+    pointer-events: auto;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-end: auto;
+    inset-inline-start: var(--calcite-internal-shell-panel-resize-handle-offset);
+    inline-size: var(--calcite-size-fixed-xxl);
+    block-size: 100%;
+  }
+}
+
+// Shifts the bar by the float panel margin so it sits flush with the panel edge.
+:host([display-mode^="float"]:not([display-mode="float-all"])[resizable]) .container > .resize-handle {
+  --calcite-internal-shell-panel-resize-handle-offset: calc(
+    (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1 +
+      var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
+  );
+}
+
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
   @apply h-full w-full flex-auto;
@@ -474,6 +567,10 @@
 :host([layout="horizontal"]) .action-bar-container,
 :host([layout="horizontal"]) .content-container {
   flex-direction: column;
+}
+
+:host([layout="horizontal"]) .action-bar-container {
+  overflow: auto;
 }
 
 .content {
@@ -519,12 +616,12 @@
 }
 
 :host([layout="horizontal"]) .content {
-  block-size: var(--calcite-internal-shell-panel-height);
-  max-block-size: var(--calcite-internal-shell-panel-max-height);
-  min-block-size: var(--calcite-internal-shell-panel-min-height);
+  // block-size: var(--calcite-internal-shell-panel-height);
+  // max-block-size: var(--calcite-internal-shell-panel-max-height);
+  // min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
-:host([resizable][layout="vertical"][position="start"]) {
+:host([resizable][layout="vertical"][position="start"][display-mode="overlay"]) {
   .content {
     padding-inline-end: var(
       --calcite-internal-shell-panel-content-padding-inline-end,
@@ -533,7 +630,7 @@
   }
 }
 
-:host([resizable][layout="vertical"][position="end"]) {
+:host([resizable][layout="vertical"][position="end"][display-mode="overlay"]) {
   .content {
     padding-inline-start: var(--calcite-size-fixed-sm-plus);
   }
@@ -546,7 +643,7 @@
   }
 }
 
-:host([resizable][layout="horizontal"][position="start"]) {
+:host([resizable][layout="horizontal"][position="start"][display-mode="overlay"]) {
   .content {
     padding-block-end: var(--calcite-size-fixed-sm-plus);
   }
@@ -556,7 +653,7 @@
   }
 }
 
-:host([resizable][layout="horizontal"][position="end"]) {
+:host([resizable][layout="horizontal"][position="end"][display-mode="overlay"]) {
   .content {
     padding-block-start: var(--calcite-size-fixed-sm-plus);
   }
@@ -807,11 +904,6 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
     display: flex;
     flex: 1 1 0;
   }
-}
-
-:host([layout="horizontal"][action-bar-position]) .content {
-  // --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, none); // TODO: allow configurable max height?
-  --calcite-internal-shell-panel-max-height: none;
 }
 
 :host([action-bar-position="top"][slot="panel-start"]),

@@ -15,6 +15,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../types";
+import { CSS as SHELL_CSS } from "../shell/resources";
 import { CSS, SLOTS } from "./resources";
 import type { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
@@ -436,9 +437,7 @@ describe("shell-panel updateSize public method", () => {
         .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
         .element() as HTMLElement,
       handle: panelLocator
-        .getBySelector(
-          `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
-        )
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.resizeHandle}`)
         .element() as HTMLElement,
     };
   }
@@ -709,6 +708,78 @@ describe("shell-panel updateSize public method", () => {
     );
   });
 
+  it("keeps the resize handle within the shell when a dock panel is resized to its maximum block size", async () => {
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell style="inline-size: 700px; block-size: 400px; position: relative;">
+        <calcite-shell-panel resizable slot="panel-top">
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot("panel-top");
+    const { handle } = getShellPanelElements(panel);
+
+    await userEvent.keyboard("{Tab}{End}");
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+
+    expect(Math.ceil(handle.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().bottom),
+    );
+  });
+
+  it("keeps the shell content and resize handle within the shell while a top dock panel is dragged past its maximum block size", async () => {
+    const shellHeight = 400;
+    const { el, component } = await mount<"calcite-shell">(
+      <calcite-shell
+        style={`inline-size: 700px; block-size: ${shellHeight}px; position: relative;`}
+      >
+        <calcite-shell-panel resizable slot="panel-top">
+          <calcite-action-bar slot="action-bar">
+            <calcite-action icon="save" text="Save" />
+          </calcite-action-bar>
+          <calcite-panel>Top content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>
+          <div style="block-size: 1000px;">Main content</div>
+        </calcite-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot("panel-top");
+    const centerPanel = page
+      .getBySelector("calcite-shell > calcite-panel:not([slot])")
+      .element() as Panel["el"];
+    const shellContent = page
+      .elementLocator(el)
+      .getBySelector(`:scope > .${SHELL_CSS.main} > .${SHELL_CSS.content}`)
+      .element() as HTMLElement;
+    const { handle } = getShellPanelElements(panel);
+    const handleRect = handle.getBoundingClientRect();
+
+    await userEvent.hover(handle);
+    await commands.mouseDown();
+    await commands.mouseMove(
+      handleRect.left + handleRect.width / 2,
+      handleRect.top + handleRect.height / 2 + shellHeight,
+    );
+    await component.updateComplete;
+
+    expect(shellContent.scrollHeight).toBeLessThanOrEqual(shellContent.clientHeight);
+    expect(Math.ceil(centerPanel.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().bottom),
+    );
+
+    await commands.mouseUp();
+    await component.updateComplete;
+    await panel.manager.component.updateComplete;
+
+    expect(shellContent.scrollHeight).toBeLessThanOrEqual(shellContent.clientHeight);
+    expect(Math.ceil(handle.getBoundingClientRect().bottom)).toBeLessThanOrEqual(
+      Math.ceil(el.getBoundingClientRect().bottom),
+    );
+  });
+
   it("applies touch-action:none to the resize handle to enable resizing on mobile/touch devices", async () => {
     const { el } = await mount<"calcite-shell-panel">(
       <calcite-shell-panel resizable>
@@ -717,12 +788,42 @@ describe("shell-panel updateSize public method", () => {
     );
     const handle = page
       .elementLocator(el)
-      .getBySelector(
-        `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
-      )
+      .getBySelector(`:scope > .${CSS.container} > .${CSS.resizeHandle}`)
       .element() as HTMLElement;
 
     expect(getComputedStyle(handle).touchAction).toBe("none");
+  });
+
+  it.for([
+    {
+      displayMode: "dock",
+      handleSelector: `:scope > .${CSS.container} > .${CSS.resizeHandle}`,
+    },
+    {
+      displayMode: "overlay",
+      handleSelector: `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
+    },
+  ] as const)(
+    "renders the resize handle in the expected parent for $displayMode display mode",
+    async ({ displayMode, handleSelector }) => {
+      const { el } = await mount<"calcite-shell-panel">(
+        <calcite-shell-panel display-mode={displayMode} resizable>
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>,
+      );
+
+      expect(page.elementLocator(el).getBySelector(handleSelector).element()).toBeDefined();
+    },
+  );
+
+  it("does not render the resize handle when collapsed", async () => {
+    const { el } = await mount<"calcite-shell-panel">(
+      <calcite-shell-panel collapsed resizable>
+        <calcite-panel>Content</calcite-panel>
+      </calcite-shell-panel>,
+    );
+
+    expect(el.shadowRoot.querySelector(`.${CSS.resizeHandle}`)).toBeNull();
   });
 
   it("allows resizing a top action bar panel down to its configured minimum width", async () => {

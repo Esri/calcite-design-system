@@ -11,9 +11,9 @@
     overflow-hidden;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
-  inset: 1rem;
-  inline-size: auto;
-  block-size: auto;
+  // inset: 1rem;
+  // inline-size: auto;
+  // block-size: auto;
 }
 
 .main {
@@ -58,6 +58,7 @@
     flex-col
     flex-nowrap
     pointer-events-none;
+  min-block-size: 0;
 }
 
 ::slotted(calcite-shell-panel) {

@@ -325,6 +325,7 @@ export class ShellPanel extends LitElement {
 
     if (
       (changes.has("direction") && this.hasUpdated) ||
+      (changes.has("displayMode") && this.hasUpdated) ||
       (changes.has("position") && (this.hasUpdated || this.position !== "start"))
     ) {
       shouldRefreshResize = true;
@@ -527,12 +528,14 @@ export class ShellPanel extends LitElement {
     const { availableSize } = shellSizingData;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
     const contentSpacingSize = this.getContentSpacingSize(axis);
+    const resizeHandleOverhangSize = this.getResizeHandleOverhangSize(axis);
 
     return Math.max(
       Math.floor(availableSize) -
         Math.ceil(actionBarSize) -
         Math.ceil(containerSpacingSize) -
-        Math.ceil(contentSpacingSize),
+        Math.ceil(contentSpacingSize) -
+        Math.ceil(resizeHandleOverhangSize),
       0,
     );
   }
@@ -570,11 +573,33 @@ export class ShellPanel extends LitElement {
       ? getStylePixelValue(computedStyle.marginInlineStart) +
           getStylePixelValue(computedStyle.marginInlineEnd) +
           getStylePixelValue(computedStyle.borderInlineStartWidth) +
-          getStylePixelValue(computedStyle.borderInlineEndWidth)
+          getStylePixelValue(computedStyle.borderInlineEndWidth) +
+          getStylePixelValue(computedStyle.paddingInlineStart) +
+          getStylePixelValue(computedStyle.paddingInlineEnd)
       : getStylePixelValue(computedStyle.marginBlockStart) +
           getStylePixelValue(computedStyle.marginBlockEnd) +
           getStylePixelValue(computedStyle.borderBlockStartWidth) +
-          getStylePixelValue(computedStyle.borderBlockEndWidth);
+          getStylePixelValue(computedStyle.borderBlockEndWidth) +
+          getStylePixelValue(computedStyle.paddingBlockStart) +
+          getStylePixelValue(computedStyle.paddingBlockEnd);
+  }
+
+  /** Returns the dock handle overhang to reserve so the resize handle stays within the shell. */
+  private getResizeHandleOverhangSize(axis: "inline" | "block"): number {
+    const { containerRef, resizeHandleRef, displayMode } = this;
+    const container = containerRef.value;
+    const handle = resizeHandleRef.value;
+
+    if (!container || !handle || displayMode !== "dock") {
+      return 0;
+    }
+
+    const containerRect = container.getBoundingClientRect();
+    const handleRect = handle.getBoundingClientRect();
+
+    return axis === "inline"
+      ? Math.max(0, handleRect.right - containerRect.right, containerRect.left - handleRect.left)
+      : Math.max(0, handleRect.bottom - containerRect.bottom, containerRect.top - handleRect.top);
   }
 
   private getMaxBlockSize(): number | null {
@@ -630,31 +655,37 @@ export class ShellPanel extends LitElement {
       return;
     }
 
+    const content = contentRef.value;
     const rtl = this.direction === "rtl";
-    const restrictSizeMin =
-      this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
-        ? undefined
-        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+    const isBlock = layout === "horizontal";
+    let startContentSize = 0;
+    let startHandleSize = 0;
 
-    this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
+    this.interaction = interact(resizeHandle, { context: el.ownerDocument }).resizable({
       edges: {
         top: position === "end" && layout === "horizontal" ? resizeHandle : false,
         right: position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandle : false,
         bottom: position === "start" && layout === "horizontal" ? resizeHandle : false,
         left: position === (rtl ? "start" : "end") && layout === "vertical" ? resizeHandle : false,
       },
-      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin })],
+      // Keeps the handle rect unclamped so the size delta is not limited to the handle's own size.
+      invert: "negate",
       listeners: {
-        resizestart: () => {
+        start: ({ rect }: ResizeEvent) => {
+          const { height, width } = content.getBoundingClientRect();
+
+          startContentSize = isBlock ? height : width;
+          startHandleSize = isBlock ? rect.height : rect.width;
           this.calciteInternalShellPanelResizeStart.emit();
         },
-        resizeend: () => {
+        end: () => {
           this.calciteInternalShellPanelResizeEnd.emit();
         },
         move: ({ rect }: ResizeEvent) => {
-          const isBlock = layout === "horizontal";
+          const handleDelta = (isBlock ? rect.height : rect.width) - startHandleSize;
+          const size = startContentSize + handleDelta;
 
-          this.updateSize(isBlock ? { block: rect.height } : { inline: rect.width });
+          this.updateSize(isBlock ? { block: size } : { inline: size });
         },
       },
     });
@@ -829,9 +860,6 @@ export class ShellPanel extends LitElement {
             [getDimensionClass("width", this.width, this.widthScale)]: !!(
               this.width || this.widthScale
             ),
-            [getDimensionClass("height", this.height, this.heightScale)]: !!(
-              this.height || this.heightScale
-            ),
           }}
           hidden={collapsed}
           key="content"
@@ -841,7 +869,7 @@ export class ShellPanel extends LitElement {
           <div class={CSS.contentBody}>
             <slot />
           </div>
-          {separatorNode}
+          {displayMode === "overlay" ? separatorNode : null}
         </div>
       </div>
     );
@@ -865,10 +893,17 @@ export class ShellPanel extends LitElement {
 
     return (
       <div
-        class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+        class={{
+          [CSS.container]: true,
+          [CSS.floatAll]: displayMode === "float-all",
+          [getDimensionClass("height", this.height, this.heightScale)]: !!(
+            this.height || this.heightScale
+          ),
+        }}
         ref={this.containerRef}
       >
         {mainNodes}
+        {displayMode === "overlay" ? null : separatorNode}
       </div>
     );
   }
