@@ -3,7 +3,6 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
-import { resolveAriaLive } from "../../utils/aria";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -1004,7 +1003,7 @@ export class Dialog extends LitElement {
         >
           {assistiveText ? (
             <div
-              ariaLive={resolveAriaLive(this.aria?.live)}
+              ariaLive={this.aria?.live}
               class={CSS_UTILITY.screenReaderText}
               key="assistive-text"
             >

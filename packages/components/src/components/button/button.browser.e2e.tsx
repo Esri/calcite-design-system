@@ -84,6 +84,10 @@ describe("defaults", () => {
         defaultValue: "center",
       },
       {
+        propertyName: "aria",
+        defaultValue: undefined,
+      },
+      {
         propertyName: "appearance",
         defaultValue: "solid",
       },
@@ -216,30 +220,21 @@ describe("a11y attributes", () => {
     "configures internal live announcements independently of the host with href %s",
     async (href) => {
       const { el } = await mount<Button>(<calcite-button href={href}>Continue</calcite-button>);
-      const control = page.getBySelector("calcite-button button, calcite-button a").element() as
-        | HTMLButtonElement
-        | HTMLAnchorElement;
+      const control = page.getByTestId("button-control");
 
-      expect(control).toBeDefined();
-      expect(control.getAttribute("aria-live")).toBe(null);
+      await expect.element(control).not.toHaveAttribute("aria-live");
 
       el.aria = { live: "polite" };
-      await expect
-        .element(page.getBySelector("calcite-button button, calcite-button a"))
-        .toHaveAttribute("aria-live", "polite");
+      await expect.element(control).toHaveAttribute("aria-live", "polite");
 
-      expect(el.getAttribute("aria-live")).toBe(null);
+      expect(el).not.toHaveAttribute("aria-live");
 
       el.aria = { live: "off" };
-      await expect
-        .element(page.getBySelector("calcite-button button, calcite-button a"))
-        .toHaveAttribute("aria-live", "off");
+      await expect.element(control).toHaveAttribute("aria-live", "off");
 
       el.aria = undefined;
       el.ariaLive = "assertive";
-      await expect
-        .element(page.getBySelector("calcite-button button, calcite-button a"))
-        .not.toHaveAttribute("aria-live");
+      await expect.element(control).not.toHaveAttribute("aria-live");
     },
   );
 });

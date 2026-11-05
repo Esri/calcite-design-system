@@ -365,6 +365,7 @@ export class Button extends LitElement {
             [CSS.iconStartEmpty]: !this.iconStart,
             [CSS.iconEndEmpty]: !this.iconEnd,
           }}
+          data-testid="button-control"
           disabled={childElType === "button" ? this.disabled : undefined}
           download={
             childElType === "a"

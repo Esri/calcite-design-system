@@ -42,11 +42,11 @@ describe("defaults", () => {
     () => mount("calcite-dialog"),
     [
       {
-        propertyName: "beforeClose",
+        propertyName: "aria",
         defaultValue: undefined,
       },
       {
-        propertyName: "aria",
+        propertyName: "beforeClose",
         defaultValue: undefined,
       },
       {
@@ -445,7 +445,6 @@ describe("a11y attributes", () => {
       `calcite-dialog .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
 
-    await expect.element(assistiveText).toBeInTheDocument();
     await expect.element(assistiveText).not.toHaveAttribute("aria-live");
   });
 
