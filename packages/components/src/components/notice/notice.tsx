@@ -189,12 +189,8 @@ export class Notice extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   //#endregion
 
@@ -290,6 +286,11 @@ export class Notice extends LitElement {
   //#region Rendering
 
   override render(): JsxNode {
+    const { open } = this;
+    const hidden = !open;
+    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
+    this.el.inert = hidden;
+
     const closeButton = (
       <calcite-action
         class={CSS.close}

@@ -144,8 +144,6 @@ export class ActionBar extends LitElement {
   // Suppresses the temporary actions-change event emitted while an overflow pass is mutating a group.
   private suppressedActionGroupActionsChange = new WeakMap<ActionGroup["el"], number>();
 
-  private lastOverflowAxisSize?: { axis: "width" | "height"; size: number };
-
   private lineMeasureFrame?: number;
 
   private cancelable = useCancelable<this>()(this);
@@ -218,7 +216,7 @@ export class ActionBar extends LitElement {
       slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
+        const actionGroupItemCount = this.getActionGroupItemCount(actionGroup);
         const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
         bufferSize += actionGroupGap * actionGroupGapQuantity;
 
@@ -283,14 +281,6 @@ export class ActionBar extends LitElement {
     }
 
     const { width, height } = entry.contentRect;
-    const axis = this.layout === "horizontal" ? "width" : "height";
-    const size = axis === "width" ? width : height;
-
-    if (this.lastOverflowAxisSize?.axis === axis && this.lastOverflowAxisSize.size === size) {
-      return;
-    }
-
-    this.lastOverflowAxisSize = { axis, size };
     this.resize({ width, height });
   };
 
@@ -627,7 +617,7 @@ export class ActionBar extends LitElement {
     return itemSizes.map((size) => size || fallbackSize);
   }
 
-  private getVisibleActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
+  private getActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
     const directActionGroupActions = actionGroup.actions.filter(
       (action) => action.parentElement === actionGroup,
     );
@@ -635,14 +625,8 @@ export class ActionBar extends LitElement {
       actionGroup,
       "calcite-action-menu",
     ).length;
-    const defaultActionsCount =
-      directActionGroupActions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions)
-        .length + directActionMenusCount;
-    const hasMenuActions = directActionGroupActions.some(
-      (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
-    );
 
-    return defaultActionsCount + (hasMenuActions ? 1 : 0);
+    return directActionGroupActions.length + directActionMenusCount;
   }
 
   private expandedHandler(): void {

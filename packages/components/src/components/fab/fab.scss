@@ -1,7 +1,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex;
+  display: flex;
 
   background-color: transparent;
 }

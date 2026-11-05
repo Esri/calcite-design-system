@@ -39,12 +39,6 @@ export function createConfig({
         // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
         bundleIn: nonEsmDependencies,
       },
-      wrappers: [
-        {
-          type: "react18",
-          proxiesFile: "../components-react/src/components.ts",
-        },
-      ],
     },
     css: {
       globalStylesPath: "src/styles/global/index.scss",

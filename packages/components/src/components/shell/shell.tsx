@@ -1,5 +1,6 @@
 import { type PropertyValues } from "lit";
 import { LitElement, property, Fragment, h, state, JsxNode, ToEvents } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { createRef } from "lit/directives/ref.js";
 import {
   getStylePixelValue,
@@ -19,10 +20,6 @@ type ShellPanelWithSizingProvider = ShellPanel["el"] & {
 };
 
 type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
-
-const panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
-
-type PanelSlot = (typeof panelSlots)[number];
 
 declare global {
   interface DeclareElements {
@@ -101,9 +98,11 @@ export class Shell extends LitElement {
 
   static override styles = styles;
 
-  //#endregion
+  // #endregion
 
   //#region Private Properties
+
+  direction = useDirection();
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
@@ -115,17 +114,7 @@ export class Shell extends LitElement {
 
   private panelTopSlotRef = createRef<HTMLSlotElement>();
 
-  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][]; resizable: boolean }> =
-    {
-      "panel-start": { elements: [], resizable: false },
-      "panel-end": { elements: [], resizable: false },
-      "panel-top": { elements: [], resizable: false },
-      "panel-bottom": { elements: [], resizable: false },
-    };
-
-  //#endregion
-
-  //#region State Properties
+  // #region State Properties
 
   @state() hasAlerts = false;
 
@@ -135,32 +124,26 @@ export class Shell extends LitElement {
 
   @state() hasHeader = false;
 
-  @state() hasActionBarPositionPanel = false;
-
   @state() hasOnlyPanelBottom = false;
 
   @state() hasPanelBottom = false;
 
   @state() hasPanelTop = false;
 
-  @state() hasResizablePanelBottom = false;
-
-  @state() hasResizablePanelTop = false;
-
   @state() hasSheets = false;
 
   @state() panelIsResizing = false;
 
-  //#endregion
+  // #endregion
 
-  //#region Public Properties
+  // #region Public Properties
 
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
 
-  //#endregion
+  // #endregion
 
-  //#region Lifecycle
+  // #region Lifecycle
 
   constructor() {
     super();
@@ -171,14 +154,6 @@ export class Shell extends LitElement {
     this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeEnd"]>(
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
-    );
-    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizableChange"]>(
-      "calciteInternalShellPanelResizableChange",
-      this.handleCalciteInternalShellPanelResizableChange,
-    );
-    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelActionBarPositionChange"]>(
-      "calciteInternalShellPanelActionBarPositionChange",
-      this.handleCalciteInternalShellPanelActionBarPositionChange,
     );
   }
 
@@ -195,29 +170,9 @@ export class Shell extends LitElement {
     }
   }
 
-  //#endregion
+  // #endregion
 
-  //#region Private Methods
-
-  private handleCalciteInternalShellPanelResizableChange(event: CustomEvent<void>): void {
-    const panel = event.composedPath().find(isShellPanel);
-
-    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updateResizableSlotState(panel.slot as PanelSlot);
-    }
-
-    event.stopPropagation();
-  }
-
-  private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
-    const panel = event.composedPath().find(isShellPanel);
-
-    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updateResizableSlotState(panel.slot as PanelSlot);
-    }
-
-    event.stopPropagation();
-  }
+  // #region Private Methods
 
   private handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
     this.panelIsResizing = true;
@@ -332,7 +287,7 @@ export class Shell extends LitElement {
     }
 
     const defaultSlotMinSize = this.getDefaultSlotMinSize(axis);
-    const isRTL = window.getComputedStyle(this).direction === "rtl";
+    const isRTL = this.direction === "rtl";
     let availableOccupiedSize: number;
 
     if (axis === "inline") {
@@ -369,7 +324,6 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "start";
     });
-    this.updateResizableSlotState("panel-top", panelElements);
   }
 
   private handlePanelBottomChange(event: Event): void {
@@ -381,7 +335,6 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "end";
     });
-    this.updateResizableSlotState("panel-bottom", panelElements);
   }
 
   private handlePanelStartChange(event: Event): void {
@@ -392,7 +345,6 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "start";
     });
-    this.updateResizableSlotState("panel-start", panelElements);
   }
 
   private handlePanelEndChange(event: Event): void {
@@ -403,7 +355,6 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "end";
     });
-    this.updateResizableSlotState("panel-end", panelElements);
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -415,32 +366,9 @@ export class Shell extends LitElement {
       });
   }
 
-  private updateResizableSlotState(
-    slot: PanelSlot,
-    panelElements = this.panelSlotState[slot].elements,
-  ): void {
-    this.panelSlotState[slot] = {
-      elements: panelElements,
-      resizable: panelElements.some((panel) => panel.resizable),
-    };
-    this.syncResizableState();
-    this.syncActionBarPositionPanelState();
-  }
+  // #endregion
 
-  private syncActionBarPositionPanelState(): void {
-    this.hasActionBarPositionPanel = panelSlots.some((slot) =>
-      this.panelSlotState[slot].elements.some((panel) => !!panel.actionBarPosition),
-    );
-  }
-
-  private syncResizableState(): void {
-    this.hasResizablePanelBottom = this.panelSlotState["panel-bottom"].resizable;
-    this.hasResizablePanelTop = this.panelSlotState["panel-top"].resizable;
-  }
-
-  //#endregion
-
-  //#region Rendering
+  // #region Rendering
 
   private renderHeader(): JsxNode {
     return (
@@ -546,14 +474,7 @@ export class Shell extends LitElement {
 
   private renderMain(): JsxNode {
     return (
-      <div
-        class={{
-          [CSS.main]: true,
-          [CSS.hasActionBarPositionPanel]: this.hasActionBarPositionPanel,
-          [CSS.hasResizablePanelBottom]: this.hasResizablePanelBottom,
-          [CSS.hasResizablePanelTop]: this.hasResizablePanelTop,
-        }}
-      >
+      <div class={CSS.main}>
         <slot
           name={SLOTS.panelStart}
           onSlotChange={this.handlePanelStartChange}
