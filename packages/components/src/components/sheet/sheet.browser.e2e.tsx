@@ -406,18 +406,34 @@ describe("internal panel", () => {
     await expect.element(content).toBeVisible();
   });
 
+  it("keeps the Sheet open when the internal panel close event is canceled", async () => {
+    const { component } = await mountSheet(undefined);
+    const content = page.getByRole("button", { name: "Sheet content" });
+    const panelCloseEvent = waitForEvent(component.el, "calcitePanelClose");
+
+    component.el.addEventListener("calcitePanelClose", (event) => event.preventDefault(), {
+      capture: true,
+    });
+
+    await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+    await panelCloseEvent;
+
+    expect(component.el.open).toBe(true);
+    await expect.element(content).toBeVisible();
+  });
+
   it("keeps the built-in panel visible during the closing transition", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(
-      <calcite-sheet
-        heading="Tools"
-        open
-        style="--calcite-internal-animation-timing-medium: 250ms"
-      />,
+      <calcite-sheet heading="Tools" open style="--calcite-internal-animation-timing-medium: 250ms">
+        <button type="button">Sheet content</button>
+      </calcite-sheet>,
     );
     await openEvent;
 
     const panel = page.getBySelector(`.${CSS.panel}`);
+    const heading = page.getByText("Tools", { exact: true });
+    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
     const beforeCloseEvent = waitForEvent(el, "calciteSheetBeforeClose");
     const closeEvent = waitForEvent(el, "calciteSheetClose");
 
@@ -428,8 +444,12 @@ describe("internal panel", () => {
     expect(el.hasAttribute("data-closing")).toBe(true);
     await expect.element(panel).toHaveProperty("hidden", false);
     await expect.element(panel).toBeVisible();
+    await expect.element(heading).toBeVisible();
+    await expect.element(content).toBeVisible();
     await closeEvent;
     await expect.element(panel).not.toBeVisible();
+    await expect.element(heading).not.toBeVisible();
+    await expect.element(content).not.toBeVisible();
   });
 
   it("clears the closing state when reopened during the closing transition", async () => {

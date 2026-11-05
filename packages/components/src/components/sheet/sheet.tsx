@@ -357,6 +357,8 @@ export class Sheet extends LitElement {
 
   //#region State Properties
 
+  @state() private panelClosing = false;
+
   @state() resizeValues: ResizeValues = {
     inlineSize: null,
     blockSize: null,
@@ -656,6 +658,10 @@ export class Sheet extends LitElement {
       return;
     }
 
+    if (event.defaultPrevented) {
+      return;
+    }
+
     event.preventDefault();
     event.stopPropagation();
     this.open = false;
@@ -853,6 +859,7 @@ export class Sheet extends LitElement {
   }
 
   onBeforeOpen(): void {
+    this.panelClosing = false;
     this.el.removeAttribute("data-closing");
     this.calciteSheetBeforeOpen.emit();
     this.topLayer.show();
@@ -867,11 +874,13 @@ export class Sheet extends LitElement {
   }
 
   onBeforeClose(): void {
+    this.panelClosing = true;
     this.el.setAttribute("data-closing", "");
     this.calciteSheetBeforeClose.emit();
   }
 
   onClose(): void {
+    this.panelClosing = false;
     this.el.removeAttribute("data-closing");
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
@@ -938,7 +947,7 @@ export class Sheet extends LitElement {
               <calcite-panel
                 class={CSS.panel}
                 closable={!this.closeDisabled}
-                closed={!this.opened}
+                closed={!this.opened && !this.panelClosing}
                 description={this.description}
                 disabled={this.disabled}
                 focusTrapDisabled={true}
