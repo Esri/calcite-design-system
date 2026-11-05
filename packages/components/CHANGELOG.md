@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.18...@esri/calcite-components@6.0.0-next.19) (2026-11-05)
+
+### Bug Fixes
+
+- **autocomplete, combobox, list-item:** retain surface.highlight color when selection-appearance=highlight items are hovered/pressed ([#15529](https://github.com/Esri/calcite-design-system/issues/15529)), closes [#14189](https://github.com/Esri/calcite-design-system/issues/14189)
+
 ## [6.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.17...@esri/calcite-components@6.0.0-next.18) (2026-11-04)
 
 **Note:** Version bump only for package @esri/calcite-components
