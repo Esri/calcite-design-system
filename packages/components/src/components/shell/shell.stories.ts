@@ -497,7 +497,7 @@ export const fullResizeHorizontalFloat = (): string => html`
       "
       heading="Layers"
     >
-            display-mode="float-content"
+      <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
         </calcite-action-group>
@@ -516,7 +516,7 @@ export const fullResizeHorizontalFloat = (): string => html`
       "
       heading="Layers"
     >
-            display-mode="float-content"
+      <calcite-action-bar slot="action-bar">
         <calcite-action-group>
           <calcite-action text="Add" icon="plus"></calcite-action>
         </calcite-action-group>
