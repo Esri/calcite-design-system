@@ -7,7 +7,9 @@
 @use "../../styles/shared";
 
 :host {
-  @apply relative flex items-center;
+  position: relative;
+  display: flex;
+  align-items: center;
   inline-size: fit-content;
 }
 
@@ -47,6 +49,7 @@
 
 .star {
   @include shared.transition-default();
+
   position: relative;
   display: flex;
   flex-direction: column;
@@ -59,7 +62,7 @@
     color: var(--calcite-rating-color-press, var(--calcite-color-brand-press));
   }
   &:focus {
-    @apply focus-outset;
+    @include shared.focus-outset();
   }
 }
 
@@ -99,10 +102,6 @@ calcite-chip {
   &:not(:first-child) {
     margin-inline-start: var(--calcite-rating-spacing, var(--calcite-internal-rating-spacing));
   }
-}
-
-.visually-hidden {
-  @apply sr-only;
 }
 
 @include shared.form-internal-label();

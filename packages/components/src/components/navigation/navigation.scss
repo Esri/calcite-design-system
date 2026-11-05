@@ -12,7 +12,7 @@
 @include shared.base-component();
 
 :host {
-  @apply block;
+  display: block;
 }
 
 :host([scale="s"]) {
@@ -37,11 +37,10 @@
 }
 
 .container {
-  @apply flex
-  flex-col
-  mx-auto
-  w-full;
-  margin-block: 0;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  margin-block: var(--calcite-space-none);
   margin-inline: auto;
   background-color: var(
     --calcite-navigation-background-color,
@@ -57,11 +56,11 @@
 
 .user,
 .logo {
-  @apply flex;
+  display: flex;
 }
 
 .hide {
-  @apply hidden;
+  display: none;
 }
 
 .primary {
@@ -77,10 +76,9 @@
 }
 
 .container-content {
-  @apply flex
-  w-full
-  h-full
-  mx-auto;
+  display: flex;
+  block-size: 100%;
+  margin-inline: auto;
   margin-block: 0;
   inline-size: var(--calcite-navigation-width, 100%);
   max-inline-size: 100%;
@@ -90,18 +88,21 @@
 }
 
 slot[name] {
-  @apply flex flex-row;
+  display: flex;
+  flex-direction: row;
 }
 
 slot[name="navigation-secondary"]::slotted(calcite-navigation),
 slot[name="navigation-tertiary"]::slotted(calcite-navigation) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 slot[name="content-start"]::slotted(*),
 slot[name="content-center"]::slotted(*),
 slot[name="content-end"]::slotted(*) {
-  @apply flex flex-row items-center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 slot[name="progress"],
@@ -110,35 +111,35 @@ slot[name="progress"] calcite-progress {
   inset-inline: 0;
 }
 slot[name="content-end"] {
-  @apply ms-auto;
+  margin-inline-start: auto;
 }
 
 slot[name="content-start"] {
-  @apply me-auto;
+  margin-inline-end: auto;
 }
 
 slot[name="content-end"],
 slot[name="logo"] ~ slot[name="user"],
 slot[name="user"]:only-child {
-  @apply ms-auto;
+  margin-inline-start: auto;
 }
 
 slot[name="content-center"] {
-  @apply ms-auto me-auto;
+  margin-inline: auto;
 }
 
 slot[name="content-start"] ~ slot[name="content-center"] {
-  @apply ms-0;
+  margin-inline-start: var(--calcite-space-none);
 }
 
 slot[name="content-start"] ~ slot[name="content-end"],
 slot[name="content-center"] ~ slot[name="content-end"],
 slot[name="content-center"] ~ slot[name="user"],
 slot[name="content-end"] ~ slot[name="user"] {
-  @apply m-0;
+  margin: var(--calcite-space-none);
 }
 
 slot[name="navigation-action"] calcite-action {
-  @apply self-center;
+  align-self: center;
   margin-inline-start: var(--calcite-internal-navigation-navigation-action-margin-inline);
 }
