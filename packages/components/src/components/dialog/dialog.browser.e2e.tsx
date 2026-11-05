@@ -23,6 +23,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
 import type { Dialog } from "./dialog";
+import { CSS_UTILITY } from "../../utils/resources";
 
 mockConsole();
 
@@ -41,6 +42,10 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-dialog"),
     [
+      {
+        propertyName: "aria",
+        defaultValue: undefined,
+      },
       {
         propertyName: "beforeClose",
         defaultValue: undefined,
@@ -470,6 +475,26 @@ describe("dialog updateSize public method", () => {
     await component.updateComplete;
     expect(getComputedStyle(dialogContentElement).inlineSize).toBe(`${initialInlineSize}px`);
     expect(getComputedStyle(dialogContentElement).blockSize).toBe(`${initialBlockSize}px`);
+  });
+});
+
+describe("a11y attributes", () => {
+  it("does not announce assistive text unless a live region is configured", async () => {
+    await mount(<calcite-dialog drag-enabled />);
+    const assistiveText = page.getBySelector(
+      `calcite-dialog .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
+
+    await expect.element(assistiveText).not.toHaveAttribute("aria-live");
+  });
+
+  it("uses the configured live region setting", async () => {
+    await mount(<calcite-dialog aria={{ live: "polite" }} drag-enabled />);
+    const assistiveText = page.getBySelector(
+      `calcite-dialog .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
+
+    await expect.element(assistiveText).toHaveAttribute("aria-live", "polite");
   });
 });
 
