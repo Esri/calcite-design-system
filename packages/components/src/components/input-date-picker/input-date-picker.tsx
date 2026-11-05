@@ -259,6 +259,9 @@ interface InputDatePickerSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Type-only metadata members
 
