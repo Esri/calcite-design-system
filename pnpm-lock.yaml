@@ -103,8 +103,8 @@ catalogs:
       specifier: 9.6.1
       version: 9.6.1
     '@types/estree':
-      specifier: 1.0.9
-      version: 1.0.9
+      specifier: 1.0.10
+      version: 1.0.10
     '@types/jest-axe':
       specifier: 3.5.9
       version: 3.5.9
@@ -582,7 +582,7 @@ importers:
         version: 6.0.0-next.16(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(yaml@2.9.1)
       '@arcgis/eslint-config':
         specifier: catalog:dependency-ranges
-        version: 6.0.0-next.16(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
+        version: 6.0.0-next.16(@types/estree@1.0.10)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
       '@arcgis/lumina-compiler':
         specifier: catalog:dependency-ranges
         version: 6.0.0-next.16(@arcgis/lumina@6.0.0-next.16(lit@3.3.3))(jiti@1.21.7)(lit@3.3.3)(puppeteer@23.4.1(supports-color@10.2.2)(typescript@6.0.3))(sass-embedded@1.104.1)(sass@1.104.1)(typescript@6.0.3)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))(vitest@4.1.11)(yaml@2.9.1)
@@ -930,7 +930,7 @@ importers:
         version: 9.6.1
       '@types/estree':
         specifier: 'catalog:'
-        version: 1.0.9
+        version: 1.0.10
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.0
@@ -3641,6 +3641,9 @@ packages:
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
+
+  '@types/estree@1.0.10':
+    resolution: {integrity: sha512-lTyOMnOcmRBzdCv6/4zUZCrEhV0xrqQiUZBZtVcbmLHBXKLnN8q89v/wKRF/Q0HbwVsqbIG3o5HDoFl9sduM+g==}
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
@@ -9624,7 +9627,7 @@ snapshots:
       - tsx
       - yaml
 
-  '@arcgis/eslint-config@6.0.0-next.16(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)':
+  '@arcgis/eslint-config@6.0.0-next.16(@types/estree@1.0.10)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
       '@arcgis/toolkit': 6.0.0-next.16
       '@eslint/markdown': 8.0.3(supports-color@10.2.2)
@@ -9635,7 +9638,7 @@ snapshots:
       eslint-import-resolver-typescript: 4.4.5(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2))(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
       eslint-plugin-import-x: 4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3))(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
       eslint-plugin-jsdoc: 63.0.14(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)
-      eslint-plugin-package-json: 0.91.2(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(jsonc-eslint-parser@3.1.0)
+      eslint-plugin-package-json: 0.91.2(@types/estree@1.0.10)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(jsonc-eslint-parser@3.1.0)
       eslint-plugin-perfectionist: 5.10.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       eslint-plugin-react-jsx: 5.11.3(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
       eslint-plugin-regexp: 3.1.1(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))
@@ -10098,7 +10101,7 @@ snapshots:
 
   '@es-joy/jsdoccomment@0.86.0':
     dependencies:
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       '@typescript-eslint/types': 8.72.0
       comment-parser: 1.4.6
       esquery: 1.7.0
@@ -10106,7 +10109,7 @@ snapshots:
 
   '@es-joy/jsdoccomment@0.88.0':
     dependencies:
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       '@typescript-eslint/types': 8.72.0
       comment-parser: 1.4.7
       esquery: 1.7.0
@@ -12038,10 +12041,12 @@ snapshots:
 
   '@types/eslint@9.6.1':
     dependencies:
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       '@types/json-schema': 7.0.15
 
   '@types/esrecurse@4.3.1': {}
+
+  '@types/estree@1.0.10': {}
 
   '@types/estree@1.0.9': {}
 
@@ -13833,11 +13838,11 @@ snapshots:
     dependencies:
       eslint: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
 
-  eslint-fix-utils@0.4.3(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2)):
+  eslint-fix-utils@0.4.3(@types/estree@1.0.10)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2)):
     dependencies:
       eslint: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
     optionalDependencies:
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
 
   eslint-import-context@0.1.9(unrs-resolver@1.12.2):
     dependencies:
@@ -13918,14 +13923,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-package-json@0.91.2(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(jsonc-eslint-parser@3.1.0):
+  eslint-plugin-package-json@0.91.2(@types/estree@1.0.10)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(jsonc-eslint-parser@3.1.0):
     dependencies:
       '@altano/repository-tools': 2.0.3
       change-case: 5.4.4
       detect-indent: 7.0.2
       detect-newline: 4.0.1
       eslint: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
-      eslint-fix-utils: 0.4.3(@types/estree@1.0.9)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))
+      eslint-fix-utils: 0.4.3(@types/estree@1.0.10)(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))
       jsonc-eslint-parser: 3.1.0
       package-json-validator: 1.5.2
       semver: 7.8.5
@@ -14141,7 +14146,7 @@ snapshots:
   eslint-scope@9.1.2:
     dependencies:
       '@types/esrecurse': 4.3.1
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       esrecurse: 4.3.0
       estraverse: 5.3.0
 
@@ -14162,7 +14167,7 @@ snapshots:
       '@humanfs/node': 0.16.8
       '@humanwhocodes/module-importer': 1.0.1
       '@humanwhocodes/retry': 0.4.3
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
       ajv: 6.15.0
       cross-spawn: 7.0.6
       debug: 4.4.3(supports-color@10.2.2)
@@ -14221,7 +14226,7 @@ snapshots:
 
   estree-walker@3.0.3:
     dependencies:
-      '@types/estree': 1.0.9
+      '@types/estree': 1.0.10
 
   esutils@2.0.3: {}
 
