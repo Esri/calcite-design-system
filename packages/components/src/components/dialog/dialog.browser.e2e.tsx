@@ -22,6 +22,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
+import { CSS_UTILITY } from "../../utils/resources";
 
 mockConsole();
 
@@ -440,7 +441,7 @@ describe("dialog updateSize public method", () => {
 describe("a11y attributes", () => {
   it("does not announce assistive text unless a live region is configured", async () => {
     await mount(<calcite-dialog drag-enabled />);
-    const assistiveText = page.getBySelector(`calcite-dialog .${CSS.assistiveText}`);
+    const assistiveText = page.getBySelector(`calcite-dialog .${CSS_UTILITY.screenReaderText}}`);
 
     await expect.element(assistiveText).toBeInTheDocument();
     await expect.element(assistiveText).not.toHaveAttribute("aria-live");
@@ -448,7 +449,7 @@ describe("a11y attributes", () => {
 
   it("uses the configured live region setting", async () => {
     await mount(<calcite-dialog aria={{ live: "polite" }} drag-enabled />);
-    const assistiveText = page.getBySelector(`calcite-dialog .${CSS.assistiveText}`);
+    const assistiveText = page.getBySelector(`calcite-dialog .${CSS_UTILITY.screenReaderText}}`);
 
     await expect.element(assistiveText).toHaveAttribute("aria-live", "polite");
   });
