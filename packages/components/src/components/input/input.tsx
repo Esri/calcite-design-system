@@ -1227,11 +1227,11 @@ export class Input
         signDisplay: "never",
       };
 
-      const isValueDeleted =
+      const isValueLengthShortened =
         this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
       const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
-      const sanitizedValue =
-        hasTrailingDecimalSeparator && isValueDeleted ? value : sanitizeNumberString(value);
+
+      const sanitizedValue = sanitizeNumberString(value);
 
       const newValue =
         value && !sanitizedValue
@@ -1251,19 +1251,22 @@ export class Input
       }
 
       // adds localized trailing decimal separator
-      this.displayedValue =
-        hasTrailingDecimalSeparator && isValueDeleted
-          ? `${newLocalizedValue}${numberStringFormatter.decimal}`
-          : newLocalizedValue;
+      if (hasTrailingDecimalSeparator && isValueLengthShortened) {
+        newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
+      }
 
-      // don't sanitize the start of negative/decimal numbers, but
-      // don't set value to an invalid number
-      const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+      this.displayedValue = newLocalizedValue;
+
+      const validNewValue = isValidNumber(newValue)
+        ? newValue
+        : newValue.endsWith(".") && !isNaN(Number(newValue))
+          ? String(Number(newValue))
+          : "";
 
       if (shouldStageValue) {
         this.draftValue = validNewValue;
       } else {
-        this.userChangedValue = origin === "user" && this.value !== validNewValue;
+        this.userChangedValue = origin === "user" && this.value !== newValue;
         this.value = validNewValue;
       }
     } else {
