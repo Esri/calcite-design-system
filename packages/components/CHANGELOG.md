@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.20...@esri/calcite-components@6.0.0-next.21) (2026-11-05)
+
+### Bug Fixes
+
+- **button, dialog, tooltip:** make aria-live optional ([#14980](https://github.com/Esri/calcite-design-system/issues/14980)), closes [#10704](https://github.com/Esri/calcite-design-system/issues/10704)
+
 ## [6.0.0-next.20](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.19...@esri/calcite-components@6.0.0-next.20) (2026-11-05)
 
 ### Bug Fixes
