@@ -1,7 +1,18 @@
 {
+  "all": "الكل",
   "clear": "مسح",
   "hiddenSelected": "الصفوف تم تحديدها ولكنها خارج منطقة العرض",
+  "keyboardDeselect": "اضغط على مفتاح \"دخول\" أو \"المسافة\" لإلغاء تحديد الصف",
+  "keyboardDeselectAll": "اضغط على مفتاح \"دخول\" أو \"المسافة\" لإلغاء تحديد جميع الصفوف",
+  "keyboardSelect": "اضغط على مفتاح \"دخول\" أو \"المسافة\" لتحديد الصف",
+  "keyboardSelectAll": "اضغط على مفتاح \"دخول\" أو \"المسافة\" لتحديد جميع الصفوف",
   "page": "الصفحة",
   "row": "صف",
-  "selected": "محدد"
+  "rowNumber": "رقم الصف",
+  "selected": "محدد",
+  "selectedRows": "الصفوف المحددة",
+  "selectionColumn": "عمود التحديد",
+  "selectionRow": "صف",
+  "selectionSelected": "محدد",
+  "unselected": "غير محدد"
 }

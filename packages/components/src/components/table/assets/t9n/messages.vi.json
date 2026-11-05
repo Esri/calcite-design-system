@@ -1,7 +1,18 @@
 {
+  "all": "tất cả",
   "clear": "Xóa",
   "hiddenSelected": "Hàng đã được chọn nhưng nằm ngoài tầm nhìn",
+  "keyboardDeselect": "Nhấn Enter hoặc Phím cách để bỏ chọn hàng",
+  "keyboardDeselectAll": "Nhấn Enter hoặc Phím cách để bỏ chọn tất cả các dòng",
+  "keyboardSelect": "Nhấn Enter hoặc Phím cách để chọn hàng",
+  "keyboardSelectAll": "Nhấn Enter hoặc Phím cách để chọn tất cả các dòng",
   "page": "Trang",
   "row": "Hàng",
-  "selected": "Đã chọn"
+  "rowNumber": "Số dòng",
+  "selected": "Đã chọn",
+  "selectedRows": "các dòng đã chọn",
+  "selectionColumn": "Cột lựa chọn",
+  "selectionRow": "hàng",
+  "selectionSelected": "đã chọn",
+  "unselected": "bỏ chọn"
 }

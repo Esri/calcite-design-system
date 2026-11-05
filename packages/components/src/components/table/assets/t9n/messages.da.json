@@ -1,7 +1,18 @@
 {
+  "all": "alle",
   "clear": "Ryd",
   "hiddenSelected": "Rækker valgt, men vises ikke",
+  "keyboardDeselect": "Tryk på Enter eller mellemrumstasten for at fravælge række",
+  "keyboardDeselectAll": "Tryk på Enter eller mellemrumstasten for at fravælge alle rækker",
+  "keyboardSelect": "Tryk på Enter eller mellemrumstasten for at vælge række",
+  "keyboardSelectAll": "Tryk på Enter eller mellemrumstasten for at vælge alle rækker",
   "page": "Side",
   "row": "Række",
-  "selected": "Valgt"
+  "rowNumber": "Rækkenummer",
+  "selected": "Valgt",
+  "selectedRows": "valgte rækker",
+  "selectionColumn": "Kolonne for valgt",
+  "selectionRow": "række",
+  "selectionSelected": "valgt",
+  "unselected": "ikke valgt"
 }

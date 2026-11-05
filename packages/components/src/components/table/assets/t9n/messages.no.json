@@ -1,7 +1,18 @@
 {
+  "all": "alle",
   "clear": "Fjern",
   "hiddenSelected": "Rader er valgt, men er utenfor visningen",
+  "keyboardDeselect": "Trykk på Enter- eller mellomromstasten for å oppheve valg av rad",
+  "keyboardDeselectAll": "Trykk på Enter- eller mellomromstasten for å oppheve valget av alle rader.",
+  "keyboardSelect": "Trykk på Enter- eller mellomromstasten for å velge rad",
+  "keyboardSelectAll": "Trykk på Enter- eller mellomromstasten for å velge alle rader",
   "page": "Side",
   "row": "Rad",
-  "selected": "Valgt"
+  "rowNumber": "Radnummer",
+  "selected": "Valgt",
+  "selectedRows": "rader valgt",
+  "selectionColumn": "Utvalgskolonne",
+  "selectionRow": "rad",
+  "selectionSelected": "valgte",
+  "unselected": "ikke valgt"
 }

@@ -248,6 +248,8 @@ export class Table extends LitElement {
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
 
+  private syncedMessages?: typeof this.messages._overrides;
+
   private tableContainerOverflowAnimationFrame: number | null = null;
 
   private tableContainerResizeObserver = createObserver("resize", () =>
@@ -385,6 +387,26 @@ export class Table extends LitElement {
     this.listenOn(this.el.shadowRoot, "slotchange", this.handleSlotChange);
   }
 
+  override disconnectedCallback(): void {
+    if (this.tableContainerOverflowAnimationFrame !== null) {
+      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
+      this.tableContainerOverflowAnimationFrame = null;
+    }
+
+    this.tableContainerResizeObserver?.disconnect();
+  }
+
+  override updated(): void {
+    if (this.syncedMessages === this.messages) {
+      return;
+    }
+
+    this.syncedMessages = this.messages;
+    this.allRows.forEach((row) => {
+      row.messages = this.messages;
+    });
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -415,15 +437,6 @@ export class Table extends LitElement {
         this.resetStickyHeaderState();
       }
     }
-  }
-
-  override disconnectedCallback(): void {
-    if (this.tableContainerOverflowAnimationFrame !== null) {
-      cancelAnimationFrame(this.tableContainerOverflowAnimationFrame);
-      this.tableContainerOverflowAnimationFrame = null;
-    }
-
-    this.tableContainerResizeObserver?.disconnect();
   }
 
   //#endregion
@@ -602,6 +615,7 @@ export class Table extends LitElement {
 
     allRows.forEach((row) => {
       row.interactionMode = this.interactionMode;
+      row.messages = this.messages;
       row.selectionMode = this.selectionMode;
       row.bodyRowCount = bodyRows?.length;
       row.positionAll = allRows?.indexOf(row);

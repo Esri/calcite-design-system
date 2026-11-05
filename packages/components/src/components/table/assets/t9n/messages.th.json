@@ -1,7 +1,18 @@
 {
+  "all": "ทั้งหมด",
   "clear": "ชัดเจน",
   "hiddenSelected": "เลือกแถวแล้วแต่อยู่นอกมุมมอง",
+  "keyboardDeselect": "กด Enter หรือ Space เพื่อยกเลิกการเลือกแถว",
+  "keyboardDeselectAll": "กด Enter หรือ Space เพื่อยกเลิกการเลือกแถวทั้งหมด",
+  "keyboardSelect": "กด Enter หรือ Space เพื่อเลือกแถว",
+  "keyboardSelectAll": "กด Enter หรือ Space เพื่อเลือกแถวทั้งหมด",
   "page": "หน้า",
   "row": "แถว",
-  "selected": "ที่เลือก"
+  "rowNumber": "หมายเลขแถว",
+  "selected": "ที่เลือก",
+  "selectedRows": "แถวที่เลือก",
+  "selectionColumn": "คอลัมน์การเลือก",
+  "selectionRow": "แถว",
+  "selectionSelected": "เลือก",
+  "unselected": "ยกเลิกการเลือกแล้ว"
 }

@@ -1,7 +1,18 @@
 {
+  "all": "kaikki",
   "clear": "Tyhjennä",
   "hiddenSelected": "Rivit on valittu, mutta ne ovat näkymän ulkopuolella",
+  "keyboardDeselect": "Poista rivin valinta painamalla Enter tai välilyöntinäppäintä",
+  "keyboardDeselectAll": "Poista kaikkien rivien valinta painamalla Enter tai välilyöntinäppäintä",
+  "keyboardSelect": "Valitse rivi painamalla Enter tai välilyöntinäppäintä",
+  "keyboardSelectAll": "Valitse kaikki rivit painamalla Enter tai välilyöntinäppäintä",
   "page": "Sivu",
   "row": "Rivi",
-  "selected": "Valittu"
+  "rowNumber": "Rivinumero",
+  "selected": "Valittu",
+  "selectedRows": "valitut rivit",
+  "selectionColumn": "Valintasarake",
+  "selectionRow": "rivi",
+  "selectionSelected": "valitut",
+  "unselected": "valinta poistettu"
 }

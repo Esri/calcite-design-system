@@ -1,7 +1,18 @@
 {
+  "all": "sve",
   "clear": "Obriši",
   "hiddenSelected": "Redovi su izabrani ali van pregleda",
+  "keyboardDeselect": "Pritisnite taster Enter ili Razmak da poništite izbor reda",
+  "keyboardDeselectAll": "Pritisnite taster Enter ili Razmak da poništite izbor svih redova",
+  "keyboardSelect": "Pritisnite taster Enter ili razmak da biste izabrali red",
+  "keyboardSelectAll": "Pritisnite taster Enter ili razmak da biste izabrali sve redove",
   "page": "Stranica",
   "row": "Red",
-  "selected": "Selektovano"
+  "rowNumber": "Broj reda",
+  "selected": "Selektovano",
+  "selectedRows": "izabrani redovi",
+  "selectionColumn": "Kolona za izbor",
+  "selectionRow": "red",
+  "selectionSelected": "selektovano",
+  "unselected": "nije izabrano"
 }

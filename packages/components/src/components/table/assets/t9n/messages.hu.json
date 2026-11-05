@@ -1,7 +1,18 @@
 {
+  "all": "összes",
   "clear": "Törlés",
   "hiddenSelected": "Kijelölt, de nem látható sorok",
+  "keyboardDeselect": "Egy sor kijelölésének megszüntetéséhez nyomja meg az Enter vagy a szóköz billentyűt",
+  "keyboardDeselectAll": "Az összes sor kijelölésének megszüntetéséhez nyomja meg az Enter vagy a szóköz billentyűt",
+  "keyboardSelect": "Egy sor kijelöléséhez nyomja meg az Enter vagy a szóköz billentyűt",
+  "keyboardSelectAll": "Az összes sor kijelöléséhez nyomja meg az Enter vagy a szóköz billentyűt",
   "page": "Oldal",
   "row": "Sor",
-  "selected": "Kijelölve"
+  "rowNumber": "Sor száma",
+  "selected": "Kijelölve",
+  "selectedRows": "kiválasztott sorok",
+  "selectionColumn": "Kiválasztott oszlop",
+  "selectionRow": "sor",
+  "selectionSelected": "kiválasztva",
+  "unselected": "nincs kijelölve"
 }

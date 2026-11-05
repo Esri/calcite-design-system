@@ -1,7 +1,18 @@
 {
+  "all": "sve",
   "clear": "Ukloni",
   "hiddenSelected": "Redovi odabrani, ali izvan prikaza",
+  "keyboardDeselect": "Pritisnite Enter ili Space za poništavanje odabira retka",
+  "keyboardDeselectAll": "Pritisnite Enter ili Space za poništavanje odabira svih redaka",
+  "keyboardSelect": "Pritisnite Enter ili Space za odabir retka",
+  "keyboardSelectAll": "Pritisnite Enter ili Space za odabir svih redaka",
   "page": "Stranica",
   "row": "Redak",
-  "selected": "Odabrano"
+  "rowNumber": "Broj retka",
+  "selected": "Odabrano",
+  "selectedRows": "redaka odabrano",
+  "selectionColumn": "Stupac odabira",
+  "selectionRow": "redak",
+  "selectionSelected": "odabrano",
+  "unselected": "odabir poništen"
 }

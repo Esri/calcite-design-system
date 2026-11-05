@@ -1,7 +1,18 @@
 {
+  "all": "toutes",
   "clear": "Effacer",
   "hiddenSelected": "Lignes sélectionnées, mais hors de la vue",
+  "keyboardDeselect": "Appuyer sur Entrée ou sur Espace pour désélectionner la ligne",
+  "keyboardDeselectAll": "Appuyer sur Entrée ou sur Espace pour désélectionner toutes les lignes",
+  "keyboardSelect": "Appuyer sur Entrée ou sur Espace pour sélectionner la ligne",
+  "keyboardSelectAll": "Appuyer sur Entrée ou sur Espace pour sélectionner toutes les lignes",
   "page": "Page",
   "row": "Ligne",
-  "selected": "Sélectionnée"
+  "rowNumber": "Numéro de ligne",
+  "selected": "Sélectionnée",
+  "selectedRows": "lignes sélectionnées",
+  "selectionColumn": "Colonne de sélection",
+  "selectionRow": "ligne",
+  "selectionSelected": "sélectionnée(s)",
+  "unselected": "non sélectionnée(s)"
 }
