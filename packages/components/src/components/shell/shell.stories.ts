@@ -1,4 +1,5 @@
 import type { Decorator } from "@storybook/web-components-vite";
+import { userEvent } from "storybook/test";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { Shell } from "./shell";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -17,7 +18,7 @@ import "../button/button"; // Force Vite to statically trace the file for Chroma
 import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../chip-group/chip-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dialog/dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import { Dropdown } from "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -2192,14 +2193,14 @@ export const resizableShellPanelWithDropdown = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s" focus-trap-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
         <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
         <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
-        <calcite-dropdown open width="m" overlay-positioning="fixed">
+        <calcite-dropdown width="m" overlay-positioning="fixed">
           <calcite-button slot="trigger">Select landform</calcite-button>
           <calcite-dropdown-group group-title="Natural places">
             <calcite-dropdown-item>Mountain</calcite-dropdown-item>
@@ -2213,6 +2214,17 @@ export const resizableShellPanelWithDropdown = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+resizableShellPanelWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const shellPanel = canvasElement.querySelector<ShellPanel["el"]>("calcite-shell-panel")!;
+  const dropdown = canvasElement.querySelector<Dropdown["el"]>("calcite-dropdown")!;
+  const trigger = canvasElement.querySelector("calcite-button[slot='trigger']")!;
+
+  await shellPanel.componentOnReady();
+  await dropdown.componentOnReady();
+  await userEvent.click(trigger);
+};
+resizableShellPanelWithDropdown.parameters = { chromatic: { delay: 0 } };
 
 export const floatAllArrangementsStart = (): string =>
   html` <calcite-shell content-behind>

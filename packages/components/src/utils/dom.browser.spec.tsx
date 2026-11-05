@@ -11,12 +11,14 @@ import {
   focusElementInGroup,
   focusFirstTabbable,
   getAssignedTextNodesFromSlotEl,
+  getFocusableElements,
   getModeName,
   getShadowRootNode,
   getSlotAssignedElements,
   getStylePixelValue,
   hasVisibleContent,
   isBefore,
+  isFocusableElement,
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
   nextFrame,
@@ -79,6 +81,84 @@ describe(ensureId, () => {
 
   it("returns empty string if invoked without element", () => {
     expect(ensureId(undefined)).toBe("");
+  });
+});
+
+describe(isFocusableElement, () => {
+  it("accepts HTML elements with native focus APIs", () => {
+    expect(isFocusableElement(document.createElement("div"))).toBe(true);
+  });
+
+  it("accepts SVG elements with native focus APIs", () => {
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+    expect(isFocusableElement(element)).toBe(true);
+  });
+
+  it("rejects elements without native focus APIs", () => {
+    const element = document.createElementNS("urn:test", "element");
+
+    expect(isFocusableElement(element)).toBe(false);
+  });
+});
+
+describe(getFocusableElements, () => {
+  it("returns no elements without a container", () => {
+    expect(getFocusableElements(undefined)).toEqual([]);
+  });
+
+  it("includes a focusable container only once", async () => {
+    await mount(html`<button type="button">Container</button>`);
+    const container = page.getByRole("button", { name: "Container" }).element();
+
+    expect(getFocusableElements(container)).toEqual([container]);
+  });
+
+  it("includes a focusable shadow host and its programmatically focusable descendant", async () => {
+    await mount(html`<div data-testid="container" tabindex="0"></div>`);
+    const container = page.getByTestId("container").element();
+    const button = document.createElement("button");
+    button.tabIndex = -1;
+    container.attachShadow({ mode: "open" }).append(button);
+
+    const elements = getFocusableElements(container);
+
+    expect(elements).toHaveLength(2);
+    expect(elements).toEqual(expect.arrayContaining([container, button]));
+  });
+
+  it("excludes a disabled container", async () => {
+    await mount(html`<button data-testid="container" disabled type="button">Container</button>`);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
+  });
+
+  it("excludes a hidden container", async () => {
+    await mount(html`<button data-testid="container" hidden type="button">Container</button>`);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
+  });
+
+  it("excludes an inert container", async () => {
+    await mount(html`<button data-testid="container" inert type="button">Container</button>`);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
+  });
+
+  it("excludes disabled, hidden, and inert descendants", async () => {
+    await mount(html`
+      <div data-testid="container">
+        <button disabled type="button">Disabled</button>
+        <button hidden type="button">Hidden</button>
+        <button inert type="button">Inert</button>
+      </div>
+    `);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
   });
 });
 

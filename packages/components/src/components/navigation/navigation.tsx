@@ -105,7 +105,7 @@ export class Navigation extends LitElement {
 
   private navigationActionRef = createRef<Action["el"]>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private mutationObserver = createObserver("mutation", () => {
     this.updateNavigationLogo();

@@ -36,7 +36,7 @@ export class DatePickerDay extends LitElement {
 
   private parentDatePickerEl?: DatePicker["el"];
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

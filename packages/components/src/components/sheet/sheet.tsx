@@ -157,7 +157,7 @@ export class Sheet extends LitElement {
 
   transitionRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     const { defaultPrevented, key } = event;

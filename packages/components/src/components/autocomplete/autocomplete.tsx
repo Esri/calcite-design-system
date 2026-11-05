@@ -242,7 +242,7 @@ export class Autocomplete
 
   private inputValueMatchPattern?: RegExp;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();

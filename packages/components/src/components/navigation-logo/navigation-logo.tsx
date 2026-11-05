@@ -44,7 +44,7 @@ export class NavigationLogo extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   // #endregion
 

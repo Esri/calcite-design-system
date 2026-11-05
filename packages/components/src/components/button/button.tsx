@@ -111,7 +111,7 @@ export class Button extends LitElement {
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   /**
    * Made into a prop for testing purposes only
