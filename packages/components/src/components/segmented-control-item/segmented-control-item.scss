@@ -22,6 +22,7 @@
     flex
     flex-1
     items-center;
+  color: var(--calcite-segmented-control-color, var(--calcite-theme-color-text-3, var(--calcite-color-text-3)));
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
   // Offsets the item radius to stay consistent with segmented-control roundness
@@ -29,7 +30,6 @@
   transition:
     background-color var(--calcite-internal-animation-timing-fast) ease-in-out,
     color var(--calcite-internal-animation-timing-fast) ease-in-out;
-  color: var(--calcite-segmented-control-color, var(--calcite-theme-color-text-3, var(--calcite-color-text-3)));
 }
 
 .label--horizontal {
@@ -69,24 +69,27 @@
 
 :host([checked]) .label {
   @apply cursor-default;
-  border: 1px solid var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  border: var(--calcite-border-width-sm) solid
+    var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
   border-radius: var(--calcite-corner-radius-none);
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
 
 :host([checked]) .label--neutral {
-  border: 1px solid var(--calcite-segmented-control-item-border-color, var(--calcite-color-border-input));
+  border: var(--calcite-border-width-sm) solid
+    var(--calcite-segmented-control-item-border-color, var(--calcite-color-border-input));
   border-radius: var(--calcite-corner-radius-none);
   background-color: var(
     --calcite-segmented-control-background-color,
-    var(--calcite-theme-color-surface-1, var(--calcite-color-foreground-1))
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-1));
 }
 
 :host([checked]) .label--highlight {
-  border: 1px solid var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  border: var(--calcite-border-width-sm) solid
+    var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
   border-radius: var(--calcite-corner-radius-none);
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-surface-highlight));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-highlight));
