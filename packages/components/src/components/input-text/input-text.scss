@@ -180,7 +180,7 @@ input {
 input {
   border-radius: var(
     --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
   );
 }
 
@@ -206,11 +206,11 @@ input {
 .element-wrapper:not(:has(.prefix)):has(.icon) .icon {
   border-start-start-radius: var(
     --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
   );
   border-end-start-radius: var(
     --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
   );
 }
 
@@ -218,11 +218,11 @@ input {
 :host([clearable]) .clear-button {
   border-end-end-radius: var(
     --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
   );
   border-start-end-radius: var(
     --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
   );
 }
 
