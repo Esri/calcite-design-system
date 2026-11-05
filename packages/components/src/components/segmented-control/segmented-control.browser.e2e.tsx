@@ -255,9 +255,5 @@ describe("theme", () => {
       shadowSelector: `.${CSS.itemWrapper}`,
       targetProp: "borderRadius",
     },
-    "--calcite-segmented-control-border-color": {
-      shadowSelector: `.${CSS.itemWrapper}`,
-      targetProp: "outlineColor",
-    },
   });
 });

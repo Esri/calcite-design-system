@@ -8,7 +8,6 @@
   @apply flex;
   inline-size: fit-content;
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
-  outline-offset: -1px;
   background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
 }
 

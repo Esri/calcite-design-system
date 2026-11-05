@@ -38,10 +38,6 @@ declare global {
 declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
-     * Specifies the component's border color.
-     */
-    "--calcite-segmented-control-border-color": "*";
-    /**
      * Specifies the component's corner radius.
      */
     "--calcite-segmented-control-corner-radius": "*";
