@@ -1,8 +1,0 @@
-{
-  "dragHandle": "Zmień pozycję: {itemLabel}",
-  "dragHandleUntitled": "Zmień pozycję",
-  "dragHandleActive": "Reorganizowanie {itemLabel}, bieżąca pozycja {position} z {total}.",
-  "dragHandleChange": "{itemLabel}, nowa pozycja {position} z {total}. Naciśnij spację, aby potwierdzić.",
-  "dragHandleCommit": "{itemLabel}, bieżąca pozycja {position} z {total}.",
-  "dragHandleIdle": "{itemLabel}, naciśnij klawisz spacji i użyj klawiszy strzałek, aby zmienić kolejność zasobów. Bieżąca pozycja {position} z {total}."
-}

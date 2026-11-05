@@ -31,8 +31,9 @@
 
 :host {
   @extend %component-host;
-  @apply inline-flex
-    self-stretch;
+
+  display: inline-flex;
+  align-self: stretch;
   background: transparent;
 
   --calcite-internal-action-group-dividing-border-margin: calc(
@@ -41,9 +42,9 @@
 }
 
 .container {
-  @apply inline-flex
-  flex-col
-  flex-auto;
+  display: inline-flex;
+  flex-direction: column;
+  flex: 1 1 auto;
   background-color: var(
     --calcite-action-bar-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -54,8 +55,8 @@
 
 :host([floating]) {
   .container {
-    @apply animate-in
-    overflow-hidden;
+    animation: in var(--calcite-internal-animation-timing-slow) ease-in-out;
+    overflow: hidden;
     border-radius: var(
       --calcite-action-bar-corner-radius,
       var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
@@ -65,7 +66,7 @@
 }
 
 :host([layout="vertical"]) {
-  @apply flex-col;
+  flex-direction: column;
 
   &:host([overflow-actions-disabled]) .container {
     overflow-y: auto;
@@ -96,10 +97,10 @@
 }
 
 :host([layout="horizontal"]) {
-  @apply flex-row;
+  flex-direction: row;
 
   .container {
-    @apply flex-row;
+    flex-direction: row;
   }
 
   &:host([overflow-actions-disabled]) .container {
@@ -107,7 +108,7 @@
   }
 
   .action-group--end {
-    @apply ms-auto;
+    margin-inline-start: auto;
   }
 
   ::slotted(calcite-action-group:not(:last-of-type)) {
@@ -126,7 +127,7 @@
 }
 
 .action-group--end {
-  @apply justify-end;
+  justify-content: flex-end;
 }
 
 // When `wrap` is enabled, absolutely-positioned dividers are drawn between wrapped rows/columns.

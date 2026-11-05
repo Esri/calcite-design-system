@@ -197,7 +197,7 @@ function setBooleanProperty<Element extends HTMLElement, PropertyName extends st
  * @example
  * describe("floating-ui", () => {
  *   describe("delegates to floating-ui-owner component", () => {
- *     delegatesToFloatingUiOwningComponent(() => mount("calcite-action-pad"), "calcite-action-group");
+ *     delegatesToFloatingUiOwningComponent(() => mount("calcite-action-menu"), "calcite-popover");
  *   });
  * });
  */

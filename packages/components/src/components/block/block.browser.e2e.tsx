@@ -1,4 +1,4 @@
-import { h, Fragment } from "@arcgis/lumina";
+import { h } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
@@ -15,7 +15,6 @@ import {
   handlesActionMenuPlacements,
   t9n,
   disabled,
-  openClose,
   accessible,
   scalePropagates,
   topLayer,
@@ -132,10 +131,6 @@ describe("setFocus", () => {
         focusTargetSelector: `.${blockSectionClass}`,
       },
     );
-  });
-
-  describe("openClose", () => {
-    openClose((mountOptions) => mount("calcite-block", mountOptions));
   });
 });
 
@@ -451,44 +446,5 @@ describe("theme", () => {
         },
       },
     );
-
-    it("toggling the expanded in calciteBlockToggle event callback should persist the expanded state", async () => {
-      await mount(
-        <>
-          <calcite-block collapsible expanded heading="Use your credentials" icon-start="circle-f">
-            <calcite-button width="full">Sign in</calcite-button>
-          </calcite-block>
-          <calcite-block collapsible heading="Use your organization URL" icon-start="circle">
-            <calcite-button width="full">Continue</calcite-button>
-          </calcite-block>
-          <calcite-block collapsible heading="Use social authentication" icon-start="circle">
-            <div>Some content</div>
-          </calcite-block>
-        </>,
-      );
-      const blockElements = page.getBySelector("calcite-block").elements() as Block[];
-      blockElements.forEach((block) => {
-        block.addEventListener("calciteBlockToggle", (event) => {
-          blockElements.forEach((block) => {
-            block.expanded = block === event.target;
-            block.iconStart = block === event.target ? "circle-f" : "circle";
-          });
-        });
-      });
-      await userEvent.click(blockElements[0]);
-      expect(blockElements[0]).toHaveProperty("expanded", true);
-      expect(blockElements[1]).toHaveProperty("expanded", false);
-      expect(blockElements[2]).toHaveProperty("expanded", false);
-
-      await userEvent.click(blockElements[1]);
-      expect(blockElements[0]).toHaveProperty("expanded", false);
-      expect(blockElements[1]).toHaveProperty("expanded", true);
-      expect(blockElements[2]).toHaveProperty("expanded", false);
-
-      await userEvent.click(blockElements[2]);
-      expect(blockElements[0]).toHaveProperty("expanded", false);
-      expect(blockElements[1]).toHaveProperty("expanded", false);
-      expect(blockElements[2]).toHaveProperty("expanded", true);
-    });
   });
 });

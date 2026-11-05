@@ -22,10 +22,6 @@
   @apply w-auto;
 }
 
-:host([width="half"]) {
-  @apply w-2/4;
-}
-
 :host([width="full"]) {
   @apply w-full;
 }

@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { html } from "../../../support/formatting";
 import { isElementFocused, newProgrammaticE2EPage, skipAnimations } from "../../tests/utils/puppeteer";
 import { IDS as PanelIDS } from "../panel/resources";
-import { resizeShiftStep } from "../../utils/resources";
+import { CSS_UTILITY, resizeShiftStep } from "../../utils/resources";
 import { mockConsole } from "../../tests/utils/logging";
 import { GlobalTestProps } from "../../tests/utils/types";
 import { CSS } from "./resources";
@@ -788,7 +788,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).toBeNull();
   });
 
@@ -799,7 +801,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
@@ -812,7 +816,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
@@ -827,7 +833,9 @@ describe("keyboard assistive text", () => {
     );
     await skipAnimations(page);
     await page.waitForChanges();
-    const assistiveTextElement = await page.find(`calcite-dialog >>> .${CSS.assistiveText}`);
+    const assistiveTextElement = await page.find(
+      `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
+    );
     expect(assistiveTextElement).not.toBeNull();
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);

@@ -16,7 +16,7 @@ import { useT9n } from "../../controllers/useT9n";
 import type { Panel } from "../panel/panel";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import { usePreventDocumentScroll } from "../../controllers/usePreventDocumentScroll";
-import { resizeShiftStep } from "../../utils/resources";
+import { CSS_UTILITY, resizeShiftStep } from "../../utils/resources";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
 import { IconName } from "../icon/types";
@@ -26,6 +26,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 import { styles } from "./dialog.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -242,7 +243,7 @@ export class Dialog extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -1004,7 +1005,7 @@ export class Dialog extends LitElement {
           {assistiveText ? (
             <div
               ariaLive={resolveAriaLive(this.aria?.live)}
-              class={CSS.assistiveText}
+              class={CSS_UTILITY.screenReaderText}
               key="assistive-text"
             >
               {assistiveText}

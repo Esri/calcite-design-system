@@ -55,10 +55,6 @@
   @apply w-auto;
 }
 
-:host([width="half"]) {
-  @apply w-1/2;
-}
-
 :host([width="full"]) {
   @apply w-full;
 }
