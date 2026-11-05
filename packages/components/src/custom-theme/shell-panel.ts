@@ -24,7 +24,7 @@ export const shellPanelTokens = {
 };
 
 export const shellPanel = html`
-  <calcite-shell-panel heading="Panel Heading" description="Panel description" panel-collapsible>
+  <calcite-shell-panel heading="Panel Heading" description="Panel description">
     <calcite-action text="Action 1" text-enabled icon="number-circle-1" slot="header-menu-actions"></calcite-action>
     <calcite-action text="Action 2" text-enabled icon="number-circle-2" slot="header-menu-actions"></calcite-action>
     <calcite-action text="Action 3" icon="number-circle-3" slot="header-actions-end"></calcite-action>

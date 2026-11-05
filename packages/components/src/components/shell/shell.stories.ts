@@ -377,7 +377,6 @@ export const shellPanelHeaderSlots = (): string => html`
       icon="layers"
       menu-open
       menu-placement="bottom-start"
-      panel-collapsible
       slot="panel-start"
       top-layer-disabled
     >
@@ -385,6 +384,9 @@ export const shellPanelHeaderSlots = (): string => html`
       <span slot="heading"><strong>Layers</strong></span>
       <span slot="description">Manage the layers in this map.</span>
       <calcite-action icon="gear" slot="header-menu-actions" text="Layer settings"></calcite-action>
+      <calcite-action-bar layout="horizontal" slot="content-top">
+        <calcite-action icon="plus" text="Add layer"></calcite-action>
+      </calcite-action-bar>
       <p>Layer content</p>
       <calcite-button slot="footer">Add layer</calcite-button>
     </calcite-shell-panel>
@@ -438,21 +440,6 @@ export const disabledShellPanelBackgroundOcclusion = (): string => html`
       </calcite-panel>
     </calcite-shell-panel>
     <div class="disabled-shell-panel-background"></div>
-  </calcite-shell>
-`;
-
-export const collapsedInternalPanel = (): string => html`
-  <calcite-shell>
-    <calcite-shell-panel
-      heading="Layers"
-      panel-collapsible
-      panel-collapsed
-      panel-collapse-direction="up"
-      slot="panel-start"
-    >
-      <calcite-button>Add layer</calcite-button>
-    </calcite-shell-panel>
-    ${contentHTML}
   </calcite-shell>
 `;
 

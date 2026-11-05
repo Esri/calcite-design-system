@@ -25,7 +25,6 @@ export const ICONS: Record<string, IconName> = {
 };
 
 export const SLOTS = {
-  actionBar: "action-bar",
   alerts: "alerts",
   content: "content",
   customContent: "custom-content",

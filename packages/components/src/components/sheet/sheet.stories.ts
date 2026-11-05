@@ -121,7 +121,6 @@ export const headerSlots = (): string => html`
   </style>
   <calcite-sheet
     class="sheet-header-slots"
-    collapsible
     heading-level="2"
     icon="layers"
     label="Map layers"
@@ -134,6 +133,9 @@ export const headerSlots = (): string => html`
     <span slot="heading"><strong>Layers</strong></span>
     <span slot="description">Manage the layers in this map.</span>
     <calcite-action icon="gear" slot="header-menu-actions" text="Layer settings"></calcite-action>
+    <calcite-action-bar layout="horizontal" slot="content-top">
+      <calcite-action icon="plus" text="Add layer"></calcite-action>
+    </calcite-action-bar>
     <p>Layer content</p>
     <calcite-button slot="footer">Add layer</calcite-button>
   </calcite-sheet>
@@ -208,12 +210,6 @@ export const disabledBackgroundOcclusion = (): string => html`
       <p>The background stripes must not show through this disabled sheet.</p>
       <calcite-button slot="footer">Add layer</calcite-button>
     </calcite-panel>
-  </calcite-sheet>
-`;
-
-export const collapsed = (): string => html`
-  <calcite-sheet collapsible collapsed collapse-direction="up" heading="Layers" label="Map layers" open>
-    <calcite-button>Add layer</calcite-button>
   </calcite-sheet>
 `;
 

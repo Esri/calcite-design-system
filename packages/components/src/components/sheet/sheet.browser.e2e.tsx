@@ -96,18 +96,6 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "collapseDirection",
-        defaultValue: "down",
-      },
-      {
-        propertyName: "collapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "collapsible",
-        defaultValue: false,
-      },
-      {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
@@ -179,6 +167,45 @@ describe("internal panel", () => {
     return renderResult;
   }
 
+  it.each([false, true])(
+    "syncs panel closed state through open/close cycles (initial open: %s)",
+    async (open) => {
+      const openEvent = waitForEvent(document, "calciteSheetOpen");
+      const { el } = await mount<Sheet>(
+        <calcite-sheet heading="Tools" label="Sheet" open={open}>
+          <button type="button">Sheet content</button>
+        </calcite-sheet>,
+      );
+      const panel = page.getBySelector(`calcite-panel.${CSS.panel}`);
+      const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
+
+      await expect.element(panel).toHaveProperty("closed", !open);
+
+      el.open = true;
+      await openEvent;
+      await expect.element(panel).toHaveProperty("closed", false);
+      await expect.element(content).toBeVisible();
+
+      const closeEvent = waitForEvent(el, "calciteSheetClose");
+      await page.getByRole("button", { name: "Close", exact: true }).click();
+      await closeEvent;
+      await expect.element(panel).toHaveProperty("closed", true);
+      await expect.element(content).not.toBeVisible();
+
+      const reopenEvent = waitForEvent(el, "calciteSheetOpen");
+      el.open = true;
+      await reopenEvent;
+      await expect.element(panel).toHaveProperty("closed", false);
+      await expect.element(content).toBeVisible();
+
+      const secondCloseEvent = waitForEvent(el, "calciteSheetClose");
+      el.open = false;
+      await secondCloseEvent;
+      await expect.element(panel).toHaveProperty("closed", true);
+      await expect.element(content).not.toBeVisible();
+    },
+  );
+
   it("scrolls internal panel content via scrollContentTo", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(
@@ -209,7 +236,7 @@ describe("internal panel", () => {
   it("ignores collapse toggles from nested panels", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(
-      <calcite-sheet collapsible heading="Tools" label="Sheet" open>
+      <calcite-sheet heading="Tools" label="Sheet" open>
         <calcite-panel collapsible heading="Nested panel" id="nested-panel">
           <button type="button">Nested content</button>
         </calcite-panel>
@@ -224,72 +251,7 @@ describe("internal panel", () => {
     await expect
       .element(page.getByRole("button", { name: "Nested content", includeHidden: true }))
       .not.toBeVisible();
-    expect(el.collapsed).toBe(false);
     expect(el.open).toBe(true);
-  });
-
-  it("syncs collapsed state when the internal panel is toggled", async () => {
-    const { el } = await mountSheet(undefined);
-    el.collapsible = true;
-    const toggle = page.getByRole("button", { name: "Collapse", exact: true });
-    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
-
-    await expect.element(content).toBeVisible();
-    await userEvent.click(toggle);
-
-    await expect.element(el).toHaveProperty("collapsed", true);
-    await expect.element(content).not.toBeVisible();
-    await expect.element(page.getByText("Tools", { exact: true })).toBeVisible();
-    expect(el.open).toBe(true);
-
-    await userEvent.click(toggle);
-
-    await expect.element(el).toHaveProperty("collapsed", false);
-    await expect.element(content).toBeVisible();
-  });
-
-  it("forwards collapseDirection updates to the internal panel", async () => {
-    const { el } = await mountSheet(undefined);
-    const panel = page.getBySelector("calcite-panel");
-
-    el.collapseDirection = "up";
-
-    await expect.element(panel).toHaveProperty("collapseDirection", "up");
-
-    el.collapseDirection = "down";
-
-    await expect.element(panel).toHaveProperty("collapseDirection", "down");
-  });
-
-  it("forwards collapsible updates to the internal panel", async () => {
-    const { el } = await mountSheet(undefined);
-    const toggle = page.getByRole("button", { name: "Collapse", exact: true });
-
-    el.collapsible = true;
-
-    await expect.element(toggle).toBeVisible();
-
-    el.collapsible = false;
-
-    await expect.element(toggle).not.toBeInTheDocument();
-  });
-
-  it("forwards collapsed updates to the internal panel", async () => {
-    const { el } = await mountSheet(undefined);
-    el.collapsible = true;
-    const panel = page.getBySelector("calcite-panel");
-    const content = page.getByRole("button", { name: "Sheet content", includeHidden: true });
-
-    el.collapsed = true;
-
-    await expect.element(panel).toHaveProperty("collapsed", true);
-    await expect.element(content).not.toBeVisible();
-    await expect.element(page.getByText("Tools", { exact: true })).toBeVisible();
-
-    el.collapsed = false;
-
-    await expect.element(panel).toHaveProperty("collapsed", false);
-    await expect.element(content).toBeVisible();
   });
 
   it("forwards disabled updates to the internal panel", async () => {
@@ -636,6 +598,27 @@ describe("disabled interactions", () => {
 });
 
 describe("slots", () => {
+  it("supports an action bar in content-top", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount(
+      <calcite-sheet heading="Tools" label="Sheet" open>
+        <calcite-action-bar layout="horizontal" overflowMode="none" slot="content-top">
+          <calcite-action icon="plus" text="Add layer" />
+        </calcite-action-bar>
+        <p>Sheet content</p>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect
+      .element(page.getByRole("button", { name: "Add layer", exact: true }))
+      .toBeVisible();
+    await expect.element(page.getByText("Sheet content")).toBeVisible();
+    await expect
+      .element(page.getByRole("button", { name: "Collapse", exact: true }))
+      .not.toBeInTheDocument();
+  });
+
   it("preserves inherited Panel background tokens in custom content", async () => {
     const { el } = await mount<Sheet>(
       <calcite-sheet
@@ -992,14 +975,6 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-sheet"),
     [
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
       {
         propertyName: "disabled",
         value: true,

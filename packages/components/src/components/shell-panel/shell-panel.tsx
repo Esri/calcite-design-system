@@ -22,15 +22,7 @@ import {
 } from "../../utils/dom";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { useInteractive } from "../../controllers/useInteractive";
-import type {
-  CollapseDirection,
-  Height,
-  Layout,
-  Position,
-  ResizeValues,
-  Scale,
-  Width,
-} from "../types";
+import type { Height, Layout, Position, ResizeValues, Scale, Width } from "../types";
 import { ariaValueFromSize } from "../../utils/aria";
 import { useT9n } from "../../controllers/useT9n";
 import { useSizeOverride } from "../../controllers/useSizeOverride";
@@ -61,10 +53,9 @@ declare global {
  * @slot - A slot for adding content.
  * @slot custom-content - A slot for displaying custom content in place of the built-in panel.
  * @slot action-bar - A slot for adding a `calcite-action-bar` to the component.
- * @slot panel-action-bar - A slot for adding a `calcite-action-bar` to the panel.
  * @slot alerts - A slot for adding `calcite-alert`s to the component.
  * @slot content-bottom - A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
- * @slot content-top - A slot for adding content above the unnamed (default) slot and - if populated - below the `panel-action-bar` slot.
+ * @slot content-top - A slot for adding content above the unnamed (default) slot.
  * @slot header-actions-start - A slot for adding actions or content to the starting side of the component's header.
  * @slot header-actions-end - A slot for adding actions or content to the ending side of the component's header.
  * @slot header-top - A slot for adding custom content above the header actions and content.
@@ -212,10 +203,6 @@ interface ShellPanelSlots {
    */
   "custom-content": Node[];
   /**
-   * A slot for adding a `calcite-action-bar` to the panel.
-   */
-  "panel-action-bar": Node[];
-  /**
    * A slot for adding `calcite-alert`s to the component.
    */
   alerts: Node[];
@@ -224,7 +211,7 @@ interface ShellPanelSlots {
    */
   "content-bottom": Node[];
   /**
-   * A slot for adding content above the unnamed (default) slot and - if populated - below the `panel-action-bar` slot.
+   * A slot for adding content above the unnamed (default) slot.
    */
   "content-top": Node[];
   /**
@@ -373,15 +360,6 @@ export class ShellPanel extends LitElement {
 
   /** When `true`, disables focus trapping and the internal panel's close button, which collapses the component's content area. */
   @property({ reflect: true }) collapseDisabled = false;
-
-  /** When `panelCollapsible` is `true`, specifies the direction of the internal panel's collapse icon. */
-  @property() panelCollapseDirection: CollapseDirection = "down";
-
-  /** When `true`, hides the internal panel's content area. */
-  @property({ reflect: true }) panelCollapsed = false;
-
-  /** When `true`, the internal panel is collapsible. */
-  @property({ reflect: true }) panelCollapsible = false;
 
   /** A description for the component. */
   @property() description?: string;
@@ -706,15 +684,6 @@ export class ShellPanel extends LitElement {
 
     event.preventDefault();
     await this.collapseContent();
-  }
-
-  private handleInternalPanelToggle(event: CustomEvent<void>): void {
-    const panel = this.panelRef.value;
-    if (event.target !== panel) {
-      return;
-    }
-
-    this.panelCollapsed = panel.collapsed;
   }
 
   private handleInternalPanelScroll(event: CustomEvent<void>): void {
@@ -1114,9 +1083,6 @@ export class ShellPanel extends LitElement {
               class={CSS.panel}
               closable={!this.collapseDisabled}
               closed={collapsed}
-              collapsed={this.panelCollapsed}
-              collapseDirection={this.panelCollapseDirection}
-              collapsible={this.panelCollapsible}
               description={this.description}
               disabled={this.disabled}
               focusTrapDisabled={true}
@@ -1131,13 +1097,11 @@ export class ShellPanel extends LitElement {
               messageOverrides={this.messageOverrides}
               oncalcitePanelClose={this.handleInternalPanelCloseClick}
               oncalcitePanelScroll={this.handleInternalPanelScroll}
-              oncalcitePanelToggle={this.handleInternalPanelToggle}
               overlayPositioning={this.overlayPositioning}
               ref={this.panelRef}
               scale={this.scale}
               topLayerDisabled={this.topLayerDisabled}
             >
-              <slot name={SLOTS.panelActionBar} slot={PANEL_SLOTS.actionBar} />
               <slot name={SLOTS.alerts} slot={PANEL_SLOTS.alerts} />
               <slot name={SLOTS.headerActionsStart} slot={PANEL_SLOTS.headerActionsStart} />
               <slot name={SLOTS.headerActionsEnd} slot={PANEL_SLOTS.headerActionsEnd} />

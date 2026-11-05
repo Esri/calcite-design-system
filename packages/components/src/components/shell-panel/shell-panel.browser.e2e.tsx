@@ -87,18 +87,6 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "panelCollapseDirection",
-        defaultValue: "down",
-      },
-      {
-        propertyName: "panelCollapsed",
-        defaultValue: false,
-      },
-      {
-        propertyName: "panelCollapsible",
-        defaultValue: false,
-      },
-      {
         propertyName: "menuFlipPlacements",
         defaultValue: undefined,
       },
@@ -130,14 +118,6 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-shell-panel"),
     [
-      {
-        propertyName: "panelCollapsed",
-        value: true,
-      },
-      {
-        propertyName: "panelCollapsible",
-        value: true,
-      },
       {
         propertyName: "disabled",
         value: true,
@@ -402,7 +382,7 @@ describe("internal panel", () => {
 
   it("ignores collapse toggles from nested panels", async () => {
     const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel heading="Tools" panelCollapsible>
+      <calcite-shell-panel heading="Tools">
         <calcite-panel collapsible heading="Nested panel" id="nested-panel">
           <button type="button">Nested content</button>
         </calcite-panel>
@@ -416,80 +396,7 @@ describe("internal panel", () => {
     await expect
       .element(page.getByRole("button", { name: "Nested content", includeHidden: true }))
       .not.toBeVisible();
-    expect(el.panelCollapsed).toBe(false);
     expect(el.collapsed).toBe(false);
-  });
-
-  it("syncs collapsed state when the internal panel is toggled", async () => {
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel heading="Tools" panelCollapsible>
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const toggle = page.getByRole("button", { name: "Collapse", exact: true });
-    const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
-
-    await expect.element(content).toBeVisible();
-    await userEvent.click(toggle);
-
-    await expect.element(el).toHaveProperty("panelCollapsed", true);
-    await expect.element(content).not.toBeVisible();
-    await expect.element(page.getByText("Tools", { exact: true })).toBeVisible();
-    expect(el.collapsed).toBe(false);
-
-    await userEvent.click(toggle);
-
-    await expect.element(el).toHaveProperty("panelCollapsed", false);
-    await expect.element(content).toBeVisible();
-    expect(el.collapsed).toBe(false);
-  });
-
-  it("forwards panelCollapseDirection updates to the internal panel", async () => {
-    const { el } = await mount<ShellPanel>(<calcite-shell-panel />);
-    const panel = page.getBySelector("calcite-panel");
-
-    el.panelCollapseDirection = "up";
-
-    await expect.element(panel).toHaveProperty("collapseDirection", "up");
-
-    el.panelCollapseDirection = "down";
-
-    await expect.element(panel).toHaveProperty("collapseDirection", "down");
-  });
-
-  it("forwards panelCollapsible updates to the internal panel", async () => {
-    const { el } = await mount<ShellPanel>(<calcite-shell-panel />);
-    const toggle = page.getByRole("button", { name: "Collapse", exact: true });
-
-    el.panelCollapsible = true;
-
-    await expect.element(toggle).toBeVisible();
-
-    el.panelCollapsible = false;
-
-    await expect.element(toggle).not.toBeInTheDocument();
-  });
-
-  it("forwards panelCollapsed updates to the internal panel", async () => {
-    const { el } = await mount<ShellPanel>(
-      <calcite-shell-panel heading="Tools" panelCollapsible>
-        <button type="button">Panel content</button>
-      </calcite-shell-panel>,
-    );
-    const panel = page.getBySelector("calcite-panel");
-    const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
-
-    el.panelCollapsed = true;
-
-    await expect.element(panel).toHaveProperty("collapsed", true);
-    await expect.element(content).not.toBeVisible();
-    await expect.element(page.getByText("Tools", { exact: true })).toBeVisible();
-    expect(el.collapsed).toBe(false);
-
-    el.panelCollapsed = false;
-
-    await expect.element(panel).toHaveProperty("collapsed", false);
-    await expect.element(content).toBeVisible();
   });
 
   it("forwards disabled updates to the internal panel", async () => {
@@ -643,7 +550,6 @@ describe("internal panel", () => {
       await expect.element(content).not.toBeVisible();
       await expect.element(action).toBeVisible();
       expect(collapse).toHaveBeenCalledOnce();
-      expect(el.panelCollapsed).toBe(false);
 
       el.collapsed = false;
 
@@ -1046,6 +952,42 @@ describe("Escape without an active trap", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-shell-panel"), SLOTS);
+
+  it("supports an action bar in content-top independently of the outer action bar", async () => {
+    const { el } = await mount<ShellPanel>(
+      <calcite-shell-panel heading="Tools">
+        <calcite-action-bar slot="action-bar">
+          <calcite-action icon="layers" text="Layers" />
+        </calcite-action-bar>
+        <calcite-action-bar layout="horizontal" overflowMode="none" slot="content-top">
+          <calcite-action icon="plus" text="Add layer" />
+        </calcite-action-bar>
+      </calcite-shell-panel>,
+    );
+    const outerAction = page.getByRole("button", { name: "Layers", exact: true });
+    const contentAction = page.getByRole("button", {
+      name: "Add layer",
+      exact: true,
+    });
+
+    await expect.element(outerAction).toBeVisible();
+    await expect.element(contentAction).toBeVisible();
+    await expect
+      .element(page.getByRole("button", { name: "Collapse", exact: true }))
+      .not.toBeInTheDocument();
+
+    await page.getByRole("button", { name: "Close", exact: true }).click();
+
+    await expect.element(el).toHaveProperty("collapsed", true);
+    await expect.element(outerAction).toBeVisible();
+    await expect
+      .element(page.getBySelector('calcite-action-bar[slot="content-top"]'))
+      .not.toBeVisible();
+
+    el.collapsed = false;
+
+    await expect.element(contentAction).toBeVisible();
+  });
 
   it("forwards heading content to the internal panel", async () => {
     await mount(

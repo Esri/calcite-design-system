@@ -18,7 +18,6 @@ export const CSS = {
 
 export const SLOTS = {
   actionBar: "action-bar",
-  panelActionBar: "panel-action-bar",
   alerts: "alerts",
   customContent: "custom-content",
   contentTop: "content-top",

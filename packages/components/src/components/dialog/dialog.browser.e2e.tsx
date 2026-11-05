@@ -22,6 +22,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
+import type { Dialog } from "./dialog";
 
 mockConsole();
 
@@ -279,6 +280,45 @@ describe("honors hidden attribute", () => {
 
 describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-dialog", mountOptions));
+
+  it.each([false, true])(
+    "syncs panel closed state through open/close cycles (initial open: %s)",
+    async (open) => {
+      const openEvent = waitForEvent(document, "calciteDialogOpen");
+      const { el } = await mount<Dialog>(
+        <calcite-dialog heading="Tools" open={open}>
+          <button type="button">Dialog content</button>
+        </calcite-dialog>,
+      );
+      const panel = page.getBySelector(`calcite-panel.${CSS.panel}`);
+      const content = page.getByRole("button", { name: "Dialog content", includeHidden: true });
+
+      await expect.element(panel).toHaveProperty("closed", !open);
+
+      el.open = true;
+      await openEvent;
+      await expect.element(panel).toHaveProperty("closed", false);
+      await expect.element(content).toBeVisible();
+
+      const closeEvent = waitForEvent(el, "calciteDialogClose");
+      await page.getByRole("button", { name: "Close", exact: true }).click();
+      await closeEvent;
+      await expect.element(panel).toHaveProperty("closed", true);
+      await expect.element(content).not.toBeVisible();
+
+      const reopenEvent = waitForEvent(el, "calciteDialogOpen");
+      el.open = true;
+      await reopenEvent;
+      await expect.element(panel).toHaveProperty("closed", false);
+      await expect.element(content).toBeVisible();
+
+      const secondCloseEvent = waitForEvent(el, "calciteDialogClose");
+      el.open = false;
+      await secondCloseEvent;
+      await expect.element(panel).toHaveProperty("closed", true);
+      await expect.element(content).not.toBeVisible();
+    },
+  );
 });
 
 describe("renders", () => {
