@@ -1,17 +1,22 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex;
+  display: flex;
   writing-mode: horizontal-tb;
 }
 
 .list {
-  @apply flex list-none m-0 p-0;
+  display: flex;
+  list-style-type: none;
+  margin: var(--calcite-space-none);
+  padding: var(--calcite-space-none);
   column-gap: var(--calcite-theme-space-base, var(--calcite-spacing-base));
 }
 
 .list-item {
-  @apply flex m-0 p-0;
+  display: flex;
+  margin: var(--calcite-space-none);
+  padding: var(--calcite-space-none);
 }
 
 .hidden-item {
@@ -22,7 +27,10 @@
   & .chevron,
   & .page,
   & .ellipsis {
-    @apply text-n2h h-6 px-1;
+    @include shared.text-n2h();
+
+    block-size: var(--calcite-space-2xl);
+    padding-inline: var(--calcite-space-2xs);
     min-inline-size: theme("width.6");
   }
 }
@@ -31,7 +39,10 @@
   & .chevron,
   & .page,
   & .ellipsis {
-    @apply text-n1h h-8 px-2;
+    @include shared.text-n1h();
+
+    block-size: var(--calcite-space-3xl);
+    padding-inline: var(--calcite-space-sm);
     min-inline-size: theme("width.8");
   }
 }
@@ -40,50 +51,52 @@
   & .chevron,
   & .page,
   & .ellipsis {
-    @apply text-0h h-11;
+    @include shared.text-0h();
+
+    block-size: var(--calcite-space-4xl);
     min-inline-size: theme("width.11");
   }
 
   & .chevron {
-    @apply px-2.5;
+    padding-inline: var(--calcite-space-sm-plus);
   }
 
   & .page,
   & .ellipsis {
-    @apply px-3;
+    padding-inline: var(--calcite-space-md);
   }
 }
 
 // focus styles
 :host button {
-  @apply focus-base;
+  outline-color: var(--calcite-color-transparent);
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 }
 
 .chevron,
 .page,
 .ellipsis {
-  @apply p-0
-    m-0
-    text-0h
-    font-inherit
-    box-border
-    flex
-    items-center
-    border-none
-    border-opacity-0
-    justify-center
-    align-baseline
-    bg-transparent;
+  @include shared.text-0h();
 
+  padding: var(--calcite-space-none);
+  margin: var(--calcite-space-none);
+  font-family: inherit;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  border-style: none;
+  justify-content: center;
+  vertical-align: baseline;
+  background-color: var(--calcite-color-transparent);
+  border-color: var(--calcite-color-transparent);
   color: var(--calcite-pagination-color, var(--calcite-color-text-3));
 }
 
 .chevron,
 .page {
-  @apply cursor-pointer;
+  cursor: pointer;
   border-block: 2px solid transparent;
 
   &:hover {
@@ -107,8 +120,7 @@
     );
   }
   &.selected {
-    @apply font-medium;
-
+    font-weight: var(--calcite-font-weight-medium);
     color: var(--calcite-pagination-color-hover, var(--calcite-color-text-1));
     border-block-end-color: var(--calcite-pagination-color-border-active, var(--calcite-color-brand));
 
@@ -133,9 +145,10 @@
     );
   }
   &.disabled {
-    @apply pointer-events-none bg-transparent;
+    background-color: var(--calcite-color-transparent);
+    pointer-events: none;
     & > calcite-icon {
-      @apply opacity-disabled;
+      opacity: var(--calcite-opacity-disabled);
     }
   }
 }

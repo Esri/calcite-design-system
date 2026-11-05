@@ -123,7 +123,7 @@ describe("reflects", () => {
       { propertyName: "iconFlipRtl", value: true },
       { propertyName: "scale", value: "s" },
       { propertyName: "selected", value: true },
-      { propertyName: "selectionAppearance", value: "border" },
+      { propertyName: "selectionAppearance", value: "highlight" },
       { propertyName: "selectionMode", value: "single-persist" },
       { propertyName: "headingLevel", value: 2 },
     ],
@@ -383,28 +383,6 @@ describe("theme", () => {
           "--calcite-tile-accent-color-press": {
             shadowSelector: `.${CSS.selectionIcon}`,
             targetProp: "color",
-          },
-        },
-      );
-    });
-    describe(`applies to selected item's border using selection-appearance="border"`, () => {
-      themed(
-        () =>
-          mount(
-            <calcite-tile
-              description="Leverage agile frameworks to provide a robust synopsis for high level overviews."
-              heading="Tile heading lorem ipsum"
-              icon="layers"
-              interactive
-              selected
-              selection-appearance="border"
-              selection-mode="single"
-            />,
-          ),
-        {
-          "--calcite-tile-accent-color-press": {
-            shadowSelector: `.${CSS.container}`,
-            targetProp: "boxShadow",
           },
         },
       );

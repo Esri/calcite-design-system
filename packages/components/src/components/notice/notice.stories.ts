@@ -7,7 +7,8 @@ import "../action/action"; // Force Vite to statically trace the file for Chroma
 import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { appearance, scale, width, kind } = ATTRIBUTES;
+const { appearance, scale, kind } = ATTRIBUTES;
+const widthOptions: Notice["width"][] = ["auto", "full"];
 
 interface NoticeStoryArgs extends Pick<Notice, "appearance" | "closable" | "icon" | "kind" | "open" | "width"> {
   showIcon: boolean;
@@ -23,7 +24,7 @@ export default {
     closable: true,
     appearance: "outline-fill",
     noticeScale: scale.defaultValue,
-    width: width.defaultValue,
+    width: widthOptions[0],
     kind: kind.defaultValue,
     icon: iconNames[0],
     actionScale: scale.defaultValue,
@@ -34,7 +35,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: widthOptions,
       control: { type: "select" },
     },
     kind: {
