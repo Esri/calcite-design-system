@@ -14,7 +14,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import type { Appearance, Layout, Scale, Status, Width } from "../types";
+import type { Layout, Scale, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import type { IconName } from "../icon/types";
@@ -100,16 +100,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   //#endregion
 
   //#region Public Properties
-
-  /**
-   * Specifies the appearance style of the component.
-   *
-   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
-   */
-  @property({ reflect: true }) appearance: Extract<
-    "outline" | "outline-fill" | "solid",
-    Appearance
-  > = "solid";
 
   /** Specifies the appearance style of the component. */
   @property({ reflect: true })
