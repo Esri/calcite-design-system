@@ -421,7 +421,7 @@ export const fixedHeightNoVerticalScrollbar = (): string => html`
 
 export const noVerticalScrollbarInsideShellPanel = (): string => html`
   <calcite-shell content-behind>
-    <calcite-shell-panel slot="panel-end" width-scale="l" position="end" display-mode="float">
+    <calcite-shell-panel slot="panel-end" width-scale="l" position="end" display-mode="float-content">
       <calcite-panel heading="Panel with Tabs >> vertical scrollbar">
         <calcite-tabs>
           <calcite-tab-nav slot="title-group">

@@ -44,9 +44,9 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
-import { logger } from "../../utils/logger";
 import { isListItem } from "../list-item/resources";
 import { toAriaBoolean } from "../../utils/aria";
+import { logger } from "../../utils/logger";
 
 declare global {
   interface DeclareElements {
@@ -326,7 +326,7 @@ export class List extends LitElement {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border" | "highlight",
@@ -1285,7 +1285,6 @@ export class List extends LitElement {
             </span>
           ) : null}
           {this.renderItemAriaLive()}
-          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
             ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
@@ -1341,6 +1340,7 @@ export class List extends LitElement {
               onSlotChange={this.handleFilterNoResultsSlotChange}
             />
           </div>
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         </div>
       </this.interactiveContainer>
     );

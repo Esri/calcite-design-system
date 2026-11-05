@@ -549,7 +549,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
         <calcite-panel>Main content</calcite-panel>
         <calcite-shell-panel
-          display-mode="float"
+          display-mode="float-content"
           resizable
           slot="panel-end"
           style="--calcite-shell-panel-max-width: 100%;"
@@ -680,7 +680,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
         <calcite-panel>Main content</calcite-panel>
         <calcite-shell-panel
-          display-mode="float"
+          display-mode="float-content"
           resizable
           slot="panel-bottom"
           style="--calcite-shell-panel-max-height: 100%;"

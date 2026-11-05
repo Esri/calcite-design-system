@@ -3,6 +3,57 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.19](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.18...@esri/calcite-components@6.0.0-next.19) (2026-11-05)
+
+### Bug Fixes
+
+- **autocomplete, combobox, list-item:** retain surface.highlight color when selection-appearance=highlight items are hovered/pressed ([#15529](https://github.com/Esri/calcite-design-system/issues/15529)), closes [#14189](https://github.com/Esri/calcite-design-system/issues/14189)
+
+## [6.0.0-next.18](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.17...@esri/calcite-components@6.0.0-next.18) (2026-11-04)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [6.0.0-next.17](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.16...@esri/calcite-components@6.0.0-next.17) (2026-11-04)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [6.0.0-next.16](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.15...@esri/calcite-components@6.0.0-next.16) (2026-11-04)
+
+### ⚠ BREAKING CHANGES
+
+- **label, notice, segmented-control, select, shell-panel, split-button, tile, tile-group:** Deprecated props on label, list, list-item, notice,
+  segmented-control, select, shell-panel, split-button, tile, tile-group
+  have been removed.
+
+To migrate:
+
+Replace
+
+- `layout="default"` with `layout="block"` on `label`
+- `selectionAppearance="border"` with `selectionAppearance="highlight"`
+  on `tile`, `tile-group`
+- `width="half"` with `width="full"` on `notice`, `segmented-control`,
+  `select`, `split-button`
+- `displayMode="float"` with `displayMode="float-content"` on
+  `shell-panel`
+
+### Code Refactoring
+
+- **label, notice, segmented-control, select, shell-panel, split-button, tile, tile-group:** drop deprecated property values ([#15505](https://github.com/Esri/calcite-design-system/issues/15505)), closes [#15489](https://github.com/Esri/calcite-design-system/issues/15489)
+
+## [6.0.0-next.15](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.14...@esri/calcite-components@6.0.0-next.15) (2026-11-04)
+
+### Bug Fixes
+
+- ensure scrim covers content ([#15395](https://github.com/Esri/calcite-design-system/issues/15395)), closes [#14751](https://github.com/Esri/calcite-design-system/issues/14751) [#15198](https://github.com/Esri/calcite-design-system/issues/15198)
+
+## [6.0.0-next.14](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.13...@esri/calcite-components@6.0.0-next.14) (2026-11-02)
+
+### Bug Fixes
+
+- **label:** drop unsupported disabled styles ([#15457](https://github.com/Esri/calcite-design-system/issues/15457)), closes [#15313](https://github.com/Esri/calcite-design-system/issues/15313)
+- **shell-panel:** ensure consistent size constraints ([#15450](https://github.com/Esri/calcite-design-system/issues/15450)), closes [#15271](https://github.com/Esri/calcite-design-system/issues/15271)
+
 ## [6.0.0-next.13](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.12...@esri/calcite-components@6.0.0-next.13) (2026-11-02)
 
 ### ⚠ BREAKING CHANGES
@@ -164,6 +215,15 @@ Replace `sortable-list` usage with `calcite-block-group` component.
 ### Reverts
 
 - remove action-bar-position property from Shell Panel ([#15398](https://github.com/Esri/calcite-design-system/issues/15398)), closes [#13559](https://github.com/Esri/calcite-design-system/issues/13559) [/github.com/Esri/calcite-design-system/issues/13559#issuecomment-6150702527](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/13559/issues/issuecomment-6150702527) [#14963](https://github.com/Esri/calcite-design-system/issues/14963) [#13652](https://github.com/Esri/calcite-design-system/issues/13652)
+
+## [5.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0...@esri/calcite-components@5.2.1) (2026-11-04)
+
+### Bug Fixes
+
+- **action-bar:** Prevent flashing at overflow thresholds ([#15464](https://github.com/Esri/calcite-design-system/issues/15464)) ([40d127d](https://github.com/Esri/calcite-design-system/commit/40d127d96eba2aeef6ed57ef163e1f8c76d47eee))
+- **block:** Allow persisting expanded state in calciteBlockToggle callback ([#15429](https://github.com/Esri/calcite-design-system/issues/15429)) ([a308833](https://github.com/Esri/calcite-design-system/commit/a308833e97feb00db1a2d064bd9b69eafadc5ad4))
+- **input-time-picker:** Make placeholder accessible ([#15412](https://github.com/Esri/calcite-design-system/issues/15412)) ([7ecc752](https://github.com/Esri/calcite-design-system/commit/7ecc7529a6b21e86ac1ef6ead2830b29bdb87f61))
+- **shell-panel:** Ensure consistent size constraints ([#15450](https://github.com/Esri/calcite-design-system/issues/15450)) ([16706e1](https://github.com/Esri/calcite-design-system/commit/16706e14f76118fed80f0c3139032aeef444a283))
 
 ## [5.2.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.1.2...@esri/calcite-components@5.2.0) (2026-10-20)
 

@@ -10,7 +10,6 @@ export const CSS = {
   contentHeader: "content__header",
   contentBody: "content__body",
   contentOverlay: "content--overlay",
-  float: "float",
   floatAll: "float-all",
   floatContent: "float--content",
   resizeHandle: "resize-handle",
