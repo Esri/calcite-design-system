@@ -3,7 +3,7 @@ import Color from "color";
 import {
   calciteSpacingFixedSm,
   calciteSpacingFixedMd,
-  calciteSpacingFixedXl,
+  calciteSpaceLg,
 } from "@esri/calcite-design-tokens/dist/es6/semantic.js";
 import { IconName } from "../icon/types";
 
@@ -91,7 +91,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 240,
   },
   l: {
-    gap: parseInt(calciteSpacingFixedXl, 10),
+    gap: parseInt(calciteSpaceLg, 10),
     slider: {
       height: 12,
     },
