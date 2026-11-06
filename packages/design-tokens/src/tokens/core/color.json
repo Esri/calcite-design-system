@@ -1284,16 +1284,6 @@
             },
             "$type": "color",
             "$value": "#13111a"
-          },
-          "l-vv-1000": {
-            "attributes": {
-              "category": "color",
-              "group": "low-saturation",
-              "docs": "deprecated"
-            },
-            "$type": "color",
-            "$value": "#13111a",
-            "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use `--calcite-color-low-saturation-violet-l-vv-100` instead."
           }
         }
       },
