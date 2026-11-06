@@ -980,10 +980,17 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      const inputElement = this.childNumberRef.value;
+      if (!value && !inputElement?.value) {
         return;
       }
-      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
+        return;
+      }
+      if (
+        inputElement?.selectionStart === 0 &&
+        inputElement?.selectionEnd === inputElement.value.length
+      ) {
         return;
       }
     }
@@ -1107,19 +1114,20 @@ export class InputNumber
 
     const previousDraftValue = this.valueForEditing;
     const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
-    const isValueDeleted =
+    const isValueShortened =
       this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
     const hasTrailingDecimalSeparator =
+      valueHandleInteger.length >= 2 &&
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
     const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
+      hasTrailingDecimalSeparator && isValueShortened
         ? valueHandleInteger
         : sanitizeNumberString(valueHandleInteger);
 
@@ -1141,7 +1149,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
+    if (hasTrailingDecimalSeparator && isValueShortened) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
