@@ -1,10 +1,5 @@
 import { isTag } from "../resources";
 import Color from "color";
-import {
-  calciteSpacingFixedSm,
-  calciteSpacingFixedMd,
-  calciteSpaceLg,
-} from "@esri/calcite-design-tokens/dist/es6/semantic.js";
 import { IconName } from "../icon/types";
 
 export const CSS = {
@@ -65,7 +60,7 @@ export const OPACITY_LIMITS = {
 
 export const STATIC_DIMENSIONS = {
   s: {
-    gap: parseInt(calciteSpacingFixedSm, 10),
+    gap: 8,
     slider: {
       height: 12,
     },
@@ -78,7 +73,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 200,
   },
   m: {
-    gap: parseInt(calciteSpacingFixedMd, 10),
+    gap: 12,
     slider: {
       height: 12,
     },
@@ -91,7 +86,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 240,
   },
   l: {
-    gap: parseInt(calciteSpaceLg, 10),
+    gap: 16,
     slider: {
       height: 12,
     },
