@@ -61,6 +61,10 @@ describe(getLocaleData, () => {
     expect(localeData.year).toBeUndefined();
   });
 
+  it.each(["cs", "hu", "ko"])("omits spacing from the %s date separator", (locale) => {
+    expect(getLocaleData(locale).separator).toBe(".");
+  });
+
   it("derives non-Gregorian years and year suffixes from Intl", () => {
     expect(getLocaleData("th")["default-calendar"]).toBe("buddhist");
     expect(getLocaleData("ko").year?.suffix).toBe("년");
