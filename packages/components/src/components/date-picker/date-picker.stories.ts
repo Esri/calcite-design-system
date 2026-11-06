@@ -215,14 +215,16 @@ export const localized = (): string => {
       }
     </style>
     <div class="localized-calendars">
-      ${[...supportedLocales].map(
-        (locale) => html`
-          <div class="localized-calendar">
-            <strong>${locale}</strong>
-            <calcite-date-picker lang="${locale}" value="2020-02-28"></calcite-date-picker>
-          </div>
-        `,
-      )}
+      ${[...supportedLocales]
+        .map(
+          (locale) => html`
+            <div class="localized-calendar">
+              <strong>${locale}</strong>
+              <calcite-date-picker lang="${locale}" value="2020-02-28"></calcite-date-picker>
+            </div>
+          `,
+        )
+        .join("")}}
     </div>
   `;
 };
