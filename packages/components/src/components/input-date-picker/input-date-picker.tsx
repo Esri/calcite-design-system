@@ -142,12 +142,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-input-date-picker-calendar-day-background-color-hover": "*";
     /**
-     * Specifies the text color of current day of the component's date-picker.
-     *
-     * @deprecated in v3.3.1, removal target v6.0.0 - Use `--calcite-input-date-picker-calendar-current-day-text-color` instead.
-     */
-    "--calcite-input-date-picker-calendar-day-current-text-color": "*";
-    /**
      * Specifies the background color of the component's calendar selected day range.
      */
     "--calcite-input-date-picker-calendar-day-range-background-color": "*";
