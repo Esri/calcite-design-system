@@ -1425,7 +1425,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-weight-normal: 400; /** Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead. */
   --calcite-font-weight-medium: 500;
   --calcite-font-weight-semibold: 600;
-  --calcite-font-weight-bold: 600;
+  --calcite-font-weight-bold: 700;
   --calcite-font-size-xs: 10px;
   --calcite-font-size-sm: 12px;
   --calcite-font-size: 14px;
@@ -18063,7 +18063,7 @@ exports[`DOCS (internal) > semantic should match 1`] = `
         }
       },
       "$type": "fontWeight",
-      "$value": "600",
+      "$value": "700",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
       "name": "Font Weight Bold",
@@ -23045,7 +23045,7 @@ export const calciteFontWeightNormal = "400"; // Deprecated in v3.0.0, removal t
 export const calciteFontWeightRegular = "400"; // Replaces \`--calcite-font-weight-normal\`
 export const calciteFontWeightMedium = "500";
 export const calciteFontWeightSemibold = "600";
-export const calciteFontWeightBold = "600";
+export const calciteFontWeightBold = "700";
 export const calciteFontSizeXs = "10px";
 export const calciteFontSizeSm = "12px";
 export const calciteFontSize = "14px";
@@ -24921,7 +24921,7 @@ $calcite-font-weight-regular: 400; // Replaces \`--calcite-font-weight-normal\`
 $calcite-font-weight-normal: 400; // Deprecated in v3.0.0, removal target v6.0.0 - Use \`--calcite-font-weight-regular\` instead.
 $calcite-font-weight-medium: 500;
 $calcite-font-weight-semibold: 600;
-$calcite-font-weight-bold: 600;
+$calcite-font-weight-bold: 700;
 $calcite-font-size-xs: 10px;
 $calcite-font-size-sm: 12px;
 $calcite-font-size: 14px;
