@@ -13,13 +13,13 @@ const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 
 type SheetStoryArgs = Pick<
   Sheet,
-  "displayMode" | "heightScale" | "modalDisabled" | "open" | "position" | "resizable" | "width"
+  "displayMode" | "heightScale" | "modal" | "open" | "position" | "resizable" | "width"
 >;
 
 export default {
   title: "Components/Sheet",
   args: {
-    modalDisabled: false,
+    modal: false,
     open: true,
     resizable: false,
     position: logicalFlowPosition.values[0],
@@ -91,7 +91,7 @@ const nonModalPageContent = html`
 export const simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
-    ${boolean("modal-disabled", args.modalDisabled)}
+    ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
     ${boolean("resizable", args.resizable)}
     position="${args.position}"
@@ -113,14 +113,14 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
 `;
 simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const modalDisabledInlineEnd = (): string => html`
+export const nonModalInlineEnd = (): string => html`
   ${nonModalPageContent}
-  <calcite-sheet label="Non-modal inline sheet" modal-disabled open position="inline-end">${panelHTML}</calcite-sheet>
+  <calcite-sheet label="Non-modal inline sheet" open position="inline-end">${panelHTML}</calcite-sheet>
 `;
 
-export const modalDisabledBlockEnd = (): string => html`
+export const nonModalBlockEnd = (): string => html`
   ${nonModalPageContent}
-  <calcite-sheet label="Non-modal block sheet" modal-disabled open position="block-end">${panelHTML}</calcite-sheet>
+  <calcite-sheet label="Non-modal block sheet" open position="block-end">${panelHTML}</calcite-sheet>
 `;
 
 export const resizable = (): string =>

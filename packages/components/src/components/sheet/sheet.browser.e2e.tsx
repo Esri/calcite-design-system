@@ -66,12 +66,12 @@ describe("accessible", () => {
     });
   });
 
-  describe("with modalDisabled", () => {
+  describe("with modal", () => {
     accessible(async () => {
       const openEvent = waitForEvent(document, "calciteSheetOpen");
       const renderResult = await mount(
         <>
-          <calcite-sheet label="Non-modal sheet" modalDisabled open>
+          <calcite-sheet label="Modal sheet" modal open>
             <button type="button">inside</button>
           </calcite-sheet>
           <button type="button">outside</button>
@@ -104,7 +104,7 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "modalDisabled",
+        propertyName: "modal",
         defaultValue: false,
       },
       {
@@ -177,7 +177,7 @@ describe("focus-trap", () => {
 describe("Escape key closing", () => {
   type EscapeCloseCase = {
     focusTrapDisabled: boolean;
-    modalDisabled: boolean;
+    modal: boolean;
     outsideCloseDisabled: boolean;
     testName: string;
   };
@@ -185,40 +185,40 @@ describe("Escape key closing", () => {
   const defaultCases: EscapeCloseCase[] = [
     {
       focusTrapDisabled: false,
-      modalDisabled: false,
-      outsideCloseDisabled: false,
-      testName: "modal sheet with focus trap enabled",
-    },
-    {
-      focusTrapDisabled: true,
-      modalDisabled: false,
-      outsideCloseDisabled: false,
-      testName: "modal sheet with focus trap disabled",
-    },
-    {
-      focusTrapDisabled: false,
-      modalDisabled: true,
+      modal: false,
       outsideCloseDisabled: false,
       testName: "non-modal sheet with focus trap enabled",
     },
     {
       focusTrapDisabled: true,
-      modalDisabled: true,
+      modal: false,
       outsideCloseDisabled: false,
       testName: "non-modal sheet with focus trap disabled",
+    },
+    {
+      focusTrapDisabled: false,
+      modal: true,
+      outsideCloseDisabled: false,
+      testName: "modal sheet with focus trap enabled",
+    },
+    {
+      focusTrapDisabled: true,
+      modal: true,
+      outsideCloseDisabled: false,
+      testName: "modal sheet with focus trap disabled",
     },
   ];
 
   const modalOutsideClickCases: EscapeCloseCase[] = [
     {
       focusTrapDisabled: false,
-      modalDisabled: false,
+      modal: true,
       outsideCloseDisabled: true,
       testName: "modal sheet with focus trap enabled",
     },
     {
       focusTrapDisabled: true,
-      modalDisabled: false,
+      modal: true,
       outsideCloseDisabled: true,
       testName: "modal sheet with focus trap disabled",
     },
@@ -227,13 +227,13 @@ describe("Escape key closing", () => {
   const nonModalOutsideClickCases: EscapeCloseCase[] = [
     {
       focusTrapDisabled: false,
-      modalDisabled: true,
+      modal: false,
       outsideCloseDisabled: false,
       testName: "non-modal sheet with focus trap enabled",
     },
     {
       focusTrapDisabled: true,
-      modalDisabled: true,
+      modal: false,
       outsideCloseDisabled: false,
       testName: "non-modal sheet with focus trap disabled",
     },
@@ -241,7 +241,7 @@ describe("Escape key closing", () => {
 
   async function setUpEscapeCloseTest({
     focusTrapDisabled,
-    modalDisabled,
+    modal,
     outsideCloseDisabled,
   }: EscapeCloseCase) {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
@@ -250,7 +250,7 @@ describe("Escape key closing", () => {
         <calcite-sheet
           focusTrapDisabled={focusTrapDisabled}
           label="Sheet"
-          modalDisabled={modalDisabled}
+          modal={modal}
           open
           outsideCloseDisabled={outsideCloseDisabled}
         >
@@ -318,23 +318,23 @@ describe("Escape key closing", () => {
   );
 });
 
-describe("modalDisabled", () => {
+describe("modal", () => {
   it("updates modal behavior when toggled while open", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
-    const { el } = await mount<Sheet>(<calcite-sheet label="Sheet" open />);
+    const { el } = await mount<Sheet>(<calcite-sheet label="Sheet" modal open />);
     await openEvent;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
     expect(el.ariaModal).toBe("true");
     expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
 
-    el.modalDisabled = true;
+    el.modal = false;
 
     await expect.poll(() => document.documentElement.style.overflow).not.toBe("hidden");
     expect(el.ariaModal).toBe("false");
     expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
 
-    el.modalDisabled = false;
+    el.modal = true;
 
     await expect.poll(() => document.documentElement.style.overflow).toBe("hidden");
     expect(el.ariaModal).toBe("true");
@@ -349,7 +349,7 @@ describe("modalDisabled", () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(
       <>
-        <calcite-sheet label="Non-modal sheet" modalDisabled open>
+        <calcite-sheet label="Non-modal sheet" open>
           <button type="button">inside</button>
         </calcite-sheet>
         <button style={{ insetInlineEnd: 0, position: "fixed" }} type="button">
@@ -377,7 +377,7 @@ describe("modalDisabled", () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     await mount<Sheet>(
       <>
-        <calcite-sheet focus-trap-disabled label="Non-modal sheet" modalDisabled open>
+        <calcite-sheet focus-trap-disabled label="Non-modal sheet" open>
           <button type="button">inside</button>
         </calcite-sheet>
         <button type="button">outside</button>
@@ -394,11 +394,11 @@ describe("modalDisabled", () => {
     await expect.element(outsideButton).toHaveFocus();
   });
 
-  it("allows focus to leave when focusTrapDisabled is true for a modal sheet", async () => {
+  it("keeps focus trapped when focusTrapDisabled is true for a modal sheet", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(
       <>
-        <calcite-sheet focus-trap-disabled label="Modal sheet" open>
+        <calcite-sheet focus-trap-disabled label="Modal sheet" modal open>
           <button type="button">inside</button>
         </calcite-sheet>
         <button type="button">outside</button>
@@ -413,6 +413,99 @@ describe("modalDisabled", () => {
 
     await userEvent.tab();
 
+    await expect.element(outsideButton).not.toHaveFocus();
+  });
+
+  it("focuses the first control when initially open", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount<Sheet>(
+      <calcite-sheet label="Modal sheet" modal open>
+        <button type="button">inside</button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect.element(page.getByRole("button", { name: "inside" })).toHaveFocus();
+  });
+
+  it("keeps focus trapped when focusTrapDisabled becomes true while the sheet is modal", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el, component } = await mount<Sheet>(
+      <>
+        <calcite-sheet label="Modal sheet" modal open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    el.focusTrapDisabled = true;
+    await component.updateComplete;
+
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+    await userEvent.tab();
+
+    await expect.element(outsideButton).not.toHaveFocus();
+  });
+
+  // Re-activating the trap would replace its return-focus target with Sheet content.
+  it("returns focus to the trigger button after focusTrapDisabled becomes true while the sheet is modal", async () => {
+    const { el, component } = await mount<Sheet>(
+      <>
+        <button type="button">Open sheet</button>
+        <calcite-sheet label="Modal sheet" modal>
+          <button type="button">inside</button>
+        </calcite-sheet>
+      </>,
+    );
+    const triggerButton = page.getByRole("button", { name: "Open sheet" });
+    await userEvent.click(triggerButton);
+
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    el.open = true;
+    await openEvent;
+
+    el.focusTrapDisabled = true;
+    await component.updateComplete;
+
+    const closeEvent = waitForEvent(document, "calciteSheetClose");
+    el.open = false;
+    await closeEvent;
+
+    await expect.element(triggerButton).toHaveFocus();
+  });
+
+  it("updates focus trapping when modal changes with focusTrapDisabled", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    const { el, component } = await mount<Sheet>(
+      <>
+        <calcite-sheet focus-trap-disabled label="Non-modal sheet" open>
+          <button type="button">inside</button>
+        </calcite-sheet>
+        <button type="button">outside</button>
+      </>,
+    );
+    await openEvent;
+
+    const insideButton = page.getByRole("button", { name: "inside" });
+    const outsideButton = page.getByRole("button", { name: "outside" });
+    await userEvent.click(insideButton);
+    await userEvent.tab();
+    await expect.element(outsideButton).toHaveFocus();
+
+    el.modal = true;
+    await component.updateComplete;
+    await userEvent.click(insideButton);
+    await userEvent.tab();
+    await expect.element(outsideButton).not.toHaveFocus();
+
+    el.modal = false;
+    await component.updateComplete;
+    await userEvent.click(insideButton);
+    await userEvent.tab();
     await expect.element(outsideButton).toHaveFocus();
   });
 });
@@ -430,7 +523,7 @@ describe("reflects", () => {
         value: "m",
       },
       {
-        propertyName: "modalDisabled",
+        propertyName: "modal",
         value: true,
       },
       {

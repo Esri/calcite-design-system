@@ -266,7 +266,7 @@ export const useFocusTrap = <T extends FocusTrapComponent>(
         return;
       }
 
-      if (component.focusTrapDisabled || !isTriggerActive()) {
+      if (!canActivateTrap() || !isTriggerActive()) {
         deactivateTrap();
         return;
       }
