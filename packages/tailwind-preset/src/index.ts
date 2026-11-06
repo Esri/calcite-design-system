@@ -50,7 +50,7 @@ const config: Omit<Config, "content"> = {
         3: "var(--calcite-color-text-3)",
         inverse: "var(--calcite-color-text-inverse)",
         link: "var(--calcite-color-text-link)",
-        icon: "var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor))",
+        icon: "var(--calcite-icon-color, currentColor)",
       },
       transparent: "transparent",
     },

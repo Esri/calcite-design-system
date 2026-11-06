@@ -273,4 +273,37 @@ describe("theme", () => {
       },
     );
   });
+
+  describe("global icon color", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-tab-title icon-end="3d-glasses" icon-start="banana">
+            close me
+          </calcite-tab-title>,
+        ),
+      {
+        "--calcite-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+            state: { press: `calcite-tab-title >>> .${CSS.container}` },
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+            state: { press: `calcite-tab-title >>> .${CSS.container}` },
+          },
+        ],
+      },
+    );
+  });
 });

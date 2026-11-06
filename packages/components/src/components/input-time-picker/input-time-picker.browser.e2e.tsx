@@ -908,6 +908,16 @@ describe("l10n", () => {
 
 describe("theme", () => {
   themed(() => mount(<calcite-input-time-picker open />), {
+    "--calcite-input-time-picker-icon-color": [
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+      {
+        shadowSelector: `.${CSS.clockIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    ],
     "--calcite-input-time-picker-background-color": {
       shadowSelector: "calcite-time-picker",
       targetProp: "--calcite-time-picker-background-color",
@@ -996,15 +1006,6 @@ describe("theme", () => {
       state: {
         press: `calcite-input-time-picker >>> ${clearButtonContainerSelector} calcite-action`,
       },
-    },
-  });
-});
-
-describe("deprecated", () => {
-  themed(() => mount("calcite-input-time-picker"), {
-    "--calcite-ui-icon-color": {
-      shadowSelector: `.${CSS.container}`,
-      targetProp: "--calcite-icon-color",
     },
   });
 });

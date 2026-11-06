@@ -173,6 +173,10 @@ describe("theme", () => {
           state: { press: { attribute: "role", value: `menuitem` } },
         },
       ],
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
     };
 
     describe("vertical layout", () => {
@@ -203,6 +207,10 @@ describe("theme", () => {
             state: "hover",
           },
         ],
+        "--calcite-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
       };
     };
     describe("horizontal layout", () => {
@@ -251,48 +259,11 @@ describe("theme", () => {
           targetProp: "color",
         },
       ],
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
     };
     themed(() => mount(iconMenuItem), tokens);
   });
-});
-
-describe("deprecated", () => {
-  const iconMenuItem = (
-    <calcite-menu>
-      <calcite-menu-item breadcrumb icon-end="layers" icon-start="layers" text="Ideas">
-        <calcite-menu-item
-          href="#calcite-navigation-css-vars"
-          icon-start="multiple-variables"
-          slot={SLOTS.submenuItem}
-          text="Css vars"
-        />
-      </calcite-menu-item>
-    </calcite-menu>
-  );
-
-  const tokens: ComponentTestTokens = {
-    "--calcite-ui-icon-color": [
-      {
-        selector: "calcite-menu-item",
-        shadowSelector: `.${CSS.iconStart}`,
-        targetProp: "color",
-      },
-      {
-        selector: "calcite-menu-item",
-        shadowSelector: `.${CSS.iconEnd}`,
-        targetProp: "color",
-      },
-      {
-        selector: "calcite-menu-item",
-        shadowSelector: `.${CSS.iconBreadcrumb}`,
-        targetProp: "color",
-      },
-      {
-        selector: "calcite-menu-item",
-        shadowSelector: `.${CSS.iconDropdown}`,
-        targetProp: "color",
-      },
-    ],
-  };
-  themed(() => mount(iconMenuItem), tokens);
 });
