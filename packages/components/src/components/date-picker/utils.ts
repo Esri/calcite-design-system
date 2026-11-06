@@ -130,7 +130,7 @@ function getDatePattern(locale: Locale): {
 
   return {
     placeholder,
-    separator: parts.find(({ type }) => type === "literal")?.value ?? "/",
+    separator: parts.find(({ type }) => type === "literal")?.value.replace(/\s/gu, "") || "/",
     unitOrder: placeholder,
   };
 }
