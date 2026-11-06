@@ -26,7 +26,10 @@
 .content {
   box-sizing: border-box;
 
-  padding-block: var(--calcite-tab-content-space-y, var(--calcite-internal-tab-content-space-y));
+  padding-block: var(
+    --calcite-tab-content-space-y,
+    var(--calcite-tab-content-block-padding, var(--calcite-internal-tab-content-space-y))
+  );
 }
 
 .scale-s {

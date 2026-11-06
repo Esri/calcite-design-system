@@ -20,6 +20,12 @@ declare module "@arcgis/lumina" {
      * Specifies the vertical space between the component's content in the `default` slot.
      */
     "--calcite-tab-content-space-y": "*";
+    /**
+     * Specifies the block padding of the component's content in the `default` slot.
+     *
+     * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-tab-content-space-y` instead.
+     */
+    "--calcite-tab-content-block-padding": "*";
   }
 }
 
