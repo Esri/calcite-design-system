@@ -78,7 +78,6 @@
 
 :host([checked]) .label--neutral {
   border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-border-input));
-  border-radius: var(--calcite-corner-radius-none);
   background-color: var(
     --calcite-segmented-control-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -88,7 +87,6 @@
 
 :host([checked]) .label--highlight {
   border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
-  border-radius: var(--calcite-corner-radius-none);
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-surface-highlight));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-highlight));
 }
