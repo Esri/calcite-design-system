@@ -592,6 +592,29 @@ describe("autoClose", () => {
 
     expect(dropdownTwo.open).toBe(false);
   });
+
+  it("closes a reference element dropdown when clicking non-interactive content outside", async () => {
+    const { el } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown reference-element="trigger">
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Item</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+        <calcite-button id="trigger">Open dropdown</calcite-button>
+        <p id="outside">Outside content</p>
+      </>,
+    );
+
+    const trigger = page.getByRole("button", { name: "Open dropdown" });
+    const outside = page.getBySelector("#outside");
+
+    await userEvent.click(trigger);
+    expect(el.open).toBe(true);
+
+    await userEvent.click(outside);
+    expect(el.open).toBe(false);
+  });
 });
 
 describe("virtual referenceElement", () => {
