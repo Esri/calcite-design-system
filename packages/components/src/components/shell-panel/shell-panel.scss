@@ -451,6 +451,7 @@
   }
 }
 
+// Overlay renders the resize handle inside .content so it animates with the panel.
 :host([position="start"][layout="horizontal"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
   .container {
     padding-block-end: var(--calcite-size-fixed-sm-plus);
@@ -551,6 +552,7 @@
   flex
   flex-auto
   box-border;
+  position: relative;
 }
 
 .content-container {
@@ -562,6 +564,7 @@
   box-border
   w-full
   h-full;
+  overflow: auto;
 }
 
 :host([layout="horizontal"]) .action-bar-container,
@@ -571,6 +574,7 @@
 
 :host([layout="horizontal"]) .action-bar-container {
   overflow: auto;
+  flex-shrink: 0;
 }
 
 .content {

@@ -603,17 +603,17 @@ export class ShellPanel extends LitElement {
   }
 
   private getMaxBlockSize(): number | null {
-    const { layout, contentRef } = this;
+    const { layout, containerRef } = this;
 
     if (layout !== "horizontal") {
       return this.resizeValues.maxBlockSize;
     }
 
-    if (!contentRef.value) {
+    if (!containerRef.value) {
       return this.resizeValues.maxBlockSize;
     }
 
-    const computedStyle = window.getComputedStyle(contentRef.value);
+    const computedStyle = window.getComputedStyle(containerRef.value);
     const cssMax = getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
     const availableBlockSize = this.getAvailableBlockSize();
 
@@ -869,6 +869,7 @@ export class ShellPanel extends LitElement {
           <div class={CSS.contentBody}>
             <slot />
           </div>
+          {/* Overlay renders the resize handle inside .content so it animates with the panel. */}
           {displayMode === "overlay" ? separatorNode : null}
         </div>
       </div>
@@ -903,6 +904,7 @@ export class ShellPanel extends LitElement {
         ref={this.containerRef}
       >
         {mainNodes}
+        {/* Overlay's resize handle is rendered inside .content instead (see above). */}
         {displayMode === "overlay" ? null : separatorNode}
       </div>
     );

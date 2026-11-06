@@ -794,6 +794,8 @@ describe("shell-panel updateSize public method", () => {
     expect(getComputedStyle(handle).touchAction).toBe("none");
   });
 
+  const overlayResizeHandleSelector = `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`;
+
   it.for([
     {
       displayMode: "dock",
@@ -801,7 +803,7 @@ describe("shell-panel updateSize public method", () => {
     },
     {
       displayMode: "overlay",
-      handleSelector: `:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content} > .${CSS.resizeHandle}`,
+      handleSelector: overlayResizeHandleSelector,
     },
   ] as const)(
     "renders the resize handle in the expected parent for $displayMode display mode",
@@ -815,6 +817,47 @@ describe("shell-panel updateSize public method", () => {
       expect(page.elementLocator(el).getBySelector(handleSelector).element()).toBeDefined();
     },
   );
+
+  it("resizes an overlay panel with its nested resize handle", async () => {
+    await mount<"calcite-shell">(
+      <calcite-shell style="inline-size: 700px; block-size: 400px; position: relative;">
+        <calcite-shell-panel display-mode="overlay" resizable slot="panel-start">
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+      </calcite-shell>,
+    );
+    const panel = getShellPanelBySlot("panel-start");
+    const panelLocator = page.elementLocator(panel);
+    const content = panelLocator
+      .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+      .element() as HTMLElement;
+    const handle = panelLocator.getBySelector(overlayResizeHandleSelector).element() as HTMLElement;
+    const widthBefore = content.getBoundingClientRect().width;
+
+    handle.focus();
+    await userEvent.keyboard("{ArrowRight}");
+    await panel.manager.component.updateComplete;
+
+    expect(content.getBoundingClientRect().width).toBeGreaterThan(widthBefore);
+  });
+
+  it("does not render a container-level resize handle for overlay display mode", async () => {
+    await mount<"calcite-shell">(
+      <calcite-shell style="inline-size: 700px; block-size: 400px; position: relative;">
+        <calcite-shell-panel display-mode="overlay" resizable slot="panel-start">
+          <calcite-panel>Content</calcite-panel>
+        </calcite-shell-panel>
+        <calcite-panel>Main content</calcite-panel>
+      </calcite-shell>,
+    );
+    const panelLocator = page.elementLocator(getShellPanelBySlot("panel-start"));
+
+    expect(panelLocator.getBySelector(overlayResizeHandleSelector).element()).toBeDefined();
+    expect(
+      panelLocator.getBySelector(`:scope > .${CSS.container} > .${CSS.resizeHandle}`).query(),
+    ).toBeNull();
+  });
 
   it("does not render the resize handle when collapsed", async () => {
     const { el } = await mount<"calcite-shell-panel">(
@@ -1151,15 +1194,15 @@ describe("themed", () => {
   describe("height", () => {
     themed(() => mount(<calcite-shell-panel layout="horizontal" />), {
       "--calcite-shell-panel-height": {
-        shadowSelector: `.${CSS.content}`,
+        shadowSelector: `.${CSS.container}`,
         targetProp: "blockSize",
       },
       "--calcite-shell-panel-max-height": {
-        shadowSelector: `.${CSS.content}`,
+        shadowSelector: `.${CSS.container}`,
         targetProp: "maxBlockSize",
       },
       "--calcite-shell-panel-min-height": {
-        shadowSelector: `.${CSS.content}`,
+        shadowSelector: `.${CSS.container}`,
         targetProp: "minBlockSize",
       },
     });
