@@ -566,7 +566,6 @@ exports[`CSS > core should match 1`] = `
   --calcite-color-low-saturation-violet-l-vv-080: #504b60;
   --calcite-color-low-saturation-violet-l-vv-090: #322e3d;
   --calcite-color-low-saturation-violet-l-vv-100: #13111a;
-  --calcite-color-low-saturation-violet-l-vv-1000: #13111a; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead. */
   --calcite-color-medium-saturation-blue-m-bb-010: #dfeffa;
   --calcite-color-medium-saturation-blue-m-bb-020: #c8e3f5;
   --calcite-color-medium-saturation-blue-m-bb-030: #b1d8f1;
@@ -5715,35 +5714,6 @@ exports[`DOCS (internal) > core should match 1`] = `
       "isSource": false,
       "name": "Color Low Saturation Violet L Vv 100",
       "path": ["core", "color", "low-saturation", "violet", "l-vv-100"]
-    },
-    {
-      "key": "{core.color.low-saturation.violet.l-vv-1000}",
-      "attributes": {
-        "category": "color",
-        "group": "low-saturation",
-        "docs": "deprecated",
-        "type": "color",
-        "item": "low-saturation",
-        "subitem": "violet",
-        "state": "l-vv-1000",
-        "names": {
-          "scss": "$calcite-color-low-saturation-violet-l-vv-1000",
-          "css": "var(--calcite-color-low-saturation-violet-l-vv-1000)",
-          "docs": "core.color.low-saturation.violet.l-vv-1000",
-          "es6": "calciteColorLowSaturationVioletLVv1000"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "color",
-      "$value": "#13111a",
-      "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead.",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Violet L Vv 1000",
-      "path": ["core", "color", "low-saturation", "violet", "l-vv-1000"]
     },
     {
       "key": "{core.color.medium-saturation.blue.m-bb-010}",
@@ -21146,7 +21116,6 @@ export const calciteColorLowSaturationVioletLVv070 = "#6f6783";
 export const calciteColorLowSaturationVioletLVv080 = "#504b60";
 export const calciteColorLowSaturationVioletLVv090 = "#322e3d";
 export const calciteColorLowSaturationVioletLVv100 = "#13111a";
-export const calciteColorLowSaturationVioletLVv1000 = "#13111a"; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead.
 export const calciteColorMediumSaturationBlueMBb010 = "#dfeffa";
 export const calciteColorMediumSaturationBlueMBb020 = "#c8e3f5";
 export const calciteColorMediumSaturationBlueMBb030 = "#b1d8f1";
@@ -21782,8 +21751,6 @@ export const calciteColorLowSaturationVioletLVv070: string;
 export const calciteColorLowSaturationVioletLVv080: string;
 export const calciteColorLowSaturationVioletLVv090: string;
 export const calciteColorLowSaturationVioletLVv100: string;
-/** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead. */
-export const calciteColorLowSaturationVioletLVv1000: string;
 export const calciteColorMediumSaturationBlueMBb010: string;
 export const calciteColorMediumSaturationBlueMBb020: string;
 export const calciteColorMediumSaturationBlueMBb030: string;
@@ -22896,7 +22863,6 @@ $calcite-color-low-saturation-violet-l-vv-070: #6f6783;
 $calcite-color-low-saturation-violet-l-vv-080: #504b60;
 $calcite-color-low-saturation-violet-l-vv-090: #322e3d;
 $calcite-color-low-saturation-violet-l-vv-100: #13111a;
-$calcite-color-low-saturation-violet-l-vv-1000: #13111a; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead.
 $calcite-color-medium-saturation-blue-m-bb-010: #dfeffa;
 $calcite-color-medium-saturation-blue-m-bb-020: #c8e3f5;
 $calcite-color-medium-saturation-blue-m-bb-030: #b1d8f1;
