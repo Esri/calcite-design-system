@@ -416,6 +416,18 @@ describe("modal", () => {
     await expect.element(outsideButton).not.toHaveFocus();
   });
 
+  it("focuses the first control when initially open", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount<Sheet>(
+      <calcite-sheet label="Modal sheet" modal open>
+        <button type="button">inside</button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect.element(page.getByRole("button", { name: "inside" })).toHaveFocus();
+  });
+
   it("keeps focus trapped when focusTrapDisabled becomes true while the sheet is modal", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el, component } = await mount<Sheet>(
@@ -437,6 +449,33 @@ describe("modal", () => {
     await userEvent.tab();
 
     await expect.element(outsideButton).not.toHaveFocus();
+  });
+
+  // Re-activating the trap would replace its return-focus target with Sheet content.
+  it("returns focus to the trigger button after focusTrapDisabled becomes true while the sheet is modal", async () => {
+    const { el, component } = await mount<Sheet>(
+      <>
+        <button type="button">Open sheet</button>
+        <calcite-sheet label="Modal sheet" modal>
+          <button type="button">inside</button>
+        </calcite-sheet>
+      </>,
+    );
+    const triggerButton = page.getByRole("button", { name: "Open sheet" });
+    await userEvent.click(triggerButton);
+
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    el.open = true;
+    await openEvent;
+
+    el.focusTrapDisabled = true;
+    await component.updateComplete;
+
+    const closeEvent = waitForEvent(document, "calciteSheetClose");
+    el.open = false;
+    await closeEvent;
+
+    await expect.element(triggerButton).toHaveFocus();
   });
 
   it("updates focus trapping when modal changes with focusTrapDisabled", async () => {

@@ -147,6 +147,8 @@ export class Sheet extends LitElement {
 
   private _open = false;
 
+  private hasOpened = false;
+
   openProp = "opened" as const;
 
   transitionProp = "opacity" as const;
@@ -407,7 +409,7 @@ export class Sheet extends LitElement {
   }
 
   override updated(changes: PropertyValues<this>): void {
-    if ((changes.has("focusTrapDisabled") || changes.has("modal")) && this.open) {
+    if ((changes.has("focusTrapDisabled") || changes.has("modal")) && this.hasOpened) {
       if (this.focusTrapDisabledOverride()) {
         this.focusTrap.deactivate();
       } else {
@@ -600,6 +602,7 @@ export class Sheet extends LitElement {
   }
 
   onOpen(): void {
+    this.hasOpened = true;
     if (this.focusTrapDisabled) {
       this.setFocus();
     }
@@ -612,6 +615,7 @@ export class Sheet extends LitElement {
   }
 
   onClose(): void {
+    this.hasOpened = false;
     this.calciteSheetClose.emit();
     this.focusTrap.deactivate();
     this.topLayer.hide();
