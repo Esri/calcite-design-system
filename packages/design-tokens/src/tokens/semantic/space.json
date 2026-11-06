@@ -1,24 +1,6 @@
 {
   "spacing": {
     "fixed": {
-      "xxs": {
-        "attributes": {
-          "category": "spacing",
-          "docs": "unlisted"
-        },
-        "$type": "spacing",
-        "$value": "{core.size.default.4}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-2xs` instead."
-      },
-      "xs": {
-        "attributes": {
-          "category": "spacing",
-          "docs": "unlisted"
-        },
-        "$type": "spacing",
-        "$value": "{core.size.default.6}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-xs` instead."
-      },
       "sm": {
         "attributes": {
           "category": "spacing",
@@ -45,33 +27,6 @@
         "$type": "spacing",
         "$value": "{core.size.default.14}",
         "$description": "Deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-space-md-plus` instead."
-      },
-      "xl": {
-        "attributes": {
-          "category": "spacing",
-          "docs": "unlisted"
-        },
-        "$type": "spacing",
-        "$value": "{core.size.default.16}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-lg` instead."
-      },
-      "xxl": {
-        "attributes": {
-          "category": "spacing",
-          "docs": "unlisted"
-        },
-        "$type": "spacing",
-        "$value": "{core.size.default.20}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-xl` instead."
-      },
-      "xxxl": {
-        "attributes": {
-          "category": "spacing",
-          "docs": "unlisted"
-        },
-        "$type": "spacing",
-        "$value": "{core.size.default.32}",
-        "$description": "Deprecated in v3.0.0, removal target v5.0.0 - Use `--calcite-space-3xl` instead."
       }
     },
     "default": {
