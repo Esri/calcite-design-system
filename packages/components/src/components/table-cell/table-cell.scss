@@ -57,7 +57,7 @@ td.last-cell {
   color: var(--calcite-table-cell-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-table-cell-background-color,
-    var(--calcite-table-cell-background, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
   );
 
   border-block-end: 0;

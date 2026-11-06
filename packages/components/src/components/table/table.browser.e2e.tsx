@@ -761,11 +761,6 @@ describe("theme", () => {
 
   describe("themed table cell", () => {
     themed(() => mount(<calcite-table-cell>cell</calcite-table-cell>), {
-      // `--calcite-table-cell-background` is deprecated
-      "--calcite-table-cell-background": {
-        shadowSelector: "td",
-        targetProp: "backgroundColor",
-      },
       "--calcite-table-cell-background-color": {
         shadowSelector: "td",
         targetProp: "backgroundColor",
@@ -783,11 +778,6 @@ describe("theme", () => {
 
   describe("themed table header", () => {
     themed(() => mount(<calcite-table-header description="Description" heading="Heading" />), {
-      // `--calcite-table-header-background` is deprecated
-      "--calcite-table-header-background": {
-        shadowSelector: "th",
-        targetProp: "backgroundColor",
-      },
       "--calcite-table-header-background-color": {
         shadowSelector: "th",
         targetProp: "backgroundColor",
@@ -836,12 +826,6 @@ describe("theme", () => {
           </calcite-table>,
         ),
       {
-        // `--calcite-table-row-background` is deprecated
-        "--calcite-table-row-background": {
-          selector: "#row-1",
-          shadowSelector: "tr",
-          targetProp: "backgroundColor",
-        },
         "--calcite-table-row-background-color": {
           selector: "#row-1",
           shadowSelector: "tr",
