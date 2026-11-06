@@ -38,10 +38,12 @@
 }
 
 :host(:focus) {
+  z-index: var(--calcite-z-index);
+}
+
+:host(:focus) .label {
   @apply focus-inset;
   outline-offset: -1px;
-  z-index: var(--calcite-z-index);
-  border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 .label--scale-s {
@@ -91,6 +93,26 @@
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-highlight));
 }
 
+:host(:first-of-type) .label--horizontal {
+  border-start-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-end-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
+:host(:last-of-type) .label--horizontal {
+  border-start-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-end-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
+:host(:first-of-type) .label:not(.label--horizontal) {
+  border-start-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-start-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
+:host(:last-of-type) .label:not(.label--horizontal) {
+  border-end-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-end-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
 ::slotted(input) {
   @apply hidden;
 }
@@ -105,6 +127,10 @@
   }
   :host([checked]) .label:not([class~="label--neutral"]) .icon {
     color: highlightText;
+  }
+  :host(:focus) .label {
+    @apply focus-inset;
+    outline-offset: -1px;
   }
 }
 
