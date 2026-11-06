@@ -1388,7 +1388,7 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-font-size-md: 16px;
   --calcite-font-size-lg: 18px;
   --calcite-font-size-xl: 20px;
-  --calcite-font-size-xxl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
+  --calcite-font-size-2xl: 24px; /** Replaces \`--calcite-font-size-xxl\` */
   --calcite-font-size-relative-xs: 0.625rem;
   --calcite-font-size-relative-sm: 0.75rem;
   --calcite-font-size-relative-base: 0.875rem;
@@ -18154,18 +18154,17 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "path": ["font", "size", "xl"]
     },
     {
-      "key": "{font.size.xxl}",
+      "key": "{font.size.2xl}",
       "attributes": {
         "category": "font",
         "group": "size",
-        "docs": "deprecated",
         "type": "size",
-        "item": "xxl",
+        "item": "2xl",
         "names": {
-          "scss": "$calcite-font-size-xxl",
-          "css": "var(--calcite-font-size-xxl)",
-          "docs": "font.size.xxl",
-          "es6": "calciteFontSizeXxl"
+          "scss": "$calcite-font-size-2xl",
+          "css": "var(--calcite-font-size-2xl)",
+          "docs": "font.size.2xl",
+          "es6": "calciteFontSize2xl"
         },
         "calcite-schema": {
           "system": "calcite",
@@ -18177,8 +18176,8 @@ exports[`DOCS (internal) > semantic should match 1`] = `
       "$description": "Replaces \`--calcite-font-size-xxl\`",
       "filePath": "src/tokens/semantic/font.json",
       "isSource": true,
-      "name": "Font Size Xxl",
-      "path": ["font", "size", "xxl"]
+      "name": "Font Size 2xl",
+      "path": ["font", "size", "2xl"]
     },
     {
       "key": "{font.size.relative.xs}",
@@ -22322,7 +22321,7 @@ export const calciteFontSize = "14px";
 export const calciteFontSizeMd = "16px";
 export const calciteFontSizeLg = "18px";
 export const calciteFontSizeXl = "20px";
-export const calciteFontSizeXxl = "24px"; // Replaces \`--calcite-font-size-xxl\`
+export const calciteFontSize2xl = "24px"; // Replaces \`--calcite-font-size-xxl\`
 export const calciteFontSizeRelativeXs = "0.625rem";
 export const calciteFontSizeRelativeSm = "0.75rem";
 export const calciteFontSizeRelativeBase = "0.875rem";
@@ -22515,7 +22514,7 @@ export const calciteFontSizeMd: string;
 export const calciteFontSizeLg: string;
 export const calciteFontSizeXl: string;
 /** Replaces \`--calcite-font-size-xxl\` */
-export const calciteFontSizeXxl: string;
+export const calciteFontSize2xl: string;
 export const calciteFontSizeRelativeXs: string;
 export const calciteFontSizeRelativeSm: string;
 export const calciteFontSizeRelativeBase: string;
@@ -24079,7 +24078,7 @@ $calcite-font-size: 14px;
 $calcite-font-size-md: 16px;
 $calcite-font-size-lg: 18px;
 $calcite-font-size-xl: 20px;
-$calcite-font-size-xxl: 24px; // Replaces \`--calcite-font-size-xxl\`
+$calcite-font-size-2xl: 24px; // Replaces \`--calcite-font-size-xxl\`
 $calcite-font-size-relative-xs: 0.625rem;
 $calcite-font-size-relative-sm: 0.75rem;
 $calcite-font-size-relative-base: 0.875rem;
