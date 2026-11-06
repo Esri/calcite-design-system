@@ -23,12 +23,6 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-cell-background-color` instead.
-     */
-    "--calcite-table-cell-background": "*";
-    /**
-     * Specifies the component's background color.
      */
     "--calcite-table-cell-background-color": "*";
     /**

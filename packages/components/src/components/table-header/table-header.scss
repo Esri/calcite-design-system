@@ -23,8 +23,9 @@ th {
   padding-inline: var(--calcite-internal-table-cell-padding);
   background-color: var(
     --calcite-table-header-background-color,
-    var(--calcite-table-header-background, var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2)))
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
   );
+
   font-size: var(--calcite-internal-table-cell-font-size);
   border-inline-end: var(--calcite-border-width-sm) solid
     var(--calcite-table-cell-border-color, var(--calcite-table-border-color, var(--calcite-color-border-2)));
