@@ -418,7 +418,7 @@ describe("modal", () => {
 
   it("keeps focus trapped when focusTrapDisabled becomes true while the sheet is modal", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
-    const { el } = await mount<Sheet>(
+    const { el, component } = await mount<Sheet>(
       <>
         <calcite-sheet label="Modal sheet" modal open>
           <button type="button">inside</button>
@@ -429,7 +429,7 @@ describe("modal", () => {
     await openEvent;
 
     el.focusTrapDisabled = true;
-    await el.updateComplete;
+    await component.updateComplete;
 
     const insideButton = page.getByRole("button", { name: "inside" });
     const outsideButton = page.getByRole("button", { name: "outside" });
@@ -441,7 +441,7 @@ describe("modal", () => {
 
   it("updates focus trapping when modal changes with focusTrapDisabled", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
-    const { el } = await mount<Sheet>(
+    const { el, component } = await mount<Sheet>(
       <>
         <calcite-sheet focus-trap-disabled label="Non-modal sheet" open>
           <button type="button">inside</button>
@@ -458,13 +458,13 @@ describe("modal", () => {
     await expect.element(outsideButton).toHaveFocus();
 
     el.modal = true;
-    await el.updateComplete;
+    await component.updateComplete;
     await userEvent.click(insideButton);
     await userEvent.tab();
     await expect.element(outsideButton).not.toHaveFocus();
 
     el.modal = false;
-    await el.updateComplete;
+    await component.updateComplete;
     await userEvent.click(insideButton);
     await userEvent.tab();
     await expect.element(outsideButton).toHaveFocus();
