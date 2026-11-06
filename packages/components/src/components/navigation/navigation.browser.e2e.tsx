@@ -47,8 +47,7 @@ describe("defaults", () => {
   );
 });
 
-// navigationAction is incorrectly being reset when set to true dynamically - see https://github.com/Esri/calcite-design-system/issues/14057
-describe.skip("reflects", () => {
+describe("reflects", () => {
   reflects(
     () => mount("calcite-navigation"),
     [
@@ -138,6 +137,41 @@ it("should emit calciteNavigationActionSelect event when user interacts with nav
 
   await userEvent.click(hamburgerMenu);
   expect(actionSelectHandler).toHaveBeenCalledTimes(3);
+});
+
+describe("navigation action", () => {
+  it("renders the navigation action when navigationAction is toggled after initialization", async () => {
+    const { el, reRender } = await mount<Navigation>(<calcite-navigation label="Menu" />);
+    const navigationAction = page.getByRole("button", { name: "Menu" });
+
+    await expect.element(navigationAction).not.toBeInTheDocument();
+
+    el.navigationAction = true;
+    await reRender();
+
+    await expect.element(navigationAction).toBeInTheDocument();
+    expect(el.navigationAction).toBe(true);
+
+    el.navigationAction = false;
+    await reRender();
+
+    await expect.element(navigationAction).not.toBeInTheDocument();
+    expect(el.navigationAction).toBe(false);
+  });
+
+  it("disables navigationAction when an element is slotted into the navigation-action slot", async () => {
+    const { el } = await mount<Navigation>(<calcite-navigation label="Menu" navigation-action />);
+
+    await expect.element(page.getByRole("button", { name: "Menu" })).toBeInTheDocument();
+
+    const customAction = document.createElement("calcite-action");
+    customAction.slot = "navigation-action";
+    customAction.text = "Custom";
+    el.append(customAction);
+
+    await expect.poll(() => el.navigationAction).toBe(false);
+    await expect.element(page.getByRole("button", { name: "Menu" })).not.toBeInTheDocument();
+  });
 });
 
 describe("theme", () => {
