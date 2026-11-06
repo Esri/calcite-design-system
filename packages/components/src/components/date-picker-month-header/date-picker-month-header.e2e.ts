@@ -13,10 +13,8 @@ const localeDataFixture = {
   days: {
     narrow: ["D", "L", "M", "M", "J", "V", "S"],
   },
-  numerals: "0123456789",
   months: {
     abbreviated: ["ene.", "feb.", "mar.", "abr.", "may.", "jun.", "jul.", "ago.", "sept.", "oct.", "nov.", "dic."],
-    narrow: ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
     wide: [
       "enero",
       "febrero",

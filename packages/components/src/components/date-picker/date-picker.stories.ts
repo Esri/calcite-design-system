@@ -1,4 +1,4 @@
-import { defaultLocale } from "@arcgis/toolkit/intl";
+import { defaultLocale, supportedLocales } from "@arcgis/toolkit/intl";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -196,42 +196,42 @@ export const darkModeRTL = (): string => html`
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const localized = (): string => {
-  const locales = [
-    { label: "Arabic (ar):", lang: "ar" },
-    { label: "Arabic (ar) + Arabic numbering system:", lang: "ar", numberingSystem: "arab" },
-    { label: "Bulgarian (bg):", lang: "bg" },
-    { label: "British English (en-gb):", lang: "en-gb" },
-    { label: "Chinese (zh-cn):", lang: "zh-cn" },
-    { label: "German (de):", lang: "de" },
-    { label: "French Canadian (fr-CA):", lang: "fr-CA" },
-    { label: "Norwegian (nb):", lang: "nb" },
-    { label: "Portuguese (pt-PT):", lang: "pt-PT" },
-    { label: "Spanish (es):", lang: "es" },
-  ];
-
   return html`
-    <div style="width: 400px; display: flex; flex-direction: column; gap: 16px;">
-      ${locales
+    <style>
+      .localized-calendars {
+        display: grid;
+        grid-template-columns: repeat(4, 300px);
+        gap: 24px;
+      }
+
+      .localized-calendar {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .localized-calendar calcite-date-picker {
+        width: 300px;
+      }
+    </style>
+    <div class="localized-calendars">
+      ${[...supportedLocales]
         .map(
-          ({ label, lang, numberingSystem }) => html`
-            <div>
-              <strong>${label}</strong>
-              <calcite-date-picker
-                lang="${lang}"
-                value="2020-02-28"
-                ${numberingSystem ? `numbering-system="${numberingSystem}"` : ""}
-              ></calcite-date-picker>
+          (locale) => html`
+            <div class="localized-calendar">
+              <strong>${locale}</strong>
+              <calcite-date-picker lang="${locale}" value="2020-02-28"></calcite-date-picker>
             </div>
           `,
         )
-        .join("")}
+        .join("")}}
     </div>
   `;
 };
 localized.parameters = {
   chromatic: {
-    delay: 1000,
-    diffThreshold: 1,
+    delay: 2000,
+    cropToViewport: false,
   },
 };
 

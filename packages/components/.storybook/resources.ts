@@ -1,3 +1,4 @@
+import { supportedLocales, type SupportedLocale } from "@arcgis/toolkit/intl";
 import type {
   Alignment,
   Appearance,
@@ -29,7 +30,6 @@ import type { OverlayPositioning } from "../src/utils/floating-ui.ts";
 import type { AlertDuration, AlertQueue } from "../src/components/alert/types";
 import { defaultMenuPlacement, placements, menuPlacements } from "../src/utils/floating-ui";
 import { dialogPlacements } from "../src/components/dialog/resources";
-import { supportedNlsLocales } from "../src/components/date-picker/utils";
 import { hourFormats } from "../src/utils/time";
 
 interface AttributeMetadata<T> {
@@ -54,7 +54,7 @@ interface CommonAttributes {
   placement: AttributeMetadata<(typeof placements)[number]>;
   menuPlacement: AttributeMetadata<(typeof menuPlacements)[number]>;
   dialogPlacement: AttributeMetadata<(typeof dialogPlacements)[number]>;
-  supportedNlsLocale: AttributeMetadata<(typeof supportedNlsLocales)[number]>;
+  supportedNlsLocale: AttributeMetadata<SupportedLocale>;
   hourFormat: AttributeMetadata<(typeof hourFormats)[number]>;
   displayMode: AttributeMetadata<DisplayMode>;
   toggleDisplay: AttributeMetadata<BlockSectionToggleDisplay>;
@@ -93,6 +93,7 @@ interface CommonAttributes {
   timeZoneOffsetStyle: AttributeMetadata<string>;
 }
 
+const supportedNlsLocales = [...supportedLocales];
 const logicalFlowPositionOptions: LogicalFlowPosition[] = ["inline-start", "inline-end", "block-start", "block-end"];
 const positionOptions: Position[] = ["start", "end", "top", "bottom"];
 const scaleOptions: Scale[] = ["s", "m", "l"];
