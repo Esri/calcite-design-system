@@ -1190,42 +1190,109 @@ describe("l10n", () => {
           const decimalSeparator = numberStringFormatter.decimal;
 
           const { el } = await mount<InputNumber>(<calcite-input-number lang={locale} />);
-          const input = page.getBySelector("calcite-input-number input").element();
+          const input = page.getBySelector("calcite-input-number input");
 
           await userEvent.keyboard(`{Tab}`);
           await userEvent.keyboard(`1234${decimalSeparator}56`);
 
           expect(el).toHaveProperty("value", expectedValue);
-          expect(input).toHaveProperty("value", expectedFormattedValue);
+          expect(input).toHaveDisplayValue(expectedFormattedValue);
 
           await userEvent.fill(input, decimalSeparator);
           expect(el).toHaveProperty("value", "");
-          // TODO: get this assertion to work
-          // expect(input).toHaveDisplayValue(decimalSeparator);
+          expect(input).toHaveDisplayValue(decimalSeparator);
         });
 
-        it.skip("replaces entire integer with allowed non-digit characters", async () => {
+        it("replaces selection of entire integer with localized decimal separator", async () => {
           numberStringFormatter.numberFormatOptions = {
             locale,
             numberingSystem: "latn",
             useGrouping: false,
           };
-          const integerValue = "12345";
-          const negativeIntegerValue = "-12345";
-          const expectedIntegerDisplayValue = numberStringFormatter.localize(integerValue);
-          const expectedNegativeIntegerDisplayValue =
-            numberStringFormatter.localize(negativeIntegerValue);
           const decimalSeparator = numberStringFormatter.decimal;
           const minusSign = numberStringFormatter.minusSign;
 
-          const { el } = await mount(<calcite-input-number value={integerValue} />);
-          const input = page.getBySelector("calcite-input-number input").element();
+          const integerValue = "12345";
+          const localizedInteger = numberStringFormatter.localize(integerValue);
+
+          const negativeIntegerValue = "-12345";
+          const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
+
+          const exponentialInteger = "1234e5";
+          const localizedExponentialInteger = numberStringFormatter.localize(exponentialInteger);
+
+          const negativeExponentialInteger = "-1234e5";
+          const localizedNegativeExponentialInteger = `${minusSign}${localizedExponentialInteger}`;
+
+          const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
+          const input = page.getBySelector("calcite-input-number input");
 
           await userEvent.fill(input, decimalSeparator);
+
           expect(el).toHaveProperty("value", "");
           expect(input).toHaveDisplayValue(decimalSeparator);
 
-          await userEvent.keyboard(integerValue);
+          await userEvent.fill(input, integerValue);
+
+          expect(el).toHaveProperty("value", "12345");
+          expect(input).toHaveDisplayValue(localizedInteger);
+
+          await userEvent.fill(input, decimalSeparator);
+
+          expect(el).toHaveProperty("value", "");
+          expect(input).toHaveDisplayValue(decimalSeparator);
+
+          await userEvent.fill(input, localizedNegativeInteger);
+
+          expect(el).toHaveProperty("value", negativeIntegerValue);
+          expect(input).toHaveDisplayValue(localizedNegativeInteger);
+
+          await userEvent.fill(input, decimalSeparator);
+
+          expect(el).toHaveProperty("value", "");
+          expect(input).toHaveDisplayValue(decimalSeparator);
+
+          await userEvent.fill(input, localizedExponentialInteger);
+
+          expect(el).toHaveProperty("value", exponentialInteger);
+          expect(input).toHaveDisplayValue(localizedExponentialInteger);
+
+          await userEvent.fill(input, decimalSeparator);
+
+          expect(el).toHaveProperty("value", "");
+          expect(input).toHaveDisplayValue(decimalSeparator);
+
+          await userEvent.fill(input, localizedNegativeExponentialInteger);
+
+          expect(el).toHaveProperty("value", negativeExponentialInteger);
+          expect(input).toHaveDisplayValue(localizedNegativeExponentialInteger);
+
+          await userEvent.fill(input, decimalSeparator);
+
+          expect(el).toHaveProperty("value", "");
+          expect(input).toHaveDisplayValue(decimalSeparator);
+        });
+
+        it.skip("replaces entire integer selection with e symbol when pressed", async () => {
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping: false,
+          };
+          const decimalSeparator = numberStringFormatter.decimal;
+          const integerValue = "12345";
+          const expectedIntegerDisplayValue = numberStringFormatter.localize(integerValue);
+
+          const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
+          const input = page.getBySelector("calcite-input-number input");
+
+          await userEvent.fill(input, decimalSeparator);
+
+          expect(el).toHaveProperty("value", "");
+          expect(input).toHaveDisplayValue(decimalSeparator);
+
+          await userEvent.fill(input, integerValue);
+
           expect(el).toHaveProperty("value", "12345");
           expect(input).toHaveDisplayValue(expectedIntegerDisplayValue);
 
@@ -1234,18 +1301,12 @@ describe("l10n", () => {
           expect(input).toHaveDisplayValue("e");
 
           await userEvent.fill(input, integerValue);
+
           expect(el).toHaveProperty("value", integerValue);
           expect(input).toHaveDisplayValue(expectedIntegerDisplayValue);
-
-          await userEvent.fill(input, minusSign);
-          expect(el).toHaveProperty("value", "");
-          expect(input).toHaveDisplayValue(minusSign);
-
-          await userEvent.keyboard(integerValue);
-          expect(el).toHaveProperty("value", negativeIntegerValue);
-          expect(input).toHaveDisplayValue(expectedNegativeIntegerDisplayValue);
         });
       });
+
       it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
         const expectedValue = "1.5e-6";
         numberStringFormatter.numberFormatOptions = {
