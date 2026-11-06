@@ -1272,39 +1272,6 @@ describe("l10n", () => {
           expect(el).toHaveProperty("value", "");
           expect(input).toHaveDisplayValue(decimalSeparator);
         });
-
-        it.skip("replaces entire integer selection with e symbol when pressed", async () => {
-          numberStringFormatter.numberFormatOptions = {
-            locale,
-            numberingSystem: "latn",
-            useGrouping: false,
-          };
-          const decimalSeparator = numberStringFormatter.decimal;
-          const integerValue = "12345";
-          const expectedIntegerDisplayValue = numberStringFormatter.localize(integerValue);
-
-          const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
-          const input = page.getBySelector("calcite-input-number input");
-
-          await userEvent.fill(input, decimalSeparator);
-
-          expect(el).toHaveProperty("value", "");
-          expect(input).toHaveDisplayValue(decimalSeparator);
-
-          await userEvent.fill(input, integerValue);
-
-          expect(el).toHaveProperty("value", "12345");
-          expect(input).toHaveDisplayValue(expectedIntegerDisplayValue);
-
-          await userEvent.fill(input, "e");
-          expect(el).toHaveProperty("value", "");
-          expect(input).toHaveDisplayValue("e");
-
-          await userEvent.fill(input, integerValue);
-
-          expect(el).toHaveProperty("value", integerValue);
-          expect(input).toHaveDisplayValue(expectedIntegerDisplayValue);
-        });
       });
 
       it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
