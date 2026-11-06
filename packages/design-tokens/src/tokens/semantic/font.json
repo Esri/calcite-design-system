@@ -141,11 +141,10 @@
         "$type": "fontSizes",
         "$value": "{core.size.default.20}"
       },
-      "xxl": {
+      "2xl": {
         "attributes": {
           "category": "font",
-          "group": "size",
-          "docs": "deprecated"
+          "group": "size"
         },
         "$type": "fontSizes",
         "$value": "{core.size.default.24}",
