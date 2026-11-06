@@ -4,8 +4,8 @@ import { html } from "../../support/formatting";
 
 export const stepperTokens = {
   calciteStepperBarGap: "",
-  calciteStepperBarInactiveFillColor: "",
-  calciteStepperBarActiveFillColor: "",
+  calciteStepperBarFillColor: "",
+  calciteStepperBarSelectedFillColor: "",
   calciteStepperBarCompleteFillColor: "",
   calciteStepperBarErrorFillColor: "",
 };
