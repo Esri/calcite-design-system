@@ -142,6 +142,16 @@ describe("theme", () => {
           shadowSelector: `.${CSS.expandIcon}`,
           targetProp: "color",
         },
+        "--calcite-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+        ],
       },
     );
   });

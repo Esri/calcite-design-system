@@ -420,6 +420,16 @@ describe("theme", () => {
         shadowSelector: "button",
         targetProp: "color",
       },
+      "--calcite-icon-color": [
+        {
+          shadowSelector: `.${CSS.iconStart}`,
+          targetProp: "color",
+        },
+        {
+          shadowSelector: `.${CSS.iconEnd}`,
+          targetProp: "color",
+        },
+      ],
     });
   });
 });

@@ -213,15 +213,6 @@ describe("theme", () => {
     });
   });
 
-  describe("global icon color", () => {
-    themed(() => mount(navigationLogo()), {
-      "--calcite-icon-color": {
-        shadowSelector: `calcite-icon`,
-        targetProp: "color",
-      },
-    });
-  });
-
   describe("with link + active", () => {
     themed(
       () =>

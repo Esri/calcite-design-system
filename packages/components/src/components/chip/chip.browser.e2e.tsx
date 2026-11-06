@@ -159,6 +159,10 @@ describe("themed", () => {
         shadowSelector: `.${CSS.chipIcon}`,
         targetProp: "color",
       },
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.chipIcon}`,
+        targetProp: "color",
+      },
     });
   });
 

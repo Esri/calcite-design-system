@@ -173,6 +173,10 @@ describe("theme", () => {
           state: { press: { attribute: "role", value: `menuitem` } },
         },
       ],
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
     };
 
     describe("vertical layout", () => {
@@ -203,6 +207,10 @@ describe("theme", () => {
             state: "hover",
           },
         ],
+        "--calcite-icon-color": {
+          shadowSelector: `.${CSS.icon}`,
+          targetProp: "color",
+        },
       };
     };
     describe("horizontal layout", () => {
@@ -251,6 +259,10 @@ describe("theme", () => {
           targetProp: "color",
         },
       ],
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
     };
     themed(() => mount(iconMenuItem), tokens);
   });

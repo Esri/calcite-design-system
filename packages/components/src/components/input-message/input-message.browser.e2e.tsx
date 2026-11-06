@@ -44,6 +44,10 @@ describe("theme", () => {
             shadowSelector: `.${CSS.inputMessageIcon}`,
             targetProp: "color",
           },
+          "--calcite-icon-color": {
+            shadowSelector: `.${CSS.inputMessageIcon}`,
+            targetProp: "color",
+          },
         },
       );
     });
@@ -60,6 +64,10 @@ describe("theme", () => {
             shadowSelector: `.${CSS.inputMessageIcon}`,
             targetProp: "color",
           },
+          "--calcite-icon-color": {
+            shadowSelector: `.${CSS.inputMessageIcon}`,
+            targetProp: "color",
+          },
         },
       );
     });
@@ -73,6 +81,10 @@ describe("theme", () => {
           ),
         {
           "--calcite-input-message-icon-color": {
+            shadowSelector: `.${CSS.inputMessageIcon}`,
+            targetProp: "color",
+          },
+          "--calcite-icon-color": {
             shadowSelector: `.${CSS.inputMessageIcon}`,
             targetProp: "color",
           },

@@ -910,11 +910,11 @@ describe("theme", () => {
   themed(() => mount(<calcite-input-time-picker open />), {
     "--calcite-input-time-picker-icon-color": [
       {
-        shadowSelector: `.${CSS.container}`,
+        shadowSelector: `.${CSS.toggleIcon}`,
         targetProp: "--calcite-icon-color",
       },
       {
-        shadowSelector: ".clock-icon",
+        shadowSelector: `.${CSS.clockIcon}`,
         targetProp: "--calcite-icon-color",
       },
     ],
