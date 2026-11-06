@@ -2,7 +2,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasContent } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Appearance, Layout, Scale } from "../types";
+import { Layout, Scale } from "../types";
 import { IconName } from "../icon/types";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./segmented-control-item.scss";
@@ -31,6 +31,10 @@ declare module "@arcgis/lumina" {
      * Specifies the icons's color.
      */
     "--calcite-segmented-control-icon-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-segmented-control-item-border-color": "*";
   }
 }
 
@@ -50,11 +54,11 @@ export class SegmentedControlItem extends LitElement {
   // #region Public Properties
 
   /**
-   * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
+   * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `neutral`.
    *
    * @private
    */
-  @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
+  @property() appearance: "brand" | "highlight" | "neutral" = "neutral";
 
   /** @copyDoc */
   @property({ reflect: true }) checked = false;
@@ -150,8 +154,8 @@ export class SegmentedControlItem extends LitElement {
           [CSS.label]: true,
           [CSS.labelScale(scale)]: true,
           [CSS.labelHorizontal]: layout === "horizontal",
-          [CSS.labelOutline]: appearance === "outline",
-          [CSS.labelOutlineFill]: appearance === "outline-fill",
+          [CSS.labelNeutral]: appearance === "neutral",
+          [CSS.labelHighlight]: appearance === "highlight",
         }}
       >
         {this.renderContent()}
