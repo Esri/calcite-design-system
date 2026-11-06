@@ -52,11 +52,11 @@
 }
 
 :host([width="auto"]) {
-  --calcite-notice-width: theme("width.auto");
+  inline-size: theme("width.auto");
 }
 
 :host([width="full"]) {
-  --calcite-notice-width: theme("width.full");
+  inline-size: theme("width.full");
 }
 
 :host {
@@ -64,7 +64,6 @@
   display: none;
   max-inline-size: 100%;
   align-items: center;
-  inline-size: var(--calcite-notice-width);
 }
 
 .container {
@@ -172,10 +171,7 @@
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
   --calcite-action-background-color: var(--calcite-notice-close-background-color);
-  --calcite-action-background-color-hover: var(
-    --calcite-notice-close-background-color-hover,
-    var(--calcite-notice-close-background-color-focus)
-  );
+  --calcite-action-background-color-hover: var(--calcite-notice-close-background-color-hover);
   --calcite-action-background-color-press: var(--calcite-notice-close-background-color-press);
   --calcite-action-text-color: var(--calcite-notice-close-icon-color, var(--calcite-color-text-3));
   --calcite-action-text-color-press: var(--calcite-notice-close-icon-color-hover);
