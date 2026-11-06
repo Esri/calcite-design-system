@@ -6,6 +6,8 @@ export const CSS = {
   contentBehind: "content--behind",
   contentBottom: "content-bottom",
   contentNonInteractive: "content--non-interactive",
+  hasActionBarPositionPanelBottom: "has-action-bar-position-panel-bottom",
+  hasActionBarPositionPanelTop: "has-action-bar-position-panel-top",
   footer: "footer",
   positionedSlotWrapper: "positioned-slot-wrapper",
   container: "container",
