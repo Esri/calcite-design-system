@@ -120,42 +120,22 @@
   stroke: currentColor;
   stroke-width: 2;
   padding-block: var(--calcite-space-none);
-  block-size: var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline)));
-  min-block-size: var(
-    --calcite-loader-size,
-    var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-  );
-  inline-size: var(
-    --calcite-loader-size,
-    var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-  );
-  vertical-align: calc(
-    var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))) * -1 * 0.2
-  );
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+  min-block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+  vertical-align: calc(var(--calcite-loader-size, var(--calcite-internal-loader-size-inline)) * -1 * 0.2);
 
   .rings {
     inset-block-start: var(--calcite-space-none);
     margin: var(--calcite-space-none);
     inset-inline-start: 0;
-    inline-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
-    block-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
+    inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+    block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
   }
 
   .ring {
-    inline-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
-    block-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
+    inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+    block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
   }
 
   .ring--progress {
