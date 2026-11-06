@@ -7,7 +7,7 @@ import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale, Width } from "../types";
+import { AriaAttributesCamelCased, Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -351,6 +351,9 @@ export class Dialog extends LitElement {
 
   /** @copyDoc */
   @property() description?: string;
+
+  /** Specifies ARIA attributes for the dialog's assistive text live region. */
+  @property() aria?: Partial<Pick<AriaAttributesCamelCased, "live">>;
 
   /** When `true`, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
@@ -999,7 +1002,11 @@ export class Dialog extends LitElement {
           ref={this.setTransitionEl}
         >
           {assistiveText ? (
-            <div ariaLive="polite" class={CSS_UTILITY.screenReaderText} key="assistive-text">
+            <div
+              ariaLive={this.aria?.live}
+              class={CSS_UTILITY.screenReaderText}
+              key="assistive-text"
+            >
               {assistiveText}
             </div>
           ) : null}

@@ -30,8 +30,6 @@
   },
   "devDependencies": {
     "@esri/calcite-typescript-config": "workspace:*",
-    "@types/eslint": "catalog:",
-    "@types/estree": "catalog:",
     "@types/node": "catalog:",
     "@typescript-eslint/rule-tester": "catalog:",
     "@typescript-eslint/utils": "catalog:",
