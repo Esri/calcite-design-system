@@ -433,6 +433,19 @@ describe("header slots", () => {
     expect(getComputedStyle(headerTop).borderBlockEndWidth).toBe("1px");
   });
 
+  it("uses header-content instead of heading and description properties", async () => {
+    const { component } = await mount<Panel>(
+      <calcite-panel description="test description" heading="test heading">
+        <div slot={SLOTS.headerContent}>custom header content</div>
+      </calcite-panel>,
+    );
+    const panel = page.elementLocator(component.el);
+
+    await expect.element(panel.getByText("custom header content")).toBeVisible();
+    await expect.element(panel.getByText("test heading")).not.toBeVisible();
+    await expect.element(panel.getByText("test description")).not.toBeVisible();
+  });
+
   it("renders heading and description properties when heading/description slots are empty", async () => {
     await mount(
       <calcite-panel description="test description" heading="test heading">
@@ -857,6 +870,32 @@ describe("focus trap", () => {
     await expect(component.el.updateFocusTrapElements()).resolves.toBeUndefined();
     await expect(outsideControl).toBeInTheDocument();
   });
+});
+
+it("updates rendering and reflection after an asynchronous close", async () => {
+  const { promise, resolve } = Promise.withResolvers<void>();
+  const { component } = await mount<Panel>(
+    <calcite-panel beforeClose={() => promise} closable heading="Tools">
+      <button type="button">Panel content</button>
+    </calcite-panel>,
+  );
+  const content = page.getByRole("button", { name: "Panel content", includeHidden: true });
+
+  await userEvent.click(page.getByRole("button", { name: "Close", exact: true }));
+
+  expect(component.el.closed).toBe(false);
+  await expect.element(content).toBeVisible();
+
+  resolve();
+
+  await expect.element(component.el).toHaveAttribute("closed");
+  expect(component.el.closed).toBe(true);
+  await expect.element(content).not.toBeVisible();
+
+  component.el.closed = false;
+
+  await expect.element(component.el).not.toHaveAttribute("closed");
+  await expect.element(content).toBeVisible();
 });
 
 it("closes on Escape through keyboard interaction when closable", async () => {

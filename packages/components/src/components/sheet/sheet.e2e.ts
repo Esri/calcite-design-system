@@ -13,6 +13,42 @@ mockConsole();
 
 // focus-trap coverage is in sheet.browser.e2e.tsx.
 
+it("should set internal panel properties", async () => {
+  const page = await newE2EPage();
+  await page.exposeFunction("beforeClose", () => Promise.reject());
+  await page.setContent("<calcite-sheet></calcite-sheet>");
+
+  const panel = await page.find(`calcite-sheet >>> calcite-panel`);
+  const sheet = await page.find("calcite-sheet");
+
+  const messageOverrides = { close: "shut the front door" };
+
+  sheet.setProperty("closeDisabled", true);
+  sheet.setProperty("loading", true);
+  sheet.setProperty("menuOpen", true);
+  sheet.setProperty("headingLevel", 1);
+  sheet.setProperty("overlayPositioning", "fixed");
+  sheet.setProperty("heading", "My Heading");
+  sheet.setProperty("description", "My Description");
+  sheet.setProperty("scale", "l");
+  sheet.setProperty("icon", "x");
+  sheet.setProperty("iconFlipRtl", true);
+  sheet.setProperty("messageOverrides", messageOverrides);
+  await page.waitForChanges();
+
+  expect(await panel.getProperty("closable")).toBe(false);
+  expect(await panel.getProperty("loading")).toBe(true);
+  expect(await panel.getProperty("menuOpen")).toBe(true);
+  expect(await panel.getProperty("headingLevel")).toBe(1);
+  expect(await panel.getProperty("overlayPositioning")).toBe("fixed");
+  expect(await panel.getProperty("heading")).toBe("My Heading");
+  expect(await panel.getProperty("description")).toBe("My Description");
+  expect(await panel.getProperty("scale")).toBe("l");
+  expect(await panel.getProperty("icon")).toBe("x");
+  expect(await panel.getProperty("iconFlipRtl")).toBe(true);
+  expect((await panel.getProperty("messageOverrides")).close).toBe(messageOverrides.close);
+});
+
 it("sets custom width correctly", async () => {
   const page = await newE2EPage();
   // set large page to ensure test sheet isn't becoming fullscreen
