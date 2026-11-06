@@ -182,7 +182,7 @@ it("has correct aria role/attribute", async () => {
   await page.setContent(`<calcite-sheet></calcite-sheet>`);
   const sheet = await page.find("calcite-sheet");
   expect(sheet).toEqualAttribute("role", "dialog");
-  expect(sheet).toEqualAttribute("aria-modal", "true");
+  expect(sheet).toEqualAttribute("aria-modal", "false");
 });
 
 it("closes and allows re-opening when Escape key is pressed", async () => {

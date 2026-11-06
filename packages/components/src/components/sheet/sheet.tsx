@@ -125,7 +125,7 @@ export class Sheet extends LitElement {
     triggerProp: "open",
     focusTrapOptions: {
       // scrim closes on click, so we let it take over
-      clickOutsideDeactivates: () => this.modalDisabled || this.embedded,
+      clickOutsideDeactivates: () => !this.modal || this.embedded,
       escapeDeactivates: (event) => {
         if (!event.defaultPrevented && !this.escapeDisabled) {
           this.open = false;
@@ -144,8 +144,6 @@ export class Sheet extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private mutationObserver = createObserver("mutation", () => this.handleMutationObserver());
-
-  private _modalDisabled = false;
 
   private _open = false;
 
@@ -185,7 +183,7 @@ export class Sheet extends LitElement {
   })(this);
 
   get preventDocumentScroll(): boolean {
-    return !this.embedded && !this.modalDisabled;
+    return !this.embedded && this.modal;
   }
 
   //#endregion
@@ -227,7 +225,7 @@ export class Sheet extends LitElement {
   /** When `true`, disables the default close on escape behavior. */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /** When `true` and `modal` is `false`, prevents focus trapping. */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -260,20 +258,8 @@ export class Sheet extends LitElement {
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, disables the default modal behavior, allowing interaction with content outside the component. */
-  @property({ reflect: true })
-  get modalDisabled(): boolean {
-    return this._modalDisabled;
-  }
-  set modalDisabled(value: boolean) {
-    if (value === this._modalDisabled) {
-      return;
-    }
-
-    const oldPreventDocumentScroll = this.preventDocumentScroll;
-    this._modalDisabled = value;
-    this.requestUpdate("preventDocumentScroll", oldPreventDocumentScroll);
-  }
+  /** When `true`, displays a scrim blocking interaction underneath the component. */
+  @property({ reflect: true }) modal = false;
 
   /** When `true`, displays and positions the component. */
   @property({ reflect: true })
@@ -294,7 +280,7 @@ export class Sheet extends LitElement {
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true` and `modalDisabled` is `false`, disables the closing of the component when clicked outside. */
+  /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
   /** Determines where the component will be positioned. */
@@ -404,6 +390,10 @@ export class Sheet extends LitElement {
       this.transitionRef.value
     ) {
       toggleOpenClose(this);
+    }
+
+    if (changes.has("modal") && this.hasUpdated) {
+      this.requestUpdate("preventDocumentScroll", !this.embedded && changes.get("modal"));
     }
 
     if (
@@ -634,6 +624,11 @@ export class Sheet extends LitElement {
     this.focusTrap.updateContainerElements();
   }
 
+  /** When `true`, prevents focus trapping for non-modal sheets. */
+  focusTrapDisabledOverride(): boolean {
+    return !this.modal && this.focusTrapDisabled;
+  }
+
   //#endregion
 
   //#region Rendering
@@ -647,7 +642,7 @@ export class Sheet extends LitElement {
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaLabel = this.label;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaModal = this.modalDisabled ? "false" : "true";
+    this.el.ariaModal = this.modal ? "true" : "false";
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "dialog";
 
@@ -668,9 +663,7 @@ export class Sheet extends LitElement {
         popover={!this.embedded ? "manual" : undefined}
         ref={this.transitionRef}
       >
-        {this.modalDisabled ? null : (
-          <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} />
-        )}
+        {this.modal ? <calcite-scrim class={CSS.scrim} onClick={this.handleOutsideClose} /> : null}
         <div class={CSS.content} id={IDS.sheetContent} ref={this.contentRef}>
           <div class={CSS.contentContainer}>
             <slot />
