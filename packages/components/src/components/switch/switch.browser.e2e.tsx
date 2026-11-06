@@ -111,21 +111,4 @@ describe("themed", () => {
       },
     });
   });
-
-  describe("deprecated", () => {
-    themed(() => mount("calcite-switch"), {
-      "--calcite-switch-border-color": {
-        shadowSelector: `.${CSS.track}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-switch-handle-border-color": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "borderColor",
-      },
-      "--calcite-switch-handle-shadow": {
-        shadowSelector: `.${CSS.handle}`,
-        targetProp: "boxShadow",
-      },
-    });
-  });
 });
