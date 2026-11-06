@@ -177,11 +177,5 @@ describe("themed", () => {
         },
       },
     );
-    themed(() => mount(<calcite-chip icon="layer">Layers</calcite-chip>), {
-      "--calcite-ui-icon-color": {
-        shadowSelector: `.${CSS.chipIcon}`,
-        targetProp: "color",
-      },
-    });
   });
 });

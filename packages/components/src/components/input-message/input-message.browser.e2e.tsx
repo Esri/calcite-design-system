@@ -93,10 +93,6 @@ describe("theme", () => {
         "--calcite-input-message-spacing-value": {
           targetProp: "marginBlockStart",
         },
-        "--calcite-ui-icon-color": {
-          shadowSelector: `.${CSS.inputMessageIcon}`,
-          targetProp: "color",
-        },
       },
     );
   });

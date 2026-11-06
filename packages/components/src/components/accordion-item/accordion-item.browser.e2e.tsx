@@ -198,16 +198,6 @@ describe("theme", () => {
               targetProp: "color",
             },
           ],
-          "--calcite-ui-icon-color": [
-            {
-              shadowSelector: `.${CSS.iconStart}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.iconEnd}`,
-              targetProp: "color",
-            },
-          ],
         },
       );
     });

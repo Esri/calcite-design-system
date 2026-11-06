@@ -422,18 +422,4 @@ describe("theme", () => {
       },
     });
   });
-  describe("deprecated", () => {
-    themed(() => mount(<calcite-button icon-end="layer" icon-start="layer" />), {
-      "--calcite-ui-icon-color": [
-        {
-          shadowSelector: `.${CSS.iconStart}`,
-          targetProp: "color",
-        },
-        {
-          shadowSelector: `.${CSS.iconEnd}`,
-          targetProp: "color",
-        },
-      ],
-    });
-  });
 });

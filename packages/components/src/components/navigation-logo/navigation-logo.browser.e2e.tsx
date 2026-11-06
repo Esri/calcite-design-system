@@ -213,9 +213,9 @@ describe("theme", () => {
     });
   });
 
-  describe("deprecated", () => {
+  describe("global icon color", () => {
     themed(() => mount(navigationLogo()), {
-      "--calcite-ui-icon-color": {
+      "--calcite-icon-color": {
         shadowSelector: `calcite-icon`,
         targetProp: "color",
       },

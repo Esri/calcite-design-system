@@ -1685,15 +1685,6 @@ describe("theme", () => {
       },
     });
   });
-
-  describe("deprecated", () => {
-    themed(() => mount(<calcite-input-number icon="layers" value="42" />), {
-      "--calcite-ui-icon-color": {
-        shadowSelector: `.${CSS.inputIcon}`,
-        targetProp: "--calcite-icon-color",
-      },
-    });
-  });
 });
 
 it("renders an icon when explicit Calcite UI is requested, and is a type without a default icon", async () => {
