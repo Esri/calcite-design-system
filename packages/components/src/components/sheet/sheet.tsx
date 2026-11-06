@@ -406,6 +406,16 @@ export class Sheet extends LitElement {
     }
   }
 
+  override updated(changes: PropertyValues<this>): void {
+    if ((changes.has("focusTrapDisabled") || changes.has("modal")) && this.open) {
+      if (this.focusTrapDisabledOverride()) {
+        this.focusTrap.deactivate();
+      } else {
+        this.focusTrap.activate();
+      }
+    }
+  }
+
   override disconnectedCallback(): void {
     this.mutationObserver?.disconnect();
     this.embedded = false;
