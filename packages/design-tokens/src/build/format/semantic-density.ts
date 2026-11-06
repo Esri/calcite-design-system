@@ -8,6 +8,7 @@ import { fontScaleIncludeIconsVar, fontScaleVar, iconScaleVar } from "../transfo
 
 const densityPresets = {
   "50%": 0.5,
+  "62.5%": 0.625,
   "75%": 0.75,
   "100%": 1,
   "125%": 1.25,

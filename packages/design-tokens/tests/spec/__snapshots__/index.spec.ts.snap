@@ -1694,6 +1694,10 @@ exports[`CSS > semantic should match 1`] = `
   --calcite-density-factor: 0.5;
 }
 
+[data-calcite-density="62.5%"] {
+  --calcite-density-factor: 0.625;
+}
+
 [data-calcite-density="75%"] {
   --calcite-density-factor: 0.75;
 }
