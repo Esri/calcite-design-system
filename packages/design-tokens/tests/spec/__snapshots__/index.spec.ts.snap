@@ -390,7 +390,6 @@ exports[`CSS > classes should match 1`] = `
 /* Deprecated in v4.2.0, removal target v6.0.0 - No longer needed. */
 .calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
-  text-case: uppercase;
   font-weight: 600;
   line-height: 1;
 }
@@ -566,7 +565,6 @@ exports[`CSS > core should match 1`] = `
   --calcite-color-low-saturation-violet-l-vv-080: #504b60;
   --calcite-color-low-saturation-violet-l-vv-090: #322e3d;
   --calcite-color-low-saturation-violet-l-vv-100: #13111a;
-  --calcite-color-low-saturation-violet-l-vv-1000: #13111a; /** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead. */
   --calcite-color-medium-saturation-blue-m-bb-010: #dfeffa;
   --calcite-color-medium-saturation-blue-m-bb-020: #c8e3f5;
   --calcite-color-medium-saturation-blue-m-bb-030: #b1d8f1;
@@ -910,12 +908,6 @@ exports[`CSS > core should match 1`] = `
   --calcite-font-weight-extrabold: 800; /** only for Avenir Next World (secondary font family) */
   --calcite-font-weight-black: 900; /** only for Avenir Next World (secondary font family) */
   --calcite-font-weight-heavy: 900;
-  --calcite-font-text-decoration-none: none; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-font-text-decoration-underline: underline; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-font-text-case-none: none; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-font-text-case-uppercase: uppercase; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-font-text-case-lowercase: lowercase; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-  --calcite-font-text-case-capitalize: capitalize; /** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
   --calcite-opacity-0: 0;
   --calcite-opacity-4: 0.04;
   --calcite-opacity-8: 0.08;
@@ -5715,35 +5707,6 @@ exports[`DOCS (internal) > core should match 1`] = `
       "isSource": false,
       "name": "Color Low Saturation Violet L Vv 100",
       "path": ["core", "color", "low-saturation", "violet", "l-vv-100"]
-    },
-    {
-      "key": "{core.color.low-saturation.violet.l-vv-1000}",
-      "attributes": {
-        "category": "color",
-        "group": "low-saturation",
-        "docs": "deprecated",
-        "type": "color",
-        "item": "low-saturation",
-        "subitem": "violet",
-        "state": "l-vv-1000",
-        "names": {
-          "scss": "$calcite-color-low-saturation-violet-l-vv-1000",
-          "css": "var(--calcite-color-low-saturation-violet-l-vv-1000)",
-          "docs": "core.color.low-saturation.violet.l-vv-1000",
-          "es6": "calciteColorLowSaturationVioletLVv1000"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "color",
-      "$value": "#13111a",
-      "$description": "Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead.",
-      "filePath": "src/tokens/core/color.json",
-      "isSource": false,
-      "name": "Color Low Saturation Violet L Vv 1000",
-      "path": ["core", "color", "low-saturation", "violet", "l-vv-1000"]
     },
     {
       "key": "{core.color.medium-saturation.blue.m-bb-010}",
@@ -15001,168 +14964,6 @@ exports[`DOCS (internal) > core should match 1`] = `
       "path": ["core", "font", "weight", "heavy"]
     },
     {
-      "key": "{core.font.text-decoration.none}",
-      "attributes": {
-        "category": "font",
-        "docs": "deprecated",
-        "type": "font",
-        "item": "text-decoration",
-        "subitem": "none",
-        "names": {
-          "scss": "$calcite-font-text-decoration-none",
-          "css": "var(--calcite-font-text-decoration-none)",
-          "docs": "core.font.text-decoration.none",
-          "es6": "calciteFontTextDecorationNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "textDecoration",
-      "$value": "none",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Text Decoration None",
-      "path": ["core", "font", "text-decoration", "none"]
-    },
-    {
-      "key": "{core.font.text-decoration.underline}",
-      "attributes": {
-        "category": "font",
-        "docs": "deprecated",
-        "type": "font",
-        "item": "text-decoration",
-        "subitem": "underline",
-        "names": {
-          "scss": "$calcite-font-text-decoration-underline",
-          "css": "var(--calcite-font-text-decoration-underline)",
-          "docs": "core.font.text-decoration.underline",
-          "es6": "calciteFontTextDecorationUnderline"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "textDecoration",
-      "$value": "underline",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Text Decoration Underline",
-      "path": ["core", "font", "text-decoration", "underline"]
-    },
-    {
-      "key": "{core.font.text-case.none}",
-      "attributes": {
-        "category": "font",
-        "docs": "deprecated",
-        "type": "font",
-        "item": "text-case",
-        "subitem": "none",
-        "names": {
-          "scss": "$calcite-font-text-case-none",
-          "css": "var(--calcite-font-text-case-none)",
-          "docs": "core.font.text-case.none",
-          "es6": "calciteFontTextCaseNone"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "textCase",
-      "$value": "none",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Text Case None",
-      "path": ["core", "font", "text-case", "none"]
-    },
-    {
-      "key": "{core.font.text-case.uppercase}",
-      "attributes": {
-        "category": "font",
-        "docs": "deprecated",
-        "type": "font",
-        "item": "text-case",
-        "subitem": "uppercase",
-        "names": {
-          "scss": "$calcite-font-text-case-uppercase",
-          "css": "var(--calcite-font-text-case-uppercase)",
-          "docs": "core.font.text-case.uppercase",
-          "es6": "calciteFontTextCaseUppercase"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "textCase",
-      "$value": "uppercase",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Text Case Uppercase",
-      "path": ["core", "font", "text-case", "uppercase"]
-    },
-    {
-      "key": "{core.font.text-case.lowercase}",
-      "attributes": {
-        "category": "font",
-        "docs": "deprecated",
-        "type": "font",
-        "item": "text-case",
-        "subitem": "lowercase",
-        "names": {
-          "scss": "$calcite-font-text-case-lowercase",
-          "css": "var(--calcite-font-text-case-lowercase)",
-          "docs": "core.font.text-case.lowercase",
-          "es6": "calciteFontTextCaseLowercase"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "textCase",
-      "$value": "lowercase",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Text Case Lowercase",
-      "path": ["core", "font", "text-case", "lowercase"]
-    },
-    {
-      "key": "{core.font.text-case.capitalize}",
-      "attributes": {
-        "category": "font",
-        "docs": "deprecated",
-        "type": "font",
-        "item": "text-case",
-        "subitem": "capitalize",
-        "names": {
-          "scss": "$calcite-font-text-case-capitalize",
-          "css": "var(--calcite-font-text-case-capitalize)",
-          "docs": "core.font.text-case.capitalize",
-          "es6": "calciteFontTextCaseCapitalize"
-        },
-        "calcite-schema": {
-          "system": "calcite",
-          "tier": "core"
-        }
-      },
-      "$type": "textCase",
-      "$value": "capitalize",
-      "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.",
-      "filePath": "src/tokens/core/font.json",
-      "isSource": false,
-      "name": "Font Text Case Capitalize",
-      "path": ["core", "font", "text-case", "capitalize"]
-    },
-    {
       "key": "{core.opacity.0}",
       "attributes": {
         "category": "opacity",
@@ -21147,7 +20948,6 @@ export const calciteColorLowSaturationVioletLVv070 = "#6f6783";
 export const calciteColorLowSaturationVioletLVv080 = "#504b60";
 export const calciteColorLowSaturationVioletLVv090 = "#322e3d";
 export const calciteColorLowSaturationVioletLVv100 = "#13111a";
-export const calciteColorLowSaturationVioletLVv1000 = "#13111a"; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead.
 export const calciteColorMediumSaturationBlueMBb010 = "#dfeffa";
 export const calciteColorMediumSaturationBlueMBb020 = "#c8e3f5";
 export const calciteColorMediumSaturationBlueMBb030 = "#b1d8f1";
@@ -21491,12 +21291,6 @@ export const calciteFontWeightBold = "700";
 export const calciteFontWeightExtrabold = "800"; // only for Avenir Next World (secondary font family)
 export const calciteFontWeightBlack = "900"; // only for Avenir Next World (secondary font family)
 export const calciteFontWeightHeavy = "900";
-export const calciteFontTextDecorationNone = "none"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteFontTextDecorationUnderline = "underline"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteFontTextCaseNone = "none"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteFontTextCaseUppercase = "uppercase"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteFontTextCaseLowercase = "lowercase"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-export const calciteFontTextCaseCapitalize = "capitalize"; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 export const calciteOpacity0 = "0";
 export const calciteOpacity4 = "0.04";
 export const calciteOpacity8 = "0.08";
@@ -21783,8 +21577,6 @@ export const calciteColorLowSaturationVioletLVv070: string;
 export const calciteColorLowSaturationVioletLVv080: string;
 export const calciteColorLowSaturationVioletLVv090: string;
 export const calciteColorLowSaturationVioletLVv100: string;
-/** Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead. */
-export const calciteColorLowSaturationVioletLVv1000: string;
 export const calciteColorMediumSaturationBlueMBb010: string;
 export const calciteColorMediumSaturationBlueMBb020: string;
 export const calciteColorMediumSaturationBlueMBb030: string;
@@ -22141,18 +21933,6 @@ export const calciteFontWeightExtrabold: string;
 /** only for Avenir Next World (secondary font family) */
 export const calciteFontWeightBlack: string;
 export const calciteFontWeightHeavy: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteFontTextDecorationNone: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteFontTextDecorationUnderline: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteFontTextCaseNone: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteFontTextCaseUppercase: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteFontTextCaseLowercase: string;
-/** Deprecated in v3.0.0, removal target v5.0.0 - No longer needed. */
-export const calciteFontTextCaseCapitalize: string;
 export const calciteOpacity0: string;
 export const calciteOpacity4: string;
 export const calciteOpacity8: string;
@@ -22897,7 +22677,6 @@ $calcite-color-low-saturation-violet-l-vv-070: #6f6783;
 $calcite-color-low-saturation-violet-l-vv-080: #504b60;
 $calcite-color-low-saturation-violet-l-vv-090: #322e3d;
 $calcite-color-low-saturation-violet-l-vv-100: #13111a;
-$calcite-color-low-saturation-violet-l-vv-1000: #13111a; // Deprecated in v3.2.0, removal target v5.0.0 - Use \`--calcite-color-low-saturation-violet-l-vv-100\` instead.
 $calcite-color-medium-saturation-blue-m-bb-010: #dfeffa;
 $calcite-color-medium-saturation-blue-m-bb-020: #c8e3f5;
 $calcite-color-medium-saturation-blue-m-bb-030: #b1d8f1;
@@ -23241,12 +23020,6 @@ $calcite-font-weight-bold: 700;
 $calcite-font-weight-extrabold: 800; // only for Avenir Next World (secondary font family)
 $calcite-font-weight-black: 900; // only for Avenir Next World (secondary font family)
 $calcite-font-weight-heavy: 900;
-$calcite-font-text-decoration-none: none; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-font-text-decoration-underline: underline; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-font-text-case-none: none; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-font-text-case-uppercase: uppercase; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-font-text-case-lowercase: lowercase; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
-$calcite-font-text-case-capitalize: capitalize; // Deprecated in v3.0.0, removal target v5.0.0 - No longer needed.
 $calcite-opacity-0: 0;
 $calcite-opacity-4: 0.04;
 $calcite-opacity-8: 0.08;
@@ -24033,7 +23806,6 @@ exports[`SCSS > mixins should match 1`] = `
 // Deprecated in v4.2.0, removal target v6.0.0 - No longer needed.
 @mixin calcite-typography-hierarchy-overline {
   font-size: 0.75rem;
-  text-case: uppercase;
   font-weight: 600;
   line-height: 1;
 }
