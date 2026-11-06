@@ -13,6 +13,7 @@ import {
   themed,
 } from "../../tests/common";
 import type { Link } from "./link";
+import { CSS } from "./resources";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -171,13 +172,97 @@ describe("theme", () => {
       },
     );
   });
+
+  it("uses host hover and active customizations of the text color token", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    el.id = "link-state-color-test";
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #link-state-color-test { --calcite-link-text-color: rgb(1, 2, 3); }
+      #link-state-color-test:hover { --calcite-link-text-color: rgb(4, 5, 6); }
+      #link-state-color-test:active { --calcite-link-text-color: rgb(7, 8, 9); }
+    `;
+    document.head.append(style);
+
+    try {
+      const anchor = el.shadowRoot.querySelector("a")!;
+      const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+      const { x, y, width, height } = anchor.getBoundingClientRect();
+
+      await commands.mouseMove(x + width / 2, y + height / 2);
+      expect(getComputedStyle(anchor).color).toBe("rgb(4, 5, 6)");
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(4, 5, 6)");
+
+      await commands.mouseDown();
+      expect(getComputedStyle(anchor).color).toBe("rgb(7, 8, 9)");
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(7, 8, 9)");
+      await commands.mouseUp();
+    } finally {
+      style.remove();
+    }
+  });
 });
 
 describe("underline", () => {
+  it("uses the semantic brand underline color when no component text color is set", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    el.id = "link-semantic-underline-test";
+
+    const style = document.createElement("style");
+    style.textContent = `#link-semantic-underline-test { --calcite-theme-color-brand-underline: rgb(10, 20, 30); }`;
+    document.head.append(style);
+
+    try {
+      const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(10, 20, 30)");
+    } finally {
+      style.remove();
+    }
+  });
+
+  it("prefers the component text color over the semantic brand underline color while idle", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    el.id = "link-component-underline-test";
+
+    const style = document.createElement("style");
+    style.textContent = `
+      #link-component-underline-test {
+        --calcite-link-text-color: rgb(40, 50, 60);
+        --calcite-theme-color-brand-underline: rgb(10, 20, 30);
+      }
+    `;
+    document.head.append(style);
+
+    try {
+      const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+      expect(getComputedStyle(text).textDecorationColor).toBe("rgb(40, 50, 60)");
+    } finally {
+      style.remove();
+    }
+  });
+
+  it("matches active text color while hovered and pressed", async () => {
+    const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
+    const anchor = el.shadowRoot.querySelector("a")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
+    const { x, y, width, height } = anchor.getBoundingClientRect();
+
+    await commands.mouseMove(x + width / 2, y + height / 2);
+
+    expect(getComputedStyle(text).textDecorationColor).toBe(getComputedStyle(anchor).color);
+
+    await commands.mouseDown();
+
+    expect(getComputedStyle(text).textDecorationColor).toBe(getComputedStyle(anchor).color);
+
+    await commands.mouseUp();
+  });
+
   it("preserves underline thickness while active", async () => {
     const { el } = await mount<Link>(<calcite-link>link</calcite-link>);
     const anchor = el.shadowRoot.querySelector("a")!;
-    const text = el.shadowRoot.querySelector<HTMLElement>(".link--text")!;
+    const text = el.shadowRoot.querySelector<HTMLElement>(`.${CSS.text}`)!;
     const { x, y, width, height } = anchor.getBoundingClientRect();
     const initialThickness = Number.parseFloat(getComputedStyle(text).textDecorationThickness);
 
