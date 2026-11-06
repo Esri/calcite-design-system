@@ -518,10 +518,6 @@
         "$type": "lineHeights",
         "$value": "{core.size.rem.5}"
       }
-    },
-    "letter-spacing": {},
-    "paragraph-spacing": {},
-    "text-decoration": {},
-    "text-case": {}
+    }
   }
 }
