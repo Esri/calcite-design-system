@@ -142,8 +142,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
     --calcite-panel-header-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  border-block-end: 1px solid
-    var(--calcite-panel-border-color, var(--calcite-panel-header-border-block-end, var(--calcite-color-border-3)));
+  border-block-end: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
 }
 
 .header--no-row {
@@ -258,7 +257,7 @@ calcite-action-menu {
   outline-color: var(--calcite-color-transparent);
   color: var(--calcite-color-text-2);
   position: relative;
-  padding: var(--calcite-panel-space, var(--calcite-panel-content-space, 0));
+  padding: var(--calcite-panel-space, 0);
   background: var(
     --calcite-panel-background-color,
     var(--calcite-theme-color-surface-1, var(--calcite-color-background))
@@ -298,10 +297,7 @@ calcite-action-menu {
   justify-content: center;
   align-items: center;
   border-block-start: 1px solid var(--calcite-panel-border-color, var(--calcite-color-border-3));
-  padding: var(
-    --calcite-panel-footer-space,
-    var(--calcite-panel-footer-padding, var(--calcite-internal-panel-default-space))
-  );
+  padding: var(--calcite-panel-footer-space, var(--calcite-internal-panel-default-space));
   background-color: var(
     --calcite-panel-footer-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))

@@ -711,10 +711,6 @@ describe("theme", () => {
         shadowSelector: `.${CSS.footer}`,
         targetProp: "padding",
       },
-      "--calcite-panel-content-space": {
-        shadowSelector: `.${CSS.contentWrapper}`,
-        targetProp: "padding",
-      },
       "--calcite-panel-content-top-space": {
         shadowSelector: `.${CSS.contentTop}`,
         targetProp: "padding",
