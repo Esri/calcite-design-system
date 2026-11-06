@@ -457,19 +457,21 @@ export const localized = (): string => html`
     }
   </style>
   <div class="localized-input-calendars">
-    ${[...supportedLocales].map(
-      (locale) => html`
-        <div class="localized-input-calendar">
-          <strong>${locale}</strong>
-          <calcite-input-date-picker
-            lang="${locale}"
-            open
-            placement="bottom-start"
-            value="2020-12-12"
-          ></calcite-input-date-picker>
-        </div>
-      `,
-    )}
+    ${[...supportedLocales]
+      .map(
+        (locale) => html`
+          <div class="localized-input-calendar">
+            <strong>${locale}</strong>
+            <calcite-input-date-picker
+              lang="${locale}"
+              open
+              placement="bottom-start"
+              value="2020-12-12"
+            ></calcite-input-date-picker>
+          </div>
+        `,
+      )
+      .join("")}}
   </div>
 `;
 localized.parameters = {
