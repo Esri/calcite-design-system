@@ -63,7 +63,6 @@
     focus-base;
 
   border-radius: var(--calcite-switch-corner-radius, 9999px);
-  border-color: var(--calcite-switch-border-color);
   background-color: var(--calcite-switch-background-color, var(--calcite-color-border-input));
 }
 
@@ -87,9 +86,7 @@
     --calcite-switch-handle-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  border-color: var(--calcite-switch-handle-border-color);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
-  box-shadow: var(--calcite-switch-handle-shadow);
 }
 
 :host([checked]) {
