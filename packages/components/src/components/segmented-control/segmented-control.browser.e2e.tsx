@@ -17,6 +17,7 @@ import {
   themed,
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
+import { CSS as ItemCSS } from "../segmented-control-item/resources";
 import { CSS } from "./resources";
 
 describe("labelable", () => {
@@ -255,5 +256,35 @@ describe("theme", () => {
       shadowSelector: `.${CSS.itemWrapper}`,
       targetProp: "borderRadius",
     },
+  });
+
+  describe(`selection-appearance="highlight"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-segmented-control selection-appearance="highlight">
+            <calcite-segmented-control-item checked value="1">
+              One
+            </calcite-segmented-control-item>
+          </calcite-segmented-control>,
+        ),
+      {
+        "--calcite-color-brand": {
+          selector: "calcite-segmented-control-item",
+          shadowSelector: `.${ItemCSS.label}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-color-surface-highlight": {
+          selector: "calcite-segmented-control-item",
+          shadowSelector: `.${ItemCSS.label}`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-color-text-highlight": {
+          selector: "calcite-segmented-control-item",
+          shadowSelector: `.${ItemCSS.label}`,
+          targetProp: "color",
+        },
+      },
+    );
   });
 });
