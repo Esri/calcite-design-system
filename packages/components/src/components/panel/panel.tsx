@@ -128,24 +128,6 @@ declare module "@arcgis/lumina" {
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
      */
     "--calcite-popover-border-color": "*";
-    /**
-     * Specifies the padding of the component's content.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-space` instead.
-     */
-    "--calcite-panel-content-space": "*";
-    /**
-     * Specifies the padding of the component's footer.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-footer-space` instead.
-     */
-    "--calcite-panel-footer-padding": "*";
-    /**
-     * Specifies the component header's block end border.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-border-color` instead.
-     */
-    "--calcite-panel-header-border-block-end": "*";
   }
 }
 
