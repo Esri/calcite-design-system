@@ -23,6 +23,7 @@
     flex-1
     items-center;
   color: var(--calcite-segmented-control-color, var(--calcite-theme-color-text-3, var(--calcite-color-text-3)));
+  border: var(--calcite-border-width-sm) solid transparent;
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
   // Offsets the item radius to stay consistent with segmented-control roundness
@@ -69,16 +70,14 @@
 
 :host([checked]) .label {
   @apply cursor-default;
-  border: var(--calcite-border-width-sm) solid
-    var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
   border-radius: var(--calcite-corner-radius-none);
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
 
 :host([checked]) .label--neutral {
-  border: var(--calcite-border-width-sm) solid
-    var(--calcite-segmented-control-item-border-color, var(--calcite-color-border-input));
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-border-input));
   border-radius: var(--calcite-corner-radius-none);
   background-color: var(
     --calcite-segmented-control-background-color,
@@ -88,8 +87,7 @@
 }
 
 :host([checked]) .label--highlight {
-  border: var(--calcite-border-width-sm) solid
-    var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
   border-radius: var(--calcite-corner-radius-none);
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-surface-highlight));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-highlight));
