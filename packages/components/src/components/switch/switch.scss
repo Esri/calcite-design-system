@@ -3,47 +3,53 @@
 // sizes
 :host([scale="s"]) {
   .container {
-    @apply h-3;
+    block-size: var(--calcite-space-md);
   }
   .track {
-    @apply h-3 w-6;
+    block-size: var(--calcite-space-md);
+    inline-size: var(--calcite-space-2xl);
   }
   .handle {
-    @apply h-2 w-2;
+    block-size: var(--calcite-space-sm);
+    inline-size: var(--calcite-space-sm);
   }
 }
 
 :host([scale="m"]) {
   .container {
-    @apply h-4;
+    block-size: var(--calcite-space-lg);
   }
   .track {
-    @apply h-4 w-8;
+    block-size: var(--calcite-space-lg);
+    inline-size: var(--calcite-space-3xl);
   }
   .handle {
-    @apply h-3 w-3;
+    block-size: var(--calcite-space-md);
+    inline-size: var(--calcite-space-md);
   }
 }
 
 :host([scale="l"]) {
   .container {
-    @apply h-6;
+    block-size: var(--calcite-space-2xl);
   }
   .track {
-    @apply h-6 w-12;
+    block-size: var(--calcite-space-2xl);
+    inline-size: 3rem /* 48px */;
   }
   .handle {
-    @apply h-5 w-5;
+    block-size: var(--calcite-space-xl);
+    inline-size: var(--calcite-space-xl);
   }
 }
 
 :host {
-  @apply relative
-    inline-block
-    w-auto
-    cursor-pointer
-    select-none
-    align-middle;
+  position: relative;
+  display: inline-block;
+  inline-size: auto;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
   tap-highlight-color: transparent;
 }
 
@@ -55,20 +61,19 @@
 }
 
 .track {
-  @apply pointer-events-none
-    relative
-    box-border
-    inline-block
-    align-top
-    focus-base;
-
+  pointer-events: none;
+  position: relative;
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: top;
+  outline-color: var(--calcite-color-transparent);
   border-radius: var(--calcite-switch-corner-radius, 9999px);
   border-color: var(--calcite-switch-border-color);
   background-color: var(--calcite-switch-background-color, var(--calcite-color-border-input));
 }
 
 .container:focus .track {
-  @apply focus-outset;
+  @include shared.focus-outset();
 }
 
 .container:hover .track {
@@ -76,11 +81,12 @@
 }
 
 .handle {
-  @apply pointer-events-none
-    absolute
-    block
-    transition-all
-    ease-in-out;
+  @include shared.transition-default();
+
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  transition-timing-function: var(--calcite-animation-easing-function);
   inset-block-start: var(--calcite-theme-space-base, var(--calcite-spacing-base));
   inset-inline: var(--calcite-theme-space-base, var(--calcite-spacing-base)) auto;
   background-color: var(
@@ -109,11 +115,11 @@
 
 @media (forced-colors: active) {
   .container:focus-visible {
-    @apply outline-none;
+    @include shared.outline-none();
   }
   .track,
   .handle {
-    @apply outline-none;
+    @include shared.outline-none();
   }
   :host([checked]) {
     .track {

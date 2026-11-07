@@ -1,40 +1,40 @@
 @use "../../styles/shared";
 
 :host {
-  @apply absolute
-  inset-0
-  z-overlay
-  flex
-  h-full
-  w-full
-  flex-col
-  items-stretch;
+  position: absolute;
+  inset: var(--calcite-space-none);
+  z-index: var(--calcite-z-index-overlay);
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 @keyframes calcite-scrim-fade-in {
   0% {
-    @apply bg-opacity-0;
+    opacity: 0;
   }
   100% {
-    @apply text-opacity-100;
+    opacity: var(--calcite-opacity-full);
   }
 }
 
 .scrim {
-  @apply absolute
-  inset-0
-  flex
-  flex-col
-  content-center
-  items-center
-  justify-center
-  overflow-hidden;
+  position: absolute;
+  inset: var(--calcite-space-none);
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   animation: calcite-scrim-fade-in var(--calcite-internal-animation-timing-medium) ease-in-out;
   background-color: var(--calcite-scrim-background, var(--calcite-color-transparent-scrim));
 }
 
 .content {
-  @apply p-4;
+  padding: var(--calcite-space-lg);
 }
 
 @include shared.base-component();
