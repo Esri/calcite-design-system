@@ -27,7 +27,9 @@ import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./stepper-item.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import { isActivationKey } from "../../utils/key";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -128,7 +130,7 @@ export class StepperItem extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -399,7 +401,7 @@ export class StepperItem extends LitElement {
       <this.interactiveContainer disabled={this.disabled}>
         <div class={CSS.container}>
           {this.complete && (
-            <span ariaLive="polite" class={CSS.visuallyHidden}>
+            <span ariaLive="polite" class={CSS_UTILITY.screenReaderText}>
               {this.messages.complete}
             </span>
           )}
