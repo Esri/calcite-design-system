@@ -2,15 +2,19 @@
 
 :host {
   @extend %component-host;
-  @apply absolute
-    inset-0
+  @apply inset-0
     flex
-    h-full
-    w-full
-    flex-col
-    overflow-hidden;
+    flex-col;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
+}
+
+:host([fit="cover"]) {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
 }
 
 .main {
