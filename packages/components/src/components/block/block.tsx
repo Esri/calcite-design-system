@@ -1,5 +1,14 @@
 import { PropertyValues } from "lit";
-import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import {
+  LitElement,
+  property,
+  createEvent,
+  h,
+  method,
+  state,
+  JsxNode,
+  ToEvents,
+} from "@arcgis/lumina";
 import {
   slotChangeGetAssignedElements,
   slotChangeHasAssignedElement,
@@ -410,9 +419,7 @@ export class Block extends LitElement {
    *
    * @private
    */
-  calciteInternalBlockChange = createEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>({
-    cancelable: false,
-  });
+  calciteInternalBlockChange = createEvent({ cancelable: false });
 
   /**
    *
@@ -421,10 +428,7 @@ export class Block extends LitElement {
   calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalBlockDragDisabledChange = createEvent<{
-    el: Block["el"];
-    parentElement?: BlockGroup["el"];
-  }>({ cancelable: false });
+  calciteInternalBlockDragDisabledChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -448,10 +452,7 @@ export class Block extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (changes.has("dragDisabled") && this.hasUpdated) {
-      this.calciteInternalBlockDragDisabledChange.emit({
-        el: this.el,
-        parentElement: this.parentBlockGroupElement ?? undefined,
-      });
+      this.calciteInternalBlockDragDisabledChange.emit();
     }
 
     if (changes.has("sortHandleOpen") && (this.hasUpdated || this.sortHandleOpen !== false)) {
@@ -493,23 +494,27 @@ export class Block extends LitElement {
     this.sortHandleOpenHandler();
   }
 
-  private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
+  private handleSortHandleBeforeOpen(
+    event: ToEvents<SortHandle>["calciteSortHandleBeforeOpen"],
+  ): void {
     event.stopPropagation();
     this.calciteBlockSortHandleBeforeOpen.emit();
   }
 
-  private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
+  private handleSortHandleBeforeClose(
+    event: ToEvents<SortHandle>["calciteSortHandleBeforeClose"],
+  ): void {
     event.stopPropagation();
     this.calciteBlockSortHandleBeforeClose.emit();
   }
 
-  private handleSortHandleClose(event: CustomEvent<void>): void {
+  private handleSortHandleClose(event: ToEvents<SortHandle>["calciteSortHandleClose"]): void {
     event.stopPropagation();
     this.sortHandleOpen = false;
     this.calciteBlockSortHandleClose.emit();
   }
 
-  private handleSortHandleOpen(event: CustomEvent<void>): void {
+  private handleSortHandleOpen(event: ToEvents<SortHandle>["calciteSortHandleOpen"]): void {
     event.stopPropagation();
     this.sortHandleOpen = true;
     this.calciteBlockSortHandleOpen.emit();
@@ -517,10 +522,7 @@ export class Block extends LitElement {
 
   private onHeaderClick(): void {
     if (this.parentBlockGroupElement) {
-      this.calciteInternalBlockChange.emit({
-        el: this.el,
-        parentElement: this.parentBlockGroupElement,
-      });
+      this.calciteInternalBlockChange.emit();
     } else {
       this.expanded = !this.expanded;
     }

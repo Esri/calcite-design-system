@@ -1,4 +1,5 @@
 import { E2EPage, newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import type { ToEvents } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { activeCellTestAttribute, CSS as ListItemCSS } from "../list-item/resources";
@@ -9,7 +10,6 @@ import type { ListItem } from "../list-item/list-item";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
 import { GlobalTestProps } from "../../tests/utils/types";
-import { ListDragDetail } from "./types";
 import type { List } from "./list";
 
 mockConsole();
@@ -1599,7 +1599,7 @@ describe("drag and drop", () => {
       const testWindow = window as TestWindow;
       testWindow.calledTimes = 0;
       list.addEventListener("calciteListOrderChange", (event) => {
-        const detail = (event as CustomEvent<ListDragDetail>).detail;
+        const detail = (event as ToEvents<List>["calciteListOrderChange"]).detail;
         testWindow.calledTimes++;
         testWindow.newIndex = detail.newIndex;
         testWindow.oldIndex = detail.oldIndex;
@@ -1710,7 +1710,7 @@ describe("drag and drop", () => {
       const testWindow = window as TestWindow;
       testWindow.list1CalledTimes = 0;
       list.addEventListener("calciteListOrderChange", (event) => {
-        const detail = (event as CustomEvent<ListDragDetail>).detail;
+        const detail = (event as ToEvents<List>["calciteListOrderChange"]).detail;
         testWindow.list1CalledTimes++;
         testWindow.newIndex = detail.newIndex;
         testWindow.oldIndex = detail.oldIndex;
@@ -1725,7 +1725,7 @@ describe("drag and drop", () => {
       const testWindow = window as TestWindow;
       testWindow.list2CalledTimes = 0;
       list.addEventListener("calciteListOrderChange", (event) => {
-        const detail = (event as CustomEvent<ListDragDetail>).detail;
+        const detail = (event as ToEvents<List>["calciteListOrderChange"]).detail;
         testWindow.list2CalledTimes++;
         testWindow.newIndex = detail.newIndex;
         testWindow.oldIndex = detail.oldIndex;

@@ -1648,13 +1648,13 @@ describe("drag and drop", () => {
     const orderChangeDetails: ListDragDetail[] = [];
     const dragEndDetails: ListDragDetail[] = [];
     list.addEventListener("calciteListDragStart", (event) =>
-      dragStartDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      dragStartDetails.push((event as ToEvents<List>["calciteListDragStart"]).detail),
     );
     list.addEventListener("calciteListOrderChange", (event) =>
-      orderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      orderChangeDetails.push((event as ToEvents<List>["calciteListOrderChange"]).detail),
     );
     list.addEventListener("calciteListDragEnd", (event) =>
-      dragEndDetails.push((event as CustomEvent<ListDragDetail>).detail),
+      dragEndDetails.push((event as ToEvents<List>["calciteListDragEnd"]).detail),
     );
     el.addEventListener("calciteListOrderChange", (event) => {
       destinations.push((event as ToEvents<List>["calciteListOrderChange"]).detail.toEl);
@@ -1779,16 +1779,18 @@ describe("drag and drop", () => {
       const sourceDragEndDetails: ListDragDetail[] = [];
       const destinationOrderChangeDetails: ListDragDetail[] = [];
       sourceList.addEventListener("calciteListDragStart", (event) =>
-        sourceDragStartDetails.push((event as CustomEvent<ListDragDetail>).detail),
+        sourceDragStartDetails.push((event as ToEvents<List>["calciteListDragStart"]).detail),
       );
       sourceList.addEventListener("calciteListOrderChange", (event) =>
-        sourceOrderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+        sourceOrderChangeDetails.push((event as ToEvents<List>["calciteListOrderChange"]).detail),
       );
       sourceList.addEventListener("calciteListDragEnd", (event) =>
-        sourceDragEndDetails.push((event as CustomEvent<ListDragDetail>).detail),
+        sourceDragEndDetails.push((event as ToEvents<List>["calciteListDragEnd"]).detail),
       );
       destinationList.addEventListener("calciteListOrderChange", (event) =>
-        destinationOrderChangeDetails.push((event as CustomEvent<ListDragDetail>).detail),
+        destinationOrderChangeDetails.push(
+          (event as ToEvents<List>["calciteListOrderChange"]).detail,
+        ),
       );
 
       await dragAndDrop(handle, targetItem, "bottom");

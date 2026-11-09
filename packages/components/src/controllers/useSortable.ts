@@ -1,5 +1,6 @@
 import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
+import type { Ref } from "lit/directives/ref.js";
 import {
   Accessibility,
   DragDropManager,
@@ -42,7 +43,7 @@ interface DropPosition {
 interface SortableItemState {
   items?: HTMLElement[];
   observer: MutationObserver;
-  getSlot?: () => HTMLSlotElement | undefined;
+  slotRef?: Ref<HTMLSlotElement>;
   reset?: () => void;
 }
 
@@ -189,14 +190,13 @@ export interface SortableComponentItem {
 }
 
 interface SortableOptions {
-  getSlot?: () => HTMLSlotElement | undefined;
+  slotRef?: Ref<HTMLSlotElement>;
 }
 
 interface UseSortable {
   /**
-   * Resets the Sortable instance.
-   *
-   * This should be called after any change to the list that may affect Sortable's internal state (e.g. items added/removed, or changes to `dragDisabled` property).
+   * Manually resets the Sortable instance. Changes to `dragEnabled` and `disabled` reset automatically.
+   * Slotted item membership is observed automatically when `slotRef` is provided.
    */
   reset: () => void;
 }
@@ -295,7 +295,7 @@ function observeSortableItems(component: SortableComponent, state: SortableItemS
   state.observer.disconnect();
   state.items = getSortableItems(component);
   const parents = new Set<HTMLElement>([component.el]);
-  const slot = state.getSlot?.();
+  const slot = state.slotRef?.value;
   if (slot) {
     getSlotAssignedElements<HTMLElement>(slot).forEach((item) => {
       if (item.parentElement) {
@@ -1085,9 +1085,9 @@ export const useSortable = <T extends SortableComponent>(
 
       currentRecord.components.add(sortableComponent);
       createSortable(sortableComponent, currentRecord);
-      if (options.getSlot) {
+      if (options.slotRef) {
         const state = getSortableItemState(currentRecord, sortableComponent);
-        state.getSlot = options.getSlot;
+        state.slotRef = options.slotRef;
         state.reset = reset;
         observeSortableItems(sortableComponent, state);
       }
@@ -1137,6 +1137,12 @@ export const useSortable = <T extends SortableComponent>(
     controller.onConnected(() => {
       record = getManagerRecord(sortableComponent.el.ownerDocument);
       void setUpSortable();
+    });
+
+    controller.onUpdate((changes) => {
+      if (changes.has("disabled") || changes.has("dragEnabled")) {
+        reset();
+      }
     });
 
     controller.onDisconnected(() => {

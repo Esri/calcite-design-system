@@ -1,3 +1,5 @@
+@use "../shared";
+
 :host([data-dnd-dragging]),
 :host([data-dnd-placeholder]),
 ::slotted([data-dnd-placeholder]) {
@@ -9,24 +11,23 @@
 ::slotted([data-dnd-placeholder="hidden"])::before {
   content: "";
   visibility: visible;
-  @apply box-border
-      border
-      border-dashed
-      border-color-brand
-      bg-foreground-2
-      absolute
-      top-0
-      start-0
-      bottom-0
-      end-0
-      z-default;
+  box-sizing: border-box;
+  border: 1px dashed var(--calcite-color-brand);
+  background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
+  position: absolute;
+  inset: 0;
+  z-index: var(--calcite-z-index);
 }
 
 :host([data-dnd-dragging]) {
-  @apply shadow-2;
+  @include shared.shadow-2();
 }
 
 ::slotted([data-dnd-placeholder="copy"]) {
-  @apply block box-border flex-none border border-dashed border-color-brand bg-foreground-2;
+  display: block;
+  box-sizing: border-box;
+  flex: none;
+  border: 1px dashed var(--calcite-color-brand);
+  background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
   pointer-events: none;
 }

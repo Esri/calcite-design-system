@@ -1,4 +1,5 @@
 import { newE2EPage, E2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
+import type { ToEvents } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { html } from "../../../support/formatting";
 import { findAll } from "../../tests/utils/puppeteer";
@@ -8,7 +9,6 @@ import { Block } from "../block/block";
 import { mockConsole } from "../../tests/utils/logging";
 import { IDS } from "../sort-handle/resources";
 import { GlobalTestProps } from "../../tests/utils/types";
-import { BlockDragDetail } from "./types";
 import type { BlockGroup } from "./block-group";
 
 mockConsole();
@@ -218,7 +218,7 @@ describe("drag and drop", () => {
       const testWindow = window as TestWindow;
       testWindow.calledTimes = 0;
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
-        const detail = (event as CustomEvent<BlockDragDetail>).detail;
+        const detail = (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail;
         testWindow.calledTimes++;
         testWindow.newIndex = detail.newIndex;
         testWindow.oldIndex = detail.oldIndex;
@@ -311,7 +311,7 @@ describe("drag and drop", () => {
       const testWindow = window as TestWindow;
       testWindow.component1CalledTimes = 0;
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
-        const detail = (event as CustomEvent<BlockDragDetail>).detail;
+        const detail = (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail;
         testWindow.component1CalledTimes++;
         testWindow.newIndex = detail.newIndex;
         testWindow.oldIndex = detail.oldIndex;
@@ -326,7 +326,7 @@ describe("drag and drop", () => {
       const testWindow = window as TestWindow;
       testWindow.component2CalledTimes = 0;
       blockGroup.addEventListener("calciteBlockGroupOrderChange", (event) => {
-        const detail = (event as CustomEvent<BlockDragDetail>).detail;
+        const detail = (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail;
         testWindow.component2CalledTimes++;
         testWindow.newIndex = detail.newIndex;
         testWindow.oldIndex = detail.oldIndex;

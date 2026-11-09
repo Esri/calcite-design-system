@@ -1,4 +1,4 @@
-import { h, JsxNode } from "@arcgis/lumina";
+import { h, JsxNode, type ToEvents } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
@@ -541,13 +541,15 @@ describe("drag and drop", () => {
     const orderChangeDetails: BlockDragDetail[] = [];
     const dragEndDetails: BlockDragDetail[] = [];
     el.addEventListener("calciteBlockGroupDragStart", (event) =>
-      dragStartDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      dragStartDetails.push((event as ToEvents<BlockGroup>["calciteBlockGroupDragStart"]).detail),
     );
     el.addEventListener("calciteBlockGroupOrderChange", (event) =>
-      orderChangeDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      orderChangeDetails.push(
+        (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail,
+      ),
     );
     el.addEventListener("calciteBlockGroupDragEnd", (event) =>
-      dragEndDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      dragEndDetails.push((event as ToEvents<BlockGroup>["calciteBlockGroupDragEnd"]).detail),
     );
     await vi.waitFor(() =>
       expect(
@@ -718,16 +720,22 @@ describe("drag and drop", () => {
     const sourceDragEndDetails: BlockDragDetail[] = [];
     const destinationOrderChangeDetails: BlockDragDetail[] = [];
     source.addEventListener("calciteBlockGroupDragStart", (event) =>
-      sourceDragStartDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      sourceDragStartDetails.push(
+        (event as ToEvents<BlockGroup>["calciteBlockGroupDragStart"]).detail,
+      ),
     );
     source.addEventListener("calciteBlockGroupOrderChange", (event) =>
-      sourceOrderChangeDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      sourceOrderChangeDetails.push(
+        (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail,
+      ),
     );
     source.addEventListener("calciteBlockGroupDragEnd", (event) =>
-      sourceDragEndDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      sourceDragEndDetails.push((event as ToEvents<BlockGroup>["calciteBlockGroupDragEnd"]).detail),
     );
     destination.addEventListener("calciteBlockGroupOrderChange", (event) =>
-      destinationOrderChangeDetails.push((event as CustomEvent<BlockDragDetail>).detail),
+      destinationOrderChangeDetails.push(
+        (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail,
+      ),
     );
     await vi.waitFor(() =>
       expect(

@@ -171,6 +171,7 @@ class Test extends LitElement {
   getSortableItems?: () => HTMLElement[];
 
   @property({ type: Boolean }) dragEnabled = false;
+  @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) sortDisabled = false;
   @property() group?: string;
   @property() layout: "horizontal" | "vertical" | "grid" = "vertical";
@@ -488,13 +489,27 @@ it("destroys and recreates sortables when dragEnabled changes", async () => {
   await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
 
   component.dragEnabled = false;
-  component.sortable.reset();
 
   await vi.waitFor(() => expect(destroySortableSpy).toHaveBeenCalledTimes(2));
   expect(createSortableSpy).toHaveBeenCalledTimes(2);
 
   component.dragEnabled = true;
-  component.sortable.reset();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
+  expect(destroySortableSpy).toHaveBeenCalledTimes(2);
+});
+
+it("destroys and recreates sortables when disabled changes", async () => {
+  const { component } = await mountDragEnabled();
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  component.disabled = true;
+
+  await vi.waitFor(() => expect(destroySortableSpy).toHaveBeenCalledTimes(2));
+  expect(createSortableSpy).toHaveBeenCalledTimes(2);
+
+  component.disabled = false;
 
   await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(4));
   expect(destroySortableSpy).toHaveBeenCalledTimes(2);

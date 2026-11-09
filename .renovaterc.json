@@ -77,14 +77,12 @@
       "matchPackageNames": [
         "@floating-ui/**",
         "@lit/**",
-        "@types/sortablejs",
         "color",
         "composed-offset-position",
         "es-toolkit",
         "focus-trap",
         "interactjs",
         "lit",
-        "sortablejs",
         "tabbable",
         "timezone-groups",
         "type-fest"

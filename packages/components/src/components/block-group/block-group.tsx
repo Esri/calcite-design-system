@@ -12,12 +12,7 @@ import {
   ToEvents,
 } from "@arcgis/lumina";
 import { createObserver } from "../../utils/observers";
-import {
-  MoveEventDetail,
-  SortMenuItem,
-  ReorderEventDetail,
-  AddEventDetail,
-} from "../sort-handle/types";
+import { SortMenuItem } from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
 import {
@@ -70,7 +65,7 @@ export class BlockGroup extends LitElement {
 
   //#region Private Properties
 
-  defaultSlotEl = createRef<HTMLSlotElement>();
+  defaultSlotRef = createRef<HTMLSlotElement>();
 
   dragSelector = blockSelector;
 
@@ -87,8 +82,6 @@ export class BlockGroup extends LitElement {
   private focusSetter = useFocusable<this>()(this);
 
   private parentBlockGroupEl?: BlockGroup["el"];
-
-  private sortable = useSortable<this>({ getSlot: () => this.defaultSlotEl.value })(this);
 
   private updateBlockItemsDebounced = debounce(this.updateBlockItems, DEBOUNCE.nextTick);
 
@@ -204,6 +197,7 @@ export class BlockGroup extends LitElement {
 
   constructor() {
     super();
+    useSortable<this>({ slotRef: this.defaultSlotRef })(this);
 
     this.listen(
       "calciteInternalAssistiveTextChange",
@@ -235,7 +229,6 @@ export class BlockGroup extends LitElement {
   override connectedCallback(): void {
     this.connectObserver();
     this.updateBlockItemsDebounced();
-    this.sortable.reset();
     this.setParentBlockGroup();
     this.cancelable.add(this.updateBlockItemsDebounced);
   }
@@ -265,8 +258,8 @@ export class BlockGroup extends LitElement {
   //#region Private Methods
 
   getSortableItems(): HTMLElement[] {
-    return this.defaultSlotEl.value
-      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+    return this.defaultSlotRef.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotRef.value, this.dragSelector)
       : [];
   }
 
@@ -305,8 +298,6 @@ export class BlockGroup extends LitElement {
         item.sortDisabled = sortDisabled;
       }
     });
-
-    this.sortable.reset();
   }
 
   private updateGroupItems(): void {
@@ -333,9 +324,9 @@ export class BlockGroup extends LitElement {
   }
 
   private handleCalciteInternalBlockDragDisabledChange(
-    event: CustomEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>,
+    event: ToEvents<Block>["calciteInternalBlockDragDisabledChange"],
   ): void {
-    if (event.detail.parentElement !== this.el) {
+    if (event.target.parentElement?.closest(blockGroupSelector) !== this.el) {
       return;
     }
 
@@ -343,7 +334,7 @@ export class BlockGroup extends LitElement {
     this.updateBlockItemsDebounced();
   }
 
-  private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
+  private handleSortReorder(event: ToEvents<SortHandle>["calciteSortHandleReorder"]): void {
     if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
@@ -352,7 +343,7 @@ export class BlockGroup extends LitElement {
     this.handleReorder(event);
   }
 
-  private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
+  private handleSortAdd(event: ToEvents<SortHandle>["calciteSortHandleAdd"]): void {
     if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
@@ -361,7 +352,7 @@ export class BlockGroup extends LitElement {
     this.handleAdd(event);
   }
 
-  private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
+  private handleSortMove(event: ToEvents<SortHandle>["calciteSortHandleMove"]): void {
     if (this.parentBlockGroupEl || event.defaultPrevented) {
       return;
     }
@@ -422,7 +413,6 @@ export class BlockGroup extends LitElement {
 
     updateBlockChildren(blockChildren);
     this.updateBlockAndGroupScale();
-    this.sortable.reset();
   }
 
   private updateBlockAndGroupScale(): void {
@@ -431,11 +421,9 @@ export class BlockGroup extends LitElement {
     });
   }
 
-  private updateBlockChildrenExpanded(
-    event: CustomEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>,
-  ): void {
-    const { el, parentElement } = event.detail;
-    if (parentElement === this.el) {
+  private updateBlockChildrenExpanded(event: ToEvents<Block>["calciteInternalBlockChange"]): void {
+    const el = event.target;
+    if (el.parentElement?.closest(blockGroupSelector) === this.el) {
       event.stopPropagation();
 
       const blockChildren: Block["el"][] = this.blockAndGroups.filter((item): item is Block["el"] =>
@@ -514,10 +502,10 @@ export class BlockGroup extends LitElement {
     return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
   }
 
-  private handleAdd(event: CustomEvent<AddEventDetail>): void {
+  private handleAdd(event: ToEvents<SortHandle>["calciteSortHandleAdd"]): void {
     const { addTo } = event.detail;
 
-    const dragEl = event.target as Block["el"];
+    const dragEl = event.target as unknown as Block["el"];
     const fromEl = dragEl?.parentElement as BlockGroup["el"];
     const toEl = addTo.element as BlockGroup["el"];
     const fromElItems = Array.from(fromEl.children).filter(isBlock);
@@ -549,10 +537,10 @@ export class BlockGroup extends LitElement {
     toEl.emitOrderChangeEvent(eventDetail);
   }
 
-  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+  private handleMove(event: ToEvents<SortHandle>["calciteSortHandleMove"]): void {
     const { moveTo } = event.detail;
 
-    const dragEl = event.target as Block["el"];
+    const dragEl = event.target as unknown as Block["el"];
     const fromEl = dragEl?.parentElement as BlockGroup["el"];
     const toEl = moveTo.element as BlockGroup["el"];
     const fromElItems = Array.from(fromEl.children).filter(isBlock);
@@ -584,10 +572,10 @@ export class BlockGroup extends LitElement {
     toEl.emitOrderChangeEvent(eventDetail);
   }
 
-  private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
+  private handleReorder(event: ToEvents<SortHandle>["calciteSortHandleReorder"]): void {
     const { reorder } = event.detail;
 
-    const dragEl = event.target as Block["el"];
+    const dragEl = event.target as unknown as Block["el"];
     const parentEl = dragEl?.parentElement as BlockGroup["el"];
 
     if (!parentEl) {
@@ -659,7 +647,7 @@ export class BlockGroup extends LitElement {
             class={CSS.groupContainer}
             role="group"
           >
-            <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
+            <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
           </div>
         </div>
       </this.interactiveContainer>

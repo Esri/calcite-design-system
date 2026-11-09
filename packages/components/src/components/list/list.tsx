@@ -29,12 +29,7 @@ import {
 } from "../list-item/utils";
 import { SLOTS as STACK_SLOTS } from "../stack/resources";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
-import {
-  AddEventDetail,
-  MoveEventDetail,
-  ReorderEventDetail,
-  SortMenuItem,
-} from "../sort-handle/types";
+import { SortMenuItem } from "../sort-handle/types";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -117,7 +112,7 @@ export class List extends LitElement {
 
   filterEl?: Filter["el"];
 
-  defaultSlotEl = createRef<HTMLSlotElement>();
+  defaultSlotRef = createRef<HTMLSlotElement>();
 
   private focusableItems: ListItem["el"][] = [];
 
@@ -137,8 +132,6 @@ export class List extends LitElement {
   private parentListEl?: List["el"];
 
   private cancelable = useCancelable<this>()(this);
-
-  private sortable = useSortable<this>({ getSlot: () => this.defaultSlotEl.value })(this);
 
   private updateListItemsDebounced = debounce(this.updateListItems, DEBOUNCE.nextTick);
 
@@ -425,9 +418,19 @@ export class List extends LitElement {
 
   constructor() {
     super();
-    this.listen("calciteInternalListItemToggle", this.handleCalciteListItemToggle);
-    this.listen("calciteInternalFocusPreviousItem", this.handleCalciteInternalFocusPreviousItem);
-    this.listen("calciteInternalListItemActive", this.handleCalciteInternalListItemActive);
+    useSortable<this>({ slotRef: this.defaultSlotRef })(this);
+    this.listen<ToEvents<ListItem>["calciteInternalListItemToggle"]>(
+      "calciteInternalListItemToggle",
+      this.handleCalciteListItemToggle,
+    );
+    this.listen<ToEvents<ListItem>["calciteInternalFocusPreviousItem"]>(
+      "calciteInternalFocusPreviousItem",
+      this.handleCalciteInternalFocusPreviousItem,
+    );
+    this.listen<ToEvents<ListItem>["calciteInternalListItemActive"]>(
+      "calciteInternalListItemActive",
+      this.handleCalciteInternalListItemActive,
+    );
     this.listen("calciteListItemSelect", this.handleCalciteListItemSelect);
     this.listen(
       "calciteInternalAssistiveTextChange",
@@ -446,17 +449,26 @@ export class List extends LitElement {
       "calciteSortHandleAdd",
       this.handleSortAdd,
     );
-    this.listen("calciteInternalListItemSelect", this.handleCalciteInternalListItemSelect);
+    this.listen<ToEvents<ListItem>["calciteInternalListItemSelect"]>(
+      "calciteInternalListItemSelect",
+      this.handleCalciteInternalListItemSelect,
+    );
     this.listen<ToEvents<ListItem>["calciteInternalListItemSelectMultiple"]>(
       "calciteInternalListItemSelectMultiple",
       this.handleCalciteInternalListItemSelectMultiple,
     );
-    this.listen("calciteInternalListItemChange", this.handleCalciteInternalListItemChange);
-    this.listen(
+    this.listen<ToEvents<ListItem>["calciteInternalListItemChange"]>(
+      "calciteInternalListItemChange",
+      this.handleCalciteInternalListItemChange,
+    );
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupDefaultSlotChange"]>(
       "calciteInternalListItemGroupDefaultSlotChange",
       this.handleCalciteInternalListItemGroupDefaultSlotChange,
     );
-    this.listen("calciteInternalListItemGroupChange", this.handleCalciteInternalListItemChange);
+    this.listen<ToEvents<ListItemGroup>["calciteInternalListItemGroupChange"]>(
+      "calciteInternalListItemGroupChange",
+      this.handleCalciteInternalListItemChange,
+    );
   }
 
   override connectedCallback(): void {
@@ -618,7 +630,9 @@ export class List extends LitElement {
     this.updateListItemsDebounced();
   }
 
-  private handleCalciteListItemToggle(event: CustomEvent): void {
+  private handleCalciteListItemToggle(
+    event: ToEvents<ListItem>["calciteInternalListItemToggle"],
+  ): void {
     if (this.parentListEl) {
       return;
     }
@@ -627,7 +641,9 @@ export class List extends LitElement {
     this.borderItems();
   }
 
-  private handleCalciteInternalFocusPreviousItem(event: CustomEvent): void {
+  private handleCalciteInternalFocusPreviousItem(
+    event: ToEvents<ListItem>["calciteInternalFocusPreviousItem"],
+  ): void {
     if (this.parentListEl) {
       return;
     }
@@ -644,7 +660,9 @@ export class List extends LitElement {
     }
   }
 
-  private handleCalciteInternalListItemActive(event: CustomEvent): void {
+  private handleCalciteInternalListItemActive(
+    event: ToEvents<ListItem>["calciteInternalListItemActive"],
+  ): void {
     if (this.parentListEl) {
       return;
     }
@@ -671,7 +689,7 @@ export class List extends LitElement {
     event.stopPropagation();
   }
 
-  private handleSortReorder(event: CustomEvent<ReorderEventDetail>): void {
+  private handleSortReorder(event: ToEvents<SortHandle>["calciteSortHandleReorder"]): void {
     if (this.parentListEl || event.defaultPrevented) {
       return;
     }
@@ -680,7 +698,7 @@ export class List extends LitElement {
     this.handleReorder(event);
   }
 
-  private handleSortAdd(event: CustomEvent<AddEventDetail>): void {
+  private handleSortAdd(event: ToEvents<SortHandle>["calciteSortHandleAdd"]): void {
     if (this.parentListEl || event.defaultPrevented) {
       return;
     }
@@ -689,7 +707,7 @@ export class List extends LitElement {
     this.handleAdd(event);
   }
 
-  private handleSortMove(event: CustomEvent<MoveEventDetail>): void {
+  private handleSortMove(event: ToEvents<SortHandle>["calciteSortHandleMove"]): void {
     if (this.parentListEl || event.defaultPrevented) {
       return;
     }
@@ -698,7 +716,9 @@ export class List extends LitElement {
     this.handleMove(event);
   }
 
-  private handleCalciteInternalListItemSelect(event: CustomEvent): void {
+  private handleCalciteInternalListItemSelect(
+    event: ToEvents<ListItem>["calciteInternalListItemSelect"],
+  ): void {
     if (this.parentListEl) {
       return;
     }
@@ -715,9 +735,7 @@ export class List extends LitElement {
   }
 
   private handleCalciteInternalListItemSelectMultiple(
-    event: CustomEvent<{
-      selectMultiple: boolean;
-    }>,
+    event: ToEvents<ListItem>["calciteInternalListItemSelectMultiple"],
   ): void {
     if (this.parentListEl) {
       return;
@@ -742,7 +760,11 @@ export class List extends LitElement {
     }
   }
 
-  private handleCalciteInternalListItemChange(event: CustomEvent): void {
+  private handleCalciteInternalListItemChange(
+    event:
+      | ToEvents<ListItem>["calciteInternalListItemChange"]
+      | ToEvents<ListItemGroup>["calciteInternalListItemGroupChange"],
+  ): void {
     if (this.parentListEl) {
       return;
     }
@@ -751,7 +773,9 @@ export class List extends LitElement {
     this.handleListItemChange();
   }
 
-  private handleCalciteInternalListItemGroupDefaultSlotChange(event: CustomEvent): void {
+  private handleCalciteInternalListItemGroupDefaultSlotChange(
+    event: ToEvents<ListItemGroup>["calciteInternalListItemGroupDefaultSlotChange"],
+  ): void {
     if (this.parentListEl) {
       return;
     }
@@ -769,13 +793,11 @@ export class List extends LitElement {
   }
 
   private setUpSorting(): void {
-    const { dragEnabled, defaultSlotEl } = this;
+    const { dragEnabled, defaultSlotRef } = this;
 
-    if (dragEnabled && defaultSlotEl.value) {
-      updateListItemChildren(defaultSlotEl.value);
+    if (dragEnabled && defaultSlotRef.value) {
+      updateListItemChildren(defaultSlotRef.value);
     }
-
-    this.sortable.reset();
   }
 
   onGlobalDragStart(): void {
@@ -812,7 +834,6 @@ export class List extends LitElement {
       this.calciteInternalListDefaultSlotChange.emit();
     }
     this.hasContent = slotChangeHasContent(event);
-    this.sortable.reset();
   }
 
   private handleEmptyContentSlotChange(event: Event): void {
@@ -967,8 +988,8 @@ export class List extends LitElement {
   }
 
   getSortableItems(): HTMLElement[] {
-    return this.defaultSlotEl.value
-      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotEl.value, this.dragSelector)
+    return this.defaultSlotRef.value
+      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotRef.value, this.dragSelector)
       : [];
   }
 
@@ -977,7 +998,7 @@ export class List extends LitElement {
     this.performFilter();
   }
 
-  private handleFilterChange(event: CustomEvent): void {
+  private handleFilterChange(event: ToEvents<Filter>["calciteFilterChange"]): void {
     event.stopPropagation();
     const { value } = event.currentTarget as Filter["el"];
     this.filterText = value;
@@ -1143,10 +1164,10 @@ export class List extends LitElement {
     return (type === "add" ? canPull === "clone" : canPull === true) && canPut;
   }
 
-  private handleAdd(event: CustomEvent<AddEventDetail>): void {
+  private handleAdd(event: ToEvents<SortHandle>["calciteSortHandleAdd"]): void {
     const { addTo } = event.detail;
 
-    const dragEl = event.target as ListItem["el"];
+    const dragEl = event.target as unknown as ListItem["el"];
     const fromEl = dragEl?.parentElement as List["el"];
     const toEl = addTo.element as List["el"];
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
@@ -1179,10 +1200,10 @@ export class List extends LitElement {
     toEl.emitOrderChangeEvent(eventDetail);
   }
 
-  private handleMove(event: CustomEvent<MoveEventDetail>): void {
+  private handleMove(event: ToEvents<SortHandle>["calciteSortHandleMove"]): void {
     const { moveTo } = event.detail;
 
-    const dragEl = event.target as ListItem["el"];
+    const dragEl = event.target as unknown as ListItem["el"];
     const fromEl = dragEl?.parentElement as List["el"];
     const toEl = moveTo.element as List["el"];
     const fromElItems = Array.from(fromEl.children).filter(isListItem);
@@ -1214,10 +1235,10 @@ export class List extends LitElement {
     toEl.emitOrderChangeEvent(eventDetail);
   }
 
-  private handleReorder(event: CustomEvent<ReorderEventDetail>): void {
+  private handleReorder(event: ToEvents<SortHandle>["calciteSortHandleReorder"]): void {
     const { reorder } = event.detail;
 
-    const dragEl = event.target as ListItem["el"];
+    const dragEl = event.target as unknown as ListItem["el"];
     const parentEl = dragEl?.parentElement as List["el"];
 
     if (!parentEl) {
@@ -1345,7 +1366,7 @@ export class List extends LitElement {
               <div hidden={!this.showEmptyContentContainer}>
                 <slot name={SLOTS.emptyContent} onSlotChange={this.handleEmptyContentSlotChange} />
               </div>
-              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotEl} />
+              <slot onSlotChange={this.handleDefaultSlotChange} ref={this.defaultSlotRef} />
             </div>
           </div>
           <div

@@ -1,4 +1,5 @@
 import { commands } from "./commands";
+import { afterNextFrame } from "./timing";
 
 type DestinationPosition = "bottom" | "center" | "left" | "right" | "top";
 
@@ -6,10 +7,6 @@ export interface DragAndDropOptions {
   afterFirstMove?: () => void | Promise<void>;
   moveSteps?: number;
   skipPointerUp?: boolean;
-}
-
-function nextFrame(): Promise<void> {
-  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
 export async function dragAndDrop(
@@ -53,7 +50,7 @@ export async function dragAndDrop(
     }
   };
 
-  await nextFrame();
+  await afterNextFrame();
   await dispatch("pointerdown", start.clientX, start.clientY);
 
   const moveSteps = options.moveSteps ?? 5;
@@ -65,7 +62,7 @@ export async function dragAndDrop(
       start.clientX + (end.clientX - start.clientX) * progress,
       start.clientY + (end.clientY - start.clientY) * progress,
     );
-    await nextFrame();
+    await afterNextFrame();
 
     if (step === 1) {
       await options.afterFirstMove?.();
@@ -76,5 +73,5 @@ export async function dragAndDrop(
     await dispatch("pointerup", end.clientX, end.clientY);
   }
 
-  await nextFrame();
+  await afterNextFrame();
 }
