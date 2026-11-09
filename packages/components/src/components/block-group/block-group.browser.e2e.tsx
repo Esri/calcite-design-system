@@ -25,37 +25,43 @@ import { afterNextTask } from "../../tests/utils/timing";
 mockConsole();
 
 it("preserves the heading of a copied block at its source", async () => {
-  await mount(
-    <div>
-      <calcite-block-group drag-enabled group="copy-headings" id="copy-source-group" label="Source">
-        <calcite-block heading="Copied heading" id="copy-source" />
-      </calcite-block-group>
-      <calcite-block-group
-        drag-enabled
-        group="copy-headings"
-        id="copy-destination-group"
-        label="Destination"
-      >
-        <calcite-block heading="Destination heading" id="copy-target" />
-      </calcite-block-group>
-    </div>,
+  const { el: source } = await mount<BlockGroup>(
+    <calcite-block-group drag-enabled group="copy-headings" id="copy-source-group" label="Source">
+      <calcite-block heading="Copied heading" id="copy-source" />
+    </calcite-block-group>,
+  );
+  const { el: destination } = await mount(
+    <calcite-block-group
+      drag-enabled
+      group="copy-headings"
+      id="copy-destination-group"
+      label="Destination"
+    >
+      <calcite-block heading="Destination heading" id="copy-target" />
+    </calcite-block-group>,
   );
   onTestFinished(() => commands.mouseUp());
-  const source = page.getBySelector("#copy-source-group").element() as BlockGroup["el"];
-  const sourceBlock = page.getBySelector("#copy-source-group #copy-source");
+  const sourceBlock = page.elementLocator(source).getBySelector("#copy-source");
   source.canPull = () => "clone";
   sourceBlock.element().setAttribute("heading", "Copied heading");
-  const handle = page.getBySelector("#copy-source calcite-sort-handle");
+  const handle = page.elementLocator(source).getBySelector("#copy-source calcite-sort-handle");
   await expect.element(handle).toBeVisible();
 
-  await dragAndDrop(handle.element(), page.getBySelector("#copy-target").element(), "center", {
-    skipPointerUp: true,
-  });
-
-  const draggedSourceBlock = page.getBySelector(
-    "#copy-source-group #copy-source[data-dnd-dragging]",
+  await dragAndDrop(
+    handle.element(),
+    page.elementLocator(destination).getBySelector("#copy-target").element(),
+    "center",
+    {
+      skipPointerUp: true,
+    },
   );
-  const copyPlaceholder = page.getBySelector('#copy-source-group [data-dnd-placeholder="clone"]');
+
+  const draggedSourceBlock = page
+    .elementLocator(source)
+    .getBySelector("#copy-source[data-dnd-dragging]");
+  const copyPlaceholder = page
+    .elementLocator(source)
+    .getBySelector('[data-dnd-placeholder="clone"]');
   await expect.element(draggedSourceBlock).toHaveAttribute("heading", "Copied heading");
   await expect.element(copyPlaceholder.getByText("Copied heading", { exact: true })).toBeVisible();
   await userEvent.keyboard("{Escape}");

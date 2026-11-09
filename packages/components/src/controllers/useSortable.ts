@@ -13,7 +13,6 @@ import {
 } from "@dnd-kit/dom";
 import { Sortable, SortableKeyboardPlugin, isSortable } from "@dnd-kit/dom/sortable";
 import { guid } from "../utils/guid";
-import { createObserver } from "../utils/observers";
 import { getSlotAssignedElements } from "../utils/dom";
 import type { BivariantHandler } from "../components/types";
 import type { InteractiveComponent } from "./useInteractive";
@@ -43,10 +42,8 @@ interface DropPosition {
 }
 
 interface SortableItemState {
-  items?: HTMLElement[];
-  observer: MutationObserver;
-  slotRef?: Ref<HTMLSlotElement>;
-  reset?: () => void;
+  slot: HTMLSlotElement;
+  reset: () => void;
 }
 
 interface SortableManagerRecord {
@@ -198,7 +195,6 @@ function getSortableOptions(component: SortableComponent): SortableOptions {
 interface UseSortable {
   /**
    * Manually resets the Sortable instance. Changes to `dragEnabled` and `disabled` reset automatically.
-   * Slotted item membership is observed automatically when `slotRef` is provided.
    */
   reset: () => void;
 }
@@ -264,45 +260,6 @@ function getAppendIndex(
 ): number {
   const itemCount = record.sortables.get(toComponent)?.size ?? getSortableItems(toComponent).length;
   return itemCount - Number(fromComponent === toComponent);
-}
-
-function invalidateSortableItems(component: SortableComponent, state: SortableItemState): void {
-  if (!state.reset) {
-    return;
-  }
-
-  const items = getSortableItems(component);
-  if (items.length !== state.items?.length || items.some((item, index) => item !== state.items?.[index])) {
-    state.reset();
-  }
-}
-
-function getSortableItemState(record: SortableManagerRecord, component: SortableComponent): SortableItemState {
-  let state = record.itemStates.get(component);
-  if (!state) {
-    const nextState: SortableItemState = {
-      observer: createObserver("mutation", () => invalidateSortableItems(component, nextState))!,
-    };
-    nextState.observer.observe(component.el, { attributes: true, childList: true, subtree: true });
-    record.itemStates.set(component, nextState);
-    state = nextState;
-  }
-  return state;
-}
-
-function observeSortableItems(component: SortableComponent, state: SortableItemState): void {
-  state.observer.disconnect();
-  state.items = getSortableItems(component);
-  const parents = new Set<HTMLElement>([component.el]);
-  const slot = state.slotRef?.value;
-  if (slot) {
-    getSlotAssignedElements<HTMLElement>(slot).forEach((item) => {
-      if (item.parentElement) {
-        parents.add(item.parentElement);
-      }
-    });
-  }
-  parents.forEach((parent) => state.observer.observe(parent, { attributes: true, childList: true, subtree: true }));
 }
 
 function isAfterTarget(
@@ -576,11 +533,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     record.isDragging = active;
 
     if (active) {
-      record.itemStates.forEach((state) => {
-        if (state.reset) {
-          state.observer.disconnect();
-        }
-      });
       record.components.forEach((component) => component.onGlobalDragStart?.());
       return;
     }
@@ -588,9 +540,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     record.pendingPullOperations.clear();
     record.acceptedPullOperations.clear();
     record.components.forEach((component) => component.onGlobalDragEnd?.());
-    Array.from(record.itemStates.values()).forEach((state) => {
-      state.reset?.();
-    });
+    Array.from(record.itemStates.values()).forEach((state) => state.reset());
     flushPendingReset();
   };
 
@@ -949,7 +899,10 @@ function getManagerRecord(document: Document): SortableManagerRecord {
 }
 
 function tearDownSortable(component: SortableComponent, record: SortableManagerRecord): void {
-  record.itemStates.get(component)?.observer.disconnect();
+  const state = record.itemStates.get(component);
+  if (state) {
+    state.slot.removeEventListener("slotchange", state.reset);
+  }
   record.itemStates.delete(component);
   const sortables = record.sortables.get(component);
 
@@ -1036,7 +989,7 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
  * One dnd-kit manager is shared per document. When `dragEnabled` is true and the component is not disabled, each
  * eligible direct child gets a dnd-kit Sortable and the component host gets a Droppable. `dragSelector` filters
  * eligible children, `handleSelector` selects the pointer handle (defaulting to `calcite-sort-handle`), and
- * `slotRef` switches item discovery to the slot's assigned elements and observes membership changes.
+ * `slotRef` switches item discovery to the slot's assigned elements and resets on `slotchange`.
  *
  * dnd-kit provides pointer sensing, collision detection, and per-item sortable state. This controller adds
  * Calcite's transfer policy: cross-component drops require a matching group and may be further restricted by
@@ -1106,10 +1059,11 @@ export const useSortable = <T extends SortableComponent>(
       currentRecord.components.add(sortableComponent);
       createSortable(sortableComponent, currentRecord);
       if (options.slotRef) {
-        const state = getSortableItemState(currentRecord, sortableComponent);
-        state.slotRef = options.slotRef;
-        state.reset = reset;
-        observeSortableItems(sortableComponent, state);
+        const slot = options.slotRef.value;
+        if (slot) {
+          slot.addEventListener("slotchange", reset);
+          currentRecord.itemStates.set(sortableComponent, { slot, reset });
+        }
       }
     }
 
