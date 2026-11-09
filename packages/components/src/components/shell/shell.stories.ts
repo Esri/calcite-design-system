@@ -72,6 +72,7 @@ type ActionBarPositionPanelSlotItem = {
   id: string;
   shellId: string;
   slot: ShellPanelSlot;
+  displayMode: ShellPanel["displayMode"];
   actionBarPosition: Position;
   applyShellBorderColor: boolean;
   layout: "horizontal" | "vertical";
@@ -3569,6 +3570,7 @@ function renderActionBarPositionPanelSlotItem(config: ActionBarPositionPanelSlot
         id="${config.id}"
         slot="${config.slot}"
         action-bar-position="${config.actionBarPosition}"
+        display-mode="${config.displayMode}"
         layout="${config.layout}"
         position="${config.position}"
         ${config.sizeAttribute}
@@ -3583,13 +3585,15 @@ function renderActionBarPositionPanelSlotItem(config: ActionBarPositionPanelSlot
 
 const shellPanelActionBarPositions: Position[] = ["start", "end", "top", "bottom"];
 
+const shellPanelDisplayModes: ShellPanel["displayMode"][] = ["dock", "float-all"];
+
 const shellPanelWithActionBarPositionPanelSlotStoryParameters = {
   chromatic: {
     modes: {
       specific: {
         viewport: {
           width: 1200,
-          height: 6112, // height of 8 panels plus 7 gaps (8 * 750 + 112)
+          height: 12608, // 16 panels (16 * 750), 14 gaps (14 * 32), 2 h1 headings (2 * 80, estimated)
         },
       },
     },
@@ -3606,29 +3610,42 @@ function renderShellPanelWithActionBarPositionPanelSlotStory(
   position: Position,
   applyShellBorderColor = false,
 ): string {
-  const panelItemConfigs: ActionBarPositionPanelSlotItem[] = shellPanelActionBarPositions.flatMap((actionBarPosition) =>
-    [false, true].map((resizable) => {
-      const itemId = `${slot}-${actionBarPosition}-${resizable ? "resizable" : "fixed"}`;
-      const sizeAttribute = layout === "horizontal" ? 'height-scale="m"' : 'width="l"';
+  const panelItemConfigs: ActionBarPositionPanelSlotItem[] = shellPanelDisplayModes.flatMap((displayMode) =>
+    shellPanelActionBarPositions.flatMap((actionBarPosition) =>
+      [false, true].map((resizable) => {
+        const itemId = `${slot}-${displayMode}-${actionBarPosition}-${resizable ? "resizable" : "fixed"}`;
+        const sizeAttribute = layout === "horizontal" ? 'height-scale="m"' : 'width="l"';
 
-      return {
-        id: `shellPanel-${itemId}`,
-        shellId: `shell-${itemId}`,
-        slot,
-        actionBarPosition,
-        applyShellBorderColor,
-        layout,
-        position,
-        resizable,
-        sizeAttribute,
-      };
-    }),
+        return {
+          id: `shellPanel-${itemId}`,
+          shellId: `shell-${itemId}`,
+          slot,
+          displayMode,
+          actionBarPosition,
+          applyShellBorderColor,
+          layout,
+          position,
+          resizable,
+          sizeAttribute,
+        };
+      }),
+    ),
   );
 
   return html` ${shellSetStyles} ${shellSampleContentStyles}
-    <div class="shell-set">
-      ${panelItemConfigs.map((itemConfig) => renderActionBarPositionPanelSlotItem(itemConfig)).join("")}
-    </div>`;
+  ${shellPanelDisplayModes
+    .map(
+      (displayMode) => html`
+        <h1>display-mode="${displayMode}"${displayMode === "dock" ? " (default)" : ""}</h1>
+        <div class="shell-set">
+          ${panelItemConfigs
+            .filter((itemConfig) => itemConfig.displayMode === displayMode)
+            .map((itemConfig) => renderActionBarPositionPanelSlotItem(itemConfig))
+            .join("")}
+        </div>
+      `,
+    )
+    .join("")}`;
 }
 
 function createShellPanelWithActionBarPositionPanelSlotStory(
