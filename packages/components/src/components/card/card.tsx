@@ -33,12 +33,6 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's accent color when `selected`.
-     */
-    "--calcite-card-accent-color-selected": "*";
-    /**
-     * Specifies the component's background color.
-     */
-    "--calcite-card-background-color": "*";
     /**
      * Specifies the component's border color.
      */
@@ -56,12 +50,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-card-selection-background-color-press": "*";
     /**
-     * Specifies the component's selection element background color.
-     *
-     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color` instead.
-     */
-    "--calcite-card-selection-background-color": "*";
-    /**
      * Specifies the component's selection element color when hovered or focused.
      */
     "--calcite-card-selection-color-hover": "*";
@@ -69,18 +57,6 @@ declare module "@arcgis/lumina" {
      * Specifies the component's selection element color.
      */
     "--calcite-card-selection-color": "*";
-    /**
-     * Specifies the component's selection element icon color when hovered.
-     *
-     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover` instead.
-     */
-    "--calcite-card-selection-icon-color-hover": "*";
-    /**
-     * Specifies the component's selection element icon color when `selected`.
-     *
-     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected` instead.
-     */
-    "--calcite-card-selection-icon-color-selected": "*";
     /**
      * Specifies the component's shadow.
      */
