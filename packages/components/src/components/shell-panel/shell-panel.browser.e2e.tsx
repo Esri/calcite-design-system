@@ -249,7 +249,7 @@ describe("shell-panel updateSize public method", () => {
       changeAfterMount === "position" ? (position === "start" ? "end" : "start") : position;
 
     const { el, component } = await mount<"calcite-shell">(
-      <calcite-shell dir={changeAfterMount === "dir" ? undefined : dir}>
+      <calcite-shell dir={changeAfterMount === "dir" ? undefined : dir} fit="cover">
         <calcite-shell-panel position={initialPosition} resizable slot={initialShellPanelSlot}>
           <calcite-panel>Content</calcite-panel>
         </calcite-shell-panel>
