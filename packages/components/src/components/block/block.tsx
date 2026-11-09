@@ -70,24 +70,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-block-heading-text-color": "*";
     /**
-     * When the component is `expanded`, specifies the `heading` text color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead.
-     */
-    "--calcite-block-heading-text-color-press": "*";
-    /**
-     * Specifies the padding of the component's `default` slot.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead.
-     */
-    "--calcite-block-padding": "*";
-    /**
-     * Specifies the component's text color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0.
-     */
-    "--calcite-block-text-color": "*";
-    /**
      * Specifies the component's `description` text color.
      */
     "--calcite-block-description-text-color": "*";

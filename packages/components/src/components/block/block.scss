@@ -32,11 +32,11 @@
   --calcite-internal-block-header-content-padding: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
-    var(--calcite-block-padding, var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs)))
+    var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
   );
   --calcite-internal-block-padding-inline: var(
     --calcite-block-content-space,
-    var(--calcite-block-padding, var(--calcite-theme-space-sm, var(--calcite-spacing-sm)))
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
   );
 }
 
@@ -62,11 +62,11 @@
   --calcite-internal-block-header-content-padding: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
-    var(--calcite-block-padding, var(--calcite-theme-space-sm, var(--calcite-spacing-sm)))
+    var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
   );
   --calcite-internal-block-padding-inline: var(
     --calcite-block-content-space,
-    var(--calcite-block-padding, var(--calcite-theme-space-md, var(--calcite-spacing-md)))
+    var(--calcite-theme-space-md, var(--calcite-spacing-md))
   );
 }
 
@@ -92,11 +92,11 @@
   --calcite-internal-block-header-content-padding: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
   --calcite-internal-block-padding-block: var(
     --calcite-block-content-space,
-    var(--calcite-block-padding, var(--calcite-theme-space-md, var(--calcite-spacing-md)))
+    var(--calcite-theme-space-md, var(--calcite-spacing-md))
   );
   --calcite-internal-block-padding-inline: var(
     --calcite-block-content-space,
-    var(--calcite-block-padding, var(--calcite-theme-space-lg, var(--calcite-spacing-lg)))
+    var(--calcite-theme-space-lg, var(--calcite-spacing-lg))
   );
 }
 
@@ -313,8 +313,7 @@ calcite-sort-handle {
   display: flex;
   align-items: center;
 
-  // Deprecated
-  color: var(--calcite-block-text-color, var(--calcite-color-text-3));
+  color: var(--calcite-color-text-3);
 }
 
 calcite-action-menu {
@@ -327,10 +326,7 @@ calcite-action-menu {
   margin-block: var(--calcite-space-sm);
 
   .header .title .heading {
-    color: var(
-      --calcite-block-heading-text-color,
-      var(--calcite-block-heading-text-color-press, var(--calcite-color-text-1))
-    );
+    color: var(--calcite-block-heading-text-color, var(--calcite-color-text-1));
     font-weight: var(--calcite-font-weight-medium);
   }
 
