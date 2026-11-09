@@ -152,7 +152,7 @@ const textTypeOptions: TextType[] = [
 const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "neutral", "highlight"];
 const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
-const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float", "overlay"];
+const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float-content", "overlay"];
 const calendarCountOptions = [1, 2];
 const colorPickerFormatOptions = [
   "auto",
@@ -179,7 +179,7 @@ const fieldLayoutOptions: (Extract<Layout, "horizontal" | "vertical"> | "columns
   horizontalVerticalLayoutOptions[0],
   "columns",
 ];
-const labelLayoutOptions = ["default", "block", "inline", "inline-space-between"];
+const labelLayoutOptions = ["block", "inline", "inline-space-between"];
 const listDisplayModeOptions = ["flat", "nested"];
 const monthStyleOptions = ["wide", "abbreviated"];
 const numberingSystemWithNoneOptions = ["", "arab", "latn"];
@@ -370,7 +370,7 @@ export const ATTRIBUTES: CommonAttributes = {
   },
   labelLayout: {
     values: labelLayoutOptions,
-    defaultValue: labelLayoutOptions[1],
+    defaultValue: labelLayoutOptions[0],
   },
   listDisplayMode: {
     values: listDisplayModeOptions,

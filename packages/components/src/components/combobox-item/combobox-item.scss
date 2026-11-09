@@ -170,6 +170,11 @@ ul:focus {
 
 .container--highlight-selected {
   background-color: var(--calcite-color-surface-highlight);
+
+  &:hover,
+  &:active {
+    background-color: var(--calcite-color-surface-highlight);
+  }
 }
 
 @include shared.item-hidden();

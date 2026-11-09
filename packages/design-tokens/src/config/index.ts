@@ -31,14 +31,6 @@ const config: Config = {
       prefix: "calcite",
       files: [
         {
-          destination: "global.scss",
-          format: sdFormats.scssVariables,
-          filter: filters.FilterGlobalTokens,
-          options: {
-            fileHeader: headers.HeaderDeprecate,
-          },
-        },
-        {
           destination: "semantic.scss",
           format: sdFormats.scssVariables,
           filter: filters.FilterSemanticTokens,
@@ -90,14 +82,6 @@ const config: Config = {
       buildPath: "dist/css/",
       prefix: "calcite",
       files: [
-        {
-          destination: "global.css",
-          format: sdFormats.cssVariables,
-          filter: filters.FilterGlobalTokens,
-          options: {
-            fileHeader: headers.HeaderDeprecate,
-          },
-        },
         {
           destination: "semantic.css",
           format: sdFormats.cssVariables,
@@ -168,22 +152,6 @@ const config: Config = {
       },
       files: [
         {
-          destination: "global.js",
-          format: sdFormats.javascriptEs6,
-          filter: filters.FilterGlobalTokensJs,
-          options: {
-            fileHeader: headers.HeaderDeprecate,
-          },
-        },
-        {
-          destination: "global.d.ts",
-          format: sdFormats.typescriptEs6Declarations,
-          filter: filters.FilterGlobalTokensJs,
-          options: {
-            fileHeader: headers.HeaderDeprecate,
-          },
-        },
-        {
           destination: "semantic.js",
           format: sdFormats.javascriptEs6,
           filter: filters.FilterSemanticTokens,
@@ -237,11 +205,6 @@ const config: Config = {
         fileHeader: headers.HeaderDefault,
       },
       files: [
-        {
-          destination: "global.json",
-          format: formats.FormatCalciteDocs,
-          filter: filters.FilterGlobalTokensJs,
-        },
         {
           destination: "semantic.json",
           format: formats.FormatCalciteDocs,
