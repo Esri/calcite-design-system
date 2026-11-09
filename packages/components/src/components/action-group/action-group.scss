@@ -20,10 +20,9 @@
 :host {
   @extend %component-host;
 
-  @apply flex
-  flex-col
-  p-0;
-
+  display: flex;
+  flex-direction: column;
+  padding: var(--calcite-space-none);
   background-color: transparent;
   border-color: var(--calcite-action-group-border-color, var(--calcite-color-border-3));
   border-style: solid;
@@ -32,7 +31,9 @@
 }
 
 .container {
-  @apply flex flex-col flex-grow;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
   gap: inherit;
 }
 
@@ -56,20 +57,20 @@
 }
 
 :host(:first-child) {
-  @apply pt-0;
+  padding-block-start: var(--calcite-space-none);
 }
 
 :host([layout="horizontal"]),
 :host([layout="horizontal"]) .container {
-  @apply flex-row;
+  flex-direction: row;
 }
 
 :host([layout="grid"]) {
-  @apply grid;
+  display: grid;
 
   .container {
-    @apply grid
-    place-content-stretch;
+    display: grid;
+    place-content: stretch;
     background-color: transparent;
     gap: var(--calcite-action-group-gap, var(--calcite-internal-action-group-gap));
     grid-template-columns: repeat(

@@ -44,7 +44,7 @@ it("renders requested props when valid props are provided", async () => {
           dropdown-icon-type="caret"
           loading
           disabled
-          width="half"
+          width="full"
           dropdown-label="more actions"
           primary-label="primary action">
       </calcite-split-button>`);
@@ -58,7 +58,7 @@ it("renders requested props when valid props are provided", async () => {
   expect(element).toHaveAttribute("disabled");
   expect(await primaryButton.getProperty("label")).toBe("primary action");
   expect(await dropdownButton.getProperty("label")).toBe("more actions");
-  expect(element).toEqualAttribute("width", "half");
+  expect(element).toEqualAttribute("width", "full");
 });
 
 it("renders primaryText without icons as inner content of primary button", async () => {

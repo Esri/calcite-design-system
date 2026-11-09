@@ -322,4 +322,33 @@ describe("themed", () => {
       },
     );
   });
+
+  describe(`selection-appearance="highlight"`, () => {
+    themed(
+      () =>
+        mount(
+          <calcite-list-item
+            interaction-mode="interactive"
+            label="Park offices"
+            selected
+            selection-appearance="highlight"
+            selection-mode="single"
+          />,
+        ),
+      {
+        "--calcite-color-surface-highlight": [
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.container}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-list-item >>> .${CSS.content}` },
+          },
+        ],
+      },
+    );
+  });
 });
