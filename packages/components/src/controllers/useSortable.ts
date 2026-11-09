@@ -1,4 +1,3 @@
-import { LitElement } from "@arcgis/lumina";
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import type { Ref } from "lit/directives/ref.js";
 import {
@@ -17,11 +16,14 @@ import { guid } from "../utils/guid";
 import { createObserver } from "../utils/observers";
 import { getSlotAssignedElements } from "../utils/dom";
 import type { BivariantHandler } from "../components/types";
+import type { InteractiveComponent } from "./useInteractive";
 
 interface SortableItemData {
   component: SortableComponent;
   item?: HTMLElement;
 }
+
+type SortableItem = HTMLElement & { updateComplete?: Promise<unknown> };
 
 interface ActiveDrag {
   component: SortableComponent;
@@ -66,8 +68,10 @@ interface SortableManagerRecord {
 const managerRecords = new WeakMap<Document, SortableManagerRecord>();
 const componentGroupIds = new WeakMap<SortableComponent, string>();
 const sortableItemIds = new WeakMap<HTMLElement, string>();
+const sortableOptionsByComponent = new WeakMap<SortableComponent, SortableOptions>();
 const sortPositionAttribute = "data-calcite-sort-position";
 const copyPlaceholderAttribute = "data-calcite-sort-placeholder";
+const defaultHandleSelector = "calcite-sort-handle";
 
 function isHandleDisabled(handle?: HTMLElement): boolean {
   return (
@@ -77,6 +81,7 @@ function isHandleDisabled(handle?: HTMLElement): boolean {
   );
 }
 
+/** Finds the configured handle in the event path, including handles inside an item's shadow root. */
 function getEventHandle(event: Event, source: Draggable): HTMLElement | undefined {
   if (!isSortable(source)) {
     return undefined;
@@ -85,7 +90,7 @@ function getEventHandle(event: Event, source: Draggable): HTMLElement | undefine
   const data = getSortableItemData(source);
   const item = data?.item;
 
-  if (!data || !item) {
+  if (!item) {
     return undefined;
   }
 
@@ -94,7 +99,7 @@ function getEventHandle(event: Event, source: Draggable): HTMLElement | undefine
     .find(
       (target): target is HTMLElement =>
         target instanceof HTMLElement &&
-        target.matches(data.component.handleSelector) &&
+        target.matches(getSortableOptions(data.component).handleSelector ?? defaultHandleSelector) &&
         (item.contains(target) || item.shadowRoot?.contains(target) === true),
     );
 }
@@ -126,24 +131,18 @@ export interface DragDetail<
 /**
  * Defines interface for components with sorting functionality.
  */
-interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDetail = MoveDetail> extends LitElement {
+interface SortableComponent<
+  D extends DragDetail = DragDetail,
+  M extends MoveDetail = MoveDetail,
+> extends InteractiveComponent {
   /** When `true`, dragging is enabled. */
   dragEnabled: boolean;
-
-  /** When `true`, interaction should be disabled. */
-  disabled?: boolean;
 
   /** When `true`, sorting is disabled. */
   sortDisabled?: boolean;
 
-  /** Specifies which items inside the element should be draggable. */
-  dragSelector?: string;
-
   /** The list's group identifier. */
   group?: string;
-
-  /** The selector for the handle elements. */
-  handleSelector: string;
 
   /** The sortable items' layout direction. */
   layout?: "horizontal" | "vertical" | "grid";
@@ -171,9 +170,6 @@ interface SortableComponent<D extends DragDetail = DragDetail, M extends MoveDet
 
   /** Called by any change to the list (add / update / remove). */
   onDragSort: BivariantHandler<D, void>;
-
-  /** Returns the sortable items managed by the component. */
-  getSortableItems?: () => HTMLElement[];
 }
 
 export interface SortableComponentItem {
@@ -190,7 +186,13 @@ export interface SortableComponentItem {
 }
 
 interface SortableOptions {
+  dragSelector?: string;
+  handleSelector?: string;
   slotRef?: Ref<HTMLSlotElement>;
+}
+
+function getSortableOptions(component: SortableComponent): SortableOptions {
+  return sortableOptionsByComponent.get(component) ?? {};
 }
 
 interface UseSortable {
@@ -201,12 +203,17 @@ interface UseSortable {
   reset: () => void;
 }
 
-function getSortableItems(component: SortableComponent): HTMLElement[] {
-  const items = component.getSortableItems?.() ?? Array.from(component.el.children);
-  const { dragSelector } = component;
+function getSortableItems(component: SortableComponent): SortableItem[] {
+  const options = getSortableOptions(component);
+  const items = options.slotRef
+    ? options.slotRef.value
+      ? getSlotAssignedElements<SortableItem>(options.slotRef.value)
+      : []
+    : Array.from(component.el.children);
+  const { dragSelector } = options;
 
   return items.filter(
-    (item): item is HTMLElement =>
+    (item): item is SortableItem =>
       item instanceof HTMLElement &&
       !item.hasAttribute("data-dnd-placeholder") &&
       (!dragSelector || item.matches(dragSelector)),
@@ -228,7 +235,7 @@ function getSortableItemId(item: HTMLElement): string {
   let id = sortableItemIds.get(item);
 
   if (!id) {
-    id = item.id || guid();
+    id ||= item.id || guid();
     sortableItemIds.set(item, id);
   }
 
@@ -397,7 +404,7 @@ function showDropIndicator(position: DropPosition, dragEl: HTMLElement): void {
   const bounds = dragEl.getBoundingClientRect();
   const placeholder = target.ownerDocument.createElement("div");
   placeholder.setAttribute("data-dnd-placeholder", "copy");
-  placeholder.setAttribute("aria-hidden", "true");
+  placeholder.ariaHidden = "true";
   placeholder.inert = true;
   placeholder.style.blockSize = `${bounds.height}px`;
   placeholder.style.inlineSize = `${
@@ -603,6 +610,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     return (target as { sortable?: Sortable }).sortable;
   };
 
+  /** Tracks Calcite-specific destination state and copy feedback from dnd-kit's drag-over targets. */
   const handleDragOver = (
     event: Pick<DragOverEvent, "operation" | "preventDefault">,
     pointerPosition?: { x: number; y: number },
@@ -733,6 +741,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     }
   };
 
+  /** Applies Calcite's final move or clone semantics and invokes the affected component callbacks. */
   const finishAutomaticDrop = (
     activeDrag: ActiveDrag,
     dropPosition: DropPosition | undefined,
@@ -797,6 +806,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
   };
 
   record.removeListeners.push(
+    // Prefer a nested sortable over an ancestor list container that also contains the pointer.
     manager.monitor.addEventListener("collision", ({ collisions }) => {
       let targetIndex = 0;
       const pointer = manager.dragOperation.position.current;
@@ -807,7 +817,6 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         const target = dropTargets.get(collisions[targetIndex].id);
         const candidate = dropTargets.get(collisions[index].id);
 
-        // Ancestor items also contain nested lists, but must not steal their pointer collisions.
         if (
           target?.element &&
           candidate?.element &&
@@ -823,6 +832,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         collisions.unshift(collision);
       }
     }),
+    // Snapshot the source location for cancellation recovery and notify components that dragging began.
     manager.monitor.addEventListener("dragstart", ({ operation }) => {
       const source = operation.source;
 
@@ -858,7 +868,9 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       component.onDragStart(makeDragDetail(component.el, component.el, item, source.initialIndex, undefined));
       setGlobalDragActive(true);
     }),
+    // Route dnd-kit's current target through Calcite's destination and clone bookkeeping.
     manager.monitor.addEventListener("dragover", (event) => handleDragOver(event)),
+    // Reconcile copy feedback with pointer movement, including when the pointer leaves a destination.
     manager.monitor.addEventListener("dragmove", (event) => {
       const clone = record.dropPosition && record.acceptedPullOperations.get(record.dropPosition.component) === "clone";
       if (clone) {
@@ -889,6 +901,8 @@ function getManagerRecord(document: Document): SortableManagerRecord {
         handleDragOver({ operation: event.operation, preventDefault: () => {} }, position);
       }
     }),
+    // Copy placeholders are plain DOM nodes, so resolve drops over them from pointer bounds rather than dnd-kit targets.
+    // Wait for dnd-kit's final render before committing the move/clone or restoring a canceled drag.
     manager.monitor.addEventListener("dragend", (event) => {
       const activeDrag = record.activeDrag;
       const dropPosition = record.dropPosition;
@@ -1025,13 +1039,28 @@ function createSortable(component: SortableComponent, record: SortableManagerRec
 }
 
 /**
- * A controller for managing Sortable interactions
+ * Installs Calcite sorting behavior on a component using dnd-kit Sortable primitives.
+ *
+ * One dnd-kit manager is shared per document. When `dragEnabled` is true and the component is not disabled, each
+ * eligible direct child gets a dnd-kit Sortable and the component host gets a Droppable. `dragSelector` filters
+ * eligible children, `handleSelector` selects the pointer handle (defaulting to `calcite-sort-handle`), and
+ * `slotRef` switches item discovery to the slot's assigned elements and observes membership changes.
+ *
+ * dnd-kit provides pointer sensing, collision detection, and per-item sortable state. This controller adds
+ * Calcite's transfer policy: cross-component drops require a matching group and may be further restricted by
+ * `canPull` and `canPut`. It also manages copy placeholders, restores canceled moves, and clones accepted copy drops
+ * with `cloneNode(true)` before invoking the component callbacks. Components apply their own order/data updates in
+ * `onDragSort`.
+ *
+ * Changes to `dragEnabled` and `disabled` reset sortable setup automatically. Use the returned `reset` method when
+ * another relevant change is not observed by the controller.
  */
 export const useSortable = <T extends SortableComponent>(
   options: SortableOptions = {},
 ): ReturnType<typeof makeGenericController<UseSortable, T>> => {
   return makeGenericController<UseSortable, T>((component, controller) => {
     const sortableComponent = component as T & SortableComponent;
+    sortableOptionsByComponent.set(sortableComponent, options);
     let record: SortableManagerRecord | undefined;
     let setupGeneration = 0;
 
@@ -1063,11 +1092,10 @@ export const useSortable = <T extends SortableComponent>(
         return;
       }
 
+      // Await rendered items; generation checks below discard setup made stale by a reset or disconnect.
       await sortableComponent.updateComplete;
       const items = getSortableItems(sortableComponent);
-      await Promise.all(
-        items.map((item) => (item as HTMLElement & { updateComplete?: Promise<unknown> }).updateComplete),
-      );
+      await Promise.all(items.map((item) => item.updateComplete));
 
       if (generation !== setupGeneration || !sortableComponent.isConnected || record !== currentRecord) {
         return;

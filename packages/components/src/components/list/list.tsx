@@ -11,12 +11,7 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
-import {
-  getRootNode,
-  getSlotAssignedElements,
-  slotChangeHasAssignedElement,
-  slotChangeHasContent,
-} from "../../utils/dom";
+import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { InteractionMode, Scale, SelectionMode } from "../types";
 import { ItemData } from "../list-item/types";
@@ -108,15 +103,11 @@ export class List extends LitElement {
 
   //#region Private Properties
 
-  dragSelector = listItemSelector;
-
   filterEl?: Filter["el"];
 
   defaultSlotRef = createRef<HTMLSlotElement>();
 
   private focusableItems: ListItem["el"][] = [];
-
-  handleSelector = "calcite-sort-handle";
 
   private lastSelectedInfo?: { selectedItem: ListItem["el"]; selected: boolean };
 
@@ -418,7 +409,11 @@ export class List extends LitElement {
 
   constructor() {
     super();
-    useSortable<this>({ slotRef: this.defaultSlotRef })(this);
+    useSortable<this>({
+      dragSelector: listItemSelector,
+      handleSelector: "calcite-sort-handle",
+      slotRef: this.defaultSlotRef,
+    })(this);
     this.listen<ToEvents<ListItem>["calciteInternalListItemToggle"]>(
       "calciteInternalListItemToggle",
       this.handleCalciteListItemToggle,
@@ -985,12 +980,6 @@ export class List extends LitElement {
     filterEl.value = filterText;
     filterEl.filterProps = effectiveFilterProps;
     this.filterAndUpdateData();
-  }
-
-  getSortableItems(): HTMLElement[] {
-    return this.defaultSlotRef.value
-      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotRef.value, this.dragSelector)
-      : [];
   }
 
   private setFilterEl(el: Filter["el"]): void {

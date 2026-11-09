@@ -1,4 +1,4 @@
-import { h, JsxNode, type ToEvents } from "@arcgis/lumina";
+import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
 import { mockConsole } from "../../tests/utils/logging";
@@ -16,17 +16,15 @@ import {
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import type { Block } from "../block/block";
-import type { SortHandle } from "../sort-handle/sort-handle";
 import type { BlockGroup } from "./block-group";
-import type { BlockDragDetail } from "./types";
-import { dragAndDrop } from "../../tests/utils/browser";
+import { dragAndDrop } from "../../tests/utils/interactions";
 import { commands } from "../../tests/utils/commands";
 import { afterNextTask } from "../../tests/utils/timing";
 
 mockConsole();
 
 it("preserves the heading of a copied block at its source", async () => {
-  const { component: source } = await mount<BlockGroup>(
+  const { el: source } = await mount<BlockGroup>(
     <div>
       <calcite-block-group drag-enabled group="copy-headings" label="Source">
         <calcite-block heading="Copied heading" id="copy-source" />
@@ -46,7 +44,7 @@ it("preserves the heading of a copied block at its source", async () => {
     skipPointerUp: true,
   });
 
-  const placeholder = page.elementLocator(source.el).getBySelector("[data-dnd-placeholder]");
+  const placeholder = page.elementLocator(source).getBySelector("[data-dnd-placeholder]");
   await expect.element(placeholder.getByText("Copied heading", { exact: true })).toBeVisible();
   await userEvent.keyboard("{Escape}");
   await commands.mouseUp();
@@ -430,17 +428,13 @@ describe("drag and drop", () => {
     const group = page.getBySelector("#block-group");
     const firstBlock = group.getBySelector("#one").element() as Block["el"];
     const secondBlock = group.getBySelector("#two").element() as Block["el"];
-    await vi.waitFor(() =>
-      expect(
-        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
-      ).not.toBeNull(),
-    );
-    // The sort handle is internal to the block's shadow root.
-    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
-    await vi.waitFor(() => expect(handle.disabled).toBe(true));
+    const handleLocator = group.getBySelector("#one calcite-sort-handle");
+    await expect.element(handleLocator).toBeInTheDocument();
+    const handle = handleLocator.element();
+    await expect.element(handleLocator).toHaveProperty("disabled", true);
 
     firstBlock.dragDisabled = false;
-    await vi.waitFor(() => expect(handle.disabled).toBe(false));
+    await expect.element(handleLocator).toHaveProperty("disabled", false);
     const orderChange = new Promise<void>((resolve) =>
       el.addEventListener("calciteBlockGroupOrderChange", () => resolve(), { once: true }),
     );
@@ -454,7 +448,7 @@ describe("drag and drop", () => {
   });
 
   async function startAutomaticTransfer() {
-    const { component: source } = await mount<BlockGroup>(
+    const { el: source, component } = await mount<BlockGroup>(
       <div>
         <calcite-block-group drag-enabled group="automatic" id="source">
           <calcite-block heading="One" id="one" />
@@ -473,11 +467,11 @@ describe("drag and drop", () => {
     const ended = vi.fn();
     const changed = vi.fn();
     destination.addEventListener("calciteBlockGroupOrderChange", changed);
-    source.el.addEventListener("calciteBlockGroupOrderChange", changed);
-    source.el.addEventListener("calciteBlockGroupDragEnd", ended);
+    source.addEventListener("calciteBlockGroupOrderChange", changed);
+    source.addEventListener("calciteBlockGroupDragEnd", ended);
     await dragAndDrop(handle.element(), destination, "center", { skipPointerUp: true });
     await expect.poll(() => first.parentElement).toBe(destination);
-    return { source, destination, first, second, ended, changed };
+    return { source, component, destination, first, second, ended, changed };
   }
 
   it("restores an automatic drop when the destination becomes disabled", async () => {
@@ -485,7 +479,7 @@ describe("drag and drop", () => {
     destination.disabled = true;
     await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(Array.from(source.children)).toEqual([first, second]);
     expect(destination.children).toHaveLength(0);
     expect(changed).not.toHaveBeenCalled();
   });
@@ -495,7 +489,7 @@ describe("drag and drop", () => {
     destination.dragEnabled = false;
     await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(Array.from(source.children)).toEqual([first, second]);
     expect(destination.children).toHaveLength(0);
     expect(changed).not.toHaveBeenCalled();
   });
@@ -505,29 +499,30 @@ describe("drag and drop", () => {
     source.disabled = true;
     await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(Array.from(source.children)).toEqual([first, second]);
     expect(destination.children).toHaveLength(0);
     expect(changed).not.toHaveBeenCalled();
   });
 
   it("restores source observation when dragging is turned off mid-drag", async () => {
-    const { source, destination, first, second, ended, changed } = await startAutomaticTransfer();
+    const { source, component, destination, first, second, ended, changed } =
+      await startAutomaticTransfer();
     source.dragEnabled = false;
-    await source.updateComplete;
+    await component.updateComplete;
     await afterNextTask();
     await commands.mouseUp();
     await vi.waitFor(() => expect(ended).toHaveBeenCalledTimes(1));
-    expect(Array.from(source.el.children)).toEqual([first, second]);
+    expect(Array.from(source.children)).toEqual([first, second]);
     expect(destination.children).toHaveLength(0);
     expect(changed).not.toHaveBeenCalled();
 
     source.dragEnabled = true;
-    await source.updateComplete;
+    await component.updateComplete;
     await afterNextTask();
     const addedBlock = document.createElement("calcite-block");
     addedBlock.id = "added-block";
     addedBlock.heading = "Added block";
-    source.el.append(addedBlock);
+    source.append(addedBlock);
     await expect.element(page.getBySelector("#added-block calcite-sort-handle")).toBeVisible();
   });
 
@@ -537,45 +532,35 @@ describe("drag and drop", () => {
     const blocks = groupLocator.getBySelector("calcite-block:not([data-dnd-placeholder])");
     const firstBlock = groupLocator.getBySelector("#one").element() as Block["el"];
     const secondBlock = groupLocator.getBySelector("#two").element() as Block["el"];
-    const dragStartDetails: BlockDragDetail[] = [];
-    const orderChangeDetails: BlockDragDetail[] = [];
-    const dragEndDetails: BlockDragDetail[] = [];
-    el.addEventListener("calciteBlockGroupDragStart", (event) =>
-      dragStartDetails.push((event as ToEvents<BlockGroup>["calciteBlockGroupDragStart"]).detail),
-    );
-    el.addEventListener("calciteBlockGroupOrderChange", (event) =>
-      orderChangeDetails.push(
-        (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail,
-      ),
-    );
-    el.addEventListener("calciteBlockGroupDragEnd", (event) =>
-      dragEndDetails.push((event as ToEvents<BlockGroup>["calciteBlockGroupDragEnd"]).detail),
-    );
-    await vi.waitFor(() =>
-      expect(
-        firstBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
-      ).not.toBeNull(),
-    );
-    // The sort handle is internal to the block's shadow root.
-    const handle = firstBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    const handle = groupLocator.getBySelector("#one calcite-sort-handle");
+    const onDragStart = vi.fn();
+    const onOrderChange = vi.fn();
+    const onDragEnd = vi.fn();
+    el.addEventListener("calciteBlockGroupDragStart", onDragStart);
+    el.addEventListener("calciteBlockGroupOrderChange", onOrderChange);
+    el.addEventListener("calciteBlockGroupDragEnd", onDragEnd);
+    await expect.element(handle).toBeInTheDocument();
 
-    await dragAndDrop(handle, secondBlock);
+    await dragAndDrop(handle.element(), secondBlock);
     await vi.waitFor(() => {
       expect((blocks.nth(0).element() as Block["el"]).heading).toBe("two");
       expect((blocks.nth(1).element() as Block["el"]).heading).toBe("one");
       expect(firstBlock.parentElement).toBe(el);
     });
-    expect(dragStartDetails).toHaveLength(1);
-    expect(orderChangeDetails).toHaveLength(1);
-    expect(dragEndDetails).toHaveLength(1);
-    expect(orderChangeDetails[0]).toEqual({
+    expect(onDragStart).toHaveBeenCalledOnce();
+    const expectedDetail = {
       dragEl: firstBlock,
       fromEl: el,
       toEl: el,
       oldIndex: 0,
       newIndex: 1,
-    });
-    expect(dragEndDetails[0]).toEqual(orderChangeDetails[0]);
+    };
+    expect(onOrderChange).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+    );
+    expect(onDragEnd).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+    );
   });
 
   it("inserts transferred blocks on the horizontal pointer axis", async () => {
@@ -678,14 +663,9 @@ describe("drag and drop", () => {
     const sourceLocator = page.elementLocator(source);
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const handle = sourceLocator.getBySelector("#one calcite-sort-handle");
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
-    await vi.waitFor(() =>
-      expect(
-        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
-      ).not.toBeNull(),
-    );
-    // The sort handle is internal to the block's shadow root.
-    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    await expect.element(handle).toBeInTheDocument();
     const waitForDragEnd = (): Promise<void> =>
       new Promise((resolve) =>
         source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
@@ -695,7 +675,7 @@ describe("drag and drop", () => {
     expect(destination.group).toBe("numbers");
 
     const dragEnd = waitForDragEnd();
-    await dragAndDrop(handle, destinationBlock);
+    await dragAndDrop(handle.element(), destinationBlock);
     await dragEnd;
     expect(sourceBlock.parentElement).toBe(source);
   });
@@ -714,35 +694,17 @@ describe("drag and drop", () => {
     const sourceLocator = page.elementLocator(source);
     const destination = page.getBySelector("#destination").element() as BlockGroup["el"];
     const sourceBlock = sourceLocator.getBySelector("#one").element() as Block["el"];
+    const handle = sourceLocator.getBySelector("#one calcite-sort-handle");
     const destinationBlock = page.getBySelector("#two").element() as Block["el"];
-    const sourceDragStartDetails: BlockDragDetail[] = [];
-    const sourceOrderChangeDetails: BlockDragDetail[] = [];
-    const sourceDragEndDetails: BlockDragDetail[] = [];
-    const destinationOrderChangeDetails: BlockDragDetail[] = [];
-    source.addEventListener("calciteBlockGroupDragStart", (event) =>
-      sourceDragStartDetails.push(
-        (event as ToEvents<BlockGroup>["calciteBlockGroupDragStart"]).detail,
-      ),
-    );
-    source.addEventListener("calciteBlockGroupOrderChange", (event) =>
-      sourceOrderChangeDetails.push(
-        (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail,
-      ),
-    );
-    source.addEventListener("calciteBlockGroupDragEnd", (event) =>
-      sourceDragEndDetails.push((event as ToEvents<BlockGroup>["calciteBlockGroupDragEnd"]).detail),
-    );
-    destination.addEventListener("calciteBlockGroupOrderChange", (event) =>
-      destinationOrderChangeDetails.push(
-        (event as ToEvents<BlockGroup>["calciteBlockGroupOrderChange"]).detail,
-      ),
-    );
-    await vi.waitFor(() =>
-      expect(
-        sourceBlock.shadowRoot?.querySelector<SortHandle["el"]>("calcite-sort-handle"),
-      ).not.toBeNull(),
-    );
-    const handle = sourceBlock.shadowRoot!.querySelector<SortHandle["el"]>("calcite-sort-handle")!;
+    const onSourceDragStart = vi.fn();
+    const onSourceOrderChange = vi.fn();
+    const onSourceDragEnd = vi.fn();
+    const onDestinationOrderChange = vi.fn();
+    source.addEventListener("calciteBlockGroupDragStart", onSourceDragStart);
+    source.addEventListener("calciteBlockGroupOrderChange", onSourceOrderChange);
+    source.addEventListener("calciteBlockGroupDragEnd", onSourceDragEnd);
+    destination.addEventListener("calciteBlockGroupOrderChange", onDestinationOrderChange);
+    await expect.element(handle).toBeInTheDocument();
     const waitForDragEnd = (): Promise<void> =>
       new Promise((resolve) =>
         source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
@@ -750,31 +712,36 @@ describe("drag and drop", () => {
 
     destination.canPut = () => false;
     const rejectedDragEnd = waitForDragEnd();
-    await dragAndDrop(handle, destinationBlock);
+    await dragAndDrop(handle.element(), destinationBlock);
     await rejectedDragEnd;
     expect(sourceBlock.parentElement).toBe(source);
-    expect(sourceDragStartDetails).toHaveLength(1);
-    expect(sourceDragEndDetails).toHaveLength(1);
-    expect(sourceOrderChangeDetails).toHaveLength(0);
-    expect(destinationOrderChangeDetails).toHaveLength(0);
+    expect(onSourceDragStart).toHaveBeenCalledOnce();
+    expect(onSourceDragEnd).toHaveBeenCalledOnce();
+    expect(onSourceOrderChange).not.toHaveBeenCalled();
+    expect(onDestinationOrderChange).not.toHaveBeenCalled();
 
     destination.canPut = () => true;
     const acceptedDragEnd = waitForDragEnd();
-    await dragAndDrop(handle, destinationBlock);
+    await dragAndDrop(handle.element(), destinationBlock);
     await acceptedDragEnd;
     await vi.waitFor(() => expect(sourceBlock.parentElement).toBe(destination));
-    expect(sourceDragStartDetails).toHaveLength(2);
-    expect(sourceDragEndDetails).toHaveLength(2);
-    expect(sourceOrderChangeDetails).toHaveLength(1);
-    expect(destinationOrderChangeDetails).toHaveLength(1);
-    expect(sourceOrderChangeDetails[0]).toEqual({
+    expect(onSourceDragStart).toHaveBeenCalledTimes(2);
+    expect(onSourceDragEnd).toHaveBeenCalledTimes(2);
+    const expectedDetail = {
       dragEl: sourceBlock,
       fromEl: source,
       toEl: destination,
       oldIndex: 0,
       newIndex: 1,
-    });
-    expect(destinationOrderChangeDetails[0]).toEqual(sourceOrderChangeDetails[0]);
-    expect(sourceDragEndDetails[1]).toEqual(sourceOrderChangeDetails[0]);
+    };
+    expect(onSourceOrderChange).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+    );
+    expect(onDestinationOrderChange).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+    );
+    expect(onSourceDragEnd).toHaveBeenLastCalledWith(
+      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+    );
   });
 });

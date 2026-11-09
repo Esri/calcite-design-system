@@ -3,6 +3,7 @@ import { html } from "lit";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, beforeEach, expect, it, onTestFinished, vi } from "vitest";
 import { page } from "vitest/browser";
+import { afterNextFrame } from "../tests/utils/timing";
 import { useSortable, type DragDetail } from "./useSortable";
 
 const {
@@ -156,8 +157,9 @@ vi.mock("@dnd-kit/dom/sortable", () => {
 
 class Test extends LitElement {
   static tagName = "sortable-test";
-  handleSelector = ".handle";
-  sortable: ReturnType<ReturnType<typeof useSortable>> = useSortable<this>()(this);
+  sortable: ReturnType<ReturnType<typeof useSortable>> = useSortable<this>({
+    handleSelector: ".handle",
+  })(this);
 
   onGlobalDragStart = vi.fn();
   onGlobalDragEnd = vi.fn();
@@ -167,9 +169,6 @@ class Test extends LitElement {
   onDragSort = vi.fn();
   canPull?: (detail: DragDetail) => boolean | "clone";
   canPut?: (detail: DragDetail) => boolean;
-  dragSelector?: string;
-  getSortableItems?: () => HTMLElement[];
-
   @property({ type: Boolean }) dragEnabled = false;
   @property({ type: Boolean }) disabled = false;
   @property({ type: Boolean }) sortDisabled = false;
@@ -442,7 +441,7 @@ it("retries setup when a peer starts dragging while component updates are pendin
   expect(peer.onGlobalDragStart).toHaveBeenCalledTimes(1);
 
   update.resolve(true);
-  await new Promise(requestAnimationFrame);
+  await afterNextFrame();
   expect(createSortableSpy).toHaveBeenCalledTimes(4);
 
   updateComplete.mockRestore();

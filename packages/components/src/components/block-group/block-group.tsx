@@ -15,11 +15,7 @@ import { createObserver } from "../../utils/observers";
 import { SortMenuItem } from "../sort-handle/types";
 import { DEBOUNCE } from "../../utils/resources";
 import { Block } from "../block/block";
-import {
-  getRootNode,
-  getSlotAssignedElements,
-  slotChangeGetAssignedElements,
-} from "../../utils/dom";
+import { getRootNode, slotChangeGetAssignedElements } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useCancelable } from "../../controllers/useCancelable";
@@ -66,10 +62,6 @@ export class BlockGroup extends LitElement {
   //#region Private Properties
 
   defaultSlotRef = createRef<HTMLSlotElement>();
-
-  dragSelector = blockSelector;
-
-  handleSelector = "calcite-sort-handle";
 
   mutationObserver = createObserver("mutation", () => {
     this.updateBlockItemsDebounced();
@@ -197,7 +189,11 @@ export class BlockGroup extends LitElement {
 
   constructor() {
     super();
-    useSortable<this>({ slotRef: this.defaultSlotRef })(this);
+    useSortable<this>({
+      dragSelector: blockSelector,
+      handleSelector: "calcite-sort-handle",
+      slotRef: this.defaultSlotRef,
+    })(this);
 
     this.listen(
       "calciteInternalAssistiveTextChange",
@@ -256,12 +252,6 @@ export class BlockGroup extends LitElement {
   //#endregion
 
   //#region Private Methods
-
-  getSortableItems(): HTMLElement[] {
-    return this.defaultSlotRef.value
-      ? getSlotAssignedElements<HTMLElement>(this.defaultSlotRef.value, this.dragSelector)
-      : [];
-  }
 
   private updateBlockItems(): void {
     this.updateGroupItems();
