@@ -42,8 +42,8 @@
   display: flex;
   flex-direction: column;
   text-decoration-line: none;
-  color: var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)));
-  background-color: var(--calcite-accordion-background-color, var(--calcite-accordion-item-background-color));
+  color: var(--calcite-accordion-text-color, var(--calcite-color-text-3));
+  background-color: var(--calcite-accordion-background-color);
   border-width: 0;
 
   .header {
@@ -109,10 +109,7 @@
 .header {
   border-block-end-width: var(--calcite-border-width-sm);
   border-block-end-style: solid;
-  border-color: var(
-    --calcite-accordion-border-color,
-    var(--calcite-accordion-item-border-color, theme("borderColor.color.2"))
-  );
+  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
 }
 
 .header-content {
@@ -247,10 +244,7 @@
 .icon--start {
   color: var(
     --calcite-accordion-item-icon-color-start,
-    var(
-      --calcite-accordion-item-start-icon-color,
-      var(--calcite-accordion-item-icon-color, var(--calcite-ui-icon-color, currentColor))
-    )
+    var(--calcite-accordion-item-start-icon-color, var(--calcite-ui-icon-color, currentColor))
   );
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
 }
@@ -258,10 +252,7 @@
 .icon--end {
   color: var(
     --calcite-accordion-item-icon-color-end,
-    var(
-      --calcite-accordion-item-end-icon-color,
-      var(--calcite-accordion-item-icon-color, var(--calcite-ui-icon-color, currentColor))
-    )
+    var(--calcite-accordion-item-end-icon-color, var(--calcite-ui-icon-color, currentColor))
   );
   margin-inline-end: var(--calcite-internal-accordion-icon-margin);
   margin-inline-start: var(--calcite-internal-accordion-icon-margin);
@@ -271,7 +262,7 @@
 .expand-icon {
   color: var(
     --calcite-accordion-item-expand-icon-color,
-    var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)))
+    var(--calcite-accordion-text-color, var(--calcite-color-text-3))
   );
   margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-start);
   margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-end);
@@ -295,20 +286,14 @@
   .heading {
     color: var(
       --calcite-accordion-item-heading-text-color,
-      var(
-        --calcite-accordion-text-color-hover,
-        var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-1))
-      )
+      var(--calcite-accordion-text-color-hover, var(--calcite-color-text-1))
     );
     font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   }
 }
 
 :host([expanded]) {
-  color: var(
-    --calcite-accordion-text-color-press,
-    var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-1)))
-  );
+  color: var(--calcite-accordion-text-color-press, var(--calcite-accordion-text-color, var(--calcite-color-text-1)));
 
   .header {
     border-block-end-color: transparent;
@@ -317,16 +302,7 @@
   .expand-icon {
     color: var(
       --calcite-accordion-item-expand-icon-color,
-      var(
-        --calcite-accordion-text-color-hover,
-        var(
-          --calcite-accordion-text-color,
-          var(
-            --calcite-accordion-item-text-color,
-            var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
-          )
-        )
-      )
+      var(--calcite-accordion-text-color-hover, var(--calcite-accordion-text-color, var(--calcite-color-text-2)))
     );
     transform: rotate(var(--calcite-internal-accordion-item-active-icon-rotation));
   }
@@ -335,16 +311,7 @@
   }
 
   .description {
-    color: var(
-      --calcite-accordion-text-color-hover,
-      var(
-        --calcite-accordion-text-color,
-        var(
-          --calcite-accordion-item-text-color,
-          var(--calcite-accordion-item-text-color-hover, var(--calcite-color-text-2))
-        )
-      )
-    );
+    color: var(--calcite-accordion-text-color-hover, var(--calcite-accordion-text-color, var(--calcite-color-text-2)));
   }
 
   .content {
