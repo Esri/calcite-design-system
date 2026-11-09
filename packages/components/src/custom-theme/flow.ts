@@ -7,9 +7,9 @@ import { html } from "../../support/formatting";
 export const flowTokens = {
   calciteActionBackgroundColor: "",
   calciteActionBackgroundColorHover: "",
-  calciteActionBackgroundColorPressed: "",
+  calciteActionBackgroundColorPress: "",
   calciteActionTextColorHover: "",
-  calciteActionTextColorPressed: "",
+  calciteActionTextColorPress: "",
   calciteFlowBackgroundColor: "",
   calciteFlowContentBottomSpace: "",
   calciteFlowContentTopSpace: "",
