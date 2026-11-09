@@ -39,27 +39,12 @@ catalogs:
     '@eslint/js':
       specifier: 9.39.5
       version: 9.39.5
-    '@inquirer/checkbox':
-      specifier: 5.2.8
-      version: 5.2.8
     '@inquirer/prompts':
       specifier: 8.4.2
       version: 8.4.2
-    '@inquirer/select':
-      specifier: 5.2.8
-      version: 5.2.8
     '@morev/stylelint-testing-library':
       specifier: 1.1.1
       version: 1.1.1
-    '@nx/nx-darwin-arm64':
-      specifier: 21.6.11
-      version: 21.6.11
-    '@nx/nx-linux-x64-gnu':
-      specifier: 21.6.11
-      version: 21.6.11
-    '@nx/nx-win32-x64-msvc':
-      specifier: 21.6.11
-      version: 21.6.11
     '@octokit/webhooks-types':
       specifier: 7.6.1
       version: 7.6.1
@@ -81,9 +66,6 @@ catalogs:
     '@storybook/html':
       specifier: 10.3.6
       version: 10.3.6
-    '@storybook/web-components':
-      specifier: 10.3.6
-      version: 10.3.6
     '@storybook/web-components-vite':
       specifier: 10.3.6
       version: 10.3.6
@@ -96,15 +78,6 @@ catalogs:
     '@types/cloudfour__simple-svg-placeholder':
       specifier: 1.1.2
       version: 1.1.2
-    '@types/dedent':
-      specifier: 0.7.2
-      version: 0.7.2
-    '@types/eslint':
-      specifier: 9.6.1
-      version: 9.6.1
-    '@types/estree':
-      specifier: 1.0.10
-      version: 1.0.10
     '@types/jest-axe':
       specifier: 3.5.9
       version: 3.5.9
@@ -114,9 +87,6 @@ catalogs:
     '@types/semver':
       specifier: 7.7.1
       version: 7.7.1
-    '@types/shell-quote':
-      specifier: 1.7.5
-      version: 1.7.5
     '@types/yargs':
       specifier: 17.0.35
       version: 17.0.35
@@ -150,9 +120,6 @@ catalogs:
     browserslist:
       specifier: 4.29.5
       version: 4.29.5
-    chalk:
-      specifier: 5.6.2
-      version: 5.6.2
     change-case:
       specifier: 5.4.4
       version: 5.4.4
@@ -171,9 +138,6 @@ catalogs:
     conventional-changelog-conventionalcommits:
       specifier: 9.3.1
       version: 9.3.1
-    cpy:
-      specifier: 12.1.0
-      version: 12.1.0
     cpy-cli:
       specifier: 6.0.0
       version: 6.0.0
@@ -270,9 +234,6 @@ catalogs:
     semver:
       specifier: 7.7.4
       version: 7.7.4
-    shell-quote:
-      specifier: 1.8.4
-      version: 1.8.4
     storybook:
       specifier: 10.6.2
       version: 10.6.2
@@ -349,9 +310,6 @@ catalogs:
     '@floating-ui/dom':
       specifier: ^1.8.0
       version: 1.8.0
-    '@floating-ui/utils':
-      specifier: ^0.2.8
-      version: 0.2.12
     '@interactjs/types':
       specifier: ^1.10.27
       version: 1.10.28
@@ -397,9 +355,6 @@ importers:
 
   .:
     dependencies:
-      '@inquirer/select':
-        specifier: 'catalog:'
-        version: 5.2.8(@types/node@24.10.0)
       change-case:
         specifier: 'catalog:'
         version: 5.4.4
@@ -440,9 +395,6 @@ importers:
       '@types/semver':
         specifier: 'catalog:'
         version: 7.7.1
-      '@types/shell-quote':
-        specifier: 'catalog:'
-        version: 1.7.5
       concurrently:
         specifier: 'catalog:'
         version: 9.2.5
@@ -488,9 +440,6 @@ importers:
       semver:
         specifier: 'catalog:'
         version: 7.7.4
-      shell-quote:
-        specifier: 'catalog:'
-        version: 1.8.4
       stylelint:
         specifier: 'catalog:'
         version: 17.13.0(supports-color@10.2.2)(typescript@6.0.3)
@@ -509,16 +458,6 @@ importers:
       vite:
         specifier: 'catalog:'
         version: 7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1)
-    optionalDependencies:
-      '@nx/nx-darwin-arm64':
-        specifier: 'catalog:'
-        version: 21.6.11
-      '@nx/nx-linux-x64-gnu':
-        specifier: 'catalog:'
-        version: 21.6.11
-      '@nx/nx-win32-x64-msvc':
-        specifier: 'catalog:'
-        version: 21.6.11
 
   packages/components:
     dependencies:
@@ -537,9 +476,6 @@ importers:
       '@floating-ui/dom':
         specifier: catalog:dependency-ranges
         version: 1.8.0
-      '@floating-ui/utils':
-        specifier: catalog:dependency-ranges
-        version: 0.2.12
       '@interactjs/types':
         specifier: catalog:dependency-ranges
         version: 1.10.28
@@ -619,18 +555,12 @@ importers:
       '@storybook/html':
         specifier: 'catalog:'
         version: 10.3.6(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1))
-      '@storybook/web-components':
-        specifier: 'catalog:'
-        version: 10.3.6(lit@3.3.3)(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1))
       '@storybook/web-components-vite':
         specifier: 'catalog:'
         version: 10.3.6(esbuild@0.28.1)(lit@3.3.3)(rollup@4.62.2)(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1))(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))
       '@types/cloudfour__simple-svg-placeholder':
         specifier: 'catalog:'
         version: 1.1.2
-      '@types/dedent':
-        specifier: 'catalog:'
-        version: 0.7.2
       '@types/jest-axe':
         specifier: 'catalog:'
         version: 3.5.9
@@ -658,9 +588,6 @@ importers:
       browserslist:
         specifier: 'catalog:'
         version: 4.29.5
-      chalk:
-        specifier: 'catalog:'
-        version: 5.6.2
       change-case:
         specifier: 'catalog:'
         version: 5.4.4
@@ -670,9 +597,6 @@ importers:
       concurrently:
         specifier: 'catalog:'
         version: 9.2.5
-      cpy:
-        specifier: 'catalog:'
-        version: 12.1.0
       cpy-cli:
         specifier: 'catalog:'
         version: 6.0.0
@@ -778,24 +702,15 @@ importers:
       '@esri/eslint-config-calcite':
         specifier: workspace:*
         version: link:../eslint-config
-      '@inquirer/checkbox':
-        specifier: 'catalog:'
-        version: 5.2.8(@types/node@24.10.0)
       '@inquirer/prompts':
         specifier: 'catalog:'
         version: 8.4.2(@types/node@24.10.0)
-      '@inquirer/select':
-        specifier: 'catalog:'
-        version: 5.2.8(@types/node@24.10.0)
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.0
       '@types/yargs':
         specifier: 'catalog:'
         version: 17.0.35
-      change-case:
-        specifier: 'catalog:'
-        version: 5.4.4
       eslint:
         specifier: 'catalog:'
         version: 10.10.0(jiti@1.21.7)(supports-color@10.2.2)
@@ -925,12 +840,6 @@ importers:
       '@esri/calcite-typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@types/eslint':
-        specifier: 'catalog:'
-        version: 9.6.1
-      '@types/estree':
-        specifier: 'catalog:'
-        version: 1.0.10
       '@types/node':
         specifier: 'catalog:'
         version: 24.10.0
@@ -1129,9 +1038,6 @@ importers:
       concurrently:
         specifier: 'catalog:'
         version: 9.2.5
-      cpy:
-        specifier: 'catalog:'
-        version: 12.1.0
       cpy-cli:
         specifier: 'catalog:'
         version: 6.0.0
@@ -2723,11 +2629,6 @@ packages:
     peerDependencies:
       nx: '>= 21 <= 23 || ^22.0.0-0'
 
-  '@nx/nx-darwin-arm64@21.6.11':
-    resolution: {integrity: sha512-4hXhV7ShXIlfPEjjm7dJY383xM2vTcnkKr5FUncAU08GKkkL67ib5CMlQADtdi32ewfCZntqiT8gUfFFSNvKtA==}
-    cpu: [arm64]
-    os: [darwin]
-
   '@nx/nx-darwin-arm64@22.7.7':
     resolution: {integrity: sha512-HGu8Bc3DzmIFeKHzIEDBDScgI8/hOjVIj/EzJBE5289dUf+CQ5OSXc6kw2NL9SiCMAPKa0clqcJgLJLqP5t/DQ==}
     cpu: [arm64]
@@ -2760,12 +2661,6 @@ packages:
     os: [linux]
     libc: [musl]
 
-  '@nx/nx-linux-x64-gnu@21.6.11':
-    resolution: {integrity: sha512-+bWJWXJ8tdddl1L3bTKE0VmvTmdsk4zzUr6P9ts9hXQbwoWqMcuA6LNqOhUfzVOL3VioirRMtKMfFuUAUhi3Yg==}
-    cpu: [x64]
-    os: [linux]
-    libc: [glibc]
-
   '@nx/nx-linux-x64-gnu@22.7.7':
     resolution: {integrity: sha512-unzmqGIDXGzujo1ZtbrMj2e5D5ldQ1feZmqDPhvO4casK2d96jpT8LtgIILpVDUfhLjl+By185gb0ArrWTsyKw==}
     cpu: [x64]
@@ -2781,11 +2676,6 @@ packages:
   '@nx/nx-win32-arm64-msvc@22.7.7':
     resolution: {integrity: sha512-K741meG/l48TPPeDqnhYTV7pP+1ljjZ+0DRJBxMrPFIu8qKE3Abko/7NKWmWRjcSXJvtxvYkgG3wZds4N2Bhow==}
     cpu: [arm64]
-    os: [win32]
-
-  '@nx/nx-win32-x64-msvc@21.6.11':
-    resolution: {integrity: sha512-otHSkhyoGilttV4RRkVmLLGb2W+Ia4b90lWxLnEm9jAAKmA9O2FUG2vAvKDHNcqTyDwwCcHfHxslgnR1u/3OIg==}
-    cpu: [x64]
     os: [win32]
 
   '@nx/nx-win32-x64-msvc@22.7.7':
@@ -3621,14 +3511,8 @@ packages:
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
 
-  '@types/dedent@0.7.2':
-    resolution: {integrity: sha512-kRiitIeUg1mPV9yH4VUJ/1uk2XjyANfeL8/7rH1tsjvHeO9PJLBHJIYsFWmAvmGj5u8rj+1TZx7PZzW2qLw3Lw==}
-
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
-
-  '@types/eslint@9.6.1':
-    resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
 
   '@types/esrecurse@4.3.1':
     resolution: {integrity: sha512-xJBAbDifo5hpffDBuHl0Y8ywswbiAp/Wi7Y/GtAgSlZyIABppyurxVueOPE8LUQOxdlgi6Zqce7uoEpqNTeiUw==}
@@ -3695,9 +3579,6 @@ packages:
 
   '@types/semver@7.7.1':
     resolution: {integrity: sha512-FmgJfu+MOcQ370SD0ev7EI8TlCAfKYU+B4m5T3yXc1CiRN94g/SZPtsCkk506aUDtlMnFZvasDwHHUcZUEaYuA==}
-
-  '@types/shell-quote@1.7.5':
-    resolution: {integrity: sha512-+UE8GAGRPbJVQDdxi16dgadcBfQ+KG2vgZhV1+3A1XmHbmwcdwhCUwIdy+d3pAGrbvgRoVSjeI9vOWyq376Yzw==}
 
   '@types/sortablejs@1.15.9':
     resolution: {integrity: sha512-7HP+rZGE2p886PKV9c9OJzLBI6BBJu1O7lJGYnPyG3fS4/duUCcngkNCjsLwIMV+WMqANe3tt4irrXHSIe68OQ==}
@@ -8421,10 +8302,6 @@ packages:
     resolution: {integrity: sha512-PcByqNyT/38F2kDNi006HAMRJaULuBzq/FOsw3qdZvX/GA9W/jamDaRskgHjubHiftXK5sIFxLNkvrXUwcof6Q==}
     engines: {node: '>= 0.4'}
 
-  shell-quote@1.8.4:
-    resolution: {integrity: sha512-VsC6n6vz1ihYYyZZwX7YZSF5l5x36ca17OC+a69h94YqB7X6XLwf+5MOgynYir2SLFUbl8gIYvBo8K8RoNQ6bQ==}
-    engines: {node: '>= 0.4'}
-
   side-channel-list@1.0.1:
     resolution: {integrity: sha512-mjn/0bi/oUURjc5Xl7IaWi/OJJJumuoJFQJfDDyO46+hBWsfaVM65TBHq2eoZBhzl9EchxOijpkbRC8SVBQU0w==}
     engines: {node: '>= 0.4'}
@@ -11293,9 +11170,6 @@ snapshots:
       tslib: 2.8.1
       yargs-parser: 21.1.1
 
-  '@nx/nx-darwin-arm64@21.6.11':
-    optional: true
-
   '@nx/nx-darwin-arm64@22.7.7':
     optional: true
 
@@ -11314,9 +11188,6 @@ snapshots:
   '@nx/nx-linux-arm64-musl@22.7.7':
     optional: true
 
-  '@nx/nx-linux-x64-gnu@21.6.11':
-    optional: true
-
   '@nx/nx-linux-x64-gnu@22.7.7':
     optional: true
 
@@ -11324,9 +11195,6 @@ snapshots:
     optional: true
 
   '@nx/nx-win32-arm64-msvc@22.7.7':
-    optional: true
-
-  '@nx/nx-win32-x64-msvc@21.6.11':
     optional: true
 
   '@nx/nx-win32-x64-msvc@22.7.7':
@@ -12022,14 +11890,7 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
 
-  '@types/dedent@0.7.2': {}
-
   '@types/deep-eql@4.0.2': {}
-
-  '@types/eslint@9.6.1':
-    dependencies:
-      '@types/estree': 1.0.10
-      '@types/json-schema': 7.0.15
 
   '@types/esrecurse@4.3.1': {}
 
@@ -12097,8 +11958,6 @@ snapshots:
       '@types/node': 24.11.2
 
   '@types/semver@7.7.1': {}
-
-  '@types/shell-quote@1.7.5': {}
 
   '@types/sortablejs@1.15.9': {}
 
@@ -17618,8 +17477,6 @@ snapshots:
   shebang-regex@3.0.0: {}
 
   shell-quote@1.12.0: {}
-
-  shell-quote@1.8.4: {}
 
   side-channel-list@1.0.1:
     dependencies:
