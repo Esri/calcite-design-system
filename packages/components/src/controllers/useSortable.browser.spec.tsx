@@ -1,5 +1,6 @@
 import { LitElement, property } from "@arcgis/lumina";
 import { html } from "lit";
+import { createRef, ref } from "lit/directives/ref.js";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { afterEach, beforeEach, expect, it, onTestFinished, vi } from "vitest";
 import { page } from "vitest/browser";
@@ -176,7 +177,24 @@ class Test extends LitElement {
   @property() layout: "horizontal" | "vertical" | "grid" = "vertical";
 }
 
-const mountedComponents: Test[] = [];
+class SlotTest extends LitElement {
+  static tagName = "sortable-slot-test";
+
+  slotRef = createRef<HTMLSlotElement>();
+  sortable = useSortable<this>({ handleSelector: ".handle", slotRef: this.slotRef })(this);
+
+  onDragEnd = vi.fn();
+  onDragStart = vi.fn();
+  onDragSort = vi.fn();
+  @property({ type: Boolean }) dragEnabled = false;
+  @property({ type: Boolean }) disabled = false;
+
+  render() {
+    return html`<slot ${ref(this.slotRef)}></slot>`;
+  }
+}
+
+const mountedComponents: Array<Test | SlotTest> = [];
 
 beforeEach(() => {
   createSortableSpy.mockClear();
@@ -215,6 +233,37 @@ const getSortableFor = (component: Test, itemId: string) =>
     const data = options.data as { component: Test; item: HTMLElement };
     return data.component === component && data.item.id === itemId;
   });
+
+it("does not rebuild sortables when nested content changes", async () => {
+  const { component } = await mount(
+    html`<sortable-slot-test drag-enabled>
+      <div id="one">
+        <div id="nested"></div>
+        <button class="handle"></button>
+      </div>
+      <div id="two"><button class="handle"></button></div>
+    </sortable-slot-test>`,
+    { dynamicComponents: [SlotTest] },
+  );
+  mountedComponents.push(component);
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(2));
+
+  const nested = page.getBySelector("#nested").element();
+  nested.append(nested.ownerDocument.createElement("span"));
+  await afterNextFrame();
+  await afterNextFrame();
+
+  expect(destroySortableSpy).not.toHaveBeenCalled();
+  expect(createSortableSpy).toHaveBeenCalledTimes(2);
+
+  const thirdItem = nested.ownerDocument.createElement("div");
+  thirdItem.id = "three";
+  component.el.append(thirdItem);
+
+  await vi.waitFor(() => expect(createSortableSpy).toHaveBeenCalledTimes(5));
+  expect(destroySortableSpy).toHaveBeenCalledTimes(2);
+});
 
 it("does not create sortables when dragEnabled is false", async () => {
   const { component } = await mount(Test);

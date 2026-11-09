@@ -266,21 +266,13 @@ function getAppendIndex(
   return itemCount - Number(fromComponent === toComponent);
 }
 
-function invalidateSortableItems(
-  component: SortableComponent,
-  state: SortableItemState,
-  mutations: MutationRecord[],
-): void {
+function invalidateSortableItems(component: SortableComponent, state: SortableItemState): void {
   if (!state.reset) {
     return;
   }
 
   const items = getSortableItems(component);
-  if (
-    mutations.some((mutation) => mutation.type === "childList") ||
-    items.length !== state.items?.length ||
-    items.some((item, index) => item !== state.items?.[index])
-  ) {
+  if (items.length !== state.items?.length || items.some((item, index) => item !== state.items?.[index])) {
     state.reset();
   }
 }
@@ -289,7 +281,7 @@ function getSortableItemState(record: SortableManagerRecord, component: Sortable
   let state = record.itemStates.get(component);
   if (!state) {
     const nextState: SortableItemState = {
-      observer: createObserver("mutation", (mutations) => invalidateSortableItems(component, nextState, mutations))!,
+      observer: createObserver("mutation", () => invalidateSortableItems(component, nextState))!,
     };
     nextState.observer.observe(component.el, { attributes: true, childList: true, subtree: true });
     record.itemStates.set(component, nextState);
