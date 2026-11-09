@@ -105,7 +105,7 @@ describe("shell provides sizing context", () => {
         await page.viewport(1600, 1600);
         await mount(
           <div dir={dir}>
-            <calcite-shell fit="cover">
+            <calcite-shell style="block-size: 100vh;">
               <div>Main content</div>
               <calcite-shell-panel
                 resizable
