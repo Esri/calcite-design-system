@@ -103,7 +103,7 @@ describe("shell provides sizing context", () => {
       "updates %s relative bounds after shrinking and growing the viewport",
       async (slot) => {
         await page.viewport(1600, 1600);
-        await mount(
+        const { el } = await mount(
           <div dir={dir}>
             <calcite-shell>
               <div>Main content</div>
@@ -118,17 +118,31 @@ describe("shell provides sizing context", () => {
           </div>,
         );
         const handle = page.getByRole("separator");
+        const isBlock = slot === SLOTS.panelTop || slot === SLOTS.panelBottom;
+        const panelContainer = el
+          .querySelector<ShellPanel["el"]>(`calcite-shell-panel[slot="${slot}"]`)!
+          .shadowRoot!.querySelector<HTMLElement>(`.${SHELL_PANEL_CSS.container}`)!;
+        const containerStyle = window.getComputedStyle(panelContainer);
+        const blockSpacing =
+          parseFloat(containerStyle.marginBlockStart) +
+          parseFloat(containerStyle.marginBlockEnd) +
+          parseFloat(containerStyle.borderBlockStartWidth) +
+          parseFloat(containerStyle.borderBlockEndWidth) +
+          parseFloat(containerStyle.paddingBlockStart) +
+          parseFloat(containerStyle.paddingBlockEnd);
+        const expectedMax = (value: number): string =>
+          String(isBlock ? value - blockSpacing : value);
+
         await handle.click();
         await userEvent.keyboard("{End}");
-        await expect.element(handle).toHaveAttribute("aria-valuenow", "1120");
+        await expect.element(handle).toHaveAttribute("aria-valuenow", expectedMax(1120));
 
         await page.viewport(600, 600);
         await expect.element(handle).toHaveAttribute("aria-valuemin", "180");
-        await expect.element(handle).toHaveAttribute("aria-valuemax", "420");
-        await expect.element(handle).toHaveAttribute("aria-valuenow", "420");
+        await expect.element(handle).toHaveAttribute("aria-valuemax", expectedMax(420));
+        await expect.element(handle).toHaveAttribute("aria-valuenow", expectedMax(420));
 
         const rect = handle.element().getBoundingClientRect();
-        const isBlock = slot === SLOTS.panelTop || slot === SLOTS.panelBottom;
         const shrinksRight = (slot === SLOTS.panelEnd) === (dir === "ltr");
         await userEvent.hover(handle);
         await commands.mouseDown();
@@ -141,9 +155,9 @@ describe("shell provides sizing context", () => {
 
         await page.viewport(1000, 1000);
         await expect.element(handle).toHaveAttribute("aria-valuemin", "300");
-        await expect.element(handle).toHaveAttribute("aria-valuemax", "700");
+        await expect.element(handle).toHaveAttribute("aria-valuemax", expectedMax(700));
         await userEvent.keyboard("{End}");
-        await expect.element(handle).toHaveAttribute("aria-valuenow", "700");
+        await expect.element(handle).toHaveAttribute("aria-valuenow", expectedMax(700));
         await userEvent.keyboard("{Home}");
         await expect.element(handle).toHaveAttribute("aria-valuenow", "300");
       },

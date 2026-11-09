@@ -481,16 +481,22 @@ export class ShellPanel extends LitElement {
     const computedStyle = window.getComputedStyle(contentRef.value);
     const computedMaxInlineSize =
       getStylePixelValue(computedStyle.maxInlineSize) || window.innerWidth;
-    const computedMaxBlockSize =
-      getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
     const availableInlineSize = layout === "vertical" ? this.getAvailableInlineSize() : null;
     const availableBlockSize = layout === "horizontal" ? this.getAvailableBlockSize() : null;
+
+    const blockStyle =
+      layout === "horizontal" && this.containerRef.value
+        ? window.getComputedStyle(this.containerRef.value)
+        : computedStyle;
+    const blockSpacingSize = layout === "horizontal" ? this.getContainerSpacingSize("block") : 0;
+    const computedMaxBlockSize =
+      (getStylePixelValue(blockStyle.maxBlockSize) || window.innerHeight) - blockSpacingSize;
 
     this.resizeValues = {
       inlineSize: getStylePixelValue(computedStyle.inlineSize),
       blockSize: getStylePixelValue(computedStyle.blockSize),
       minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
-      minBlockSize: getStylePixelValue(computedStyle.minBlockSize),
+      minBlockSize: getStylePixelValue(blockStyle.minBlockSize),
       maxInlineSize:
         availableInlineSize === null
           ? computedMaxInlineSize
@@ -623,7 +629,9 @@ export class ShellPanel extends LitElement {
     }
 
     const computedStyle = window.getComputedStyle(containerRef.value);
-    const cssMax = getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight;
+    const cssMax =
+      (getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight) -
+      this.getContainerSpacingSize("block");
     const availableBlockSize = this.getAvailableBlockSize();
 
     return availableBlockSize === null ? cssMax : Math.min(cssMax, availableBlockSize);
