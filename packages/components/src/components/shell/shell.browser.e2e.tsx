@@ -29,7 +29,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount(<calcite-shell fit="cover" />), { display: "flex" });
+  renders(() => mount(<calcite-shell>content</calcite-shell>), { display: "flex" });
 });
 
 describe("slots", () => {
