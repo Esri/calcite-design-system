@@ -159,12 +159,4 @@ describe("theme", () => {
       },
     });
   });
-  describe("deprecated", () => {
-    themed(() => mount("calcite-card-group"), {
-      "--calcite-card-group-gap": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "gap",
-      },
-    });
-  });
 });
