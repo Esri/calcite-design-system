@@ -287,7 +287,7 @@ export const withActionBarAndContentTop = (): string =>
 
 export const footerPaddingAndContentBottom = (): string =>
   html` <div style="width: 300px;">
-    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-footer-space: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -298,7 +298,7 @@ export const footerPaddingAndContentBottom = (): string =>
 
 export const footerStartEndAndContentBottom = (): string =>
   html`<div style="width: 300px; height: 300px;">
-    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-footer-space: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -308,7 +308,7 @@ export const footerStartEndAndContentBottom = (): string =>
 
 export const footerSlot = (): string =>
   html`<div style="width: 300px;">
-    <calcite-flow-item selected height-scale="s" style="--calcite-flow-item-footer-padding: 20px;">
+    <calcite-flow-item selected height-scale="s" style="--calcite-flow-footer-space: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <div slot="content-bottom">Content bottom!</div>
@@ -319,11 +319,7 @@ export const footerSlot = (): string =>
   </div>`;
 
 export const withNoHeaderBorderBlockEnd = (): string =>
-  html`<calcite-flow-item
-    selected
-    style="--calcite-flow-item-header-border-block-end:none;"
-    height-scale="s"
-    heading="My Panel"
+  html`<calcite-flow-item selected style="--calcite-flow-border-color:none;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
 
