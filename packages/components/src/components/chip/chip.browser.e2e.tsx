@@ -163,6 +163,20 @@ describe("themed", () => {
   });
 
   describe("deprecated", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-chip selected selection-mode="single">
+            Layers
+          </calcite-chip>,
+        ),
+      {
+        "--calcite-chip-select-icon-color-pressed": {
+          shadowSelector: `.${CSS.selectIcon}`,
+          targetProp: "color",
+        },
+      },
+    );
     themed(() => mount(<calcite-chip icon="layer">Layers</calcite-chip>), {
       "--calcite-ui-icon-color": {
         shadowSelector: `.${CSS.chipIcon}`,
