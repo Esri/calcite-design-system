@@ -55,7 +55,7 @@ interface SortableManagerRecord {
   isAlive: boolean;
   activeDrag?: ActiveDrag;
   dropPosition?: DropPosition;
-  pendingReset: Set<SortableComponent>;
+  pendingReset: Map<SortableComponent, () => void>;
   itemStates: Map<SortableComponent, SortableItemState>;
   pendingPullOperations: Map<HTMLElement, { newIndex: number | undefined; operation: "move" | "clone" }>;
   acceptedPullOperations: Map<SortableComponent, "move" | "clone">;
@@ -362,6 +362,10 @@ function showDropIndicator(position: DropPosition, dragEl: HTMLElement): void {
       : target.getBoundingClientRect().width
   }px`;
   const referenceItem = position.item ?? lastItem;
+  const display = referenceItem ? getComputedStyle(referenceItem).display : undefined;
+  if (display?.startsWith("inline")) {
+    placeholder.style.display = display;
+  }
   const parent = referenceItem?.parentElement ?? position.component.el;
   parent.insertBefore(placeholder, (placement === "before" ? referenceItem : referenceItem?.nextSibling) ?? null);
   position.copyPlaceholder = placeholder;
@@ -506,7 +510,7 @@ function getManagerRecord(document: Document): SortableManagerRecord {
     containerTargets: new Map(),
     isDragging: false,
     isAlive: true,
-    pendingReset: new Set(),
+    pendingReset: new Map(),
     itemStates: new Map(),
     pendingPullOperations: new Map(),
     acceptedPullOperations: new Map(),
@@ -518,11 +522,9 @@ function getManagerRecord(document: Document): SortableManagerRecord {
       return;
     }
 
-    const pending = [...record.pendingReset];
+    const pendingResets = [...record.pendingReset.values()];
     record.pendingReset.clear();
-    pending.forEach((component) => {
-      (component as unknown as { sortable?: { reset: () => void } }).sortable?.reset();
-    });
+    pendingResets.forEach((reset) => reset());
   };
 
   const setGlobalDragActive = (active: boolean): void => {
@@ -1023,7 +1025,7 @@ export const useSortable = <T extends SortableComponent>(
       }
 
       if (dragActive()) {
-        record.pendingReset.add(sortableComponent);
+        record.pendingReset.set(sortableComponent, reset);
         return;
       }
 
@@ -1052,7 +1054,7 @@ export const useSortable = <T extends SortableComponent>(
       }
 
       if (currentRecord.isDragging || currentRecord.activeDrag) {
-        currentRecord.pendingReset.add(sortableComponent);
+        currentRecord.pendingReset.set(sortableComponent, reset);
         return;
       }
 
@@ -1072,7 +1074,7 @@ export const useSortable = <T extends SortableComponent>(
 
       if (!record?.isAlive || (!force && dragActive())) {
         if (record?.isAlive && dragActive()) {
-          record.pendingReset.add(sortableComponent);
+          record.pendingReset.set(sortableComponent, reset);
         }
         return;
       }
@@ -1100,7 +1102,7 @@ export const useSortable = <T extends SortableComponent>(
 
     function reset(): void {
       if (record?.isAlive && dragActive()) {
-        record.pendingReset.add(sortableComponent);
+        record.pendingReset.set(sortableComponent, reset);
         return;
       }
 

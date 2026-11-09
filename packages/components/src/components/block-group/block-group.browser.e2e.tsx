@@ -581,6 +581,56 @@ describe("drag and drop", () => {
     );
   });
 
+  it("sets up sorting for a block group connected during another group's drag", async () => {
+    const { el: source } = await mount<BlockGroup>(
+      <calcite-block-group drag-enabled group="pending-reset" id="pending-reset-source">
+        <calcite-block heading="Source one" id="source-one" />
+        <calcite-block heading="Source two" id="source-two" />
+      </calcite-block-group>,
+    );
+    onTestFinished(() => commands.mouseUp());
+
+    const sourceOne = page.getBySelector("#source-one").element();
+    const sourceHandle = page.getBySelector("#source-one calcite-sort-handle");
+    await expect.element(sourceHandle).toBeVisible();
+    await dragAndDrop(
+      sourceHandle.element(),
+      page.getBySelector("#source-two").element(),
+      "bottom",
+      { skipPointerUp: true },
+    );
+    await expect.element(page.getBySelector("#source-one[data-dnd-dragging]")).toBeVisible();
+
+    const { el: destination } = await mount<BlockGroup>(
+      <calcite-block-group drag-enabled group="pending-reset" id="pending-reset-destination">
+        <calcite-block heading="Destination one" id="destination-one" />
+        <calcite-block heading="Destination two" id="destination-two" />
+      </calcite-block-group>,
+    );
+    const sourceDragEnd = new Promise<void>((resolve) =>
+      source.addEventListener("calciteBlockGroupDragEnd", () => resolve(), { once: true }),
+    );
+    await commands.mouseUp();
+    await sourceDragEnd;
+    await afterNextTask();
+
+    const destinationDragStart = vi.fn();
+    destination.addEventListener("calciteBlockGroupDragStart", destinationDragStart);
+    await dragAndDrop(
+      page.getBySelector("#destination-one calcite-sort-handle").element(),
+      page.getBySelector("#destination-two").element(),
+    );
+    expect(destinationDragStart).toHaveBeenCalledOnce();
+
+    await vi.waitFor(() =>
+      expect(Array.from(destination.children, (block) => (block as Block["el"]).heading)).toEqual([
+        "Destination two",
+        "Destination one",
+      ]),
+    );
+    expect(sourceOne.parentElement).toBe(source);
+  });
+
   it("inserts transferred blocks on the horizontal pointer axis", async () => {
     await mount<BlockGroup>(
       <div>
@@ -626,6 +676,59 @@ describe("drag and drop", () => {
       ).toEqual(["First", "Source", "Second"]),
     );
     expect(sourceBlock.parentElement).toBe(page.getBySelector("#destination").element());
+  });
+
+  it("preserves horizontal layout for copy placeholders", async () => {
+    const { el: source } = await mount<BlockGroup>(
+      <div>
+        <calcite-block-group drag-enabled group="horizontal-copy" id="copy-source" label="Source">
+          <calcite-block heading="Source" id="copy-source-block" />
+        </calcite-block-group>
+        <calcite-block-group
+          drag-enabled
+          group="horizontal-copy"
+          id="copy-destination"
+          label="Destination"
+        >
+          <calcite-block
+            heading="First"
+            id="copy-first-block"
+            style="display: inline-block; inline-size: 180px; vertical-align: top"
+          />
+          <calcite-block
+            heading="Second"
+            id="copy-second-block"
+            style="display: inline-block; inline-size: 180px; vertical-align: top"
+          />
+        </calcite-block-group>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+
+    const sourceBlock = page.getBySelector("#copy-source-block").element();
+    const firstBlock = page.getBySelector("#copy-first-block").element();
+    const secondBlock = page.getBySelector("#copy-second-block").element();
+    const handle = page.getBySelector("#copy-source-block calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    await dragAndDrop(handle.element(), firstBlock, "right", { skipPointerUp: true });
+
+    const copyPlaceholder = page.getBySelector('#copy-destination [data-dnd-placeholder="copy"]');
+    await expect.element(copyPlaceholder).toBeVisible();
+    const firstBounds = firstBlock.getBoundingClientRect();
+    const secondBounds = secondBlock.getBoundingClientRect();
+    const placeholderBounds = copyPlaceholder.element().getBoundingClientRect();
+    expect(firstBounds.top).toBe(secondBounds.top);
+    expect(placeholderBounds.top).toBe(firstBounds.top);
+
+    await commands.mouseUp();
+    const destination = page.getBySelector("#copy-destination > calcite-block");
+    await vi.waitFor(() => expect(destination.elements()).toHaveLength(3));
+    const destinationBlocks = destination.elements();
+    expect(destinationBlocks[0]).toBe(firstBlock);
+    expect(destinationBlocks[1].id).not.toBe(sourceBlock.id);
+    expect(destinationBlocks[2]).toBe(secondBlock);
+    expect(sourceBlock.parentElement).toBe(source);
   });
 
   it("uses the horizontal axis for a single inline block", async () => {
