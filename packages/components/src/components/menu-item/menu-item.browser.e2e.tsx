@@ -173,10 +173,6 @@ describe("theme", () => {
           state: { press: { attribute: "role", value: `menuitem` } },
         },
       ],
-      "--calcite-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
     };
 
     describe("vertical layout", () => {

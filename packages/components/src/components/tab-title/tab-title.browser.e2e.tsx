@@ -270,19 +270,6 @@ describe("theme", () => {
           targetProp: "color",
           state: { press: `calcite-tab-title >>> .${CSS.container}` },
         },
-      },
-    );
-  });
-
-  describe("global icon color", () => {
-    themed(
-      () =>
-        mount(
-          <calcite-tab-title icon-end="3d-glasses" icon-start="banana">
-            close me
-          </calcite-tab-title>,
-        ),
-      {
         "--calcite-icon-color": [
           {
             shadowSelector: `.${CSS.iconStart}`,
