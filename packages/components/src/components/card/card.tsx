@@ -33,6 +33,12 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's accent color when `selected`.
+     */
+    "--calcite-card-accent-color-selected": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-card-background-color": "*";
     /**
      * Specifies the component's border color.
      */
