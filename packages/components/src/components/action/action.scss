@@ -173,7 +173,7 @@
     &:active {
       background-color: var(
         --calcite-action-background-color-press,
-        var(var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3)))
+        (var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3)))
       );
     }
   }
