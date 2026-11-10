@@ -63,31 +63,6 @@ const panelHTML = html`<calcite-panel heading="Ultrices neque"
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 </calcite-panel>`;
 
-const nonModalPageContent = html`
-  <style>
-    .non-modal-page-content {
-      box-sizing: border-box;
-      display: grid;
-      gap: var(--calcite-space-md);
-      min-block-size: 100vh;
-      padding: var(--calcite-space-xl);
-    }
-
-    .non-modal-page-content__actions {
-      display: flex;
-      gap: var(--calcite-space-sm);
-    }
-  </style>
-  <main class="non-modal-page-content">
-    <h1>Page content remains available</h1>
-    <p>The controls and content outside the Sheet remain visible and interactive.</p>
-    <div class="non-modal-page-content__actions">
-      <calcite-button>Primary action</calcite-button>
-      <calcite-button appearance="outline">Secondary action</calcite-button>
-    </div>
-  </main>
-`;
-
 export const simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     label="libero nunc"
@@ -113,14 +88,12 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
 `;
 simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const nonModalInlineEnd = (): string => html`
-  ${nonModalPageContent}
-  <calcite-sheet label="Non-modal inline sheet" open position="inline-end">${panelHTML}</calcite-sheet>
+export const modalInlineEnd = (): string => html`
+  <calcite-sheet label="Modal inline sheet" modal open position="inline-end">${panelHTML}</calcite-sheet>
 `;
 
-export const nonModalBlockEnd = (): string => html`
-  ${nonModalPageContent}
-  <calcite-sheet label="Non-modal block sheet" open position="block-end">${panelHTML}</calcite-sheet>
+export const modalBlockEnd = (): string => html`
+  <calcite-sheet label="Modal block sheet" modal open position="block-end">${panelHTML}</calcite-sheet>
 `;
 
 export const resizable = (): string =>
