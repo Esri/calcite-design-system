@@ -5,15 +5,10 @@
 }
 
 .item-wrapper {
-  @apply bg-foreground-1 flex;
+  @apply flex;
   inline-size: fit-content;
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
-  outline: 1px solid var(--calcite-segmented-control-border-color, var(--calcite-color-border-input));
-  outline-offset: -1px;
-}
-
-:host([appearance="outline"]) > .item-wrapper {
-  @apply bg-transparent;
+  background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
 }
 
 @include shared.disabled();

@@ -18,12 +18,12 @@
 
 .label {
   @apply pointer-events-none
-    m-0.5
     box-border
     flex
     flex-1
     items-center;
-  color: var(--calcite-segmented-control-color, var(--calcite-color-text-3));
+  color: var(--calcite-segmented-control-color, var(--calcite-theme-color-text-3, var(--calcite-color-text-3)));
+  border: var(--calcite-border-width-sm) solid transparent;
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
   // Offsets the item radius to stay consistent with segmented-control roundness
@@ -38,10 +38,12 @@
 }
 
 :host(:focus) {
+  z-index: var(--calcite-z-index);
+}
+
+:host(:focus) .label {
   @apply focus-inset;
   outline-offset: -1px;
-  z-index: var(--calcite-z-index);
-  border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 .label--scale-s {
@@ -59,38 +61,56 @@
 }
 
 :host(:hover) .label {
-  background-color: var(
-    --calcite-segmented-control-background-color,
-    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
-  );
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-transparent-hover));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-1));
 }
 
 :host(:active) .label {
-  background-color: var(
-    --calcite-segmented-control-background-color,
-    var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
-  );
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-transparent-press));
+  color: var(--calcite-segmented-control-color, var(--calcite-color-text-1));
 }
 
 :host([checked]) .label {
   @apply cursor-default;
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  border-radius: var(--calcite-corner-radius-none);
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
 
-:host([checked]) .label--outline,
-:host([checked]) .label--outline-fill {
+:host([checked]) .label--neutral {
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-border-input));
   background-color: var(
     --calcite-segmented-control-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  box-shadow: var(--calcite-segmented-control-shadow, inset 0 0 0 1px var(--calcite-color-brand));
-  color: var(--calcite-segmented-control-color, var(--calcite-color-brand));
+  color: var(--calcite-segmented-control-color, var(--calcite-color-text-1));
 }
 
-:host([checked]) .label--outline {
-  background-color: var(--calcite-segmented-control-background-color, transparent);
+:host([checked]) .label--highlight {
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-surface-highlight));
+  color: var(--calcite-segmented-control-color, var(--calcite-color-text-highlight));
+}
+
+:host(:first-of-type) .label--horizontal {
+  border-start-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-end-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
+:host(:last-of-type) .label--horizontal {
+  border-start-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-end-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
+:host(:first-of-type) .label:not(.label--horizontal) {
+  border-start-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-start-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+}
+
+:host(:last-of-type) .label:not(.label--horizontal) {
+  border-end-start-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
+  border-end-end-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 ::slotted(input) {
@@ -101,12 +121,16 @@
   :host([checked]) .label {
     background-color: highlight;
   }
-  :host([checked]) .label--outline,
-  :host([checked]) .label--outline-fill {
+  :host([checked]) .label--neutral,
+  :host([checked]) .label--highlight {
     @apply outline-none;
   }
-  :host([checked]) .label:not([class~="label--outline"]) .icon {
+  :host([checked]) .label:not([class~="label--neutral"]) .icon {
     color: highlightText;
+  }
+  :host(:focus) .label {
+    @apply focus-inset;
+    outline-offset: -1px;
   }
 }
 
@@ -118,7 +142,7 @@
 
   margin-inline-start: var(--calcite-internal-segmented-control-icon-margin-start);
   margin-inline-end: var(--calcite-internal-segmented-control-icon-margin-end);
-  --calcite-icon-color: var(--calcite-segmented-control-icon-color);
+  --calcite-icon-color: var(--calcite-segmented-control-icon-color, currentColor);
 }
 
 :host([icon-start]) .label--scale-s {
