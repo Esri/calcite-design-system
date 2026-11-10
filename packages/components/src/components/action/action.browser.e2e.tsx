@@ -267,7 +267,25 @@ describe("themed", () => {
         state: { press: { attribute: "class", value: CSS.button } },
       },
     });
+
+    themed(() => mount(<calcite-action appearance="solid" />), {
+      "--calcite-action-background-color": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-action-background-color-hover": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: "hover",
+      },
+      "--calcite-action-background-color-press": {
+        shadowSelector: `.${CSS.button}`,
+        targetProp: "backgroundColor",
+        state: { press: { attribute: "class", value: CSS.button } },
+      },
+    });
   });
+
   describe("text color", () => {
     themed(
       () =>
@@ -293,6 +311,7 @@ describe("themed", () => {
       },
     );
   });
+
   describe("loader", () => {
     themed(() => mount(<calcite-action loading />), {
       "--calcite-action-loader-color": {
@@ -301,6 +320,7 @@ describe("themed", () => {
       },
     });
   });
+
   describe("active", () => {
     themed(
       () =>
@@ -322,6 +342,7 @@ describe("themed", () => {
       },
     );
   });
+
   describe("indicator", () => {
     themed(
       () =>
@@ -347,6 +368,7 @@ describe("themed", () => {
       },
     );
   });
+
   describe("corner radius", () => {
     themed(() => mount("calcite-action"), {
       "--calcite-action-corner-radius": [
@@ -379,23 +401,6 @@ describe("themed", () => {
           targetProp: "borderStartStartRadius",
         },
       ],
-    });
-
-    themed(() => mount(<calcite-action appearance="solid" />), {
-      "--calcite-action-background-color": {
-        shadowSelector: `.${CSS.button}`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-action-background-color-hover": {
-        shadowSelector: `.${CSS.button}`,
-        targetProp: "backgroundColor",
-        state: "hover",
-      },
-      "--calcite-action-background-color-press": {
-        shadowSelector: `.${CSS.button}`,
-        targetProp: "backgroundColor",
-        state: { press: { attribute: "class", value: CSS.button } },
-      },
     });
   });
 });
