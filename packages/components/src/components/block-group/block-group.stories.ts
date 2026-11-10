@@ -80,6 +80,26 @@ export const dragEnabled = (): string => html`
   <calcite-block-group drag-enabled label="My Group"> ${blockHTML} </calcite-block-group>
 `;
 
+export const wrappedCopyPlaceholder = (): string => html`
+  <style>
+    .wrapped-copy-group {
+      inline-size: 400px;
+    }
+    .wrapped-copy-item {
+      display: inline-block;
+      inline-size: 180px;
+      block-size: 240px;
+      vertical-align: top;
+    }
+  </style>
+  <calcite-block-group class="wrapped-copy-group" drag-enabled label="Wrapped blocks">
+    <calcite-block class="wrapped-copy-item" heading="First"></calcite-block>
+    <calcite-block class="wrapped-copy-item" heading="Second"></calcite-block>
+    <div class="wrapped-copy-item" data-dnd-placeholder="copy" aria-hidden="true" inert></div>
+    <calcite-block class="wrapped-copy-item" heading="Third"></calcite-block>
+  </calcite-block-group>
+`;
+
 export const sortHandleOpen = (): string => html`
   <calcite-block-group drag-enabled label="My Group">
     <calcite-block sort-handle-open expandable heading="Invisible ink" description="You can't see me!"

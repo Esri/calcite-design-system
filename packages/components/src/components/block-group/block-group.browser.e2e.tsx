@@ -565,7 +565,6 @@ describe("drag and drop", () => {
       expect((blocks.nth(1).element() as Block["el"]).heading).toBe("one");
       expect(firstBlock.parentElement).toBe(el);
     });
-    expect(onDragStart).toHaveBeenCalledOnce();
     const expectedDetail = {
       dragEl: firstBlock,
       fromEl: el,
@@ -573,6 +572,11 @@ describe("drag and drop", () => {
       oldIndex: 0,
       newIndex: 1,
     };
+    expect(onDragStart).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({ ...expectedDetail, newIndex: undefined }),
+      }),
+    );
     expect(onOrderChange).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
@@ -689,6 +693,7 @@ describe("drag and drop", () => {
           group="horizontal-copy"
           id="copy-destination"
           label="Destination"
+          style="inline-size: 540px"
         >
           <calcite-block
             heading="First"
@@ -728,6 +733,82 @@ describe("drag and drop", () => {
     expect(destinationBlocks[0]).toBe(firstBlock);
     expect(destinationBlocks[1].id).not.toBe(sourceBlock.id);
     expect(destinationBlocks[2]).toBe(secondBlock);
+    expect(sourceBlock.parentElement).toBe(source);
+  });
+
+  it("inserts copied blocks after the last block in a wrapped row", async () => {
+    const { el: source } = await mount<BlockGroup>(
+      <div>
+        <calcite-block-group drag-enabled group="wrapped-copy" id="wrapped-source">
+          <calcite-block
+            heading="Source"
+            id="wrapped-source-block"
+            style="inline-size: 180px; block-size: 240px; margin-inline-start: 180px"
+          />
+        </calcite-block-group>
+        <calcite-block-group
+          drag-enabled
+          group="wrapped-copy"
+          id="wrapped-destination"
+          style="inline-size: 360px"
+        >
+          <calcite-block
+            heading="First"
+            id="wrapped-first-block"
+            style="display: inline-block; inline-size: 180px; block-size: 240px; vertical-align: top"
+          />
+          <calcite-block
+            heading="Second"
+            id="wrapped-second-block"
+            style="display: inline-block; inline-size: 180px; block-size: 240px; vertical-align: top"
+          />
+          <calcite-block
+            heading="Third"
+            id="wrapped-third-block"
+            style="display: inline-block; inline-size: 180px; block-size: 240px; vertical-align: top"
+          />
+        </calcite-block-group>
+      </div>,
+    );
+    onTestFinished(() => commands.mouseUp());
+    source.canPull = () => "clone";
+
+    const handle = page.getBySelector("#wrapped-source-block calcite-sort-handle");
+    await expect.element(handle).toBeVisible();
+    const sourceBlock = page.getBySelector("#wrapped-source-block").element();
+    const firstBlock = page.getBySelector("#wrapped-first-block").element();
+    const secondBlock = page.getBySelector("#wrapped-second-block").element();
+    const thirdBlock = page.getBySelector("#wrapped-third-block").element();
+    expect(firstBlock.getBoundingClientRect().top).toBe(secondBlock.getBoundingClientRect().top);
+    expect(thirdBlock.getBoundingClientRect().top).toBeGreaterThan(
+      secondBlock.getBoundingClientRect().top,
+    );
+
+    await dragAndDrop(handle.element(), secondBlock, "right", {
+      skipPointerUp: true,
+      moveSteps: 2,
+    });
+    await expect
+      .element(page.elementLocator(secondBlock))
+      .toHaveAttribute("data-calcite-sort-position", "after");
+    const placeholder = page.getBySelector('#wrapped-destination [data-dnd-placeholder="copy"]');
+    await expect.element(placeholder).toBeVisible();
+    expect(placeholder.element().previousElementSibling).toBe(secondBlock);
+
+    const placeholderBounds = placeholder.element().getBoundingClientRect();
+    await commands.mouseMove(
+      placeholderBounds.left + placeholderBounds.width / 2,
+      placeholderBounds.top + placeholderBounds.height / 2,
+    );
+    await commands.mouseUp();
+
+    const destination = page.getBySelector("#wrapped-destination > calcite-block");
+    await vi.waitFor(() => expect(destination.elements()).toHaveLength(4));
+    const destinationBlocks = destination.elements();
+    expect(destinationBlocks[0]).toBe(firstBlock);
+    expect(destinationBlocks[1]).toBe(secondBlock);
+    expect(destinationBlocks[2].id).not.toBe(sourceBlock.id);
+    expect(destinationBlocks[3]).toBe(thirdBlock);
     expect(sourceBlock.parentElement).toBe(source);
   });
 
@@ -820,11 +901,15 @@ describe("drag and drop", () => {
     const onSourceDragStart = vi.fn();
     const onSourceOrderChange = vi.fn();
     const onSourceDragEnd = vi.fn();
+    const onDestinationDragStart = vi.fn();
     const onDestinationOrderChange = vi.fn();
+    const onDestinationDragEnd = vi.fn();
     source.addEventListener("calciteBlockGroupDragStart", onSourceDragStart);
     source.addEventListener("calciteBlockGroupOrderChange", onSourceOrderChange);
     source.addEventListener("calciteBlockGroupDragEnd", onSourceDragEnd);
+    destination.addEventListener("calciteBlockGroupDragStart", onDestinationDragStart);
     destination.addEventListener("calciteBlockGroupOrderChange", onDestinationOrderChange);
+    destination.addEventListener("calciteBlockGroupDragEnd", onDestinationDragEnd);
     await expect.element(handle).toBeInTheDocument();
     const waitForDragEnd = (): Promise<void> =>
       new Promise((resolve) =>
@@ -841,13 +926,13 @@ describe("drag and drop", () => {
     expect(onSourceOrderChange).not.toHaveBeenCalled();
     expect(onDestinationOrderChange).not.toHaveBeenCalled();
 
+    onSourceDragStart.mockClear();
+    onSourceDragEnd.mockClear();
     destination.canPut = () => true;
     const acceptedDragEnd = waitForDragEnd();
     await dragAndDrop(handle.element(), destinationBlock);
     await acceptedDragEnd;
     await vi.waitFor(() => expect(sourceBlock.parentElement).toBe(destination));
-    expect(onSourceDragStart).toHaveBeenCalledTimes(2);
-    expect(onSourceDragEnd).toHaveBeenCalledTimes(2);
     const expectedDetail = {
       dragEl: sourceBlock,
       fromEl: source,
@@ -855,14 +940,21 @@ describe("drag and drop", () => {
       oldIndex: 0,
       newIndex: 1,
     };
+    expect(onSourceDragStart).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({ ...expectedDetail, toEl: source, newIndex: undefined }),
+      }),
+    );
     expect(onSourceOrderChange).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
     expect(onDestinationOrderChange).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
-    expect(onSourceDragEnd).toHaveBeenLastCalledWith(
+    expect(onSourceDragEnd).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
+    expect(onDestinationDragStart).not.toHaveBeenCalled();
+    expect(onDestinationDragEnd).not.toHaveBeenCalled();
   });
 });

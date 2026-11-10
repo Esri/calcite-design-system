@@ -1672,7 +1672,6 @@ describe("drag and drop", () => {
         "grandchild-one",
       ]);
     });
-    expect(onDragStart).toHaveBeenCalledOnce();
     const expectedDetail = {
       dragEl: firstItem.element(),
       fromEl: list,
@@ -1680,14 +1679,19 @@ describe("drag and drop", () => {
       oldIndex: 0,
       newIndex: 2,
     };
+    expect(onDragStart).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({ ...expectedDetail, newIndex: undefined }),
+      }),
+    );
     expect(onOrderChange).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
     expect(onDragEnd).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
-    expect(onDestinationOrderChange).toHaveBeenCalledWith(
-      expect.objectContaining({ detail: expect.objectContaining({ toEl: list }) }),
+    expect(onDestinationOrderChange).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
   });
 
@@ -1766,11 +1770,15 @@ describe("drag and drop", () => {
     const onSourceDragStart = vi.fn();
     const onSourceOrderChange = vi.fn();
     const onSourceDragEnd = vi.fn();
+    const onDestinationDragStart = vi.fn();
     const onDestinationOrderChange = vi.fn();
+    const onDestinationDragEnd = vi.fn();
     sourceList.addEventListener("calciteListDragStart", onSourceDragStart);
     sourceList.addEventListener("calciteListOrderChange", onSourceOrderChange);
     sourceList.addEventListener("calciteListDragEnd", onSourceDragEnd);
+    destinationList.addEventListener("calciteListDragStart", onDestinationDragStart);
     destinationList.addEventListener("calciteListOrderChange", onDestinationOrderChange);
+    destinationList.addEventListener("calciteListDragEnd", onDestinationDragEnd);
 
     await dragAndDrop(handle.element(), targetItem, "bottom");
     await vi.waitFor(() =>
@@ -1784,7 +1792,6 @@ describe("drag and drop", () => {
     );
 
     expect((secondItems.nth(0).element() as ListItem["el"]).value).toBe("c");
-    expect(onSourceDragStart).toHaveBeenCalledOnce();
     const expectedDetail = {
       dragEl: draggedItem,
       fromEl: sourceList,
@@ -1792,6 +1799,15 @@ describe("drag and drop", () => {
       oldIndex: 1,
       newIndex: 2,
     };
+    expect(onSourceDragStart).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({
+        detail: expect.objectContaining({
+          ...expectedDetail,
+          toEl: sourceList,
+          newIndex: undefined,
+        }),
+      }),
+    );
     expect(onSourceOrderChange).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
@@ -1801,6 +1817,8 @@ describe("drag and drop", () => {
     expect(onSourceDragEnd).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
     );
+    expect(onDestinationDragStart).not.toHaveBeenCalled();
+    expect(onDestinationDragEnd).not.toHaveBeenCalled();
   });
 
   it("does not move items between lists with different groups", async () => {

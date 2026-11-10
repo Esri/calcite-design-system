@@ -269,10 +269,11 @@ function isAfterTarget(
   center: { x: number; y: number },
   sortables: Map<HTMLElement, Sortable> | undefined,
 ): boolean {
-  const adjacentItem = [targetItem.nextElementSibling, targetItem.previousElementSibling].find(
-    (item): item is HTMLElement => item instanceof HTMLElement && !!sortables?.has(item),
-  );
-  const adjacentBounds = adjacentItem?.getBoundingClientRect();
+  const adjacentItemsBounds = [targetItem.nextElementSibling, targetItem.previousElementSibling]
+    .filter((item): item is HTMLElement => item instanceof HTMLElement && !!sortables?.has(item))
+    .map((item) => item.getBoundingClientRect());
+  const adjacentBounds =
+    adjacentItemsBounds.find((bounds) => bounds.top <= center.y && bounds.bottom > center.y) ?? adjacentItemsBounds[0];
   const horizontal =
     component.layout === "horizontal" ||
     (component.layout === "grid" && Math.abs(position.x - center.x) > Math.abs(position.y - center.y)) ||
