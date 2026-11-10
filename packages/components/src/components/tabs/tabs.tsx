@@ -39,6 +39,9 @@ interface TabsSlots {
   "title-group": Node[];
 }
 
+/**
+ * @docGroup Tabs
+ */
 export class Tabs extends LitElement {
   //#region Type-only metadata members
 

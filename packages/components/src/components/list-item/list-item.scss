@@ -139,7 +139,7 @@
     user-select: none;
   }
 
-  .container--hover:hover {
+  .container--hover:hover:not(.container--highlight-selected) {
     cursor: pointer;
   }
 

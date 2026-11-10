@@ -17,11 +17,11 @@
 @use "../../styles/shared";
 
 :host {
-  @apply relative
-    pointer-events-none
-    flex
-    flex-initial
-    items-stretch;
+  position: relative;
+  pointer-events: none;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: stretch;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
   --calcite-shell-panel-max-height: unset;
   --calcite-internal-shell-panel-shadow-block-start:
@@ -120,19 +120,18 @@
 }
 
 .container {
-  @apply text-n1
-  pointer-events-none
-  box-border
-  flex
-  flex-auto
-  items-stretch
-  bg-transparent
-  h-full;
-
+  font-size: var(--calcite-font-size-relative-base);
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  background-color: var(--calcite-color-transparent);
+  block-size: 100%;
   color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
 
   * {
-    @apply box-border;
+    box-sizing: border-box;
   }
 
   &.float-all {
@@ -167,12 +166,21 @@
 }
 
 :host([layout="horizontal"]) .container {
-  @apply w-full h-auto;
+  inline-size: 100%;
+  block-size: auto;
   flex-direction: column;
 }
 
 .resize-handle {
-  @apply absolute flex justify-center items-center select-none box-border outline-none;
+  @include shared.outline-none();
+
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  box-sizing: border-box;
+
   --calcite-internal-shell-panel-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
@@ -192,7 +200,10 @@
 }
 
 .resize-handle-bar {
-  @apply flex justify-center items-center pointer-events-none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
   color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-border-input));
   background-color: var(
     --calcite-shell-panel-resize-background-color,
@@ -201,7 +212,7 @@
 }
 
 .resize-handle:focus .resize-handle-bar {
-  @apply focus-base focus-normal;
+  @include shared.focus-normal();
 }
 
 :host([position="start"][layout="vertical"]) {
@@ -310,27 +321,29 @@
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply h-full w-full flex-auto;
+  block-size: 100%;
+  inline-size: 100%;
+  flex: 1 1 auto;
   max-block-size: unset;
   max-inline-size: unset;
 }
 
 .action-bar-container {
-  @apply pointer-events-auto
-  flex
-  flex-auto
-  box-border;
+  pointer-events: auto;
+  display: flex;
+  flex: 1 1 auto;
+  box-sizing: border-box;
 }
 
 .content-container {
-  @apply flex
-  flex-auto
-  items-stretch
-  self-stretch
-  relative
-  box-border
-  w-full
-  h-full;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  align-self: stretch;
+  position: relative;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 :host([layout="horizontal"]) .action-bar-container,
@@ -339,16 +352,16 @@
 }
 
 .content {
-  @apply pointer-events-auto
-  flex
-  flex-col
-  flex-nowrap
-  items-stretch
-  self-stretch
-  p-0
-  relative
-  box-border
-  flex-auto;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  padding: var(--calcite-space-none);
+  position: relative;
+  box-sizing: border-box;
+  flex: 1 1 auto;
   background-color: var(
     --calcite-shell-panel-background-color,
     var(--calcite-theme-color-surface-1, var(--calcite-color-background))
@@ -400,31 +413,33 @@
 }
 
 .content__header {
-  @apply flex
-  flex-initial
-  flex-col
-  flex-nowrap
-  items-stretch;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
 }
 
 .content__body {
-  @apply flex
-  flex-auto
-  flex-col
-  overflow-hidden;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .content--overlay {
-  @apply absolute;
+  position: absolute;
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 }
 
 :host([layout="vertical"]) .content--overlay {
-  @apply top-0 h-full;
+  inset-block-start: var(--calcite-space-none);
+  block-size: 100%;
 }
 
 :host([layout="horizontal"]) .content--overlay {
-  @apply start-0 w-full;
+  inset-inline-start: var(--calcite-space-none);
+  inline-size: 100%;
 }
 
 :host([layout="vertical"][position="start"]) .content--overlay {
@@ -448,12 +463,10 @@
 }
 
 .float--content {
-  @apply mb-auto
-  h-auto
-  overflow-hidden;
-
+  margin-block-end: auto;
+  block-size: auto;
+  overflow: hidden;
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-
   border-radius: var(
     --calcite-shell-panel-corner-radius,
     var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
@@ -475,7 +488,7 @@
 :host([position="end"]) .float--content {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
-    @apply border-none;
+    border-style: none;
   }
 }
 
