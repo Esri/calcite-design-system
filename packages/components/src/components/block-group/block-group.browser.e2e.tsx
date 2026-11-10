@@ -574,14 +574,15 @@ describe("drag and drop", () => {
     };
     expect(onDragStart).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
+        target: el,
         detail: expect.objectContaining({ ...expectedDetail, newIndex: undefined }),
       }),
     );
     expect(onOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({ target: el, detail: expect.objectContaining(expectedDetail) }),
     );
     expect(onDragEnd).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({ target: el, detail: expect.objectContaining(expectedDetail) }),
     );
   });
 
@@ -725,6 +726,9 @@ describe("drag and drop", () => {
     const placeholderBounds = copyPlaceholder.element().getBoundingClientRect();
     expect(firstBounds.top).toBe(secondBounds.top);
     expect(placeholderBounds.top).toBe(firstBounds.top);
+    expect(placeholderBounds.left).toBe(firstBounds.right);
+    expect(placeholderBounds.right).toBe(secondBounds.left);
+    expect(placeholderBounds.width).toBe(firstBounds.width);
 
     await commands.mouseUp();
     const destination = page.getBySelector("#copy-destination > calcite-block");
@@ -942,17 +946,21 @@ describe("drag and drop", () => {
     };
     expect(onSourceDragStart).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
+        target: source,
         detail: expect.objectContaining({ ...expectedDetail, toEl: source, newIndex: undefined }),
       }),
     );
     expect(onSourceOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({ target: source, detail: expect.objectContaining(expectedDetail) }),
     );
     expect(onDestinationOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({
+        target: destination,
+        detail: expect.objectContaining(expectedDetail),
+      }),
     );
     expect(onSourceDragEnd).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({ target: source, detail: expect.objectContaining(expectedDetail) }),
     );
     expect(onDestinationDragStart).not.toHaveBeenCalled();
     expect(onDestinationDragEnd).not.toHaveBeenCalled();

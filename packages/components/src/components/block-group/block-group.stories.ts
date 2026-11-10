@@ -92,6 +92,11 @@ export const wrappedCopyPlaceholder = (): string => html`
       vertical-align: top;
     }
   </style>
+  <calcite-block-group drag-enabled label="Horizontal blocks">
+    <calcite-block class="wrapped-copy-item" heading="First"></calcite-block>
+    <div class="wrapped-copy-item" data-dnd-placeholder="copy" aria-hidden="true" inert></div>
+    <calcite-block class="wrapped-copy-item" heading="Second"></calcite-block>
+  </calcite-block-group>
   <calcite-block-group class="wrapped-copy-group" drag-enabled label="Wrapped blocks">
     <calcite-block class="wrapped-copy-item" heading="First"></calcite-block>
     <calcite-block class="wrapped-copy-item" heading="Second"></calcite-block>

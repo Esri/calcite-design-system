@@ -1657,11 +1657,11 @@ describe("drag and drop", () => {
     const onDragStart = vi.fn();
     const onOrderChange = vi.fn();
     const onDragEnd = vi.fn();
-    const onDestinationOrderChange = vi.fn();
+    const onAncestorOrderChange = vi.fn();
     list.addEventListener("calciteListDragStart", onDragStart);
     list.addEventListener("calciteListOrderChange", onOrderChange);
     list.addEventListener("calciteListDragEnd", onDragEnd);
-    el.addEventListener("calciteListOrderChange", onDestinationOrderChange);
+    el.addEventListener("calciteListOrderChange", onAncestorOrderChange);
 
     await dragAndDrop(handle.element(), target.element(), "center", { moveSteps: 20 });
 
@@ -1681,25 +1681,39 @@ describe("drag and drop", () => {
     };
     expect(onDragStart).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
+        target: list,
         detail: expect.objectContaining({ ...expectedDetail, newIndex: undefined }),
       }),
     );
     expect(onOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({ target: list, detail: expect.objectContaining(expectedDetail) }),
     );
     expect(onDragEnd).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({ target: list, detail: expect.objectContaining(expectedDetail) }),
     );
-    expect(onDestinationOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+    expect(onAncestorOrderChange).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ target: list, detail: expect.objectContaining(expectedDetail) }),
     );
   });
 
   it("allows moving a grandchild into an ancestor list", async () => {
     const { el } = await renderNestedList();
+    const source = page.getBySelector("#grandchildren").element() as List["el"];
     const firstItem = page.getBySelector("#grandchild-one");
     const handle = firstItem.getBySelector("calcite-sort-handle");
     const target = page.getBySelector("#root-sibling");
+    const onSourceDragStart = vi.fn();
+    const onSourceOrderChange = vi.fn();
+    const onSourceDragEnd = vi.fn();
+    const onDestinationDragStart = vi.fn();
+    const onDestinationOrderChange = vi.fn();
+    const onDestinationDragEnd = vi.fn();
+    source.addEventListener("calciteListDragStart", onSourceDragStart);
+    source.addEventListener("calciteListOrderChange", onSourceOrderChange);
+    source.addEventListener("calciteListDragEnd", onSourceDragEnd);
+    el.addEventListener("calciteListDragStart", onDestinationDragStart);
+    el.addEventListener("calciteListOrderChange", onDestinationOrderChange);
+    el.addEventListener("calciteListDragEnd", onDestinationDragEnd);
     await expect.element(handle).toBeVisible();
     await expect.element(target).toBeVisible();
 
@@ -1713,6 +1727,33 @@ describe("drag and drop", () => {
         "grandchild-one",
       ]);
     });
+    const expectedDetail = {
+      dragEl: firstItem.element(),
+      fromEl: source,
+      toEl: el,
+      oldIndex: 0,
+      newIndex: 2,
+    };
+    const startEvent = expect.objectContaining({
+      target: source,
+      detail: expect.objectContaining({ ...expectedDetail, toEl: source, newIndex: undefined }),
+    });
+    const sourceEvent = expect.objectContaining({
+      target: source,
+      detail: expect.objectContaining(expectedDetail),
+    });
+    const destinationEvent = expect.objectContaining({
+      target: el,
+      detail: expect.objectContaining(expectedDetail),
+    });
+    expect(onSourceDragStart).toHaveBeenCalledExactlyOnceWith(startEvent);
+    expect(onSourceOrderChange).toHaveBeenCalledExactlyOnceWith(sourceEvent);
+    expect(onSourceDragEnd).toHaveBeenCalledExactlyOnceWith(sourceEvent);
+    expect(onDestinationDragStart).toHaveBeenCalledExactlyOnceWith(startEvent);
+    expect(onDestinationOrderChange).toHaveBeenCalledTimes(2);
+    expect(onDestinationOrderChange).toHaveBeenCalledWith(sourceEvent);
+    expect(onDestinationOrderChange).toHaveBeenCalledWith(destinationEvent);
+    expect(onDestinationDragEnd).toHaveBeenCalledExactlyOnceWith(sourceEvent);
   });
 
   it("updates sorting when a list item's dragDisabled state changes", async () => {
@@ -1801,6 +1842,7 @@ describe("drag and drop", () => {
     };
     expect(onSourceDragStart).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
+        target: sourceList,
         detail: expect.objectContaining({
           ...expectedDetail,
           toEl: sourceList,
@@ -1809,13 +1851,22 @@ describe("drag and drop", () => {
       }),
     );
     expect(onSourceOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({
+        target: sourceList,
+        detail: expect.objectContaining(expectedDetail),
+      }),
     );
     expect(onDestinationOrderChange).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({
+        target: destinationList,
+        detail: expect.objectContaining(expectedDetail),
+      }),
     );
     expect(onSourceDragEnd).toHaveBeenCalledExactlyOnceWith(
-      expect.objectContaining({ detail: expect.objectContaining(expectedDetail) }),
+      expect.objectContaining({
+        target: sourceList,
+        detail: expect.objectContaining(expectedDetail),
+      }),
     );
     expect(onDestinationDragStart).not.toHaveBeenCalled();
     expect(onDestinationDragEnd).not.toHaveBeenCalled();
