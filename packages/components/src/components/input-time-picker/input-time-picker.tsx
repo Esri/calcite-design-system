@@ -147,6 +147,9 @@ interface InputTimePickerSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Type-only metadata members
 

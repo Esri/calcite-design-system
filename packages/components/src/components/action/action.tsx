@@ -109,6 +109,9 @@ interface ActionSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Actions
+ */
 export class Action extends LitElement {
   //#region Type-only metadata members
 
