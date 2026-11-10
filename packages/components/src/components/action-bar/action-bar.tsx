@@ -13,7 +13,6 @@ import {
 import { createRef } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import {
-  closestElementCrossShadowBoundary,
   filterDirectChildren,
   getSlotAssignedElements,
   getStylePixelValue,
@@ -1202,7 +1201,7 @@ export class ActionBar extends LitElement {
 
     const isVertical = this.layout !== "horizontal";
 
-    const currentGroup = this.getNavigationItemActionGroup(current);
+    const currentGroup = event.composedPath().find(isActionGroup);
     const secondaryNextKey = isVertical ? "ArrowRight" : "ArrowDown";
     const secondaryPreviousKey = isVertical ? "ArrowLeft" : "ArrowUp";
     const isClosedActionMenu = current.matches("calcite-action-menu") && !current.open;
@@ -1225,7 +1224,7 @@ export class ActionBar extends LitElement {
         if (isVertical) {
           this.focusNavigationItem("next", current);
           event.preventDefault();
-        } else if (this.focusActionGroupItem("next", current)) {
+        } else if (this.focusActionGroupItem("next", current, currentGroup)) {
           event.preventDefault();
         }
         break;
@@ -1233,7 +1232,7 @@ export class ActionBar extends LitElement {
         if (isVertical) {
           this.focusNavigationItem("previous", current);
           event.preventDefault();
-        } else if (this.focusActionGroupItem("previous", current)) {
+        } else if (this.focusActionGroupItem("previous", current, currentGroup)) {
           event.preventDefault();
         }
         break;
@@ -1241,7 +1240,7 @@ export class ActionBar extends LitElement {
         if (!isVertical) {
           this.focusNavigationItem("next", current);
           event.preventDefault();
-        } else if (this.focusActionGroupItem("next", current)) {
+        } else if (this.focusActionGroupItem("next", current, currentGroup)) {
           event.preventDefault();
         }
         break;
@@ -1249,7 +1248,7 @@ export class ActionBar extends LitElement {
         if (!isVertical) {
           this.focusNavigationItem("previous", current);
           event.preventDefault();
-        } else if (this.focusActionGroupItem("previous", current)) {
+        } else if (this.focusActionGroupItem("previous", current, currentGroup)) {
           event.preventDefault();
         }
         break;
@@ -1386,14 +1385,9 @@ export class ActionBar extends LitElement {
   private focusActionGroupItem(
     direction: "next" | "previous",
     current: Action["el"] | ActionMenu["el"],
+    currentGroup: ActionGroup["el"] | undefined,
   ): boolean {
-    if (!isAction(current)) {
-      return false;
-    }
-
-    const currentGroup = this.getNavigationItemActionGroup(current);
-
-    if (!currentGroup) {
+    if (!isAction(current) || !currentGroup) {
       return false;
     }
 
@@ -1402,8 +1396,7 @@ export class ActionBar extends LitElement {
     }
 
     const groupItems = this.navigationItems.filter(
-      (item): item is Action["el"] =>
-        isAction(item) && this.getNavigationItemActionGroup(item) === currentGroup,
+      (item): item is Action["el"] => isAction(item) && currentGroup.actions.includes(item),
     );
     const currentIndex = groupItems.indexOf(current);
 
@@ -1426,12 +1419,6 @@ export class ActionBar extends LitElement {
     this.syncNavigationItemTabIndexes(nextItem);
 
     return true;
-  }
-
-  private getNavigationItemActionGroup(
-    item: Action["el"] | ActionMenu["el"],
-  ): ActionGroup["el"] | null {
-    return closestElementCrossShadowBoundary(item, "calcite-action-group");
   }
 
   private focusItem(item: Action["el"] | ActionMenu["el"]): void {
