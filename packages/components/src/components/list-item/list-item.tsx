@@ -113,6 +113,10 @@ interface ListItemSlots {
 
 const focusMap = new Map<List["el"], number | undefined>();
 
+/**
+ * @docGroup List
+ * @parent calcite-list
+ */
 export class ListItem extends LitElement implements SortableComponentItem {
   //#region Type-only metadata members
 
