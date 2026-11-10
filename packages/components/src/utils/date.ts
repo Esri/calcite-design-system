@@ -132,7 +132,7 @@ export function datePartsFromLocalizedString(
 ): { day: string; month: string; year: string } {
   const { unitOrder } = localeData;
   const order = getOrder(unitOrder);
-  const values = numberStringFormatter.delocalize(string).match(/\d+/g) ?? [];
+  const values = (string.match(/\p{Decimal_Number}+/gu) ?? []).map((part) => numberStringFormatter.delocalize(part));
   const day = values[order.indexOf("d")];
   const month = values[order.indexOf("m")];
   const year = values[order.indexOf("y")];

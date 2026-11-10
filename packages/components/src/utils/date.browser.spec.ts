@@ -20,7 +20,7 @@ import {
   prevMonth,
   sameDate,
 } from "./date";
-import { numberStringFormatter } from "./locale";
+import { getDateFormatSupportedLocale, numberingSystems, numberStringFormatter } from "./locale";
 
 const arabic = getLocaleData("ar");
 const bosnian = getLocaleData("bs");
@@ -240,6 +240,18 @@ describe("parseDateString", () => {
   });
   it("parses Bosnian dates formatted with the Chromium fallback", () => {
     expect(dateFromLocalizedString("1. 5. 2023.", bosnian)).toEqual(new Date(2023, 4, 1));
+  });
+
+  describe.each(["da", "de", "mk", "ro", "tr"])("localized date parsing (%s)", (locale) => {
+    it.each(numberingSystems)("preserves date boundaries with %s digits", (numberingSystem) => {
+      numberStringFormatter.numberFormatOptions = { locale, numberingSystem, useGrouping: false };
+      const date = new Date(2023, 4, 31);
+      const value = new Intl.DateTimeFormat(getDateFormatSupportedLocale(locale), {
+        numberingSystem,
+      }).format(date);
+
+      expect(dateFromLocalizedString(value, getLocaleData(locale))).toEqual(date);
+    });
   });
 });
 
