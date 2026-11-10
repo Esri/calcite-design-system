@@ -350,8 +350,6 @@
 
 .resize-handle:focus .resize-handle-bar {
   @include shared.focus-normal();
-
-  outline-color: var(--calcite-color-transparent);
 }
 
 :host([position="inline-start"]) {
