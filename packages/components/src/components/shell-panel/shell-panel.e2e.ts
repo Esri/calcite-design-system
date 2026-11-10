@@ -399,6 +399,7 @@ describe("resizing", () => {
     const resizeHandle: E2EElement = await page.find(`calcite-shell-panel >>> .${CSS.resizeHandle}`);
     const content = await page.find(`calcite-shell-panel >>> .${CSS.content}`);
     const initialHeight = parseInt((await content.getComputedStyle()).blockSize, 10);
+    const minHeight = parseInt(await resizeHandle.getProperty("ariaValueMin"), 10);
 
     expect(resizeHandle).toBeDefined();
     expect(content).toBeDefined();
@@ -414,26 +415,26 @@ describe("resizing", () => {
     await resizeHandle.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight}px`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${minHeight}`);
+    expect((await content.getComputedStyle()).blockSize).toBe(`${minHeight}px`);
 
     await resizeHandle.press("ArrowUp");
     await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight}px`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${minHeight}`);
+    expect((await content.getComputedStyle()).blockSize).toBe(`${minHeight}px`);
 
     await resizeHandle.press("ArrowDown");
     await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight + resizeStep}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight + resizeStep}px`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${minHeight + resizeStep}`);
+    expect((await content.getComputedStyle()).blockSize).toBe(`${minHeight + resizeStep}px`);
 
     await resizeHandle.press("Home");
     await page.waitForChanges();
 
-    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${initialHeight}`);
-    expect((await content.getComputedStyle()).blockSize).toBe(`${initialHeight}px`);
+    expect(await resizeHandle.getProperty("ariaValueNow")).toBe(`${minHeight}`);
+    expect((await content.getComputedStyle()).blockSize).toBe(`${minHeight}px`);
 
     await resizeHandle.press("End");
     await page.waitForChanges();
