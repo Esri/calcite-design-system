@@ -153,7 +153,7 @@
   }
 
   .handle-extension {
-    inline-size: var(--calcite-space-base);
+    inline-size: 0.125rem;
     block-size: var(--calcite-slider-handle-extension-height);
     background-color: var(--calcite-slider-handle-extension-color, var(--calcite-color-text-3));
   }
@@ -249,7 +249,7 @@
 
 .track {
   position: relative;
-  block-size: var(--calcite-space-base);
+  block-size: 0.125rem;
   background-color: var(--calcite-slider-track-color, var(--calcite-color-border-2));
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
   border-radius: var(--calcite-corner-radius);
@@ -258,7 +258,7 @@
 .track__range {
   position: absolute;
   inset-block-start: var(--calcite-space-none);
-  block-size: var(--calcite-space-base);
+  block-size: 0.125rem;
   background-color: var(--calcite-slider-track-fill-color, var(--calcite-color-brand));
   border-radius: var(--calcite-corner-radius);
 }
@@ -304,7 +304,7 @@
 .tick {
   position: absolute;
   block-size: var(--calcite-space-2xs);
-  inline-size: var(--calcite-space-base);
+  inline-size: 0.125rem;
   border-width: var(--calcite-border-width-sm);
   border-style: solid;
   background-color: var(--calcite-slider-tick-color, var(--calcite-color-border-input));
