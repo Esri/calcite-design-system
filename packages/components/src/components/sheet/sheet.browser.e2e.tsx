@@ -319,6 +319,18 @@ describe("Escape key closing", () => {
 });
 
 describe("modal", () => {
+  it("focuses the first tabbable element when opened", async () => {
+    const openEvent = waitForEvent(document, "calciteSheetOpen");
+    await mount<Sheet>(
+      <calcite-sheet label="Modal sheet" modal open>
+        <button type="button">inside</button>
+      </calcite-sheet>,
+    );
+    await openEvent;
+
+    await expect.element(page.getByRole("button", { name: "inside" })).toHaveFocus();
+  });
+
   it("updates modal behavior when toggled while open", async () => {
     const openEvent = waitForEvent(document, "calciteSheetOpen");
     const { el } = await mount<Sheet>(<calcite-sheet label="Sheet" modal open />);
