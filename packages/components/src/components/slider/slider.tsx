@@ -46,50 +46,73 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-slider-text-color": "*";
     /**
      * Specifies the component's track color.
+     *
+     * @public
      */
     "--calcite-slider-track-color": "*";
     /**
      * Specifies the component's track fill color.
+     *
+     * @public
      */
     "--calcite-slider-track-fill-color": "*";
     /**
      * Specifies the component's handle fill color.
+     *
+     * @public
      */
     "--calcite-slider-handle-fill-color": "*";
     /**
      * Specifies the component's handle extension color.
+     *
+     * @public
      */
     "--calcite-slider-handle-extension-color": "*";
     /**
      * Specifies the component's accent color.
+     *
+     * @public
      */
     "--calcite-slider-accent-color": "*";
     /**
      * Specifies the component's tick color.
+     *
+     * @public
      */
     "--calcite-slider-tick-color": "*";
     /**
      * Specifies the component's tick border color.
+     *
+     * @public
      */
     "--calcite-slider-tick-border-color": "*";
     /**
      * Specifies the component's tick color when in selected range.
+     *
+     * @public
      */
     "--calcite-slider-tick-selected-color": "*";
     /**
      * Specifies the component's graph color.
+     *
+     * @public
      */
     "--calcite-slider-graph-color": "*";
   }
 }
 
+/** @public */
 interface SliderSlots {
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
@@ -101,9 +124,11 @@ function isRange(value: number | number[]): value is number[] {
 const defaultValue = 0;
 const leftToRightMark = "\u200E";
 
+/** @public */
 export class Slider extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SliderSlots;
 
   //#endregion
@@ -112,7 +137,10 @@ export class Slider extends LitElement implements LabelableComponent {
 
   static formAssociated = true;
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -184,10 +212,14 @@ export class Slider extends LitElement implements LabelableComponent {
           this.dragProp = "minValue";
           this.minHandleRef.value!.focus();
         } else {
-          this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
+          this.setValue({
+            [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp),
+          });
         }
       } else {
-        this.setValue({ [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp) });
+        this.setValue({
+          [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp),
+        });
       }
     }
   };
@@ -235,8 +267,6 @@ export class Slider extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -286,131 +316,247 @@ export class Slider extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * When `value` is specified for single values, determines the track's fill relative to the component's handle.
    *
    * When `minValue` and `maxValue` are specified for multiple values, displays the fill between the `minValue` and `maxValue` handles.
+   *
+   * @public
    */
   @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `true`, indicates a histogram is present. */
+  /**
+   * When `true`, indicates a histogram is present.
+   *
+   * @public
+   */
   @property({ reflect: true }) hasHistogram = false;
 
   /**
    * Specifies a list of the histogram's x,y coordinates within the component's `min` and `max`. Displays above the component's track.
    *
+   * @public
    * @see [DataSeries](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/graph/types.ts#L5).
    */
   @property() histogram?: DataSeries;
 
-  /** Specifies a list of single color stops for a histogram, sorted by offset in ascending order. */
+  /**
+   * Specifies a list of single color stops for a histogram, sorted by offset in ascending order.
+   *
+   * @public
+   */
   @property() histogramStops?: ColorStop[];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When specified, allows users to customize handle labels. */
+  /**
+   * When specified, allows users to customize handle labels.
+   *
+   * @public
+   */
   @property() labelFormatter?: (
     value: number,
     type: "value" | "min" | "max" | "tick",
     defaultFormatter: (value: number) => string,
   ) => string | undefined;
 
-  /** When `true`, displays numeric value labels on handles. */
+  /**
+   * When `true`, displays numeric value labels on handles.
+   *
+   * @public
+   */
   @property({ reflect: true }) labelHandles = false;
 
-  /** When `true` and `ticks` is specified, displays label tick marks with their numeric value. */
+  /**
+   * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
+   *
+   * @public
+   */
   @property({ reflect: true }) labelTicks = false;
 
-  /** The component's maximum selectable value. */
+  /**
+   * The component's maximum selectable value.
+   *
+   * @public
+   */
   @property({ reflect: true }) max = 100;
 
-  /** When `minValue` and `maxValue` are specified for multiple values, specifies the accessible name for the `maxValue` handle, such as `"Temperature, upper bound"`. */
+  /**
+   * When `minValue` and `maxValue` are specified for multiple values, specifies the accessible name for the `maxValue` handle, such as `"Temperature, upper bound"`.
+   *
+   * @public
+   */
   @property() maxLabel?: string;
 
-  /** For multiple values, specifies the component's upper value. */
+  /**
+   * For multiple values, specifies the component's upper value.
+   *
+   * @public
+   */
   @property() maxValue!: number;
 
-  /** Specifies the component's minimum selectable value. */
+  /**
+   * Specifies the component's minimum selectable value.
+   *
+   * @public
+   */
   @property({ reflect: true }) min = 0;
 
-  /** Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`. */
+  /**
+   * Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`.
+   *
+   * @public
+   */
   @property() minLabel?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** For multiple values, the component's lower value. */
+  /**
+   * For multiple values, the component's lower value.
+   *
+   * @public
+   */
   @property() minValue!: number;
 
   /**
    * When `true`, the component will display values from high to low.
    *
    * Note that this value will be ignored if the slider has an associated histogram.
+   *
+   * @public
    */
   @property({ reflect: true }) mirrored = false;
 
   /**
+   * @public
    * @copyDoc
    */
   @property({ reflect: true }) name?: string;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property() numberingSystem?: NumberingSystem;
 
-  /** Specifies the interval to move with the `Page up` or `Page down` keys. */
+  /**
+   * Specifies the interval to move with the `Page up` or `Page down` keys.
+   *
+   * @public
+   */
   @property({ reflect: true }) pageStep?: number;
 
-  /** When `true`, sets a finer point for handles. */
+  /**
+   * When `true`, sets a finer point for handles.
+   *
+   * @public
+   */
   @property({ reflect: true }) precise = false;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `step` is specified, enables snap selection via a mouse. */
+  /**
+   * When `true` and `step` is specified, enables snap selection via a mouse.
+   *
+   * @public
+   */
   @property({ reflect: true }) snap = false;
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the interval to move with the `Arrow up` or `Arrow down` keys. */
+  /**
+   * Specifies the interval to move with the `Arrow up` or `Arrow down` keys.
+   *
+   * @public
+   */
   @property({ reflect: true }) step = 1;
 
-  /** Specifies the interval between tick marks on the number line. */
+  /**
+   * Specifies the interval between tick marks on the number line.
+   *
+   * @public
+   */
   @property({ reflect: true }) ticks?: number;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get value(): number | number[] {
     return this._value;
@@ -436,8 +582,8 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -454,6 +600,8 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * Note: To constantly listen to the drag event,
    * use `calciteSliderInput` instead.
+   *
+   * @public
    */
   calciteSliderChange = createEvent({ cancelable: false });
 
@@ -463,6 +611,8 @@ export class Slider extends LitElement implements LabelableComponent {
    * Note: Fires frequently during drag. To perform
    * expensive operations consider using a debounce or throttle to avoid
    * locking up the main thread.
+   *
+   * @public
    */
   calciteSliderInput = createEvent({ cancelable: false });
 
@@ -827,7 +977,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param value
    * @param prop
-   * @private
+   * @internal
    */
   private clamp(value: number, prop?: ActiveSliderProperty): number {
     value = clamp(value, this.min, this.max);
@@ -847,11 +997,14 @@ export class Slider extends LitElement implements LabelableComponent {
    * Translate a pixel position to value along the range
    *
    * @param x
-   * @private
+   * @internal
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
-    const { left, width } = this.trackRef.value!.getBoundingClientRect() || { left: 0, width: 0 };
+    const { left, width } = this.trackRef.value!.getBoundingClientRect() || {
+      left: 0,
+      width: 0,
+    };
     const percent = (x - left) / width;
     const mirror = this.shouldMirror();
     const clampedValue = this.clamp(this.min + range * (mirror ? 1 - percent : percent));
@@ -864,7 +1017,7 @@ export class Slider extends LitElement implements LabelableComponent {
    * Get closest allowed value along stepped values
    *
    * @param value
-   * @private
+   * @internal
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
@@ -906,7 +1059,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param num
    * @return {number} number in the unit interval [0,1]
-   * @private
+   * @internal
    */
   private getUnitInterval(num: number): number {
     num = this.clamp(num);
@@ -1079,7 +1232,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param leftBounds
    * @param rightBounds
-   * @private
+   * @internal
    */
   private getHostOffset(leftBounds: number, rightBounds: number): number {
     const { left, right } = this.el.getBoundingClientRect();

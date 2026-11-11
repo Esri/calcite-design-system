@@ -16,41 +16,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-accordion-border-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-accordion-background-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-accordion-text-color": "*";
     /**
      * Specifies the component's main text color on hover.
+     *
+     * @public
      */
     "--calcite-accordion-text-color-hover": "*";
     /**
      * Specifies the component's main text color when pressed.
+     *
+     * @public
      */
     "--calcite-accordion-text-color-press": "*";
   }
 }
 
+/** @public */
 interface AccordionSlots {
   /**
    * A slot for adding `calcite-accordion-item`s. `calcite-accordion` cannot be nested, however `calcite-accordion-item`s can.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Accordion
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block-group` component instead.
  */
 export class Accordion extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AccordionSlots;
 
   //#endregion
@@ -69,17 +84,33 @@ export class Accordion extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance of the component. */
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** Specifies the position of the expand and collapse icons within `calcite-accordion-item`s */
+  /**
+   * Specifies the position of the expand and collapse icons within `calcite-accordion-item`s
+   *
+   * @public
+   */
   @property({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
 
-  /** Specifies the type of the icon in the header. */
+  /**
+   * Specifies the type of the icon in the header.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> =
     "chevron";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -88,6 +119,8 @@ export class Accordion extends LitElement {
    * - `"multiple"` allows any number of selections.
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple",
@@ -98,8 +131,10 @@ export class Accordion extends LitElement {
 
   //#region Events
 
-  /** @private */
-  private calciteInternalAccordionChange = createEvent<RequestedItem>({ cancelable: false });
+  /** @internal */
+  private calciteInternalAccordionChange = createEvent<RequestedItem>({
+    cancelable: false,
+  });
 
   //#endregion
 

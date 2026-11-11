@@ -20,14 +20,19 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-link-text-color": "*";
   }
 }
 
+/** @public */
 interface LinkSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
@@ -38,10 +43,13 @@ interface LinkSlots {
  * Passing a 'href' allows the component to behave like a link
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+ *
+ * @public
  */
 export class Link extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: LinkSlots;
 
   //#endregion
@@ -80,33 +88,60 @@ export class Link extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * When specified, prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
+   * @public
    * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
-  /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
+  /**
+   * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * @public
+   */
   @property({ reflect: true }) href?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** Specifies the relationship to the linked resource defined in `href`. */
+  /**
+   * Specifies the relationship to the linked resource defined in `href`.
+   *
+   * @public
+   */
   @property() rel?: string;
 
-  /** Specifies the frame or window to open the linked resource. */
+  /**
+   * Specifies the frame or window to open the linked resource.
+   *
+   * @public
+   */
   @property() target?: string;
 
   //#endregion
@@ -116,8 +151,8 @@ export class Link extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

@@ -33,78 +33,111 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When `appearance="outline-fill"`, specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-notice-background-color": "*";
     /**
      * When `appearance="outline-fill"`, specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-notice-border-color": "*";
     /**
      * Specifies the component's border radius.
+     *
+     * @public
      */
     "--calcite-notice-corner-radius": "*";
     /**
      * Specifies the background color of the component's close element.
+     *
+     * @public
      */
     "--calcite-notice-close-background-color": "*";
     /**
      * Specifies the background color of the component's close element when hovered.
+     *
+     * @public
      */
     "--calcite-notice-close-background-color-hover": "*";
     /**
      * Specifies the background color of the component's close element when hovered.
      *
      * @deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-notice-close-background-color-hover` instead.
+     * @public
      */
     "--calcite-notice-close-background-color-focus": "*";
     /**
      * Specifies the background color of the component's close element when active.
+     *
+     * @public
      */
     "--calcite-notice-close-background-color-press": "*";
     /**
      * Specifies the icon color of the component's close element when hovered or active.
+     *
+     * @public
      */
     "--calcite-notice-close-icon-color-hover": "*";
     /**
      * Specifies the icon color of the component's close element.
+     *
+     * @public
      */
     "--calcite-notice-close-icon-color": "*";
     /**
      * Specifies the component's slotted `"title"` content text color.
+     *
+     * @public
      */
     "--calcite-notice-title-text-color": "*";
     /**
      * Specifies the component's slotted `"message"` content text color.
+     *
+     * @public
      */
     "--calcite-notice-content-text-color": "*";
     /**
      * Specifies the component's width.
      *
      * @deprecated in v3.0.0, removal target v6.0.0.
+     * @public
      */
     "--calcite-notice-width": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-notice-shadow": "*";
   }
 }
 
+/** @public */
 interface NoticeSlots {
   /**
    * A slot for adding a title.
+   *
+   * @public
    */
   title: Node[];
   /**
    * A slot for adding a message.
+   *
+   * @public
    */
   message: Node[];
   /**
    * A slot for adding a `calcite-action` to take, such as: "undo", "try again", "link to page", etc.
+   *
+   * @public
    */
   link: Node[];
   /**
    * A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or less `calcite-action`s.
+   *
+   * @public
    */
   "actions-end": Node[];
 }
@@ -114,10 +147,13 @@ interface NoticeSlots {
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
  * to display a notice on page load and set the "active" attribute as needed to contextually provide inline messaging to users.
+ *
+ * @public
  */
 export class Notice extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: NoticeSlots;
 
   //#endregion
@@ -144,8 +180,6 @@ export class Notice extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -161,35 +195,69 @@ export class Notice extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance of the component. */
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) appearance: Extract<"transparent" | "outline-fill", Appearance> =
     "outline-fill";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon. */
+  /**
+   * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to the top border and icon. */
+  /**
+   * Specifies the kind of the component, which will apply to the top border and icon.
+   *
+   * @public
+   */
   @property({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning" | "neutral",
     Kind
   > = "brand";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, the component is visible. */
+  /**
+   * When `true`, the component is visible.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   //#endregion
@@ -199,8 +267,8 @@ export class Notice extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -215,16 +283,32 @@ export class Notice extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteNoticeBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteNoticeBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteNoticeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteNoticeOpen = createEvent({ cancelable: false });
 
   //#endregion

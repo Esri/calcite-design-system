@@ -16,24 +16,33 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When `active`, specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-navigation-accent-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-navigation-background-color": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-navigation-logo-heading-text-color": "*";
     /**
      * Specifies the component's `description` text color.
+     *
+     * @public
      */
     "--calcite-navigation-logo-text-color": "*";
   }
 }
 
 /**
+ * @public
  * @docGroup Navigation
  * @parent calcite-navigation
  */
@@ -54,33 +63,62 @@ export class NavigationLogo extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /**
+   * When `true`, the component is highlighted.
+   *
+   * @public
+   */
   @property({ reflect: true }) active = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
+  /**
+   * Specifies the URL destination of the component, which can be set as an absolute or relative path.
+   *
+   * @public
+   */
   @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
+   * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel?: string;
@@ -88,17 +126,21 @@ export class NavigationLogo extends LitElement {
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
+   * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target?: string;
 
-  /** Specifies the `src` to an image. */
+  /**
+   * Specifies the `src` to an image.
+   *
+   * @public
+   */
   @property() thumbnail?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -109,8 +151,8 @@ export class NavigationLogo extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

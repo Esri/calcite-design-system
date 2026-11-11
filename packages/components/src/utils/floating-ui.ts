@@ -179,9 +179,12 @@ export const positionFloatingUI =
 /** Exported for testing purposes only */
 export const placementDataAttribute = "data-placement";
 
+/** @public */
 export type ReferenceElement = VirtualElement | Element;
 
+/** @internal */
 type UIType = "menu" | "tooltip" | "popover";
+/** @public */
 export type OverlayPositioning = Strategy;
 
 /**
@@ -192,10 +195,11 @@ export type OverlayPositioning = Strategy;
  * Floating-ui has no plans to offer this functionality out of the box at this time.
  *
  * see: https://github.com/floating-ui/floating-ui/issues/1563 and https://github.com/floating-ui/floating-ui/discussions/1549
+ * @internal
  */
-
 export type EffectivePlacement = Placement;
 
+/** @public */
 export const placements = [
   // auto placements
   "auto",
@@ -223,6 +227,7 @@ export const placements = [
   "trailing-start",
 ] as const;
 
+/** @public */
 export type LogicalPlacement = (typeof placements)[number];
 
 export const effectivePlacements: EffectivePlacement[] = [
@@ -251,6 +256,7 @@ export const menuEffectivePlacements: EffectivePlacement[] = [
   "bottom-end",
 ];
 
+/** @public */
 export type FlipPlacement = Exclude<LogicalPlacement, "auto" | "auto-start" | "auto-end">;
 
 export const flipPlacements: FlipPlacement[] = [
@@ -274,6 +280,7 @@ export const flipPlacements: FlipPlacement[] = [
   "trailing-end",
 ];
 
+/** @public */
 export type MenuPlacement = Extract<
   LogicalPlacement,
   "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
@@ -282,24 +289,34 @@ export type MenuPlacement = Extract<
 export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
+/** @internal */
 export interface FloatingUIComponent {
-  /** Whether the component is opened. */
+  /**
+   * Whether the component is opened.
+   * @internal
+   */
   open: boolean;
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /**
+   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
+   * @internal
+   */
   overlayPositioning: OverlayPositioning;
 
   /**
    * Determines where the component will be positioned relative to the referenceElement.
    *
    * Possible values: "auto", "auto-start", "auto-end", "top", "right", "bottom", "left", "top-start", "top-end", "right-start", "right-end", "bottom-start", "bottom-end", "left-start", "left-end", "leading-start", "leading", "leading-end", "trailing-end", "trailing",  or "trailing-start".
+   * @internal
    */
   placement: LogicalPlacement;
 
   /**
    * Updates the position of the component.
    *
-   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
+   * When `delayed` is `true`, repositions the component after a delay. The default is `false`.
+   * This is useful for components that have multiple watched properties that schedule repositioning.
+   * @internal
    */
   reposition: (delayed?: boolean) => Promise<void>;
 
@@ -315,16 +332,24 @@ export interface FloatingUIComponent {
    * Possible values: "vertical" or "horizontal".
    *
    * See [FloatingArrow](https://github.com/Esri/calcite-design-system/blob/dev/src/components/functional/FloatingArrow.tsx)
+   * @internal
    */
   floatingLayout?: FloatingLayout;
 
-  /** The `floatingElement` containing the floating ui. */
+  /**
+   * The `floatingElement` containing the floating ui.
+   * @internal
+   */
   floatingEl?: HTMLElement;
 
-  /** The `referenceElement` used to position the component according to its `placement` value. */
+  /**
+   * The `referenceElement` used to position the component according to its `placement` value.
+   * @internal
+   */
   referenceEl?: ReferenceElement;
 }
 
+/** @internal */
 export type FloatingLayout = Extract<Layout, "vertical" | "horizontal">;
 
 export const FloatingCSS = {
@@ -336,7 +361,8 @@ export const FloatingCSS = {
 
 /**
  * Exported for testing purposes only
- * @private
+ * @internal
+ * @param options
  */
 export function getMiddleware({
   placement,
@@ -499,21 +525,26 @@ const ARROW_CSS_TRANSFORM = {
   right: "rotate(90deg)",
 };
 
+/** @internal */
 type PendingFloatingUIState = {
+  /** @internal */
   state: "pending";
 };
 
+/** @internal */
 type ActiveFloatingUIState = {
+  /** @internal */
   state: "active";
+  /** @internal */
   cleanUp: () => void;
 };
 
+/** @internal */
 type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
 
 /**
  * Exported for testing purposes only
- *
- * @private
+ * @internal
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 

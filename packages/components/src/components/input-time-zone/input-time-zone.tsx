@@ -44,24 +44,31 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-input-time-zone-corner-radius": "*";
   }
 }
 
+/** @public */
 interface InputTimeZoneSlots {
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Inputs
  */
 export class InputTimeZone extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: InputTimeZoneSlots;
 
   //#endregion
@@ -70,7 +77,10 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   static formAssociated = true;
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -94,8 +104,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -124,25 +132,47 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * When `true`, an empty value (`null`) will be allowed as a `value`.
    *
    * When `false`, an offset or name value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @public
    */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** Specifies the component's maximum number of options to display before displaying a scrollbar. */
+  /**
+   * Specifies the component's maximum number of options to display before displaying a scrollbar.
+   *
+   * @public
+   */
   @property({ reflect: true }) maxItems = 0;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -151,10 +181,15 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * Using `"offset"` will provide options that show timezone offsets.
    *
    * Using `"name"` will provide options that show the IANA time zone names.
+   *
+   * @public
    */
   @property({ reflect: true }) mode: TimeZoneMode = "offset";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
@@ -163,23 +198,37 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * - `"user"` uses `UTC` or `GMT` depending on the user's locale.
    * - `"gmt"` always uses `GMT`.
    * - `"utc"` always uses `UTC`.
+   *
+   * @public
    */
   @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies placeholder text for the component.
    *
+   * @public
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder?: string;
 
-  /** When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified. */
+  /**
+   * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
+   *
+   * @public
+   */
   @property({ reflect: true }) readOnly = false;
 
   /**
@@ -187,6 +236,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * It can be either a Date instance or a string in ISO format (`"YYYY-MM-DD"`, `"YYYY-MM-DDTHH:MM:SS.SSSZ"`).
    *
+   * @public
    * @see [MDN - Date.prototype.toISOString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
    */
   @property() referenceDate?: Date | string;
@@ -194,33 +244,48 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * When `true` and the component resides in a form,
    * the component must have a `value` in order for the form to submit.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /**
+   * Specifies the input field's status, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
@@ -230,6 +295,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * If no value is provided, the user's time zone offset will be selected by default.
    *
+   * @public
    * @see [Identifying time zones and zone offsets](https://www.w3.org/International/core/2005/09/timezone.html#:~:text=What%20is%20a%20%22zone%20offset,or%20%22%2D%22%20from%20UTC).
    */
   @property()
@@ -248,8 +314,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -261,19 +327,39 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteInputTimeZoneBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteInputTimeZoneBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's `value` changes. */
+  /**
+   * Fires when the component's `value` changes.
+   *
+   * @public
+   */
   calciteInputTimeZoneChange = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteInputTimeZoneClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is opened and animation is complete. */
+  /**
+   * Fires when the component is opened and animation is complete.
+   *
+   * @public
+   */
   calciteInputTimeZoneOpen = createEvent({ cancelable: false });
 
   //#endregion
@@ -388,7 +474,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
    *
    * @param open
-   * @private
+   * @internal
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {

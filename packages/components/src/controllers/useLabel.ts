@@ -32,8 +32,7 @@ export const useLabel = makeGenericController<void, LabelableComponent>((compone
 
 /**
  * Exported for testing purposes only
- *
- * @private
+ * @internal
  */
 export const labelClickEvent = "calciteInternalLabelClick";
 export const labelConnectedEvent = "calciteInternalLabelConnected";

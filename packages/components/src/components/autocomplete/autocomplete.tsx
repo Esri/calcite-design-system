@@ -66,119 +66,175 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-autocomplete-background-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-autocomplete-corner-radius": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-autocomplete-text-color": "*";
     /**
      * Specifies the maximum height of the component's menu.
+     *
+     * @public
      */
     "--calcite-autocomplete-menu-max-size-y": "*";
     /**
      * Specifies the input's prefix width, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-prefix-size": "*";
     /**
      * Specifies the input's suffix width, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-suffix-size": "*";
     /**
      * Specifies the background color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-background-color": "*";
     /**
      * Specifies the border color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-border-color": "*";
     /**
      * Specifies the corner radius of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-corner-radius": "*";
     /**
      * Specifies the shadow of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-shadow": "*";
     /**
      * Specifies the icon color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-icon-color": "*";
     /**
      * Specifies the text color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-text-color": "*";
     /**
      * Specifies the placeholder text color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-placeholder-text-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-background-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-background-color-hover": "*";
     /**
      * Specifies the background color of the input's `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-background-color-press": "*";
     /**
      * Specifies the icon color of the input's `clearable` element.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-icon-color": "*";
     /**
      * Specifies the icon color of the input's `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-icon-color-hover": "*";
     /**
      * Specifies the icon color of the input's `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-icon-color-press": "*";
     /**
      * Specifies the background color of the Input's `loading` element, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-loading-background-color": "*";
     /**
      * Specifies the fill color of the Input's `loading` element, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-loading-fill-color": "*";
     /**
      * Specifies the text color of the Input's prefix, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-prefix-text-color": "*";
     /**
      * Specifies the text color of the Input's suffix, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-suffix-text-color": "*";
   }
 }
 
+/** @public */
 interface AutocompleteSlots {
   /**
    * A slot for adding `calcite-autocomplete-item` elements.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding content below `calcite-autocomplete-item` elements.
+   *
+   * @public
    */
   "content-bottom": Node[];
   /**
    * A slot for adding content above `calcite-autocomplete-item` elements.
+   *
+   * @public
    */
   "content-top": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Autocomplete
  */
 export class Autocomplete
@@ -187,6 +243,7 @@ export class Autocomplete
 {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AutocompleteSlots;
 
   //#endregion
@@ -226,8 +283,6 @@ export class Autocomplete
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -285,78 +340,125 @@ export class Autocomplete
 
   //#region Public Properties
 
-  /** Specifies the text alignment of the component's value. */
+  /**
+   * Specifies the text alignment of the component's value.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
+   * @public
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete?: AutoFill;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
    * When `true` or not set, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    *
    * To hide the default icon, set the property to `false` using JavaScript.
+   *
+   * @public
    */
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s. */
+  /**
+   * Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s.
+   *
+   * @public
+   */
   @property() inputValue?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
   /**
    * When the component resides in a form,
    * specifies the maximum length of text for the component's value.
    *
+   * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
   @property({ reflect: true }) maxLength?: number;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the minimum length of text for the component's value.
    *
+   * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @property({ reflect: true }) minLength?: number;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @property({ reflect: true }) name?: string;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -364,6 +466,7 @@ export class Autocomplete
    * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
+   * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() pattern?: string;
@@ -371,21 +474,29 @@ export class Autocomplete
   /**
    * Specifies placeholder text for the component.
    *
+   * @public
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder?: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
+   *
+   * @public
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Specifies the component's prefix text. */
+  /**
+   * Specifies the component's prefix text.
+   *
+   * @public
+   */
   @property() prefixText?: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
    *
+   * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
@@ -393,39 +504,65 @@ export class Autocomplete
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the component's suffix text. */
+  /**
+   * Specifies the component's suffix text.
+   *
+   * @public
+   */
   @property() suffixText?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
+  /**
+   * Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form.
+   *
+   * @public
+   */
   @property() value = "";
 
   //#endregion
@@ -435,6 +572,7 @@ export class Autocomplete
   /**
    * Updates the position of the component.
    *
+   * @public
    * @param delayed - `true` if the placement should be updated after the component is finished rendering.
    */
   @method()
@@ -459,6 +597,7 @@ export class Autocomplete
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
+   * @public
    * @example
    * myAutocomplete.scrollContentTo({
    *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
@@ -475,6 +614,8 @@ export class Autocomplete
 
   /**
    * Selects the text of the component's `value`.
+   *
+   * @public
    */
   @method()
   async selectText(): Promise<void> {
@@ -484,8 +625,8 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -497,25 +638,53 @@ export class Autocomplete
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteAutocompleteBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteAutocompleteBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires each time a new `value` is typed and committed. */
+  /**
+   * Fires each time a new `value` is typed and committed.
+   *
+   * @public
+   */
   calciteAutocompleteChange = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteAutocompleteClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteAutocompleteOpen = createEvent({ cancelable: false });
 
-  /** Fires each time a new `inputValue` is typed and committed. */
+  /**
+   * Fires each time a new `inputValue` is typed and committed.
+   *
+   * @public
+   */
   calciteAutocompleteTextChange = createEvent({ cancelable: false });
 
-  /** Fires each time a new `inputValue` is typed. */
+  /**
+   * Fires each time a new `inputValue` is typed.
+   *
+   * @public
+   */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
 
   //#endregion

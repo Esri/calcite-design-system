@@ -30,33 +30,44 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-tab-background-color": "*";
     /**
      * When `calcite-tabs` is `bordered`, specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-tab-border-color": "*";
     /**
      * Specifies the component's `iconStart`, `iconEnd`, and text color.
+     *
+     * @public
      */
     "--calcite-tab-text-color": "*";
   }
 }
 
+/** @public */
 interface TabNavSlots {
   /**
    * A slot for adding `calcite-tab-title`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tabs
  * @parent calcite-tabs
  */
 export class TabNav extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TabNavSlots;
 
   //#endregion
@@ -89,8 +100,6 @@ export class TabNav extends LitElement {
 
   /**
    * Made into a prop for testing purposes only.
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -121,16 +130,19 @@ export class TabNav extends LitElement {
 
   //#region Public Properties
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) bordered = false;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
-  /** @private */
+  /** @internal */
   @property() lastTabClosable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -142,35 +154,49 @@ export class TabNav extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property() scale: Scale = "m";
 
   /**
    * Specifies the component's selected `calcite-tab-title`.
    *
+   * @public
    * @readonly
    */
   @property() selectedTitle: TabTitle["el"] | null = null;
 
-  /** Specifies the name when saving selected `calcite-tab` data to `localStorage`. */
+  /**
+   * Specifies the name when saving selected `calcite-tab` data to `localStorage`.
+   *
+   * @public
+   */
   @property({ reflect: true }) storageId?: string;
 
-  /** Specifies text to update multiple components to keep in sync if one changes. */
+  /**
+   * Specifies text to update multiple components to keep in sync if one changes.
+   *
+   * @public
+   */
   @property({ reflect: true }) syncId?: string;
 
   //#endregion
 
   //#region Events
 
-  /** @private */
-  calciteInternalTabChange = createEvent<TabChangeEventDetail>({ cancelable: false });
+  /** @internal */
+  calciteInternalTabChange = createEvent<TabChangeEventDetail>({
+    cancelable: false,
+  });
 
-  /** @private */
+  /** @internal */
   calciteInternalTabNavSlotChange = createEvent<Element[]>();
 
-  /** Emits when the selected `calcite-tab` changes. */
+  /**
+   * Emits when the selected `calcite-tab` changes.
+   *
+   * @public
+   */
   calciteTabChange = createEvent({ cancelable: false });
 
   //#endregion

@@ -28,79 +28,96 @@ declare module "@arcgis/lumina" {
      * Specifies the component's background color when hovered.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-background-color-hover": "*";
     /**
      * Specifies the component's background color.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-background-color": "*";
     /**
      * Specifies the background color of the component's button element.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-background-color": "*";
     /**
      * Specifies the background color of the component's button element when hovered.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-background-color-hover": "*";
     /**
      * Specifies the background color of the component's button element when pressed.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-background-color-press": "*";
     /**
      * Specifies the corner radius of the component's button element.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-corner-radius": "*";
     /**
      * Specifies the loader color of the component's button element.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-loader-color": "*";
     /**
      * Specifies the text color of the component's button element.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-text-color": "*";
     /**
      * Specifies the text color of the component's button element when hovered or pressed.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` built-in inline edit tokens instead.
+     * @public
      */
     "--calcite-inline-editable-button-text-color-press": "*";
   }
 }
 
+/** @public */
 interface InlineEditableSlots {
   /**
    * A slot for adding a `calcite-input`.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline edit (`inline-edit` and `inline-edit="controls-disabled"` prop) instead.
  */
 export class InlineEditable extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: InlineEditableSlots;
 
   //#endregion
 
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -126,8 +143,6 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -143,16 +158,32 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically. */
+  /**
+   * Specifies a callback to be executed prior to disabling editing via the controls. When provided, the component's loading state will be handled automatically.
+   *
+   * @public
+   */
   @property() afterConfirm?: () => Promise<void>;
 
-  /** When `true` and `editingEnabled` is `true`, displays save and cancel controls. */
+  /**
+   * When `true` and `editingEnabled` is `true`, displays save and cancel controls.
+   *
+   * @public
+   */
   @property({ reflect: true }) controls = false;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, inline editing is enabled. */
+  /**
+   * When `true`, inline editing is enabled.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get editingEnabled(): boolean {
     return this._editingEnabled;
@@ -165,13 +196,24 @@ export class InlineEditable extends LitElement implements LabelableComponent {
     }
   }
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
@@ -181,8 +223,8 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -194,14 +236,24 @@ export class InlineEditable extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the component's "cancel editing" button is pressed. */
+  /**
+   * Fires when the component's "cancel editing" button is pressed.
+   *
+   * @public
+   */
   calciteInlineEditableEditCancel = createEvent({ cancelable: false });
 
-  /** Fires when the component's "confirm edits" button is pressed. */
+  /**
+   * Fires when the component's "confirm edits" button is pressed.
+   *
+   * @public
+   */
   calciteInlineEditableEditConfirm = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalInlineEditableEnableEditingChange = createEvent({ cancelable: false });
+  /** @internal */
+  calciteInternalInlineEditableEnableEditingChange = createEvent({
+    cancelable: false,
+  });
 
   //#endregion
 

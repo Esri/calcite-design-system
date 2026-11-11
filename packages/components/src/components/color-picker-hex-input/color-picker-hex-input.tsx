@@ -32,6 +32,7 @@ declare global {
 
 const DEFAULT_COLOR = Color();
 
+/** @internal */
 export class ColorPickerHexInput extends LitElement {
   // #region Static Members
 
@@ -60,37 +61,55 @@ export class ColorPickerHexInput extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component will allow updates to the color's alpha value. */
+  /**
+   * When `true`, the component will allow updates to the color's alpha value.
+   *
+   * @internal
+   */
   @property() alphaChannel = false;
 
   /**
    * When `true`, an empty color (`undefined`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @internal
    */
   @property() allowEmpty = false;
 
   /**
    * Specifies accessible label for the input field.
    *
+   * @internal
    * @deprecated in v1.4.0, removal target v6.0.0. Use the `messages` property instead.
    */
   @property() hexLabel = "Hex";
 
   /**
    * Messages are passed by parent component for accessible labels.
-   *
-   * @private
+   * @internal
    */
   @property() messages!: ColorPicker["messages"]["_overrides"];
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @internal
+   */
   @property() numberingSystem?: NumberingSystem;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @internal
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** The hex value. */
+  /**
+   * The hex value.
+   *
+   * @internal
+   */
   @property({ reflect: true }) value?: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
     this.alphaChannel,
@@ -104,8 +123,8 @@ export class ColorPickerHexInput extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @internal
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -117,7 +136,11 @@ export class ColorPickerHexInput extends LitElement {
 
   // #region Events
 
-  /** Emitted when the hex value changes. */
+  /**
+   * Emitted when the hex value changes.
+   *
+   * @internal
+   */
   calciteColorPickerHexInputChange = createEvent({ cancelable: false });
 
   // #endregion

@@ -5,6 +5,8 @@ import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./nu
  * Represents any BCP 47 locale code used for formatting and parsing numbers.
  *
  * For locales that are used for translations, please use the `SupportedLocale` type from `@arcgis/toolkit/intl`.
+ *
+ * @public
  */
 export type Locale = HTMLElement["lang"];
 
@@ -42,8 +44,10 @@ export const localizedTwentyFourHourMeridiems = new Map(
   }),
 );
 
+/** @public */
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
 
+/** @public */
 export type NumberingSystem = (typeof numberingSystems)[number];
 
 const isNumberingSystemSupported = (numberingSystem?: string): numberingSystem is NumberingSystem =>
@@ -241,26 +245,22 @@ export class NumberStringFormat {
 
 export const numberStringFormatter = new NumberStringFormat();
 
+/** @internal */
 export type LocaleDateTimeOptionKey = string;
 
 /**
  * Exported for testing purposes only.
- *
- * @private
+ * @internal
  */
 export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
 
 /**
  * Used to ensure all cached formats are for the same locale.
- *
- * @private
  */
 let previousLocaleUsedForCaching: string;
 
 /**
  * Generates a cache key for date time format lookups.
- *
- * @private
  */
 function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): string {
   return Object.entries(options)
@@ -274,8 +274,9 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * Returns an instance of Intl.DateTimeFormat and reuses it if requested with the same locale and options.
  *
  * **Note**: the cache will be cleared if a different locale is provided
- *
- * @private
+ * @internal
+ * @param locale
+ * @param options
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   if (!dateTimeFormatCache) {

@@ -50,175 +50,253 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-panel-corner-radius": "*";
     /**
      * Specifies the text color of the component's `heading`.
+     *
+     * @public
      */
     "--calcite-panel-heading-text-color": "*";
     /**
      * Specifies the color of the component's icon.
+     *
+     * @public
      */
     "--calcite-panel-icon-color": "*";
     /**
      * Specifies the text color of the component's `description`.
+     *
+     * @public
      */
     "--calcite-panel-description-text-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-panel-border-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-panel-background-color": "*";
     /**
      * Specifies the padding of the component's `content-top` slot.
+     *
+     * @public
      */
     "--calcite-panel-content-top-space": "*";
     /**
      * Specifies the padding of the component's `content-bottom` slot.
+     *
+     * @public
      */
     "--calcite-panel-content-bottom-space": "*";
     /**
      * Specifies the padding of the component's `header-top` slot.
+     *
+     * @public
      */
     "--calcite-panel-header-top-space": "*";
     /**
      * Specifies the background color of the component's header.
+     *
+     * @public
      */
     "--calcite-panel-header-background-color": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+     *
+     * @public
      */
     "--calcite-panel-header-action-background-color": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when hovered.
+     *
+     * @public
      */
     "--calcite-panel-header-action-background-color-hover": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed.
+     *
+     * @public
      */
     "--calcite-panel-header-action-background-color-press": "*";
     /**
      * Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions`.
+     *
+     * @public
      */
     "--calcite-panel-header-action-text-color": "*";
     /**
      * Specifies the text color of the component's `closable`, `collapsible`, and elements slotted in `header-menu-actions` when pressed or hovered.
+     *
+     * @public
      */
     "--calcite-panel-header-action-text-color-press": "*";
     /**
      * Specifies the background color of the component's footer.
+     *
+     * @public
      */
     "--calcite-panel-footer-background-color": "*";
     /**
      * Specifies the padding of the component's `unnamed (default)` slot.
+     *
+     * @public
      */
     "--calcite-panel-space": "*";
     /**
      * Specifies the padding of the component's `header-content` slot.
+     *
+     * @public
      */
     "--calcite-panel-header-content-space": "*";
     /**
      * Specifies the padding of the component's footer.
+     *
+     * @public
      */
     "--calcite-panel-footer-space": "*";
     /**
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     *
+     * @public
      */
     "--calcite-popover-border-color": "*";
     /**
      * Specifies the padding of the component's content.
      *
      * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-space` instead.
+     * @public
      */
     "--calcite-panel-content-space": "*";
     /**
      * Specifies the padding of the component's footer.
      *
      * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-footer-space` instead.
+     * @public
      */
     "--calcite-panel-footer-padding": "*";
     /**
      * Specifies the component header's block end border.
      *
      * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-border-color` instead.
+     * @public
      */
     "--calcite-panel-header-border-block-end": "*";
   }
 }
 
+/** @public */
 interface PanelSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @public
    */
   "action-bar": Node[];
   /**
    * A slot for adding `calcite-alert`s to the component.
+   *
+   * @public
    */
   alerts: Node[];
   /**
    * A slot for adding content below the unnamed (default) slot and above the footer slot (if populated).
+   *
+   * @public
    */
   "content-bottom": Node[];
   /**
    * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   *
+   * @public
    */
   "content-top": Node[];
   /**
    * A slot for adding custom content above the header actions and content.
+   *
+   * @public
    */
   "header-top": Node[];
   /**
    * A slot for adding actions or content to the start side of the header.
+   *
+   * @public
    */
   "header-actions-start": Node[];
   /**
    * A slot for adding actions or content to the end side of the header.
+   *
+   * @public
    */
   "header-actions-end": Node[];
   /**
    * A slot for adding custom content to the header.
+   *
+   * @public
    */
   "header-content": Node[];
   /**
    * A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+   *
+   * @public
    */
   "header-menu-actions": Node[];
   /**
    * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   *
+   * @public
    */
   heading: Node[];
   /**
    * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   *
+   * @public
    */
   description: Node[];
   /**
    * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   *
+   * @public
    */
   fab: Node[];
   /**
    * A slot for adding custom content to the component's footer. Should not be used with the `"footer-start"` or `"footer-end"` slots.
+   *
+   * @public
    */
   footer: Node[];
   /**
    * A slot for adding custom content to a trailing footer. Should not be used with the `"footer"` slot.
+   *
+   * @public
    */
   "footer-end": Node[];
   /**
    * A slot for adding custom content to a leading footer. Should not be used with the `"footer"` slot.
+   *
+   * @public
    */
   "footer-start": Node[];
 }
 
+/** @public */
 export class Panel extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: PanelSlots;
 
   //#endregion
@@ -239,8 +317,6 @@ export class Panel extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -317,13 +393,23 @@ export class Panel extends LitElement {
 
   //#region Public Properties
 
-  /** Passes a function to run before the component closes. */
+  /**
+   * Passes a function to run before the component closes.
+   *
+   * @public
+   */
   @property() beforeClose?: () => Promise<void>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -335,34 +421,71 @@ export class Panel extends LitElement {
     }
   }
 
-  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
+  /**
+   * When `collapsible` is `true`, specifies the direction of the collapse icon.
+   *
+   * @public
+   */
   @property() collapseDirection: CollapseDirection = "down";
 
-  /** When `true`, hides the component's content area. */
+  /**
+   * When `true`, hides the component's content area.
+   *
+   * @public
+   */
   @property({ reflect: true }) collapsed = false;
 
-  /** When `true`, the component is collapsible. */
+  /**
+   * When `true`, the component is collapsible.
+   *
+   * @public
+   */
   @property({ reflect: true }) collapsible = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
   /**
@@ -375,6 +498,7 @@ export class Panel extends LitElement {
   /**
    * When `true`, disables focus trapping and dialog semantics.
    *
+   * @public
    * @since 6.0
    */
   @property() focusTrapDisabled = false;
@@ -387,31 +511,52 @@ export class Panel extends LitElement {
    * - `"returnFocusOnDeactivate"` returns focus when not active.
    * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
-   * @private
+   * @internal
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() menuFlipPlacements?: FlipPlacement[];
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /**
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Determines where the action menu will be positioned. */
+  /**
+   * Determines where the action menu will be positioned.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -423,6 +568,7 @@ export class Panel extends LitElement {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
+   * @public
    * @example
    * myCalciteFlowItem.scrollContentTo({
    *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
@@ -440,8 +586,8 @@ export class Panel extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -453,7 +599,7 @@ export class Panel extends LitElement {
    * Updates the element(s) that are included in the focus-trap of the component.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
-   * @private
+   * @internal
    */
   @method()
   async updateFocusTrapElements(
@@ -467,19 +613,39 @@ export class Panel extends LitElement {
 
   //#region Events
 
-  /** Fires when the close button is clicked. */
+  /**
+   * Fires when the close button is clicked.
+   *
+   * @public
+   */
   calcitePanelClose = createEvent({ cancelable: true });
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calcitePanelCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calcitePanelExpand = createEvent({ cancelable: false });
 
-  /** Fires when the content is scrolled. */
+  /**
+   * Fires when the content is scrolled.
+   *
+   * @public
+   */
   calcitePanelScroll = createEvent({ cancelable: false });
 
-  /** Fires when the collapse button is clicked. */
+  /**
+   * Fires when the collapse button is clicked.
+   *
+   * @public
+   */
   calcitePanelToggle = createEvent({ cancelable: false });
 
   //#endregion
@@ -738,7 +904,10 @@ export class Panel extends LitElement {
 
     return (
       <div
-        class={{ [CSS.headerContent]: true, [CSS.headerNonSlottedContent]: true }}
+        class={{
+          [CSS.headerContent]: true,
+          [CSS.headerNonSlottedContent]: true,
+        }}
         hidden={hasHeaderContent || !showHeaderTextContent}
         key="header-content"
       >

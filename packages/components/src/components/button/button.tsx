@@ -40,38 +40,55 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-button-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-button-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-button-corner-radius": "*";
     /**
      * Specifies the component's `iconStart` and `iconEnd` color.
+     *
+     * @public
      */
     "--calcite-button-icon-color": "*";
     /**
      * Specifies the component's loader color.
+     *
+     * @public
      */
     "--calcite-button-loader-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-button-text-color": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-button-shadow": "*";
   }
 }
 
+/** @public */
 interface ButtonSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
@@ -81,11 +98,13 @@ interface ButtonSlots {
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
  *
+ * @public
  * @docGroup Buttons
  */
 export class Button extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ButtonSlots;
 
   //#endregion
@@ -118,8 +137,6 @@ export class Button extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -139,79 +156,144 @@ export class Button extends LitElement {
 
   //#region Public Properties
 
-  /** When `width` is not `"auto"`, specifies the alignment of the component's elements. */
+  /**
+   * When `width` is not `"auto"`, specifies the alignment of the component's elements.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: ButtonAlignment = "center";
 
-  /** Specifies the appearance style of the component. */
+  /**
+   * Specifies the appearance style of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid" | "transparent",
     Appearance
   > = "solid";
 
-  /** When specified, overrides the live region setting on the component's internal button or link. */
+  /**
+   * When specified, overrides the live region setting on the component's internal button or link.
+   *
+   * @public
+   */
   @property() aria?: Partial<Pick<AriaAttributesCamelCased, "live">>;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * Prompts the user to save the linked URL instead of navigating to it. Can be used with or without a value:
    * Without a value, the browser will suggest a filename/extension.
    *
+   * @public
    * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
   @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** Specifies the URL of the linked resource, which can be set as an absolute or relative path. */
+  /**
+   * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
+   *
+   * @public
+   */
   @property({ reflect: true }) href?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** Specifies the kind of the component, which will apply to the border and background if applicable. */
+  /**
+   * Specifies the kind of the component, which will apply to the border and background if applicable.
+   *
+   * @public
+   */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
+   * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel?: string;
 
-  /** When `true`, adds a round style to the component. */
+  /**
+   * When `true`, adds a round style to the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) round = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies if the component is a child of a `calcite-split-button`. */
+  /**
+   * Specifies if the component is a child of a `calcite-split-button`.
+   *
+   * @public
+   */
   @property({ reflect: true }) splitChild: "primary" | "secondary" | false = false;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
+   * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target?: string;
@@ -219,11 +301,16 @@ export class Button extends LitElement {
   /**
    * Specifies the default behavior of the component.
    *
+   * @public
    * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
 
   //#endregion
@@ -233,8 +320,8 @@ export class Button extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

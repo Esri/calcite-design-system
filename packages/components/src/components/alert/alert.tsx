@@ -37,42 +37,61 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's width.
+     *
+     * @public
      */
     "--calcite-alert-width": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-alert-background-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-alert-corner-radius": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-alert-shadow": "*";
     /**
      * Specifies the component's `placement` offset.
+     *
+     * @public
      */
     "--calcite-alert-offset-size": "*";
   }
 }
 
+/** @public */
 interface AlertSlots {
   /**
    * A slot for adding a title to the component.
+   *
+   * @public
    */
   title: Node[];
   /**
    * A slot for adding main text to the component.
+   *
+   * @public
    */
   message: Node[];
   /**
    * A slot for adding a `calcite-action` to take from the component such as: "undo", "try again", "link to page", etc.
+   *
+   * @public
    */
   link: Node[];
   /**
    * A slot for adding `calcite-action`s to the end of the component. It is recommended to use two or fewer actions.
+   *
+   * @public
    */
   "actions-end": Node[];
 }
@@ -82,10 +101,13 @@ const manager = new AlertManager();
 /**
  * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
  * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+ *
+ * @public
  */
 export class Alert extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AlertSlots;
 
   //#endregion
@@ -116,8 +138,6 @@ export class Alert extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -145,75 +165,114 @@ export class Alert extends LitElement {
   /**
    * This internal property, managed by the AlertManager, is used
    * to inform the component if it is the active open Alert.
-   *
-   * @private
+   * @internal
    */
   @property() active = false;
 
-  /** When `true`, the component closes automatically. Recommended for passive, non-blocking alerts. */
+  /**
+   * When `true`, the component closes automatically. Recommended for passive, non-blocking alerts.
+   *
+   * @public
+   */
   @property({ reflect: true }) autoClose = false;
 
-  /** Specifies the duration before the component automatically closes - only use with `autoClose`. */
+  /**
+   * Specifies the duration before the component automatically closes - only use with `autoClose`.
+   *
+   * @public
+   */
   @property({ reflect: true }) autoCloseDuration: AlertDuration = "medium";
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) embedded = false;
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
    * pass a Calcite UI Icon name to display a specific icon.
+   *
+   * @public
    */
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to top border and icon. */
+  /**
+   * Specifies the kind of the component, which will apply to top border and icon.
+   *
+   * @public
+   */
   @property({ reflect: true }) kind: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
   > = "brand";
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
   /**
    * This internal property, managed by the AlertManager, is used
    * to inform the component of how many alerts are currently open.
-   *
-   * @private
+   * @internal
    */
   @property() openAlertCount = 0;
 
-  /** Specifies the placement of the component. */
+  /**
+   * Specifies the placement of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) placement: MenuPlacement = "bottom";
 
-  /** Specifies the ordering priority of the component when opened. */
+  /**
+   * Specifies the ordering priority of the component when opened.
+   *
+   * @public
+   */
   @property({ reflect: true }) queue: AlertQueue = "last";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -225,8 +284,8 @@ export class Alert extends LitElement {
   /**
    * Sets focus on the component's "close" button, the first focusable item.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -238,16 +297,32 @@ export class Alert extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteAlertBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteAlertBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteAlertClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteAlertOpen = createEvent({ cancelable: false });
 
   //#endregion

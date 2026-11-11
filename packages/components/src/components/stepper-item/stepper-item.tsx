@@ -41,93 +41,134 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background-color when active.
+     *
+     * @public
      */
     "--calcite-stepper-item-background-color-press": "*";
     /**
      * Specifies the component's header text color.
+     *
+     * @public
      */
     "--calcite-stepper-item-header-text-color": "*";
     /**
      * Specifies the component's header text color when hovered or focused.
+     *
+     * @public
      */
     "--calcite-stepper-item-header-text-color-hover": "*";
     /**
      * When `selected`, specifies the component's header text color.
+     *
+     * @public
      */
     "--calcite-stepper-item-selected-header-text-color": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-stepper-item-icon-color": "*";
     /**
      * When `complete`, specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-stepper-item-complete-icon-color": "*";
     /**
      * When `error`, specifies the component's icon and number color.
+     *
+     * @public
      */
     "--calcite-stepper-item-error-icon-color": "*";
     /**
      * When `selected`, specifies the component's icon and number color.
+     *
+     * @public
      */
     "--calcite-stepper-item-selected-icon-color": "*";
     /**
      * Specifies the component's description and number text color.
+     *
+     * @public
      */
     "--calcite-stepper-item-description-text-color": "*";
     /**
      * When `selected`, hovered, or focused, specifies the component's description text color.
+     *
+     * @public
      */
     "--calcite-stepper-item-description-text-color-hover": "*";
     /**
      * Specifies the component's bottom spacing.
+     *
+     * @public
      */
     "--calcite-stepper-bar-gap": "*";
     /**
      * Specifies the component's fill color.
+     *
+     * @public
      */
     "--calcite-stepper-bar-fill-color": "*";
     /**
      * Specifies the component's fill color when hovered or focused.
+     *
+     * @public
      */
     "--calcite-stepper-bar-fill-color-hover": "*";
     /**
      * When `complete`, specifies the component's fill color.
+     *
+     * @public
      */
     "--calcite-stepper-bar-complete-fill-color": "*";
     /**
      * When `complete`, specifies the component's fill color when hovered or focused.
+     *
+     * @public
      */
     "--calcite-stepper-bar-complete-fill-color-hover": "*";
     /**
      * When `error`, specifies the component's fill color.
+     *
+     * @public
      */
     "--calcite-stepper-bar-error-fill-color": "*";
     /**
      * When `error`, specifies the component's fill color when hovered or focused.
+     *
+     * @public
      */
     "--calcite-stepper-bar-error-fill-color-hover": "*";
     /**
      * When `selected`, specifies the component's fill color.
+     *
+     * @public
      */
     "--calcite-stepper-bar-selected-fill-color": "*";
   }
 }
 
+/** @public */
 interface StepperItemSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Stepper
  * @parent calcite-stepper
  */
 export class StepperItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: StepperItemSlots;
 
   //#endregion
@@ -153,8 +194,6 @@ export class StepperItem extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -172,66 +211,90 @@ export class StepperItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, completes the step. */
+  /**
+   * When `true`, completes the step.
+   *
+   * @public
+   */
   @property({ reflect: true }) complete = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the component contains an error that requires resolution from the user. */
+  /**
+   * When `true`, the component contains an error that requires resolution from the user.
+   *
+   * @public
+   */
   @property({ reflect: true }) error = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
   /**
    * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
-   *
-   * @private
+   * @internal
    */
   @property() icon = false;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
    * When `true`, the item will be hidden.
-   *
-   * @private
-   *  */
+   * @internal
+   */
   @property({ reflect: true }) itemHidden = false;
 
   /**
    * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) layout!: StepperLayout;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
-   *
-   * @private
+   * @internal
    */
   @property() numbered = false;
 
-  /** @private */
+  /** @internal */
   @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   //#endregion
@@ -241,8 +304,8 @@ export class StepperItem extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -257,13 +320,19 @@ export class StepperItem extends LitElement {
 
   //#region Events
 
-  /** @private */
-  calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({ cancelable: false });
+  /** @internal */
+  calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({
+    cancelable: false,
+  });
 
-  /** @private */
+  /** @internal */
   calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
-  /** Fires when the active `calcite-stepper-item` changes. */
+  /**
+   * Fires when the active `calcite-stepper-item` changes.
+   *
+   * @public
+   */
   calciteStepperItemSelect = createEvent({ cancelable: false });
 
   //#endregion

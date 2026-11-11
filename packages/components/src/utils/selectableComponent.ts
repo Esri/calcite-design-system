@@ -12,8 +12,7 @@ export interface SelectableGroupComponent {
 export interface SelectableComponent {
   /**
    * The selected state of the component.
-   *
-   * @private
+   * @internal
    */
   selected: boolean;
 }
