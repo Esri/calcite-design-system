@@ -1,13 +1,13 @@
 import { DateLocaleData } from "../components/date-picker/utils";
 import { numberStringFormatter } from "./locale";
 
-/** @public */
+/** @internal */
 export interface HoverRange {
-  /** @public */
+  /** @internal */
   focused: "end" | "start";
-  /** @public */
+  /** @internal */
   start?: Date;
-  /** @public */
+  /** @internal */
   end?: Date;
 }
 
