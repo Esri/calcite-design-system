@@ -1,30 +1,30 @@
-/** @public */
+/** @internal */
 export type Reorder = "up" | "down" | "top" | "bottom";
 
-/** @public */
+/** @internal */
 export interface SortMenuItem {
-  /** @public */
+  /** @internal */
   element: HTMLElement;
-  /** @public */
+  /** @internal */
   id: string;
-  /** @public */
+  /** @internal */
   label: string;
 }
 
-/** @public */
+/** @internal */
 export interface ReorderEventDetail {
-  /** @public */
+  /** @internal */
   reorder: Reorder;
 }
 
-/** @public */
+/** @internal */
 export interface MoveEventDetail {
-  /** @public */
+  /** @internal */
   moveTo: SortMenuItem;
 }
 
-/** @public */
+/** @internal */
 export interface AddEventDetail {
-  /** @public */
+  /** @internal */
   addTo: SortMenuItem;
 }
