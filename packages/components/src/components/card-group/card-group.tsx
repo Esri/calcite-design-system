@@ -38,6 +38,9 @@ interface CardGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Cards
+ */
 export class CardGroup extends LitElement {
   //#region Type-only metadata members
 

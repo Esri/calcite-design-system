@@ -132,6 +132,9 @@ interface ComboboxSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Combobox
+ */
 export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
   //#region Type-only metadata members
 

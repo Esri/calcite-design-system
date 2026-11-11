@@ -18,6 +18,9 @@ declare global {
 
 type Layout = "horizontal" | "vertical";
 
+/**
+ * @docGroup Menu
+ */
 export class Menu extends LitElement {
   //#region Static Members
 

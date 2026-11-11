@@ -85,6 +85,9 @@ interface DropdownSlots {
 
 const manager = referenceElementManager({ click: true, hover: true });
 
+/**
+ * @docGroup Dropdown
+ */
 export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Type-only metadata members
 

@@ -11,13 +11,16 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
   font-size: var(--calcite-select-font-size);
   font-weight: var(--calcite-internal-select-font-weight, var(--calcite-font-weight-regular));
 }
 
 .wrapper {
-  @apply relative flex items-stretch;
+  position: relative;
+  display: flex;
+  align-items: stretch;
   inline-size: var(--select-width);
   block-size: var(--calcite-internal-select-block-size, #{core.$calcite-size-32});
   &:focus-within,
@@ -52,23 +55,24 @@
 }
 
 :host([width="auto"]) {
-  @apply w-auto;
+  inline-size: auto;
 }
 
 :host([width="full"]) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .select {
-  @apply font-inherit
-    focus-base
-    m-0
-    box-border
-    w-full
-    cursor-pointer
-    appearance-none
-    truncate
-    border-solid;
+  @include shared.truncate();
+
+  font-family: inherit;
+  outline-color: var(--calcite-color-transparent);
+  margin: var(--calcite-space-none);
+  box-sizing: border-box;
+  inline-size: 100%;
+  cursor: pointer;
+  appearance: none;
+  border-style: solid;
   font-weight: inherit;
   font-size: var(--calcite-select-font-size, var(--calcite-internal-select-font-size));
   color: var(--calcite-select-text-color, var(--calcite-color-text-2));
@@ -85,17 +89,26 @@
   border-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   box-shadow: var(--calcite-select-shadow, var(--calcite-shadow-none));
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 }
 
 // override user agent stylesheet disabled styling
 select:disabled {
-  @apply border-color-input bg-opacity-100;
+  opacity: var(--calcite-opacity-full);
+  border-color: var(--calcite-color-border-input);
 }
 
 .icon-container {
-  @apply border-color-input text-color-2 pointer-events-none absolute inset-y-0 flex items-center border-0 border-solid bg-transparent;
+  color: var(--calcite-color-text-2);
+  pointer-events: none;
+  position: absolute;
+  inset-block: var(--calcite-space-none);
+  display: flex;
+  align-items: center;
+  border-width: var(--calcite-border-width-none);
+  border-style: solid;
+  background-color: var(--calcite-color-transparent);
   inset-inline-end: theme("inset.0");
   border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
@@ -113,17 +126,17 @@ select:disabled {
 :host([status="invalid"]) {
   select,
   .icon-container {
-    @apply border-color-danger;
+    border-color: var(--calcite-color-status-danger);
   }
 
   select:focus,
   .icon-container:focus {
-    @apply focus-inset-danger;
+    @include shared.focus-inset-danger();
   }
 }
 
 .select:focus ~ .icon-container {
-  @apply border-color-transparent;
+  border-color: var(--calcite-color-transparent);
 }
 
 @include shared.form-internal-label();

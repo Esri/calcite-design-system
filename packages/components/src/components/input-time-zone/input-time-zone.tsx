@@ -56,6 +56,9 @@ interface InputTimeZoneSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputTimeZone extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 

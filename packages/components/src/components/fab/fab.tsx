@@ -43,6 +43,9 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Buttons
+ */
 export class Fab extends LitElement {
   //#region Static Members
 

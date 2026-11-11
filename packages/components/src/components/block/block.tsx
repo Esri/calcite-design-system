@@ -161,6 +161,9 @@ interface BlockSlots {
   children: Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class Block extends LitElement {
   //#region Type-only metadata members
 

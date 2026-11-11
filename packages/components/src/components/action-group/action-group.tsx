@@ -67,6 +67,9 @@ interface ActionGroupSlots {
   "menu-tooltip": Node[];
 }
 
+/**
+ * @docGroup Actions
+ */
 export class ActionGroup extends LitElement {
   //#region Type-only metadata members
 

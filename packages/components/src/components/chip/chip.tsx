@@ -75,6 +75,9 @@ interface ChipSlots {
   image: Node[];
 }
 
+/**
+ * @docGroup Chips
+ */
 export class Chip extends LitElement {
   //#region Type-only metadata members
 

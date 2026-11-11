@@ -53,6 +53,9 @@ interface RadioButtonGroupSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Radio Button
+ */
 export class RadioButtonGroup extends LitElement {
   //#region Type-only metadata members
 

@@ -90,6 +90,9 @@ interface SplitButtonSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Buttons
+ */
 export class SplitButton extends LitElement {
   //#region Type-only metadata members
 

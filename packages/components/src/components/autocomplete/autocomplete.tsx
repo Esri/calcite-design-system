@@ -178,6 +178,9 @@ interface AutocompleteSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Autocomplete
+ */
 export class Autocomplete
   extends LitElement
   implements FloatingUIComponent, LabelableComponent, TextualInputComponent

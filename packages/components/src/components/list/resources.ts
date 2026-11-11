@@ -7,7 +7,6 @@ export const CSS = {
   stack: "stack",
   tableContainer: "table-container",
   sticky: "sticky-pos",
-  assistiveText: "assistive-text",
   containerHeight: "container-height",
 };
 

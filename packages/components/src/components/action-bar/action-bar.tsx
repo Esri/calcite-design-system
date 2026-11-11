@@ -92,6 +92,9 @@ interface ActionBarSlots {
   "expand-tooltip": Node[];
 }
 
+/**
+ * @docGroup Actions
+ */
 export class ActionBar extends LitElement {
   //#region Type-only metadata members
 

@@ -41,6 +41,9 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Radio Button
+ */
 export class RadioButton extends LitElement implements LabelableComponent {
   //#region Static Members
 

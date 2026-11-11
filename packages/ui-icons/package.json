@@ -71,7 +71,6 @@
     "calcite-web": "github:Esri/calcite-web#v1.2.5",
     "cli-progress": "catalog:",
     "concurrently": "catalog:",
-    "cpy": "catalog:",
     "cpy-cli": "catalog:",
     "dedent": "catalog:",
     "es-toolkit": "catalog:",

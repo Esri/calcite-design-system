@@ -85,6 +85,9 @@ interface CarouselSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Carousel
+ */
 export class Carousel extends LitElement {
   //#region Type-only metadata members
 

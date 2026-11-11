@@ -59,6 +59,9 @@ interface SegmentedControlSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Segmented Control
+ */
 export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 

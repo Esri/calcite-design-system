@@ -39,6 +39,10 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Navigation
+ * @parent calcite-navigation
+ */
 export class NavigationUser extends LitElement {
   // #region Static Members
 
