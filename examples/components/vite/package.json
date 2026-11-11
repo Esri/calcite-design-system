@@ -18,12 +18,12 @@
     "@esri/calcite-components": "5.1.2"
   },
   "devDependencies": {
-    "@types/node": "24.10.0",
+    "@types/node": "26.6.6",
     "typescript": "^5.5.4",
     "vite": "^5.3.5",
     "vite-plugin-static-copy": "^1.0.6"
   },
   "engines": {
-    "node": "^24.11"
+    "node": "^26.13"
   }
 }
