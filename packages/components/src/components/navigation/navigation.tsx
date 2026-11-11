@@ -10,7 +10,7 @@ import {
   state,
   JsxNode,
 } from "@arcgis/lumina";
-import { slotChangeHasAssignedElement } from "../../utils/dom";
+import { slotChangeGetAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
 import { isNavigationLogo } from "../navigation-logo/resources";
 import { isNavigationUser } from "../navigation-user/resources";
@@ -251,7 +251,10 @@ export class Navigation extends LitElement {
 
   private handleMenuActionSlotChange(event: Event): void {
     if (this.isPrimaryLevel()) {
-      this.navigationActionSlotHasElements = slotChangeHasAssignedElement(event);
+      // the internal navigation action is rendered as fallback content, which flattened assigned elements include
+      this.navigationActionSlotHasElements = slotChangeGetAssignedElements(event).some(
+        (element) => element !== this.navigationActionRef.value,
+      );
       if (this.navigationActionSlotHasElements) {
         this.navigationAction = false;
       }
