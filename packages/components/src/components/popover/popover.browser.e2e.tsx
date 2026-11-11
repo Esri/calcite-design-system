@@ -1,21 +1,21 @@
-import { h, Fragment, JsxNode } from "@arcgis/lumina";
+import { Fragment, JsxNode } from "@arcgis/lumina";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
 
 import {
+  accessible,
   defaults,
+  floatingUIOwner,
   focusable,
   hidden,
-  renders,
-  floatingUIOwner,
-  t9n,
-  topLayer,
   openClose,
-  accessible,
+  renders,
   scalePropagates,
+  t9n,
   themed,
+  topLayer,
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -145,6 +145,43 @@ describe("is focusable", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-popover open />));
+});
+
+describe("host inertness", () => {
+  it("updates when opened and closed", async () => {
+    const { el } = await mount<Popover>(
+      <>
+        <calcite-popover referenceElement="ref">Content</calcite-popover>
+        <button id="ref" type="button">
+          Reference
+        </button>
+      </>,
+    );
+
+    await expect.element(el).toHaveProperty("inert", true);
+
+    el.open = true;
+    await expect.element(el).toHaveProperty("inert", false);
+
+    el.open = false;
+    await expect.element(el).toHaveProperty("inert", true);
+  });
+
+  it("keeps an open popover inert without a reference element", async () => {
+    const { el } = await mount<Popover>(
+      <>
+        <calcite-popover open>Content</calcite-popover>
+        <button type="button">Reference</button>
+      </>,
+    );
+    const popover = page.elementLocator(el);
+
+    await expect.element(popover).toHaveProperty("open", true);
+    await expect.element(popover).toHaveProperty("inert", true);
+
+    el.referenceElement = page.getByRole("button", { name: "Reference" }).element();
+    await expect.element(popover).toHaveProperty("inert", false);
+  });
 });
 
 describe("propagates", () => {
