@@ -90,7 +90,7 @@ catalog:
   "semver": "7.7.4"
   "sortablejs": "1.15.7"
   "storybook": "10.6.2"
-  "storybook-addon-rtl": "3.0.1"
+  "storybook-addon-rtl": "3.0.2"
   "style-dictionary": "5.4.4"
   "stylelint": "17.13.0"
   "stylelint-config-recommended-scss": "17.0.1"
