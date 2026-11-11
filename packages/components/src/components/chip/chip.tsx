@@ -25,62 +25,86 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-chip-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-chip-border-color": "*";
     /**
      * Specifies the component's close element icon color.
+     *
+     * @public
      */
     "--calcite-chip-close-icon-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-chip-corner-radius": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-chip-icon-color": "*";
     /**
      * Specifies the component's selection element icon color when active.
+     *
+     * @public
      */
     "--calcite-chip-select-icon-color-press": "*";
     /**
      * Specifies the component's selection element icon color when active.
      *
      * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-chip-select-icon-color-press` instead.
+     * @public
      */
     "--calcite-chip-select-icon-color-pressed": "*";
     /**
      * Specifies the component's selection element icon color.
+     *
+     * @public
      */
     "--calcite-chip-select-icon-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-chip-text-color": "*";
   }
 }
 
+/** @public */
 interface ChipSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding an image.
+   *
+   * @public
    */
   image: Node[];
 }
 
 /**
+ * @public
  * @docGroup Chips
  */
 export class Chip extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ChipSlots;
 
   //#endregion
@@ -99,8 +123,6 @@ export class Chip extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -120,75 +142,117 @@ export class Chip extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /**
+   * Specifies the appearance style of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
   > = "solid";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closed = false;
 
-  /** When `true`, the component closes when the Delete or Backspace key is pressed while focused. */
+  /**
+   * When `true`, the component closes when the Delete or Backspace key is pressed while focused.
+   *
+   * @public
+   */
   @property({ reflect: true }) closeOnDelete = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
    * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit.
    * This is set to `true` by a parent Chip Group component.
-   *
-   * @private
+   * @internal
    */
   @property() interactive = false;
 
-  /** Specifies the kind of the component, which will apply to border and background if applicable. */
+  /**
+   * Specifies the kind of the component, which will apply to border and background if applicable.
+   *
+   * @public
+   */
   @property({ reflect: true }) kind: Extract<"brand" | "inverse" | "neutral", Kind> = "neutral";
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @private */
+  /** @internal */
   @property() parentChipGroup?: ChipGroup["el"];
 
   /**
    * Specifies the size of the component.
    *
    * When contained in a parent `calcite-chip-group`, inherits the parent's `scale` value.
+   *
+   * @public
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
    * This internal property, managed by a containing `calcite-chip-group`, is
    * conditionally set based on the `selectionMode` of the parent
-   *
-   * @private
+   * @internal
    */
   @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any;
 
   //#endregion
@@ -198,8 +262,8 @@ export class Chip extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -218,16 +282,24 @@ export class Chip extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's close button is selected. */
+  /**
+   * Fires when the component's close button is selected.
+   *
+   * @public
+   */
   calciteChipClose = createEvent({ cancelable: false });
 
-  /** Fires when the selected state of the component changes. */
+  /**
+   * Fires when the selected state of the component changes.
+   *
+   * @public
+   */
   calciteChipSelect = createEvent({ cancelable: false });
 
-  /** @private */
+  /** @internal */
   calciteInternalChipSelect = createEvent({ cancelable: false });
 
-  /** @private */
+  /** @internal */
   calciteInternalSyncSelectedChips = createEvent({ cancelable: false });
 
   //#endregion

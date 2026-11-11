@@ -26,6 +26,7 @@ import { isValidNumber } from "../utils/number";
 import { Locale, NumberingSystem } from "../utils/locale";
 import { numberKeys } from "../utils/key";
 
+/** @public */
 export interface TimeComponent extends LitElement {
   /**
    * Specifies the component's hour format.
@@ -33,6 +34,8 @@ export interface TimeComponent extends LitElement {
    * - `"user"` displays the user's locale format.
    * - `"12"` displays a 12-hour format.
    * - `"24"` displays a 24-hour format.
+   *
+   * @public
    */
   hourFormat: HourFormat;
   /**
@@ -43,33 +46,48 @@ export interface TimeComponent extends LitElement {
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
   /**
    * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
    */
   numberingSystem: NumberingSystem;
   /**
    * Specifies the granularity the component's `value` must adhere to (in seconds).
+   *
+   * @public
    */
   step: number;
   /**
    * The component's time value in ISO (24-hour) format.
+   *
+   * @public
    */
   value: string | null;
 }
 
+/** @public */
 type TimeProperties = {
   /**
    * Change event that fires when the value is committed on Enter keypress or blur
+   *
+   * @public
    */
   calciteTimeChange: CustomEvent<string>;
   /**
    * The fractional second portion of the time value.
+   *
+   * @public
    */
   fractionalSecond: string;
   /**
    * Returns true if any portion of the time value is truthy.
+   *
+   * @public
    */
   hasValue: boolean;
   /**
    * The hour portion of the time value (in ISO 24-hour format).
+   *
+   * @public
    */
   hour?: string;
   /**
@@ -78,46 +96,68 @@ type TimeProperties = {
    *
    * `"12"` displays a 12-hour format, and
    * `"24"` displays a 24-hour format.
+   *
+   * @public
    */
   hourFormat: EffectiveHourFormat;
   /**
    * The language and region code to localize the time value.
+   *
+   * @public
    */
   locale: Locale;
   /**
    * The decimal separator used by the locale.
+   *
+   * @public
    */
   localizedDecimalSeparator: string;
   /**
    * The decimal separator used by the locale.
+   *
+   * @public
    */
   localizedFractionalSecond: string;
   /**
    * The localized fractional second portion of the time value.
+   *
+   * @public
    */
   localizedHour: string;
   /**
    * The hour suffix used by the locale.
+   *
+   * @public
    */
   localizedHourSuffix: string;
   /**
    * The localized meridiem portion of the time value, when hourFormat resolves to 12.
+   *
+   * @public
    */
   localizedMeridiem: string;
   /**
    * The localized minute portion of the time value.
+   *
+   * @public
    */
   localizedMinute: string;
   /**
    * The localized minute suffix used by the locale.
+   *
+   * @public
    */
   localizedMinuteSuffix: string;
   /**
    * The localized second portion of the time value.
+   *
+   * @public
    */
   localizedSecond: string;
   /**
    * The localized second suffix used by the locale.
+   *
+   * @public
    */
   localizedSecondSuffix: string;
   /**
@@ -125,18 +165,26 @@ type TimeProperties = {
    *
    * `"AM"` for hours between 0 and 12
    * `"PM"` for hours between 12 and 23
+   *
+   * @public
    */
   meridiem: Meridiem;
   /**
    * An integer representing the order in which the meridiem appears for the locale within an array of values returned by Intl.DateTimeFormat.
+   *
+   * @public
    */
   meridiemOrder: number;
   /**
    * The minute portion of the time value.
+   *
+   * @public
    */
   minute?: string;
   /**
    * The second portion of the time value.
+   *
+   * @public
    */
   second: string;
 };
@@ -147,49 +195,70 @@ const localizedTimePartProperty = {
   second: "localizedSecond",
 } as const;
 
-class TimeController extends GenericController<TimeProperties, TimeComponent> {
-  //#region Properties
+/** @public */
+export class TimeController extends GenericController<TimeProperties, TimeComponent> {
+  //#region Private Properties
 
+  /** @public */
   fractionalSecond?: string | null;
 
+  /** @public */
   get hasValue(): boolean {
     return Boolean(this?.hour || this?.minute || this?.second || this?.fractionalSecond || this?.meridiem);
   }
 
+  /** @public */
   hour?: string | null;
 
+  /** @public */
   hourFormat?: EffectiveHourFormat | null;
 
+  /** @public */
   locale?: Locale | null;
 
+  /** @public */
   localizedDecimalSeparator = ".";
 
+  /** @public */
   localizedFractionalSecond?: string | null;
 
+  /** @public */
   localizedHour?: string | null;
 
+  /** @public */
   localizedHourSuffix?: string | null;
 
+  /** @public */
   localizedMeridiem?: string | null;
 
+  /** @public */
   localizedMinute?: string | null;
 
+  /** @public */
   localizedMinuteSuffix?: string | null;
 
+  /** @public */
   localizedSecond?: string | null;
 
+  /** @public */
   localizedSecondSuffix?: string | null;
 
+  /** @public */
   meridiem?: Meridiem | null;
 
+  /** @public */
   meridiemOrder?: number | null;
 
+  /** @public */
   minute?: string | null;
 
+  /** @public */
   second?: string | null;
 
+  /** @public */
   userChangedValue: boolean = false;
 
+  /** @public */
   handleHourKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
@@ -237,6 +306,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
   };
 
+  /** @public */
   handleMinuteKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
@@ -272,6 +342,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
   };
 
+  /** @public */
   handleSecondKeyDownEvent = (event: KeyboardEvent): void => {
     const key = event.key;
     if (numberKeys.includes(key)) {
@@ -307,6 +378,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
   };
 
+  /** @public */
   handleFractionalSecondKeyDownEvent = (event: KeyboardEvent): void => {
     const { key } = event;
     if (numberKeys.includes(key)) {
@@ -345,6 +417,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
   };
 
+  /** @public */
   handleMeridiemKeyDownEvent = (event: KeyboardEvent): void => {
     switch (event.key) {
       case "a":
@@ -377,25 +450,30 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   //#region Events
 
+  /** @public */
   calciteTimeChange = createEvent<string>();
 
   //#endregion
 
-  //#region Public Methods
+  //#region Private Methods
 
+  /** @public */
   decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour, 10) - 1;
     this.setValuePart("hour", newHour);
   }
 
+  /** @public */
   decrementMinute(): void {
     this.decrementMinuteOrSecond("minute");
   }
 
+  /** @public */
   decrementSecond(): void {
     this.decrementMinuteOrSecond("second");
   }
 
+  /** @public */
   incrementHour(): void {
     const newHour =
       typeof this.hour === "string" && isValidNumber(this.hour)
@@ -406,14 +484,21 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.setValuePart("hour", newHour);
   }
 
+  /** @public */
   incrementMinute(): void {
     this.incrementMinuteOrSecond("minute");
   }
 
+  /** @public */
   incrementSecond(): void {
     this.incrementMinuteOrSecond("second");
   }
 
+  /**
+   * @public
+   *
+   * @param direction
+   */
   nudgeFractionalSecond(direction: "up" | "down"): void {
     const stepDecimal = getDecimals(this.component.step);
     const stepPrecision = decimalPlaces(this.component.step);
@@ -449,6 +534,11 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
+  /**
+   * @public
+   *
+   * @param direction
+   */
   toggleMeridiem(direction: "down" | "up"): void {
     let newMeridiem;
     if (!this.meridiem) {
@@ -459,16 +549,18 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.setValuePart("meridiem", newMeridiem);
   }
 
-  //#endregion
-
-  //#region Private Methods
-
+  /** @public */
   hostConnected(): void {
     this.setHourFormat();
     this.setMeridiemOrder();
     this.setValue(this.component.value);
   }
 
+  /**
+   * @public
+   *
+   * @param changes
+   */
   hostUpdate(changes: PropertyValues): void {
     let updateHourFormat = false;
     let updateMeridiemOrder = false;
@@ -532,6 +624,12 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.meridiemOrder = getMeridiemOrder(messages._lang as Locale);
   }
 
+  /**
+   * @public
+   *
+   * @param value
+   * @param userChangedValue
+   */
   setValue(value: string | null, userChangedValue: boolean = false): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
@@ -603,6 +701,12 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
   }
 
+  /**
+   * @public
+   *
+   * @param key
+   * @param value
+   */
   setValuePart(
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value?: number | string | Meridiem,

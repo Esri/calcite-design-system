@@ -35,51 +35,71 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-action-background-color": "*";
     /**
      * Specifies the component's border color when used in a `calcite-action-bar` or `calcite-action-menu`.
+     *
+     * @public
      */
     "--calcite-action-group-border-color": "*";
     /**
      * When `layout` is `"grid"`, specifies the component's `grid-template-columns`.
+     *
+     * @public
      */
     "--calcite-action-group-columns": "*";
     /**
      * When `layout` is `"grid"`, specifies the component's gap.
+     *
+     * @public
      */
     "--calcite-action-group-gap": "*";
   }
 }
 
+/** @public */
 interface ActionGroupSlots {
   /**
    * A slot for adding `calcite-action`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+   *
+   * @public
    */
   "menu-actions": Node[];
   /**
    * A slot for adding a `calcite-tooltip` for the menu.
+   *
+   * @public
    */
   "menu-tooltip": Node[];
 }
 
 /**
+ * @public
  * @docGroup Actions
  */
 export class ActionGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ActionGroupSlots;
 
   //#endregion
 
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -89,8 +109,6 @@ export class ActionGroup extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -120,13 +138,24 @@ export class ActionGroup extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the number of columns. */
+  /**
+   * Specifies the number of columns.
+   *
+   * @public
+   */
   @property({ type: Number, reflect: true }) columns?: Columns;
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) expanded = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
   /**
@@ -137,22 +166,43 @@ export class ActionGroup extends LitElement {
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() menuFlipPlacements?: FlipPlacement[];
 
-  /** When `true`, the `calcite-action-menu` is open. */
+  /**
+   * When `true`, the `calcite-action-menu` is open.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuOpen = false;
 
-  /** Specifies the position of the action menu. */
+  /**
+   * Specifies the position of the action menu.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuPlacement?: LogicalPlacement;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`. */
+  /**
+   * When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get overflowActionsDisabled(): boolean {
     const selectionMode = this.selectionMode || "none";
@@ -162,7 +212,11 @@ export class ActionGroup extends LitElement {
     this._overflowActionsDisabled = value;
   }
 
-  /** Specifies the size of the `calcite-action-menu`. */
+  /**
+   * Specifies the size of the `calcite-action-menu`.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -172,6 +226,8 @@ export class ActionGroup extends LitElement {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"none"` disables selection (default).
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "multiple" | "none",
@@ -179,8 +235,8 @@ export class ActionGroup extends LitElement {
   > = "none";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -204,6 +260,7 @@ export class ActionGroup extends LitElement {
   /**
    * Specifies the active actions in the group.
    *
+   * @public
    * @readonly
    */
   @property() selectedActions: Action["el"][] = [];
@@ -215,8 +272,8 @@ export class ActionGroup extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -228,16 +285,32 @@ export class ActionGroup extends LitElement {
 
   //#region Events
 
-  /** Fires after an action's active state changes. */
+  /**
+   * Fires after an action's active state changes.
+   *
+   * @public
+   */
   calciteActionGroupChange = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteActionGroupCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteActionGroupExpand = createEvent({ cancelable: false });
 
-  /** Fires after the component's slotted `calcite-action`s change. */
+  /**
+   * Fires after the component's slotted `calcite-action`s change.
+   *
+   * @public
+   */
   calciteInternalActionGroupActionsChange = createEvent({ cancelable: false });
 
   //#endregion

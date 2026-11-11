@@ -33,94 +33,130 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's accent color when `selected`.
+     *
+     * @public
      */
     "--calcite-card-accent-color-selected": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-card-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-card-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-card-corner-radius": "*";
     /**
      * Specifies the component's selection element background color when hovered.
+     *
+     * @public
      */
     "--calcite-card-selection-background-color-hover": "*";
     /**
      * Specifies the component's selection element background color when active.
+     *
+     * @public
      */
     "--calcite-card-selection-background-color-press": "*";
     /**
      * Specifies the component's selection element background color.
      *
      * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color` instead.
+     * @public
      */
     "--calcite-card-selection-background-color": "*";
     /**
      * Specifies the component's selection element color when hovered or focused.
+     *
+     * @public
      */
     "--calcite-card-selection-color-hover": "*";
     /**
      * Specifies the component's selection element color.
+     *
+     * @public
      */
     "--calcite-card-selection-color": "*";
     /**
      * Specifies the component's selection element icon color when hovered.
      *
      * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover` instead.
+     * @public
      */
     "--calcite-card-selection-icon-color-hover": "*";
     /**
      * Specifies the component's selection element icon color when `selected`.
      *
      * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected` instead.
+     * @public
      */
     "--calcite-card-selection-icon-color-selected": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-card-shadow": "*";
   }
 }
 
+/** @public */
 interface CardSlots {
   /**
    * A slot for adding content.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding a thumbnail.
+   *
+   * @public
    */
   thumbnail: Node[];
   /**
    * A slot for adding a heading.
+   *
+   * @public
    */
   heading: Node[];
   /**
    * A slot for adding a description.
+   *
+   * @public
    */
   description: Node[];
   /**
    * A slot for adding a leading footer.
+   *
+   * @public
    */
   "footer-start": Node[];
   /**
    * A slot for adding a trailing footer.
+   *
+   * @public
    */
   "footer-end": Node[];
 }
 
 /**
+ * @public
  * @docGroup Cards
  */
 export class Card extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: CardSlots;
 
   //#endregion
@@ -137,8 +173,6 @@ export class Card extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -166,45 +200,69 @@ export class Card extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the size of the component. When contained in a parent `calcite-card-group`, inherits the parent's `scale` value, but can be overridden if needed.
+   *
+   * @public
    */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, the component is selectable.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `selectionMode` property on a parent `calcite-card-group` instead.
    */
   @property({ reflect: true }) selectable = false;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
    * This internal property, managed by a containing `calcite-card-group`, is
    * conditionally set based on the `selectionMode` of the parent
-   *
-   * @private
+   * @internal
    */
   @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";
 
-  /** Sets the placement of the thumbnail defined in the `thumbnail` slot. */
+  /**
+   * Sets the placement of the thumbnail defined in the `thumbnail` slot.
+   *
+   * @public
+   */
   @property({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
 
   //#endregion
@@ -214,8 +272,8 @@ export class Card extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -230,7 +288,11 @@ export class Card extends LitElement {
 
   //#region Events
 
-  /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
+  /**
+   * Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected.
+   *
+   * @public
+   */
   calciteCardSelect = createEvent({ cancelable: false });
 
   //#endregion

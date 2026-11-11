@@ -39,45 +39,64 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the amount of left and right margin spacing between each item.
+     *
+     * @public
      */
     "--calcite-rating-spacing": "*";
     /**
      * Specifies the component's item color when hovered.
+     *
+     * @public
      */
     "--calcite-rating-color-hover": "*";
     /**
      * Specifies the component's item color when active.
+     *
+     * @public
      */
     "--calcite-rating-color-press": "*";
     /**
      * Specifies the component's item color.
+     *
+     * @public
      */
     "--calcite-rating-color": "*";
     /**
      * When `average` is set, specifies the component's item color.
+     *
+     * @public
      */
     "--calcite-rating-average-color": "*";
     /**
      * When `average` is set, specifies the component's `average` text color.
+     *
+     * @public
      */
     "--calcite-rating-average-text-color": "*";
     /**
      * Specifies the component's text color for `count`.
+     *
+     * @public
      */
     "--calcite-rating-count-text-color": "*";
   }
 }
 
+/** @public */
 interface RatingSlots {
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
+/** @public */
 export class Rating extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: RatingSlots;
 
   //#endregion
@@ -121,8 +140,6 @@ export class Rating extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -140,61 +157,112 @@ export class Rating extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** Specifies a cumulative average from previous ratings to display. */
+  /**
+   * Specifies a cumulative average from previous ratings to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) average?: number;
 
-  /** Specifies the number of previous ratings to display. */
+  /**
+   * Specifies the number of previous ratings to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) count?: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
-  /** When `true`, the component's value can be read, but cannot be modified. */
+  /**
+   * When `true`, the component's value can be read, but cannot be modified.
+   *
+   * @public
+   */
   @property({ reflect: true }) readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`. */
+  /**
+   * When `true`, and if available, displays the `average` and/or `count` data summary in a `calcite-chip`.
+   *
+   * @public
+   */
   @property({ reflect: true }) showChip = false;
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get value(): number {
     return this._value;
@@ -216,8 +284,8 @@ export class Rating extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -229,7 +297,11 @@ export class Rating extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the component's value changes. */
+  /**
+   * Fires when the component's value changes.
+   *
+   * @public
+   */
   calciteRatingChange = createEvent({ cancelable: false });
 
   //#endregion

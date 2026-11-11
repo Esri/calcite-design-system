@@ -16,28 +16,37 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-list-background-color": "*";
     /**
      * Specifies the component's color.
+     *
+     * @public
      */
     "--calcite-list-color": "*";
   }
 }
 
+/** @public */
 interface ListItemGroupSlots {
   /**
    * A slot for adding `calcite-list-item` and `calcite-list-item-group` elements.
+   *
+   * @public
    */
   "": Node[];
 }
 /**
+ * @public
  * @docGroup List
  * @parent calcite-list
  */
 export class ListItemGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ListItemGroupSlots;
 
   //#endregion
@@ -56,24 +65,30 @@ export class ListItemGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * Hides the component when filtered.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) filterHidden = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) heading?: string;
 
   /**
    * Specifies the size of the component.
    *
    * @internal
-   * */
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
@@ -82,17 +97,17 @@ export class ListItemGroup extends LitElement {
 
   /**
    * Fires when group property changes should notify parent lists.
-   *
-   * @private
+   * @internal
    */
   calciteInternalListItemGroupChange = createEvent({ cancelable: false });
 
   /**
    * Fires when changes occur in the default slot, notifying parent lists of the changes.
-   *
-   * @private
+   * @internal
    */
-  calciteInternalListItemGroupDefaultSlotChange = createEvent({ cancelable: false });
+  calciteInternalListItemGroupDefaultSlotChange = createEvent({
+    cancelable: false,
+  });
 
   //#endregion
 

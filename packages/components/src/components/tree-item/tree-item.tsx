@@ -29,41 +29,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-tree-text-color": "*";
     /**
      * When 'selected', specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-tree-text-color-selected": "*";
     /**
      * Specifies the component's selection icon color.
+     *
+     * @public
      */
     "--calcite-tree-selected-icon-color": "*";
   }
 }
 
+/** @public */
 interface TreeItemSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding nested `calcite-tree` elements.
+   *
+   * @public
    */
   children: Node[];
   /**
    * A slot for adding actions to the end of the component. It is recommended to use two or fewer actions.
+   *
+   * @public
    */
   "actions-end": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tree
  * @parent calcite-tree
  */
 export class TreeItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TreeItemSlots;
 
   //#endregion
@@ -99,8 +114,6 @@ export class TreeItem extends LitElement {
   /**
    * Used to make sure initially expanded tree-item can properly
    * transition and emit events from closed state when rendered.
-   *
-   * @private
    */
   @state() updateAfterInitialRender = false;
 
@@ -108,65 +121,100 @@ export class TreeItem extends LitElement {
 
   //#region Public Properties
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) depth = -1;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) expanded = false;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) get hasChildren(): boolean {
     return !!this.childTree;
   }
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) lines: boolean = false;
 
-  /** @private */
+  /** @internal */
   @property() parentExpanded = false;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) scale!: Scale;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) selectionMode?: SelectionMode;
 
   //#endregion
 
   //#region Events
 
-  /** @private */
-  calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({ cancelable: false });
+  /** @internal */
+  calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({
+    cancelable: false,
+  });
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteTreeItemCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteTreeItemExpand = createEvent({ cancelable: false });
 
-  /** Fires when the component is selected or deselected. */
+  /**
+   * Fires when the component is selected or deselected.
+   *
+   * @public
+   */
   calciteTreeItemSelect = createEvent({ cancelable: false });
 
   //#endregion
@@ -336,8 +384,7 @@ export class TreeItem extends LitElement {
   /**
    * This is meant to be called in `componentDidLoad` in order to take advantage of the hierarchical component lifecycle
    * and help check for item selection as items are initialized
-   *
-   * @private
+   * @internal
    */
   private updateAncestorTree(): void {
     const parentItem = this.parentTreeItem;

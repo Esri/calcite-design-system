@@ -33,192 +33,283 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-border-color": "*";
     /**
      * Specifies the component's border radius.
+     *
+     * @public
      */
     "--calcite-table-corner-radius": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-table-shadow": "*";
     /**
      * Specifies the background color of the component's `numbered` cell.
+     *
+     * @public
      */
     "--calcite-table-number-cell-background-color": "*";
     /**
      * Specifies the text color of the component's `numbered` cell.
+     *
+     * @public
      */
     "--calcite-table-number-cell-text-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons.
+     *
+     * @public
      */
     "--calcite-table-selection-cell-background-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, specifies the background color of cells containing selection icons on `selected` `calcite-table-row`s.
+     *
+     * @public
      */
     "--calcite-table-selection-cell-background-color-selected": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `calcite-table-row`s where `selected` is `false`.
+     *
+     * @public
      */
     "--calcite-table-selection-cell-icon-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, specifies the icon color of the component's selection icon on `selected` `calcite-table-row`s.
+     *
+     * @public
      */
     "--calcite-table-selection-cell-icon-color-selected": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the background color of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-background-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the border color of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-border-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, specifies the corner radius of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-corner-radius": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, specifies the shadow of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-shadow": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are not `selected`, specifies the text color of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-text-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-background-color-selected": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-border-color-selected": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection chip.
+     *
+     * @public
      */
     "--calcite-table-selection-chip-text-color-selected": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the background color of the component's selection out of view chip.
+     *
+     * @public
      */
     "--calcite-table-selection-out-of-view-chip-background-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the border color of the component's selection out of view chip.
+     *
+     * @public
      */
     "--calcite-table-selection-out-of-view-chip-border-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the corner radius of the component's selection out of view chip.
+     *
+     * @public
      */
     "--calcite-table-selection-out-of-view-chip-corner-radius": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the icon color of the component's selection out of view chip.
+     *
+     * @public
      */
     "--calcite-table-selection-out-of-view-chip-icon-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the shadow of the component's selection out of view chip.
+     *
+     * @public
      */
     "--calcite-table-selection-out-of-view-chip-shadow": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"`, `pageSize` is set,  and `calcite-table-row`s are `selected` on non-current pages, specifies the text color of the component's selection out of view chip.
+     *
+     * @public
      */
     "--calcite-table-selection-out-of-view-chip-text-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when active.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-background-color-active": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip when hovered.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-background-color-hover": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the background color of the component's selection dismiss chip.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-background-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when active.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-border-color-active": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip when hovered.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-border-color-hover": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the border color of the component's selection dismiss chip.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-border-color": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the corner radius of the component's selection dismiss chip.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-corner-radius": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the shadow of the component's selection dismiss chip.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-shadow": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when active.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-text-color-active": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip when hovered.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-text-color-hover": "*";
     /**
      * When `selectionMode` is `"multiple"` or `"single"` and `calcite-table-row`s are `selected`, specifies the text color of the component's selection dismiss chip.
+     *
+     * @public
      */
     "--calcite-table-selection-dismiss-button-text-color": "*";
     /**
      * When `pageSize` is set, specifies the component's pagination item color.
+     *
+     * @public
      */
     "--calcite-table-pagination-color": "*";
     /**
      * When `pageSize` is set, specifies the component's pagination item color when hovered or selected.
+     *
+     * @public
      */
     "--calcite-table-pagination-color-hover": "*";
     /**
      * When `pageSize` is set, specifies the component's pagination item bottom border color when hovered.
+     *
+     * @public
      */
     "--calcite-table-pagination-color-border-hover": "*";
     /**
      * When `pageSize` is set, specifies the component's pagination item bottom border color when selected.
+     *
+     * @public
      */
     "--calcite-table-pagination-color-border-active": "*";
     /**
      * When `pageSize` is set, specifies the component's pagination item background color when active.
+     *
+     * @public
      */
     "--calcite-table-pagination-background-color": "*";
     /**
      * When `pageSize` is set, specifies the component's pagination chevron item background color when hovered.
+     *
+     * @public
      */
     "--calcite-table-pagination-icon-color-background-hover": "*";
   }
 }
 
+/** @public */
 interface TableSlots {
   /**
    * A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding `calcite-table-row` elements containing `calcite-table-header` elements.
+   *
+   * @public
    */
   "table-header": Node[];
   /**
    * A slot for adding `calcite-table-row` elements containing `calcite-table-cell` and/or `calcite-table-header` elements.
+   *
+   * @public
    */
   "table-footer": Node[];
   /**
    * A slot for adding `calcite-actions` or other elements to display when `selectionMode` is not `"none"` and `selectionDisplay` is not `"none"`.
+   *
+   * @public
    */
   "selection-actions": Node[];
 }
 
 /**
+ * @public
  * @docGroup Table
  */
 export class Table extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TableSlots;
 
   //#endregion
@@ -259,8 +350,6 @@ export class Table extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -284,55 +373,98 @@ export class Table extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays borders between `calcite-table-rows`. */
+  /**
+   * When `true`, displays borders between `calcite-table-rows`.
+   *
+   * @public
+   */
   @property({ reflect: true }) bordered = false;
 
   /**
    * Specifies an accessible title for the component.
    *
+   * @public
    * @required
    */
   @property() caption!: string;
 
   /**
    * Sets/gets the current page
+   *
+   * @public
    */
   @property({ reflect: true }) currentPage = 0;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable. */
+  /**
+   * When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable.
+   *
+   * @public
+   */
   @property({ reflect: true }) interactionMode: TableInteractionMode = "interactive";
 
-  /** Specifies the layout of the component. */
+  /**
+   * Specifies the layout of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: TableLayout = "auto";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays the position of the row in numeric form. */
+  /**
+   * When `true`, displays the position of the row in numeric form.
+   *
+   * @public
+   */
   @property({ reflect: true }) numbered = false;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the page size of the component. When present, renders `calcite-pagination`. */
+  /**
+   * Specifies the page size of the component. When present, renders `calcite-pagination`.
+   *
+   * @public
+   */
   @property({ reflect: true }) pageSize = 0;
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() get selectedItems(): TableRow["el"][] {
     return this._selectedItems;
   }
 
-  /** When `selectionMode` is `"single"` or `"multiple"`, specifies the display of the selection interface. When  `selectionMode` is `"none"`, content slotted in the `selection-actions` slot will not be displayed. */
+  /**
+   * When `selectionMode` is `"single"` or `"multiple"`, specifies the display of the selection interface. When  `selectionMode` is `"none"`, content slotted in the `selection-actions` slot will not be displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
 
   /**
@@ -341,29 +473,49 @@ export class Table extends LitElement {
    * - `"multiple"` allows any number of selections.
    * - `"single"` allows only one selection.
    * - `"none"` does not allow any selections.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "multiple" | "single",
     SelectionMode
   > = "none";
 
-  /** When `true`, displays striped styling on the component's `calcite-table-rows`. */
+  /**
+   * When `true`, displays striped styling on the component's `calcite-table-rows`.
+   *
+   * @public
+   */
   @property({ reflect: true }) striped = false;
 
-  /** When `true`, displays the component's `table-header` slot as sticky while the component remains in view. */
+  /**
+   * When `true`, displays the component's `table-header` slot as sticky while the component remains in view.
+   *
+   * @public
+   */
   @property({ reflect: true }) stickyHeader = false;
 
   //#endregion
 
   //#region Events
 
-  /** @private */
-  calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({ cancelable: false });
+  /** @internal */
+  calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({
+    cancelable: false,
+  });
 
-  /** Emits when the component's page selection changes. */
+  /**
+   * Emits when the component's page selection changes.
+   *
+   * @public
+   */
   calciteTablePageChange = createEvent({ cancelable: false });
 
-  /** Emits when the component's selected rows change. */
+  /**
+   * Emits when the component's selected rows change.
+   *
+   * @public
+   */
   calciteTableSelect = createEvent({ cancelable: false });
 
   //#endregion
