@@ -236,7 +236,7 @@ localized.play = async ({ canvasElement }: StoryContext): Promise<void> => {
 };
 localized.parameters = {
   chromatic: {
-    delay: 0,
+    delay: 2000,
     cropToViewport: false,
   },
 };
