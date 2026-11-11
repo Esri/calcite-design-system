@@ -1,4 +1,5 @@
 import { defaultLocale, supportedLocales } from "@arcgis/toolkit/intl";
+import type { StoryContext } from "@storybook/web-components-vite";
 import { boolean, createBreakpointStories, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
@@ -224,13 +225,18 @@ export const localized = (): string => {
             </div>
           `,
         )
-        .join("")}}
+        .join("")}
     </div>
   `;
 };
+localized.play = async ({ canvasElement }: StoryContext): Promise<void> => {
+  await Promise.all(
+    Array.from(canvasElement.querySelectorAll<DatePicker["el"]>("calcite-date-picker"), (el) => el.componentOnReady()),
+  );
+};
 localized.parameters = {
   chromatic: {
-    delay: 2000,
+    delay: 0,
     cropToViewport: false,
   },
 };
