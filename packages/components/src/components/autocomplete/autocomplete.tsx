@@ -647,7 +647,7 @@ export class Autocomplete
   }
 
   private async documentClickHandler(event: MouseEvent): Promise<void> {
-    if (this.disabled || event.composedPath().includes(this.el)) {
+    if (event.defaultPrevented || this.disabled || event.composedPath().includes(this.el)) {
       return;
     }
 
