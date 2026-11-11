@@ -16,8 +16,8 @@ catalogs:
       specifier: 1.2.0
       version: 1.2.0
     '@commander-js/extra-typings':
-      specifier: 15.0.0
-      version: 15.0.0
+      specifier: 15.1.0
+      version: 15.1.0
     '@cspell/dict-gis':
       specifier: 1.0.3
       version: 1.0.3
@@ -884,7 +884,7 @@ importers:
         version: 9.1.1
       '@commander-js/extra-typings':
         specifier: 'catalog:'
-        version: 15.0.0(commander@15.0.0)
+        version: 15.1.0(commander@15.0.0)
       '@esri/calcite-typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -1245,10 +1245,10 @@ packages:
   '@cloudfour/simple-svg-placeholder@1.2.0':
     resolution: {integrity: sha512-J/fKamKQUdEZevKiiq2pragf1G5OqqCoDy+ERZa7afPIBj/9eEPJ1i/pxHIqggxDSqhO1avx4lmfszOPKfh/yA==}
 
-  '@commander-js/extra-typings@15.0.0':
-    resolution: {integrity: sha512-yeJlba62xqmkgELUsn7356MEnzLLu/fw2x4lofFqGnXh6YysRdEs2BaLeLtg1+KU0AXvMeqQvTTp+3hBEBK+EA==}
+  '@commander-js/extra-typings@15.1.0':
+    resolution: {integrity: sha512-FsI7l5tFON52RyyDKyCkvwFl+peHZuP5TZ7AhxbDFGo/5T6KQd4+KE48aJ8jrDSSAQDvZ8hYKX47fmwZ5bGFNw==}
     peerDependencies:
-      commander: ~15.0.0
+      commander: ~15.1.0
 
   '@cspell/cspell-bundled-dicts@10.0.1':
     resolution: {integrity: sha512-WvkSDNX4Uyyj/ZgbPO6L38iFNMfK1EqsH1FteRiI2qLz6QZMXRFrIt12OqiWIplzZDDaVpBH9FCJOPJll0fjCQ==}
@@ -9477,7 +9477,7 @@ snapshots:
     dependencies:
       '@arcgis/node-toolkit': 6.0.0-next.16(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1)
       '@arcgis/toolkit': 6.0.0-next.16
-      '@commander-js/extra-typings': 15.0.0(commander@15.0.0)
+      '@commander-js/extra-typings': 15.1.0(commander@15.0.0)
       commander: 15.0.0
       tslib: 2.8.1
       typescript: 6.0.3
@@ -9654,7 +9654,7 @@ snapshots:
 
   '@cloudfour/simple-svg-placeholder@1.2.0': {}
 
-  '@commander-js/extra-typings@15.0.0(commander@15.0.0)':
+  '@commander-js/extra-typings@15.1.0(commander@15.0.0)':
     dependencies:
       commander: 15.0.0
 
@@ -14345,7 +14345,7 @@ snapshots:
 
   generate-license-file@4.2.5(supports-color@10.2.2):
     dependencies:
-      '@commander-js/extra-typings': 15.0.0(commander@15.0.0)
+      '@commander-js/extra-typings': 15.1.0(commander@15.0.0)
       '@npmcli/arborist': 10.0.3(supports-color@10.2.2)
       cli-spinners: 3.4.0
       commander: 15.0.0
