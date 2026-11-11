@@ -41,132 +41,177 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-block-border-color": "*";
     /**
      * Specifies the space of the component's `default` slot.
+     *
+     * @public
      */
     "--calcite-block-content-space": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-block-background-color": "*";
     /**
      * Specifies the component's `heading` background color.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-background-color` instead.
+     * @public
      */
     "--calcite-block-header-background-color": "*";
     /**
      * Specifies the component's `heading` background color when hovered.
+     *
+     * @public
      */
     "--calcite-block-header-background-color-hover": "*";
     /**
      * Specifies the component's `heading` background color when pressed.
+     *
+     * @public
      */
     "--calcite-block-header-background-color-press": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-block-heading-text-color": "*";
     /**
      * When the component is `expanded`, specifies the `heading` text color.
      *
      * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead.
+     * @public
      */
     "--calcite-block-heading-text-color-press": "*";
     /**
      * Specifies the padding of the component's `default` slot.
      *
      * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead.
+     * @public
      */
     "--calcite-block-padding": "*";
     /**
      * Specifies the component's text color.
      *
      * @deprecated in v3.3.0, removal target v6.0.0.
+     * @public
      */
     "--calcite-block-text-color": "*";
     /**
      * Specifies the component's `description` text color.
+     *
+     * @public
      */
     "--calcite-block-description-text-color": "*";
     /**
      * Specifies the component's `expandable` icon, `iconStart` and `iconEnd` color.
      *
      * @deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color`, `--calcite-block-icon-start-color` and `--calcite-block-icon-end-color` instead.
+     * @public
      */
     "--calcite-block-icon-color": "*";
     /**
      * Specifies the component's `expandable` icon color when hovered.
      *
      * @deprecated in v5.1.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color-hover` instead.
+     * @public
      */
     "--calcite-block-icon-color-hover": "*";
     /**
      * Specifies the component's `iconStart` color.
+     *
+     * @public
      */
     "--calcite-block-icon-start-color": "*";
     /**
      * Specifies the component's `iconEnd` color.
+     *
+     * @public
      */
     "--calcite-block-icon-end-color": "*";
     /**
      * Specifies the component's `expandable` icon color.
+     *
+     * @public
      */
     "--calcite-block-expandable-icon-color": "*";
     /**
      * Specifies the component's `expandable` icon color when hovered.
+     *
+     * @public
      */
     "--calcite-block-expandable-icon-color-hover": "*";
     /**
      * Specifies the component's `expandable` or `collapsible` (deprecated) icon color.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color` instead.
+     * @public
      */
     "--calcite-block-collapsible-icon-color": "*";
     /**
      * Specifies the component's `expandable` or `collapsible` (deprecated) icon color when hovered.
      *
      * @deprecated in v5.2.0, removal target v7.0.0 - Use `--calcite-block-expandable-icon-color-hover` instead.
+     * @public
      */
     "--calcite-block-collapsible-icon-color-hover": "*";
   }
 }
 
+/** @public */
 interface BlockSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding actionable `calcite-action` elements after the content of the component. It is recommended to use two or fewer actions.
+   *
+   * @public
    */
   "actions-end": Node[];
   /**
    * A slot for adding non-actionable elements after the component's header text.
+   *
+   * @public
    */
   "content-end": Node[];
   /**
    * A slot for adding non-actionable elements before the component's header text.
+   *
+   * @public
    */
   "content-start": Node[];
   /**
    * A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
+   *
+   * @public
    */
   "header-menu-actions": Node[];
   /**
    * A slot for adding `calcite-block` & `calcite-block-group` elements.
+   *
+   * @public
    */
   children: Node[];
 }
 
 /**
+ * @public
  * @docGroup Blocks
  */
 export class Block extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: BlockSlots;
 
   //#endregion
@@ -187,8 +232,6 @@ export class Block extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -214,31 +257,52 @@ export class Block extends LitElement {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, and a parent `calcite-block-group` is `dragEnabled`, the component is not draggable. */
+  /**
+   * When `true`, and a parent `calcite-block-group` is `dragEnabled`, the component is not draggable.
+   *
+   * @public
+   */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - No longer necessary. Use Block Group for draggable functionality.
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) expanded = false;
 
-  /** When `true`, the component can be expanded and collapsed. */
+  /**
+   * When `true`, the component can be expanded and collapsed.
+   *
+   * @public
+   */
   @property({ reflect: true }) expandable = false;
 
   /**
    * When `true`, the component can be expanded and collapsed.
    *
+   * @public
    * @deprecated in v5.2.0, removal target v7.0.0 - Use the `expandable` property instead.
    */
   @property({ reflect: true })
@@ -255,60 +319,91 @@ export class Block extends LitElement {
     this.expandable = value;
   }
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() menuFlipPlacements?: FlipPlacement[];
 
-  /** Determines where the action menu will be positioned. */
+  /**
+   * Determines where the action menu will be positioned.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Defines the "Add to" items.
-   *
-   * @private
+   * @internal
    */
   @property() addToItems: SortMenuItem[] = [];
 
   /**
    * Defines the "Move to" items.
-   *
-   * @private
+   * @internal
    */
   @property() moveToItems: SortMenuItem[] = [];
 
   /**
    * Prevents reordering the component.
-   *
-   * @private
+   * @internal
    */
   @property() sortDisabled = false;
 
   /**
    * When `true`, expands the component and its contents.
    *
+   * @public
    * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
   @property({ reflect: true })
@@ -325,32 +420,42 @@ export class Block extends LitElement {
     this.expanded = value;
   }
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   *
-   * @private
+   * @internal
    */
   @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   *
-   * @private
+   * @internal
    */
   @property() setSize?: number;
 
-  /** When `true`, displays and positions the sort handle. */
+  /**
+   * When `true`, displays and positions the sort handle.
+   *
+   * @public
+   */
   @property({ reflect: true }) sortHandleOpen = false;
 
   /**
    * Displays a status-related indicator icon.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
    */
   @property({ reflect: true }) status?: Status;
@@ -361,12 +466,14 @@ export class Block extends LitElement {
    * `"button"` sets the toggle to a selectable header, and
    *
    * `"switch"` sets the toggle to a switch.
+   *
+   * @public
    */
   @property({ reflect: true }) toggleDisplay: BlockToggleDisplay = "button";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -378,8 +485,8 @@ export class Block extends LitElement {
   /**
    * Sets focus on the component's first tabbable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -391,35 +498,62 @@ export class Block extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteBlockCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteBlockExpand = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the sort handle is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteBlockSortHandleBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteBlockSortHandleBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is closed and animation is complete. */
+  /**
+   * Fires when the sort handle is closed and animation is complete.
+   *
+   * @public
+   */
   calciteBlockSortHandleClose = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is open and animation is complete. */
+  /**
+   * Fires when the sort handle is open and animation is complete.
+   *
+   * @public
+   */
   calciteBlockSortHandleOpen = createEvent({ cancelable: false });
 
   /**
    *
-   * @private
+   * @internal
    */
-  calciteInternalBlockChange = createEvent<{ el: Block["el"]; parentElement?: BlockGroup["el"] }>({
+  calciteInternalBlockChange = createEvent<{
+    el: Block["el"];
+    parentElement?: BlockGroup["el"];
+  }>({
     cancelable: false,
   });
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 

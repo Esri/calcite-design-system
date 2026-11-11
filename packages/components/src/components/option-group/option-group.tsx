@@ -7,32 +7,42 @@ declare global {
   }
 }
 
+/** @public */
 interface OptionGroupSlots {
   /**
    * A slot for adding `calcite-option`s.
+   *
+   * @public
    */
   "": Node[];
 }
 /**
+ * @public
  * @docGroup Select
  * @parent calcite-select
  */
 export class OptionGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: OptionGroupSlots;
 
   //#endregion
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({
     reflect: true,
   })
   disabled = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
@@ -42,7 +52,7 @@ export class OptionGroup extends LitElement {
 
   //#region Events
 
-  /** @private */
+  /** @internal */
   private calciteInternalOptionGroupChange = createEvent({ cancelable: false });
 
   //#endregion

@@ -23,24 +23,31 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-flow-background-color": "*";
   }
 }
 
+/** @public */
 interface FlowSlots {
   /**
    * A slot for adding `calcite-flow-item`s to the component.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Flow
  */
 export class Flow extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: FlowSlots;
 
   //#endregion
@@ -77,8 +84,7 @@ export class Flow extends LitElement {
 
   /**
    * This property enables the component to consider additional custom elements implementing flow-item's interface.
-   *
-   * @private
+   * @internal
    */
   @property() customItemSelectors?: string;
 
@@ -89,6 +95,7 @@ export class Flow extends LitElement {
   /**
    * Removes selection of the currently active `calcite-flow-item`.
    *
+   * @public
    * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement | undefined>
    */
   @method()
@@ -121,8 +128,8 @@ export class Flow extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns Promise<void>
    */
@@ -142,7 +149,10 @@ export class Flow extends LitElement {
   }
 
   override connectedCallback(): void {
-    this.itemMutationObserver?.observe(this.el, { childList: true, subtree: true });
+    this.itemMutationObserver?.observe(this.el, {
+      childList: true,
+      subtree: true,
+    });
   }
 
   override willUpdate(changes: PropertyValues<this>): void {

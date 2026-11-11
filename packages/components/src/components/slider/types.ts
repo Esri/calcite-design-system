@@ -1,3 +1,4 @@
+/** @internal */
 export type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 export type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
 export type ThumbType =

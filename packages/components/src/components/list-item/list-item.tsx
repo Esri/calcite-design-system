@@ -48,70 +48,103 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-list-background-color-hover": "*";
     /**
      * Specifies the component's background color when pressed.
+     *
+     * @public
      */
     "--calcite-list-background-color-press": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-list-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-list-border-color": "*";
     /**
      * Specifies the content color.
+     *
+     * @public
      */
     "--calcite-list-content-text-color": "*";
     /**
      * Specifies the `description` color.
+     *
+     * @public
      */
     "--calcite-list-description-text-color": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-list-icon-color": "*";
     /**
      * Specifies the `label` color.
+     *
+     * @public
      */
     "--calcite-list-label-text-color": "*";
     /**
      * Specifies the component's selection border color.
+     *
+     * @public
      */
     "--calcite-list-selection-border-color": "*";
   }
 }
 
+/** @public */
 interface ListItemSlots {
   /**
    * A slot for adding `calcite-list`, `calcite-list-item` and `calcite-list-item-group` elements.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding actionable `calcite-action` elements before the content of the component.
+   *
+   * @public
    */
   "actions-start": Node[];
   /**
    * A slot for adding non-actionable elements before the component's `label` and `description`.
+   *
+   * @public
    */
   "content-start": Node[];
   /**
    * A slot for adding non-actionable, centered content in place of the component's `label` and `description`.
+   *
+   * @public
    */
   content: Node[];
   /**
    * A slot for adding non-actionable elements after the component's `label` and `description`.
+   *
+   * @public
    */
   "content-end": Node[];
   /**
    * A slot for adding actionable `calcite-action` elements after the component's content.
+   *
+   * @public
    */
   "actions-end": Node[];
   /**
    * A slot for adding content below the component's `label` and `description`.
+   *
+   * @public
    */
   "content-bottom": Node[];
 }
@@ -119,12 +152,14 @@ interface ListItemSlots {
 const focusMap = new Map<List["el"], number | undefined>();
 
 /**
+ * @public
  * @docGroup List
  * @parent calcite-list
  */
 export class ListItem extends LitElement implements SortableComponentItem {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ListItemSlots;
 
   //#endregion
@@ -155,8 +190,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -192,97 +225,120 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
-   *
-   * @private
+   * @internal
    */
   @property() active = false;
 
   /**
    * Sets the item to display a border.
-   *
-   * @private
+   * @internal
    */
   @property() bordered = false;
 
   /**
    * Prevents reordering the component.
-   *
-   * @private
+   * @internal
    */
   @property() sortDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closed = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, the item is not draggable. */
+  /**
+   * When `true`, the item is not draggable.
+   *
+   * @public
+   */
   @property({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) expanded = false;
 
   /**
    * Hides the component when filtered.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) filterHidden = false;
 
   /**
    * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) interactionMode?: InteractionMode;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`. */
+  /**
+   * Provides additional metadata to the component. Primary use is for a filter on the parent `calcite-list`.
+   *
+   * @public
+   */
   @property() metadata?: Record<string, unknown>;
 
   /**
    * Specifies the nesting behavior.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
    * Defines the "Add to" items.
-   *
-   * @private
+   * @internal
    */
   @property() addToItems: SortMenuItem[] = [];
 
   /**
    * Defines the "Move to" items.
-   *
-   * @private
+   * @internal
    */
   @property() moveToItems: SortMenuItem[] = [];
 
   /**
    * When `true`, the item is open to show child components.
    *
+   * @public
    * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
   @property({ reflect: true })
@@ -303,10 +359,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * Specifies the size of the component.
    *
    * @internal
-   * */
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
+  /**
+   * When `true` and the parent `calcite-list`'s `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -315,7 +375,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
    * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
-   *
    * @internal
    */
   @property({ reflect: true }) selectionAppearance!: Extract<
@@ -330,8 +389,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"none"` does not allow any selections.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) selectionMode!: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -340,39 +398,59 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   *
-   * @private
+   * @internal
    */
   @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   *
-   * @private
+   * @internal
    */
   @property() setSize?: number;
 
-  /** When `true`, displays and positions the sort handle. */
+  /**
+   * When `true`, displays and positions the sort handle.
+   *
+   * @public
+   */
   @property({ reflect: true }) sortHandleOpen = false;
 
-  /** When `true`, the component's content displays as inactive. */
+  /**
+   * When `true`, the component's content displays as inactive.
+   *
+   * @public
+   */
   @property({ reflect: true }) unavailable = false;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -384,8 +462,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -402,7 +480,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
         }
       }
 
-      return { target: containerRef.value!, includeContainer: true, strategy: "focusable" };
+      return {
+        target: containerRef.value!,
+        includeContainer: true,
+        strategy: "focusable",
+      };
     }, options);
   }
 
@@ -412,31 +494,31 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalFocusPreviousItem = createEvent({ cancelable: false });
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalListItemActive = createEvent({ cancelable: false });
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalListItemChange = createEvent({ cancelable: false });
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalListItemSelect = createEvent({ cancelable: false });
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalListItemSelectMultiple = createEvent<{
     selectMultiple: boolean;
@@ -444,35 +526,71 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    *
-   * @private
+   * @internal
    */
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
-  /** Fires when the close button is clicked. */
+  /**
+   * Fires when the close button is clicked.
+   *
+   * @public
+   */
   calciteListItemClose = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteListItemCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteListItemExpand = createEvent({ cancelable: false });
 
-  /** Fires when the component is selected. */
+  /**
+   * Fires when the component is selected.
+   *
+   * @public
+   */
   calciteListItemSelect = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the sort handle is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteListItemSortHandleBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the sort handle is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteListItemSortHandleBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is closed and animation is complete. */
+  /**
+   * Fires when the sort handle is closed and animation is complete.
+   *
+   * @public
+   */
   calciteListItemSortHandleClose = createEvent({ cancelable: false });
 
-  /** Fires when the sort handle is open and animation is complete. */
+  /**
+   * Fires when the sort handle is open and animation is complete.
+   *
+   * @public
+   */
   calciteListItemSortHandleOpen = createEvent({ cancelable: false });
 
-  /** Fires when the open button is clicked. */
+  /**
+   * Fires when the open button is clicked.
+   *
+   * @public
+   */
   calciteListItemToggle = createEvent({ cancelable: false });
 
   //#endregion
@@ -1161,7 +1279,12 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
     return (
       <this.interactiveContainer disabled={disabled}>
-        <div class={{ [CSS.wrapper]: true, [CSS.wrapperBordered]: wrapperBordered }}>
+        <div
+          class={{
+            [CSS.wrapper]: true,
+            [CSS.wrapperBordered]: wrapperBordered,
+          }}
+        >
           <div
             ariaExpanded={expandable ? expanded : undefined}
             ariaLabel={label}

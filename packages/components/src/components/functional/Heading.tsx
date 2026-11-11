@@ -2,6 +2,7 @@ import { TemplateResult } from "lit";
 import { unsafeStatic, literal } from "lit/static-html.js";
 import { h, JsxNode, LuminaJsx } from "@arcgis/lumina";
 
+/** @public */
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 type HeadingProps = Pick<LuminaJsx.HTMLAttributes, "class" | "hidden" | "id" | "key"> & {

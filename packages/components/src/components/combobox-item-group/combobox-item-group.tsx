@@ -16,29 +16,38 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-combobox-item-group-text-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-combobox-item-group-border-color": "*";
   }
 }
 
+/** @public */
 interface ComboboxItemGroupSlots {
   /**
    * A slot for adding `calcite-combobox-item`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Combobox
  * @parent calcite-combobox
  */
 export class ComboboxItemGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ComboboxItemGroupSlots;
 
   //#endregion
@@ -59,15 +68,19 @@ export class ComboboxItemGroup extends LitElement {
 
   /**
    * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) afterEmptyGroup = false;
 
-  /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
+  /**
+   * Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`.
+   *
+   * @public
+   */
   @property() ancestors?: ComboboxChildElement[];
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
@@ -82,16 +95,14 @@ export class ComboboxItemGroup extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property() scale: Scale = "m";
 
   /**
    * When `true`, the item will be hidden
-   *
-   * @private
-   *  */
+   * @internal
+   */
   @property({ reflect: true }) itemHidden = false;
 
   //#endregion
@@ -114,7 +125,9 @@ export class ComboboxItemGroup extends LitElement {
         <div
           class={CSS.separator}
           role="separator"
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          style={{
+            "--calcite-combobox-item-spacing-indent-multiplier": `${depth}`,
+          }}
         />
       ) : null;
 
@@ -129,7 +142,9 @@ export class ComboboxItemGroup extends LitElement {
           class={{ [CSS.label]: true }}
           id={this.guid}
           role="presentation"
-          style={{ "--calcite-combobox-item-spacing-indent-multiplier": `${depth}` }}
+          style={{
+            "--calcite-combobox-item-spacing-indent-multiplier": `${depth}`,
+          }}
         >
           <span class={{ [CSS.title]: true, [CSS.firstTitle]: this.position === 0 }}>
             {this.label}

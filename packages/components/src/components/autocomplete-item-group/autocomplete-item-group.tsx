@@ -19,33 +19,44 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-autocomplete-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-autocomplete-border-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-autocomplete-text-color": "*";
   }
 }
 
+/** @public */
 interface AutocompleteItemGroupSlots {
   /**
    * A slot for adding `calcite-autocomplete-item`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Autocomplete
  * @parent calcite-autocomplete
  */
 export class AutocompleteItemGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AutocompleteItemGroupSlots;
 
   //#endregion
@@ -68,18 +79,21 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * When `true`, signifies that the group should not have extra spacing. Used for styling.
-   *
-   * @private
+   * @internal
    */
   @property() disableSpacing = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() heading!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label: any;
 
   /**
@@ -91,8 +105,7 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the `calcite-autocomplete`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -111,10 +124,11 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * Fires after the component's slotted `calcite-autocomplete-item`s change.
-   *
-   * @private
+   * @internal
    */
-  calciteInternalAutocompleteItemGroupItemsChange = createEvent({ cancelable: false });
+  calciteInternalAutocompleteItemGroupItemsChange = createEvent({
+    cancelable: false,
+  });
 
   //#endregion
 

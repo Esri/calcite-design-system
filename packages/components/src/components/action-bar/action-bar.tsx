@@ -52,52 +52,73 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-action-bar-background-color": "*";
     /**
      * Specifies the component's border radius when `floating` is `true`.
+     *
+     * @public
      */
     "--calcite-action-bar-corner-radius": "*";
     /**
      * When `layout` is `"vertical"`, specifies the component's maximum width.
+     *
+     * @public
      */
     "--calcite-action-bar-expanded-max-width": "*";
     /**
      * Specifies the space between slotted components in the component.
+     *
+     * @public
      */
     "--calcite-action-bar-items-space": "*";
     /**
      * Specifies the component's shadow when `floating` is `true`.
+     *
+     * @public
      */
     "--calcite-action-bar-shadow": "*";
   }
 }
 
+/** @public */
 interface ActionBarSlots {
   /**
    * A slot for adding `calcite-action`s that will appear at the top of the component.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding `calcite-action`s that will appear at the end of the component, prior to the collapse/expand button.
+   *
+   * @public
    */
   "actions-end": Node[];
   /**
    * A slot for adding `calcite-action`s that will appear at the start of the component. When `expandPosition` is `"start"`, actions in this slot will render after the collapse/expand button.
+   *
+   * @public
    */
   "actions-start": Node[];
   /**
    * A slot to set the `calcite-tooltip` for the expand toggle.
+   *
+   * @public
    */
   "expand-tooltip": Node[];
 }
 
 /**
+ * @public
  * @docGroup Actions
  */
 export class ActionBar extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ActionBarSlots;
 
   //#endregion
@@ -298,8 +319,6 @@ export class ActionBar extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -337,23 +356,38 @@ export class ActionBar extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies an accessible name for the last `calcite-action-group`. */
+  /**
+   * Specifies an accessible name for the last `calcite-action-group`.
+   *
+   * @public
+   */
   @property() actionsEndGroupLabel?: string;
 
-  /** Specifies an accessible name for the first `calcite-action-group`. */
+  /**
+   * Specifies an accessible name for the first `calcite-action-group`.
+   *
+   * @public
+   */
   @property() actionsStartGroupLabel?: string;
 
   /**
    * When `true`, the component is in a floating state.
+   *
+   * @public
    */
   @property({ reflect: true }) floating = false;
 
-  /** When `true`, the expand/collapse toggle button is not shown. */
+  /**
+   * When `true`, the expand/collapse toggle button is not shown.
+   *
+   * @public
+   */
   @property({ reflect: true }) expandToggleDisabled = false;
 
   /**
    * When `true`, the expand/collapse toggle button is not shown.
    *
+   * @public
    * @deprecated in v5.2.0, removal target v6.0.0 - Use `expandToggleDisabled` instead.
    */
   @property({ reflect: true })
@@ -375,13 +409,23 @@ export class ActionBar extends LitElement {
    *
    * The `expanded` or `textEnabled` state of `calcite-action`, `calcite-action-group`, and `calcite-action-menu` children is synced when this property is toggled, not during initialization.
    * When a child `calcite-action` specifies `textEnabled` as `true`, its `text` initially displays adjacent to its `icon` regardless of expansion.
+   *
+   * @public
    */
   @property({ reflect: true }) expanded = false;
 
-  /** Specifies the position of the expand `calcite-action`. */
+  /**
+   * Specifies the position of the expand `calcite-action`.
+   *
+   * @public
+   */
   @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position> = "end";
 
-  /** Specifies the layout direction of the actions. */
+  /**
+   * Specifies the layout direction of the actions.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical" | "grid", Layout> =
     "vertical";
 
@@ -394,15 +438,21 @@ export class ActionBar extends LitElement {
    * or columns (has no effect when `layout` is `"grid"`), and
    *
    * `"none"` applies no overflow handling.
+   *
+   * @public
    */
   @property({ reflect: true }) overflowMode: "collapse" | "wrap" | "none" = "collapse";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When `true`, disables automatically overflowing `calcite-action`s that won't fit into menus.
    *
+   * @public
    * @deprecated in v5.2.0, removal target v7.0.0 - Use `overflowMode="none"` instead.
    */
   @property({ reflect: true })
@@ -419,7 +469,10 @@ export class ActionBar extends LitElement {
     this.overflowMode = value ? "none" : "collapse";
   }
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -429,13 +482,23 @@ export class ActionBar extends LitElement {
    * - `"end"` positions the expand toggle's chevron away from the end of the component when `expanded` is `false`.
    *
    * When `expanded` is `true`, the chevron direction is reversed.
+   *
+   * @public
    */
   @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
-  /** Specifies the size of the expand `calcite-action`. */
+  /**
+   * Specifies the size of the expand `calcite-action`.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the selection appearance of the component */
+  /**
+   * Specifies the selection appearance of the component
+   *
+   * @public
+   */
   @property({ reflect: true }) selectionAppearance: Extract<
     "neutral" | "highlight",
     SelectionAppearance
@@ -447,8 +510,7 @@ export class ActionBar extends LitElement {
 
   /**
    * Overflows actions that won't fit into menus.
-   *
-   * @private
+   * @internal
    */
   @method()
   async overflowActions(): Promise<void> {
@@ -466,8 +528,8 @@ export class ActionBar extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -479,13 +541,25 @@ export class ActionBar extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteActionBarCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteActionBarExpand = createEvent({ cancelable: false });
 
-  /** Fires when the `expanded` property is toggled. */
+  /**
+   * Fires when the `expanded` property is toggled.
+   *
+   * @public
+   */
   calciteActionBarToggle = createEvent({ cancelable: false });
 
   //#endregion
@@ -812,7 +886,12 @@ export class ActionBar extends LitElement {
     let previousOffset: number | null = null;
 
     items.forEach((item) => {
-      const offset = getWrapItemCrossOffset({ item, containerRect, horizontal, rtl });
+      const offset = getWrapItemCrossOffset({
+        item,
+        containerRect,
+        horizontal,
+        rtl,
+      });
 
       if (previousOffset !== null && Math.abs(offset - previousOffset) > 1) {
         lineOffsets.push(offset);

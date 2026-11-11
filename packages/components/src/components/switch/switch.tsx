@@ -22,41 +22,53 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-switch-background-color": "*";
     /**
      * Specifies the component's background color when hovered or pressed.
+     *
+     * @public
      */
     "--calcite-switch-background-color-hover": "*";
     /**
      * Specifies the component's border color.
      *
      * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     * @public
      */
     "--calcite-switch-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-switch-corner-radius": "*";
     /**
      * Specifies the handle's background color.
+     *
+     * @public
      */
     "--calcite-switch-handle-background-color": "*";
     /**
      * Specifies the handle's border color.
      *
      * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     * @public
      */
     "--calcite-switch-handle-border-color": "*";
     /**
      * Specifies the handle's shadow.
      *
      * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
+     * @public
      */
     "--calcite-switch-handle-shadow": "*";
   }
 }
 
+/** @public */
 export class Switch extends LitElement implements LabelableComponent {
   //#region Static Members
 
@@ -88,44 +100,78 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** Specifies the component's end label text. */
+  /**
+   * Specifies the component's end label text.
+   *
+   * @public
+   */
   @property() labelTextEnd?: string;
 
-  /** Specifies the component's start label text.*/
+  /**
+   * Specifies the component's start label text.
+   *
+   * @public
+   */
   @property() labelTextStart?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any;
 
   //#endregion
@@ -135,8 +181,8 @@ export class Switch extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -148,7 +194,11 @@ export class Switch extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the `checked` value has changed. */
+  /**
+   * Fires when the `checked` value has changed.
+   *
+   * @public
+   */
   calciteSwitchChange = createEvent({ cancelable: false });
 
   //#endregion

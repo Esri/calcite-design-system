@@ -23,19 +23,24 @@ declare global {
   }
 }
 
+/** @public */
 interface TreeSlots {
   /**
    * A slot for `calcite-tree-item` elements.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tree
  */
 export class Tree extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TreeSlots;
 
   //#endregion
@@ -54,21 +59,30 @@ export class Tree extends LitElement {
 
   //#region Public Properties
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) child = false;
 
-  /** When `true`, displays indentation guide lines. */
+  /**
+   * When `true`, displays indentation guide lines.
+   *
+   * @public
+   */
   @property({ reflect: true }) lines = false;
 
-  /** @private */
+  /** @internal */
   @property() parentExpanded = false;
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() selectedItems: TreeItem["el"][] = [];
@@ -83,6 +97,8 @@ export class Tree extends LitElement {
    * - `"none"` allows no selections.
    * - `"single"` allows one selection.
    * - `"single-persist"` allows and requires one selection.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: SelectionMode = "single";
 
@@ -90,7 +106,11 @@ export class Tree extends LitElement {
 
   //#region Events
 
-  /** Fires when the user selects/deselects `calcite-tree-items`. */
+  /**
+   * Fires when the user selects/deselects `calcite-tree-items`.
+   *
+   * @public
+   */
   calciteTreeSelect = createEvent({ cancelable: false });
 
   //#endregion

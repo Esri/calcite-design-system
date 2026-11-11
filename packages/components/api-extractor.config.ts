@@ -1,6 +1,7 @@
 import type { ApiExtractorConfig } from "@arcgis/api-extractor/extractor/config";
 
 export const config: ApiExtractorConfig = {
+  strict: true,
   documentation: {
     copyDocDefinitions: {
       properties: {

@@ -19,32 +19,43 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-tab-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-tab-border-color": "*";
   }
 }
 
+/** @public */
 interface TabsSlots {
   /**
    * A slot for adding `calcite-tab`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding a `calcite-tab-nav`.
+   *
+   * @public
    */
   "title-group": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tabs
  */
 export class Tabs extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TabsSlots;
 
   //#endregion
@@ -78,19 +89,39 @@ export class Tabs extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays the component with a folder style menu. */
+  /**
+   * When `true`, displays the component with a folder style menu.
+   *
+   * @public
+   */
   @property({ reflect: true }) bordered = false;
 
-  /** Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`). */
+  /**
+   * Specifies the layout of the `calcite-tab-nav`, justifying the `calcite-tab-title`s to the start (`"inline"`), or across and centered (`"center"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
-  /** When `true`, allows the last visible closable tab to keep its close button. */
+  /**
+   * When `true`, allows the last visible closable tab to keep its close button.
+   *
+   * @public
+   */
   @property({ reflect: true }) lastTabClosable = false;
 
-  /** Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`. */
+  /**
+   * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.
+   *
+   * @public
+   */
   @property({ reflect: true }) position: TabPosition = "top";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion

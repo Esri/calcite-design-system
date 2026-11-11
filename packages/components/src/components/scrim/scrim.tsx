@@ -19,21 +19,28 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-scrim-background": "*";
   }
 }
 
+/** @public */
 interface ScrimSlots {
   /**
    * A slot for adding custom content, primarily loading information.
+   *
+   * @public
    */
   "": Node[];
 }
 
+/** @public */
 export class Scrim extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ScrimSlots;
 
   //#endregion
@@ -52,8 +59,6 @@ export class Scrim extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -69,10 +74,17 @@ export class Scrim extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion

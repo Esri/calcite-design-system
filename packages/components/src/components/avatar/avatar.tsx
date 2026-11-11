@@ -15,19 +15,26 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-avatar-corner-radius": "*";
     /**
      * Specifies the component's icon or initial color.
+     *
+     * @public
      */
     "--calcite-avatar-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-avatar-background-color": "*";
   }
 }
 
+/** @public */
 export class Avatar extends LitElement {
   // #region Static Members
 
@@ -43,22 +50,45 @@ export class Avatar extends LitElement {
 
   // #region Public Properties
 
-  /** Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component. */
+  /**
+   * Specifies the full name of the user. When `label` and `thumbnail` are not defined, specifies the accessible name for the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) fullName?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the `src` to an image. If the image is private, include an access token in the URL. */
+  /**
+   * Specifies the `src` to an image. If the image is private, include an access token in the URL.
+   *
+   * @public
+   */
   @property({ reflect: true }) thumbnail?: string;
 
-  /** Specifies the unique id of the user. */
+  /**
+   * Specifies the unique id of the user.
+   *
+   * @public
+   */
   @property({ reflect: true }) userId?: string;
 
-  /** Specifies the username of the user. */
+  /**
+   * Specifies the username of the user.
+   *
+   * @public
+   */
   @property({ reflect: true }) username?: string;
 
   // #endregion

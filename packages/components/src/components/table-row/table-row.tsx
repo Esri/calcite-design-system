@@ -31,45 +31,61 @@ declare module "@arcgis/lumina" {
      * Specifies the background color of the component.
      *
      * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-row-background-color` instead.
+     * @public
      */
     "--calcite-table-row-background": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-table-row-background-color": "*";
     /**
      * When `striped` is `true` on `calcite-table`, specifies the background color of the component's `striped` rows.
+     *
+     * @public
      */
     "--calcite-table-row-background-color-striped": "*";
     /**
      * When `selected`, specifies the background color of the component's `selected` rows.
+     *
+     * @public
      */
     "--calcite-table-row-background-color-selected": "*";
     /**
      * Specifies the component's selected accent color.
+     *
+     * @public
      */
     "--calcite-table-row-accent-color-selected": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-row-border-color": "*";
   }
 }
 
+/** @public */
 interface TableRowSlots {
   /**
    * A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Table
  * @parent calcite-table
  */
 export class TableRow extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TableRowSlots;
 
   //#endregion
@@ -123,56 +139,65 @@ export class TableRow extends LitElement {
    * - `"start"` positions content at the top of a `calcite-table-cell`.
    * - `"center"` positions content in the middle of a `calcite-table-cell`.
    * - `"end"` positions content at the bottom of a `calcite-table-cell`.
+   *
+   * @public
    */
   @property({ reflect: true }) alignment!: Alignment;
 
   /**
    * When `true`, the item will be hidden
-   *
-   * @private
-   *  */
+   * @internal
+   */
   @property({ reflect: true }) itemHidden = false;
 
-  /** @private */
+  /** @internal */
   @property() bodyRowCount!: number;
 
-  /** @private */
+  /** @internal */
   @property() cellCount!: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @private */
+  /** @internal */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @private */
+  /** @internal */
   @property() lastVisibleRow = false;
 
-  /** @private */
+  /** @internal */
   @property() numbered = false;
 
-  /** @private */
+  /** @internal */
   @property() positionAll!: number;
 
-  /** @private */
+  /** @internal */
   @property() positionSection!: number;
 
-  /** @private */
+  /** @internal */
   @property() positionSectionLocalized!: string;
 
-  /** @private */
+  /** @internal */
   @property() readCellContentsToAT!: boolean;
 
-  /** @private */
+  /** @internal */
   @property() rowType!: RowType;
 
-  /** @private */
+  /** @internal */
   @property() scale!: Scale;
 
-  /** @private */
+  /** @internal */
   @property() stickyHeaderEnabled = false;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get selected(): boolean {
     return this._selected;
@@ -185,26 +210,32 @@ export class TableRow extends LitElement {
     }
   }
 
-  /** @private */
+  /** @internal */
   @property() selectedRowCount!: number;
 
-  /** @private */
+  /** @internal */
   @property() selectedRowCountLocalized!: string;
 
-  /** @private */
+  /** @internal */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
   //#endregion
 
   //#region Events
 
-  /** @private */
-  calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
+  /** @internal */
+  calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({
+    cancelable: false,
+  });
 
-  /** @private */
+  /** @internal */
   calciteInternalTableRowSelect = createEvent({ cancelable: false });
 
-  /** Fires when the selected state of the component changes. */
+  /**
+   * Fires when the selected state of the component changes.
+   *
+   * @public
+   */
   calciteTableRowSelect = createEvent({ cancelable: false });
 
   //#endregion

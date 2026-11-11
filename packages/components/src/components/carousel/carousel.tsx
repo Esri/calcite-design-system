@@ -33,64 +33,91 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-background-color": "*";
     /**
      * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-background-color-hover": "*";
     /**
      * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-background-color-press": "*";
     /**
      * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-background-color-selected": "*";
     /**
      * Specifies the icon color of the component's pagination items and autoplay controls.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-icon-color": "*";
     /**
      * Specifies the icon color of the component's pagination items when hovered or pressed.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-icon-color-hover": "*";
     /**
      * Specifies the icon color of the component's pagination items when selected.
+     *
+     * @public
      */
     "--calcite-carousel-pagination-icon-color-selected": "*";
     /**
      * Specifies the icon color of the component's navigation arrow controls.
+     *
+     * @public
      */
     "--calcite-carousel-control-icon-color": "*";
     /**
      * Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
+     *
+     * @public
      */
     "--calcite-carousel-control-icon-color-hover": "*";
     /**
      * Specifies the background color of the component's autoplay progress when `autoplay` is specified.
+     *
+     * @public
      */
     "--calcite-carousel-autoplay-progress-background-color": "*";
     /**
      * Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
+     *
+     * @public
      */
     "--calcite-carousel-autoplay-progress-fill-color": "*";
   }
 }
 
+/** @public */
 interface CarouselSlots {
   /**
    * A slot for adding `calcite-carousel-item`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Carousel
  */
 export class Carousel extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: CarouselSlots;
 
   //#endregion
@@ -150,8 +177,6 @@ export class Carousel extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -189,48 +214,78 @@ export class Carousel extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies how and if the "previous" and "next" arrows are displayed. */
+  /**
+   * Specifies how and if the "previous" and "next" arrows are displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) arrowType: ArrowType = "inline";
 
-  /** When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed. */
+  /**
+   * When `true`, the carousel will autoplay and controls will be displayed. When "paused" at time of initialization, the carousel will not autoplay, but controls will be displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) autoplay: AutoplayType = false;
 
-  /** When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item. */
+  /**
+   * When `autoplay` is `true`, specifies in milliseconds the length of time to display each Carousel Item.
+   *
+   * @public
+   */
   @property({ type: Number, reflect: true }) autoplayDuration = DURATION;
 
-  /** Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items. */
+  /**
+   * Specifies if the component's controls are positioned absolutely on top of slotted Carousel Items.
+   *
+   * @public
+   */
   @property({ reflect: true }) controlOverlay = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When `true`, the component's pagination controls are hidden.
+   *
+   * @public
    */
   @property() paginationDisabled: boolean = false;
 
-  /** Specifies the position of the component's pagination controls. */
+  /**
+   * Specifies the position of the component's pagination controls.
+   *
+   * @public
+   */
   @property({ reflect: true }) paginationPosition: PaginationPosition = "bottom";
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
+   * @internal
    */
   @property() paused!: boolean;
 
   /**
    * The component's selected `calcite-carousel-item`.
    *
+   * @public
    * @readonly
    */
   @property() selectedItem!: CarouselItem["el"];
@@ -239,7 +294,11 @@ export class Carousel extends LitElement {
 
   //#region Public Methods
 
-  /** Plays the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
+  /**
+   * Plays the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
+   *
+   * @public
+   */
   @method()
   async play(): Promise<void> {
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
@@ -256,8 +315,8 @@ export class Carousel extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -265,7 +324,11 @@ export class Carousel extends LitElement {
     return this.focusSetter(() => this.containerRef.value, options);
   }
 
-  /** Stops the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
+  /**
+   * Stops the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect.
+   *
+   * @public
+   */
   @method()
   async stop(): Promise<void> {
     if (!this.playing) {
@@ -278,19 +341,39 @@ export class Carousel extends LitElement {
 
   //#region Events
 
-  /** Fires when the selected `calcite-carousel-item` changes. */
+  /**
+   * Fires when the selected `calcite-carousel-item` changes.
+   *
+   * @public
+   */
   calciteCarouselChange = createEvent({ cancelable: false });
 
-  /** Fires when the carousel autoplay state pauses due to a user hovering over the component or focusing on the component or slotted content */
+  /**
+   * Fires when the carousel autoplay state pauses due to a user hovering over the component or focusing on the component or slotted content
+   *
+   * @public
+   */
   calciteCarouselPause = createEvent({ cancelable: false });
 
-  /** Fires when the carousel autoplay is invoked by the user. */
+  /**
+   * Fires when the carousel autoplay is invoked by the user.
+   *
+   * @public
+   */
   calciteCarouselPlay = createEvent({ cancelable: false });
 
-  /** Fires when the carousel autoplay state resumes due to a user no longer hovering over the component or focusing on the component or slotted content */
+  /**
+   * Fires when the carousel autoplay state resumes due to a user no longer hovering over the component or focusing on the component or slotted content
+   *
+   * @public
+   */
   calciteCarouselResume = createEvent({ cancelable: false });
 
-  /** Fires when the carousel autoplay state is stopped by a user. */
+  /**
+   * Fires when the carousel autoplay state is stopped by a user.
+   *
+   * @public
+   */
   calciteCarouselStop = createEvent({ cancelable: false });
 
   //#endregion

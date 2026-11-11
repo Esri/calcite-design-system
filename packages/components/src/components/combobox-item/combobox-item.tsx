@@ -24,69 +24,97 @@ declare module "@arcgis/lumina" {
      * Specifies the component's border color.
      *
      * @deprecated in v3.3.0, removal target v6.0.0.
+     * @public
      */
     "--calcite-combobox-item-border-color": "*";
     /**
      * Specifies the component's text and `icon` color.
+     *
+     * @public
      */
     "--calcite-combobox-text-color": "*";
     /**
      * Specifies the component's text and `icon` color when hovered.
+     *
+     * @public
      */
     "--calcite-combobox-text-color-hover": "*";
     /**
      * When `active`, specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-combobox-item-background-color-active": "*";
     /**
      * Specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-combobox-item-background-color-hover": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-combobox-item-shadow": "*";
     /**
      * Specifies the component's `selected` indicator icon color.
+     *
+     * @public
      */
     "--calcite-combobox-selected-icon-color": "*";
     /**
      * Specifies the component's `description` and `shortHeading` text color.
+     *
+     * @public
      */
     "--calcite-combobox-description-text-color": "*";
     /**
      * Specifies the component's `description` and `shortHeading` text color when hovered.
+     *
+     * @public
      */
     "--calcite-combobox-description-text-color-press": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-combobox-heading-text-color": "*";
   }
 }
 
+/** @public */
 interface ComboboxItemSlots {
   /**
    * A slot for adding nested `calcite-combobox-item`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding non-actionable elements after the component's content.
+   *
+   * @public
    */
   "content-end": Node[];
   /**
    * A slot for adding non-actionable elements before the component's content.
+   *
+   * @public
    */
   "content-start": Node[];
 }
 
 /**
+ * @public
  * @docGroup Combobox
  * @parent calcite-combobox
  */
 export class ComboboxItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ComboboxItemSlots;
 
   //#endregion
@@ -115,57 +143,98 @@ export class ComboboxItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is active. */
+  /**
+   * When `true`, the component is active.
+   *
+   * @public
+   */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`. */
+  /**
+   * Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`.
+   *
+   * @public
+   */
   @property() ancestors?: ComboboxChildElement[];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, omits the component from the `calcite-combobox` filtered search results. */
+  /**
+   * When `true`, omits the component from the `calcite-combobox` filtered search results.
+   *
+   * @public
+   */
   @property({ reflect: true }) filterDisabled = false;
 
   /**
    * Pattern for highlighting filter text matches.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) filterTextMatchPattern?: RegExp;
 
-  /** The `id` attribute of the component. When omitted, a globally unique identifier is used. */
+  /**
+   * The `id` attribute of the component. When omitted, a globally unique identifier is used.
+   *
+   * @public
+   */
   @property({ reflect: true }) guid = guid();
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() heading!: string;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label: any;
 
-  /** Specifies additional metadata to the component for use in filtering. */
+  /**
+   * Specifies additional metadata to the component for use in filtering.
+   *
+   * @public
+   */
   @property() metadata?: Record<string, unknown>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property() scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get selected(): boolean {
     return this._selected;
@@ -186,8 +255,7 @@ export class ComboboxItem extends LitElement {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -199,8 +267,7 @@ export class ComboboxItem extends LitElement {
    *
    * - `"icon"` displays a radio or checkbox.
    * - `"highlight"` displays a background highlight.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -213,10 +280,16 @@ export class ComboboxItem extends LitElement {
    * When provided, the short heading will be displayed in the component's selection.
    *
    * It is recommended to use 5 characters or fewer.
+   *
+   * @public
    */
   @property() shortHeading?: string;
 
-  /** The component's value. Falls back to `heading` if not provided. */
+  /**
+   * The component's value. Falls back to `heading` if not provided.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get value(): any {
     return this._value ?? this.heading;
@@ -227,15 +300,13 @@ export class ComboboxItem extends LitElement {
 
   /**
    * When `true`, the item will be hidden.
-   *
-   * @private
-   *  */
+   * @internal
+   */
   @property({ reflect: true }) itemHidden = false;
 
   /**
    * When `selectionMode` is `"multiple"` or `"ancestors"` and one or more, but not all `calcite-combobox-item`s are selected, displays an indeterminate "select all" checkbox.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) indeterminate = false;
 
@@ -245,8 +316,7 @@ export class ComboboxItem extends LitElement {
 
   /**
    * Toggle selection of the component.
-   *
-   * @private
+   * @internal
    */
   @method()
   toggleSelection(): void {
@@ -264,13 +334,16 @@ export class ComboboxItem extends LitElement {
 
   //#region Events
 
-  /** Fires whenever the component is selected or unselected. */
+  /**
+   * Fires whenever the component is selected or unselected.
+   *
+   * @public
+   */
   calciteComboboxItemChange = createEvent({ cancelable: false });
 
   /**
    * Fires whenever a property the parent combobox needs to know about is changed.
-   *
-   * @private
+   * @internal
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 

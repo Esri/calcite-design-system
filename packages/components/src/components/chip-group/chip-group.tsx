@@ -19,19 +19,24 @@ declare global {
   }
 }
 
+/** @public */
 interface ChipGroupSlots {
   /**
    * A slot for adding one or more `calcite-chip`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Chips
  */
 export class ChipGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ChipGroupSlots;
 
   //#endregion
@@ -56,21 +61,31 @@ export class ChipGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Specifies the size of the component. Child `calcite-chip`s inherit the component's value. */
+  /**
+   * Specifies the size of the component. Child `calcite-chip`s inherit the component's value.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() selectedItems: Chip["el"][] = [];
@@ -82,6 +97,8 @@ export class ChipGroup extends LitElement {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"none"` does not allow any selections.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -95,8 +112,8 @@ export class ChipGroup extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -108,7 +125,11 @@ export class ChipGroup extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's selection changes. */
+  /**
+   * Fires when the component's selection changes.
+   *
+   * @public
+   */
   calciteChipGroupSelect = createEvent({ cancelable: false });
 
   //#endregion

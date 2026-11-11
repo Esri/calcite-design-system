@@ -36,7 +36,7 @@ declare global {
   }
 }
 
-/** @private */
+/** @internal */
 export class DatePickerMonthHeader extends LitElement {
   // #region Static Members
 
@@ -70,43 +70,65 @@ export class DatePickerMonthHeader extends LitElement {
 
   // #region Public Properties
 
-  /** The focused date is indicated and will become the selected date if the user proceeds. */
+  /**
+   * The focused date is indicated and will become the selected date if the user proceeds.
+   * @internal
+   */
   @property() activeDate!: Date;
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property({ type: Number }) headingLevel!: HeadingLevel;
 
-  /** CLDR locale data for translated calendar info. */
+  /**
+   * CLDR locale data for translated calendar info.
+   * @internal
+   */
   @property() localeData!: DateLocaleData;
 
-  /** Specifies the latest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * Specifies the latest allowed date (`"yyyy-mm-dd"`).
+   * @internal
+   */
   @property() max?: Date;
 
   /**
    * This property specifies accessible strings for the component's previous month button ,next month button & year input elements.
    * Made into a prop for testing purposes only.
-   *
-   * @private
+   * @internal
    */
   @property() messages!: DatePicker["messages"]["_overrides"];
 
-  /** Specifies the earliest allowed date (`"yyyy-mm-dd"`). */
+  /**
+   * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
+   * @internal
+   */
   @property() min?: Date;
 
-  /** Specifies the monthStyle used by the component. */
+  /**
+   * Specifies the monthStyle used by the component.
+   * @internal
+   */
   @property() monthStyle!: "abbreviated" | "wide";
 
   /**
    * Specifies the position of the component in a range date-picker.
-   *
-   * @private
+   * @internal
    */
   @property() position?: Extract<"start" | "end", Position>;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   * @internal
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Already selected date. */
+  /**
+   * Already selected date.
+   * @internal
+   */
   @property() selectedDate?: Date;
 
   // #endregion
@@ -115,8 +137,7 @@ export class DatePickerMonthHeader extends LitElement {
 
   /**
    * Fires to active date
-   *
-   * @private
+   * @internal
    */
   calciteInternalDatePickerMonthHeaderSelectChange = createEvent<Date>({ cancelable: false });
 

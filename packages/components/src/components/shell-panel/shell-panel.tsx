@@ -24,10 +24,16 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import type { DisplayMode } from "./types";
 import { styles } from "./shell-panel.scss";
 
+/** @public */
 export type ShellPanelSizingData = {
+  /** @public */
   availableSize: number;
 };
 
+/**
+ * @public
+ * @param axis
+ */
 type ShellSizingDataProvider = (axis: "inline" | "block") => ShellPanelSizingData | null;
 
 declare global {
@@ -40,73 +46,104 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-shell-panel-background-color": "*";
     /**
      * When `displayMode` is `"float-all"`, specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-shell-panel-border-color": "*";
     /**
      * When `displayMode` is `"float-all"`, specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-shell-panel-corner-radius": "*";
     /**
      * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float-all`, specifies the component's height.
+     *
+     * @public
      */
     "--calcite-shell-panel-height": "*";
     /**
      * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the component's maximum height.
+     *
+     * @public
      */
     "--calcite-shell-panel-max-height": "*";
     /**
      * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the component's minimum height.
+     *
+     * @public
      */
     "--calcite-shell-panel-min-height": "*";
     /**
      * Specifies the component's maximum width.
+     *
+     * @public
      */
     "--calcite-shell-panel-max-width": "*";
     /**
      * Specifies the resize handle's text color.
+     *
+     * @public
      */
     "--calcite-shell-panel-resize-icon-color": "*";
     /**
      * When `displayMode` is `float-all`, `float-content`, or `overlay`, specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-shell-panel-shadow": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-shell-panel-text-color": "*";
     /**
      * Specifies the component's width.
+     *
+     * @public
      */
     "--calcite-shell-panel-width": "*";
     /**
      * Specifies the component's z-index value.
+     *
+     * @public
      */
     "--calcite-shell-panel-z-index": "*";
   }
 }
 
+/** @public */
 interface ShellPanelSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @public
    */
   "action-bar": Node[];
 }
 
 /**
+ * @public
  * @docGroup Shell
  * @parent calcite-shell
  */
 export class ShellPanel extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ShellPanelSlots;
 
   //#endregion
@@ -135,16 +172,20 @@ export class ShellPanel extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
     getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.getMaxInlineSize() },
-      block: { min: this.resizeValues.minBlockSize, max: this.getMaxBlockSize() },
+      inline: {
+        min: this.resizeValues.minInlineSize,
+        max: this.getMaxInlineSize(),
+      },
+      block: {
+        min: this.resizeValues.minBlockSize,
+        max: this.getMaxBlockSize(),
+      },
     }),
     onResize: (resizeValues) => {
       this.resizeValues = resizeValues;
@@ -170,7 +211,11 @@ export class ShellPanel extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, hides the component's content area. */
+  /**
+   * When `true`, hides the component's content area.
+   *
+   * @public
+   */
   @property({ reflect: true }) collapsed = false;
 
   /**
@@ -180,12 +225,15 @@ export class ShellPanel extends LitElement {
    * - `"overlay"` displays at full height on top of center content.
    * - `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    * - `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
+   *
+   * @public
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
   /**
    * When `layout` is `horizontal`, specifies the component's maximum height.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale?: Scale;
@@ -193,37 +241,55 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's direction.
    *
+   * @public
    * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
+   * @public
    * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
-  /** When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable. */
+  /**
+   * When `true` and `displayMode` is `"dock"` or `"overlay"`, the component's content area is resizable.
+   *
+   * @public
+   */
   @property({ reflect: true }) resizable = false;
 
   /** @internal */
-  @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
+  @property({ attribute: false })
+  shellSizingDataProvider?: ShellSizingDataProvider;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) height?: Height;
 
   /**
    * When `layout` is `vertical`, specifies the component's width.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 -  Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the component's width. */
+  /**
+   * Specifies the component's width.
+   *
+   * @public
+   */
   @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
@@ -235,6 +301,9 @@ export class ShellPanel extends LitElement {
    *
    * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
+   *
+   * @public
+   * @param size
    */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
@@ -245,16 +314,24 @@ export class ShellPanel extends LitElement {
 
   //#region Events
 
-  /** @private */
+  /** @internal */
   calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
 
-  /** @private */
+  /** @internal */
   calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteShellPanelCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteShellPanelExpand = createEvent({ cancelable: false });
 
   //#endregion
@@ -576,9 +653,14 @@ export class ShellPanel extends LitElement {
     const restrictSizeMin =
       this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
         ? undefined
-        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+        : {
+            width: this.resizeValues.minInlineSize,
+            height: this.resizeValues.minBlockSize,
+          };
 
-    this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
+    this.interaction = interact(contentRef.value, {
+      context: el.ownerDocument,
+    }).resizable({
       edges: {
         top: position === "end" && layout === "horizontal" ? resizeHandle : false,
         right: position === (rtl ? "end" : "start") && layout === "vertical" ? resizeHandle : false,
@@ -730,7 +812,10 @@ export class ShellPanel extends LitElement {
 
     return (
       <div
-        class={{ [CSS.container]: true, [CSS.floatAll]: displayMode === "float-all" }}
+        class={{
+          [CSS.container]: true,
+          [CSS.floatAll]: displayMode === "float-all",
+        }}
         ref={this.containerRef}
       >
         {mainNodes}

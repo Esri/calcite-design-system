@@ -24,63 +24,92 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the padding of the component's content.
+     *
+     * @public
      */
     "--calcite-filter-content-space": "*";
     /**
      * Specifies the component's input background color.
+     *
+     * @public
      */
     "--calcite-filter-input-background-color": "*";
     /**
      * Specifies the component's input border color.
+     *
+     * @public
      */
     "--calcite-filter-input-border-color": "*";
     /**
      * Specifies the component's input corner radius.
+     *
+     * @public
      */
     "--calcite-filter-input-corner-radius": "*";
     /**
      * Specifies the component's input shadow.
+     *
+     * @public
      */
     "--calcite-filter-input-shadow": "*";
     /**
      * Specifies the component's input icon color.
+     *
+     * @public
      */
     "--calcite-filter-input-icon-color": "*";
     /**
      * Specifies the component's input text color.
+     *
+     * @public
      */
     "--calcite-filter-input-text-color": "*";
     /**
      * Specifies the component's input placeholder text color.
+     *
+     * @public
      */
     "--calcite-filter-input-placeholder-text-color": "*";
     /**
      * Specifies the background color of the component's input `clearable` element.
+     *
+     * @public
      */
     "--calcite-filter-input-actions-background-color": "*";
     /**
      * Specifies the background color of the component's input `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-filter-input-actions-background-color-hover": "*";
     /**
      * Specifies the background color of the component's input `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-filter-input-actions-background-color-press": "*";
     /**
      * Specifies the icon color of the component's input `clearable` element.
+     *
+     * @public
      */
     "--calcite-filter-input-actions-icon-color": "*";
     /**
      * Specifies the icon color of the component's input `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-filter-input-actions-icon-color-hover": "*";
     /**
      * Specifies the icon color of the component's input `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-filter-input-actions-icon-color-press": "*";
   }
 }
 
+/** @public */
 export class Filter extends LitElement {
   //#region Static Members
 
@@ -106,8 +135,6 @@ export class Filter extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -119,15 +146,24 @@ export class Filter extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `value` is an object, specifies the properties to match against when filtering. If not set, all properties will be matched. */
+  /**
+   * When `value` is an object, specifies the properties to match against when filtering. If not set, all properties will be matched.
+   *
+   * @public
+   */
   @property() filterProps?: string[];
 
   /**
    * The component's resulting items after filtering.
    *
+   * @public
    * @readonly
    */
   @property() filteredItems: object[] = [];
@@ -138,22 +174,42 @@ export class Filter extends LitElement {
    * that contain the string entered in the input, using a partial match and recursive search.
    *
    * This property is needed to conduct filtering.
+   *
+   * @public
    */
   @property() items: object[] = [];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the component's input placeholder text. */
+  /**
+   * Specifies the component's input placeholder text.
+   *
+   * @public
+   */
   @property() placeholder?: string;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property()
   get value(): string {
     return this._value;
@@ -175,6 +231,7 @@ export class Filter extends LitElement {
    *
    * This method can be useful because filtering is delayed and asynchronous.
    *
+   * @public
    * @param value - The filter text value.
    */
   @method()
@@ -189,8 +246,8 @@ export class Filter extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -202,7 +259,11 @@ export class Filter extends LitElement {
 
   //#region Events
 
-  /** Fires when the filter text changes. */
+  /**
+   * Fires when the filter text changes.
+   *
+   * @public
+   */
   calciteFilterChange = createEvent({ cancelable: false });
 
   //#endregion

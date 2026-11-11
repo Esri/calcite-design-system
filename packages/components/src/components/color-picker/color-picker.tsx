@@ -62,70 +62,104 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-color-picker-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-color-picker-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-color-picker-corner-radius": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-color-picker-shadow": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-color-picker-text-color": "*";
     /**
      * Specifies the component's input background color.
+     *
+     * @public
      */
     "--calcite-color-picker-input-background-color": "*";
     /**
      * Specifies the component's input border color.
+     *
+     * @public
      */
     "--calcite-color-picker-input-border-color": "*";
     /**
      * Specifies the component's input text color.
+     *
+     * @public
      */
     "--calcite-color-picker-input-text-color": "*";
     /**
      * When `hexDisabled` is not `true`, specifies the component's input prefix text color.
+     *
+     * @public
      */
     "--calcite-color-picker-input-prefix-text-color": "*";
     /**
      * When `alphaChannel` is `true`, specifies the component's input suffix text color.
+     *
+     * @public
      */
     "--calcite-color-picker-input-suffix-text-color": "*";
     /**
      * Specifies the component's tab border color.
+     *
+     * @public
      */
     "--calcite-color-picker-tab-border-color": "*";
     /**
      * Specifies the component's tab text color.
+     *
+     * @public
      */
     "--calcite-color-picker-tab-text-color": "*";
     /**
      * Specifies the component's tab accent color when selected or active.
+     *
+     * @public
      */
     "--calcite-color-picker-tab-accent-color-press": "*";
     /**
      * Specifies the component's swatch corner radius.
+     *
+     * @public
      */
     "--calcite-color-picker-swatch-corner-radius": "*";
     /**
      * Specifies the component's `savedColors` action text color when pressed.
+     *
+     * @public
      */
     "--calcite-color-picker-action-text-color-press": "*";
     /**
      * Specifies the component's `savedColors` action text color when hovered.
+     *
+     * @public
      */
     "--calcite-color-picker-action-text-color-hover": "*";
     /**
      * Specifies the component's `savedColors` action text color.
+     *
+     * @public
      */
     "--calcite-color-picker-action-text-color": "*";
   }
@@ -133,6 +167,7 @@ declare module "@arcgis/lumina" {
 
 const throttleFor60FpsInMs = 16;
 
+/** @public */
 export class ColorPicker extends LitElement {
   //#region Static Members
 
@@ -190,8 +225,6 @@ export class ColorPicker extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -356,23 +389,32 @@ export class ColorPicker extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component will allow updates to the color's alpha value. */
+  /**
+   * When `true`, the component will allow updates to the color's alpha value.
+   *
+   * @public
+   */
   @property() alphaChannel = false;
 
-  /** When `true`, hides the RGB/HSV channel inputs. */
+  /**
+   * When `true`, hides the RGB/HSV channel inputs.
+   *
+   * @public
+   */
   @property() channelsDisabled = false;
 
   /**
    * When `true`, an empty color (`null`) will be allowed as a `value`.
    *
    * When `false`, a color value is enforced, and clearing the input or blurring will restore the last valid `value`.
+   *
+   * @public
    */
   @property({ reflect: true }) clearable = false;
 
   /**
    * Internal prop for advanced use-cases.
-   *
-   * @private
+   * @internal
    */
   @property()
   get color(): InternalColor | undefined {
@@ -384,35 +426,68 @@ export class ColorPicker extends LitElement {
     this.handleColorChange(color, oldColor);
   }
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, hides the color field. */
+  /**
+   * When `true`, hides the color field.
+   *
+   * @public
+   */
   @property({ reflect: true }) fieldDisabled = false;
 
   /**
    * The format of `value`.
    *
    * When `"auto"`, the format will be inferred from `value` when set.
+   *
+   * @public
    */
   @property({ reflect: true }) format: Format = "auto";
 
-  /** When `true`, hides the hex input. */
+  /**
+   * When `true`, hides the hex input.
+   *
+   * @public
+   */
   @property() hexDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** When `true`, hides the saved colors section. */
+  /**
+   * When `true`, hides the saved colors section.
+   *
+   * @public
+   */
   @property({ reflect: true }) savedDisabled = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the storage ID for colors. */
+  /**
+   * Specifies the storage ID for colors.
+   *
+   * @public
+   */
   @property({ reflect: true }) storageId?: string;
 
   /**
@@ -420,6 +495,7 @@ export class ColorPicker extends LitElement {
    *
    * The type will be preserved as the color is updated.
    *
+   * @public
    * @see [MDN - CSS Color](https://developer.mozilla.org/en-US/docs/Web/CSS/color),
    * @see [ColorValue](https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/components/color-picker/types.ts#L10).
    */
@@ -442,8 +518,8 @@ export class ColorPicker extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -455,13 +531,19 @@ export class ColorPicker extends LitElement {
 
   //#region Events
 
-  /** Fires when the color value has changed. */
+  /**
+   * Fires when the color value has changed.
+   *
+   * @public
+   */
   calciteColorPickerChange = createEvent({ cancelable: false });
 
   /**
    * Fires as the color value changes.
    *
    * Similar to the `calciteColorPickerChange` event with the exception of dragging. When dragging the color field or hue slider thumb, this event fires as the thumb is moved.
+   *
+   * @public
    */
   calciteColorPickerInput = createEvent({ cancelable: false });
 
