@@ -26,6 +26,8 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the space between the component's `calcite-stepper-item`s.
+     *
+     * @public
      */
     "--calcite-stepper-bar-gap": "*";
     /**
@@ -38,28 +40,37 @@ declare module "@arcgis/lumina" {
     "--calcite-stepper-bar-selected-fill-color": "*";
     /**
      * When `calcite-stepper-item`s are `complete`, specifies the component's `calcite-stepper-item`s' bar fill color.
+     *
+     * @public
      */
     "--calcite-stepper-bar-complete-fill-color": "*";
     /**
      * When `calcite-stepper-item`s contain an `error`, specifies the component's `calcite-stepper-item`s' bar fill color.
+     *
+     * @public
      */
     "--calcite-stepper-bar-error-fill-color": "*";
   }
 }
 
+/** @public */
 interface StepperSlots {
   /**
    * A slot for adding `calcite-stepper-item`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Stepper
  */
 export class Stepper extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: StepperSlots;
 
   //#endregion
@@ -89,8 +100,6 @@ export class Stepper extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -104,27 +113,51 @@ export class Stepper extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, displays a status icon in the `calcite-stepper-item` heading. */
+  /**
+   * When `true`, displays a status icon in the `calcite-stepper-item` heading.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon = false;
 
-  /** Defines the component's layout. */
+  /**
+   * Defines the component's layout.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: StepperLayout = "horizontal";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays the step number in the `calcite-stepper-item` heading. */
+  /**
+   * When `true`, displays the step number in the `calcite-stepper-item` heading.
+   *
+   * @public
+   */
   @property({ reflect: true }) numbered = false;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected item.
    *
+   * @public
    * @readonly
    */
   @property() selectedItem: StepperItem["el"] | null = null;
@@ -133,7 +166,11 @@ export class Stepper extends LitElement {
 
   //#region Public Methods
 
-  /** Set the last `calcite-stepper-item` as active. */
+  /**
+   * Set the last `calcite-stepper-item` as active.
+   *
+   * @public
+   */
   @method()
   async endStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.visibleItems.length - 1, "previous");
@@ -148,6 +185,7 @@ export class Stepper extends LitElement {
   /**
    * Set a specified `calcite-stepper-item` as active.
    *
+   * @public
    * @param step
    */
   @method()
@@ -159,7 +197,11 @@ export class Stepper extends LitElement {
     }
   }
 
-  /** Set the next `calcite-stepper-item` as active. */
+  /**
+   * Set the next `calcite-stepper-item` as active.
+   *
+   * @public
+   */
   @method()
   async nextStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.currentActivePosition + 1, "next");
@@ -171,7 +213,11 @@ export class Stepper extends LitElement {
     this.updateStep(enabledStepIndex);
   }
 
-  /** Set the previous `calcite-stepper-item` as active. */
+  /**
+   * Set the previous `calcite-stepper-item` as active.
+   *
+   * @public
+   */
   @method()
   async prevStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(this.currentActivePosition - 1, "previous");
@@ -183,7 +229,11 @@ export class Stepper extends LitElement {
     this.updateStep(enabledStepIndex);
   }
 
-  /** Set the first `calcite-stepper-item` as active. */
+  /**
+   * Set the first `calcite-stepper-item` as active.
+   *
+   * @public
+   */
   @method()
   async startStep(): Promise<void> {
     const enabledStepIndex = this.getEnabledStepIndex(0, "next");
@@ -201,14 +251,17 @@ export class Stepper extends LitElement {
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
-   *
-   * @private
+   * @internal
    */
   calciteInternalStepperItemChange = createEvent<StepperItemChangeEventDetail>({
     cancelable: false,
   });
 
-  /** Fires when the active `calcite-stepper-item` changes. */
+  /**
+   * Fires when the active `calcite-stepper-item` changes.
+   *
+   * @public
+   */
   calciteStepperChange = createEvent({ cancelable: false });
 
   //#endregion
@@ -425,7 +478,10 @@ export class Stepper extends LitElement {
     this.el.role = "region";
     return (
       <div
-        class={{ container: true, [CSS.singleView]: this.layout === "horizontal-single" }}
+        class={{
+          container: true,
+          [CSS.singleView]: this.layout === "horizontal-single",
+        }}
         ref={this.containerRef}
       >
         {this.layout === "horizontal-single" && (

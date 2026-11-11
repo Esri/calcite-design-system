@@ -26,43 +26,62 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-time-picker-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-time-picker-border-color": "*";
     /**
      * Specifies the component's border radius.
+     *
+     * @public
      */
     "--calcite-time-picker-corner-radius": "*";
     /**
      * Specifies the button's background color when hovered or focused.
+     *
+     * @public
      */
     "--calcite-time-picker-button-background-color-hover": "*";
     /**
      * Specifies the button's background color when active.
+     *
+     * @public
      */
     "--calcite-time-picker-button-background-color-press": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-time-picker-color": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-time-picker-icon-color": "*";
     /**
      * Specifies the input's border color when active.
+     *
+     * @public
      */
     "--calcite-time-picker-input-border-color-press": "*";
     /**
      * Specifies the input's border color when hovered.
+     *
+     * @public
      */
     "--calcite-time-picker-input-border-color-hover": "*";
   }
 }
 
+/** @public */
 export class TimePicker extends LitElement implements TimeComponent {
   //#region Static Members
 
@@ -92,8 +111,6 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -113,9 +130,7 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Public Properties
 
-  /**
-   * @internal
-   */
+  /** @internal */
   @property() time: ReturnType<typeof useTime> = useTime(this);
 
   /**
@@ -124,22 +139,43 @@ export class TimePicker extends LitElement implements TimeComponent {
    * - `"user"` displays the user's locale format.
    * - `"12"` displays a 12-hour format.
    * - `"24"` displays a 24-hour format.
+   *
+   * @public
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property() numberingSystem!: NumberingSystem;
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the granularity the `value` must adhere to (in seconds). */
+  /**
+   * Specifies the granularity the `value` must adhere to (in seconds).
+   *
+   * @public
+   */
   @property({ reflect: true }) step = 60;
 
-  /** The component's value in UTC (always 24-hour format). */
+  /**
+   * The component's value in UTC (always 24-hour format).
+   *
+   * @public
+   */
   @property() value: string | null = null;
 
   //#endregion
@@ -149,8 +185,8 @@ export class TimePicker extends LitElement implements TimeComponent {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -162,7 +198,11 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Events
 
-  /** Fires when a user changes the component's time */
+  /**
+   * Fires when a user changes the component's time
+   *
+   * @public
+   */
   calciteTimePickerChange = createEvent({ cancelable: false });
 
   //#endregion

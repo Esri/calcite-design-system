@@ -25,113 +25,156 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-accordion-border-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-accordion-background-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-accordion-text-color": "*";
     /**
      * Specifies the component's main text color on hover.
+     *
+     * @public
      */
     "--calcite-accordion-text-color-hover": "*";
     /**
      * Specifies the component's main text color when pressed.
+     *
+     * @public
      */
     "--calcite-accordion-text-color-press": "*";
     /**
      * Specifies the component's background color.
      *
      * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-background-color` instead.
+     * @public
      */
     "--calcite-accordion-item-background-color": "*";
     /**
      * Specifies the component's border color.
      *
      * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-border-color` instead.
+     * @public
      */
     "--calcite-accordion-item-border-color": "*";
     /**
      * Specifies the component's padding.
+     *
+     * @public
      */
     "--calcite-accordion-item-content-space": "*";
     /**
      * Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     *
+     * @public
      */
     "--calcite-accordion-item-end-icon-color": "*";
     /**
      * Specifies the component's expand icon color.
+     *
+     * @public
      */
     "--calcite-accordion-item-expand-icon-color": "*";
     /**
      * Specifies the component's `heading` background color.
+     *
+     * @public
      */
     "--calcite-accordion-item-header-background-color": "*";
     /**
      * Specifies the component's `heading` background color when hovered.
+     *
+     * @public
      */
     "--calcite-accordion-item-header-background-color-hover": "*";
     /**
      * Specifies the component's `heading` background color when pressed.
+     *
+     * @public
      */
     "--calcite-accordion-item-header-background-color-press": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-accordion-item-heading-text-color": "*";
     /**
      * Specifies the component's default icon color.
      *
      * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
+     * @public
      */
     "--calcite-accordion-item-icon-color": "*";
     /**
      * Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     *
+     * @public
      */
     "--calcite-accordion-item-start-icon-color": "*";
     /**
      * Specifies the component's text color.
      *
      * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color` instead.
+     * @public
      */
     "--calcite-accordion-item-text-color": "*";
     /**
      * Specifies the component's text color on hover.
      *
      * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color-hover` instead.
+     * @public
      */
     "--calcite-accordion-item-text-color-hover": "*";
   }
 }
 
+/** @public */
 interface AccordionItemSlots {
   /**
    * A slot for adding custom content, including nested `calcite-accordion-item`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding `calcite-action`s or content to the end side of the component's header.
+   *
+   * @public
    */
   "actions-end": Node[];
   /**
    * A slot for adding `calcite-action`s or content to the start side of the component's header.
+   *
+   * @public
    */
   "actions-start": Node[];
   /**
    * A slot for adding non-actionable elements after the component's header text.
+   *
+   * @public
    */
   "content-end": Node[];
   /**
    * A slot for adding non-actionable elements before the component's header text.
+   *
+   * @public
    */
   "content-start": Node[];
 }
 
 /**
+ * @public
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
  * @docGroup Accordion
  * @parent calcite-accordion
@@ -139,6 +182,7 @@ interface AccordionItemSlots {
 export class AccordionItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AccordionItemSlots;
 
   //#endregion
@@ -159,8 +203,6 @@ export class AccordionItem extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -180,56 +222,78 @@ export class AccordionItem extends LitElement {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) expanded = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
    * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
-   *
-   * @private
+   * @internal
    */
   @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
-   *
-   * @private
+   * @internal
    */
   @property() iconPosition!: Extract<"start" | "end", Position>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
-   *
-   * @private
+   * @internal
    */
   @property() iconType!: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) scale!: Scale;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -239,8 +303,8 @@ export class AccordionItem extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -252,17 +316,27 @@ export class AccordionItem extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteAccordionItemCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteAccordionItemExpand = createEvent({ cancelable: false });
 
-  /** @private */
+  /** @internal */
   calciteInternalAccordionItemClose = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalAccordionItemSelect = createEvent<RequestedItem>({ cancelable: false });
+  /** @internal */
+  calciteInternalAccordionItemSelect = createEvent<RequestedItem>({
+    cancelable: false,
+  });
 
   //#endregion
 

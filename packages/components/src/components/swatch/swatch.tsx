@@ -31,24 +31,31 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-swatch-corner-radius": "*";
   }
 }
 
+/** @public */
 interface SwatchSlots {
   /**
    * A slot for adding an image or pattern.
+   *
+   * @public
    */
   image: Node[];
 }
 
 /**
+ * @public
  * @docGroup Swatch
  */
 export class Swatch extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SwatchSlots;
 
   //#endregion
@@ -82,48 +89,64 @@ export class Swatch extends LitElement {
   /**
    * Specifies the component's color
    *
+   * @public
    * @see [MDN - CSS color value](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value)
    */
   @property() color?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` event to emit.
    * This is set to `true` by a parent Swatch Group component.
-   *
-   * @private
+   * @internal
    */
   @property() interactive = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @private */
+  /** @internal */
   @property() parentSwatchGroup?: SwatchGroup["el"];
 
-  /** Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value. */
+  /**
+   * Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
    * This internal property, managed by a containing `calcite-swatch-group`, is
    * conditionally set based on the `selectionMode` of the parent
-   *
-   * @private
+   * @internal
    */
   @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any;
 
   //#endregion
@@ -133,6 +156,7 @@ export class Swatch extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options
    */
   @method()
@@ -144,13 +168,17 @@ export class Swatch extends LitElement {
 
   //#region Events
 
-  /** @private */
+  /** @internal */
   calciteInternalSwatchSelect = createEvent({ cancelable: false });
 
-  /** @private */
+  /** @internal */
   calciteInternalSyncSelectedSwatches = createEvent({ cancelable: false });
 
-  /** Fires when the selected state of the component changes. */
+  /**
+   * Fires when the selected state of the component changes.
+   *
+   * @public
+   */
   calciteSwatchSelect = createEvent({ cancelable: false });
 
   //#endregion

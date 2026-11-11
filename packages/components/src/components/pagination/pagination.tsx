@@ -21,26 +21,38 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's item color.
+     *
+     * @public
      */
     "--calcite-pagination-color": "*";
     /**
      * Specifies the component's item color when hovered or selected.
+     *
+     * @public
      */
     "--calcite-pagination-color-hover": "*";
     /**
      * Specifies the component's item bottom border color when hovered.
+     *
+     * @public
      */
     "--calcite-pagination-color-border-hover": "*";
     /**
      * Specifies the component's item bottom border color when selected.
+     *
+     * @public
      */
     "--calcite-pagination-color-border-active": "*";
     /**
      * Specifies the component's item background color when active.
+     *
+     * @public
      */
     "--calcite-pagination-background-color": "*";
     /**
      * Specifies the component's chevron item background color when hovered.
+     *
+     * @public
      */
     "--calcite-pagination-icon-color-background-hover": "*";
   }
@@ -63,6 +75,7 @@ const maxItemBreakpoints = {
   xxsmall: 1,
 };
 
+/** @public */
 export class Pagination extends LitElement {
   //#region Static Members
 
@@ -83,8 +96,6 @@ export class Pagination extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -106,25 +117,52 @@ export class Pagination extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property() numberingSystem?: NumberingSystem;
 
-  /** Specifies the number of items per page. */
+  /**
+   * Specifies the number of items per page.
+   *
+   * @public
+   */
   @property({ reflect: true }) pageSize = 20;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the starting item number. */
+  /**
+   * Specifies the starting item number.
+   *
+   * @public
+   */
   @property({ reflect: true }) startItem = 1;
 
-  /** Specifies the total number of items. */
+  /**
+   * Specifies the total number of items.
+   *
+   * @public
+   */
   @property({ reflect: true }) totalItems = 0;
 
   //#endregion
@@ -134,6 +172,7 @@ export class Pagination extends LitElement {
   /**
    * Set a specified page as active.
    *
+   * @public
    * @param page
    */
   @method()
@@ -157,13 +196,21 @@ export class Pagination extends LitElement {
     }
   }
 
-  /** Go to the next page of results. */
+  /**
+   * Go to the next page of results.
+   *
+   * @public
+   */
   @method()
   async nextPage(): Promise<void> {
     this.startItem = Math.min(this.lastStartItem, this.startItem + this.pageSize);
   }
 
-  /** Go to the previous page of results. */
+  /**
+   * Go to the previous page of results.
+   *
+   * @public
+   */
   @method()
   async previousPage(): Promise<void> {
     this.startItem = Math.max(1, this.startItem - this.pageSize);
@@ -172,8 +219,8 @@ export class Pagination extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -185,7 +232,11 @@ export class Pagination extends LitElement {
 
   //#region Events
 
-  /** Emits when the selected page changes. */
+  /**
+   * Emits when the selected page changes.
+   *
+   * @public
+   */
   calcitePaginationChange = createEvent({ cancelable: false });
 
   //#endregion

@@ -42,19 +42,24 @@ declare global {
   }
 }
 
+/** @public */
 interface BlockGroupSlots {
   /**
    * A slot for adding `calcite-block` elements.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Blocks
  */
 export class BlockGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: BlockGroupSlots;
 
   //#endregion
@@ -101,35 +106,62 @@ export class BlockGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When provided, the method will be called to determine whether the element can be moved from the component. */
+  /**
+   * When provided, the method will be called to determine whether the element can be moved from the component.
+   *
+   * @public
+   */
   @property() canPull?: (detail: BlockDragDetail) => boolean | "clone";
 
-  /** When provided, the method will be called to determine whether the element can be added from another `calcite-block-group`. */
+  /**
+   * When provided, the method will be called to determine whether the element can be added from another `calcite-block-group`.
+   *
+   * @public
+   */
   @property() canPut?: (detail: BlockDragDetail) => boolean;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, `calcite-block`s are sortable via a draggable button. */
+  /**
+   * When `true`, `calcite-block`s are sortable via a draggable button.
+   *
+   * @public
+   */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
    * Specifies the component's group identifier.
    *
    * To drag elements from one `calcite-block-group` into another, both must have the same group value.
+   *
+   * @public
    */
   @property({ reflect: true }) group?: string;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -140,13 +172,19 @@ export class BlockGroup extends LitElement {
    * `"single"` allows only one `calcite-block` to be expanded, and
    *
    * `"single-persist"` allows one `calcite-block` to be expanded and prevents collapsing.
+   *
+   * @public
    */
   @property({ reflect: true }) expandMode: Extract<
     "single" | "single-persist" | "multiple",
     SelectionMode
   > = "multiple";
 
-  /** When `true`, and a `group` is defined, `calcite-block`s are no longer sortable. */
+  /**
+   * When `true`, and a `group` is defined, `calcite-block`s are no longer sortable.
+   *
+   * @public
+   */
   @property({ reflect: true }) sortDisabled = false;
 
   //#endregion
@@ -155,8 +193,8 @@ export class BlockGroup extends LitElement {
 
   /**
    * Emits the `calciteBlockGroupOrderChange` event.
-   *
-   * @private
+   * @internal
+   * @param detail
    */
   @method()
   emitOrderChangeEvent(detail: BlockDragDetail): void {
@@ -166,8 +204,8 @@ export class BlockGroup extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -179,14 +217,32 @@ export class BlockGroup extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's dragging has ended. */
-  calciteBlockGroupDragEnd = createEvent<BlockDragDetail>({ cancelable: false });
+  /**
+   * Fires when the component's dragging has ended.
+   *
+   * @public
+   */
+  calciteBlockGroupDragEnd = createEvent<BlockDragDetail>({
+    cancelable: false,
+  });
 
-  /** Fires when the component's dragging has started. */
-  calciteBlockGroupDragStart = createEvent<BlockDragDetail>({ cancelable: false });
+  /**
+   * Fires when the component's dragging has started.
+   *
+   * @public
+   */
+  calciteBlockGroupDragStart = createEvent<BlockDragDetail>({
+    cancelable: false,
+  });
 
-  /** Fires when the component's item order changes. */
-  calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({ cancelable: false });
+  /**
+   * Fires when the component's item order changes.
+   *
+   * @public
+   */
+  calciteBlockGroupOrderChange = createEvent<BlockDragDetail>({
+    cancelable: false,
+  });
 
   //#endregion
 
@@ -490,7 +546,16 @@ export class BlockGroup extends LitElement {
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateSortMenuItem({ type: "add", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+    if (
+      !this.validateSortMenuItem({
+        type: "add",
+        fromEl,
+        toEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      })
+    ) {
       return;
     }
 
@@ -525,7 +590,16 @@ export class BlockGroup extends LitElement {
     const oldIndex = fromElItems.indexOf(dragEl);
     const newIndex = 0;
 
-    if (!this.validateSortMenuItem({ type: "move", fromEl, toEl, dragEl, newIndex, oldIndex })) {
+    if (
+      !this.validateSortMenuItem({
+        type: "move",
+        fromEl,
+        toEl,
+        dragEl,
+        newIndex,
+        oldIndex,
+      })
+    ) {
       return;
     }
 

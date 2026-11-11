@@ -20,60 +20,85 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When the parent `calcite-tile-group` has a `selectionMode` that is not `"none"`, specifies the color of the component's selection elements, such as the radio, checkbox, and border.
+     *
+     * @public
      */
     "--calcite-tile-accent-color-press": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-tile-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-tile-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-tile-corner-radius": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-tile-heading-text-color": "*";
     /**
      * When `href` is present, specifies the component's link color.
+     *
+     * @public
      */
     "--calcite-tile-link-color": "*";
     /**
      * Specifies the shadow around the component.
+     *
+     * @public
      */
     "--calcite-tile-shadow": "*";
     /**
      * Specifies the component's `description` and `icon` text color, but not the `heading` text color.
+     *
+     * @public
      */
     "--calcite-tile-text-color": "*";
     /**
      * Specifies the component's link text color.
+     *
+     * @public
      */
     "--calcite-tile-link-text-color": "*";
   }
 }
 
+/** @public */
 interface TileSlots {
   /**
    * A slot for adding non-actionable elements above the component's content.
+   *
+   * @public
    */
   "content-top": Node[];
   /**
    * A slot for adding non-actionable elements below the component's content.
+   *
+   * @public
    */
   "content-bottom": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tiles
  */
 export class Tile extends LitElement implements SelectableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TileSlots;
 
   //#endregion
@@ -107,17 +132,29 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * When `true`, the component is active.
    *
+   * @public
    * @deprecated in v2.8.0, removal target v6.0.0 - No longer necessary.
    */
   @property({ reflect: true }) active = false;
 
-  /** Specifies alignment of the component's content. */
+  /**
+   * Specifies alignment of the component's content.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) description?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -125,49 +162,77 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * When `true`, renders without a border and padding for use by other components.
    *
+   * @public
    * @deprecated in v2.6.0, removal target v6.0.0 - No longer necessary.
    */
   @property({ reflect: true }) embed = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** When embed is `false`, specifies the URL for the component. */
+  /**
+   * When embed is `false`, specifies the URL for the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
    * When `true`, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
    * This is set to `true` by a parent Tile Group component.
-   *
-   * @private
+   * @internal
    */
   @property() interactive = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
   /**
    * Defines the layout of the component.
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected. */
+  /**
+   * When `true` and the parent's `selectionMode` is `"single"`, `"single-persist"', or `"multiple"`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -177,8 +242,7 @@ export class Tile extends LitElement implements SelectableComponent {
    * - `"highlight"` changes the background color.
    *
    * This property is set by the parent tile-group.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -194,8 +258,7 @@ export class Tile extends LitElement implements SelectableComponent {
    * - `"none"` allows no selected items.
    *
    * This property is set by the parent tile-group.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",
@@ -209,8 +272,8 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -222,7 +285,11 @@ export class Tile extends LitElement implements SelectableComponent {
 
   //#region Events
 
-  /** Fires when the selected state of the component changes. */
+  /**
+   * Fires when the selected state of the component changes.
+   *
+   * @public
+   */
   calciteTileSelect = createEvent();
 
   //#endregion

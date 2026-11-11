@@ -42,69 +42,100 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-sheet-background-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-sheet-corner-radius": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-sheet-shadow": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-sheet-text-color": "*";
     /**
      * Specifies the resize handle's background color.
+     *
+     * @public
      */
     "--calcite-sheet-resize-background-color": "*";
     /**
      * Specifies the resize handle's text color.
+     *
+     * @public
      */
     "--calcite-sheet-resize-icon-color": "*";
     /**
      * Specifies the background color of the component's scrim.
+     *
+     * @public
      */
     "--calcite-sheet-scrim-background": "*";
     /**
      * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
+     *
+     * @public
      */
     "--calcite-sheet-width": "*";
     /**
      * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's maximum width.
+     *
+     * @public
      */
     "--calcite-sheet-max-width": "*";
     /**
      * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's minimum width.
+     *
+     * @public
      */
     "--calcite-sheet-min-width": "*";
     /**
      * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
+     *
+     * @public
      */
     "--calcite-sheet-height": "*";
     /**
      * When `position` is `"block-start"` or `"block-end"`, specifies the component's maximum height.
+     *
+     * @public
      */
     "--calcite-sheet-max-height": "*";
     /**
      * When `position` is `"block-start"` or `"block-end"`, specifies the component's minimum height.
+     *
+     * @public
      */
     "--calcite-sheet-min-height": "*";
   }
 }
 
+/** @public */
 interface SheetSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
 }
 
+/** @public */
 export class Sheet extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SheetSlots;
 
   //#endregion
@@ -169,8 +200,14 @@ export class Sheet extends LitElement {
   private sizeOverride = useSizeOverride({
     targetElement: this.contentRef,
     getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+      inline: {
+        min: this.resizeValues.minInlineSize,
+        max: this.resizeValues.maxInlineSize,
+      },
+      block: {
+        min: this.resizeValues.minBlockSize,
+        max: this.resizeValues.maxBlockSize,
+      },
     }),
     onResize: (resizeValues) => {
       this.resizeValues = { ...resizeValues };
@@ -205,27 +242,38 @@ export class Sheet extends LitElement {
 
   /**
    * Passes a function to run before the component closes.
+   *
+   * @public
    */
   @property() beforeClose?: (el: Sheet["el"]) => Promise<void>;
 
   /**
    * Specifies the display mode - `"float"` separates content from main layout,
    * and `"overlay"` displays on top of center content.
+   *
+   * @public
    */
   @property({ reflect: true }) displayMode: DisplayMode = "overlay";
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) embedded = false;
 
-  /** When `true`, disables the default close on escape behavior. */
+  /**
+   * When `true`, disables the default close on escape behavior.
+   *
+   * @public
+   */
   @property({ reflect: true }) escapeDisabled = false;
 
-  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  /**
+   * When `true` and `modal` is `false`, prevents focus trapping.
+   *
+   * @public
+   */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -236,32 +284,50 @@ export class Sheet extends LitElement {
    * - `"returnFocusOnDeactivate"` returns focus when not active.
    * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   *
+   * @public
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /**
    * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
   @property({ reflect: true }) heightScale: Scale = "m";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) height?: Height;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays a scrim blocking interaction underneath the component. */
+  /**
+   * When `true`, displays a scrim blocking interaction underneath the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) modal = false;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -275,23 +341,34 @@ export class Sheet extends LitElement {
 
   /**
    * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) opened = false;
 
-  /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
+  /**
+   * When `true` and `modal` is `true`, disables the closing of the component when clicked outside.
+   *
+   * @public
+   */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
-  /** Determines where the component will be positioned. */
+  /**
+   * Determines where the component will be positioned.
+   *
+   * @public
+   */
   @property({ reflect: true }) position: LogicalFlowPosition = "inline-start";
 
-  /** When `true`, the component is resizable. */
+  /**
+   * When `true`, the component is resizable.
+   *
+   * @public
+   */
   @property({ reflect: true }) resizable = false;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -299,11 +376,16 @@ export class Sheet extends LitElement {
   /**
    * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the component's width. */
+  /**
+   * Specifies the component's width.
+   *
+   * @public
+   */
   @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
@@ -313,8 +395,8 @@ export class Sheet extends LitElement {
   /**
    * Sets focus on the component's "close" button - the first focusable item.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -325,6 +407,7 @@ export class Sheet extends LitElement {
   /**
    * Updates the element(s) that are included in the component's focus-trap.
    *
+   * @public
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
   @method()
@@ -340,6 +423,9 @@ export class Sheet extends LitElement {
    *
    * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
+   *
+   * @public
+   * @param size
    */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
@@ -350,16 +436,32 @@ export class Sheet extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteSheetBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteSheetBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteSheetClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteSheetOpen = createEvent({ cancelable: false });
 
   //#endregion
@@ -574,21 +676,34 @@ export class Sheet extends LitElement {
     const restrictSizeMin =
       this.resizeValues.minInlineSize === null || this.resizeValues.minBlockSize === null
         ? undefined
-        : { width: this.resizeValues.minInlineSize, height: this.resizeValues.minBlockSize };
+        : {
+            width: this.resizeValues.minInlineSize,
+            height: this.resizeValues.minBlockSize,
+          };
 
     const restrictSizeMax =
       this.resizeValues.maxInlineSize === null || this.resizeValues.maxBlockSize === null
         ? undefined
-        : { width: this.resizeValues.maxInlineSize, height: this.resizeValues.maxBlockSize };
+        : {
+            width: this.resizeValues.maxInlineSize,
+            height: this.resizeValues.maxBlockSize,
+          };
 
-    this.interaction = interact(contentRef.value, { context: el.ownerDocument }).resizable({
+    this.interaction = interact(contentRef.value, {
+      context: el.ownerDocument,
+    }).resizable({
       edges: {
         top: position === "block-end" ? resizeHandleEl : false,
         right: position === (rtl ? "inline-end" : "inline-start") ? resizeHandleEl : false,
         bottom: position === "block-start" ? resizeHandleEl : false,
         left: position === (rtl ? "inline-start" : "inline-end") ? resizeHandleEl : false,
       },
-      modifiers: [interact.modifiers.restrictSize({ min: restrictSizeMin, max: restrictSizeMax })],
+      modifiers: [
+        interact.modifiers.restrictSize({
+          min: restrictSizeMin,
+          max: restrictSizeMax,
+        }),
+      ],
       listeners: {
         move: ({ rect }: ResizeEvent) => {
           const isBlock = position === "block-start" || position === "block-end";

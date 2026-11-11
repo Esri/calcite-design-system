@@ -19,25 +19,34 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's bottom spacing.
+     *
+     * @public
      */
     "--calcite-label-margin-bottom": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-label-text-color": "*";
   }
 }
 
+/** @public */
 interface LabelSlots {
   /**
    * A slot for adding text and a component that can be labeled.
+   *
+   * @public
    */
   "": Node[];
 }
 
+/** @public */
 export class Label extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: LabelSlots;
 
   //#endregion
@@ -50,23 +59,39 @@ export class Label extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the component's text alignment. */
+  /**
+   * Specifies the component's text alignment.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Alignment = "start";
 
-  /** Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component. */
+  /**
+   * Specifies the `id` of the component the label is bound to. Use when the component the label is bound to does not reside within the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) for?: string;
 
-  /** Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line. */
+  /**
+   * Defines the component's layout in relation to the slotted component. Use `"inline"` positions to wrap the label and slotted component on the same line.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" = "block";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
 
   //#region Events
 
-  /** @private */
+  /** @internal */
   calciteInternalLabelClick = createEvent<{
     sourceEvent: MouseEvent;
   }>({ bubbles: false, cancelable: false });

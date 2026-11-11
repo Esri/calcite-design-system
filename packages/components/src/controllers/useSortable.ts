@@ -17,15 +17,21 @@ export interface MoveDetail<
   relatedEl: Related;
 }
 
+/** @public */
 export interface DragDetail<
   To extends HTMLElement = HTMLElement,
   From extends HTMLElement = HTMLElement,
   Drag extends HTMLElement = HTMLElement,
 > {
+  /** @public */
   toEl: To;
+  /** @public */
   fromEl: From;
+  /** @public */
   dragEl: Drag;
+  /** @public */
   newIndex: number | undefined;
+  /** @public */
   oldIndex: number | undefined;
 }
 
