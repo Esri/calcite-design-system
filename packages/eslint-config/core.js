@@ -24,6 +24,7 @@ export default tseslint.config(
     rules: {
       "@cspell/spellchecker": ["warn", {}],
 
+      "@typescript-eslint/consistent-type-imports": ["error"],
       "@typescript-eslint/method-signature-style": ["error", "property"],
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "error",
