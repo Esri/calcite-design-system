@@ -8,9 +8,9 @@ export const actionTokens = {
   calciteActionIndicatorColor: "",
   calciteActionBackgroundColor: "",
   calciteActionBackgroundColorHover: "",
-  calciteActionBackgroundColorPressed: "",
+  calciteActionBackgroundColorPress: "",
   calciteActionTextColor: "",
-  calciteActionTextColorPressed: "",
+  calciteActionTextColorPress: "",
   calciteActionLoaderColor: "",
 };
 
