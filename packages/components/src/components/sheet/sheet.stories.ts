@@ -89,12 +89,12 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
 `;
 simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const modalInlineEnd = (): string => html`
-  <calcite-sheet label="Modal inline sheet" modal open position="inline-end">${panelHTML}</calcite-sheet>
+export const nonModalInlineEnd = (): string => html`
+  <calcite-sheet label="Non-modal inline sheet" open position="inline-end">${panelHTML}</calcite-sheet>
 `;
 
-export const modalBlockEnd = (): string => html`
-  <calcite-sheet label="Modal block sheet" modal open position="block-end">${panelHTML}</calcite-sheet>
+export const nonModalBlockEnd = (): string => html`
+  <calcite-sheet label="Non-modal block sheet" open position="block-end">${panelHTML}</calcite-sheet>
 `;
 
 export const resizable = (): string =>
