@@ -1181,7 +1181,7 @@ export class ActionBar extends LitElement {
 
     this.updateNavigationItems();
 
-    const current = this.getNavigationItemFromEvent(event) ?? this.getCurrentNavigationItem();
+    const current = this.getNavigationItemFromEvent(event);
 
     if (!current || !this.navigationItems.length) {
       return;
