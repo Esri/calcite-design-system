@@ -1546,9 +1546,10 @@ describe("number type", () => {
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(el).toHaveProperty("value", "2.1");
-    expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1");
+    expect(el).toHaveProperty("value", "");
+    expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1e");
 
+    await userEvent.keyboard("{Backspace}");
     await userEvent.keyboard("000");
 
     expect(el).toHaveProperty("value", "2.1000");
@@ -1651,7 +1652,7 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1.");
+  expect(el).toHaveProperty("value", "1");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
