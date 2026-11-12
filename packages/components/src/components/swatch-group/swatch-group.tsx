@@ -31,6 +31,9 @@ interface SwatchGroupSlots {
    */
   "": Node[];
 }
+/**
+ * @docGroup Swatch
+ */
 export class SwatchGroup extends LitElement {
   //#region Type-only metadata members
 

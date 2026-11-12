@@ -2,62 +2,63 @@
 
 :host {
   @extend %component-host;
-  @apply flex
-    flex-col;
+  display: flex;
+  flex-direction: column;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
 }
 
 :host([fit="cover"]) {
   position: absolute;
-  inset: 0;
+  inset: var(--calcite-space-none);
   inline-size: 100%;
   block-size: 100%;
   overflow: hidden;
 }
 
 .main {
-  @apply relative
-    flex
-    h-full
-    w-full
-    flex-auto
-    flex-row
-    justify-between
-    overflow-hidden;
+  position: relative;
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  flex: 1 1 auto;
+  flex-direction: row;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 .content {
-  @apply flex
-    h-full
-    w-full
-    flex-col
-    flex-nowrap
-    overflow-auto;
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: auto;
   justify-content: space-between;
 }
 
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
-  @apply flex-auto self-stretch;
+  flex: 1 1 auto;
+  align-self: stretch;
   max-block-size: unset;
 }
 
 .content--behind {
-  @apply absolute
-    inset-0
-    border-0;
+  position: absolute;
+  inset: var(--calcite-space-none);
+  border-width: var(--calcite-space-none);
   z-index: calc(theme("zIndex.default") - 1);
   display: initial;
 }
 
 .content--non-interactive {
-  @apply flex
-    h-full
-    w-full
-    flex-col
-    flex-nowrap
-    pointer-events-none;
+  display: flex;
+  block-size: 100%;
+  inline-size: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  pointer-events: none;
 }
 
 ::slotted(calcite-shell-panel) {
@@ -65,12 +66,14 @@
 }
 
 ::slotted(.header .heading) {
-  @apply text-n2-wrap font-normal;
+  @include shared.text-n2-wrap();
+
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
 }
 
 slot[name="panel-start"]::slotted(calcite-shell-panel),
 slot[name="panel-end"]::slotted(calcite-shell-panel) {
-  @apply relative;
+  position: relative;
   z-index: calc(var(--calcite-z-index) + 1);
 }
 
@@ -112,14 +115,25 @@ slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float
   align-self: stretch;
 }
 
+@keyframes in-up {
+  0% {
+    opacity: 0;
+    transform: translate3D(0, 5px, 0);
+  }
+  100% {
+    opacity: var(--calcite-opacity-full);
+    transform: translate3D(0, 0, 0);
+  }
+}
+
 // deprecated
 ::slotted(calcite-tip-manager) {
-  @apply shadow-2
-  animate-in-up
-  absolute
-  box-border
-  rounded
-  z-toast;
+  animation: in-up var(--calcite-internal-animation-timing-slow) ease-in-out;
+  box-shadow: var(--calcite-shadow-md);
+  position: absolute;
+  box-sizing: border-box;
+  border-radius: var(--calcite-corner-radius-sm);
+  z-index: var(--calcite-z-index-toast);
   inset-block-end: theme("spacing.2");
   inset-inline: var(--calcite-shell-tip-spacing, 26vw); // deprecated
 }
