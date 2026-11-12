@@ -47,6 +47,9 @@ interface InputMessageSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputMessage extends LitElement {
   //#region Type-only metadata members
 
