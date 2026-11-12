@@ -111,24 +111,6 @@ describe("theme", () => {
           shadowSelector: `.${CSS.headerContent}`,
           targetProp: "color",
         },
-      },
-    );
-  });
-
-  describe("collapsed", () => {
-    themed(
-      () =>
-        mount(
-          <calcite-accordion-item
-            description="Description"
-            heading="Heading"
-            icon-end="home"
-            icon-start="home"
-          >
-            content
-          </calcite-accordion-item>,
-        ),
-      {
         "--calcite-accordion-border-color": [
           {
             shadowSelector: `.${CSS.header}`,
