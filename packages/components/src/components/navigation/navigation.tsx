@@ -88,6 +88,9 @@ interface NavigationSlots {
   "navigation-tertiary": Node[];
 }
 
+/**
+ * @docGroup Navigation
+ */
 export class Navigation extends LitElement {
   //#region Type-only metadata members
 
