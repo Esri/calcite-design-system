@@ -171,6 +171,9 @@ interface InputTextSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputText extends LitElement implements LabelableComponent, TextualInputComponent {
   //#region Type-only metadata members
 

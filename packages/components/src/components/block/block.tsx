@@ -161,6 +161,9 @@ interface BlockSlots {
   children: Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class Block extends LitElement {
   //#region Type-only metadata members
 
@@ -549,13 +552,6 @@ export class Block extends LitElement {
 
   //#region Rendering
 
-  private renderScrim(): JsxNode {
-    const { loading } = this;
-    const defaultSlot = <slot onSlotChange={this.handleDefaultSlotChange} />;
-
-    return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
-  }
-
   private renderLoaderStatusIcon(): JsxNode {
     const { loading, messages, status } = this;
 
@@ -796,9 +792,12 @@ export class Block extends LitElement {
             hidden={!expanded}
             id={IDS.content}
           >
-            {this.renderScrim()}
+            <slot onSlotChange={this.handleDefaultSlotChange} />
           </section>
           <slot hidden={!expanded} name={SLOTS.children} />
+          {loading && expanded ? (
+            <calcite-scrim class={CSS.loadingScrim} loading={loading} />
+          ) : null}
         </article>
       </this.interactiveContainer>
     );

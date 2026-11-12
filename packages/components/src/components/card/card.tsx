@@ -115,6 +115,9 @@ interface CardSlots {
   "footer-end": Node[];
 }
 
+/**
+ * @docGroup Cards
+ */
 export class Card extends LitElement {
   //#region Type-only metadata members
 

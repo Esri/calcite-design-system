@@ -25,6 +25,10 @@ interface ChipGroupSlots {
    */
   "": Node[];
 }
+
+/**
+ * @docGroup Chips
+ */
 export class ChipGroup extends LitElement {
   //#region Type-only metadata members
 

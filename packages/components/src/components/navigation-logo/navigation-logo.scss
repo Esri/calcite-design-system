@@ -20,7 +20,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply inline-flex;
+  display: inline-flex;
 }
 
 :host([scale="s"]) {
@@ -54,12 +54,12 @@
 }
 
 .container {
-  @apply flex
-    m-0
-    items-center
-    justify-center
-    text-0h;
+  @include shared.text-0h();
 
+  display: flex;
+  margin: var(--calcite-space-none);
+  align-items: center;
+  justify-content: center;
   background-color: var(
     --calcite-navigation-background-color,
     var(
@@ -71,14 +71,14 @@
 }
 
 .container--link {
-  @apply focus-base
-  cursor-pointer
-  no-underline;
+  outline-color: var(--calcite-color-transparent);
+  cursor: pointer;
+  text-decoration-line: none;
 }
 
 :host(:focus) {
   .container--link {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 }
 
@@ -88,8 +88,8 @@
 
 .image,
 .icon {
-  @apply flex m-0;
-
+  display: flex;
+  margin: var(--calcite-space-none);
   color: var(
     --calcite-navigation-logo-text-color,
     var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, var(--calcite-ui-icon-color, inherit)))
@@ -98,12 +98,12 @@
 }
 
 .image ~ .icon {
-  @apply ps-0;
+  padding-inline-start: var(--calcite-space-none);
 }
 
 .image ~ .text-container,
 .icon ~ .text-container {
-  @apply ps-0;
+  padding-inline-start: var(--calcite-space-none);
 }
 
 :host([href]:hover),
@@ -131,19 +131,20 @@
 }
 
 .text-container {
-  @apply flex
-  flex-col
-  truncate
-  text-start
-  mt-0.5;
+  @include shared.truncate();
 
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-block-start: var(--calcite-space-base);
   padding-inline: var(--calcite-internal-navigation-logo-padding-inline);
 }
 
 .heading {
-  @apply ms-0
-  truncate
-  font-medium;
+  @include shared.truncate();
+
+  margin-inline-start: var(--calcite-space-none);
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-navigation-logo-heading-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-internal-navigation-logo-heading-font-size);
   padding-block-start: var(--calcite-space-2xs);
@@ -156,7 +157,8 @@
 }
 
 .description {
-  @apply text-color-2 truncate;
+  @include shared.truncate();
+
   color: var(--calcite-navigation-logo-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-internal-navigation-logo-description-font-size);
   line-height: var(--calcite-internal-navigation-logo-description-line-height);

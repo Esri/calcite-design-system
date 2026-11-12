@@ -1,16 +1,18 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex flex-col;
+  display: flex;
+  flex-direction: column;
 }
 
 :host > .item-wrapper {
-  @apply flex;
+  display: flex;
   max-inline-size: 100vw;
 }
 
 :host([layout="horizontal"]) > .item-wrapper {
-  @apply flex-row flex-wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 :host([layout="horizontal"][scale="s"]) > .item-wrapper {
@@ -26,7 +28,7 @@
 }
 
 :host([layout="vertical"]) > .item-wrapper {
-  @apply flex-col;
+  flex-direction: column;
   inline-size: fit-content;
 }
 

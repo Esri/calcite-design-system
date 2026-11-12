@@ -189,6 +189,9 @@ interface InputSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class Input
   extends LitElement
   implements LabelableComponent, NumericInputComponent, TextualInputComponent

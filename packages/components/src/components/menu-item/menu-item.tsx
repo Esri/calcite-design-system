@@ -60,6 +60,10 @@ interface MenuItemSlots {
   "submenu-item": Node[];
 }
 
+/**
+ * @docGroup Menu
+ * @parent calcite-menu
+ */
 export class MenuItem extends LitElement {
   //#region Type-only metadata members
 

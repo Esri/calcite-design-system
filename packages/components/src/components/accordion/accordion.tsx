@@ -45,6 +45,7 @@ interface AccordionSlots {
 }
 
 /**
+ * @docGroup Accordion
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block-group` component instead.
  */
 export class Accordion extends LitElement {

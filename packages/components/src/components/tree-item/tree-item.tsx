@@ -57,6 +57,10 @@ interface TreeItemSlots {
   "actions-end": Node[];
 }
 
+/**
+ * @docGroup Tree
+ * @parent calcite-tree
+ */
 export class TreeItem extends LitElement {
   //#region Type-only metadata members
 

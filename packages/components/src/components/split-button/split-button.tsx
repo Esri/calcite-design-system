@@ -90,6 +90,9 @@ interface SplitButtonSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Buttons
+ */
 export class SplitButton extends LitElement {
   //#region Type-only metadata members
 
@@ -215,12 +218,8 @@ export class SplitButton extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   //#endregion
 

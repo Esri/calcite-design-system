@@ -113,6 +113,10 @@ interface ListItemSlots {
 
 const focusMap = new Map<List["el"], number | undefined>();
 
+/**
+ * @docGroup List
+ * @parent calcite-list
+ */
 export class ListItem extends LitElement implements SortableComponentItem {
   //#region Type-only metadata members
 
@@ -305,7 +309,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
    *
    * @private
    */
