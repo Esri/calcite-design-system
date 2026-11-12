@@ -488,7 +488,7 @@ export const footerWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
-    style="width: 300px; height:auto; --calcite-panel-border-color:none;"
+    style="width: 300px; height:auto; --calcite-panel-border-color:transparent;"
   >
     <p slot="footer">Footer!</p>
   </calcite-panel>`;
@@ -497,7 +497,7 @@ export const actionBarWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
-    style="width: 300px; height:auto; --calcite-panel-border-color:none;"
+    style="width: 300px; height:auto; --calcite-panel-border-color:transparent;"
   >
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
@@ -529,7 +529,7 @@ export const footerAndActionBarWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
-    style="width: 300px; height:auto; --calcite-panel-border-color:none;"
+    style="width: 300px; height:auto; --calcite-panel-border-color:transparent;"
   >
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
@@ -605,7 +605,7 @@ export const withTextContentOnly = (): string =>
   html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
 
 export const withNoHeaderBorderBlockEnd = (): string =>
-  html`<calcite-panel style="--calcite-panel-border-color:none;" height-scale="s" heading="My Panel"
+  html`<calcite-panel style="--calcite-panel-border-color:transparent;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
 
