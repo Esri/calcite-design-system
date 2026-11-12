@@ -9,6 +9,7 @@ export type FlowDirection = "advancing" | "retreating" | "standby";
  * https://github.com/Esri/calcite-design-system/blob/dev/packages/components/src/demos/flow.html
  * https://codepen.io/driskull/pen/gOVzLbx?editors=0010
  *
+ * @public
  * @example
  * class CustomFlowItem extends HTMLElement {
  *   constructor() {
@@ -109,4 +110,5 @@ export type FlowDirection = "advancing" | "retreating" | "standby";
  */
 export type FlowItemLike = Pick<FlowItem["el"], "beforeBack" | "menuOpen" | "setFocus" | "showBackButton" | "selected">;
 
+/** @public */
 export type FlowItemLikeElement = FlowItemLike & HTMLElement;

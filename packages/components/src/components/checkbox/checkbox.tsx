@@ -26,27 +26,38 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's height and width.
+     *
+     * @public
      */
     "--calcite-checkbox-size": "*";
     /**
      * Specifies the component's color.
+     *
+     * @public
      */
     "--calcite-checkbox-border-color": "*";
     /**
      * Specifies the component's color when hovered.
+     *
+     * @public
      */
     "--calcite-checkbox-border-color-hover": "*";
     /**
      * Specifies the component's color when pressed.
+     *
+     * @public
      */
     "--calcite-checkbox-border-color-press": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-checkbox-icon-color": "*";
   }
 }
 
+/** @public */
 export class Checkbox extends LitElement implements LabelableComponent {
   //#region Static Members
 
@@ -80,8 +91,6 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -93,19 +102,28 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the checkbox.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) hovered = false;
 
@@ -114,42 +132,69 @@ export class Checkbox extends LitElement implements LabelableComponent {
    *
    * The state is visual only, and can look different across browsers.
    *
+   * @public
    * @see [MDN - indeterminate](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes)
    */
   @property({ reflect: true }) indeterminate = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any;
 
   //#endregion
@@ -159,8 +204,8 @@ export class Checkbox extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -172,20 +217,22 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the component's `checked` status changes. */
+  /**
+   * Fires when the component's `checked` status changes.
+   *
+   * @public
+   */
   calciteCheckboxChange = createEvent({ cancelable: false });
 
   /**
    * Fires when the component is blurred.
-   *
-   * @private
+   * @internal
    */
   calciteInternalCheckboxBlur = createEvent<boolean>({ cancelable: false });
 
   /**
    * Fires when the component is focused.
-   *
-   * @private
+   * @internal
    */
   calciteInternalCheckboxFocus = createEvent<boolean>({ cancelable: false });
 

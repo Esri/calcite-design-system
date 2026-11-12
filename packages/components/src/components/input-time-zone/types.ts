@@ -11,6 +11,7 @@ export interface BasicTimeZoneGroup {
   offsetValue: number;
 }
 
+/** @public */
 export type TimeZoneMode = "offset" | "name" | "region";
 
 export interface TimeZoneItem<T extends number | string = number | string> {
@@ -28,4 +29,5 @@ export interface TimeZoneItemGroup {
   items: TimeZoneItem<string>[];
 }
 
+/** @public */
 export type OffsetStyle = "user" | "utc" | "gmt";

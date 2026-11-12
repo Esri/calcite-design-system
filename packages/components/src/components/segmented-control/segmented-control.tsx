@@ -39,32 +39,43 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-segmented-control-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-segmented-control-corner-radius": "*";
   }
 }
 
+/** @public */
 interface SegmentedControlSlots {
   /**
    * A slot for adding `calcite-segmented-control-item`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Segmented Control
  */
 export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SegmentedControlSlots;
 
   //#endregion
@@ -91,8 +102,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -107,6 +116,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   /**
    * Specifies the appearance style of the component.
    *
+   * @public
    * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
    */
   @property({ reflect: true }) appearance: Extract<
@@ -114,61 +124,108 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     Appearance
   > = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** Defines the layout of the component. */
+  /**
+   * Defines the layout of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The component's selected item `HTMLElement`.
    *
+   * @public
    * @readonly
    */
   @property() selectedItem!: SegmentedControlItem["el"];
 
-  /** Specifies the status of the validation message. */
+  /**
+   * Specifies the status of the validation message.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's `selectedItem` value. */
+  /**
+   * The component's `selectedItem` value.
+   *
+   * @public
+   */
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //#endregion
@@ -178,8 +235,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -191,7 +248,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the `calcite-segmented-control-item` selection changes. */
+  /**
+   * Fires when the `calcite-segmented-control-item` selection changes.
+   *
+   * @public
+   */
   calciteSegmentedControlChange = createEvent({ cancelable: false });
 
   //#endregion

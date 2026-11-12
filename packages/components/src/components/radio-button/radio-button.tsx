@@ -24,24 +24,33 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-radio-button-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-radio-button-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-radio-button-corner-radius": "*";
     /**
      * Specifies the component's size.
+     *
+     * @public
      */
     "--calcite-radio-button-size": "*";
   }
 }
 
 /**
+ * @public
  * @docGroup Radio Button
  */
 export class RadioButton extends LitElement implements LabelableComponent {
@@ -77,51 +86,74 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) checked = false;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * The focused state of the component.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) focused = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
    * The hovered state of the component.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) hovered = false;
 
-  /**
-   * @copyDoc
-   * @private
+  /** @copyDoc
+   * @internal
    */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value selected from the `calcite-radio-button-group` in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component inherited from the `calcite-radio-button-group`. */
+  /**
+   * Specifies the size of the component inherited from the `calcite-radio-button-group`.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
@@ -133,7 +165,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   /**
    * @copyDoc
-   *
    * @internal
    * @mdn [ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
@@ -142,6 +173,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
   /**
    * The component's value.
    *
+   * @public
    * @required
    */
   @property() value: any;
@@ -150,7 +182,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   //#region Public Methods
 
-  /** @private */
+  /** @internal */
   @method()
   async emitCheckedChange(): Promise<void> {
     this.calciteInternalRadioButtonCheckedChange.emit();
@@ -159,8 +191,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -172,6 +204,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * Sets the component's validity state.
    *
    * @internal
+   * @param validity
+   * @param validationMessage
    */
   @method()
   async setValidity(
@@ -187,23 +221,20 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   /**
    * Fires when the radio button is blurred.
-   *
-   * @private
+   * @internal
    */
   calciteInternalRadioButtonBlur = createEvent({ cancelable: false });
 
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
-   *
-   * @private
+   * @internal
    */
   calciteInternalRadioButtonCheckedChange = createEvent({ cancelable: false });
 
   /**
    * Fires when the radio button is focused.
-   *
-   * @private
+   * @internal
    */
   calciteInternalRadioButtonFocus = createEvent({ cancelable: false });
 
@@ -212,6 +243,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
    * Since this event does not fire when the radio button is unchecked, it's not recommended to attach a listener for this event
    * directly on the element, but instead either attach it to a node that contains all of the radio buttons in the group
    * or use the `calciteRadioButtonGroupChange` event if using this with `calcite-radio-button-group`.
+   *
+   * @public
    */
   calciteRadioButtonChange = createEvent({ cancelable: false });
 

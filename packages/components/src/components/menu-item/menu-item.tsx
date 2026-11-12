@@ -32,41 +32,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When `active`, specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-menu-item-accent-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-menu-background-color": "*";
     /**
      * Specifies the submenu's border color.
+     *
+     * @public
      */
     "--calcite-menu-item-sub-menu-border-color": "*";
     /**
      * Specifies the submenu's border radius.
+     *
+     * @public
      */
     "--calcite-menu-item-sub-menu-corner-radius": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-menu-text-color": "*";
   }
 }
 
+/** @public */
 interface MenuItemSlots {
   /**
    * A slot for adding `calcite-menu-item`s in a submenu.
+   *
+   * @public
    */
   "submenu-item": Node[];
 }
 
 /**
+ * @public
  * @docGroup Menu
  * @parent calcite-menu
  */
 export class MenuItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: MenuItemSlots;
 
   //#endregion
@@ -89,8 +104,6 @@ export class MenuItem extends LitElement {
 
   /**
    * Made into a prop for testing purposes only.
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -108,48 +121,83 @@ export class MenuItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /**
+   * When `true`, the component is highlighted.
+   *
+   * @public
+   */
   @property({ reflect: true }) active = false;
 
-  /** When `true`, the component displays a breadcrumb trail for use as a navigational aid. */
+  /**
+   * When `true`, the component displays a breadcrumb trail for use as a navigational aid.
+   *
+   * @public
+   */
   @property({ reflect: true }) breadcrumb = false;
 
-  /** Specifies the URL destination of the component, which can be set as an absolute or relative path. */
+  /**
+   * Specifies the URL destination of the component, which can be set as an absolute or relative path.
+   *
+   * @public
+   */
   @property() href?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @private */
+  /** @internal */
   @property() isTopLevelItem = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) layout!: Layout;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu. */
+  /**
+   * When `true`, the component will display any slotted `calcite-menu-item` in an open overflow menu.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Defines the relationship between the `href` value and the current document.
    *
+   * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
   @property({ reflect: true }) rel?: string;
@@ -157,14 +205,19 @@ export class MenuItem extends LitElement {
   /**
    * Specifies where to open the linked document defined in the `href` property.
    *
+   * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
   @property({ reflect: true }) target?: string;
 
-  /** Specifies the text to display. */
+  /**
+   * Specifies the text to display.
+   *
+   * @public
+   */
   @property() text?: string;
 
-  /** @private */
+  /** @internal */
   @property() topLevelMenuLayout?: Layout;
 
   //#endregion
@@ -174,8 +227,8 @@ export class MenuItem extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -187,7 +240,11 @@ export class MenuItem extends LitElement {
 
   //#region Events
 
-  /** Emits when the component is selected. */
+  /**
+   * Emits when the component is selected.
+   *
+   * @public
+   */
   calciteMenuItemSelect = createEvent();
 
   //#endregion
@@ -451,7 +508,10 @@ export class MenuItem extends LitElement {
             ariaExpanded={this.open}
             ariaHasPopup={this.hasSubmenu}
             ariaLabel={this.label}
-            class={{ [CSS.layoutVertical]: this.layout === "vertical", [CSS.content]: true }}
+            class={{
+              [CSS.layoutVertical]: this.layout === "vertical",
+              [CSS.content]: true,
+            }}
             href={this.href}
             onClick={this.clickHandler}
             onKeyDown={this.keyDownHandler}

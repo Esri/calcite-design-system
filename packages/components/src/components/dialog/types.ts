@@ -1,3 +1,4 @@
+/** @public */
 export type DialogPlacement =
   | "top"
   | "top-start"

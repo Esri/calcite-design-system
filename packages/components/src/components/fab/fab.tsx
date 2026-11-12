@@ -18,32 +18,45 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-fab-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-fab-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-fab-corner-radius": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-fab-text-color": "*";
     /**
      * Specifies the component's loader color.
+     *
+     * @public
      */
     "--calcite-fab-loader-color": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-fab-shadow": "*";
   }
 }
 
 /**
+ * @public
  * @docGroup Buttons
  */
 export class Fab extends LitElement {
@@ -65,37 +78,74 @@ export class Fab extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the component's appearance style. */
+  /**
+   * Specifies the component's appearance style.
+   *
+   * @public
+   */
   @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * Specifies an icon to display.
+   *
+   * @public
    */
   @property({ reflect: true }) icon: IconName = ICONS.plus;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the component's kind, which determines border and background styling. */
+  /**
+   * Specifies the component's kind, which determines border and background styling.
+   *
+   * @public
+   */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies text to accompany the component's icon. */
+  /**
+   * Specifies text to accompany the component's icon.
+   *
+   * @public
+   */
   @property() text?: string;
 
-  /** When `true`, displays the `text` value in the component. */
+  /**
+   * When `true`, displays the `text` value in the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) textEnabled = false;
 
   //#endregion
@@ -105,8 +155,8 @@ export class Fab extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

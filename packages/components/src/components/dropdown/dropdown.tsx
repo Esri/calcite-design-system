@@ -57,28 +57,38 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the width of the component's wrapper.
+     *
+     * @public
      */
     "--calcite-dropdown-width": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-dropdown-background-color": "*";
     /**
      * Specifies the maximum height of the component's wrapper.
+     *
+     * @public
      */
     "--calcite-dropdown-max-height": "*";
   }
 }
 
+/** @public */
 interface DropdownSlots {
   /**
    * A slot for adding `calcite-dropdown-group` elements. Every `calcite-dropdown-item` must have a parent `calcite-dropdown-group`, even if the `groupTitle` property is not set.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for the element that triggers the component.
    *
    * @deprecated in v5.1.0, removal target v7.0.0 - Use the `referenceElement` property instead.
+   * @public
    */
   trigger: Node[];
 }
@@ -86,18 +96,23 @@ interface DropdownSlots {
 const manager = referenceElementManager({ click: true, hover: true });
 
 /**
+ * @public
  * @docGroup Dropdown
  */
 export class Dropdown extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: DropdownSlots;
 
   //#endregion
 
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -170,57 +185,91 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * When `true`, the component will remain open after a selection is made.
    *
    * If the `selectionMode` of the selected `calcite-dropdown-item`'s containing `calcite-dropdown-group` is `"none"`, the component will always close.
+   *
+   * @public
    */
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
   /**
    * Specifies the maximum number of `calcite-dropdown-item`s to display before showing a scrollbar.
    * Value must be greater than `0`, and does not include `groupTitle`s from `calcite-dropdown-group`.
+   *
+   * @public
    */
   @property({ reflect: true }) maxItems = 0;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
+   *
+   * @public
    */
   @property({ type: Number, reflect: true }) offsetDistance = 0;
 
-  /** Specifies the distance to position the component along the `referenceElement`. */
+  /**
+   * Specifies the distance to position the component along the `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines the component's placement relative to the container element.
+   *
+   * @public
    */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() referenceElement: ReferenceElement | string | null;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * The component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() selectedItems: DropdownItem["el"][] = [];
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -229,17 +278,24 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * Specifies the type of action on the container element to open the component.
    *
    * [Deprecated] The `"hover"` value is deprecated in 5.2.0, removal target v7.0.0 - use `"click"` instead.
+   *
+   * @public
    */
   @property({ reflect: true }) type: "hover" | "click" = "click";
 
   /**
    * Specifies the component's width.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale?: Scale;
 
-  /** Specifies the component's width. */
+  /**
+   * Specifies the component's width.
+   *
+   * @public
+   */
   @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
@@ -249,6 +305,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   /**
    * Updates the component's position.
    *
+   * @public
    * @param delayed
    */
   @method()
@@ -283,8 +340,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -299,19 +356,39 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteDropdownBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteDropdownBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteDropdownClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is opened and animation is complete. */
+  /**
+   * Fires when the component is opened and animation is complete.
+   *
+   * @public
+   */
   calciteDropdownOpen = createEvent({ cancelable: false });
 
-  /** Fires when a `calcite-dropdown-item`'s selection changes. */
+  /**
+   * Fires when a `calcite-dropdown-item`'s selection changes.
+   *
+   * @public
+   */
   calciteDropdownSelect = createEvent({ cancelable: false });
 
   //#endregion

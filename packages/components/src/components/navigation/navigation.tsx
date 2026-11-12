@@ -30,70 +30,98 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the width of the component's content area.
+     *
+     * @public
      */
     "--calcite-navigation-width": "*";
     /**
      * Specifies the background color of the component.
      *
      * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-navigation-background-color` instead.
+     * @public
      */
     "--calcite-navigation-background": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-navigation-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-navigation-border-color": "*";
   }
 }
 
+/** @public */
 interface NavigationSlots {
   /**
    * A slot for adding a `calcite-logo` component to the primary navigation level.
+   *
+   * @public
    */
   logo: Node[];
   /**
    * A slot for adding a `calcite-user` component to the primary navigation level.
+   *
+   * @public
    */
   user: Node[];
   /**
    * A slot for adding a `calcite-progress` component to the primary navigation level.
+   *
+   * @public
    */
   progress: Node[];
   /**
    * A slot for adding a `calcite-action` component to the primary navigation level.
+   *
+   * @public
    */
   "navigation-action": Node[];
   /**
    * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
+   *
+   * @public
    */
   "content-start": Node[];
   /**
    * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
+   *
+   * @public
    */
   "content-center": Node[];
   /**
    * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
+   *
+   * @public
    */
   "content-end": Node[];
   /**
    * A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+   *
+   * @public
    */
   "navigation-secondary": Node[];
   /**
    * A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+   *
+   * @public
    */
   "navigation-tertiary": Node[];
 }
 
 /**
+ * @public
  * @docGroup Navigation
  */
 export class Navigation extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: NavigationSlots;
 
   //#endregion
@@ -142,13 +170,24 @@ export class Navigation extends LitElement {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
+  /**
+   * When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change.
+   *
+   * @public
+   */
   @property({ reflect: true }) navigationAction = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
@@ -158,8 +197,8 @@ export class Navigation extends LitElement {
   /**
    * When `navigationAction` is `true`, sets focus on the component's action element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -171,7 +210,11 @@ export class Navigation extends LitElement {
 
   //#region Events
 
-  /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
+  /**
+   * When `navigationAction` is `true`, emits when the displayed action selection changes.
+   *
+   * @public
+   */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
 
   //#endregion
@@ -344,20 +387,38 @@ export class Navigation extends LitElement {
             [CSS.primary]: primaryLevelHasElements,
           }}
         >
-          <div class={{ [CSS.hide]: !this.progressSlotHasElement, [SLOTS.progress]: true }}>
+          <div
+            class={{
+              [CSS.hide]: !this.progressSlotHasElement,
+              [SLOTS.progress]: true,
+            }}
+          >
             <slot name={SLOTS.progress} onSlotChange={this.handleProgressSlotChange} />
           </div>
           <div
-            class={{ [CSS.containerContent]: true, [CSS.hasProgress]: this.progressSlotHasElement }}
+            class={{
+              [CSS.containerContent]: true,
+              [CSS.hasProgress]: this.progressSlotHasElement,
+            }}
           >
             {this.renderMenuAction()}
-            <div class={{ [CSS.hide]: !this.logoSlotHasElements, [SLOTS.logo]: true }}>
+            <div
+              class={{
+                [CSS.hide]: !this.logoSlotHasElements,
+                [SLOTS.logo]: true,
+              }}
+            >
               <slot name={SLOTS.logo} onSlotChange={this.handleLogoSlotChange} />
             </div>
             <slot name={SLOTS.contentStart} onSlotChange={this.handleContentStartSlotChange} />
             <slot name={SLOTS.contentCenter} onSlotChange={this.handleContentCenterSlotChange} />
             <slot name={SLOTS.contentEnd} onSlotChange={this.handleContentEndSlotChange} />
-            <div class={{ [CSS.hide]: !this.userSlotHasElements, [SLOTS.user]: true }}>
+            <div
+              class={{
+                [CSS.hide]: !this.userSlotHasElements,
+                [SLOTS.user]: true,
+              }}
+            >
               <slot name={SLOTS.user} onSlotChange={this.handleUserSlotChange} />
             </div>
           </div>

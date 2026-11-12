@@ -18,31 +18,39 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the vertical space between the component's content in the `default` slot.
+     *
+     * @public
      */
     "--calcite-tab-content-space-y": "*";
     /**
      * Specifies the block padding of the component's content in the `default` slot.
      *
      * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-tab-content-space-y` instead.
+     * @public
      */
     "--calcite-tab-content-block-padding": "*";
   }
 }
 
+/** @public */
 interface TabSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tabs
  * @parent calcite-tabs
  */
 export class Tab extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TabSlots;
 
   //#endregion
@@ -71,8 +79,7 @@ export class Tab extends LitElement {
 
   /**
    * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -80,6 +87,8 @@ export class Tab extends LitElement {
    * When `true`, the component is selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
+   *
+   * @public
    */
   @property({ reflect: true }) selected = false;
 
@@ -87,6 +96,8 @@ export class Tab extends LitElement {
    * Specifies a unique name for the component.
    *
    * When specified, use the same value on the `calcite-tab-title`.
+   *
+   * @public
    */
   @property({ reflect: true }) tab?: string;
 
@@ -94,7 +105,11 @@ export class Tab extends LitElement {
 
   //#region Public Methods
 
-  /** Returns the index of the component item within the tab array. */
+  /**
+   * Returns the index of the component item within the tab array.
+   *
+   * @public
+   */
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
@@ -106,7 +121,7 @@ export class Tab extends LitElement {
   /**
    * @param tabIds
    * @param titleIds
-   * @private
+   * @internal
    */
   @method()
   _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {

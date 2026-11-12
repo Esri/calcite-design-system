@@ -14,32 +14,45 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When `active`, specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-navigation-accent-color": "*";
     /**
      * Specifies the component's avatar corner radius.
+     *
+     * @public
      */
     "--calcite-navigation-user-avatar-corner-radius": "*";
     /**
      * Specifies the component's avatar icon color.
+     *
+     * @public
      */
     "--calcite-navigation-user-avatar-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-navigation-background-color": "*";
     /**
      * Specifies the component's `fullName` text color.
+     *
+     * @public
      */
     "--calcite-navigation-user-full-name-text-color": "*";
     /**
      * Specifies the component's `username` text color.
+     *
+     * @public
      */
     "--calcite-navigation-user-name-text-color": "*";
   }
 }
 
 /**
+ * @public
  * @docGroup Navigation
  * @parent calcite-navigation
  */
@@ -60,32 +73,58 @@ export class NavigationUser extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, the component is highlighted. */
+  /**
+   * When `true`, the component is highlighted.
+   *
+   * @public
+   */
   @property({ reflect: true }) active = false;
 
-  /** Specifies the full name of the user. */
+  /**
+   * Specifies the full name of the user.
+   *
+   * @public
+   */
   @property() fullName?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true`, hides the `fullName` and `username` contents. */
+  /**
+   * When `true`, hides the `fullName` and `username` contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) textDisabled = false;
 
   /**
    * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the `src` to an image (remember to add a token if the user is private). */
+  /**
+   * Specifies the `src` to an image (remember to add a token if the user is private).
+   *
+   * @public
+   */
   @property() thumbnail?: string;
 
-  /** Specifies the unique id of the user. */
+  /**
+   * Specifies the unique id of the user.
+   *
+   * @public
+   */
   @property() userId?: string;
 
-  /** Specifies the username of the user. */
+  /**
+   * Specifies the username of the user.
+   *
+   * @public
+   */
   @property() username?: string;
 
   // #endregion
@@ -95,8 +134,8 @@ export class NavigationUser extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

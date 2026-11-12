@@ -228,8 +228,8 @@ function getMessage(messages: InputTimeZone["messages"], key: string): string | 
 
 /**
  * Exported for testing purposes only
- *
- * @private
+ * @internal
+ * @param timeZone
  */
 export function getCity(timeZone: string): string {
   return timeZone.split("/").pop() ?? "";
@@ -237,8 +237,8 @@ export function getCity(timeZone: string): string {
 
 /**
  * Exported for testing purposes only
- *
- * @private
+ * @internal
+ * @param timeZoneName
  */
 export function toUserFriendlyName(timeZoneName: string): string {
   return timeZoneName.replace(/_/g, " ");

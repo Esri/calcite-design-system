@@ -37,205 +37,304 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the background color of the component's scrim.
+     *
+     * @public
      */
     "--calcite-dialog-scrim-background-color": "*";
     /**
      * When `placement` is `"cover"`, specifies the component's width, using `px`, `em`, `rem`, `vw`, or `%`. Does not exceed the viewport's width.
+     *
+     * @public
      */
     "--calcite-dialog-size-x": "*";
     /**
      * Specifies the component's minimum width, using `px`, `em`, `rem`, `vw`, or `%`.
+     *
+     * @public
      */
     "--calcite-dialog-min-size-x": "*";
     /**
      * Specifies the component's maximum width, using `px`, `em`, `rem`, `vw`, or `%`.
+     *
+     * @public
      */
     "--calcite-dialog-max-size-x": "*";
     /**
      * When `placement` is `"cover"`, specifies the component's height, using `px`, `em`, `rem`, `vh`, or `%`. Does not exceed the viewport's height.
+     *
+     * @public
      */
     "--calcite-dialog-size-y": "*";
     /**
      * Specifies the component's minimum height, using `px`, `em`, `rem`, `vh`, or `%`.
+     *
+     * @public
      */
     "--calcite-dialog-min-size-y": "*";
     /**
      * Specifies the component's maximum height, using `px`, `em`, `rem`, `vh`, or `%`.
+     *
+     * @public
      */
     "--calcite-dialog-max-size-y": "*";
     /**
      * Specifies the padding of the component's content.
+     *
+     * @public
      */
     "--calcite-dialog-content-space": "*";
     /**
      * Specifies the padding of the component's `content-top` slot.
+     *
+     * @public
      */
     "--calcite-dialog-content-top-space": "*";
     /**
      * Specifies the padding of the component's `content-bottom` slot.
+     *
+     * @public
      */
     "--calcite-dialog-content-bottom-space": "*";
     /**
      * Specifies the padding of the component's `header-top` slot.
+     *
+     * @public
      */
     "--calcite-dialog-header-top-space": "*";
     /**
      * Specifies the padding of the component's footer.
+     *
+     * @public
      */
     "--calcite-dialog-footer-space": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-dialog-border-color": "*";
     /**
      * Specifies the component's horizontal offset.
+     *
+     * @public
      */
     "--calcite-dialog-offset-x": "*";
     /**
      * Specifies the component's vertical offset.
+     *
+     * @public
      */
     "--calcite-dialog-offset-y": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-dialog-background-color": "*";
     /**
      * Specifies the color of the component's icon.
+     *
+     * @public
      */
     "--calcite-dialog-icon-color": "*";
     /**
      * When `kind` is specified, specifies the component's accent color.
+     *
+     * @public
      */
     "--calcite-dialog-accent-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-dialog-corner-radius": "*";
     /**
      * Specifies the text color of the component's `heading`.
+     *
+     * @public
      */
     "--calcite-dialog-heading-text-color": "*";
     /**
      * Specifies the text color of the component's `description`.
+     *
+     * @public
      */
     "--calcite-dialog-description-text-color": "*";
     /**
      * Specifies the background color of the component's header.
+     *
+     * @public
      */
     "--calcite-dialog-header-background-color": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-dialog-header-action-background-color": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when hovered.
+     *
+     * @public
      */
     "--calcite-dialog-header-action-background-color-hover": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed.
+     *
+     * @public
      */
     "--calcite-dialog-header-action-background-color-press": "*";
     /**
      * Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-dialog-header-action-text-color": "*";
     /**
      * Specifies the text color of the component's `closable`, `collapsible`, and slotted `header-menu-actions` `calcite-action`s when pressed or hovered.
+     *
+     * @public
      */
     "--calcite-dialog-header-action-text-color-press": "*";
     /**
      * Specifies the background color of the component's footer.
+     *
+     * @public
      */
     "--calcite-dialog-footer-background-color": "*";
     /**
      * Specifies the padding of the component's `unnamed (default)` slot.
+     *
+     * @public
      */
     "--calcite-dialog-space": "*";
     /**
      * Specifies the padding of the component's `header-content` slot.
+     *
+     * @public
      */
     "--calcite-dialog-header-content-space": "*";
     /**
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     *
+     * @public
      */
     "--calcite-dialog-action-menu-border-color": "*";
   }
 }
 
+/** @public */
 interface DialogSlots {
   /**
    * A slot for adding content.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for displaying custom content. Will prevent the rendering of any default component UI, except for `box-shadow` and `corner-radius`.
+   *
+   * @public
    */
   "custom-content": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @public
    */
   "action-bar": Node[];
   /**
    * A slot for adding `calcite-alert`s to the component.
+   *
+   * @public
    */
   alerts: Node[];
   /**
    * A slot for adding content below the unnamed (default) slot and - if populated - the `footer` slot.
+   *
+   * @public
    */
   "content-bottom": Node[];
   /**
    * A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+   *
+   * @public
    */
   "content-top": Node[];
   /**
    * A slot for adding actions or content to the starting side of the component's header.
+   *
+   * @public
    */
   "header-actions-start": Node[];
   /**
    * A slot for adding actions or content to the ending side of the component's header.
+   *
+   * @public
    */
   "header-actions-end": Node[];
   /**
    * A slot for adding custom content to the component's header.
+   *
+   * @public
    */
   "header-content": Node[];
   /**
    * A slot for adding custom content above the header actions and content.
+   *
+   * @public
    */
   "header-top": Node[];
   /**
    * A slot for adding an overflow menu with actions inside a `calcite-dropdown`.
+   *
+   * @public
    */
   "header-menu-actions": Node[];
   /**
    * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   *
+   * @public
    */
   heading: Node[];
   /**
    * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   *
+   * @public
    */
   description: Node[];
   /**
    * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   *
+   * @public
    */
   fab: Node[];
   /**
    * A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+   *
+   * @public
    */
   footer: Node[];
   /**
    * A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+   *
+   * @public
    */
   "footer-end": Node[];
   /**
    * A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
+   *
+   * @public
    */
   "footer-start": Node[];
 }
 
+/** @public */
 export class Dialog extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: DialogSlots;
 
   //#endregion
@@ -288,8 +387,6 @@ export class Dialog extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -298,8 +395,14 @@ export class Dialog extends LitElement {
   private sizeOverride = useSizeOverride({
     targetElement: () => ({ value: this.transitionEl }),
     getBounds: () => ({
-      inline: { min: this.resizeValues.minInlineSize, max: this.resizeValues.maxInlineSize },
-      block: { min: this.resizeValues.minBlockSize, max: this.resizeValues.maxBlockSize },
+      inline: {
+        min: this.resizeValues.minInlineSize,
+        max: this.resizeValues.maxInlineSize,
+      },
+      block: {
+        min: this.resizeValues.minBlockSize,
+        max: this.resizeValues.maxBlockSize,
+      },
     }),
     fullscreenDisabled: () => this.fullscreenDisabled,
     onResize: (resizeValues) => {
@@ -343,26 +446,44 @@ export class Dialog extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies a function to run before the component closes. */
+  /**
+   * Specifies a function to run before the component closes.
+   *
+   * @public
+   */
   @property() beforeClose?: () => Promise<void>;
 
-  /** When `true`, disables the component's close button. */
+  /**
+   * When `true`, disables the component's close button.
+   *
+   * @public
+   */
   @property({ reflect: true }) closeDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** Specifies ARIA attributes for the dialog's assistive text live region. */
+  /**
+   * Specifies ARIA attributes for the dialog's assistive text live region.
+   *
+   * @public
+   */
   @property() aria?: Partial<Pick<AriaAttributesCamelCased, "live">>;
 
-  /** When `true`, the component is draggable. */
+  /**
+   * When `true`, the component is draggable.
+   *
+   * @public
+   */
   @property({ reflect: true }) dragEnabled = false;
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) embedded = false;
 
@@ -371,6 +492,7 @@ export class Dialog extends LitElement {
    *
    * By default, an open dialog can be dismissed by pressing the Esc key.
    *
+   * @public
    * @see [MDN - Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
   @property({ reflect: true }) escapeDisabled = false;
@@ -383,46 +505,93 @@ export class Dialog extends LitElement {
    * - `"returnFocusOnDeactivate"` returns focus when not active.
    * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   *
+   * @public
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices. */
+  /**
+   * When `true`, the component will not display at fullscreen, which may be desired in limited display areas, such as mobile devices.
+   *
+   * @public
+   */
   @property({ reflect: true }) fullscreenDisabled: boolean = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Specifies the component's kind, which determines the top border styling. */
+  /**
+   * Specifies the component's kind, which determines the top border styling.
+   *
+   * @public
+   */
   @property({ reflect: true }) kind?: Extract<
     "brand" | "danger" | "info" | "success" | "warning",
     Kind
   >;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /**
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuOpen = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, displays a scrim blocking interaction underneath the component. */
+  /**
+   * When `true`, displays a scrim blocking interaction underneath the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) modal = false;
 
-  /** When `true` and `modal` is `false`, prevents focus trapping. */
+  /**
+   * When `true` and `modal` is `false`, prevents focus trapping.
+   *
+   * @public
+   */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -434,24 +603,43 @@ export class Dialog extends LitElement {
     }
   }
 
-  /** When `true` and `modal` is `true`, disables the closing of the component when clicked outside. */
+  /**
+   * When `true` and `modal` is `true`, disables the closing of the component when clicked outside.
+   *
+   * @public
+   */
   @property({ reflect: true }) outsideCloseDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the component's placement. */
+  /**
+   * Specifies the component's placement.
+   *
+   * @public
+   */
   @property({ reflect: true }) placement: DialogPlacement = "center";
 
-  /** When `true`, the component is resizable. */
+  /**
+   * When `true`, the component is resizable.
+   *
+   * @public
+   */
   @property({ reflect: true }) resizable = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -459,11 +647,16 @@ export class Dialog extends LitElement {
   /**
    * Specifies the component's width.
    *
+   * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
   @property({ reflect: true }) widthScale: Scale = "m";
 
-  /** Specifies the component's width. */
+  /**
+   * Specifies the component's width.
+   *
+   * @public
+   */
   @property({ reflect: true }) width?: Extract<Width, Scale>;
 
   //#endregion
@@ -473,6 +666,7 @@ export class Dialog extends LitElement {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
+   * @public
    * @example
    * myCalciteFlowItem.scrollContentTo({
    *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
@@ -490,8 +684,8 @@ export class Dialog extends LitElement {
   /**
    * Sets focus on the component's "close" button (the first focusable item).
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns A promise that is resolved when the operation has completed.
    */
@@ -503,6 +697,7 @@ export class Dialog extends LitElement {
   /**
    * Updates the element(s) that are included in the focus-trap of the component.
    *
+   * @public
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
   @method()
@@ -518,6 +713,9 @@ export class Dialog extends LitElement {
    *
    * Use this method to programmatically override the component's width (inline) and/or height (block).
    * Pass `null` to clear the override and revert to the default or CSS variable size.
+   *
+   * @public
+   * @param size
    */
   @method()
   async updateSize(size: { inline?: number | null; block?: number | null }): Promise<void> {
@@ -528,19 +726,39 @@ export class Dialog extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteDialogBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteDialogBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteDialogClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is opened and animation is complete. */
+  /**
+   * Fires when the component is opened and animation is complete.
+   *
+   * @public
+   */
   calciteDialogOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's content is scrolled. */
+  /**
+   * Fires when the component's content is scrolled.
+   *
+   * @public
+   */
   calciteDialogScroll = createEvent({ cancelable: false });
 
   //#endregion

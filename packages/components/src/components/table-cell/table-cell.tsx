@@ -25,37 +25,49 @@ declare module "@arcgis/lumina" {
      * Specifies the component's background color.
      *
      * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-cell-background-color` instead.
+     * @public
      */
     "--calcite-table-cell-background": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-table-cell-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-cell-border-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-table-cell-text-color": "*";
   }
 }
 
+/** @public */
 interface TableCellSlots {
   /**
    * A slot for adding content, usually text content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Table
  * @parent calcite-table
  */
 export class TableCell extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TableCellSlots;
 
   //#endregion
@@ -74,8 +86,6 @@ export class TableCell extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -103,55 +113,68 @@ export class TableCell extends LitElement {
    * - `"start"` positions content at the start of the component.
    * - `"center"` positions content in the middle of the component.
    * - `"end"` positions content at the end of the component.
+   *
+   * @public
    */
   @property({ reflect: true }) alignment: Alignment = "start";
 
-  /** Specifies the number of columns the component should span. */
+  /**
+   * Specifies the number of columns the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) colSpan?: number;
 
-  /** @private */
+  /** @internal */
   @property() disabled = false;
 
-  /** @private */
+  /** @internal */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @private */
+  /** @internal */
   @property() lastCell = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @private */
+  /** @internal */
   @property() numberCell = false;
 
-  /** @private */
+  /** @internal */
   @property({ reflect: true }) reachesBodyEnd = false;
 
-  /** @private */
+  /** @internal */
   @property() parentRowAlignment: Alignment = "start";
 
-  /** @private */
+  /** @internal */
   @property() parentRowIsSelected = false;
 
-  /** @private */
+  /** @internal */
   @property() parentRowPositionLocalized?: string;
 
-  /** @private */
+  /** @internal */
   @property() parentRowType!: RowType;
 
-  /** @private */
+  /** @internal */
   @property() positionInRow!: number;
 
-  /** @private */
+  /** @internal */
   @property() readCellContentsToAT = false;
 
-  /** Specifies the number of rows the component should span. */
+  /**
+   * Specifies the number of rows the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) rowSpan?: number;
 
-  /** @private */
+  /** @internal */
   @property() scale: Scale = "m";
 
-  /** @private */
+  /** @internal */
   @property() selectionCell = false;
 
   //#endregion
@@ -161,8 +184,8 @@ export class TableCell extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

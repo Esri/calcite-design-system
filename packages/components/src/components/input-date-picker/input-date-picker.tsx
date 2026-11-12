@@ -87,186 +87,272 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's actions icon color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-actions-icon-color": "*";
     /**
      * Specifies the component's actions icon color on hover.
+     *
+     * @public
      */
     "--calcite-input-date-picker-actions-icon-color-hover": "*";
     /**
      * Specifies the component's input background color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-background-color": "*";
     /**
      * Specifies the component's input border color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-border-color": "*";
     /**
      * Specifies the background color of the component's calendar actions.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-actions-background-color": "*";
     /**
      * Specifies the background color of the component's calendar actions when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-actions-background-color-hover": "*";
     /**
      * Specifies the background color of the component's calendar actions when pressed.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-actions-background-color-press": "*";
     /**
      * Specifies the text color of the component's calendar actions.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-actions-text-color": "*";
     /**
      * Specifies the text color of the component's calendar actions when pressed.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-actions-text-color-press": "*";
     /**
      * Specifies the border color of the component's calendar.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-border-color": "*";
     /**
      * Specifies the corner radius of the component's calendar.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-corner-radius": "*";
     /**
      * Specifies the text color of the component's calendar current day element.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-current-day-text-color": "*";
     /**
      * Specifies the background color of the component's calendar day elements.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-background-color": "*";
     /**
      * Specifies the background color of the component's calendar day elements when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-background-color-hover": "*";
     /**
      * Specifies the text color of current day of the component's date-picker.
      *
      * @deprecated in v3.3.1, removal target v6.0.0 - Use `--calcite-input-date-picker-calendar-current-day-text-color` instead.
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-current-text-color": "*";
     /**
      * Specifies the background color of the component's calendar selected day range.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-range-background-color": "*";
     /**
      * Specifies the text color of the component's calendar selected day range.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-range-text-color": "*";
     /**
      * Specifies the text color of component's calendar selected day.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-text-color-selected": "*";
     /**
      * Specifies the background color of the component's calendar day elements outside the current range when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-outside-range-background-color-hover": "*";
     /**
      * Specifies the text color of the component's calendar day elements outside the current range when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-outside-range-text-color-hover": "*";
     /**
      * Specifies the text color of the component's calendar day elements.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-text-color": "*";
     /**
      * Specifies the text color of the component's calendar day elements when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-day-text-color-hover": "*";
     /**
      * Specifies the background color of the component's calendar selected day.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-selected-background-color": "*";
     /**
      * Specifies the component's calendar shadow.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-shadow": "*";
     /**
      * Specifies the component's calendar icon color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-icon-color": "*";
     /**
      * Specifies the component's calendar icon color when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-icon-color-hover": "*";
     /**
      * Specifies the text color of the component's calendar selected month.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-month-select-text-color": "*";
     /**
      * When `range` is `true`, specifies the divider color between the component's calendars.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-range-divider-color": "*";
     /**
      * Specifies the text color of the component's calendar week, year & suffix.
+     *
+     * @public
      */
     "--calcite-input-date-picker-calendar-text-color": "*";
     /**
      * Specifies the component's input corner radius.
+     *
+     * @public
      */
     "--calcite-input-date-picker-corner-radius": "*";
     /**
      * When `range` is `true`, specifies the component's divider color between two inputs.
+     *
+     * @public
      */
     "--calcite-input-date-picker-divider-color": "*";
     /**
      * Specifies the component's input icon color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-icon-color": "*";
     /**
      * Specifies the component's input placeholder text color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-placeholder-text-color": "*";
     /**
      * Specifies the component's input shadow.
+     *
+     * @public
      */
     "--calcite-input-date-picker-shadow": "*";
     /**
      * Specifies the component's input text color.
+     *
+     * @public
      */
     "--calcite-input-date-picker-text-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element.
+     *
+     * @public
      */
     "--calcite-input-date-picker-input-action-background-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-input-action-background-color-hover": "*";
     /**
      * Specifies the background color of the input's `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-input-date-picker-input-action-background-color-press": "*";
     /**
      * Specifies the icon color of the input's `clearable` and toggle elements.
+     *
+     * @public
      */
     "--calcite-input-date-picker-input-action-icon-color": "*";
     /**
      * Specifies the icon color of the input's `clearable` and toggle elements when hovered.
+     *
+     * @public
      */
     "--calcite-input-date-picker-input-action-icon-color-hover": "*";
     /**
      * Specifies the icon color of the input's `clearable` and toggle elements when pressed.
+     *
+     * @public
      */
     "--calcite-input-date-picker-input-action-icon-color-press": "*";
   }
 }
 
+/** @public */
 interface InputDatePickerSlots {
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Inputs
  */
 export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: InputDatePickerSlots;
 
   //#endregion
@@ -275,7 +361,10 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   static formAssociated = true;
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = [styles, screenReaderStyles];
 
@@ -355,8 +444,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -382,96 +469,174 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   //#region Public Properties
 
-  /** When `range` is `true`, specifies the number of calendars displayed. */
+  /**
+   * When `range` is `true`, specifies the number of calendars displayed.
+   *
+   * @public
+   */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, displays a clear button when the component has a value. */
+  /**
+   * When `true`, displays a clear button when the component has a value.
+   *
+   * @public
+   */
   @property({ reflect: true }) clearable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
-  /** When `true`, prevents focus trapping. */
+  /**
+   * When `true`, prevents focus trapping.
+   *
+   * @public
+   */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** Defines the component's layout. */
+  /**
+   * Defines the component's layout.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
    * When the component resides in a form,
    * specifies the latest allowed date ("yyyy-mm-dd").
+   *
+   * @public
    */
   @property({ reflect: true }) max?: string;
 
-  /** Specifies the latest allowed date as a full date object. */
+  /**
+   * Specifies the latest allowed date as a full date object.
+   *
+   * @public
+   */
   @property() maxAsDate?: Date;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides & DatePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
    * specifies the earliest allowed date ("yyyy-mm-dd").
+   *
+   * @public
    */
   @property({ reflect: true }) min?: string;
 
-  /** Specifies the earliest allowed date as a full date object. */
+  /**
+   * Specifies the earliest allowed date as a full date object.
+   *
+   * @public
+   */
   @property() minAsDate?: Date;
 
-  /** Specifies the component's month style. */
+  /**
+   * Specifies the component's month style.
+   *
+   * @public
+   */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
-  /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** When `true`, displays the `calcite-date-picker` component. */
+  /**
+   * When `true`, displays the `calcite-date-picker` component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies placeholder text for the component.
    *
+   * @public
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder?: string;
 
   /**
    * Determines the `calcite-date-picker`'s placement relative to the input.
+   *
+   * @public
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /**
    * When `true`, disables the default behavior on the third click of narrowing or extending the range.
    * Instead starts a new range.
+   *
+   * @public
    */
   @property() proximitySelectionDisabled = false;
 
-  /** When `true`, activates a range for the component. */
+  /**
+   * When `true`, activates a range for the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) range = false;
 
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
+   * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
@@ -479,36 +644,58 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * When `true` and the component resides in a form,
    * the component must have a `value` in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /**
+   * Specifies the input field's status, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Selected date as a string in ISO format (`"yyyy-mm-dd"`). */
+  /**
+   * Selected date as a string in ISO format (`"yyyy-mm-dd"`).
+   *
+   * @public
+   */
   @property()
   get value(): string | string[] {
     return this._value;
@@ -525,7 +712,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
   }
 
-  /** The component's `value` as a full date object. */
+  /**
+   * The component's `value` as a full date object.
+   *
+   * @public
+   */
   @property() valueAsDate?: Date | Date[];
 
   //#endregion
@@ -535,6 +726,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * Updates the component's position.
    *
+   * @public
    * @param delayed If true, the repositioning is delayed.
    * @returns void
    */
@@ -560,8 +752,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -573,19 +765,39 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteInputDatePickerBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteInputDatePickerBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's `value` changes. */
+  /**
+   * Fires when the component's `value` changes.
+   *
+   * @public
+   */
   calciteInputDatePickerChange = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteInputDatePickerClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is opened and animation is complete. */
+  /**
+   * Fires when the component is opened and animation is complete.
+   *
+   * @public
+   */
   calciteInputDatePickerOpen = createEvent({ cancelable: false });
 
   //#endregion

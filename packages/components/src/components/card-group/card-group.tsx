@@ -22,28 +22,36 @@ declare module "@arcgis/lumina" {
      * Specifies the gap between slotted elements.
      *
      * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-group-space` instead.
+     * @public
      */
     "--calcite-card-group-gap": "*";
     /**
      * Specifies the space between slotted elements.
+     *
+     * @public
      */
     "--calcite-card-group-space": "*";
   }
 }
 
+/** @public */
 interface CardGroupSlots {
   /**
    * A slot for adding one or more `calcite-card`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Cards
  */
 export class CardGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: CardGroupSlots;
 
   //#endregion
@@ -68,26 +76,40 @@ export class CardGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Specifies the size of the component. Child `calcite-card`s inherit the component's value. */
+  /**
+   * Specifies the size of the component. Child `calcite-card`s inherit the component's value.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() selectedItems: Card["el"][] = [];
 
-  /** Specifies the selection mode of the component. */
+  /**
+   * Specifies the selection mode of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
@@ -100,8 +122,8 @@ export class CardGroup extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -113,7 +135,11 @@ export class CardGroup extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's selection changes and the `selectionMode` is not `none`. */
+  /**
+   * Fires when the component's selection changes and the `selectionMode` is not `none`.
+   *
+   * @public
+   */
   calciteCardGroupSelect = createEvent({ cancelable: false });
 
   //#endregion

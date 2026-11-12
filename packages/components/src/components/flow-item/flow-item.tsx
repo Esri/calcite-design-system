@@ -28,195 +28,284 @@ declare module "@arcgis/lumina" {
      * Specifies the padding of the component's footer.
      *
      * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-footer-space` instead.
+     * @public
      */
     "--calcite-flow-item-footer-padding": "*";
     /**
      * Specifies the component header's block end border.
      *
      * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-border-color` instead.
+     * @public
      */
     "--calcite-flow-item-header-border-block-end": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-flow-corner-radius": "*";
     /**
      * Specifies the text color of the component's `heading`.
+     *
+     * @public
      */
     "--calcite-flow-heading-text-color": "*";
     /**
      * Specifies the color of the component's `icon`.
+     *
+     * @public
      */
     "--calcite-flow-icon-color": "*";
     /**
      * Specifies the text color of the component's `description`.
+     *
+     * @public
      */
     "--calcite-flow-description-text-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-flow-border-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-flow-background-color": "*";
     /**
      * Specifies the padding of the component's `content-top` slot.
+     *
+     * @public
      */
     "--calcite-flow-content-top-space": "*";
     /**
      * Specifies the padding of the component's `content-bottom` slot.
+     *
+     * @public
      */
     "--calcite-flow-content-bottom-space": "*";
     /**
      * Specifies the padding of the component's `header-top` slot.
+     *
+     * @public
      */
     "--calcite-flow-header-top-space": "*";
     /**
      * Specifies the background color of the component's header.
+     *
+     * @public
      */
     "--calcite-flow-header-background-color": "*";
     /**
      * Specifies the background color of the component's footer.
+     *
+     * @public
      */
     "--calcite-flow-footer-background-color": "*";
     /**
      * Specifies the padding of the component's `unnamed (default)` slot.
+     *
+     * @public
      */
     "--calcite-flow-space": "*";
     /**
      * Specifies the padding of the component's `header-content` slot.
+     *
+     * @public
      */
     "--calcite-flow-header-content-space": "*";
     /**
      * Specifies the padding of the component's footer.
+     *
+     * @public
      */
     "--calcite-flow-footer-space": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s. Applies to any slotted `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-action-background-color": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-action-background-color-hover": "*";
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-action-background-color-pressed": "*";
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-action-text-color-hover": "*";
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
+     *
+     * @public
      */
     "--calcite-action-text-color-pressed": "*";
     /**
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
+     *
+     * @public
      */
     "--calcite-popover-border-color": "*";
     /**
      * Specifies the background color of any `calcite-action`s in the component's header when hovered.
+     *
+     * @public
      */
     "--calcite-flow-header-action-background-color-hover": "*";
     /**
      * Specifies the background color of any `calcite-action`s in the component's header when pressed.
+     *
+     * @public
      */
     "--calcite-flow-header-action-background-color-press": "*";
     /**
      * Specifies the background color of any `calcite-action`s in the component's header.
+     *
+     * @public
      */
     "--calcite-flow-header-action-background-color": "*";
     /**
      * Specifies the color of any `calcite-action`s indicator in the component's header.
+     *
+     * @public
      */
     "--calcite-flow-header-action-indicator-color": "*";
     /**
      * Specifies the text color of any `calcite-action`s in the component's header when pressed.
+     *
+     * @public
      */
     "--calcite-flow-header-action-text-color-press": "*";
     /**
      * Specifies the text color of any `calcite-action`s in the component's header.
+     *
+     * @public
      */
     "--calcite-flow-header-action-text-color": "*";
   }
 }
 
+/** @public */
 interface FlowItemSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @public
    */
   "action-bar": Node[];
   /**
    * A slot for adding `calcite-alert`s to the component.
+   *
+   * @public
    */
   alerts: Node[];
   /**
    * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   *
+   * @public
    */
   "content-top": Node[];
   /**
    * A slot for adding content below the unnamed (default) slot and above the footer slot (if populated)
+   *
+   * @public
    */
   "content-bottom": Node[];
   /**
    * A slot for adding custom content above the header actions and content.
+   *
+   * @public
    */
   "header-top": Node[];
   /**
    * A slot for adding `calcite-action`s or content to the start side of the component's header.
+   *
+   * @public
    */
   "header-actions-start": Node[];
   /**
    * A slot for adding `calcite-action`s or content to the end side of the component's header.
+   *
+   * @public
    */
   "header-actions-end": Node[];
   /**
    * A slot for adding custom content to the component's header.
+   *
+   * @public
    */
   "header-content": Node[];
   /**
    * A slot for adding an overflow menu with `calcite-action`s inside a `calcite-dropdown`.
+   *
+   * @public
    */
   "header-menu-actions": Node[];
   /**
    * A slot for adding content to the heading area of the default header. Takes precedence over the `heading` property.
+   *
+   * @public
    */
   heading: Node[];
   /**
    * A slot for adding content to the description area of the default header. Takes precedence over the `description` property.
+   *
+   * @public
    */
   description: Node[];
   /**
    * A slot for adding a `calcite-fab` (floating action button) to perform an action.
+   *
+   * @public
    */
   fab: Node[];
   /**
    * A slot for adding custom content to the component's footer. Should not be used with the `footer-start` or `footer-end` slots.
+   *
+   * @public
    */
   footer: Node[];
   /**
    * A slot for adding a trailing footer custom content. Should not be used with the `footer` slot.
+   *
+   * @public
    */
   "footer-end": Node[];
   /**
    * A slot for adding a leading footer custom content. Should not be used with the `footer` slot.
+   *
+   * @public
    */
   "footer-start": Node[];
 }
 
 /**
+ * @public
  * @docGroup Flow
  * @parent calcite-flow
  */
 export class FlowItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: FlowItemSlots;
 
   //#endregion
@@ -237,8 +326,6 @@ export class FlowItem extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -248,51 +335,103 @@ export class FlowItem extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies a function to run before the component is removed from its parent `calcite-flow`. */
+  /**
+   * Specifies a function to run before the component is removed from its parent `calcite-flow`.
+   *
+   * @public
+   */
   @property() beforeBack?: () => Promise<void>;
 
-  /** Specifies a function to run before the component closes. */
+  /**
+   * Specifies a function to run before the component closes.
+   *
+   * @public
+   */
   @property() beforeClose?: () => Promise<void>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closed = false;
 
-  /** When `collapsible` is `true`, specifies the direction of the collapse icon. */
+  /**
+   * When `collapsible` is `true`, specifies the direction of the collapse icon.
+   *
+   * @public
+   */
   @property() collapseDirection: CollapseDirection = "down";
 
-  /** When `true`, hides the component's content area. */
+  /**
+   * When `true`, hides the component's content area.
+   *
+   * @public
+   */
   @property({ reflect: true }) collapsed = false;
 
-  /** When `true`, the component is collapsible. */
+  /**
+   * When `true`, the component is collapsible.
+   *
+   * @public
+   */
   @property({ reflect: true }) collapsible = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
   /**
    * When `true`, disables focus trapping and dialog semantics.
    *
+   * @public
    * @since 6.0
    */
   @property() focusTrapDisabled = false;
@@ -305,23 +444,41 @@ export class FlowItem extends LitElement {
    * - `"returnFocusOnDeactivate"` returns focus when not active.
    * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
-   * @private
+   * @internal
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** When `true`, the action menu items in the `header-menu-actions` slot are open. */
+  /**
+   * When `true`, the action menu items in the `header-menu-actions` slot are open.
+   *
+   * @public
+   */
   @property({ reflect: true }) menuOpen = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides & Panel["messageOverrides"];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is displayed within a parent `calcite-flow`. */
+  /**
+   * When `true`, the component is displayed within a parent `calcite-flow`.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -332,8 +489,8 @@ export class FlowItem extends LitElement {
   @property() showBackButton = false;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -345,6 +502,7 @@ export class FlowItem extends LitElement {
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
+   * @public
    * @example
    * myCalciteFlowItem.scrollContentTo({
    *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
@@ -362,8 +520,8 @@ export class FlowItem extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns promise.
    */
@@ -376,7 +534,7 @@ export class FlowItem extends LitElement {
    * Updates the element(s) that are included in the focus-trap of the component.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
-   * @private
+   * @internal
    */
   @method()
   async updateFocusTrapElements(
@@ -389,25 +547,49 @@ export class FlowItem extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's back button is clicked. */
+  /**
+   * Fires when the component's back button is clicked.
+   *
+   * @public
+   */
   calciteFlowItemBack = createEvent();
 
-  /** Fires when the component's close button is clicked. */
+  /**
+   * Fires when the component's close button is clicked.
+   *
+   * @public
+   */
   calciteFlowItemClose = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteFlowItemCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteFlowItemExpand = createEvent({ cancelable: false });
 
-  /** Fires when the component's content is scrolled. */
+  /**
+   * Fires when the component's content is scrolled.
+   *
+   * @public
+   */
   calciteFlowItemScroll = createEvent({ cancelable: false });
 
-  /** Fires when the component's collapse button is clicked. */
+  /**
+   * Fires when the component's collapse button is clicked.
+   *
+   * @public
+   */
   calciteFlowItemToggle = createEvent({ cancelable: false });
 
-  /** @private */
+  /** @internal */
   calciteInternalFlowItemChange = createEvent({ cancelable: false });
 
   //#endregion

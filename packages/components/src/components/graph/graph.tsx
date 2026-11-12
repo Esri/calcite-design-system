@@ -16,11 +16,14 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the fill color of the `highlight` element, when present.
+     *
+     * @internal
      */
     "--calcite-graph-highlight-fill-color": "*";
   }
 }
 
+/** @internal */
 export class Graph extends LitElement {
   // #region Static Members
 
@@ -41,24 +44,37 @@ export class Graph extends LitElement {
   /**
    * Array of values describing a single color stop ([offset, color, opacity])
    * These color stops should be sorted by offset value.
+   *
+   * @internal
    */
   @property() colorStops?: ColorStop[];
 
   /**
    * Array of tuples describing a single data point ([x, y])
    * These data points should be sorted by x-axis value.
+   *
+   * @internal
    */
   @property() data: DataSeries = [];
 
-  /** End of highlight color if highlighting range. */
+  /**
+   * End of highlight color if highlighting range.
+   *
+   * @internal
+   */
   @property() highlightMax?: number;
 
-  /** Start of highlight color if highlighting range. */
+  /**
+   * Start of highlight color if highlighting range.
+   *
+   * @internal
+   */
   @property() highlightMin?: number;
 
   /**
    * Highest point of the range.
    *
+   * @internal
    * @required
    */
   @property({ reflect: true }) max!: number;
@@ -66,6 +82,7 @@ export class Graph extends LitElement {
   /**
    * Lowest point of the range.
    *
+   * @internal
    * @required
    */
   @property({ reflect: true }) min!: number;

@@ -1,15 +1,21 @@
 import { LuminaJsx } from "@arcgis/lumina";
 import { CamelCase, ReadonlyTuple } from "type-fest";
 
+/** @public */
 export type Alignment = "start" | "center" | "end";
+/** @public */
 export type Appearance = "solid" | "outline" | "outline-fill" | "transparent";
 export interface Dimensions {
   width: number;
   height: number;
 }
+/** @public */
 export type FlipContext = "both" | "start" | "end";
+/** @public */
 export type Height = Scale;
+/** @public */
 export type Kind = "brand" | "danger" | "info" | "inverse" | "neutral" | "warning" | "success";
+/** @public */
 export type Layout =
   | "horizontal"
   | "vertical"
@@ -20,6 +26,7 @@ export type Layout =
   | "fixed"
   | "none"
   | "horizontal-single";
+/** @public */
 export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" | "block-end";
 
 /**
@@ -31,6 +38,7 @@ export type LogicalFlowPosition = "inline-start" | "inline-end" | "block-start" 
 export type ModeClass = "calcite-mode-light" | "calcite-mode-dark" | "calcite-mode-auto";
 
 export type ModeName = "light" | "dark" | "auto";
+/** @public */
 export type Position = "start" | "end" | "top" | "bottom";
 export interface ResizeValues {
   inlineSize: number | null;
@@ -40,7 +48,9 @@ export interface ResizeValues {
   maxInlineSize: number | null;
   maxBlockSize: number | null;
 }
+/** @public */
 export type SelectionAppearance = "icon" | "border" | "neutral" | "highlight";
+/** @public */
 export type SelectionMode =
   | "single"
   | "none"
@@ -49,12 +59,18 @@ export type SelectionMode =
   | "multichildren"
   | "ancestors"
   | "multiple";
+/** @public */
 export type Scale = "s" | "m" | "l";
+/** @public */
 export type Status = "invalid" | "valid" | "idle";
+/** @public */
 export type Width = Scale | "auto" | "half" | "full";
+/** @public */
 export type IconType = "chevron" | "caret" | "ellipsis" | "overflow" | "plus-minus";
+/** @public */
 export type CollapseDirection = "down" | "up";
 export type Dir = "ltr" | "rtl";
+/** @public */
 export type InteractionMode = "interactive" | "static";
 
 /**
@@ -63,12 +79,14 @@ export type InteractionMode = "interactive" | "static";
  */
 export type SingleItemSlotArray<T extends HTMLElement | Node> = ReadonlyTuple<T, 1>;
 
+/** @public */
 type RemoveAriaPrefix<K extends string> = K extends `aria-${infer Rest}`
   ? Rest
   : K extends `aria${infer Rest}`
     ? Uncapitalize<Rest>
     : K;
 
+/** @public */
 export type AriaAttributesCamelCased = {
   [K in Exclude<keyof LuminaJsx.AriaAttributes, "role"> as CamelCase<
     RemoveAriaPrefix<K & string>

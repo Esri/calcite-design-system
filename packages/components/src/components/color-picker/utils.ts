@@ -137,6 +137,7 @@ export function hexToRGB(hex: string): RGB | RGBA {
 // these utils allow users to pass enum values as strings without having to access the enum
 // based on the approach suggested by https://github.com/microsoft/TypeScript/issues/17690#issuecomment-321365759,
 const enumify = <T extends { [index: string]: U }, U extends string>(x: T) => x;
+/** @public */
 type Enumify<T> = T[keyof T];
 
 /** @public */
@@ -163,8 +164,10 @@ export const ObjectColorMode = enumify({
 /** @public */
 type ObjectColorMode = Enumify<typeof ObjectColorMode>;
 
+/** @public */
 export type SupportedMode = CSSColorMode | ObjectColorMode;
 
+/** @public */
 export type Format = "auto" | SupportedMode;
 
 export function parseMode(colorValue: ColorValue | undefined): SupportedMode | undefined {

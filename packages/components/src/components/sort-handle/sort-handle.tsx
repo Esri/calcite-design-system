@@ -28,6 +28,7 @@ declare global {
   }
 }
 
+/** @internal */
 export class SortHandle extends LitElement {
   //#region Static Members
 
@@ -116,62 +117,111 @@ export class SortHandle extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @internal
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Made into a prop for testing purposes only.
-   *
-   * @private
+   * @internal
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  /** Defines the "Add to" items. */
+  /**
+   * Defines the "Add to" items.
+   *
+   * @internal
+   */
   @property() addToItems: SortMenuItem[] = [];
 
-  /** Defines the "Move to" items. */
+  /**
+   * Defines the "Move to" items.
+   *
+   * @internal
+   */
   @property() moveToItems: SortMenuItem[] = [];
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @internal
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the container element.
+   *
+   * @internal
    */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @internal
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the handle's current position. */
+  /**
+   * Specifies the handle's current position.
+   *
+   * @internal
+   */
   @property() setPosition?: number;
 
-  /** Specifies the total number of sortable items. */
+  /**
+   * Specifies the total number of sortable items.
+   *
+   * @internal
+   */
   @property() setSize?: number;
 
-  /** When `true`, prevents sorting of items. */
+  /**
+   * When `true`, prevents sorting of items.
+   *
+   * @internal
+   */
   @property({ reflect: true }) sortDisabled = false;
 
   /**
+   * @internal
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @internal
+   */
   @property({ reflect: true }) widthScale?: Scale;
 
   //#endregion
@@ -181,8 +231,8 @@ export class SortHandle extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @internal
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -194,25 +244,53 @@ export class SortHandle extends LitElement {
 
   //#region Events
 
-  /** Fires when an add item has been selected. */
+  /**
+   * Fires when an add item has been selected.
+   *
+   * @internal
+   */
   calciteSortHandleAdd = createEvent<AddEventDetail>({ cancelable: true });
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @internal
+   */
   calciteSortHandleBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @internal
+   */
   calciteSortHandleBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @internal
+   */
   calciteSortHandleClose = createEvent({ cancelable: false });
 
-  /** Fires when a move item has been selected. */
+  /**
+   * Fires when a move item has been selected.
+   *
+   * @internal
+   */
   calciteSortHandleMove = createEvent<MoveEventDetail>({ cancelable: true });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @internal
+   */
   calciteSortHandleOpen = createEvent({ cancelable: false });
 
-  /** Fires when a reorder has been selected. */
+  /**
+   * Fires when a reorder has been selected.
+   *
+   * @internal
+   */
   calciteSortHandleReorder = createEvent<ReorderEventDetail>({ cancelable: true });
 
   //#endregion

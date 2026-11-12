@@ -27,32 +27,42 @@ declare module "@arcgis/lumina" {
      * Specifies the margin spacing at the top of the component.
      *
      * @deprecated in v3.2.0, removal target v6.0.0 - Use `--calcite-input-message-spacing` instead.
+     * @public
      */
     "--calcite-input-message-spacing-value": "*";
     /**
      * Specifies the component's top margin spacing.
+     *
+     * @public
      */
     "--calcite-input-message-spacing": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-input-message-icon-color": "*";
   }
 }
 
+/** @public */
 interface InputMessageSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Inputs
  */
 export class InputMessage extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: InputMessageSlots;
 
   //#endregion
@@ -72,16 +82,32 @@ export class InputMessage extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /**
+   * Specifies the input field's status, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   //#endregion

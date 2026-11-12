@@ -18,36 +18,48 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-dropdown-group-border-color": "*";
     /**
      * Specifies the component's `groupTitle` color.
+     *
+     * @public
      */
     "--calcite-dropdown-group-title-text-color": "*";
   }
 }
 
+/** @public */
 interface DropdownGroupSlots {
   /**
    * A slot for adding `calcite-dropdown-item`s.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Dropdown
  * @parent calcite-dropdown
  */
 export class DropdownGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: DropdownGroupSlots;
 
   //#endregion
 
   //#region Static Members
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -73,7 +85,11 @@ export class DropdownGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When specified, displays a group title. */
+  /**
+   * When specified, displays a group title.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupTitle?: string;
 
   /**
@@ -85,8 +101,7 @@ export class DropdownGroup extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
-   *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -96,6 +111,8 @@ export class DropdownGroup extends LitElement {
    * - `"multiple"` allows any number of selections.
    * - `"single"` allows only one selection.
    * - `"none"` does not allow any selections.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "none" | "single" | "multiple",
@@ -106,8 +123,10 @@ export class DropdownGroup extends LitElement {
 
   //#region Events
 
-  /** @private */
-  calciteInternalDropdownItemChange = createEvent<RequestedItem>({ cancelable: false });
+  /** @internal */
+  calciteInternalDropdownItemChange = createEvent<RequestedItem>({
+    cancelable: false,
+  });
 
   //#endregion
 

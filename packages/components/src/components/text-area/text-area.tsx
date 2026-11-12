@@ -46,88 +46,127 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-text-area-background-color": "*";
     /**
      * Specifies the component's text area border color.
+     *
+     * @public
      */
     "--calcite-text-area-border-color": "*";
     /**
      * Specifies the color of the character limit text displayed in the footer of the component.
+     *
+     * @public
      */
     "--calcite-text-area-character-limit-text-color": "*";
     /**
      * Specifies the color of the divider between the text area and footer.
+     *
+     * @public
      */
     "--calcite-text-area-divider-color": "*";
     /**
      * Specifies the font size of the text area and footer.
+     *
+     * @public
      */
     "--calcite-text-area-font-size": "*";
     /**
      * Specifies the component's text area maximum height.
+     *
+     * @public
      */
     "--calcite-text-area-max-height": "*";
     /**
      * Specifies the component's text area minimum height.
+     *
+     * @public
      */
     "--calcite-text-area-min-height": "*";
     /**
      * Specifies the component's text area maximum width.
+     *
+     * @public
      */
     "--calcite-text-area-max-width": "*";
     /**
      * Specifies the component's text area minimum width.
+     *
+     * @public
      */
     "--calcite-text-area-min-width": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-text-area-text-color": "*";
     /**
      * Specifies the footer's border color.
+     *
+     * @public
      */
     "--calcite-text-area-footer-border-color": "*";
     /**
      * Specifies component's corner radius.
+     *
+     * @public
      */
     "--calcite-text-area-corner-radius": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-text-area-shadow": "*";
     /**
      * Specifies the footer's background color.
+     *
+     * @public
      */
     "--calcite-text-area-footer-background-color": "*";
   }
 }
 
+/** @public */
 interface TextAreaSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
   /**
    * A slot for adding content to the start of the component's footer.
+   *
+   * @public
    */
   "footer-start": Node[];
   /**
    * A slot for adding content to the end of the component's footer.
+   *
+   * @public
    */
   "footer-end": Node[];
 }
 
+/** @public */
 export class TextArea
   extends LitElement
   implements LabelableComponent, Omit<TextualInputComponent, "pattern">
 {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TextAreaSlots;
 
   //#endregion
@@ -206,8 +245,6 @@ export class TextArea
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -230,6 +267,7 @@ export class TextArea
   /**
    * Specifies the component's number of columns.
    *
+   * @public
    * @see [MDN - cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
   @property({ reflect: true }) columns?: number;
@@ -237,62 +275,92 @@ export class TextArea
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
+   * @public
    * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
   /**
    * When `true`, prevents input beyond the `maxLength` value, mimicking native text area behavior.
+   *
+   * @public
    */
   @property({ reflect: true }) limitText = false;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
   /**
    * When the component resides in a form,
    * specifies the maximum number of characters allowed.
    *
+   * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
   @property({ reflect: true }) maxLength?: number;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the minimum number of characters allowed.
    *
+   * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
   @property({ reflect: true }) minLength?: number;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-name)
    */
   @property({ reflect: true }) name?: string;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the placeholder text for the component.
    *
+   * @public
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-placeholder)
    */
   @property() placeholder?: string;
@@ -300,6 +368,7 @@ export class TextArea
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
+   * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
@@ -308,45 +377,72 @@ export class TextArea
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    *
+   * @public
    * @see [MDN - required](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies if the component is resizable. */
+  /**
+   * Specifies if the component is resizable.
+   *
+   * @public
+   */
   @property({ reflect: true }) resize: "both" | "horizontal" | "vertical" | "none" = "both";
 
   /**
    * Specifies the component's number of rows.
    *
+   * @public
    * @see [MDN - rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
   @property({ reflect: true }) rows?: number;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: "l" | "m" | "s" = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value = "";
 
   /**
    * Specifies the wrapping mechanism for the text.
    *
+   * @public
    * @see [MDN - wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
    */
   @property({ reflect: true }) wrap: "soft" | "hard" = "soft";
@@ -355,7 +451,11 @@ export class TextArea
 
   //#region Public Methods
 
-  /** Selects the text of the component's `value`. */
+  /**
+   * Selects the text of the component's `value`.
+   *
+   * @public
+   */
   @method()
   async selectText(): Promise<void> {
     await this.componentOnReady();
@@ -365,8 +465,8 @@ export class TextArea
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -378,10 +478,18 @@ export class TextArea
 
   //#region Events
 
-  /** Fires each time a new `value` is typed and committed. */
+  /**
+   * Fires each time a new `value` is typed and committed.
+   *
+   * @public
+   */
   calciteTextAreaChange = createEvent();
 
-  /** Fires each time a new `value` is typed. */
+  /**
+   * Fires each time a new `value` is typed.
+   *
+   * @public
+   */
   calciteTextAreaInput = createEvent();
 
   //#endregion
@@ -648,7 +756,11 @@ export class TextArea
     if (this.maxLength) {
       return (
         <span class={CSS.characterLimit}>
-          <span class={{ [CSS.characterOverLimit]: this.isCharacterLimitExceeded() }}>
+          <span
+            class={{
+              [CSS.characterOverLimit]: this.isCharacterLimitExceeded(),
+            }}
+          >
             {this.localizedCharacterLengthObj.currentLength}
           </span>
           {"/"}
