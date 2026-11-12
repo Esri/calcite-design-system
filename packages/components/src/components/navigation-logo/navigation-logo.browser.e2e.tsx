@@ -149,10 +149,6 @@ describe("theme", () => {
         shadowSelector: `.${CSS.heading}`,
         targetProp: "color",
       },
-      "--calcite-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
     });
   });
 
@@ -171,10 +167,6 @@ describe("theme", () => {
         },
         "--calcite-navigation-logo-text-color": {
           shadowSelector: `calcite-icon`,
-          targetProp: "color",
-        },
-        "--calcite-icon-color": {
-          shadowSelector: `.${CSS.icon}`,
           targetProp: "color",
         },
       },
@@ -218,10 +210,6 @@ describe("theme", () => {
         shadowSelector: `.${CSS.heading}`,
         targetProp: "color",
       },
-      "--calcite-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
     });
   });
 
@@ -243,11 +231,16 @@ describe("theme", () => {
           shadowSelector: `calcite-icon`,
           targetProp: "color",
         },
-        "--calcite-icon-color": {
-          shadowSelector: `.${CSS.icon}`,
-          targetProp: "color",
-        },
       },
     );
+  });
+
+  describe("icon", () => {
+    themed(() => mount(navigationLogo()), {
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+    });
   });
 });

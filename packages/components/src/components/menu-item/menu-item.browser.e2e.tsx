@@ -183,7 +183,7 @@ describe("theme", () => {
   describe("active", () => {
     const activeMenuItem = (layout: Layout) => (
       <calcite-menu layout={layout}>
-        <calcite-menu-item active text="Ideas" />
+        <calcite-menu-item active icon-start="layers" text="Ideas" />
       </calcite-menu>
     );
     const tokens = (layout: Layout): ComponentTestTokens => {
@@ -203,10 +203,6 @@ describe("theme", () => {
             state: "hover",
           },
         ],
-        "--calcite-icon-color": {
-          shadowSelector: `.${CSS.icon}`,
-          targetProp: "color",
-        },
       };
     };
     describe("horizontal layout", () => {
@@ -255,10 +251,6 @@ describe("theme", () => {
           targetProp: "color",
         },
       ],
-      "--calcite-icon-color": {
-        shadowSelector: `.${CSS.icon}`,
-        targetProp: "color",
-      },
     };
     themed(() => mount(iconMenuItem), tokens);
   });

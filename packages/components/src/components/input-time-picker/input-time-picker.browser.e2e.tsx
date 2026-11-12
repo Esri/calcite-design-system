@@ -936,28 +936,6 @@ describe("theme", () => {
       shadowSelector: "calcite-time-picker",
       targetProp: "--calcite-time-picker-input-border-color-press",
     },
-    "--calcite-input-time-picker-icon-color": [
-      {
-        shadowSelector: `.${CSS.toggleIcon}`,
-        targetProp: "--calcite-icon-color",
-      },
-      {
-        shadowSelector: `.${CSS.clockIcon}`,
-        targetProp: "--calcite-icon-color",
-      },
-    ],
-    "--calcite-input-time-picker-icon-color-hover": [
-      {
-        shadowSelector: `.${CSS.toggleIcon}`,
-        targetProp: "--calcite-icon-color",
-        state: "hover",
-      },
-      {
-        shadowSelector: `.${CSS.toggleIcon}`,
-        targetProp: "--calcite-icon-color",
-        state: { press: `calcite-input-time-picker >>> ${CSS.toggleIcon}` },
-      },
-    ],
     "--calcite-input-time-picker-input-background-color": {
       shadowSelector: `.${CSS.container}`,
       targetProp: "backgroundColor",
@@ -982,6 +960,28 @@ describe("theme", () => {
       shadowSelector: "calcite-time-picker",
       targetProp: "--calcite-time-picker-border-color",
     },
+    "--calcite-input-time-picker-icon-color": [
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+      {
+        shadowSelector: `.${CSS.clockIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    ],
+    "--calcite-input-time-picker-icon-color-hover": [
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+        state: "hover",
+      },
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+        state: { press: `calcite-input-time-picker >>> .${CSS.toggleIcon}` },
+      },
+    ],
   });
 
   const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
