@@ -1141,7 +1141,7 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if ((hasTrailingDecimalSeparator && isValueDeleted) || value === ".") {
+    if ((hasTrailingDecimalSeparator && isValueDeleted) || value.endsWith(".")) {
       newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
     }
 
