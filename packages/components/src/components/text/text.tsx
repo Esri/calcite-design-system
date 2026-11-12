@@ -7,8 +7,10 @@ import {
 } from "../../utils/dom";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { styles } from "./text.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import { ELLIPSIS_CHAR, CSS } from "./resources";
 import { PropertyValues } from "lit";
+import { CSS_UTILITY } from "../../utils/resources";
 
 type TruncatePosition = "middle" | "end";
 
@@ -34,7 +36,7 @@ export class Text extends LitElement {
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -280,7 +282,11 @@ export class Text extends LitElement {
           ref={this.middleTruncatedSpanRef}
         />
         {this.isTruncatePositionMiddle() && (
-          <span ariaLive="polite" class={CSS.assistiveText} ref={this.assistiveTextSpanRef} />
+          <span
+            ariaLive="polite"
+            class={CSS_UTILITY.screenReaderText}
+            ref={this.assistiveTextSpanRef}
+          />
         )}
       </div>
     );
