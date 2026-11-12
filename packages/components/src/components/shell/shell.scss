@@ -2,16 +2,18 @@
 
 :host {
   @extend %component-host;
-
-  position: absolute;
-  inset: var(--calcite-space-none);
   display: flex;
-  block-size: 100%;
-  inline-size: 100%;
   flex-direction: column;
-  overflow: hidden;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
+}
+
+:host([fit="cover"]) {
+  position: absolute;
+  inset: var(--calcite-space-none);
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
 }
 
 .main {

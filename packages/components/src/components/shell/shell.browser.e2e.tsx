@@ -29,7 +29,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(() => mount("calcite-shell"), { display: "flex" });
+  renders(() => mount(<calcite-shell>content</calcite-shell>), { display: "flex" });
 });
 
 describe("slots", () => {
@@ -105,7 +105,7 @@ describe("shell provides sizing context", () => {
         await page.viewport(1600, 1600);
         await mount(
           <div dir={dir}>
-            <calcite-shell>
+            <calcite-shell style="block-size: 100vh;">
               <div>Main content</div>
               <calcite-shell-panel
                 resizable
