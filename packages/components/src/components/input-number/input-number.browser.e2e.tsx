@@ -1365,6 +1365,33 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
     });
+
+    it("replaces selection of last integer digit with localized decimal separator", async () => {
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem: "latn",
+        useGrouping: false,
+      };
+      const decimalSeparator = numberStringFormatter.decimal;
+      const minusSign = numberStringFormatter.minusSign;
+      const integerValue = "12345";
+      const localizedInteger = numberStringFormatter.localize(integerValue);
+      const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
+
+      const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
+      const input = page.getBySelector("calcite-input-number input");
+
+      await userEvent.keyboard(`{Tab}{ArrowRight}{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
+
+      expect(el).toHaveProperty("value", "1234");
+      expect(input).toHaveDisplayValue(`1234${decimalSeparator}`);
+
+      await userEvent.fill(input, localizedNegativeInteger);
+      await userEvent.keyboard(`{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
+
+      expect(el).toHaveProperty("value", "-1234");
+      expect(input).toHaveDisplayValue(`${minusSign}1234${decimalSeparator}`);
+    });
   });
 
   it(`allows negative, decimal numbers for ar locale`, async () => {
