@@ -1,7 +1,18 @@
 {
+  "all": "visi",
   "clear": "Valyti",
   "hiddenSelected": "Eilutės pažymėtos, bet nepatenka į rodinį",
+  "keyboardDeselect": "Norėdami atžymėti eilutę, paspauskite Enter arba tarpo klavišą",
+  "keyboardDeselectAll": "Norėdami atžymėti visas eilutes, paspauskite Enter arba tarpo klavišą",
+  "keyboardSelect": "Norėdami pažymėti eilutę, paspauskite Enter arba tarpo klavišą",
+  "keyboardSelectAll": "Norėdami pažymėti visas eilutes, paspauskite Enter arba tarpo klavišą",
   "page": "Psl.",
   "row": "Eilutė",
-  "selected": "Pasirinkta"
+  "rowNumber": "Eilutės numeris",
+  "selected": "Pasirinkta",
+  "selectedRows": "pasirinkta eilučių",
+  "selectionColumn": "Pasirinkimo stulpelis",
+  "selectionRow": "eilutė",
+  "selectionSelected": "pažymėta",
+  "unselected": "atžymėta"
 }

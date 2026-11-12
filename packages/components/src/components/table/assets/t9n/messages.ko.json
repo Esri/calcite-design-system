@@ -1,7 +1,18 @@
 {
+  "all": "모두",
   "clear": "선택 해제",
   "hiddenSelected": "행이 선택되었지만 보이지 않음",
+  "keyboardDeselect": "Enter 키 또는 스페이스바를 눌러 열 선택 해제",
+  "keyboardDeselectAll": "Enter 키 또는 스페이스바를 눌러 모든 행 선택 해제",
+  "keyboardSelect": "Enter 키 또는 스페이스바를 눌러 열 선택",
+  "keyboardSelectAll": "Enter 키 또는 스페이스바를 눌러 모든 행 선택",
   "page": "페이지",
   "row": "행",
-  "selected": "선택됨"
+  "rowNumber": "행 번호",
+  "selected": "선택됨",
+  "selectedRows": "선택한 행",
+  "selectionColumn": "선택 항목 열",
+  "selectionRow": "행",
+  "selectionSelected": "선택함",
+  "unselected": "선택하지 않음"
 }

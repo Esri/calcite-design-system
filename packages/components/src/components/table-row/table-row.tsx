@@ -8,6 +8,7 @@ import {
   FocusElementInGroupDestination,
   getSlotAssignedElements,
 } from "../../utils/dom";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
@@ -149,6 +150,9 @@ export class TableRow extends LitElement {
   @property() lastVisibleRow = false;
 
   /** @private */
+  @property() messages!: Table["messages"];
+
+  /** @private */
   @property() numbered = false;
 
   /** @private */
@@ -231,6 +235,7 @@ export class TableRow extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       changes.has("bodyRowCount") ||
+      changes.has("messages") ||
       changes.has("scale") ||
       changes.has("selectedRowCount") ||
       (changes.has("interactionMode") &&
@@ -400,6 +405,7 @@ export class TableRow extends LitElement {
       cells?.forEach((cell, index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
+        cell.messages = this.messages;
         cell.parentRowAlignment = alignment;
         cell.parentRowIsSelected = this.selected;
         cell.parentRowType = this.rowType;
@@ -456,6 +462,7 @@ export class TableRow extends LitElement {
         alignment="center"
         bodyRowCount={this.bodyRowCount}
         key="selection-head"
+        messages={this.messages}
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
@@ -469,6 +476,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="selection-body"
+        messages={this.messages}
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
@@ -483,6 +491,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="selection-foot"
+        messages={this.messages}
         parentRowAlignment={this.alignment}
         ref={this.selectionCellRef}
         selectionCell={true}
@@ -495,6 +504,7 @@ export class TableRow extends LitElement {
       <calcite-table-header
         alignment="center"
         key="numbered-head"
+        messages={this.messages}
         numberCell={true}
         parentRowAlignment={this.alignment}
         ref={this.numberedHeaderRef}
@@ -503,6 +513,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="numbered-body"
+        messages={this.messages}
         numberCell={true}
         parentRowAlignment={this.alignment}
         ref={this.numberedCellRef}
@@ -513,6 +524,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="numbered-foot"
+        messages={this.messages}
         numberCell={true}
         parentRowAlignment={this.alignment}
         ref={this.numberedCellRef}

@@ -1,7 +1,18 @@
 {
+  "all": "tümü",
   "clear": "Temizle",
   "hiddenSelected": "Satırlar seçildi, ama görüntü dışında",
+  "keyboardDeselect": "Bir satırın seçimini kaldırmak için Enter veya Space tuşuna basın",
+  "keyboardDeselectAll": "Tüm satırların seçimini kaldırmak için Enter veya Space tuşuna basın",
+  "keyboardSelect": "Bir satırı seçmek için Enter veya Space tuşuna basın",
+  "keyboardSelectAll": "Tüm satırları seçmek için Enter veya Space tuşuna basın",
   "page": "Sayfa",
   "row": "Satır",
-  "selected": "Seçilen"
+  "rowNumber": "Satır numarası",
+  "selected": "Seçilen",
+  "selectedRows": "satır seçildi",
+  "selectionColumn": "Seçim sütunu",
+  "selectionRow": "satır",
+  "selectionSelected": "seçili",
+  "unselected": "seçili değil"
 }

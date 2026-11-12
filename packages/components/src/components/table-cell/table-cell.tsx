@@ -3,13 +3,12 @@ import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { Alignment, Scale } from "../types";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode } from "../table/types";
 import { CSS_UTILITY } from "../../utils/resources";
-import { useT9n } from "../../controllers/useT9n";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table-cell.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
@@ -72,13 +71,6 @@ export class TableCell extends LitElement {
 
   private direction = useDirection();
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
-
   private focusSetter = useFocusable<this>()(this);
 
   private interactiveContainer = useInteractive(this);
@@ -118,8 +110,8 @@ export class TableCell extends LitElement {
   /** @private */
   @property() lastCell = false;
 
-  /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  /** @private */
+  @property() messages!: Table["messages"];
 
   /** @private */
   @property() numberCell = false;
@@ -180,7 +172,7 @@ export class TableCell extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("parentRowIsSelected")) {
+    if (changes.has("messages") || changes.has("parentRowIsSelected")) {
       this.updateScreenReaderSelectionText();
     }
   }
@@ -190,8 +182,8 @@ export class TableCell extends LitElement {
   //#region Private Methods
 
   private updateScreenReaderSelectionText(): void {
-    const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
-    const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
+    const selectedText = `${this.messages?.selectionRow} ${this.parentRowPositionLocalized} ${this.messages?.selectionSelected} ${this.messages?.keyboardDeselect}`;
+    const unselectedText = `${this.messages?.selectionRow} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
     this.selectionText = this.parentRowIsSelected ? selectedText : unselectedText;
   }
 

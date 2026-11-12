@@ -1,7 +1,18 @@
 {
+  "all": "toate",
   "clear": "Golire",
   "hiddenSelected": "Rândurile sunt selectate dar nu pot fi vizualizate",
+  "keyboardDeselect": "Apăsați Enter sau Space pentru a deselecta rândul",
+  "keyboardDeselectAll": "Apăsați Enter sau Space pentru a deselecta toate rândurile",
+  "keyboardSelect": "Apăsați Enter sau Space pentru a selecta rândul",
+  "keyboardSelectAll": "Apăsați Enter sau Space pentru a selecta toate rândurile",
   "page": "Pagina",
   "row": "Rând",
-  "selected": "Selectat"
+  "rowNumber": "Numărul rândului",
+  "selected": "Selectat",
+  "selectedRows": "rând selectat",
+  "selectionColumn": "Selecție coloană",
+  "selectionRow": "rând",
+  "selectionSelected": "selectat",
+  "unselected": "deselectat"
 }

@@ -2,15 +2,14 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale, SelectionMode } from "../types";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode } from "../table/types";
 import { getIconScale } from "../../utils/component";
-import { CSS_UTILITY } from "../../utils/resources";
-import { useT9n } from "../../controllers/useT9n";
 import { useFocusable } from "../../controllers/useFocusable";
-import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-header.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -60,13 +59,6 @@ export class TableHeader extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
   private focusSetter = useFocusable<this>()(this);
 
   //#endregion
@@ -102,8 +94,8 @@ export class TableHeader extends LitElement {
   /** @private */
   @property() lastCell = false;
 
-  /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  /** @private */
+  @property() messages!: Table["messages"];
 
   /** @private */
   @property() numberCell = false;
@@ -163,7 +155,11 @@ export class TableHeader extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("selectedRowCount") || changes.has("selectedRowCountLocalized")) {
+    if (
+      changes.has("messages") ||
+      changes.has("selectedRowCount") ||
+      changes.has("selectedRowCountLocalized")
+    ) {
       this.updateScreenReaderText();
     }
   }
@@ -174,7 +170,7 @@ export class TableHeader extends LitElement {
 
   private updateScreenReaderText(): void {
     let text = "";
-    const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selected}`;
+    const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selectedRows}`;
     if (this.numberCell) {
       text = this.messages?.rowNumber;
     } else if (this.selectionMode === "single") {

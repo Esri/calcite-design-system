@@ -1,7 +1,18 @@
 {
+  "all": "все",
   "clear": "Очистить",
   "hiddenSelected": "Строки выбраны, но они за пределами видимости",
+  "keyboardDeselect": "Нажмите Enter или Space для отмены выборки строки",
+  "keyboardDeselectAll": "Нажмите Enter или Space для отмены выборки всех строк",
+  "keyboardSelect": "Нажмите Enter или Space для выборки строки",
+  "keyboardSelectAll": "Нажмите Enter или Space для выборки всех строк",
   "page": "Страница",
   "row": "Строка",
-  "selected": "Выбрано"
+  "rowNumber": "Номер строки",
+  "selected": "Выбрано",
+  "selectedRows": "строк выбрано",
+  "selectionColumn": "Столбец выборки",
+  "selectionRow": "строка",
+  "selectionSelected": "выбрано",
+  "unselected": "не выбрано"
 }

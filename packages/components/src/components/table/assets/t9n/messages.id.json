@@ -1,7 +1,18 @@
 {
+  "all": "semua",
   "clear": "Hapus",
   "hiddenSelected": "Baris dipilih tetapi tidak terlihat",
+  "keyboardDeselect": "Tekan Enter atau Spasi untuk membatalkan pemilihan baris",
+  "keyboardDeselectAll": "Tekan Enter atau Spasi untuk membatalkan pemilihan semua baris",
+  "keyboardSelect": "Tekan Enter atau Spasi untuk memilih baris",
+  "keyboardSelectAll": "Tekan Enter atau Spasi untuk memilih semua baris",
   "page": "Halaman",
   "row": "Baris",
-  "selected": "Terpilih"
+  "rowNumber": "Jumlah baris",
+  "selected": "Terpilih",
+  "selectedRows": "baris yang dipilih",
+  "selectionColumn": "Kolom pilihan",
+  "selectionRow": "baris",
+  "selectionSelected": "terpilih",
+  "unselected": "batalkan pilihan"
 }

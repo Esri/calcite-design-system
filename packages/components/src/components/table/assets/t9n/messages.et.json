@@ -1,7 +1,18 @@
 {
+  "all": "kõik",
   "clear": "Tühista",
   "hiddenSelected": "Read on valitud, kuid vaatest väljas",
+  "keyboardDeselect": "Rea valimise tühistamiseks vajutage sisestus- või tühikuklahvi",
+  "keyboardDeselectAll": "Kõigi ridade valimise tühistamiseks vajutage sisestus- või tühikuklahvi",
+  "keyboardSelect": "Rea valimiseks vajutage sisestus- või tühikuklahvi",
+  "keyboardSelectAll": "Kõigi ridade valimiseks vajutage sisestus- või tühikuklahvi",
   "page": "Lehekülg",
   "row": "Rida",
-  "selected": "Valitud"
+  "rowNumber": "Rea number",
+  "selected": "Valitud",
+  "selectedRows": "rida on valitud",
+  "selectionColumn": "Valikuveerg",
+  "selectionRow": "rida",
+  "selectionSelected": "valitud",
+  "unselected": "valik on tühistatud"
 }

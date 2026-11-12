@@ -1,7 +1,18 @@
 {
+  "all": "tots",
   "clear": "Esborra",
   "hiddenSelected": "Files seleccionades però no visibles",
+  "keyboardDeselect": "Premeu la tecla Intro o la tecla d'espai per anul·lar la selecció de la fila",
+  "keyboardDeselectAll": "Premeu la tecla Intro o la tecla d'espai per anul·lar la selecció de totes les files",
+  "keyboardSelect": "Premeu la tecla Intro o la tecla d'espai per seleccionar la fila",
+  "keyboardSelectAll": "Premeu la tecla Intro o la tecla d'espai per seleccionar totes les files",
   "page": "Pàgina",
   "row": "Fila",
-  "selected": "Seleccionat"
+  "rowNumber": "Número de fila",
+  "selected": "Seleccionat",
+  "selectedRows": "files seleccionades",
+  "selectionColumn": "Columna de selecció",
+  "selectionRow": "fila",
+  "selectionSelected": "seleccionat",
+  "unselected": "no seleccionat"
 }
