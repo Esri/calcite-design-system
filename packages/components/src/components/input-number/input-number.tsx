@@ -980,17 +980,10 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      const inputElement = this.childNumberRef.value;
-      if (!value && !inputElement?.value) {
+      if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (value && inputElement?.value.indexOf(numberStringFormatter.decimal) === -1) {
-        return;
-      }
-      if (
-        inputElement?.selectionStart === 0 &&
-        inputElement?.selectionEnd === inputElement.value.length
-      ) {
+      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
     }
