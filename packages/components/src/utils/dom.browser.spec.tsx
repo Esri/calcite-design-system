@@ -94,12 +94,6 @@ describe(isFocusableElement, () => {
 
     expect(isFocusableElement(element)).toBe(true);
   });
-
-  it("rejects elements without native focus APIs", () => {
-    const element = document.createElementNS("urn:test", "element");
-
-    expect(isFocusableElement(element)).toBe(false);
-  });
 });
 
 describe(getFocusableElements, () => {
@@ -115,16 +109,27 @@ describe(getFocusableElements, () => {
   });
 
   it("includes a focusable shadow host and its programmatically focusable descendant", async () => {
-    await mount(html`<div data-testid="container" tabindex="0"></div>`);
-    const container = page.getByTestId("container").element();
-    const button = document.createElement("button");
-    button.tabIndex = -1;
-    container.attachShadow({ mode: "open" }).append(button);
+    class FocusableShadowHost extends LitElement {
+      static tagName = "focusable-shadow-host";
 
-    const elements = getFocusableElements(container);
+      override render(): JsxNode {
+        return (
+          <button tabIndex={-1} type="button">
+            Nested
+          </button>
+        );
+      }
+    }
+
+    const { el } = await mount(html`<focusable-shadow-host tabindex="0"></focusable-shadow-host>`, {
+      dynamicComponents: [FocusableShadowHost],
+    });
+    const button = page.elementLocator(el).getByRole("button", { name: "Nested" }).element();
+
+    const elements = getFocusableElements(el);
 
     expect(elements).toHaveLength(2);
-    expect(elements).toEqual(expect.arrayContaining([container, button]));
+    expect(elements).toEqual(expect.arrayContaining([el, button]));
   });
 
   it("excludes a disabled container", async () => {

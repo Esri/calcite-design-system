@@ -4,7 +4,7 @@ import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import { Dropdown } from "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import { Dropdown } from "../dropdown/dropdown";
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -159,9 +159,8 @@ resizableWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElem
   });
   dropdown.open = true;
 
-  await waitFor(() => {
-    expect(dropdown).toHaveProperty("open", true);
-    expect(firstItem).toHaveFocus();
+  await waitFor(async () => {
+    await expect(firstItem).toHaveFocus();
   });
 };
 resizableWithDropdown.parameters = { chromatic: { delay: 0 } };

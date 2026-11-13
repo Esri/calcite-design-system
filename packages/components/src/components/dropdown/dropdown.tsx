@@ -160,7 +160,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     }
   };
 
-  private focusSetter = useFocusable<this>()(this).setFocus;
+  private focusable = useFocusable<this>()(this);
 
   private rovingTabIndex = useRovingTabIndex<DropdownItem["el"]>({
     getElements: () => this.items,
@@ -219,7 +219,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
   set open(value: boolean) {
     if (value && !this._open) {
-      this.focusedElementOnOpen = this.rovingTabIndex.getDeepActiveElement();
+      this.focusedElementOnOpen = this.focusable.getDeepActiveElement();
     }
     this._open = value;
   }
@@ -317,7 +317,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
-    return this.focusSetter(() => {
+    return this.focusable.setFocus(() => {
       const target = this.referenceEl instanceof HTMLElement ? this.referenceEl : this.floatingEl;
       return target ? { target, strategy: "focusable" } : undefined;
     }, options);
@@ -519,24 +519,25 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   private async handleItemSelect(event: CustomEvent<RequestedItem>): Promise<void> {
     this.updateSelectedItems();
     this.syncActiveItemFromTraversableItems();
-    const focusedElement = this.rovingTabIndex.getDeepActiveElement();
+    const focusedElement = this.focusable.getDeepActiveElement();
     event.stopPropagation();
     this.calciteDropdownSelect.emit();
     if (!this.closeOnSelectDisabled) {
       this.closeCalciteDropdown();
-      this.rovingTabIndex.restoreFocusIfNeeded();
+      this.rovingTabIndex.restoreFocus("recover");
     } else {
-      const index = this.getTraversableItems().indexOf(event.detail.requestedDropdownItem);
-      if (index < 0 || !event.detail.requestedDropdownItem.isConnected) {
+      const { requestedDropdownItem } = event.detail;
+      const index = this.getTraversableItems().indexOf(requestedDropdownItem);
+      if (index < 0 || !requestedDropdownItem.isConnected) {
         this.updateItems();
         return;
       }
       if (
-        event.detail.requestedDropdownItem.matches(":focus-within") &&
-        this.rovingTabIndex.isFocusUnchanged(focusedElement)
+        requestedDropdownItem.matches(":focus-within") &&
+        this.focusable.isFocusUnchanged(focusedElement)
       ) {
         this.rovingTabIndex.setActiveIndex(index);
-        await this.scrollActiveItemIntoView(event.detail.requestedDropdownItem, focusedElement);
+        await this.scrollActiveItemIntoView(requestedDropdownItem, focusedElement);
       }
     }
   }
@@ -631,7 +632,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   onBeforeClose(): void {
-    this.rovingTabIndex.restoreFocusIfNeeded();
+    this.rovingTabIndex.restoreFocus("recover");
     this.calciteDropdownBeforeClose.emit();
   }
 
@@ -800,7 +801,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     if (!this.open || !traversableItems.length) {
       this.rovingTabIndex.setActiveIndex(-1);
       if (this.open && previousActiveItem && shouldRecoverFocus) {
-        this.rovingTabIndex.restoreFocus(true);
+        this.rovingTabIndex.restoreFocus("force");
       }
       return;
     }
@@ -815,14 +816,11 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
     this.rovingTabIndex.update(this.items, this.rovingTabIndex.activeElement);
   }
 
-  private handleItemFocus(event: FocusEvent): void {
+  private handleItemFocus(): void {
     this.focusActiveItemOnOpen = true;
-    this.rovingTabIndex.handleFocusIn(event);
   }
 
   private handleItemFocusOut(event: FocusEvent): void {
-    this.rovingTabIndex.handleFocusOut(event);
-
     if (!event.relatedTarget && this.rovingTabIndex.shouldRecoverFocus) {
       return;
     }
@@ -839,7 +837,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
 
   private async scrollActiveItemIntoView(
     target: DropdownItem["el"] | undefined,
-    focusedElement = this.rovingTabIndex.getDeepActiveElement(),
+    focusedElement = this.focusable.getDeepActiveElement(),
     deferredFocusDirection?: "last",
   ): Promise<void> {
     // ensure element is rendered/visible before focus or scrollIntoView
@@ -854,7 +852,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
       !this.open ||
       this.rovingTabIndex.activeElement !== target ||
       !target.isConnected ||
-      !this.rovingTabIndex.isFocusUnchanged(focusedElement)
+      !this.focusable.isFocusUnchanged(focusedElement)
     ) {
       return;
     }

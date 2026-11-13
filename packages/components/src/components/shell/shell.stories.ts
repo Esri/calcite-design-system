@@ -18,7 +18,7 @@ import "../button/button"; // Force Vite to statically trace the file for Chroma
 import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../chip-group/chip-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dialog/dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import { Dropdown } from "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -2216,12 +2216,10 @@ export const resizableShellPanelWithDropdown = (): string =>
   </calcite-shell>`;
 
 resizableShellPanelWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
-  const shellPanel = canvasElement.querySelector<ShellPanel["el"]>("calcite-shell-panel")!;
-  const dropdown = canvasElement.querySelector<Dropdown["el"]>("calcite-dropdown")!;
+  const shell = canvasElement.querySelector<Shell["el"]>("calcite-shell")!;
   const trigger = canvasElement.querySelector("calcite-button[slot='trigger']")!;
 
-  await shellPanel.componentOnReady();
-  await dropdown.componentOnReady();
+  await shell.componentOnReady();
   await userEvent.click(trigger);
 };
 resizableShellPanelWithDropdown.parameters = { chromatic: { delay: 0 } };

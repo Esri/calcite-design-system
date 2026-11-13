@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { Fragment, h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
@@ -28,9 +28,10 @@ describe("renders", () => {
 
 describe("disabled", () => {
   it("prevents selection event when disabled", async () => {
-    const { el, reRender } = await mount("calcite-dropdown-item");
     const selectSpy = vi.fn();
-    el.addEventListener("calciteDropdownItemSelect", selectSpy);
+    const { el, reRender } = await mount<DropdownItem>(
+      <calcite-dropdown-item oncalciteDropdownItemSelect={selectSpy} />,
+    );
 
     el.disabled = true;
     await reRender();
@@ -40,9 +41,10 @@ describe("disabled", () => {
   });
 
   it("allows selection event again after enabling", async () => {
-    const { el, reRender } = await mount("calcite-dropdown-item");
     const selectSpy = vi.fn();
-    el.addEventListener("calciteDropdownItemSelect", selectSpy);
+    const { el, reRender } = await mount<DropdownItem>(
+      <calcite-dropdown-item oncalciteDropdownItemSelect={selectSpy} />,
+    );
 
     el.disabled = true;
     await reRender();
@@ -58,7 +60,7 @@ describe("disabled", () => {
 });
 
 describe("link activation", () => {
-  it("delivers one host activation to item and ancestor capture listeners and navigates", async () => {
+  it("uses a native host click without navigating, while clicking the link navigates", async () => {
     const { el } = await mount<DropdownItem>(
       <div data-testid="ancestor">
         <calcite-dropdown-item href="about:blank#destination" target="destination">
@@ -70,6 +72,9 @@ describe("link activation", () => {
     const destination = page.getBySelector("iframe").element() as HTMLIFrameElement;
     const itemClickSpy = vi.fn();
     const ancestorClickSpy = vi.fn();
+    const anchorClickSpy = vi.fn();
+    const anchor = page.getByRole("link", { name: "Destination" });
+    anchor.element().addEventListener("click", anchorClickSpy);
     el.addEventListener("click", itemClickSpy, { capture: true });
     page.getByTestId("ancestor").element().addEventListener("click", ancestorClickSpy, {
       capture: true,
@@ -79,37 +84,44 @@ describe("link activation", () => {
 
     expect(itemClickSpy).toHaveBeenCalledTimes(1);
     expect(ancestorClickSpy).toHaveBeenCalledTimes(1);
-    await vi.waitFor(() => expect(destination.contentWindow!.location.hash).toBe("#destination"));
+    expect(anchorClickSpy).not.toHaveBeenCalled();
+    expect(destination.contentWindow!.location.hash).toBe("");
+
+    await userEvent.click(anchor);
+    expect(anchorClickSpy).toHaveBeenCalledTimes(1);
+    await expect.element(destination).toHaveProperty("contentWindow.location.hash", "#destination");
   });
 
   it("preserves cancellation when a capture listener reenters host activation", async () => {
-    const { component } = await mount<Dropdown>(
-      <div>
-        <calcite-dropdown>
+    const itemSelectSpy = vi.fn();
+    const dropdownSelectSpy = vi.fn();
+    const { el } = await mount<Dropdown>(
+      <>
+        <calcite-dropdown oncalciteDropdownSelect={dropdownSelectSpy}>
           <calcite-button slot="trigger">Open dropdown</calcite-button>
           <calcite-dropdown-group>
             <calcite-dropdown-item selected>Original selection</calcite-dropdown-item>
-            <calcite-dropdown-item href="about:blank#destination" target="destination">
+            <calcite-dropdown-item
+              href="about:blank#destination"
+              oncalciteDropdownItemSelect={itemSelectSpy}
+              target="destination"
+            >
               Destination
             </calcite-dropdown-item>
           </calcite-dropdown-group>
         </calcite-dropdown>
         <iframe name="destination" sandbox="allow-same-origin" title="Destination" />
-      </div>,
+      </>,
     );
     const item = page.getByRole("menuitem", { name: "Destination", exact: true });
     const originalSelection = page.getByRole("menuitemradio", { name: "Original selection" });
     const destination = page.getBySelector("iframe").element() as HTMLIFrameElement;
     const anchorClickSpy = vi.fn();
-    const itemSelectSpy = vi.fn();
-    const dropdownSelectSpy = vi.fn();
 
     await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
     await expect.element(originalSelection).toHaveFocus();
     const itemElement = item.element() as DropdownItem["el"];
     item.getBySelector("a").element().addEventListener("click", anchorClickSpy);
-    itemElement.addEventListener("calciteDropdownItemSelect", itemSelectSpy);
-    component.el.addEventListener("calciteDropdownSelect", dropdownSelectSpy);
     itemElement.addEventListener(
       "click",
       (event) => {
@@ -121,32 +133,35 @@ describe("link activation", () => {
 
     itemElement.click();
 
-    expect(anchorClickSpy).toHaveBeenCalledTimes(1);
-    expect(anchorClickSpy.mock.calls[0][0].defaultPrevented).toBe(true);
+    expect(anchorClickSpy).not.toHaveBeenCalled();
     expect(destination.contentWindow!.location.hash).toBe("");
     expect(itemSelectSpy).not.toHaveBeenCalled();
     expect(dropdownSelectSpy).not.toHaveBeenCalled();
-    expect(component.selectedItems).toEqual([originalSelection.element()]);
-    expect(component.open).toBe(true);
+    expect(el.selectedItems).toEqual([originalSelection.element()]);
+    expect(el.open).toBe(true);
 
     itemElement.click();
 
-    expect(anchorClickSpy).toHaveBeenCalledTimes(2);
-    expect(anchorClickSpy.mock.calls[1][0].defaultPrevented).toBe(false);
+    expect(anchorClickSpy).not.toHaveBeenCalled();
     expect(itemSelectSpy).toHaveBeenCalledTimes(1);
     expect(dropdownSelectSpy).toHaveBeenCalledTimes(1);
-    expect(component.selectedItems).toEqual([itemElement]);
-    expect(component.open).toBe(false);
-    await vi.waitFor(() => expect(destination.contentWindow!.location.hash).toBe("#destination"));
+    expect(el.selectedItems).toEqual([itemElement]);
+    expect(el.open).toBe(false);
+    expect(destination.contentWindow!.location.hash).toBe("");
   });
 
-  it("prevents host link activation while disabled and restores it when enabled", async () => {
-    const { el, reRender } = await mount<DropdownItem>(
-      <calcite-dropdown-item href="#destination">Destination</calcite-dropdown-item>,
-    );
+  it("uses native host clicks when enabled and suppresses them while disabled", async () => {
     const clickSpy = vi.fn((event: Event) => event.preventDefault());
-    el.addEventListener("click", clickSpy);
+    const { el, reRender } = await mount<DropdownItem>(
+      <calcite-dropdown-item href="#destination" onClick={clickSpy}>
+        Destination
+      </calcite-dropdown-item>,
+    );
 
+    expect(el.click).toBe(HTMLElement.prototype.click);
+    el.label = "Updated destination";
+    await reRender();
+    expect(el.click).toBe(HTMLElement.prototype.click);
     el.click();
     expect(clickSpy).toHaveBeenCalledTimes(1);
 
@@ -157,18 +172,23 @@ describe("link activation", () => {
 
     el.disabled = false;
     await reRender();
+    expect(el.click).toBe(HTMLElement.prototype.click);
     el.click();
     expect(clickSpy).toHaveBeenCalledTimes(2);
   });
 
   it("restores native host clicks when href is removed", async () => {
-    const { el, reRender } = await mount<DropdownItem>(
-      <calcite-dropdown-item href="#destination">Destination</calcite-dropdown-item>,
-    );
     const clickSpy = vi.fn((event: Event) => event.preventDefault());
     const selectSpy = vi.fn();
-    el.addEventListener("click", clickSpy);
-    el.addEventListener("calciteDropdownItemSelect", selectSpy);
+    const { el, reRender } = await mount<DropdownItem>(
+      <calcite-dropdown-item
+        href="#destination"
+        oncalciteDropdownItemSelect={selectSpy}
+        onClick={clickSpy}
+      >
+        Destination
+      </calcite-dropdown-item>,
+    );
 
     el.href = undefined;
     await reRender();

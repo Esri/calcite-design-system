@@ -1,6 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
 import { tabbable } from "tabbable";
-import { getRootNode, isFocusableElement, tabbableOptions } from "../utils/dom";
+import { getRootNode, isFocusableElement, SetFocusable, tabbableOptions } from "../utils/dom";
 import { useFocusable } from "./useFocusable";
 
 /** Navigation directions supported by the roving tab-stop controller. */
@@ -44,9 +44,20 @@ interface RovingTabIndexOptions<ElementType extends HTMLElement> {
    */
   getElements?: () => ElementType[];
   /**
-   * Resolves the element containing the composite's entry control.
+   * Resolves the entry control or an element containing it.
    *
-   * Its tabbable elements are included in roving tab-stop management while an item is active.
+   * The entry control is a focusable control used to enter the composite, such as a dropdown's
+   * trigger button. The controller can restore focus to it when leaving the composite.
+   *
+   * Tabbable elements within the resolved element, including the element itself when tabbable,
+   * are included in roving tab-stop management while an item is active.
+   *
+   * @example A dropdown can use its trigger button as the entry control:
+   * ```ts
+   * useRovingTabIndex({
+   *   getEntryElement: () => this.triggerButton,
+   * })(this);
+   * ```
    */
   getEntryElement?: () => Element | undefined;
   /**
@@ -63,6 +74,8 @@ interface RovingTabIndexOptions<ElementType extends HTMLElement> {
   isActive?: () => boolean;
 }
 
+type FocusRestoreMode = "within" | "recover" | "force";
+
 interface RovingTabIndex<ElementType extends HTMLElement> {
   /**
    * The active item, or `null` when no item is active.
@@ -72,30 +85,14 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   readonly activeElement: ElementType | null;
   /** The active item's index among traversable items, or `-1` when none is active. */
   readonly activeIndex: number;
-  /** Resolves the deepest focused element in the component's root. */
-  getDeepActiveElement: () => Element | null;
   /** Whether focus is within the component or its configured entry element, including their shadow trees. */
   readonly hasFocus: boolean;
-  /** Checks whether focus is still on the element captured before a deferred operation. */
-  isFocusUnchanged: (focusedElement: Element | null) => boolean;
   /** Checks whether a focusin event immediately follows focus leaving a managed item. */
   isFocusFromItem: (event: FocusEvent) => boolean;
   /** Whether the controller is synchronously restoring focus to the entry control. */
   readonly isRestoringFocus: boolean;
   /** Whether an unavailable item lost focus without focus intentionally moving to another control. */
   readonly shouldRecoverFocus: boolean;
-  /**
-   * Tracks focus entering a managed, traversable item and makes it active.
-   *
-   * @param event - The composite's `focusin` event.
-   */
-  handleFocusIn: (event: FocusEvent) => void;
-  /**
-   * Tracks focus leaving managed items, preserving focus history for removal or unavailability.
-   *
-   * @param event - The composite's `focusout` event.
-   */
-  handleFocusOut: (event: FocusEvent) => void;
   /**
    * Updates the managed items and active item, applying roving `tabindex` values.
    *
@@ -131,31 +128,65 @@ interface RovingTabIndex<ElementType extends HTMLElement> {
   /**
    * Returns focus to the entry control without changing its `tabindex`.
    *
-   * By default, focus is restored only when it is currently within the managed items or entry control.
+   * - `"within"` (default) restores focus only when it is within managed controls.
+   * - `"recover"` also restores focus lost through item removal or unavailability, while preserving intentional
+   *   focus moves outside.
+   * - `"force"` restores focus regardless of its current location or recovery eligibility. Use only after the caller
+   *   has determined that focus should return, since it can move focus away from an outside control.
    *
-   * @param force - When `true`, restores focus without checking its current location.
+   * Every mode requires a connected entry focus target.
+   *
+   * @param mode - The conditions under which focus should be restored.
+   *
+   * @example Close a menu while focus is still inside it:
+   * ```ts
+   * this.rovingTabIndex.restoreFocus();
+   * this.open = false;
+   * ```
+   *
+   * @example Close after the focused item may have been removed:
+   * ```ts
+   * this.rovingTabIndex.restoreFocus("recover");
+   * this.open = false;
+   * ```
+   *
+   * @example Remove an unavailable item and recover focus without overriding an outside focus move:
+   * ```ts
+   * focusedItem.remove();
+   * this.rovingTabIndex.update([], null);
+   * this.rovingTabIndex.restoreFocus("recover");
+   * ```
+   *
+   * @example Force restoration after the caller has already established recovery is needed:
+   * ```ts
+   * const shouldRecoverFocus = this.rovingTabIndex.shouldRecoverFocus;
+   * this.rovingTabIndex.update([], null);
+   * if (shouldRecoverFocus) {
+   *   this.rovingTabIndex.restoreFocus("force");
+   * }
+   * ```
    */
-  restoreFocus: (force?: boolean) => void;
-  /** Returns focus to the entry control when focus is within managed controls or lost through item unavailability. */
-  restoreFocusIfNeeded: () => void;
+  restoreFocus: (mode?: FocusRestoreMode) => void;
 }
 
 /**
  * Creates a controller that manages roving tab stops for a composite widget.
  *
+ * The component must implement `setFocus`.
  * The active item receives `tabindex="0"` and other managed items receive `tabindex="-1"`.
  * Original `tabindex` attributes are restored when the last controller managing an element releases it.
  * Elements are released when they stop being managed or the component disconnects.
  * The controller can also manage an entry control's tab stops and restore focus to that control.
- * Forward item `focusin` and `focusout` events to track whether an unavailable item needs focus recovery.
+ * Focus events within the component's render root automatically update the active item and track focus recovery.
+ * Focus listeners are removed on disconnect and restored on reconnect.
  * Consumers can reconcile the active item after changes and remain responsible for focusing a replacement item.
  *
  * @param options - Callbacks for resolving managed items, traversable items, and the entry control.
  */
 export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>(
   options: RovingTabIndexOptions<ElementType> = {},
-): ReturnType<typeof makeGenericController<RovingTabIndex<ElementType>>> =>
-  makeGenericController<RovingTabIndex<ElementType>>((component, controller) => {
+): ReturnType<typeof makeGenericController<RovingTabIndex<ElementType>, SetFocusable>> =>
+  makeGenericController<RovingTabIndex<ElementType>, SetFocusable>((component, controller) => {
     const focusable = useFocusable()(component);
     const trackedElements = new Set<Element>();
     let itemElements: ElementType[] = [];
@@ -191,6 +222,55 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       managedTabIndexes.delete(element);
     }
 
+    function handleFocusIn(event: FocusEvent): void {
+      const elements = getTraversableElements();
+      const path = event.composedPath();
+      const item = elements.find((element) => path.includes(element));
+      if (item) {
+        focusedItem = item;
+        rovingTabIndex.setActiveIndex(elements.indexOf(item));
+      }
+    }
+
+    function handleFocusOut(event: FocusEvent): void {
+      const path = event.composedPath();
+      if (!itemElements.some((element) => path.includes(element))) {
+        return;
+      }
+
+      const relatedTarget = event.relatedTarget;
+      itemFocusOutTarget = relatedTarget;
+      if (
+        relatedTarget instanceof Node &&
+        getTraversableElements().some((element) => element.contains(relatedTarget))
+      ) {
+        return;
+      }
+
+      if (relatedTarget instanceof Element) {
+        focusedItem = undefined;
+      } else if (focusedItem) {
+        const previousFocusedItem = focusedItem;
+        // Defer clearing so item updates can detect focus lost through removal or unavailability.
+        queueMicrotask(() => {
+          if (
+            focusedItem === previousFocusedItem &&
+            previousFocusedItem.isConnected &&
+            !previousFocusedItem.matches(":focus-within") &&
+            getTraversableElements().includes(previousFocusedItem)
+          ) {
+            focusedItem = undefined;
+          }
+        });
+      }
+    }
+
+    controller.onLoaded(() => {
+      // Activate after consumer focus-in policy, but track focus-out before consumer recovery decisions.
+      component.listenOn<FocusEvent>(component.renderRoot, "focusin", handleFocusIn);
+      component.listenOn<FocusEvent>(component.renderRoot, "focusout", handleFocusOut, { capture: true });
+    });
+
     component.listenOn(
       component.el.ownerDocument,
       "focusin",
@@ -220,11 +300,9 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       get activeIndex(): number {
         return activeIndex;
       },
-      getDeepActiveElement: focusable.getDeepActiveElement,
       get hasFocus(): boolean {
         return focusable.hasFocus || (options.getEntryElement?.()?.matches(":focus-within") ?? false);
       },
-      isFocusUnchanged: focusable.isFocusUnchanged,
       isFocusFromItem(event): boolean {
         return focusEventsFromItems.has(event);
       },
@@ -248,43 +326,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
 
         return !focusedItem.isConnected || !getTraversableElements().includes(focusedItem);
       },
-      handleFocusIn(event): void {
-        const elements = getTraversableElements();
-        const path = event.composedPath();
-        const item = elements.find((element) => path.includes(element));
-        if (item) {
-          focusedItem = item;
-          rovingTabIndex.setActiveIndex(elements.indexOf(item));
-        }
-      },
-      handleFocusOut(event): void {
-        const relatedTarget = event.relatedTarget;
-        const path = event.composedPath();
-        itemFocusOutTarget = itemElements.some((element) => path.includes(element)) ? relatedTarget : null;
-        if (
-          relatedTarget instanceof Node &&
-          getTraversableElements().some((element) => element.contains(relatedTarget))
-        ) {
-          return;
-        }
-
-        if (relatedTarget instanceof Element) {
-          focusedItem = undefined;
-        } else if (focusedItem) {
-          const previousFocusedItem = focusedItem;
-          // Defer clearing so item updates can detect focus lost through removal or unavailability.
-          queueMicrotask(() => {
-            if (
-              focusedItem === previousFocusedItem &&
-              previousFocusedItem.isConnected &&
-              !previousFocusedItem.matches(":focus-within") &&
-              getTraversableElements().includes(previousFocusedItem)
-            ) {
-              focusedItem = undefined;
-            }
-          });
-        }
-      },
       update(elements, nextActiveElement): void {
         const entryElement = options.getEntryElement?.();
         entryTabStops.forEach(restoreElement);
@@ -301,7 +342,7 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
             ? traversableElements.indexOf(nextActiveElement)
             : -1;
         activeElement = activeIndex >= 0 ? nextActiveElement : null;
-        const focusedElement = rovingTabIndex.getDeepActiveElement();
+        const focusedElement = focusable.getDeepActiveElement();
         entryFocusTarget =
           entryFocusCandidates.find((element) => element === focusedElement) ??
           (entryFocusTarget && entryFocusCandidates.includes(entryFocusTarget)
@@ -378,13 +419,15 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         );
         return activeElement;
       },
-      restoreFocus(force = false): void {
+      restoreFocus(mode = "within"): void {
         const focusIsWithinManagedControls =
           itemElements.some(focusable.isFocusedWithin) ||
           entryTabStops.some(focusable.isFocusedWithin) ||
           (entryFocusTarget !== undefined && focusable.isFocusedWithin(entryFocusTarget));
+        const shouldRestoreFocus =
+          mode === "force" || focusIsWithinManagedControls || (mode === "recover" && rovingTabIndex.shouldRecoverFocus);
 
-        if ((!force && !focusIsWithinManagedControls) || !entryFocusTarget || !entryFocusTarget.isConnected) {
+        if (!shouldRestoreFocus || !entryFocusTarget || !entryFocusTarget.isConnected) {
           return;
         }
 
@@ -395,9 +438,6 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
         } finally {
           isRestoringFocus = false;
         }
-      },
-      restoreFocusIfNeeded(): void {
-        rovingTabIndex.restoreFocus(rovingTabIndex.shouldRecoverFocus);
       },
     };
     return rovingTabIndex;

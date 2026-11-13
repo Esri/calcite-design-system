@@ -84,8 +84,6 @@ export class DropdownItem extends LitElement {
 
   private childLinkRef = createRef<HTMLAnchorElement>();
 
-  private hostClickInProgress = false;
-
   /** id of containing group */
   private parentDropdownGroupEl?: DropdownGroup["el"];
 
@@ -110,6 +108,7 @@ export class DropdownItem extends LitElement {
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    *
    * Determines if the component will render as an anchor.
+   * Calling `click()` on the component does not activate the link.
    */
   @property({ reflect: true }) href?: string;
 
@@ -156,7 +155,7 @@ export class DropdownItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Activates the component as if it were clicked.
+   * Activates the component's link or selects the component.
    *
    * @private
    */
@@ -218,29 +217,12 @@ export class DropdownItem extends LitElement {
     this.initialize();
   }
 
-  override updated(): void {
-    if (this.href && !this.disabled) {
-      this.el.click = () => {
-        if (this.hostClickInProgress) {
-          return;
-        }
-
-        this.hostClickInProgress = true;
-        try {
-          void this.activateItem();
-        } finally {
-          this.hostClickInProgress = false;
-        }
-      };
-    }
-  }
-
   //#endregion
 
   //#region Private Methods
 
   private onClick(event: MouseEvent): void {
-    if (this.hostClickInProgress && event.defaultPrevented) {
+    if (this.href && event.defaultPrevented && event.composedPath()[0] === this.el) {
       return;
     }
 

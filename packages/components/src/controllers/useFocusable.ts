@@ -1,7 +1,6 @@
 import { makeGenericController } from "@arcgis/lumina/controllers";
-import type { LitElement } from "@arcgis/lumina";
 import { componentFocusable } from "../utils/component";
-import { FocusableElement, focusElement, getFocusableElements, getRootNode } from "../utils/dom";
+import { FocusableElement, focusElement, getFocusableElements, getRootNode, SetFocusable } from "../utils/dom";
 import type { InteractiveComponent } from "./useInteractive";
 
 type FocusStrategy = "focusable" | "tabbable";
@@ -22,10 +21,11 @@ export interface UseFocusable {
   setFocus: (getFocusTarget: () => FocusableElement | FocusConfig | undefined, options?: FocusOptions) => Promise<void>;
 }
 
-type FocusableComponent = LitElement & Partial<Pick<InteractiveComponent, "disabled">>;
+type FocusableComponent = SetFocusable & Partial<Pick<InteractiveComponent, "disabled">>;
 
 /**
  * A controller for shared focus queries and a focus setter for component setFocus methods.
+ * The component must implement `setFocus`.
  */
 export const useFocusable = <T extends FocusableComponent>(): ReturnType<
   typeof makeGenericController<UseFocusable, T>
@@ -97,7 +97,7 @@ export const useFocusable = <T extends FocusableComponent>(): ReturnType<
       },
       isFocusedWithin(element): boolean {
         const activeElement = getRootNode(element).activeElement;
-        return activeElement !== null && element.contains(activeElement);
+        return element.contains(activeElement);
       },
       setFocus,
     };
