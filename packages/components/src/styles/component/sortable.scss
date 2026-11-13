@@ -1,5 +1,3 @@
-@use "../shared";
-
 :host([data-dnd-dragging]),
 :host([data-dnd-placeholder]),
 ::slotted([data-dnd-placeholder]) {
@@ -12,21 +10,27 @@
   content: "";
   visibility: visible;
   box-sizing: border-box;
-  border: 1px dashed var(--calcite-color-brand);
+  border-width: var(--calcite-border-width-sm);
+  border-style: dashed;
+  border-color: var(--calcite-color-brand);
   background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
   position: absolute;
-  inset: 0;
+  inset-block: var(--calcite-space-none);
+  inset-inline-start: var(--calcite-space-none);
+  inset-inline-end: var(--calcite-space-none);
   z-index: var(--calcite-z-index);
 }
 
 :host([data-dnd-dragging]) {
-  @include shared.shadow-2();
+  box-shadow: var(--calcite-shadow-md);
 }
 
 ::slotted([data-dnd-placeholder="copy"]) {
   box-sizing: border-box;
   flex: none;
-  border: 1px dashed var(--calcite-color-brand);
+  border-width: var(--calcite-border-width-sm);
+  border-style: dashed;
+  border-color: var(--calcite-color-brand);
   background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
   pointer-events: none;
 }

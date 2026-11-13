@@ -94,7 +94,7 @@
 
 @mixin input-placeholder-text($placeholder-text-color: "--calcite-input-placeholder-text-color") {
   ::placeholder {
-    @apply font-normal;
+    font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
     color: var(#{$placeholder-text-color}, var(--calcite-color-text-3));
   }
 }

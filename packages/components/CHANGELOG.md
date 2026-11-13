@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.24...@esri/calcite-components@6.0.0-next.25) (2026-11-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [6.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.23...@esri/calcite-components@6.0.0-next.24) (2026-11-13)
+
+### Bug Fixes
+
+- **dropdown:** replace virtual focus with roving tabindex ([#15356](https://github.com/Esri/calcite-design-system/issues/15356)), closes [#14888](https://github.com/Esri/calcite-design-system/issues/14888)
+
+## [6.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.22...@esri/calcite-components@6.0.0-next.23) (2026-11-12)
+
+### ⚠ BREAKING CHANGES
+
+- **sheet:** Replace `modalDisabled` with `modal` to align Sheet’s
+  `modal` and `focusTrapDisabled` behavior with Dialog.
+
+### Features
+
+- **sheet:** replace modalDisabled with modal ([#15545](https://github.com/Esri/calcite-design-system/issues/15545)), closes [#15042](https://github.com/Esri/calcite-design-system/issues/15042)
+
+## [6.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.21...@esri/calcite-components@6.0.0-next.22) (2026-11-12)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [6.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.20...@esri/calcite-components@6.0.0-next.21) (2026-11-05)
 
 ### Bug Fixes

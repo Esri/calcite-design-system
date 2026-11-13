@@ -23,6 +23,9 @@ interface TileGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Tiles
+ */
 export class TileGroup extends LitElement implements SelectableGroupComponent {
   //#region Type-only metadata members
 

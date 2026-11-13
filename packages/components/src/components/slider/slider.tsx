@@ -262,7 +262,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private trackRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

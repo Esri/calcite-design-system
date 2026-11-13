@@ -13,7 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { getRootNode, slotChangeHasAssignedElement, slotChangeHasContent } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { InteractionMode, Scale, SelectionMode } from "../types";
+import { InteractionMode, Scale, SelectionMode, SelectionAppearance } from "../types";
 import { ItemData } from "../list-item/types";
 import {
   expandedAncestors,
@@ -35,7 +35,7 @@ import { CSS_UTILITY, DEBOUNCE } from "../../utils/resources";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useSortable } from "../../controllers/useSortable";
-import { CSS, SelectionAppearance, SLOTS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
@@ -88,6 +88,8 @@ const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
  * A general purpose list that enables users to construct list items that conform to Calcite styling.
+ *
+ * @docGroup List
  */
 export class List extends LitElement {
   //#region Type-only metadata members
@@ -142,7 +144,7 @@ export class List extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   get hasActiveFilter(): boolean {
     return !!(
@@ -324,6 +326,8 @@ export class List extends LitElement {
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
    * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "border" | "highlight",

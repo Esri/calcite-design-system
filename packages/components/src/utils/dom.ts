@@ -221,6 +221,20 @@ export interface SetFocusable extends LitElement {
   setFocus: (options?: FocusOptions) => Promise<void>;
 }
 
+/** Checks whether an element is an HTML or SVG element in the current window. */
+export function isFocusableElement(element: Element): element is HTMLElement | SVGElement {
+  return element instanceof HTMLElement || element instanceof SVGElement;
+}
+
+/** Returns unique focusable elements, including the container and its shadow trees. */
+export function getFocusableElements(container: Element | undefined): (HTMLElement | SVGElement)[] {
+  if (!container) {
+    return [];
+  }
+
+  return focusable(container, { ...tabbableOptions, includeContainer: true }).filter(isFocusableElement);
+}
+
 /**
  * This helper returns true when an element has a setFocus method.
  *

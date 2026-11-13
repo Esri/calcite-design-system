@@ -178,6 +178,9 @@ interface AutocompleteSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Autocomplete
+ */
 export class Autocomplete
   extends LitElement
   implements FloatingUIComponent, LabelableComponent, TextualInputComponent
@@ -242,7 +245,7 @@ export class Autocomplete
 
   private inputValueMatchPattern?: RegExp;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();

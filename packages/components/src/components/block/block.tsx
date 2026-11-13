@@ -170,6 +170,9 @@ interface BlockSlots {
   children: Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class Block extends LitElement {
   //#region Type-only metadata members
 
@@ -198,7 +201,7 @@ export class Block extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

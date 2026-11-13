@@ -58,7 +58,7 @@ export class Link extends LitElement {
 
   private direction = useDirection();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

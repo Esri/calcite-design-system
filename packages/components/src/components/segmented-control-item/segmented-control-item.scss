@@ -8,21 +8,21 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex
-    cursor-pointer
-    self-stretch
-    font-normal
-    focus-base;
+  display: flex;
+  cursor: pointer;
+  align-self: stretch;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
+  outline-color: var(--calcite-color-transparent);
   transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
 .label {
-  @apply pointer-events-none
-    m-0.5
-    box-border
-    flex
-    flex-1
-    items-center;
+  pointer-events: none;
+  margin: var(--calcite-space-base);
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 0%;
+  align-items: center;
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-3));
   background-color: var(--calcite-segmented-control-background-color);
   box-shadow: var(--calcite-segmented-control-shadow);
@@ -34,28 +34,36 @@
 }
 
 .label--horizontal {
-  @apply justify-center;
+  justify-content: center;
 }
 
 :host(:focus) {
-  @apply focus-inset;
+  @include shared.focus-inset();
+
   outline-offset: -1px;
   z-index: var(--calcite-z-index);
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 .label--scale-s {
-  @apply text-n2h px-2;
+  @include shared.text-n2h();
+
+  padding-inline: var(--calcite-space-sm);
   padding-block: 0.125rem;
 }
 
 .label--scale-m {
-  @apply text-n1h px-3;
+  @include shared.text-n1h();
+
+  padding-inline: var(--calcite-space-md);
   padding-block: 0.375rem;
 }
 
 .label--scale-l {
-  @apply text-0h px-4 py-2.5;
+  @include shared.text-0h();
+
+  padding-inline: var(--calcite-space-lg);
+  padding-block: var(--calcite-space-sm-plus);
 }
 
 :host(:hover) .label {
@@ -74,7 +82,7 @@
 }
 
 :host([checked]) .label {
-  @apply cursor-default;
+  cursor: default;
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
 }
@@ -94,7 +102,7 @@
 }
 
 ::slotted(input) {
-  @apply hidden;
+  display: none;
 }
 
 @media (forced-colors: active) {
@@ -103,7 +111,7 @@
   }
   :host([checked]) .label--outline,
   :host([checked]) .label--outline-fill {
-    @apply outline-none;
+    @include shared.outline-none();
   }
   :host([checked]) .label:not([class~="label--outline"]) .icon {
     color: highlightText;
@@ -111,11 +119,10 @@
 }
 
 .icon {
-  @apply relative
-    m-0
-    inline-flex;
+  position: relative;
+  margin: var(--calcite-space-none);
+  display: inline-flex;
   line-height: inherit;
-
   margin-inline-start: var(--calcite-internal-segmented-control-icon-margin-start);
   margin-inline-end: var(--calcite-internal-segmented-control-icon-margin-end);
   --calcite-icon-color: var(--calcite-segmented-control-icon-color);
