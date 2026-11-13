@@ -120,7 +120,7 @@ export class SplitButton extends LitElement {
           : ICONS.handleVertical;
   }
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

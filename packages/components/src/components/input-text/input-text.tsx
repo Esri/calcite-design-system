@@ -233,7 +233,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private formSupport = useForm<this>({
     inputType: "text",
