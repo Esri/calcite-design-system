@@ -8,7 +8,7 @@ import type { Select } from "./select";
 async function assertSelectedOption(page: E2EPage, selectedOption: E2EElement): Promise<void> {
   const selectedOptionValue = await page.$eval(
     "calcite-select",
-    (select: Select["el"]): string => select.selectedOption.value,
+    (select: Select["el"]): string | undefined => select.selectedOption?.value,
   );
 
   expect(selectedOptionValue).toBe(await selectedOption.getProperty("value"));

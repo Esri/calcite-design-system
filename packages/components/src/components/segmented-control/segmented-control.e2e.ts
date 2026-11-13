@@ -57,10 +57,10 @@ it("when multiple items are checked, last one wins", async () => {
   expect(selectedValue).toBe("3");
 });
 
-async function getSelectedItemValue(page: E2EPage): Promise<string> {
+async function getSelectedItemValue(page: E2EPage): Promise<string | undefined> {
   return page.$eval(
     "calcite-segmented-control",
-    (segmentedControl: SegmentedControl["el"]) => segmentedControl.selectedItem.value,
+    (segmentedControl: SegmentedControl["el"]) => segmentedControl.selectedItem?.value,
   );
 }
 
@@ -79,7 +79,7 @@ it("allows items to be selected", async () => {
   const [first, second, third] = await findAll(page, "calcite-segmented-control-item");
 
   type TestWindow = GlobalTestProps<{
-    eventTimeValues: string[];
+    eventTimeValues: (string | undefined)[];
   }>;
 
   // We use the browser context to assert the value at the time of event emit.
