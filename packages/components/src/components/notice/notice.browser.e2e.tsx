@@ -211,24 +211,4 @@ describe("theme", () => {
       });
     });
   });
-  describe("deprecated", () => {
-    themed(() => mount(noticeHTML("brand")), {
-      "--calcite-notice-width": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "width",
-      },
-      "--calcite-notice-close-background-color-focus": [
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "focus",
-        },
-        {
-          shadowSelector: `.${CSS.close}`,
-          targetProp: "--calcite-action-background-color-hover",
-          state: "hover",
-        },
-      ],
-    });
-  });
 });
