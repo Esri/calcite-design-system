@@ -275,6 +275,10 @@ export const useRovingTabIndex = <ElementType extends HTMLElement = HTMLElement>
       component.el.ownerDocument,
       "focusin",
       (event) => {
+        if (!focusedItem && !itemFocusOutTarget) {
+          return;
+        }
+
         const path = event.composedPath();
         if (itemFocusOutTarget && path.includes(itemFocusOutTarget)) {
           focusEventsFromItems.add(event);
