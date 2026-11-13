@@ -18,11 +18,11 @@
 
 calcite-panel {
   --calcite-panel-background-color: var(--calcite-flow-background-color);
-  --calcite-panel-border-color: var(--calcite-flow-border-color, var(--calcite-flow-item-header-border-block-end));
+  --calcite-panel-border-color: var(--calcite-flow-border-color);
   --calcite-panel-corner-radius: var(--calcite-flow-corner-radius);
   --calcite-panel-description-text-color: var(--calcite-flow-description-text-color);
   --calcite-panel-footer-background-color: var(--calcite-flow-footer-background-color);
-  --calcite-panel-footer-space: var(--calcite-flow-footer-space, var(--calcite-flow-item-footer-padding));
+  --calcite-panel-footer-space: var(--calcite-flow-footer-space);
   --calcite-panel-header-action-background-color-hover: var(--calcite-flow-header-action-background-color-hover);
   --calcite-panel-header-action-background-color-press: var(--calcite-flow-header-action-background-color-press);
   --calcite-panel-header-action-background-color: var(--calcite-flow-header-action-background-color);

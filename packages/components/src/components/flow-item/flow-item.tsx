@@ -25,18 +25,6 @@ declare global {
 declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
-     * Specifies the padding of the component's footer.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-footer-space` instead.
-     */
-    "--calcite-flow-item-footer-padding": "*";
-    /**
-     * Specifies the component header's block end border.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-flow-border-color` instead.
-     */
-    "--calcite-flow-item-header-border-block-end": "*";
-    /**
      * Specifies the component's corner radius.
      */
     "--calcite-flow-corner-radius": "*";
