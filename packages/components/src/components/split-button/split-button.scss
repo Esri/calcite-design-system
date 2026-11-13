@@ -123,6 +123,10 @@
   }
 }
 
+.container > calcite-button {
+  min-inline-size: 0;
+}
+
 .divider-container {
   @include shared.transition-default();
 

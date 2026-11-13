@@ -356,3 +356,18 @@ export const primaryAsADownloadAppearanceOutlineFill = (): string =>
       <calcite-dropdown-item>Option 4</calcite-dropdown-item>
     </calcite-dropdown-group>
   </calcite-split-button>`;
+
+export const longPrimaryText = (): string => html`
+  <div style="width: 300px">
+    <calcite-split-button primary-text="very long text that can be truncated in narrow layout" width="full">
+      <calcite-dropdown-group selection-mode="none" group-title="Veggies">
+        <calcite-dropdown-item>Pea</calcite-dropdown-item>
+        <calcite-dropdown-item>Parsnip</calcite-dropdown-item>
+        <calcite-dropdown-item>Radish</calcite-dropdown-item>
+        <calcite-dropdown-item>Tomato</calcite-dropdown-item>
+        <calcite-dropdown-item>Rutabaga</calcite-dropdown-item>
+        <calcite-dropdown-item>Bean</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-split-button>
+  </div>
+`;
