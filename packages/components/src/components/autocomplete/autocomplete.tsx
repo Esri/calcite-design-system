@@ -13,6 +13,7 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { escapeRegExp } from "es-toolkit/compat";
 import { createRef, Ref } from "lit/directives/ref.js";
+import { isFocusable } from "tabbable";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -29,7 +30,11 @@ import { Alignment, Scale, Status } from "../types";
 import { IconName } from "../icon/types";
 import { getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
-import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  getSlotAssignedElements,
+  slotChangeHasAssignedElement,
+  tabbableOptions,
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
@@ -760,7 +765,17 @@ export class Autocomplete
     this.open = false;
   }
 
-  private preventItemMouseDownBlur(event: MouseEvent): void {
+  private handleContentMouseDown(event: MouseEvent): void {
+    for (const target of event.composedPath()) {
+      if (target === event.currentTarget) {
+        break;
+      }
+
+      if (target instanceof Element && isFocusable(target, tabbableOptions)) {
+        return;
+      }
+    }
+
     event.preventDefault();
   }
 
@@ -1014,11 +1029,13 @@ export class Autocomplete
               }}
               ref={this.transitionRef}
             >
-              <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
+              <div
+                class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}
+                onMouseDown={this.handleContentMouseDown}
+              >
                 <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
                 <slot
                   ariaHidden="true"
-                  onMouseDown={this.preventItemMouseDownBlur}
                   onSlotChange={this.handleDefaultSlotChange}
                   ref={this.defaultSlotRef}
                 />

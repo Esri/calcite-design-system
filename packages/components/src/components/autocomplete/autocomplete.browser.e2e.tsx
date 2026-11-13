@@ -466,31 +466,63 @@ describe("opening and closing", () => {
     await expect.element(input).toHaveAttribute("aria-expanded", "false");
   });
 
-  it("allows clicking interactive dropdown content after focusing the input", async () => {
-    const clickSpy = vi.fn();
-    await mount(
-      <div>
+  it.each([SLOTS.contentTop, SLOTS.contentBottom])(
+    "keeps input focus when clicking non-focusable content in %s",
+    async (slot) => {
+      await mount(
         <calcite-autocomplete label="Start">
-          <button onClick={clickSpy} slot="content-top" type="button">
-            Use current location
-          </button>
-        </calcite-autocomplete>
-        <button type="button">Outside</button>
-      </div>,
-    );
+          <div slot={slot}>
+            <span>Start suggestions</span>
+          </div>
+        </calcite-autocomplete>,
+      );
 
-    const input = page.getByRole("combobox", { name: "Start" });
-    await userEvent.click(input);
-    await userEvent.click(page.getByRole("button", { name: "Use current location" }));
+      const input = page.getByRole("combobox", { name: "Start" });
+      const content = page.getByText("Start suggestions");
+      await userEvent.click(input);
+      await userEvent.click(content);
 
-    expect(clickSpy).toHaveBeenCalledOnce();
-    await expect.element(input).toHaveAttribute("aria-expanded", "true");
+      await expect.element(page.getBySelector("calcite-autocomplete")).toHaveFocus();
+      await expect.element(input).toHaveAttribute("aria-expanded", "true");
+      await expect.element(content).toBeVisible();
 
-    await userEvent.keyboard("{Tab}");
+      await userEvent.keyboard("a");
 
-    await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
-    await expect.element(input).toHaveAttribute("aria-expanded", "false");
-  });
+      await expect.element(input).toHaveValue("a");
+    },
+  );
+
+  it.each([SLOTS.contentTop, SLOTS.contentBottom])(
+    "allows focusing interactive content in %s",
+    async (slot) => {
+      const clickSpy = vi.fn();
+      await mount(
+        <div>
+          <calcite-autocomplete label="Start">
+            <button onClick={clickSpy} slot={slot} type="button">
+              <span>Use current location</span>
+            </button>
+          </calcite-autocomplete>
+          <button type="button">Outside</button>
+        </div>,
+      );
+
+      const input = page.getByRole("combobox", { name: "Start" });
+      await userEvent.click(input);
+      await userEvent.click(page.getByText("Use current location"));
+
+      expect(clickSpy).toHaveBeenCalledOnce();
+      await expect
+        .element(page.getByRole("button", { name: "Use current location" }))
+        .toHaveFocus();
+      await expect.element(input).toHaveAttribute("aria-expanded", "true");
+
+      await userEvent.keyboard("{Tab}");
+
+      await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+      await expect.element(input).toHaveAttribute("aria-expanded", "false");
+    },
+  );
 
   it.each(["ungrouped", "grouped"])(
     "selects a %s suggestion after focusing the input",
