@@ -2572,42 +2572,6 @@ it("does not throw when initialized with different format value (format='auto')"
 });
 
 describe("themed", () => {
-  it.each(["--calcite-corner-radius", "--calcite-color-picker-corner-radius"])(
-    "applies radius to all corners when the field is disabled and %s is customized",
-    async (token) => {
-      const { el } = await mount(<calcite-color-picker fieldDisabled value="#ff0000" />);
-      el.style.setProperty(token, "32px");
-
-      await expect
-        .element(page.elementLocator(el).getBySelector(`.${CSS.container}`).first())
-        .toHaveStyle("border-radius: 32px;");
-    },
-  );
-
-  it.each(["--calcite-corner-radius", "--calcite-color-picker-corner-radius"])(
-    "keeps the top corners square when %s is customized",
-    async (token) => {
-      const { el } = await mount(<calcite-color-picker value="#ff0000" />);
-      el.style.setProperty(token, "32px");
-
-      const picker = page.elementLocator(el);
-      await expect.element(picker.getBySelector(`.${CSS.container}`).first()).toHaveStyle(`
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-        border-bottom-left-radius: 32px;
-        border-bottom-right-radius: 32px;
-      `);
-      await expect.element(picker.getBySelector(`.${CSS.colorField}`)).toHaveStyle(`
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-      `);
-      await expect.element(picker.getBySelector(`.${CSS.controlAndScope}`).first()).toHaveStyle(`
-        border-top-left-radius: 0px;
-        border-top-right-radius: 0px;
-      `);
-    },
-  );
-
   describe("default", () => {
     themed(() => mount(<calcite-color-picker alpha-channel />), {
       "--calcite-color-picker-background-color": {
@@ -2618,11 +2582,26 @@ describe("themed", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "borderColor",
       },
-      "--calcite-color-picker-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-        expectedValue: "0px 0px 42px 42px",
-      },
+      "--calcite-color-picker-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopLeftRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopRightRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomLeftRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomRightRadius",
+        },
+      ],
       "--calcite-color-picker-shadow": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "boxShadow",
@@ -2667,6 +2646,29 @@ describe("themed", () => {
         shadowSelector: `.${CSS.container} >>> calcite-button`,
         targetProp: "--calcite-button-text-color",
       },
+    });
+  });
+
+  describe("field disabled", () => {
+    themed(() => mount(<calcite-color-picker alpha-channel fieldDisabled />), {
+      "--calcite-color-picker-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopLeftRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopRightRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomLeftRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomRightRadius",
+        },
+      ],
     });
   });
 });
