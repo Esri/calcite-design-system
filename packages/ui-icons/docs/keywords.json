@@ -21589,10 +21589,24 @@
       "modify",
       "data",
       "features",
-      "analysis"
+      "analysis",
+      "filter",
+      "funnel",
+      "x",
+      "clear",
+      "remove",
+      "cancel",
+      "reset",
+      "exclude",
+      "disable",
+      "clear filter",
+      "remove filter",
+      "cancel filter",
+      "reset filter",
+      "filter off"
     ],
     "category": "GIS",
     "release": "4.7.0",
-    "codepoint": null
+    "codepoint": 61963
   }
 }
