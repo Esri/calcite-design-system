@@ -869,7 +869,7 @@ export const slottedSheetOverlay = (): string => html`
     "
   >
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -961,7 +961,7 @@ const slottedSheetHtml: string[] = [];
     "
     >
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
+      <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
         <calcite-panel closable heading="Ultrices neque"
           ><p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -3048,7 +3048,7 @@ export const embeddedSlots = (): string => html`
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

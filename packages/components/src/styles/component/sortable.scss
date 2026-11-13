@@ -8,19 +8,18 @@
 
 :host(.calcite-sortable--ghost)::before {
   content: "";
-  @apply box-border
-      border
-      border-dashed
-      border-color-brand
-      bg-foreground-2
-      absolute
-      top-0
-      start-0
-      bottom-0
-      end-0
-      z-default;
+  box-sizing: border-box;
+  border-width: var(--calcite-border-width-sm);
+  border-style: dashed;
+  border-color: var(--calcite-color-brand);
+  background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
+  position: absolute;
+  inset-block: var(--calcite-space-none);
+  inset-inline-start: var(--calcite-space-none);
+  inset-inline-end: var(--calcite-space-none);
+  z-index: var(--calcite-z-index);
 }
 
 :host(.calcite-sortable--drag) {
-  @apply shadow-2;
+  box-shadow: var(--calcite-shadow-md);
 }
