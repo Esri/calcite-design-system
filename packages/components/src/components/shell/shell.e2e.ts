@@ -6,6 +6,8 @@ import { getFocusedElementProp } from "../../tests/utils/puppeteer";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 
+mockConsole();
+
 it("content node should always be present", async () => {
   const page = await newE2EPage();
 
@@ -157,16 +159,12 @@ it("should position panel-bottom slot at content's bottom when no other panels e
 });
 
 describe("embedded", () => {
-  mockConsole();
-
   it("sheet embedded in shell slot does not prevent interaction with page content outside slot", async () => {
     const page = await newE2EPage();
     await page.setContent(
       html` <calcite-shell>
         <calcite-shell-panel slot="panel-start">
-          <calcite-panel heading="Example">
-            <calcite-block heading="Example" expandable id="example-block"></calcite-block>
-          </calcite-panel>
+          <calcite-block heading="Example" expandable id="example-block"></calcite-block>
         </calcite-shell-panel>
         <calcite-panel heading="Content">
           <calcite-shell style="position:relative">
@@ -184,7 +182,7 @@ describe("embedded", () => {
     await expandEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
   });
 
   it("modal dialog embedded in shell slot does not prevent interaction with page content outside slot", async () => {
@@ -210,6 +208,6 @@ describe("embedded", () => {
     await expandEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
-    expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
+    expect(await getFocusedElementProp(page, "tagName")).toEqual(block.tagName);
   });
 });
