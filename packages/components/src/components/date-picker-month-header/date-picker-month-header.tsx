@@ -349,7 +349,7 @@ export class DatePickerMonthHeader extends LitElement {
     if (isDirectionLeft && this.min) {
       const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = prevMonthDate ? hasSameMonthAndYear(prevMonthDate, this.min) : false;
-    } else if (this.max) {
+    } else if (!isDirectionLeft && this.max) {
       const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = nextMonthDate ? hasSameMonthAndYear(nextMonthDate, this.max) : false;
     }

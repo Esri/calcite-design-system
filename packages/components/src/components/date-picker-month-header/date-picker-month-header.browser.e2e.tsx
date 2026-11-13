@@ -1,8 +1,9 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it } from "vitest";
-import { page } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { renders, scalePropagates } from "../../tests/common";
+import type { Action } from "../action/action";
 import { DateLocaleData } from "../date-picker/utils";
 import { DatePickerMonthHeader } from "./date-picker-month-header";
 
@@ -143,4 +144,36 @@ describe("month navigation", () => {
         .toHaveProperty("disabled", nextDisabled);
     },
   );
+
+  it("keeps focus on Previous when navigating back to the maximum month without a minimum", async () => {
+    await mount("calcite-date-picker-month-header", {
+      afterConnect: async (el) => {
+        await setupDatePickerMonthHeader(el);
+        el.activeDate = new Date(2026, 0, 20);
+        el.max = new Date(2025, 11, 15);
+        el.addEventListener("calciteInternalDatePickerMonthHeaderSelectChange", (event) => {
+          el.activeDate = (event as CustomEvent<Date>).detail;
+        });
+      },
+    });
+
+    const previous = page.getBySelector("calcite-action[aria-label='Previous month']");
+    const next = page.getBySelector("calcite-action[aria-label='Next month']");
+
+    await expect.element(previous).toHaveProperty("disabled", false);
+    await expect.element(next).toHaveProperty("disabled", true);
+
+    await (previous.element() as Action["el"]).setFocus();
+    const focusedPrevious = page.getBySelector(
+      "calcite-action[aria-label='Previous month']:focus-within",
+    );
+    await expect.element(focusedPrevious).toBeInTheDocument();
+    await userEvent.keyboard("{Enter}");
+
+    await expect
+      .element(page.getByRole("combobox", { name: "Month menu" }))
+      .toHaveProperty("value", "diciembre");
+    await expect.element(focusedPrevious).toBeInTheDocument();
+    await expect.element(next).toHaveProperty("disabled", true);
+  });
 });
