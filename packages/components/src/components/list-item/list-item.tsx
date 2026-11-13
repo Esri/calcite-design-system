@@ -537,7 +537,10 @@ export class ListItem extends LitElement implements SortableComponentItem {
     const shouldEmitMetadataChange = metadataChanged && !isEqual(this.metadata, previousMetadata);
 
     if (
-      (changes.has("label") || changes.has("description") || shouldEmitMetadataChange) &&
+      (changes.has("dragDisabled") ||
+        changes.has("label") ||
+        changes.has("description") ||
+        shouldEmitMetadataChange) &&
       this.hasUpdated
     ) {
       this.emitCalciteInternalListItemChange();
@@ -592,7 +595,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
     this.sortHandleEl.open = this.sortHandleOpen;
   }
 
-  private handleCalciteInternalListDefaultSlotChanges(event: CustomEvent<void>): void {
+  private handleCalciteInternalListDefaultSlotChanges(
+    event:
+      | ToEvents<ListItemGroup>["calciteInternalListItemGroupDefaultSlotChange"]
+      | ToEvents<List>["calciteInternalListDefaultSlotChange"],
+  ): void {
     event.stopPropagation();
     this.handleExpandableChange(this.defaultSlotRef.value);
   }
@@ -602,23 +609,27 @@ export class ListItem extends LitElement implements SortableComponentItem {
     this.sortHandleOpenHandler();
   }
 
-  private handleSortHandleBeforeOpen(event: CustomEvent<void>): void {
+  private handleSortHandleBeforeOpen(
+    event: ToEvents<SortHandle>["calciteSortHandleBeforeOpen"],
+  ): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeOpen.emit();
   }
 
-  private handleSortHandleBeforeClose(event: CustomEvent<void>): void {
+  private handleSortHandleBeforeClose(
+    event: ToEvents<SortHandle>["calciteSortHandleBeforeClose"],
+  ): void {
     event.stopPropagation();
     this.calciteListItemSortHandleBeforeClose.emit();
   }
 
-  private handleSortHandleClose(event: CustomEvent<void>): void {
+  private handleSortHandleClose(event: ToEvents<SortHandle>["calciteSortHandleClose"]): void {
     event.stopPropagation();
     this.sortHandleOpen = false;
     this.calciteListItemSortHandleClose.emit();
   }
 
-  private handleSortHandleOpen(event: CustomEvent<void>): void {
+  private handleSortHandleOpen(event: ToEvents<SortHandle>["calciteSortHandleOpen"]): void {
     event.stopPropagation();
     this.sortHandleOpen = true;
     this.calciteListItemSortHandleOpen.emit();

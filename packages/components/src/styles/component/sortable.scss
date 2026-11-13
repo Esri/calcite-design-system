@@ -1,13 +1,14 @@
-:host(.calcite-sortable--chosen),
-:host(.calcite-sortable--drag),
-:host(.calcite-sortable--fallback),
-:host(.calcite-sortable--ghost) {
+:host([data-dnd-dragging]),
+:host([data-dnd-placeholder]),
+::slotted([data-dnd-placeholder]) {
   position: relative;
   overflow: hidden;
 }
 
-:host(.calcite-sortable--ghost)::before {
+:host([data-dnd-placeholder="hidden"])::before,
+::slotted([data-dnd-placeholder="hidden"])::before {
   content: "";
+  visibility: visible;
   box-sizing: border-box;
   border-width: var(--calcite-border-width-sm);
   border-style: dashed;
@@ -20,6 +21,16 @@
   z-index: var(--calcite-z-index);
 }
 
-:host(.calcite-sortable--drag) {
+:host([data-dnd-dragging]) {
   box-shadow: var(--calcite-shadow-md);
+}
+
+::slotted([data-dnd-placeholder="copy"]) {
+  box-sizing: border-box;
+  flex: none;
+  border-width: var(--calcite-border-width-sm);
+  border-style: dashed;
+  border-color: var(--calcite-color-brand);
+  background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
+  pointer-events: none;
 }

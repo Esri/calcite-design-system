@@ -220,6 +220,19 @@ it("emits calciteInternalListItemChange only when metadata values change", async
   expect(eventSpy).toHaveBeenCalledTimes(6);
 });
 
+it("emits calciteInternalListItemChange once when dragDisabled and metadata change together", async () => {
+  const { el, component } = await mount<ListItem>(<calcite-list-item />);
+  const eventSpy = vi.fn();
+
+  el.addEventListener("calciteInternalListItemChange", eventSpy);
+
+  el.dragDisabled = true;
+  el.metadata = { key: "value" };
+  await component.updateComplete;
+
+  expect(eventSpy).toHaveBeenCalledTimes(1);
+});
+
 describe("themed", () => {
   describe(`selection-appearance="icon"`, () => {
     themed(
