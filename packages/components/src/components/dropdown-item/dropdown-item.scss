@@ -170,10 +170,6 @@
   }
 }
 
-:host(:hover:not([disabled])) .icon {
-  --calcite-icon-color: var(--calcite-dropdown-item-icon-color-hover);
-}
-
 :host([selected]) .icon {
   opacity: var(--calcite-opacity-full);
 }
