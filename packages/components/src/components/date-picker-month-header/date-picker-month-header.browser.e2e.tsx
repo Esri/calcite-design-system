@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { renders, scalePropagates } from "../../tests/common";
 import { DateLocaleData } from "../date-picker/utils";
 import { DatePickerMonthHeader } from "./date-picker-month-header";
@@ -77,5 +78,69 @@ describe("propagates", () => {
         },
       }),
     { targetSelector: ".chevron" },
+  );
+});
+
+describe("month navigation", () => {
+  it.each([
+    {
+      label: "before the minimum in the same month",
+      activeDate: new Date(2025, 11, 1),
+      min: new Date(2025, 11, 4),
+      max: undefined,
+      previousDisabled: true,
+      nextDisabled: false,
+    },
+    {
+      label: "after the maximum in the same month",
+      activeDate: new Date(2026, 0, 20),
+      min: undefined,
+      max: new Date(2026, 0, 15),
+      previousDisabled: false,
+      nextDisabled: true,
+    },
+    {
+      label: "before the minimum month",
+      activeDate: new Date(2025, 11, 1),
+      min: new Date(2026, 0, 10),
+      max: undefined,
+      previousDisabled: true,
+      nextDisabled: false,
+    },
+    {
+      label: "after the maximum month",
+      activeDate: new Date(2026, 0, 20),
+      min: undefined,
+      max: new Date(2025, 11, 15),
+      previousDisabled: false,
+      nextDisabled: true,
+    },
+    {
+      label: "within a single allowed month",
+      activeDate: new Date(2025, 11, 10),
+      min: new Date(2025, 11, 4),
+      max: new Date(2025, 11, 15),
+      previousDisabled: true,
+      nextDisabled: true,
+    },
+  ])(
+    "enables navigation toward valid months when the active date is $label",
+    async ({ activeDate, min, max, previousDisabled, nextDisabled }) => {
+      await mount("calcite-date-picker-month-header", {
+        afterConnect: async (el) => {
+          await setupDatePickerMonthHeader(el);
+          el.activeDate = activeDate;
+          el.min = min;
+          el.max = max;
+        },
+      });
+
+      await expect
+        .element(page.getBySelector("calcite-action[aria-label='Previous month']"))
+        .toHaveProperty("disabled", previousDisabled);
+      await expect
+        .element(page.getBySelector("calcite-action[aria-label='Next month']"))
+        .toHaveProperty("disabled", nextDisabled);
+    },
   );
 });

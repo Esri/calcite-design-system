@@ -510,11 +510,12 @@ export class DatePickerMonthHeader extends LitElement {
 
   private renderChevron(direction: "left" | "right"): JsxNode {
     const isDirectionRight = direction === "right";
+    const targetDate = isDirectionRight ? this.nextMonthDate : this.prevMonthDate;
+    const activeMonth = this.activeDate.getFullYear() * 12 + this.activeDate.getMonth();
+    const targetMonth = targetDate && targetDate.getFullYear() * 12 + targetDate.getMonth();
     const isDisabled =
-      hasSameMonthAndYear(
-        isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
-        this.activeDate,
-      ) || !inRange(this.activeDate, this.min, this.max);
+      targetMonth === undefined ||
+      (isDirectionRight ? targetMonth <= activeMonth : targetMonth >= activeMonth);
 
     return (
       <calcite-action
