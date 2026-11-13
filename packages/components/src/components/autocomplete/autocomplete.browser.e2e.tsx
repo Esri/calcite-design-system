@@ -354,6 +354,186 @@ describe("openClose", () => {
   );
 });
 
+describe("opening and closing", () => {
+  it("closes the previous autocomplete when another is cleared", async () => {
+    await mount(
+      <div style="display: grid; gap: 100px">
+        <calcite-autocomplete id="start" inputValue="Start" label="Start">
+          <div slot="content-top">Start suggestions</div>
+        </calcite-autocomplete>
+        <calcite-autocomplete id="end" inputValue="End" label="End">
+          <div slot="content-top">End suggestions</div>
+        </calcite-autocomplete>
+        <button type="button">Outside</button>
+      </div>,
+    );
+
+    const start = page.getBySelector("#start");
+    const end = page.getBySelector("#end");
+    const startInput = start.getByRole("combobox");
+    const endInput = end.getByRole("combobox");
+
+    await userEvent.click(start.getByRole("button", { name: "Clear value" }));
+
+    await expect.element(startInput).toHaveValue("");
+    await expect.element(start).toHaveFocus();
+    await expect.element(startInput).toHaveAttribute("aria-expanded", "true");
+    await expect.element(start.getByText("Start suggestions")).toBeVisible();
+
+    await userEvent.click(end.getByRole("button", { name: "Clear value" }));
+
+    await expect.element(startInput).toHaveAttribute("aria-expanded", "false");
+    await expect.element(endInput).toHaveValue("");
+    await expect.element(end).toHaveFocus();
+    await expect.element(endInput).toHaveAttribute("aria-expanded", "true");
+    await expect.element(end.getByText("End suggestions")).toBeVisible();
+
+    await userEvent.click(page.getByRole("button", { name: "Outside" }));
+
+    await expect.element(endInput).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("closes when focus leaves without another target", async () => {
+    await mount(
+      <calcite-autocomplete label="Start">
+        <div slot="content-top">Start suggestions</div>
+      </calcite-autocomplete>,
+    );
+
+    const input = page.getByRole("combobox", { name: "Start" });
+    await userEvent.click(input);
+    await expect.element(input).toHaveAttribute("aria-expanded", "true");
+
+    input.element().blur();
+
+    await expect.element(input).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("keeps the autocomplete open when its focused input is cleared", async () => {
+    await mount(
+      <calcite-autocomplete inputValue="Start" label="Start">
+        <div slot="content-top">Start suggestions</div>
+      </calcite-autocomplete>,
+    );
+
+    const input = page.getByRole("combobox", { name: "Start" });
+    await userEvent.click(input);
+    await expect.element(input).toHaveAttribute("aria-expanded", "true");
+
+    await userEvent.click(page.getByRole("button", { name: "Clear value" }));
+
+    await expect.element(input).toHaveValue("");
+    await expect.element(page.getBySelector("calcite-autocomplete")).toHaveFocus();
+    await expect.element(input).toHaveAttribute("aria-expanded", "true");
+    await expect.element(page.getByText("Start suggestions")).toBeVisible();
+
+    input.element().blur();
+
+    await expect.element(input).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("opens after clearing text typed since the last change", async () => {
+    await mount(
+      <calcite-autocomplete label="Start">
+        <div slot="content-top">Start suggestions</div>
+      </calcite-autocomplete>,
+    );
+
+    const input = page.getByRole("combobox", { name: "Start" });
+    await userEvent.click(input);
+    await userEvent.keyboard("a");
+    await userEvent.click(page.getByRole("button", { name: "Clear value" }));
+
+    await expect.element(input).toHaveValue("");
+    await expect.element(input).toHaveAttribute("aria-expanded", "true");
+  });
+
+  it.each([
+    ["deleting text and pressing Enter", "{End}{Backspace}{Enter}", ""],
+    ["pressing Escape", "{Escape}", "a"],
+  ])("stays closed after %s", async (_interaction, keys, value) => {
+    await mount(
+      <calcite-autocomplete inputValue="a" label="Start">
+        <div slot="content-top">Start suggestions</div>
+      </calcite-autocomplete>,
+    );
+
+    const input = page.getByRole("combobox", { name: "Start" });
+    await userEvent.click(input);
+    await userEvent.keyboard(keys);
+
+    await expect.element(input).toHaveValue(value);
+    await expect.element(input).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("allows clicking interactive dropdown content after focusing the input", async () => {
+    const clickSpy = vi.fn();
+    await mount(
+      <div>
+        <calcite-autocomplete label="Start">
+          <button onClick={clickSpy} slot="content-top" type="button">
+            Use current location
+          </button>
+        </calcite-autocomplete>
+        <button type="button">Outside</button>
+      </div>,
+    );
+
+    const input = page.getByRole("combobox", { name: "Start" });
+    await userEvent.click(input);
+    await userEvent.click(page.getByRole("button", { name: "Use current location" }));
+
+    expect(clickSpy).toHaveBeenCalledOnce();
+    await expect.element(input).toHaveAttribute("aria-expanded", "true");
+
+    await userEvent.keyboard("{Tab}");
+
+    await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+    await expect.element(input).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it.each(["ungrouped", "grouped"])(
+    "selects a %s suggestion after focusing the input",
+    async (kind) => {
+      const changeSpy = vi.fn();
+      const mouseDownSpy = vi.fn();
+      const suggestion = (
+        <calcite-autocomplete-item
+          heading="First suggestion"
+          label="First suggestion"
+          onMouseDown={mouseDownSpy}
+          value="first"
+        />
+      );
+      const { el } = await mount<Autocomplete>(
+        <calcite-autocomplete label="Start" oncalciteAutocompleteChange={changeSpy}>
+          {kind === "grouped" ? (
+            <calcite-autocomplete-item-group heading="Suggestions">
+              {suggestion}
+            </calcite-autocomplete-item-group>
+          ) : (
+            suggestion
+          )}
+        </calcite-autocomplete>,
+      );
+
+      const input = page.getByRole("combobox", { name: "Start" });
+      const item = page.getBySelector("calcite-autocomplete-item");
+      const openDuringSelection = vi.fn(() => el.open);
+      item.element().addEventListener("calciteAutocompleteItemSelect", openDuringSelection);
+
+      await userEvent.click(input);
+      await userEvent.click(item);
+
+      expect(mouseDownSpy).toHaveBeenCalledOnce();
+      expect(openDuringSelection).toHaveReturnedWith(true);
+      expect(el.value).toBe("first");
+      expect(changeSpy).toHaveBeenCalledOnce();
+      await expect.element(input).toHaveAttribute("aria-expanded", "false");
+    },
+  );
+});
+
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-autocomplete"));
 });

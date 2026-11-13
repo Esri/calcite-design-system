@@ -525,6 +525,8 @@ export class Autocomplete
   constructor() {
     super();
     useLabel(this);
+    this.listen("focusout", this.handleFocusOut);
+    this.listen("calciteInternalInputClear", this.handleInputClear);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
     this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
     this.listen(
@@ -744,6 +746,22 @@ export class Autocomplete
 
   private handleInputFocus(): void {
     this.open = true;
+  }
+
+  private handleInputClear(): void {
+    this.open = true;
+  }
+
+  private handleFocusOut(event: FocusEvent): void {
+    if (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget)) {
+      return;
+    }
+
+    this.open = false;
+  }
+
+  private preventItemMouseDownBlur(event: MouseEvent): void {
+    event.preventDefault();
   }
 
   private handleContentTopSlotChange(event: Event): void {
@@ -1000,6 +1018,7 @@ export class Autocomplete
                 <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
                 <slot
                   ariaHidden="true"
+                  onMouseDown={this.preventItemMouseDownBlur}
                   onSlotChange={this.handleDefaultSlotChange}
                   ref={this.defaultSlotRef}
                 />
