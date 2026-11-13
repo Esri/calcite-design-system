@@ -6,7 +6,7 @@ import "./components/input-time-picker/input-time-picker";
 import { autocomplete } from "./custom-theme/autocomplete";
 import { buttons } from "./custom-theme/button";
 import { card } from "./custom-theme/card";
-import { colorPicker } from "./custom-theme/color-picker";
+import { colorPicker, colorPickerFieldDisabled } from "./custom-theme/color-picker";
 import { datePicker } from "./custom-theme/date-picker";
 import { filter } from "./custom-theme/filter";
 import { input } from "./custom-theme/input";
@@ -61,7 +61,7 @@ const kitchenSink = () =>
 
       <div class="fallback-row">${filter}</div>
 
-      <div class="fallback-row">${colorPicker} ${datePicker} ${timePicker}</div>
+      <div class="fallback-row">${colorPicker} ${colorPickerFieldDisabled} ${datePicker} ${timePicker}</div>
 
       <div class="fallback-row">${card} ${tile}</div>
 
