@@ -1135,7 +1135,7 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1.");
+  expect(el).toHaveProperty("value", "1");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
@@ -1272,23 +1272,27 @@ describe("number locale support", () => {
         useGrouping: false,
       };
       const decimalSeparator = numberStringFormatter.decimal;
-      await mount<InputNumber>(<calcite-input-number lang={locale} />);
+      const { el } = await mount<InputNumber>(<calcite-input-number lang={locale} />);
       const input = page.getBySelector("calcite-input-number input");
 
       await userEvent.keyboard(`{Tab}0${decimalSeparator}01`);
 
+      await expect(el).toHaveProperty("value", "0.01");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}01`);
 
       await userEvent.keyboard("{Backspace}");
 
+      await expect(el).toHaveProperty("value", "0.0");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}0`);
 
       await userEvent.keyboard("{Backspace}");
 
+      await expect(el).toHaveProperty("value", "0");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}`);
 
       await userEvent.keyboard("01");
 
+      await expect(el).toHaveProperty("value", "0.01");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}01`);
     });
 
