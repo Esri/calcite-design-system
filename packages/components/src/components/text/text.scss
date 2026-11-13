@@ -42,7 +42,3 @@
 }
 
 @include shared.base-component();
-
-.assistive-text {
-  @apply sr-only;
-}

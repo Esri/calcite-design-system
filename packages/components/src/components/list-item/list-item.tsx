@@ -13,8 +13,13 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { getFirstTabbable, slotChangeHasAssignedElement } from "../../utils/dom";
-import type { SelectionMode, InteractionMode, Scale, FlipContext } from "../types";
-import type { SelectionAppearance } from "../list/resources";
+import type {
+  SelectionMode,
+  SelectionAppearance,
+  InteractionMode,
+  Scale,
+  FlipContext,
+} from "../types";
 import type { IconName } from "../icon/types";
 import { type SortableComponentItem } from "../../controllers/useSortable";
 import type { SortMenuItem } from "../sort-handle/types";
@@ -113,6 +118,10 @@ interface ListItemSlots {
 
 const focusMap = new Map<List["el"], number | undefined>();
 
+/**
+ * @docGroup List
+ * @parent calcite-list
+ */
 export class ListItem extends LitElement implements SortableComponentItem {
   //#region Type-only metadata members
 
@@ -305,9 +314,9 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
+   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v7.0.0 - use `"highlight"` instead.
    *
-   * @private
+   * @internal
    */
   @property({ reflect: true }) selectionAppearance!: Extract<
     "icon" | "border" | "highlight",

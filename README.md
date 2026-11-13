@@ -3,7 +3,6 @@
 This is a monorepo containing [Calcite Design System](https://developers.arcgis.com/calcite-design-system/) packages. Please see the package-specific READMEs for more information:
 
 - [`@esri/calcite-components`](./packages/components/README.md)
-- [`@esri/calcite-components-react`](./packages/components-react/README.md)
 - [`@esri/calcite-design-tokens`](./packages/design-tokens/README.md)
 - [`@esri/calcite-ui-icons`](./packages/ui-icons/README.md)
 - [`@esri/eslint-plugin-calcite-components`](./packages/eslint-plugin-components/README.md) (deprecated)
@@ -91,17 +90,17 @@ We welcome contributions to this project. See [CONTRIBUTING.md](./CONTRIBUTING.m
     </a>
   </td>
   <td align="center">
-    <a href="https://github.com/asangma">
-      <img src="https://avatars.githubusercontent.com/u/12503298?v=4" width="100;" alt="asangma"/>
-      <br />
-      <sub><b>Alan Sangma</b></sub>
-    </a>
-  </td>
-  <td align="center">
     <a href="https://github.com/aPreciado88">
       <img src="https://avatars.githubusercontent.com/u/165730205?v=4" width="100;" alt="aPreciado88"/>
       <br />
       <sub><b>Abraham Preciado Morales</b></sub>
+    </a>
+  </td>
+  <td align="center">
+    <a href="https://github.com/asangma">
+      <img src="https://avatars.githubusercontent.com/u/12503298?v=4" width="100;" alt="asangma"/>
+      <br />
+      <sub><b>Alan Sangma</b></sub>
     </a>
   </td>
 </tr>

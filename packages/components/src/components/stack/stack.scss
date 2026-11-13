@@ -1,23 +1,26 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex flex-col flex-1;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
 }
 
 .container {
-  @apply text-color-2
-  flex
-  flex-auto
-  font-normal
-  items-stretch;
+  color: var(--calcite-color-text-2);
+  display: flex;
+  flex: 1 1 auto;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
+  align-items: stretch;
 }
 
 .content {
-  @apply flex
-    flex-auto
-    flex-col
-    justify-center
-    text-n2-wrap;
+  @include shared.text-n2-wrap();
+
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
   padding-inline: var(--calcite-stack-padding-inline, theme("padding.3"));
   padding-block: var(--calcite-stack-padding-block, theme("padding.2"));
 }
@@ -27,19 +30,20 @@
 }
 
 .content-start {
-  @apply justify-start;
+  justify-content: flex-start;
 }
 
 .content-end {
-  @apply justify-end;
+  justify-content: flex-end;
 }
 
 .content-start,
 .content-end {
-  @apply flex-initial;
+  flex: 0 1 auto;
 
   ::slotted(calcite-icon) {
-    @apply self-center mx-3;
+    align-self: center;
+    margin-inline: var(--calcite-space-md);
   }
 }
 
@@ -47,17 +51,17 @@
 .actions-end,
 .content-start,
 .content-end {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
 }
 
 .actions-start,
 .actions-end {
   ::slotted(calcite-action),
   ::slotted(calcite-action-menu),
-  ::slotted(calcite-handle),
+  ::slotted(calcite-sort-handle),
   ::slotted(calcite-dropdown) {
-    @apply self-stretch;
-
+    align-self: stretch;
     color: inherit;
   }
 }

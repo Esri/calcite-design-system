@@ -143,7 +143,7 @@ it("should position panel-bottom slot at content's bottom when no other panels e
 
   await page.setContent(
     html`<calcite-shell>
-      <calcite-shell-panel slot="${SLOTS.panelBottom}" display-mode="float" layout="horizontal">
+      <calcite-shell-panel slot="${SLOTS.panelBottom}" display-mode="float-content" layout="horizontal">
         <p>Primary Content</p>
       </calcite-shell-panel>
     </calcite-shell>`,
@@ -179,9 +179,9 @@ describe("embedded", () => {
     );
     const block = await page.find("calcite-block");
 
-    const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+    const expandEventSpy = await block.spyOnEvent("calciteBlockExpand");
     await block.click();
-    await openEventSpy.next();
+    await expandEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
     expect(await getFocusedElementProp(page, "id")).toEqual(block.id);
@@ -205,9 +205,9 @@ describe("embedded", () => {
     );
     const block = await page.find("calcite-block");
 
-    const openEventSpy = await block.spyOnEvent("calciteBlockOpen");
+    const expandEventSpy = await block.spyOnEvent("calciteBlockExpand");
     await block.click();
-    await openEventSpy.next();
+    await expandEventSpy.next();
 
     expect(await block.getProperty("expanded")).toBe(true);
     expect(await getFocusedElementProp(page, "id")).toEqual(block.id);

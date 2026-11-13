@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.1-next.1...@esri/calcite-design-tokens@5.0.0-next.0) (2026-11-04)
+
+### ⚠ BREAKING CHANGES
+
+- **design-tokens:** Removes deprecated global output files. The global
+  output files were deprecated in favor of individual, focused files.
+  Developers can update imports to include desired tokens.
+
+### Build System
+
+- **design-tokens:** drop deprecated global output files ([#15511](https://github.com/Esri/calcite-design-system/issues/15511)), closes [#15508](https://github.com/Esri/calcite-design-system/issues/15508)
+
 ## [4.2.1-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.1-next.0...@esri/calcite-design-tokens@4.2.1-next.1) (2026-10-26)
 
 **Note:** Version bump only for package @esri/calcite-design-tokens

@@ -8,7 +8,8 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
+
   --calcite-internal-swatch-inset: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
 
@@ -31,7 +32,11 @@
 }
 
 .container {
-  @apply relative focus-base justify-center box-border overflow-hidden;
+  position: relative;
+  outline-color: var(--calcite-color-transparent);
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
   font-size: var(--calcite-internal-swatch-font-size, var(--calcite-font-size));
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
@@ -39,21 +44,23 @@
   border-radius: var(--calcite-swatch-corner-radius, 0);
 
   &:not(.non-interactive):hover {
-    @apply cursor-pointer;
+    cursor: pointer;
   }
   &:not(.non-interactive):hover {
     box-shadow: 0 0 0 var(--calcite-border-width-md) var(--calcite-color-border-1);
   }
   &.selectable {
-    @apply cursor-pointer;
+    cursor: pointer;
   }
   &:not(.non-interactive):focus {
-    @apply focus-outset;
+    @include shared.focus-outset();
   }
 }
 
 .swatch {
-  @apply inline-flex overflow-hidden relative;
+  display: inline-flex;
+  overflow: hidden;
+  position: relative;
   z-index: calc(var(--calcite-z-index) + 1);
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
@@ -79,7 +86,8 @@
 }
 
 .image-container {
-  @apply inline-flex overflow-hidden absolute;
+  overflow: hidden;
+  position: absolute;
   z-index: calc(var(--calcite-z-index) + 2);
   inset: var(--calcite-theme-space-px, var(--calcite-spacing-px));
   display: flex;
@@ -90,12 +98,16 @@
 }
 
 .internal-svg-container {
-  @apply absolute inset-0 flex items-center justify-center;
+  position: absolute;
+  inset: var(--calcite-space-none);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: calc(var(--calcite-z-index) + 2);
 }
 
 .swatch {
-  @apply overflow-hidden;
+  overflow: hidden;
   block-size: inherit;
   inline-size: inherit;
 }

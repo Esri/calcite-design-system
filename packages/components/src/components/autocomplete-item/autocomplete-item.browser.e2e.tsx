@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
+import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, slots, disabled, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
@@ -108,5 +109,22 @@ describe("theme", () => {
       shadowSelector: `.${CSS.container}`,
       targetProp: "color",
     },
+  });
+
+  describe("selected", () => {
+    themed(() => mount(<calcite-autocomplete-item selected />), {
+      "--calcite-color-surface-highlight": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: "hover",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "backgroundColor",
+          state: { press: `calcite-autocomplete-item >>> .${CSS.container}` },
+        },
+      ],
+    });
   });
 });
