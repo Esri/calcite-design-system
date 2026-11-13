@@ -1,5 +1,4 @@
 import { defaultLocale, supportedLocales } from "@arcgis/toolkit/intl";
-import type { StoryContext } from "@storybook/web-components-vite";
 import { boolean, createBreakpointStories, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
@@ -443,14 +442,13 @@ export const localized = (): string => html`
     .localized-input-calendars {
       display: grid;
       grid-template-columns: repeat(4, 300px);
-      gap: 48px 24px;
+      gap: 24px;
     }
 
     .localized-input-calendar {
       display: flex;
       flex-direction: column;
       gap: 8px;
-      height: 360px;
     }
 
     .localized-input-calendar calcite-input-date-picker {
@@ -463,25 +461,13 @@ export const localized = (): string => html`
         (locale) => html`
           <div class="localized-input-calendar">
             <strong>${locale}</strong>
-            <calcite-input-date-picker
-              lang="${locale}"
-              open
-              placement="bottom-start"
-              value="2020-12-12"
-            ></calcite-input-date-picker>
+            <calcite-input-date-picker lang="${locale}" value="2020-12-12"></calcite-input-date-picker>
           </div>
         `,
       )
       .join("")}
   </div>
 `;
-localized.play = async ({ canvasElement }: StoryContext): Promise<void> => {
-  await Promise.all(
-    Array.from(canvasElement.querySelectorAll<InputDatePicker["el"]>("calcite-input-date-picker"), (el) =>
-      el.componentOnReady(),
-    ),
-  );
-};
 localized.parameters = {
   chromatic: {
     delay: 2000,
