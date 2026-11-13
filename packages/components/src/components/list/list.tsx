@@ -51,7 +51,6 @@ import { ListDisplayMode, ListDragDetail, ListElement } from "./types";
 import { styles } from "./list.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import type { SortHandle } from "../sort-handle/sort-handle";
-import { logger } from "../../utils/logger";
 import { isListItem } from "../list-item/resources";
 import { toAriaBoolean } from "../../utils/aria";
 import { logger } from "../../utils/logger";
