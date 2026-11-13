@@ -59,6 +59,9 @@ interface SegmentedControlSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Segmented Control
+ */
 export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
@@ -93,7 +96,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -165,11 +168,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
   @property() value: string = null;
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
+  /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //#endregion

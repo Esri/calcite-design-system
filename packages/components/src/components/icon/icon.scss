@@ -1,6 +1,7 @@
 @use "../../styles/shared";
 :host {
-  @apply text-color-icon inline-flex;
+  color: var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor));
+  display: inline-flex;
 }
 
 $icon-size-s: 16px;
@@ -33,7 +34,7 @@ $icon-size-l: 32px;
 }
 
 .svg {
-  @apply block;
+  display: block;
 }
 
 @include shared.base-component();

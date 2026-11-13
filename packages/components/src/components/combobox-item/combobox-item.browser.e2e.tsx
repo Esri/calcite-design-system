@@ -172,5 +172,32 @@ describe("theme", () => {
         targetProp: "color",
       },
     });
+
+    themed(
+      () =>
+        mount(
+          <calcite-combobox-item
+            description="Pokemon's mascot"
+            heading="Pikachu"
+            selected
+            selection-appearance="highlight"
+            value="Pikachu"
+          />,
+        ),
+      {
+        "--calcite-color-surface-highlight": [
+          {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "backgroundColor",
+            state: "hover",
+          },
+          {
+            shadowSelector: `.${CSS.label}`,
+            targetProp: "backgroundColor",
+            state: { press: `calcite-combobox-item >>> .${CSS.label}` },
+          },
+        ],
+      },
+    );
   });
 });

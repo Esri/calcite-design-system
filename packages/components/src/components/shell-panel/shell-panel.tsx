@@ -51,15 +51,15 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-shell-panel-corner-radius": "*";
     /**
-     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the component's height.
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float-all`, specifies the component's height.
      */
     "--calcite-shell-panel-height": "*";
     /**
-     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's maximum height.
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the component's maximum height.
      */
     "--calcite-shell-panel-max-height": "*";
     /**
-     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the component's minimum height.
+     * When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content`, specifies the component's minimum height.
      */
     "--calcite-shell-panel-min-height": "*";
     /**
@@ -100,6 +100,10 @@ interface ShellPanelSlots {
   "action-bar": Node[];
 }
 
+/**
+ * @docGroup Shell
+ * @parent calcite-shell
+ */
 export class ShellPanel extends LitElement {
   //#region Type-only metadata members
 
@@ -176,7 +180,6 @@ export class ShellPanel extends LitElement {
    * - `"overlay"` displays at full height on top of center content.
    * - `"float-content"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content.
    * - `"float-all"` detaches the `calcite-panel` and `calcite-action-bar` on top of center content.
-   * - `"float"` does not display at full height with content separately detached from `calcite-action-bar` on top of center content. [Deprecated] in v2.11.0, removal target v6.0.0 - use `"float-content"` instead.
    */
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
@@ -190,7 +193,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's direction.
    *
-   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
    */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "vertical";
 
@@ -200,7 +203,7 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the component's position. Will be flipped when the element direction is right-to-left (`"rtl"`).
    *
-   * @deprecated in v5.0.0, removal target v6.0.0 -  No longer necessary.
+   * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
    */
   @property({ reflect: true }) position: Extract<"start" | "end", Position> = "start";
 
@@ -264,6 +267,10 @@ export class ShellPanel extends LitElement {
     }
   }
 
+  load(): void {
+    this.listenOn(window, "resize", this.handleWindowResize);
+  }
+
   override willUpdate(changes: PropertyValues<this>): void {
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
@@ -315,6 +322,12 @@ export class ShellPanel extends LitElement {
   //#endregion
 
   //#region Private Methods
+
+  private handleWindowResize(): void {
+    if (this.resizable && !this.collapsed) {
+      this.refreshResize();
+    }
+  }
 
   /** Internal synchronous size-override update — calls the controller directly to avoid promise wrapping. */
   private updateSizeInternal(size: { inline?: number | null; block?: number | null }): void {
@@ -680,7 +693,7 @@ export class ShellPanel extends LitElement {
             [CSS_UTILITY.rtl]: dir === "rtl",
             [CSS.content]: true,
             [CSS.contentOverlay]: displayMode === "overlay",
-            [CSS.floatContent]: displayMode === "float-content" || displayMode === "float",
+            [CSS.floatContent]: displayMode === "float-content",
             [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
             [getAnimationDir()]: displayMode === "overlay",
             [getDimensionClass("width", this.width, this.widthScale)]: !!(

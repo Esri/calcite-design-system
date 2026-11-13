@@ -49,6 +49,9 @@ interface BlockGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class BlockGroup extends LitElement {
   //#region Type-only metadata members
 
@@ -76,7 +79,7 @@ export class BlockGroup extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private parentBlockGroupEl?: BlockGroup["el"];
 
@@ -615,7 +618,6 @@ export class BlockGroup extends LitElement {
               {this.assistiveText}
             </span>
           ) : null}
-          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
           <div
             ariaBusy={toAriaBoolean(loading, undefined)}
             ariaLabel={label || ""}
@@ -624,6 +626,7 @@ export class BlockGroup extends LitElement {
           >
             <slot onSlotChange={this.handleDefaultSlotChange} />
           </div>
+          {loading ? <calcite-scrim class={CSS.scrim} loading={loading} /> : null}
         </div>
       </this.interactiveContainer>
     );

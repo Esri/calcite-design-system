@@ -149,7 +149,7 @@ export class Notice extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 
@@ -189,12 +189,8 @@ export class Notice extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   //#endregion
 

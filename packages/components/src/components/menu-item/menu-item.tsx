@@ -60,6 +60,10 @@ interface MenuItemSlots {
   "submenu-item": Node[];
 }
 
+/**
+ * @docGroup Menu
+ * @parent calcite-menu
+ */
 export class MenuItem extends LitElement {
   //#region Type-only metadata members
 
@@ -90,7 +94,7 @@ export class MenuItem extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 

@@ -37,10 +37,11 @@
   --calcite-internal-menu-item-border: 1px solid
     var(--calcite-menu-item-sub-menu-border-color, var(--calcite-color-border-3));
 
-  @apply flex
-  items-center
-  relative
-  box-border;
+  display: flex;
+  align-items: center;
+  position: relative;
+  box-sizing: border-box;
+
   flex-shrink: 0;
   & .container,
   & .item-content,
@@ -54,16 +55,20 @@
   --calcite-internal-menu-item-padding-block: var(--calcite-space-md);
   --calcite-internal-menu-item-padding-inline: var(--calcite-space-md);
 
-  @apply w-full;
+  inline-size: 100%;
 }
 
 :host(:not([layout="vertical"])) {
-  @apply h-full;
+  block-size: 100%;
 }
 
 .container,
 .item-content {
-  @apply flex flex-row w-full h-full items-stretch;
+  display: flex;
+  flex-direction: row;
+  inline-size: 100%;
+  block-size: 100%;
+  align-items: stretch;
 }
 
 .item-content {
@@ -77,15 +82,16 @@
 }
 
 .content {
-  @apply flex
-  items-center
-  relative
-  justify-center
-  cursor-pointer
-  outline-none
-  box-border
-  h-full
-  w-full;
+  @include shared.outline-none();
+
+  display: flex;
+  align-items: center;
+  position: relative;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  block-size: 100%;
+  inline-size: 100%;
   text-decoration: none;
   padding-block-start: var(--calcite-space-base);
   border-block-end: var(--calcite-space-base) solid var(--calcite-color-transparent);
@@ -107,7 +113,7 @@
   }
 
   &:focus {
-    @apply focus-inset border-b-4;
+    @include shared.focus-inset();
     padding-block-start: var(--calcite-space-2xs);
     border-block-end-width: var(--calcite-space-2xs);
   }
@@ -122,7 +128,9 @@
   }
 
   &.layout--vertical {
-    @apply flex w-full justify-start;
+    display: flex;
+    inline-size: 100%;
+    justify-content: flex-start;
     padding-block: var(--calcite-internal-menu-item-padding-block);
     border-block-end: 0;
     border-inline-end: var(--calcite-space-2xs) solid var(--calcite-color-transparent);
@@ -327,30 +335,33 @@
 }
 
 .icon--dropdown {
-  @apply ms-auto me-0 ps-2 relative;
+  margin-inline-start: auto;
+  margin-inline-end: var(--calcite-space-none);
+  padding-inline-start: var(--calcite-space-sm);
+  position: relative;
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--dropdown {
-  @apply ms-3;
+  margin-inline-start: var(--calcite-space-md);
 }
 
 :host([layout="vertical"]) .hover-href-icon {
-  @apply ps-2;
+  padding-inline-start: var(--calcite-space-sm);
 }
 
 :host([layout="vertical"]) .hover-href-icon ~ .icon--breadcrumb {
-  @apply ms-3;
+  margin-inline-start: var(--calcite-space-md);
 }
 
 .icon--breadcrumb {
   margin-inline-start: var(--calcite-internal-menu-item-breadcrumb-icon-margin-inline-start);
   padding-inline-start: 0;
 
-  @apply me-0;
+  margin-inline-end: var(--calcite-space-none);
 }
 
 :host([scale="m"]) .icon--breadcrumb {
-  @apply ps-2;
+  padding-inline-start: var(--calcite-space-sm);
 }
 
 :host([breadcrumb][scale="l"][layout="vertical"]) .icon--breadcrumb {
@@ -358,19 +369,21 @@
 }
 
 :host([layout="vertical"]) .icon--breadcrumb ~ .icon--dropdown {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-space-sm);
 }
 
 :host([layout="vertical"]) .icon--end ~ .icon--breadcrumb {
-  @apply ms-2;
+  margin-inline-start: var(--calcite-space-sm);
 }
 
 :host([breadcrumb]) .content {
-  @apply pe-3;
+  padding-inline-end: var(--calcite-space-md);
 }
 
 .dropdown-action {
-  @apply relative self-center;
+  position: relative;
+  align-self: center;
+
   --calcite-action-background-color: var(--calcite-menu-background-color);
   --calcite-action-text-color: var(--calcite-menu-text-color);
   block-size: var(--calcite-internal-menu-item-dropdown-action-block-size);
@@ -378,7 +391,9 @@
   margin-inline-start: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 
   &::after {
-    @apply block w-px  absolute;
+    display: block;
+    inline-size: var(--calcite-space-px);
+    position: absolute;
     content: "";
     inset-inline-start: calc(-1 * var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs)));
     inset-block: var(--calcite-internal-menu-item-dropdown-action-divider-inset-block);
@@ -403,28 +418,33 @@
 }
 
 .dropdown-menu-items {
-  @apply absolute h-auto flex-col hidden overflow-visible min-w-full;
+  position: absolute;
+  block-size: auto;
+  flex-direction: column;
+  display: none;
+  overflow: visible;
+  min-inline-size: 100%;
   box-shadow: var(--calcite-shadow-md);
   border: var(--calcite-internal-menu-item-border);
   border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   inset-block-start: 100%;
   z-index: theme("zIndex.dropdown");
   &.open {
-    @apply block;
+    display: block;
   }
   &.nested {
-    @apply absolute;
+    position: absolute;
     inset-block-start: -1px;
     transform: translateX(calc(100% - 2px));
   }
 }
 
 .parent--vertical {
-  @apply flex-col;
+  flex-direction: column;
 }
 
 .dropdown--vertical.dropdown-menu-items {
-  @apply relative;
+  position: relative;
   box-shadow: none;
   inset-block-start: 0;
   transform: none;
@@ -462,13 +482,17 @@
 }
 
 .hover-href-icon {
-  @apply ms-auto relative end-1 opacity-0;
+  margin-inline-start: auto;
+  position: relative;
+  inset-inline-end: var(--calcite-space-2xs);
+  opacity: 0;
   transition: all var(--calcite-internal-animation-timing-medium) ease-in-out;
 }
 
 .content:focus .hover-href-icon,
 .content:hover .hover-href-icon {
-  @apply opacity-100 -end-1;
+  opacity: var(--calcite-opacity-full);
+  inset-inline-end: calc(-1 * var(--calcite-space-2xs));
 }
 
 @include shared.base-component();
