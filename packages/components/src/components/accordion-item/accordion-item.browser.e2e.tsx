@@ -142,6 +142,16 @@ describe("theme", () => {
           shadowSelector: `.${CSS.expandIcon}`,
           targetProp: "color",
         },
+        "--calcite-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+        ],
       },
     );
   });
@@ -189,16 +199,6 @@ describe("theme", () => {
             },
           ],
           "--calcite-accordion-item-icon-color": [
-            {
-              shadowSelector: `.${CSS.iconStart}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.iconEnd}`,
-              targetProp: "color",
-            },
-          ],
-          "--calcite-ui-icon-color": [
             {
               shadowSelector: `.${CSS.iconStart}`,
               targetProp: "color",

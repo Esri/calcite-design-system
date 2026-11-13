@@ -760,15 +760,6 @@ describe("theme", () => {
   );
 });
 
-describe("deprecated", () => {
-  themed(() => mount(<calcite-panel heading="Hello World" icon="smile" />), {
-    "--calcite-ui-icon-color": {
-      shadowSelector: `.${CSS.icon}`,
-      targetProp: "--calcite-icon-color",
-    },
-  });
-});
-
 describe("focus trap", () => {
   it("applies dialog semantics when closable", async () => {
     await mount<Panel>(<calcite-panel closable heading="Panel heading" />);

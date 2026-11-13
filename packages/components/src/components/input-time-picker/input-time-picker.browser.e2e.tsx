@@ -960,6 +960,28 @@ describe("theme", () => {
       shadowSelector: "calcite-time-picker",
       targetProp: "--calcite-time-picker-border-color",
     },
+    "--calcite-input-time-picker-icon-color": [
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+      {
+        shadowSelector: `.${CSS.clockIcon}`,
+        targetProp: "--calcite-icon-color",
+      },
+    ],
+    "--calcite-input-time-picker-icon-color-hover": [
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+        state: "hover",
+      },
+      {
+        shadowSelector: `.${CSS.toggleIcon}`,
+        targetProp: "--calcite-icon-color",
+        state: { press: `calcite-input-time-picker >>> .${CSS.toggleIcon}` },
+      },
+    ],
   });
 
   const clearButtonContainerSelector = `.${CLEAR_BUTTON_CSS.container}`;
@@ -996,15 +1018,6 @@ describe("theme", () => {
       state: {
         press: `calcite-input-time-picker >>> ${clearButtonContainerSelector} calcite-action`,
       },
-    },
-  });
-});
-
-describe("deprecated", () => {
-  themed(() => mount("calcite-input-time-picker"), {
-    "--calcite-ui-icon-color": {
-      shadowSelector: `.${CSS.container}`,
-      targetProp: "--calcite-icon-color",
     },
   });
 });
