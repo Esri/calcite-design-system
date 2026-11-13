@@ -260,6 +260,10 @@ interface ShellPanelSlots {
   "footer-start": Node[];
 }
 
+/**
+ * @docGroup Shell
+ * @parent calcite-shell
+ */
 export class ShellPanel extends LitElement {
   //#region Type-only metadata members
 
@@ -306,7 +310,7 @@ export class ShellPanel extends LitElement {
     },
   })(this);
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private keyDownHandler = (event: KeyboardEvent): void => {
     if (

@@ -189,6 +189,9 @@ interface InputSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class Input
   extends LitElement
   implements LabelableComponent, NumericInputComponent, TextualInputComponent
@@ -266,7 +269,7 @@ export class Input
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

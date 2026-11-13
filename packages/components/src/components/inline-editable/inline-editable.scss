@@ -3,40 +3,40 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 :host([scale="s"]) {
   .controls-wrapper {
-    @apply h-6;
+    block-size: var(--calcite-space-2xl);
   }
 }
 
 :host([scale="m"]) {
   .controls-wrapper {
-    @apply h-8;
+    block-size: var(--calcite-space-3xl);
   }
 }
 
 :host([scale="l"]) {
   .controls-wrapper {
-    @apply h-11;
+    block-size: var(--calcite-space-4xl);
   }
 }
 
 .wrapper {
   @include shared.transition-default();
-  @apply box-border
-    flex
-    justify-between;
 
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
   background-color: var(
     --calcite-inline-editable-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
 
   .input-wrapper {
-    @apply flex-1;
+    flex: 1 1 0%;
   }
 }
 
@@ -52,7 +52,7 @@
 }
 
 .controls-wrapper {
-  @apply flex;
+  display: flex;
 }
 
 .enable-editing-button {

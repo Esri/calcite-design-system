@@ -59,6 +59,9 @@ interface SegmentedControlSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Segmented Control
+ */
 export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
@@ -93,7 +96,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

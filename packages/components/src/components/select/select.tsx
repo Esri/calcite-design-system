@@ -87,6 +87,9 @@ interface SelectSlots {
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
+/**
+ * @docGroup Select
+ */
 export class Select extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
@@ -123,7 +126,7 @@ export class Select extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

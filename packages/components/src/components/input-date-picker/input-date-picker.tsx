@@ -74,6 +74,8 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 import { logger } from "../../utils/logger";
 import { isSelect } from "../select/resources";
+import { CSS_UTILITY } from "../../utils/resources";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -259,6 +261,9 @@ interface InputDatePickerSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Type-only metadata members
 
@@ -272,7 +277,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -355,7 +360,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -1390,7 +1395,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 scale={this.scale}
                 status={this.status}
               />
-              <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+              <span
+                ariaHidden="true"
+                class={CSS_UTILITY.screenReaderText}
+                id={this.placeholderTextId}
+              >
                 {this.placeholder ||
                   messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>

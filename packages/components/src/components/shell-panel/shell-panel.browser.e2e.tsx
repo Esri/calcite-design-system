@@ -380,6 +380,23 @@ describe("internal panel", () => {
     await expect.element(content).toHaveFocus();
   });
 
+  it("opens a dropdown inside the internal panel", async () => {
+    await mount(
+      <calcite-shell-panel collapseDisabled focusTrapDisabled heading="Map" resizable width="s">
+        <calcite-dropdown overlayPositioning="fixed">
+          <calcite-button slot="trigger">Select landform</calcite-button>
+          <calcite-dropdown-group>
+            <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+          </calcite-dropdown-group>
+        </calcite-dropdown>
+      </calcite-shell-panel>,
+    );
+
+    await userEvent.click(page.getByRole("button", { name: "Select landform" }));
+
+    await expect.element(page.getByRole("menuitemradio", { name: "Mountain" })).toHaveFocus();
+  });
+
   it("ignores collapse toggles from nested panels", async () => {
     const { el } = await mount<ShellPanel>(
       <calcite-shell-panel heading="Tools">

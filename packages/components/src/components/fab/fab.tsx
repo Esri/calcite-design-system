@@ -43,6 +43,9 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Buttons
+ */
 export class Fab extends LitElement {
   //#region Static Members
 
@@ -54,7 +57,7 @@ export class Fab extends LitElement {
 
   private buttonRef = createRef<Button["el"]>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

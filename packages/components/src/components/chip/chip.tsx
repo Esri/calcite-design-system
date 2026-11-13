@@ -75,6 +75,9 @@ interface ChipSlots {
   image: Node[];
 }
 
+/**
+ * @docGroup Chips
+ */
 export class Chip extends LitElement {
   //#region Type-only metadata members
 
@@ -101,7 +104,7 @@ export class Chip extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

@@ -38,6 +38,9 @@ interface CardGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Cards
+ */
 export class CardGroup extends LitElement {
   //#region Type-only metadata members
 
@@ -57,7 +60,7 @@ export class CardGroup extends LitElement {
 
   private slotRef = createRef<HTMLSlotElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

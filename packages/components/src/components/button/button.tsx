@@ -80,6 +80,8 @@ interface ButtonSlots {
  * Passing a 'href' will render an anchor link, instead of a button. Role will be set to link, or button, depending on this.
  *
  * It is the consumers responsibility to add aria information, rel, target, for links, and any button attributes for form submission
+ *
+ * @docGroup Buttons
  */
 export class Button extends LitElement {
   //#region Type-only metadata members
@@ -112,7 +114,7 @@ export class Button extends LitElement {
 
   private resizeObserver = createObserver("resize", () => this.setTooltipText());
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   /**
    * Made into a prop for testing purposes only

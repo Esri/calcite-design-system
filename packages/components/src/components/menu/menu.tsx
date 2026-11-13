@@ -18,6 +18,9 @@ declare global {
 
 type Layout = "horizontal" | "vertical";
 
+/**
+ * @docGroup Menu
+ */
 export class Menu extends LitElement {
   //#region Static Members
 
@@ -40,7 +43,7 @@ export class Menu extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 

@@ -1,10 +1,11 @@
+import { expect, waitFor } from "storybook/test";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Sheet } from "./sheet";
 import "../action/action";
 import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import { Dropdown } from "../dropdown/dropdown";
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -14,13 +15,13 @@ const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 
 type SheetStoryArgs = Pick<
   Sheet,
-  "displayMode" | "heightScale" | "modalDisabled" | "open" | "position" | "resizable" | "width"
+  "displayMode" | "heightScale" | "modal" | "open" | "position" | "resizable" | "width"
 >;
 
 export default {
   title: "Components/Sheet",
   args: {
-    modalDisabled: false,
+    modal: true,
     open: true,
     resizable: false,
     position: logicalFlowPosition.values[0],
@@ -64,36 +65,11 @@ const contentHTML = html`
   <calcite-button slot="footer" width="half" appearance="outline">amet porttitor</calcite-button>
 `;
 
-const nonModalPageContent = html`
-  <style>
-    .non-modal-page-content {
-      box-sizing: border-box;
-      display: grid;
-      gap: var(--calcite-space-md);
-      min-block-size: 100vh;
-      padding: var(--calcite-space-xl);
-    }
-
-    .non-modal-page-content__actions {
-      display: flex;
-      gap: var(--calcite-space-sm);
-    }
-  </style>
-  <main class="non-modal-page-content">
-    <h1>Page content remains available</h1>
-    <p>The controls and content outside the Sheet remain visible and interactive.</p>
-    <div class="non-modal-page-content__actions">
-      <calcite-button>Primary action</calcite-button>
-      <calcite-button appearance="outline">Secondary action</calcite-button>
-    </div>
-  </main>
-`;
-
 export const simple = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     close-disabled
     label="libero nunc"
-    ${boolean("modal-disabled", args.modalDisabled)}
+    ${boolean("modal", args.modal)}
     ${boolean("open", args.open)}
     ${boolean("resizable", args.resizable)}
     position="${args.position}"
@@ -126,6 +102,7 @@ export const headerSlots = (): string => html`
     label="Map layers"
     menu-open
     menu-placement="bottom-start"
+    modal
     open
     top-layer-disabled
   >
@@ -147,7 +124,7 @@ export const panelBackground = (): string => html`
       --calcite-sheet-background-color: var(--calcite-color-foreground-2);
     }
   </style>
-  <calcite-sheet close-disabled class="sheet-panel-background" heading="Layer details" label="Map layers" open>
+  <calcite-sheet close-disabled class="sheet-panel-background" heading="Layer details" label="Map layers" modal open>
     <p>Population density</p>
   </calcite-sheet>
 `;
@@ -158,7 +135,7 @@ export const customPanelBackground = (): string => html`
       --calcite-sheet-background-color: var(--calcite-color-foreground-3);
     }
   </style>
-  <calcite-sheet class="sheet-custom-panel-background" label="Map layers" open>
+  <calcite-sheet class="sheet-custom-panel-background" label="Map layers" modal open>
     <calcite-panel heading="Layers" slot="custom-content">
       <p>Population density</p>
     </calcite-panel>
@@ -166,13 +143,13 @@ export const customPanelBackground = (): string => html`
 `;
 
 export const disabled = (): string => html`
-  <calcite-sheet disabled heading="Layers" label="Map layers" open resizable>
+  <calcite-sheet disabled heading="Layers" label="Map layers" modal open resizable>
     <calcite-button>Add layer</calcite-button>
   </calcite-sheet>
 `;
 
 export const disabledCustomContent = (): string => html`
-  <calcite-sheet disabled label="Map layers" open resizable>
+  <calcite-sheet disabled label="Map layers" modal open resizable>
     <calcite-panel heading="Layers" slot="custom-content">
       <calcite-button>Add layer</calcite-button>
     </calcite-panel>
@@ -192,20 +169,11 @@ export const disabledBackgroundOcclusion = (): string => html`
     }
   </style>
   <div class="disabled-sheet-background"></div>
-  <calcite-sheet disabled heading="Built-in panel" label="Built-in panel" modal-disabled open resizable width="s">
+  <calcite-sheet disabled heading="Built-in panel" label="Built-in panel" open resizable width="s">
     <p>The background stripes must not show through this disabled sheet.</p>
     <calcite-button slot="footer">Add layer</calcite-button>
   </calcite-sheet>
-  <calcite-sheet
-    disabled
-    display-mode="float"
-    label="Custom panel"
-    modal-disabled
-    open
-    position="inline-end"
-    resizable
-    width="s"
-  >
+  <calcite-sheet disabled display-mode="float" label="Custom panel" open position="inline-end" resizable width="s">
     <calcite-panel heading="Custom panel" slot="custom-content">
       <p>The background stripes must not show through this disabled sheet.</p>
       <calcite-button slot="footer">Add layer</calcite-button>
@@ -217,6 +185,7 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
   <calcite-sheet
     close-disabled
     label="libero nunc"
+    modal
     ${boolean("open", args.open)}
     position="${args.position}"
     display-mode="${args.displayMode}"
@@ -226,34 +195,27 @@ export const simpleDarkMode = (args: SheetStoryArgs): string => html`
 `;
 simpleDarkMode.parameters = { themes: modesDarkDefault };
 
-export const modalDisabledInlineEnd = (): string => html`
-  ${nonModalPageContent}
-  <calcite-sheet
-    close-disabled
-    label="Non-modal inline sheet"
-    modal-disabled
-    open
-    position="inline-end"
-    heading="Ultrices neque"
+export const nonModalInlineEnd = (): string => html`
+  <calcite-sheet close-disabled label="Non-modal inline sheet" open position="inline-end" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >
 `;
 
-export const modalDisabledBlockEnd = (): string => html`
-  ${nonModalPageContent}
-  <calcite-sheet
-    close-disabled
-    label="Non-modal block sheet"
-    modal-disabled
-    open
-    position="block-end"
-    heading="Ultrices neque"
+export const nonModalBlockEnd = (): string => html`
+  <calcite-sheet close-disabled label="Non-modal block sheet" open position="block-end" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >
 `;
 
 export const resizable = (): string =>
-  html`<calcite-sheet close-disabled resizable label="libero nunc" open position="inline-start" heading="Ultrices neque"
+  html`<calcite-sheet
+    close-disabled
+    modal
+    resizable
+    label="libero nunc"
+    open
+    position="inline-start"
+    heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >`;
 
@@ -261,6 +223,7 @@ export const resizableRTL = (): string =>
   html`<calcite-sheet
     close-disabled
     dir="rtl"
+    modal
     resizable
     label="libero nunc"
     open
@@ -271,35 +234,55 @@ export const resizableRTL = (): string =>
 
 export const resizableWithDropdown = (): string =>
   html`<calcite-sheet
-      close-disabled
-      width="s"
-      resizable
-      label="libero nunc"
-      open
-      position="inline-start"
-      heading="Map"
-      id="panel-start"
-    >
-      <calcite-dropdown width="m" overlay-positioning="fixed">
-        <calcite-button slot="trigger">Select landform</calcite-button>
-        <calcite-dropdown-group group-title="Natural places">
-          <calcite-dropdown-item>Mountain</calcite-dropdown-item>
-          <calcite-dropdown-item>River</calcite-dropdown-item>
-          <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
-          <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
-          <calcite-dropdown-item>Tundra</calcite-dropdown-item>
-          <calcite-dropdown-item>Desert</calcite-dropdown-item>
-        </calcite-dropdown-group>
-      </calcite-dropdown>
-    </calcite-sheet>
-    <script>
-      document.addEventListener("calciteSheetOpen", (event) => {
-        document.querySelector("calcite-dropdown").open = true;
-      });
-    </script>`;
+    close-disabled
+    focus-trap-disabled
+    width="s"
+    modal
+    resizable
+    label="libero nunc"
+    open
+    position="inline-start"
+    heading="Map"
+    id="panel-start"
+  >
+    <calcite-dropdown width="m" overlay-positioning="fixed">
+      <calcite-button slot="trigger">Select landform</calcite-button>
+      <calcite-dropdown-group group-title="Natural places">
+        <calcite-dropdown-item>Mountain</calcite-dropdown-item>
+        <calcite-dropdown-item>River</calcite-dropdown-item>
+        <calcite-dropdown-item>Waterfall</calcite-dropdown-item>
+        <calcite-dropdown-item>Rainforest</calcite-dropdown-item>
+        <calcite-dropdown-item>Tundra</calcite-dropdown-item>
+        <calcite-dropdown-item>Desert</calcite-dropdown-item>
+      </calcite-dropdown-group>
+    </calcite-dropdown>
+  </calcite-sheet>`;
+
+resizableWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const sheet = canvasElement.querySelector("calcite-sheet")!;
+  const dropdown = canvasElement.querySelector<Dropdown["el"]>("calcite-dropdown")!;
+  const firstItem = canvasElement.querySelector("calcite-dropdown-item");
+
+  await new Promise<void>((resolve) => {
+    sheet.addEventListener("calciteSheetOpen", () => resolve(), { once: true });
+  });
+  dropdown.open = true;
+
+  await waitFor(async () => {
+    await expect(firstItem).toHaveFocus();
+  });
+};
+resizableWithDropdown.parameters = { chromatic: { delay: 0 } };
 
 export const resizableBlockStart = (): string =>
-  html`<calcite-sheet close-disabled resizable label="libero nunc" open position="block-start" heading="Ultrices neque"
+  html`<calcite-sheet
+    close-disabled
+    modal
+    resizable
+    label="libero nunc"
+    open
+    position="block-start"
+    heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >`;
 
@@ -307,6 +290,7 @@ export const resizableFloatInlineStart = (): string =>
   html`<calcite-sheet
     close-disabled
     display-mode="float"
+    modal
     resizable
     label="libero nunc"
     open
@@ -319,6 +303,7 @@ export const resizableFloatInlineEnd = (): string =>
   html`<calcite-sheet
     close-disabled
     display-mode="float"
+    modal
     resizable
     label="libero nunc"
     open
@@ -331,6 +316,7 @@ export const resizableFloatBlockStart = (): string =>
   html`<calcite-sheet
     close-disabled
     display-mode="float"
+    modal
     resizable
     label="libero nunc"
     open
@@ -343,6 +329,7 @@ export const resizableFloatBlockEnd = (): string =>
   html`<calcite-sheet
     close-disabled
     display-mode="float"
+    modal
     resizable
     label="libero nunc"
     open
@@ -352,7 +339,7 @@ export const resizableFloatBlockEnd = (): string =>
   >`;
 
 export const resizableLoremIpsum = (): string =>
-  html`<calcite-sheet resizable label="libero nunc" open position="inline-end" close-disabled
+  html`<calcite-sheet modal resizable label="libero nunc" open position="inline-end" close-disabled
     >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vel viverra purus. Vestibulum fringilla fringilla orci
     ac elementum. Sed viverra risus eu nibh facilisis imperdiet. Maecenas sed semper lacus, imperdiet placerat risus.
     Sed at urna sit amet tellus egestas condimentum a non nisi. Integer vehicula urna eros. Nunc ante quam, porttitor
@@ -374,6 +361,7 @@ export const inlineStartFloat = (): string =>
   html`<calcite-sheet
     close-disabled
     label="libero nunc"
+    modal
     open
     position="inline-start"
     display-mode="float"
@@ -385,6 +373,7 @@ export const blockStartFloat = (): string =>
   html`<calcite-sheet
     close-disabled
     label="libero nunc"
+    modal
     open
     position="block-start"
     display-mode="float"
@@ -393,22 +382,22 @@ export const blockStartFloat = (): string =>
   >`;
 
 export const inlineStart = (): string =>
-  html`<calcite-sheet close-disabled label="libero nunc" open position="inline-start" heading="Ultrices neque"
+  html`<calcite-sheet close-disabled label="libero nunc" modal open position="inline-start" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >`;
 
 export const inlineEnd = (): string =>
-  html`<calcite-sheet close-disabled label="libero nunc" open position="inline-end" heading="Ultrices neque"
+  html`<calcite-sheet close-disabled label="libero nunc" modal open position="inline-end" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >`;
 
 export const blockStart = (): string =>
-  html`<calcite-sheet close-disabled label="libero nunc" open position="block-start" heading="Ultrices neque"
+  html`<calcite-sheet close-disabled label="libero nunc" modal open position="block-start" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >`;
 
 export const blockEnd = (): string =>
-  html`<calcite-sheet close-disabled label="libero nunc" open position="block-end" heading="Ultrices neque"
+  html`<calcite-sheet close-disabled label="libero nunc" modal open position="block-end" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >`;
 
@@ -417,6 +406,7 @@ export const darkModeFloatRTL = (): string =>
     <calcite-sheet
       close-disabled
       label="libero nunc"
+      modal
       open
       position="inline-start"
       display-mode="float"
@@ -434,25 +424,27 @@ export const shadowAcrossModesAndPositions = (): string => html`
       --calcite-sheet-shadow: 0 8px 24px blue;
     }
   </style>
-  <calcite-sheet close-disabled label="overlay + block" open position="block-start" heading="Ultrices neque"
+  <calcite-sheet close-disabled label="overlay + block" modal open position="block-start" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >
   <calcite-sheet
     close-disabled
     display-mode="float"
     label="float + block"
+    modal
     open
     position="block-end"
     heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >
-  <calcite-sheet close-disabled label="overlay + inline" open position="inline-start" heading="Ultrices neque"
+  <calcite-sheet close-disabled label="overlay + inline" modal open position="inline-start" heading="Ultrices neque"
     >${contentHTML}</calcite-sheet
   >
   <calcite-sheet
     close-disabled
     display-mode="float"
     label="float + inline"
+    modal
     open
     position="inline-end"
     heading="Ultrices neque"
