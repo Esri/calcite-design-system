@@ -21581,5 +21581,18 @@
     "category": "Charts and Graphs",
     "release": "4.6.1",
     "codepoint": null
+  },
+  "filter-x": {
+    "alias": [
+      "4.7.0",
+      "gis",
+      "modify",
+      "data",
+      "features",
+      "analysis"
+    ],
+    "category": "GIS",
+    "release": "4.7.0",
+    "codepoint": null
   }
 }
