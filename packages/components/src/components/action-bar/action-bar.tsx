@@ -830,14 +830,10 @@ export class ActionBar extends LitElement {
       group.scale = this.scale;
     });
 
-    void this.syncNavItemsAfterRender();
+    this.syncNavItems();
   }
 
-  private async syncNavItemsAfterRender(): Promise<void> {
-    const { actionGroups } = this;
-
-    await Promise.all(actionGroups.map((group) => group.componentOnReady()));
-
+  private syncNavItems(): void {
     if (!this.el.isConnected) {
       return;
     }
