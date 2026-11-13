@@ -25,7 +25,7 @@ describe(getLocaleData, () => {
     expect(dateLocaleDataCache).toHaveProperty("zh-CN");
   });
 
-  it("supports locales without a manually maintained allowlist", () => {
+  it("supports regional locales without a manually maintained allowlist", () => {
     const localeData = getLocaleData("de-AT");
 
     expect(localeData.months.wide).toHaveLength(12);

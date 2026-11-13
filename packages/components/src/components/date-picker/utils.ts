@@ -1,4 +1,5 @@
 import { defaultLocale } from "@arcgis/toolkit/intl";
+import { once } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { dateFromISO } from "../../utils/date";
 import { getDateFormatSupportedLocale, getDateTextSupportedLocale, Locale } from "../../utils/locale";
@@ -10,6 +11,12 @@ type MinMaxType = "min" | "max";
 
 /**
  * Locale data used for calendar rendering and date input parsing.
+ *
+ * This shape previously came from manually maintained NLS bundles. It is now derived from `Intl` so calendar data
+ * follows the browser's locale data without requiring a bundle for every locale. Each field is derived on first access
+ * to avoid creating formatters for data a component does not use. Targeted browser compatibility mappings remain in
+ * the shared locale utilities, and `days.short` uses the closest available `Intl` width because `Intl` does not expose
+ * CLDR's two-character weekday width.
  *
  * @private
  */
@@ -52,34 +59,6 @@ export const dateLocaleFormatterCache: Record<string, Intl.DateTimeFormat> = {};
 const dateForLocaleData = new Date(Date.UTC(2006, 10, 22));
 const monthDates = Array.from({ length: 12 }, (_, month) => new Date(Date.UTC(2006, month, 1)));
 const weekDates = Array.from({ length: 7 }, (_, day) => new Date(Date.UTC(2006, 0, day + 1)));
-
-function memoize<T>(getValue: () => T): () => T {
-  let value: T;
-  let initialized = false;
-  return () => {
-    if (!initialized) {
-      value = getValue();
-      initialized = true;
-    }
-    return value;
-  };
-}
-
-function normalizeDateLocale(locale: Locale): Locale {
-  if (!locale) {
-    return defaultLocale;
-  }
-
-  try {
-    return Intl.getCanonicalLocales(locale)[0];
-  } catch {
-    try {
-      return Intl.getCanonicalLocales(locale.split("-")[0])[0];
-    } catch {
-      return defaultLocale;
-    }
-  }
-}
 
 function getCalendar(locale: Locale): DateLocaleData["default-calendar"] {
   const formatter = getLocaleFormatter(locale, "calendar");
@@ -154,15 +133,10 @@ function getShortWeekdayNames(locale: Locale, abbreviatedWeekdays: string[]): st
 }
 
 function getWeekStart(locale: Locale): number {
-  const intlLocale = new Intl.Locale(locale) as Intl.Locale & {
-    getWeekInfo?: () => { firstDay: number };
-    weekInfo?: { firstDay: number };
+  const localeWithWeekInfo = new Intl.Locale(locale) as Intl.Locale & {
+    getWeekInfo: () => { firstDay: number };
   };
-  const weekInfo = intlLocale.getWeekInfo?.() ?? intlLocale.weekInfo;
-  if (!weekInfo) {
-    throw new Error(`Week information is not available for locale "${locale}"`);
-  }
-  return weekInfo.firstDay;
+  return localeWithWeekInfo.getWeekInfo().firstDay;
 }
 
 function getYearSuffix(locale: Locale): string | undefined {
@@ -180,23 +154,23 @@ function getYearSuffix(locale: Locale): string | undefined {
  * Returns lazily derived locale data used for localized calendar rendering.
  */
 export function getLocaleData(locale: Locale): DateLocaleData {
-  locale = normalizeDateLocale(locale);
+  const normalizedLocale = Intl.getCanonicalLocales(locale || defaultLocale)[0];
 
-  if (dateLocaleDataCache[locale]) {
-    return dateLocaleDataCache[locale];
+  if (dateLocaleDataCache[normalizedLocale]) {
+    return dateLocaleDataCache[normalizedLocale];
   }
 
-  const dateFormatLocale = getDateFormatSupportedLocale(locale);
-  const dateTextLocale = getDateTextSupportedLocale(locale);
-  const calendar = memoize(() => getCalendar(dateFormatLocale));
-  const datePattern = memoize(() => getDatePattern(dateFormatLocale));
-  const abbreviatedMonths = memoize(() => getMonthNames(dateTextLocale, "abbreviated"));
-  const wideMonths = memoize(() => getMonthNames(dateTextLocale, "wide"));
-  const abbreviatedWeekdays = memoize(() => getWeekdayNames(dateTextLocale, "abbreviated"));
-  const narrowWeekdays = memoize(() => getWeekdayNames(dateTextLocale, "narrow"));
-  const shortWeekdays = memoize(() => getShortWeekdayNames(dateTextLocale, abbreviatedWeekdays()));
-  const weekStart = memoize(() => getWeekStart(locale));
-  const yearSuffix = memoize(() => getYearSuffix(dateTextLocale));
+  const dateFormatLocale = getDateFormatSupportedLocale(normalizedLocale);
+  const dateTextLocale = getDateTextSupportedLocale(normalizedLocale);
+  const calendar = once(() => getCalendar(dateFormatLocale));
+  const datePattern = once(() => getDatePattern(dateFormatLocale));
+  const abbreviatedMonths = once(() => getMonthNames(dateTextLocale, "abbreviated"));
+  const wideMonths = once(() => getMonthNames(dateTextLocale, "wide"));
+  const abbreviatedWeekdays = once(() => getWeekdayNames(dateTextLocale, "abbreviated"));
+  const narrowWeekdays = once(() => getWeekdayNames(dateTextLocale, "narrow"));
+  const shortWeekdays = once(() => getShortWeekdayNames(dateTextLocale, abbreviatedWeekdays()));
+  const weekStart = once(() => getWeekStart(normalizedLocale));
+  const yearSuffix = once(() => getYearSuffix(dateTextLocale));
   const localeData: DateLocaleData = {
     get "default-calendar"() {
       return calendar();
@@ -238,7 +212,7 @@ export function getLocaleData(locale: Locale): DateLocaleData {
     },
   };
 
-  return (dateLocaleDataCache[locale] = localeData);
+  return (dateLocaleDataCache[normalizedLocale] = localeData);
 }
 
 /**
