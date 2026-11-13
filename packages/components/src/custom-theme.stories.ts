@@ -107,7 +107,7 @@ import { swatch, swatchTokens } from "./custom-theme/swatch";
 import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
 import { inputTimeZone, inputTimeZoneTokens } from "./custom-theme/input-time-zone";
-import { colorPicker, colorPickerTokens } from "./custom-theme/color-picker";
+import { colorPicker, colorPickerFieldDisabled, colorPickerTokens } from "./custom-theme/color-picker";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -263,7 +263,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${splitButton}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${colorPicker}</div>
+      <div class="demo-column">${colorPicker} ${colorPickerFieldDisabled}</div>
     </div>
   </div>`;
 
