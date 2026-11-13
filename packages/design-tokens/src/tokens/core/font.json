@@ -180,64 +180,6 @@
           "$type": "fontWeights",
           "$value": "Heavy"
         }
-      },
-      "text-decoration": {
-        "none": {
-          "attributes": {
-            "category": "font",
-            "docs": "deprecated"
-          },
-          "$type": "textDecoration",
-          "$value": "none",
-          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
-        },
-        "underline": {
-          "attributes": {
-            "category": "font",
-            "docs": "deprecated"
-          },
-          "$type": "textDecoration",
-          "$value": "underline",
-          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
-        }
-      },
-      "text-case": {
-        "none": {
-          "attributes": {
-            "category": "font",
-            "docs": "deprecated"
-          },
-          "$type": "textCase",
-          "$value": "none",
-          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
-        },
-        "uppercase": {
-          "attributes": {
-            "category": "font",
-            "docs": "deprecated"
-          },
-          "$type": "textCase",
-          "$value": "uppercase",
-          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
-        },
-        "lowercase": {
-          "attributes": {
-            "category": "font",
-            "docs": "deprecated"
-          },
-          "$type": "textCase",
-          "$value": "lowercase",
-          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
-        },
-        "capitalize": {
-          "attributes": {
-            "category": "font",
-            "docs": "deprecated"
-          },
-          "$type": "textCase",
-          "$value": "capitalize",
-          "$description": "Deprecated in v3.0.0, removal target v5.0.0 - No longer needed."
-        }
       }
     }
   }
