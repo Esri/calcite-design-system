@@ -829,6 +829,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   }
 
   private navigateActiveItem(direction: RovingTabIndexDirection): void {
+    this.focusActiveItemOnOpen = true;
     const activeItem = this.rovingTabIndex.navigate(direction);
     if (activeItem) {
       void this.scrollActiveItemIntoView(activeItem);

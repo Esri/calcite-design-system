@@ -374,6 +374,58 @@ describe("hover type", () => {
     await expect.element(page.getBySelector("#item-2")).toHaveFocus();
   });
 
+  describe.each(["slotted", "reference"])("%s trigger", (mode) => {
+    it.each([
+      ["ArrowDown", "First"],
+      ["ArrowUp", "Last"],
+      ["Home", "First"],
+      ["End", "Last"],
+    ])("enters a pointer-reopened menu with %s after Escape", async (key, itemName) => {
+      const { el, component } = await mount<Dropdown>(
+        <>
+          {mode === "reference" ? (
+            <button id="trigger" type="button">
+              Open dropdown
+            </button>
+          ) : null}
+          <calcite-dropdown
+            referenceElement={mode === "reference" ? "trigger" : undefined}
+            type="hover"
+          >
+            {mode === "slotted" ? (
+              <button slot="trigger" type="button">
+                Open dropdown
+              </button>
+            ) : null}
+            <calcite-dropdown-group>
+              <calcite-dropdown-item>First</calcite-dropdown-item>
+              <calcite-dropdown-item>Last</calcite-dropdown-item>
+            </calcite-dropdown-group>
+          </calcite-dropdown>
+          <button type="button">Outside</button>
+        </>,
+      );
+      const waitForFocusUpdates = trackFocusUpdates(component);
+      const trigger = page.getByRole("button", { name: "Open dropdown" });
+
+      await userEvent.click(trigger);
+      await expect.element(page.getByRole("menuitemradio", { name: "First" })).toHaveFocus();
+      await userEvent.keyboard("{Escape}");
+      await waitForFocusUpdates();
+      await expect.element(el).toHaveProperty("open", false);
+      await expect.element(trigger).toHaveFocus();
+
+      await userEvent.hover(page.getByRole("button", { name: "Outside" }));
+      await userEvent.hover(trigger);
+      await expect.element(el).toHaveProperty("open", true);
+      await waitForFocusUpdates();
+      await expect.element(trigger).toHaveFocus();
+      await userEvent.keyboard(`{${key}}`);
+
+      await expect.element(page.getByRole("menuitemradio", { name: itemName })).toHaveFocus();
+    });
+  });
+
   it("does not toggle closed on click when type is hover", async () => {
     const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
     const trigger = page.getByText("Open dropdown");
