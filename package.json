@@ -45,7 +45,6 @@
     "@types/github-script": "github:actions/github-script",
     "@types/node": "catalog:",
     "@types/semver": "catalog:",
-    "@types/shell-quote": "catalog:",
     "concurrently": "catalog:",
     "conventional-changelog-conventionalcommits": "catalog:",
     "dedent": "catalog:",
@@ -60,7 +59,6 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "semver": "catalog:",
-    "shell-quote": "catalog:",
     "stylelint": "catalog:",
     "turbo": "catalog:",
     "type-fest": "catalog:",
@@ -81,13 +79,7 @@
     }
   },
   "dependencies": {
-    "@inquirer/select": "catalog:",
     "change-case": "catalog:",
     "patch-package": "catalog:"
-  },
-  "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "catalog:",
-    "@nx/nx-linux-x64-gnu": "catalog:",
-    "@nx/nx-win32-x64-msvc": "catalog:"
   }
 }

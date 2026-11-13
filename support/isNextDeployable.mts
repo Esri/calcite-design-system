@@ -4,6 +4,7 @@ import { promisify } from "node:util";
 /*
  * This script is meant to be run by a CI environment during the deploy phase.
  * It throws an error if there are not release-worthy (deployable) changes.
+ * A manual next release accepts any commit type, but requires changes since the last release.
  *
  * Based on https://github.com/conventional-changelog/standard-version/issues/192#issuecomment-610494804
  */
@@ -41,6 +42,11 @@ import { promisify } from "node:util";
    */
   async function deployable(fromRef = "HEAD", toRef = "HEAD"): Promise<boolean> {
     const subjectLog = await runGit("log", `${fromRef}..${toRef} --format='%s'`);
+
+    if (process.env.MANUAL_NEXT_RELEASE === "true") {
+      return subjectLog.length > 0;
+    }
+
     const bodyLog = await runGit("log", `${fromRef}..${toRef} --format='%b'`);
 
     const deployableCommitTypeHeaderPattern = /^(feat|fix)(\(.*\))?:.+$/im;

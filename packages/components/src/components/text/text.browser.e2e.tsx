@@ -5,6 +5,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, accessible } from "../../tests/common";
 import { Text } from "./text";
 import { CSS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 const text = "This is a very long text that will be truncated";
 const updatedText = "Updated text that is also long enough to truncate";
@@ -129,7 +130,7 @@ describe("tooltip", () => {
         {text}
       </calcite-text>,
     );
-    const assistiveTextEl = page.getBySelector(`.${CSS.assistiveText}`);
+    const assistiveTextEl = page.getBySelector(`.${CSS_UTILITY.screenReaderText}`);
     await expect.element(assistiveTextEl).toHaveTextContent(text);
     el.textContent = "text that fits";
     await component.updateComplete;

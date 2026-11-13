@@ -213,6 +213,9 @@ interface TableSlots {
   "selection-actions": Node[];
 }
 
+/**
+ * @docGroup Table
+ */
 export class Table extends LitElement {
   //#region Type-only metadata members
 

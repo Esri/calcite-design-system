@@ -7,19 +7,21 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block
-  cursor-pointer;
+  display: block;
+  cursor: pointer;
 
   .container {
-    @apply relative
-    outline-none;
+    @include shared.outline-none();
+
+    position: relative;
     display: flex;
   }
 
   .radio {
     @include shared.transition-default();
-    @apply cursor-pointer
-    focus-base;
+
+    cursor: pointer;
+    outline-color: var(--calcite-color-transparent);
     border-radius: var(--calcite-radio-button-corner-radius, var(--calcite-corner-radius-pill));
     background-color: var(
       --calcite-radio-button-background-color,
@@ -44,14 +46,14 @@
 
 :host([focused]) {
   .radio {
-    @apply focus-outset;
+    @include shared.focus-outset();
   }
 }
 
 @include shared.disabled() {
   .radio {
-    @apply opacity-disabled
-    cursor-default;
+    opacity: var(--calcite-opacity-disabled);
+    cursor: default;
   }
 }
 
@@ -136,7 +138,7 @@
 }
 :host([status="invalid"]:not([checked]):focus) {
   .radio {
-    @apply focus-outset-danger;
+    @include shared.focus-outset-danger();
   }
 }
 

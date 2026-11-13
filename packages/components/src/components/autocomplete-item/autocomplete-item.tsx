@@ -47,6 +47,10 @@ interface AutocompleteItemSlots {
   "content-start": Node[];
 }
 
+/**
+ * @docGroup Autocomplete
+ * @parent calcite-autocomplete
+ */
 export class AutocompleteItem extends LitElement {
   //#region Type-only metadata members
 
