@@ -1110,21 +1110,15 @@ export class InputNumber
 
     const previousDraftValue = this.valueForEditing;
     const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
-    const isValueDeleted =
-      this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
-    const hasTrailingDecimalSeparator =
-      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+    const hasTrailingDecimalSeparator = value.endsWith(".");
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -1144,8 +1138,8 @@ export class InputNumber
     }
 
     // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
-      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
+    if (hasTrailingDecimalSeparator) {
+      newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
     }
 
     // adds localized leading zeros
