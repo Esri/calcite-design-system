@@ -10,8 +10,6 @@ export const CSS = {
   containerHeight: "container-height",
 };
 
-export type SelectionAppearance = "border" | "highlight" | "icon";
-
 export const SLOTS = {
   emptyContent: "empty-content",
   filterNoResults: "filter-no-results",

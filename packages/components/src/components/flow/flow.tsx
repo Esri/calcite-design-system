@@ -35,6 +35,9 @@ interface FlowSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Flow
+ */
 export class Flow extends LitElement {
   //#region Type-only metadata members
 

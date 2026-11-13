@@ -13,7 +13,9 @@ $floating-ui-transition-offset: 5px;
     transition-property: inset, left, opacity, display;
     opacity: 0;
     box-shadow: $floating-ui-shadow;
-    @apply rounded z-default;
+    border-radius: var(--calcite-corner-radius-sm);
+    z-index: var(--calcite-z-index);
+
     @include floating-ui-anim-starting-style;
   }
 }
@@ -59,7 +61,8 @@ $floating-ui-transition-offset: 5px;
       transition-behavior: allow-discrete;
       opacity: 0;
       box-shadow: $floating-ui-shadow;
-      @apply rounded z-default;
+      border-radius: var(--calcite-corner-radius-sm);
+      z-index: var(--calcite-z-index);
     }
 
     &[data-placement^="bottom"] .calcite-floating-ui-anim {
@@ -113,10 +116,10 @@ $floating-ui-transition-offset: 5px;
 
 @mixin floating-ui-arrow {
   .calcite-floating-ui-arrow {
-    @apply -z-default
-    absolute
-    pointer-events-none
-    fill-background-foreground-1;
+    z-index: calc(var(--calcite-z-index) * -1);
+    position: absolute;
+    pointer-events: none;
+    fill: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
   }
 
   .calcite-floating-ui-arrow__stroke {

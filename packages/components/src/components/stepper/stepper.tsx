@@ -58,6 +58,9 @@ interface StepperSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Stepper
+ */
 export class Stepper extends LitElement {
   //#region Type-only metadata members
 
