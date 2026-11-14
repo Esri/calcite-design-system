@@ -116,13 +116,13 @@
   }
 
   .step-bar--inactive {
-    fill: var(--calcite-stepper-bar-inactive-fill-color, var(--calcite-color-border-3, #dfdfdf));
+    fill: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-3, #dfdfdf));
     fill-opacity: 1;
     block-size: 100%;
   }
 
   .step-bar--active {
-    fill: var(--calcite-stepper-bar-active-fill-color, var(--calcite-color-brand));
+    fill: var(--calcite-stepper-bar-selected-fill-color, var(--calcite-color-brand));
   }
 
   .step-bar--complete {

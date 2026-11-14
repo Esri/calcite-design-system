@@ -209,11 +209,11 @@ describe("theme", () => {
           shadowSelector: `.${CSS.stepBarContainer}`,
           targetProp: "gap",
         },
-        "--calcite-stepper-bar-inactive-fill-color": {
+        "--calcite-stepper-bar-fill-color": {
           shadowSelector: `.${CSS.stepBarInactive}`,
           targetProp: "fill",
         },
-        "--calcite-stepper-bar-active-fill-color": {
+        "--calcite-stepper-bar-selected-fill-color": {
           shadowSelector: `.${CSS.stepBarActive}`,
           targetProp: "fill",
         },
