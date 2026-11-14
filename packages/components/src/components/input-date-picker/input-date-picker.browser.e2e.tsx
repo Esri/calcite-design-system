@@ -862,18 +862,22 @@ describe("value changes", () => {
     expect(changeEventHandler).toHaveBeenCalledTimes(3);
   });
 
-  it("preserves invalid free-form input without emitting", async () => {
-    const changeEventHandler = vi.fn();
-    await mount<InputDatePicker>(
-      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
-    );
+  it.each(["3/7/", "not a date 3/7/2020"])(
+    "preserves invalid free-form input without emitting (%s)",
+    async (input) => {
+      const changeEventHandler = vi.fn();
+      const { el } = await mount<InputDatePicker>(
+        <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
+      );
 
-    await userEvent.click(getDateInput());
-    await userEvent.keyboard("3/7/{Enter}");
+      await userEvent.click(getDateInput());
+      await userEvent.keyboard(`${input}{Enter}`);
 
-    expect(changeEventHandler).not.toHaveBeenCalled();
-    await expect.element(getDateInput()).toHaveValue("3/7/");
-  });
+      await expect.element(el).toHaveValue("");
+      expect(changeEventHandler).not.toHaveBeenCalled();
+      await expect.element(getDateInput()).toHaveValue(input);
+    },
+  );
 
   it("emits once when a programmatic valueAsDate is changed by the user", async () => {
     const changeEventHandler = vi.fn();
