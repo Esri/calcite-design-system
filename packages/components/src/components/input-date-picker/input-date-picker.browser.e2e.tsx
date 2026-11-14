@@ -1602,6 +1602,28 @@ describe("localization", () => {
   });
 
   describe("regional date handling", () => {
+    it.each(["da", "de", "mk", "ro", "tr"])(
+      "preserves the localized selection on blur (%s)",
+      async (locale) => {
+        const { el } = await mount(
+          <>
+            <calcite-input-date-picker lang={locale} value="2023-05-31" />
+            <button type="button">Move focus</button>
+          </>,
+        );
+        const input = page.getByRole("combobox");
+        const next = page.getByRole("button", { name: "Move focus" });
+
+        await userEvent.click(input);
+        await userEvent.keyboard("{Escape}");
+        await expect.element(el).toHaveProperty("open", false);
+        await userEvent.click(next);
+        await expect.element(next).toHaveFocus();
+
+        expect(el).toHaveValue("2023-05-31");
+      },
+    );
+
     const testLocaleDateSelection = async (locale: string, expectedFormattedValue?: string) => {
       const { el, reRender } = await mount(
         <calcite-input-date-picker lang={locale} value="2023-05-31" />,

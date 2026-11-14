@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { supportedNlsLocales } from "../components/date-picker/utils";
+import { supportedLocales } from "@arcgis/toolkit/intl";
 import { numberStringFormatter } from "./locale";
 import {
   BigDecimal,
@@ -207,7 +207,7 @@ describe("BigDecimal", () => {
     expect(numberStringFormatter.delocalize(expectedValue)).toBe(testValue);
   });
 
-  supportedNlsLocales.forEach((locale) => {
+  supportedLocales.forEach((locale) => {
     it(`correctly localizes number parts - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -260,7 +260,7 @@ describe("addLocalizedTrailingDecimalZeros", () => {
     return `${localizedValue}`.padEnd(localizedValue.length + trailingZeros, localizedZeroValue);
   }
 
-  supportedNlsLocales.forEach((locale) => {
+  supportedLocales.forEach((locale) => {
     it(`add back sanitized trailing decimal zero values - ${locale}`, () => {
       numberStringFormatter.numberFormatOptions = {
         locale,

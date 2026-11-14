@@ -1,17 +1,22 @@
-import { defaultLocale, normalizeLocale, supportedLocales } from "@arcgis/toolkit/intl";
+import { defaultLocale } from "@arcgis/toolkit/intl";
+import { once } from "es-toolkit";
 import { PropertyValues } from "lit";
 import { dateFromISO } from "../../utils/date";
-import { getAssetPath } from "../../runtime";
-import { Locale } from "../../utils/locale";
+import { getDateFormatSupportedLocale, getDateTextSupportedLocale, Locale } from "../../utils/locale";
 import type { DatePicker } from "./date-picker";
-import { logger } from "../../utils/logger";
 
 type MinSource = Extract<keyof DatePicker, "min" | "minAsDate">;
 type MaxSource = Extract<keyof DatePicker, "max" | "maxAsDate">;
 type MinMaxType = "min" | "max";
 
 /**
- * Translation resource data structure
+ * Locale data used for calendar rendering and date input parsing.
+ *
+ * This shape previously came from manually maintained NLS bundles. It is now derived from `Intl` so calendar data
+ * follows the browser's locale data without requiring a bundle for every locale. Each field is derived on first access
+ * to avoid creating formatters for data a component does not use. Targeted browser compatibility mappings remain in
+ * the shared locale utilities, and `days.short` uses the closest available `Intl` width because `Intl` does not expose
+ * CLDR's two-character weekday width.
  *
  * @private
  */
@@ -25,12 +30,9 @@ export interface DateLocaleData {
     abbreviated?: string[];
     narrow?: string[];
     short?: string[];
-    wide?: string[];
   };
-  numerals: string;
   months: {
     abbreviated: string[];
-    narrow: string[];
     wide: string[];
   };
   year?: {
@@ -39,79 +41,178 @@ export interface DateLocaleData {
 }
 
 /**
- * CLDR cache.
+ * Date locale data cache.
  * Exported for testing purposes.
  *
  * @private
  */
-export const translationCache: Record<Locale, DateLocaleData> = {};
+export const dateLocaleDataCache: Record<Locale, DateLocaleData> = {};
 
 /**
- * CLDR request cache.
+ * Date locale formatter cache.
  * Exported for testing purposes.
  *
  * @private
  */
-export const requestCache: Record<Locale, Promise<DateLocaleData>> = {};
+export const dateLocaleFormatterCache: Record<string, Intl.DateTimeFormat> = {};
 
-/**
- * Additional locales supported by NLS data but not by the main intl package
- */
-const extraNlsLocales = [
-  "de-AT",
-  "de-CH",
-  "en-AU",
-  "en-CA",
-  "en-GB",
-  "es-MX",
-  "fr-CA",
-  "fr-CH",
-  "hi",
-  "it-CH",
-  "mk",
-  "pt",
-] as const;
+const dateForLocaleData = new Date(Date.UTC(2006, 10, 22));
+const monthDates = Array.from({ length: 12 }, (_, month) => new Date(Date.UTC(2006, month, 1)));
+const weekDates = Array.from({ length: 7 }, (_, day) => new Date(Date.UTC(2006, 0, day + 1)));
 
-export const supportedNlsLocales = [...supportedLocales, ...extraNlsLocales];
+function getCalendar(locale: Locale): DateLocaleData["default-calendar"] {
+  const formatter = getLocaleFormatter(locale, "calendar");
+  return formatter.resolvedOptions().calendar === "buddhist" ? "buddhist" : "gregorian";
+}
 
-/**
- * Normalizes locale to match NLS bundles used by date-picker's calendar rendering
- */
-function normalizeNlsLocale(locale: Locale): (typeof supportedNlsLocales)[number] {
-  if (!locale) {
-    return defaultLocale;
+function getLocaleFormatter(
+  locale: Locale,
+  cacheKey: string,
+  options: Intl.DateTimeFormatOptions = {},
+): Intl.DateTimeFormat {
+  const key = `${locale}:${cacheKey}`;
+  if (!dateLocaleFormatterCache[key]) {
+    const calendar = cacheKey === "calendar" ? undefined : getCalendar(locale) === "buddhist" ? "buddhist" : "gregory";
+    dateLocaleFormatterCache[key] = new Intl.DateTimeFormat(locale, {
+      ...options,
+      ...(calendar && { calendar }),
+      timeZone: "UTC",
+    });
   }
+  return dateLocaleFormatterCache[key];
+}
 
-  const localeParts = locale.split("-");
-  locale = `${localeParts[0].toLowerCase()}${localeParts.length >= 2 ? `-${localeParts[1].toUpperCase()}` : ""}`;
+function getDatePattern(locale: Locale): {
+  placeholder: string;
+  separator: string;
+  unitOrder: string;
+} {
+  const parts = getLocaleFormatter(locale, "date-pattern", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).formatToParts(dateForLocaleData);
+  const placeholder = parts
+    .map(({ type, value }) => {
+      switch (type) {
+        case "day":
+          return "DD";
+        case "month":
+          return "MM";
+        case "year":
+          return "YYYY";
+        default:
+          return value;
+      }
+    })
+    .join("");
 
-  if (extraNlsLocales.includes(locale as (typeof extraNlsLocales)[number])) {
-    return locale as (typeof supportedNlsLocales)[number];
-  }
+  return {
+    placeholder,
+    separator: parts.find(({ type }) => type === "literal")?.value.replace(/\s/gu, "") || "/",
+    unitOrder: placeholder,
+  };
+}
 
-  return normalizeLocale(locale);
+function getMonthNames(locale: Locale, width: "abbreviated" | "wide"): string[] {
+  const month = width === "abbreviated" ? "short" : "long";
+  const formatter = getLocaleFormatter(locale, `months-${width}`, { month });
+  return monthDates.map((date) => formatter.format(date));
+}
+
+function getWeekdayNames(locale: Locale, width: "abbreviated" | "narrow"): string[] {
+  const weekday = width === "abbreviated" ? "short" : "narrow";
+  const formatter = getLocaleFormatter(locale, `weekdays-${width}`, { weekday });
+  return weekDates.map((date) => formatter.format(date));
+}
+
+function getShortWeekdayNames(locale: Locale, abbreviatedWeekdays: string[]): string[] {
+  // Intl does not expose CLDR's two-character weekday width. Use the next-best short width for now.
+  // pt-PT's short width contains full words, while generic Portuguese exposes the expected compact forms.
+  return locale === "pt-PT" ? getWeekdayNames("pt", "abbreviated") : abbreviatedWeekdays;
+}
+
+function getWeekStart(locale: Locale): number {
+  const localeWithWeekInfo = new Intl.Locale(locale) as Intl.Locale & {
+    getWeekInfo: () => { firstDay: number };
+  };
+  return localeWithWeekInfo.getWeekInfo().firstDay;
+}
+
+function getYearSuffix(locale: Locale): string | undefined {
+  const parts = getLocaleFormatter(locale, "year", { year: "numeric" }).formatToParts(dateForLocaleData);
+  const yearIndex = parts.findIndex(({ type }) => type === "year");
+  const suffix = parts
+    .slice(yearIndex + 1)
+    .filter(({ type }) => type === "literal")
+    .map(({ value }) => value)
+    .join("");
+  return suffix || undefined;
 }
 
 /**
- * Fetch NLS data used for localized calendar rendering
+ * Returns lazily derived locale data used for localized calendar rendering.
  */
-export async function getLocaleData(locale: Locale): Promise<DateLocaleData> {
-  locale = normalizeNlsLocale(locale);
+export function getLocaleData(locale: Locale): DateLocaleData {
+  const normalizedLocale = Intl.getCanonicalLocales(locale || defaultLocale)[0];
 
-  if (translationCache[locale]) {
-    return translationCache[locale];
+  if (dateLocaleDataCache[normalizedLocale]) {
+    return dateLocaleDataCache[normalizedLocale];
   }
 
-  if (!requestCache[locale]) {
-    requestCache[locale] = fetch(getAssetPath(`./assets/date-picker/nls/${locale}.json`))
-      .then((resp) => resp.json())
-      .catch(() => {
-        logger.error(`Native Language Support data for "${locale}" not found or invalid, falling back to english`);
-        return getLocaleData(defaultLocale);
-      });
-  }
+  const dateFormatLocale = getDateFormatSupportedLocale(normalizedLocale);
+  const dateTextLocale = getDateTextSupportedLocale(normalizedLocale);
+  const calendar = once(() => getCalendar(dateFormatLocale));
+  const datePattern = once(() => getDatePattern(dateFormatLocale));
+  const abbreviatedMonths = once(() => getMonthNames(dateTextLocale, "abbreviated"));
+  const wideMonths = once(() => getMonthNames(dateTextLocale, "wide"));
+  const abbreviatedWeekdays = once(() => getWeekdayNames(dateTextLocale, "abbreviated"));
+  const narrowWeekdays = once(() => getWeekdayNames(dateTextLocale, "narrow"));
+  const shortWeekdays = once(() => getShortWeekdayNames(dateTextLocale, abbreviatedWeekdays()));
+  const weekStart = once(() => getWeekStart(normalizedLocale));
+  const yearSuffix = once(() => getYearSuffix(dateTextLocale));
+  const localeData: DateLocaleData = {
+    get "default-calendar"() {
+      return calendar();
+    },
+    get separator() {
+      return datePattern().separator;
+    },
+    get unitOrder() {
+      return datePattern().unitOrder;
+    },
+    get weekStart() {
+      return weekStart();
+    },
+    get placeholder() {
+      return datePattern().placeholder;
+    },
+    days: {
+      get abbreviated() {
+        return abbreviatedWeekdays();
+      },
+      get narrow() {
+        return narrowWeekdays();
+      },
+      get short() {
+        return shortWeekdays();
+      },
+    },
+    months: {
+      get abbreviated() {
+        return abbreviatedMonths();
+      },
+      get wide() {
+        return wideMonths();
+      },
+    },
+    get year() {
+      const suffix = yearSuffix();
+      return suffix ? { suffix } : undefined;
+    },
+  };
 
-  return (translationCache[locale] = await requestCache[locale]);
+  return (dateLocaleDataCache[normalizedLocale] = localeData);
 }
 
 /**
