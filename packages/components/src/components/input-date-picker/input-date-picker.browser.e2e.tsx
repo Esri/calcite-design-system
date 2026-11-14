@@ -1108,6 +1108,7 @@ describe("focus trapping", () => {
       </>,
     );
     const next = page.getByRole("button", { name: "Next sibling" });
+    const calendar = page.getBySelector("calcite-input-date-picker calcite-date-picker");
 
     await el.setFocus();
     await userEvent.keyboard(range ? "{Tab}{Tab}" : "{Tab}");
@@ -1115,12 +1116,41 @@ describe("focus trapping", () => {
 
     await userEvent.keyboard(range ? "{Shift>}{Tab}{Tab}{/Shift}" : "{Shift>}{Tab}{/Shift}");
     await userEvent.keyboard("{ArrowDown}");
+    await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
     await expect.element(getCalendar()).toBeVisible();
-    await userEvent.keyboard("{Shift>}{Tab}{/Shift}{Tab}");
-    await expect.element(getCalendar()).toBeVisible();
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
+    await userEvent.keyboard("{Tab}");
+    await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
 
     await userEvent.keyboard("{Escape}");
     await expect.element(el).toHaveFocus();
+    await expect.poll(() => getDateInput("start").element().matches(":focus-within")).toBe(true);
+
+    await userEvent.keyboard("{Tab}");
+    await expect
+      .poll(() =>
+        range
+          ? getDateInput("end").element().matches(":focus-within")
+          : next.element().matches(":focus"),
+      )
+      .toBe(true);
+    if (!range) {
+      return;
+    }
+
+    await userEvent.keyboard("{ArrowDown}");
+    await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
+    await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+    await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
+    await userEvent.keyboard("{Tab}");
+    await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
+
+    await userEvent.keyboard("{Escape}");
+    await expect.element(el).toHaveFocus();
+    await expect.poll(() => getDateInput("end").element().matches(":focus-within")).toBe(true);
+    await userEvent.keyboard("{Tab}");
+    await expect.element(next).toHaveFocus();
   });
 });
 
@@ -1372,8 +1402,16 @@ describe("keyboard month navigation", () => {
 
       await userEvent.click(getDateInput("start"));
       await focusFirstDay();
-      await userEvent.keyboard("{ArrowUp}{PageUp}{Enter}{ArrowDown}{PageDown}{Enter}");
+      if (calendars === 1) {
+        await userEvent.keyboard("{Tab}");
+      }
 
+      await userEvent.keyboard("{ArrowUp}{PageUp}{Enter}");
+      await expect.element(getCalendar()).toBeVisible();
+      expect(el).toHaveValue(["2023-11-25", "2024-02-10"]);
+
+      await userEvent.keyboard("{ArrowDown}{PageDown}{Enter}");
+      await expect.element(getCalendar()).not.toBeVisible();
       expect(el.value).not.toEqual(["2024-01-01", "2024-03-17"]);
     },
   );
@@ -1381,13 +1419,26 @@ describe("keyboard month navigation", () => {
 
 describe("valid month navigation", () => {
   it.each([
-    { range: false, min: "2024-08-10", value: "2024-09-15", max: "2024-10-14" },
-    { range: false, min: "2024-08-10", value: "2024-09-15", max: "2024-09-14" },
+    {
+      range: false,
+      min: "2024-08-10",
+      value: "2024-09-15",
+      max: "2024-10-14",
+      directions: ["next", "previous", "previous"] as const,
+    },
+    {
+      range: false,
+      min: "2024-08-10",
+      value: "2024-09-15",
+      max: "2024-09-14",
+      directions: ["previous", "next", "previous"] as const,
+    },
     {
       range: true,
       min: "2024-07-10",
       value: ["2024-08-15", "2024-09-15"],
       max: "2024-10-14",
+      directions: ["next", "previous", "previous"] as const,
     },
   ])("does not close at the last valid month ($range)", async (testCase) => {
     await mount(
@@ -1400,11 +1451,10 @@ describe("valid month navigation", () => {
     );
 
     await userEvent.click(getDateInput("start"));
-    await navigateMonth("previous", testCase.range);
-    await navigateMonth("next", testCase.range);
-    await navigateMonth("previous", testCase.range);
-
-    await expect.element(getCalendar()).toBeVisible();
+    for (const direction of testCase.directions) {
+      await navigateMonth(direction, testCase.range);
+      await expect.element(getCalendar()).toBeVisible();
+    }
   });
 });
 

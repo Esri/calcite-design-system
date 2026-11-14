@@ -546,9 +546,7 @@ describe("change events", () => {
 it("starts the week on Monday for Slovak", async () => {
   await mount(<calcite-date-picker lang="sk" value="2000-11-27" />);
 
-  await expect
-    .element(page.getByRole("columnheader", { name: "po" }).first())
-    .toHaveTextContent("po");
+  await expect.element(page.getByRole("columnheader").first()).toHaveTextContent("po");
 });
 
 describe("min and max", () => {
