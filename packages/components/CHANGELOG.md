@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.25...@esri/calcite-components@6.0.0-next.26) (2026-11-14)
+
+### Bug Fixes
+
+- **input-date-picker:** allow month navigation after selecting range start ([#15609](https://github.com/Esri/calcite-design-system/issues/15609)), closes [#13880](https://github.com/Esri/calcite-design-system/issues/13880)
+
 ## [6.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.24...@esri/calcite-components@6.0.0-next.25) (2026-11-13)
 
 **Note:** Version bump only for package @esri/calcite-components
