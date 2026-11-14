@@ -1,5 +1,5 @@
 import { JsxNode, LitElement } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it, onTestFinished, vi } from "vitest";
 
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -256,6 +256,64 @@ it("should update calendar in range while typing in input", async () => {
   await expect.element(yearInput).toHaveProperty("value", "2020");
   await expect.element(monthSelectMenu).toHaveProperty("value", "October");
 });
+
+it.each([
+  {
+    label: "after today",
+    navigatePrevious: false,
+    startMonth: "January",
+    startId: "20260104",
+    startValue: "2026-01-04",
+    endMonth: "February",
+    endId: "20260205",
+    endValue: "2026-02-05",
+  },
+  {
+    label: "in a previous month",
+    navigatePrevious: true,
+    startMonth: "December",
+    startId: "20251204",
+    startValue: "2025-12-04",
+    endMonth: "January",
+    endId: "20260105",
+    endValue: "2026-01-05",
+  },
+])(
+  "allows navigating to a later month after selecting a range start $label",
+  async ({ navigatePrevious, startMonth, startId, startValue, endMonth, endId, endValue }) => {
+    vi.setSystemTime(new Date(2026, 0, 1, 12));
+    onTestFinished(() => {
+      vi.useRealTimers();
+    });
+
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker calendars={1} layout="vertical" range />,
+    );
+    await userEvent.click(page.getByRole("combobox").first());
+
+    const previousMonth = page.getBySelector("calcite-action[aria-label='Previous month']");
+    const nextMonth = page.getBySelector("calcite-action[aria-label='Next month']");
+    const monthSelect = page.getByRole("combobox", { name: "Month menu" });
+
+    if (navigatePrevious) {
+      await userEvent.click(previousMonth);
+    }
+    await expect.element(monthSelect).toHaveProperty("value", startMonth);
+    await userEvent.click(
+      page.getBySelector(`calcite-date-picker-day[current-month][id='${startId}']`),
+    );
+    await expect.element(nextMonth).not.toBeDisabled();
+    await expect.element(previousMonth).toBeDisabled();
+
+    await userEvent.click(nextMonth);
+    await expect.element(monthSelect).toHaveProperty("value", endMonth);
+    await expect.element(previousMonth).not.toBeDisabled();
+    await userEvent.click(
+      page.getBySelector(`calcite-date-picker-day[current-month][id='${endId}']`),
+    );
+    expect(el.value).toEqual([startValue, endValue]);
+  },
+);
 
 describe("clearable", () => {
   const clearButtonSelector = `calcite-input-date-picker .${CLEAR_BUTTON_CSS.container}`;
