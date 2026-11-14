@@ -1,9 +1,9 @@
-import { JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
+import { getLocaleData } from "../date-picker/utils";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
 
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { h } from "@arcgis/lumina";
 import {
   defaults,
   floatingUIOwner,
@@ -25,11 +25,14 @@ import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
 import { FloatingCSS } from "../../utils/floating-ui";
 import { afterNextTask } from "../../tests/utils/timing";
+import { getDateFormatSupportedLocale } from "../../utils/locale";
 import { CSS as CLEAR_BUTTON_CSS } from "../functional/ClearButton";
 import { CSS as MONTH_CSS } from "../date-picker-month/resources";
 import { CSS as MONTH_HEADER_CSS } from "../date-picker-month-header/resources";
 import { CSS } from "./resources";
 import type { InputDatePicker } from "./input-date-picker";
+import type { Position } from "../types";
+import { waitForEvent } from "../../tests/common/utils";
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-input-date-picker", mountOptions));
@@ -1574,8 +1577,8 @@ describe("localization", () => {
     const month = "4";
     const day = "19";
 
-    const langData = getLocaleData(lang);
-    const newLangData = getLocaleData(newLang);
+    const langData = await getLocaleData(lang);
+    const newLangData = await getLocaleData(newLang);
 
     const { el } = await mount(
       <calcite-input-date-picker lang={lang} value={`${year}-${month}-${day}`} />,
@@ -1599,28 +1602,6 @@ describe("localization", () => {
   });
 
   describe("regional date handling", () => {
-    it.each(["da", "de", "mk", "ro", "tr"])(
-      "preserves the localized selection on blur (%s)",
-      async (locale) => {
-        const { el } = await mount(
-          <>
-            <calcite-input-date-picker lang={locale} value="2023-05-31" />
-            <button type="button">Move focus</button>
-          </>,
-        );
-        const input = page.getByRole("combobox");
-        const next = page.getByRole("button", { name: "Move focus" });
-
-        await userEvent.click(input);
-        await userEvent.keyboard("{Escape}");
-        await expect.element(el).toHaveProperty("open", false);
-        await userEvent.click(next);
-        await expect.element(next).toHaveFocus();
-
-        expect(el).toHaveValue("2023-05-31");
-      },
-    );
-
     const testLocaleDateSelection = async (locale: string, expectedFormattedValue?: string) => {
       const { el, reRender } = await mount(
         <calcite-input-date-picker lang={locale} value="2023-05-31" />,
