@@ -99,6 +99,8 @@ Use browser-mode tests as the default for component testing. Add new component t
 
 Prefer locators over direct DOM queries, especially over manually traversing shadow roots. Direct DOM access is acceptable when a test primarily verifies API updates and locators would add unnecessary overhead to that path.
 
+Before reporting unsupported Vitest locator or matcher behavior, verify it against the repository's installed Vitest version and the official [locator](https://vitest.dev/api/browser/locators) and [assertion](https://vitest.dev/api/browser/assertions) documentation. Collection locators expose `length`, and DOM assertions support locators with regular `expect`. Prefer `await expect.element(locator)` when retryability can improve stability; regular `expect(locator)` remains supported for immediate assertions.
+
 Add tests purposefully in the appropriate context. Cover visual changes such as layout with screenshot tests, and functionality with E2E or spec tests rather than stories.
 
 Reuse or extend relevant tests and groups when new coverage shares their context. Adjust an existing test's scope when the coverage belongs together instead of duplicating setup or adding a disconnected test.
