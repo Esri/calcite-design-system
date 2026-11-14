@@ -242,6 +242,10 @@ describe("parseDateString", () => {
     expect(dateFromLocalizedString("1. 5. 2023.", bosnian)).toEqual(new Date(2023, 4, 1));
   });
 
+  it("rejects unrelated text surrounding a date", () => {
+    expect(dateFromLocalizedString("not a date 3/7/2020", english)).toBeUndefined();
+  });
+
   describe.each(["da", "de", "mk", "ro", "tr"])("localized date parsing (%s)", (locale) => {
     it.each(numberingSystems)("preserves date boundaries with %s digits", (numberingSystem) => {
       numberStringFormatter.numberFormatOptions = { locale, numberingSystem, useGrouping: false };
