@@ -256,7 +256,7 @@ export const ATTRIBUTES: CommonAttributes = {
   },
   supportedNlsLocale: {
     values: [...supportedLocales],
-    defaultValue: supportedLocales[0],
+    defaultValue: [...supportedLocales][0],
   },
   hourFormat: {
     values: hourFormats,

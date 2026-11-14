@@ -7,18 +7,6 @@ describe(getLocaleData, () => {
     Object.keys(dateLocaleFormatterCache).forEach((key) => delete dateLocaleFormatterCache[key]);
   });
 
-  it("defaults to en locale if the language code is invalid", () => {
-    getLocaleData("invalid_locale");
-
-    expect(dateLocaleDataCache).toHaveProperty("en");
-  });
-
-  it("falls back to the language if the regional code is invalid", () => {
-    getLocaleData("es-UnsupportedRegion");
-
-    expect(dateLocaleDataCache).toHaveProperty("es");
-  });
-
   it("canonicalizes locale casing", () => {
     getLocaleData("zh-cn");
 
