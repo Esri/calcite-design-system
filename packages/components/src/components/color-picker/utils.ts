@@ -1,5 +1,5 @@
 import Color, { type ColorInstance } from "color";
-import { Dimensions, Scale } from "../types";
+import { Dimensions, Scale, ValueUnion } from "../types";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./types";
 import { STATIC_DIMENSIONS } from "./resources";
 import { omit } from "es-toolkit";
@@ -137,7 +137,6 @@ export function hexToRGB(hex: string): RGB | RGBA {
 // these utils allow users to pass enum values as strings without having to access the enum
 // based on the approach suggested by https://github.com/microsoft/TypeScript/issues/17690#issuecomment-321365759,
 const enumify = <T extends { [index: string]: U }, U extends string>(x: T) => x;
-type Enumify<T> = T[keyof T];
 
 /** @public */
 export const CSSColorMode = enumify({
@@ -149,7 +148,7 @@ export const CSSColorMode = enumify({
   HSLA_CSS: "hsla-css",
 });
 /** @public */
-type CSSColorMode = Enumify<typeof CSSColorMode>;
+type CSSColorMode = ValueUnion<typeof CSSColorMode>;
 
 /** @public */
 export const ObjectColorMode = enumify({
@@ -161,7 +160,7 @@ export const ObjectColorMode = enumify({
   HSVA: "hsva",
 });
 /** @public */
-type ObjectColorMode = Enumify<typeof ObjectColorMode>;
+type ObjectColorMode = ValueUnion<typeof ObjectColorMode>;
 
 export type SupportedMode = CSSColorMode | ObjectColorMode;
 
