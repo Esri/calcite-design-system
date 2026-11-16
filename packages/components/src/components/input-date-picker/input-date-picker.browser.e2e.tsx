@@ -606,10 +606,6 @@ describe("theme", () => {
         shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
         targetProp: "--calcite-date-picker-current-day-text-color",
       },
-      "--calcite-input-date-picker-calendar-day-current-text-color": {
-        shadowSelector: `calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day.${MONTH_CSS.currentDay}`,
-        targetProp: "--calcite-date-picker-current-day-text-color",
-      },
     });
   });
 
