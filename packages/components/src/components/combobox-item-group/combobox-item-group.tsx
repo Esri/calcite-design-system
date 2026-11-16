@@ -32,6 +32,10 @@ interface ComboboxItemGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Combobox
+ * @parent calcite-combobox
+ */
 export class ComboboxItemGroup extends LitElement {
   //#region Type-only metadata members
 

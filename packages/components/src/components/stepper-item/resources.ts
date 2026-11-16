@@ -10,7 +10,6 @@ export const CSS = {
   stepperItemHeaderText: "stepper-item-header-text",
   stepperItemIcon: "stepper-item-icon",
   stepperItemNumber: "stepper-item-number",
-  visuallyHidden: "visually-hidden",
 };
 
 export const ICONS: Record<string, IconName> = {

@@ -24,3 +24,5 @@ export const colorPickerTokens = {
 };
 
 export const colorPicker = html`<calcite-color-picker alpha-channel></calcite-color-picker>`;
+
+export const colorPickerFieldDisabled = html`<calcite-color-picker field-disabled></calcite-color-picker>`;
