@@ -1,5 +1,6 @@
 import Color, { type ColorInstance } from "color";
-import { Dimensions, Scale, ValueUnion } from "../types";
+import { ValueOf } from "type-fest";
+import { Dimensions, Scale } from "../types";
 import { ColorValue, HSLA, HSVA, RGB, RGBA } from "./types";
 import { STATIC_DIMENSIONS } from "./resources";
 import { omit } from "es-toolkit";
@@ -148,7 +149,7 @@ export const CSSColorMode = enumify({
   HSLA_CSS: "hsla-css",
 });
 /** @public */
-type CSSColorMode = ValueUnion<typeof CSSColorMode>;
+type CSSColorMode = ValueOf<typeof CSSColorMode>;
 
 /** @public */
 export const ObjectColorMode = enumify({
@@ -160,7 +161,7 @@ export const ObjectColorMode = enumify({
   HSVA: "hsva",
 });
 /** @public */
-type ObjectColorMode = ValueUnion<typeof ObjectColorMode>;
+type ObjectColorMode = ValueOf<typeof ObjectColorMode>;
 
 export type SupportedMode = CSSColorMode | ObjectColorMode;
 
