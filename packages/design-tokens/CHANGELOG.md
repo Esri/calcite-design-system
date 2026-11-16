@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@5.0.0-next.0...@esri/calcite-design-tokens@5.0.0-next.1) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **design-tokens:** Removes deprecated core tokens. The removed tokens are
+  no longer needed for semantic token references.
+- **design-tokens:** Removes deprecated semantic tokens. The removed tokens
+  are no longer referenced by components.
+
+### Code Refactoring
+
+- **design-tokens:** remove deprecated core tokens ([#15541](https://github.com/Esri/calcite-design-system/issues/15541)), closes [#15284](https://github.com/Esri/calcite-design-system/issues/15284)
+- **design-tokens:** remove deprecated semantic tokens ([#15542](https://github.com/Esri/calcite-design-system/issues/15542)), closes [#15278](https://github.com/Esri/calcite-design-system/issues/15278)
+
 ## [5.0.0-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-design-tokens@4.2.1-next.1...@esri/calcite-design-tokens@5.0.0-next.0) (2026-11-04)
 
 ### ⚠ BREAKING CHANGES
