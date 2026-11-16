@@ -1,26 +1,6 @@
 {
   "container-size": {
     "height": {
-      "xxs": {
-        "min": {
-          "attributes": {
-            "category": "breakpoint",
-            "docs": "deprecated"
-          },
-          "$type": "dimension",
-          "$value": "{core.container-size.0}",
-          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-height-2xs-min|max` instead."
-        },
-        "max": {
-          "attributes": {
-            "category": "breakpoint",
-            "docs": "deprecated"
-          },
-          "$type": "dimension",
-          "$value": "{core.container-size.154}",
-          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-height-2xs-min|max` instead."
-        }
-      },
       "2xs": {
         "min": {
           "attributes": {
@@ -123,26 +103,6 @@
       }
     },
     "width": {
-      "xxs": {
-        "min": {
-          "attributes": {
-            "category": "breakpoint",
-            "docs": "deprecated"
-          },
-          "$type": "dimension",
-          "$value": "{core.container-size.0}",
-          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-width-2xs-min|max` instead."
-        },
-        "max": {
-          "attributes": {
-            "category": "breakpoint",
-            "docs": "deprecated"
-          },
-          "$type": "dimension",
-          "$value": "{core.container-size.320}",
-          "$description": "Deprecated in v4.0.0, removal target v5.0.0 - Use `--calcite-container-size-width-2xs-min|max` instead."
-        }
-      },
       "2xs": {
         "min": {
           "attributes": {

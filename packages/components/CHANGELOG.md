@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.29...@esri/calcite-components@6.0.0-next.30) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **design-tokens:** Removes deprecated semantic tokens. The removed tokens
+  are no longer referenced by components.
+
+### Bug Fixes
+
+- **color-picker:** exclude top corners from custom corner-radius values ([#15484](https://github.com/Esri/calcite-design-system/issues/15484)), closes [#15482](https://github.com/Esri/calcite-design-system/issues/15482)
+
+### Code Refactoring
+
+- **design-tokens:** remove deprecated semantic tokens ([#15542](https://github.com/Esri/calcite-design-system/issues/15542)), closes [#15278](https://github.com/Esri/calcite-design-system/issues/15278)
+
 ## [6.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.28...@esri/calcite-components@6.0.0-next.29) (2026-11-16)
 
 ### ⚠ BREAKING CHANGES
