@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.27...@esri/calcite-components@6.0.0-next.28) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **loader:** Removes deprecated `--calcite-loader-size-inline` token
+  in `loader`.
+- Replace `--calcite-loader-size-inline` with `--calcite-loader-size`
+  token to customize inline-size.
+- **input-date-picker:** Removes deprecated
+  `--calcite-input-date-picker-calendar-day-current-text-color` token in
+  `input-date-picker`.
+
+- Replace `--calcite-input-date-picker-calendar-day-current-text-color`
+  with `--calcite-input-date-picker-calendar-current-day-text-color` to
+  customize current day text color in calendar.
+
+### Code Refactoring
+
+- **input-date-picker:** drop deprecated token ([#15557](https://github.com/Esri/calcite-design-system/issues/15557)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **loader:** drop deprecated token ([#15556](https://github.com/Esri/calcite-design-system/issues/15556)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.26...@esri/calcite-components@6.0.0-next.27) (2026-11-16)
 
 ### ⚠ BREAKING CHANGES
