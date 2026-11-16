@@ -115,6 +115,9 @@ interface CardSlots {
   "footer-end": Node[];
 }
 
+/**
+ * @docGroup Cards
+ */
 export class Card extends LitElement {
   //#region Type-only metadata members
 
@@ -139,7 +142,7 @@ export class Card extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

@@ -3,6 +3,109 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.28...@esri/calcite-components@6.0.0-next.29) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **navigation:** Deprecated `--calcite-navigation-background` token is
+  removed.
+- To customize `navigation` background-color use
+  `--calcite-navigation-background-color` token instead.
+- **table-cell, table-header, table-row:** The following deprecated tokens are no longer
+  supported.
+
+- `--calcite-table-cell-background`
+- `--calcite-table-header-background`
+- `--calcite-table-row-background`
+
+To migrate, replace:
+
+- `--calcite-table-cell-background` with
+  `--calcite-table-cell-background-color`
+- `--calcite-table-header-background` with
+  `--calcite-table-header-background-color`
+- `--calcite-table-row-background` with
+  `--calcite-table-row-background-color`
+
+### Code Refactoring
+
+- **navigation:** drop deprecated token ([#15555](https://github.com/Esri/calcite-design-system/issues/15555)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **table-cell, table-header, table-row:** drop deprecated tokens ([#15549](https://github.com/Esri/calcite-design-system/issues/15549)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
+## [6.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.27...@esri/calcite-components@6.0.0-next.28) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **loader:** Removes deprecated `--calcite-loader-size-inline` token
+  in `loader`.
+- Replace `--calcite-loader-size-inline` with `--calcite-loader-size`
+  token to customize inline-size.
+- **input-date-picker:** Removes deprecated
+  `--calcite-input-date-picker-calendar-day-current-text-color` token in
+  `input-date-picker`.
+
+- Replace `--calcite-input-date-picker-calendar-day-current-text-color`
+  with `--calcite-input-date-picker-calendar-current-day-text-color` to
+  customize current day text color in calendar.
+
+### Code Refactoring
+
+- **input-date-picker:** drop deprecated token ([#15557](https://github.com/Esri/calcite-design-system/issues/15557)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **loader:** drop deprecated token ([#15556](https://github.com/Esri/calcite-design-system/issues/15556)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
+## [6.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.26...@esri/calcite-components@6.0.0-next.27) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **block:** The following deprecated tokens are removed in `block`.
+
+- `--calcite-block-heading-text-color-press`
+- `--calcite-block-padding`
+- `--calcite-block-text-color`
+
+To migrate, replace:
+
+- `--calcite-block-heading-text-color-press` with
+  `--calcite-block-heading-text-color`.
+- `--calcite-block-padding` with `--calcite-block-content-space`.
+- `--calcite-block-text-color` token is no longer required. User can
+  customize with CSS `color` property.
+
+### Code Refactoring
+
+- **block:** drop deprecated tokens ([#15575](https://github.com/Esri/calcite-design-system/issues/15575)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
+## [6.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.25...@esri/calcite-components@6.0.0-next.26) (2026-11-14)
+
+### Bug Fixes
+
+- **input-date-picker:** allow month navigation after selecting range start ([#15609](https://github.com/Esri/calcite-design-system/issues/15609)), closes [#13880](https://github.com/Esri/calcite-design-system/issues/13880)
+
+## [6.0.0-next.25](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.24...@esri/calcite-components@6.0.0-next.25) (2026-11-13)
+
+**Note:** Version bump only for package @esri/calcite-components
+
+## [6.0.0-next.24](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.23...@esri/calcite-components@6.0.0-next.24) (2026-11-13)
+
+### Bug Fixes
+
+- **dropdown:** replace virtual focus with roving tabindex ([#15356](https://github.com/Esri/calcite-design-system/issues/15356)), closes [#14888](https://github.com/Esri/calcite-design-system/issues/14888)
+
+## [6.0.0-next.23](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.22...@esri/calcite-components@6.0.0-next.23) (2026-11-12)
+
+### ⚠ BREAKING CHANGES
+
+- **sheet:** Replace `modalDisabled` with `modal` to align Sheet’s
+  `modal` and `focusTrapDisabled` behavior with Dialog.
+
+### Features
+
+- **sheet:** replace modalDisabled with modal ([#15545](https://github.com/Esri/calcite-design-system/issues/15545)), closes [#15042](https://github.com/Esri/calcite-design-system/issues/15042)
+
+## [6.0.0-next.22](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.21...@esri/calcite-components@6.0.0-next.22) (2026-11-12)
+
+**Note:** Version bump only for package @esri/calcite-components
+
 ## [6.0.0-next.21](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.20...@esri/calcite-components@6.0.0-next.21) (2026-11-05)
 
 ### Bug Fixes

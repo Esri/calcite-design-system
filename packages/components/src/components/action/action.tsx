@@ -109,6 +109,9 @@ interface ActionSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Actions
+ */
 export class Action extends LitElement {
   //#region Type-only metadata members
 
@@ -141,7 +144,7 @@ export class Action extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private indicatorRef = createRef<HTMLDivElement>();
 

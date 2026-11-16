@@ -28,12 +28,6 @@ declare global {
 declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
-     * Specifies the background color of the component.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-row-background-color` instead.
-     */
-    "--calcite-table-row-background": "*";
-    /**
      * Specifies the component's background color.
      */
     "--calcite-table-row-background-color": "*";
@@ -63,6 +57,10 @@ interface TableRowSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Table
+ * @parent calcite-table
+ */
 export class TableRow extends LitElement {
   //#region Type-only metadata members
 
