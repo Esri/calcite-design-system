@@ -47,7 +47,7 @@ export class ColorPickerHexInput extends LitElement {
 
   private previousDefinedValue?: string;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   // #endregion
 

@@ -132,7 +132,7 @@ export const paddingDisabled = (): string =>
       description="example summary heading"
       expandable
       expanded
-      style="--calcite-block-padding: 0;"
+      style="--calcite-block-content-space: 0;"
     >
       <div>calcite components ninja</div>
     </calcite-block>

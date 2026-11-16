@@ -87,6 +87,9 @@ interface ShellSlots {
   sheets: Node[];
 }
 
+/**
+ * @docGroup Shell
+ */
 export class Shell extends LitElement {
   //#region Type-only metadata members
 
