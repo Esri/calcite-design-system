@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.27](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.26...@esri/calcite-components@6.0.0-next.27) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **block:** The following deprecated tokens are removed in `block`.
+
+- `--calcite-block-heading-text-color-press`
+- `--calcite-block-padding`
+- `--calcite-block-text-color`
+
+To migrate, replace:
+
+- `--calcite-block-heading-text-color-press` with
+  `--calcite-block-heading-text-color`.
+- `--calcite-block-padding` with `--calcite-block-content-space`.
+- `--calcite-block-text-color` token is no longer required. User can
+  customize with CSS `color` property.
+
+### Code Refactoring
+
+- **block:** drop deprecated tokens ([#15575](https://github.com/Esri/calcite-design-system/issues/15575)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.26](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.25...@esri/calcite-components@6.0.0-next.26) (2026-11-14)
 
 ### Bug Fixes
