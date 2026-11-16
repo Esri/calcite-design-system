@@ -379,19 +379,33 @@ export const collapsedWithActions = (): string => html`
 `;
 
 export const withActionBar = (): string =>
-  html`<div style="width: 300px;">
-    <calcite-panel height-scale="s">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"> </calcite-action>
-          <calcite-action text="Save" icon="save"> </calcite-action>
-          <calcite-action text="Layers" icon="layers"> </calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <div slot="header-content">Header!</div>
-      <p>Slotted content!</p>
-    </calcite-panel>
-  </div>`;
+  html`<style>
+      .action-bar-example {
+        inline-size: 300px;
+      }
+      .action-bar-example-panel {
+        --calcite-panel-content-top-space: 0;
+      }
+    </style>
+    ${["Header!", ""]
+      .map(
+        (heading) => html`
+          <div class="action-bar-example">
+            <calcite-panel class="action-bar-example-panel" height-scale="s">
+              <calcite-action-bar slot="content-top" layout="horizontal">
+                <calcite-action-group>
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              ${heading ? html`<div slot="header-content">${heading}</div>` : ""}
+              <p>Slotted content!</p>
+            </calcite-panel>
+          </div>
+        `,
+      )
+      .join("")}`;
 
 export const footerPadding = (): string =>
   html`<div style="width: 300px;">
