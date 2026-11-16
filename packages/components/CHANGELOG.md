@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.29](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.28...@esri/calcite-components@6.0.0-next.29) (2026-11-16)
+
+### ⚠ BREAKING CHANGES
+
+- **navigation:** Deprecated `--calcite-navigation-background` token is
+  removed.
+- To customize `navigation` background-color use
+  `--calcite-navigation-background-color` token instead.
+- **table-cell, table-header, table-row:** The following deprecated tokens are no longer
+  supported.
+
+- `--calcite-table-cell-background`
+- `--calcite-table-header-background`
+- `--calcite-table-row-background`
+
+To migrate, replace:
+
+- `--calcite-table-cell-background` with
+  `--calcite-table-cell-background-color`
+- `--calcite-table-header-background` with
+  `--calcite-table-header-background-color`
+- `--calcite-table-row-background` with
+  `--calcite-table-row-background-color`
+
+### Code Refactoring
+
+- **navigation:** drop deprecated token ([#15555](https://github.com/Esri/calcite-design-system/issues/15555)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **table-cell, table-header, table-row:** drop deprecated tokens ([#15549](https://github.com/Esri/calcite-design-system/issues/15549)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.28](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.27...@esri/calcite-components@6.0.0-next.28) (2026-11-16)
 
 ### ⚠ BREAKING CHANGES
