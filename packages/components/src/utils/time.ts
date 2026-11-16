@@ -31,7 +31,7 @@ export interface LocalizedTime {
   meridiem: string | null;
 }
 
-/** @public */
+/** @internal */
 export type Meridiem = "AM" | "PM";
 
 export type MinuteOrSecond = "minute" | "second";
