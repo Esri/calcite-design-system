@@ -2,7 +2,7 @@ catalog:
   "@actions/core": "3.0.1"
   "@actions/github": "9.1.1"
   "@cloudfour/simple-svg-placeholder": "1.2.0"
-  "@commander-js/extra-typings": "15.0.0"
+  "@commander-js/extra-typings": "15.1.0"
   "@cspell/dict-gis": "1.0.3"
   "@cspell/dict-pokemon": "1.0.3"
   "@cspell/dict-scientific-terms-us": "3.1.2"
