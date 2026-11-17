@@ -1,14 +1,13 @@
 import { LitElement, property } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
-import { TimeComponent, useTime } from "./useTime";
+import { type TimeComponent, useTime } from "./useTime";
 
 async function mountTime(properties: Partial<TimeComponent> = {}) {
   class Test extends LitElement implements TimeComponent {
-    @property() hourFormat: TimeComponent["hourFormat"] = properties.hourFormat ?? "24";
-    @property() messages: TimeComponent["messages"] = properties.messages ?? { _lang: "en" };
-    @property() numberingSystem: TimeComponent["numberingSystem"] =
-      properties.numberingSystem ?? "latn";
+    @property() hourFormat = properties.hourFormat ?? "24";
+    @property() messages = properties.messages ?? { _lang: "en" };
+    @property() numberingSystem = properties.numberingSystem ?? "latn";
     @property() step = properties.step ?? 0.001;
     @property() value = properties.value ?? null;
 
