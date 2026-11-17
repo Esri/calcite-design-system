@@ -313,9 +313,8 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
  * @returns the first focusable element.
- * @internal
  */
-export function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
+function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -329,9 +328,8 @@ export function getFirstFocusable(element: HTMLElement, includeContainer?: boole
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
  * @param options - When specified, customizes the element's focusing process.
- * @internal
  */
-export function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
+function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstFocusable(element, includeContainer)?.focus(options);
 }
 
