@@ -353,11 +353,14 @@ describe("clearable", () => {
   });
 
   it("emits change when single value is cleared via clear button", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker clearable value="2024-05-05" />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        oncalciteInputDatePickerChange={changeEventHandler}
+        value="2024-05-05"
+      />,
+    );
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
 
@@ -450,11 +453,15 @@ describe("clearable", () => {
   });
 
   it("emits change when range values are cleared via Escape", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        oncalciteInputDatePickerChange={changeEventHandler}
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
 
     await userEvent.click(page.getByRole("combobox").first());
     await userEvent.keyboard("{Escape}");
@@ -793,9 +800,10 @@ async function focusFirstDay(
 
 describe("value changes", () => {
   it("emits when a single date is committed and cleared by the user", async () => {
-    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker />);
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
+    );
 
     await userEvent.click(getDateInput());
     await userEvent.keyboard("3/7/2020{Enter}");
@@ -820,11 +828,13 @@ describe("value changes", () => {
       clearedValue: ["", ""],
     },
   ])("does not emit when a value is cleared programmatically ($range)", async (testCase) => {
-    const { el, component } = await mount<InputDatePicker>(
-      <calcite-input-date-picker range={testCase.range} />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el, component } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        oncalciteInputDatePickerChange={changeEventHandler}
+        range={testCase.range}
+      />,
+    );
 
     el.value = testCase.initialValue;
     await component.updateComplete;
@@ -835,9 +845,10 @@ describe("value changes", () => {
   });
 
   it("emits as each range value is committed or cleared", async () => {
-    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker range />);
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} range />,
+    );
 
     await userEvent.click(getDateInput("start"));
     await userEvent.keyboard("1/1/2020{Enter}2/2/2020{Enter}");
@@ -853,9 +864,10 @@ describe("value changes", () => {
   });
 
   it("preserves invalid free-form input without emitting", async () => {
-    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker />);
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    await mount<InputDatePicker>(
+      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
+    );
 
     await userEvent.click(getDateInput());
     await userEvent.keyboard("3/7/{Enter}");
@@ -865,9 +877,10 @@ describe("value changes", () => {
   });
 
   it("emits once when a programmatic valueAsDate is changed by the user", async () => {
-    const { el, component } = await mount<InputDatePicker>(<calcite-input-date-picker />);
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el, component } = await mount<InputDatePicker>(
+      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
+    );
 
     el.valueAsDate = new Date(1687528800000);
     await component.updateComplete;
@@ -884,9 +897,10 @@ describe("value changes", () => {
   });
 
   it("does not emit when valueAsDate is set programmatically", async () => {
-    const { el, component } = await mount<InputDatePicker>(<calcite-input-date-picker range />);
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el, component } = await mount<InputDatePicker>(
+      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} range />,
+    );
 
     el.valueAsDate = [new Date(2020, 1, 1), new Date(2020, 1, 31)];
     await component.updateComplete;
@@ -1030,11 +1044,14 @@ describe("valueAsDate", () => {
   });
 
   it("commits an end value typed directly", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker layout="horizontal" range />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        layout="horizontal"
+        oncalciteInputDatePickerChange={changeEventHandler}
+        range
+      />,
+    );
 
     await userEvent.click(getDateInput("end"));
     await userEvent.keyboard("08/30/2022{Enter}");

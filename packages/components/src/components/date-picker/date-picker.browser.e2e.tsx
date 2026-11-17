@@ -450,9 +450,10 @@ describe("theme", () => {
 
 describe("change events", () => {
   it("does not emit change when the displayed year changes", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2000-11-27" />);
     const changeHandler = vi.fn();
-    el.addEventListener("calciteDatePickerChange", changeHandler);
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
     const yearInput = page.getByRole("textbox", { name: "Year" }).first();
 
     await userEvent.click(yearInput);
@@ -464,9 +465,10 @@ describe("change events", () => {
   });
 
   it("emits change when a day is selected", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2000-11-27" />);
     const changeHandler = vi.fn();
-    el.addEventListener("calciteDatePickerChange", changeHandler);
+    const { component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
 
     await selectDay("20001101", component);
     await selectDay("20001102", component);
@@ -481,11 +483,15 @@ describe("change events", () => {
   ])(
     "emits range change and updates value for selections with $calendars calendar(s)",
     async ({ calendars, start, end }) => {
-      const { el, component } = await mount<DatePicker>(
-        <calcite-date-picker activeDate={new Date(2024, 0, 1)} calendars={calendars} range />,
-      );
       const changeHandler = vi.fn();
-      el.addEventListener("calciteDatePickerRangeChange", changeHandler);
+      const { el, component } = await mount<DatePicker>(
+        <calcite-date-picker
+          activeDate={new Date(2024, 0, 1)}
+          calendars={calendars}
+          oncalciteDatePickerRangeChange={changeHandler}
+          range
+        />,
+      );
 
       await selectDay(start, component);
       expect(el.value).toEqual([dayIdToIso(start), ""]);
@@ -497,9 +503,10 @@ describe("change events", () => {
   );
 
   it("does not emit change when the selected day is selected again", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2000-11-27" />);
     const changeHandler = vi.fn();
-    el.addEventListener("calciteDatePickerChange", changeHandler);
+    const { component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
 
     await selectDay("20001127", component);
     await selectDay("20001127", component);
@@ -509,9 +516,10 @@ describe("change events", () => {
   });
 
   it("does not emit change when value is updated programmatically", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2000-11-27" />);
     const changeHandler = vi.fn();
-    el.addEventListener("calciteDatePickerChange", changeHandler);
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
 
     el.value = "2001-10-28";
     await component.updateComplete;
@@ -521,9 +529,10 @@ describe("change events", () => {
   });
 
   it("emits range change only after a user selection", async () => {
-    const { el, component } = await mount<DatePicker>(<calcite-date-picker range />);
     const changeHandler = vi.fn();
-    el.addEventListener("calciteDatePickerRangeChange", changeHandler);
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerRangeChange={changeHandler} range />,
+    );
 
     el.value = ["2020-09-08", "2020-09-23"];
     el.activeDate = new Date(2020, 8, 1);
