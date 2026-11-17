@@ -314,7 +314,12 @@
   );
   inset-block-start: -2px;
   pointer-events: none;
-  margin-inline-start: calc(-1 * theme("margin[0.5]"));
+  margin-inline-start: calc(var(--calcite-space-2xs) * -0.5);
+}
+
+.tick--end-aligned {
+  margin-inline-start: 0;
+  margin-inline-end: calc(var(--calcite-space-2xs) * -0.5);
 }
 
 .tick--active {
@@ -326,10 +331,37 @@
   margin-block-start: var(--calcite-space-md-plus);
   display: flex;
   justify-content: center;
+  visibility: hidden;
+}
+
+.tick__label--visible {
+  visibility: visible;
+}
+
+.tick__label--covered {
+  opacity: 0;
 }
 
 .tick__label--min {
   transition: opacity var(--calcite-animation-timing);
+}
+
+.tick__label--min,
+.tick__label--max {
+  position: absolute;
+  inset-block-start: -1px;
+  inline-size: max-content;
+}
+
+// Nudge endpoint text outward to reduce the visible gap at the track edges.
+// 1ch is the width of "0" in the label's font; 0.25ch is a small visual adjustment
+// that scales with font size while keeping labels anchored to their track edges.
+.tick__label--left {
+  transform: translateX(-0.25ch);
+}
+
+.tick__label--right {
+  transform: translateX(0.25ch);
 }
 
 .tick__label--max {
