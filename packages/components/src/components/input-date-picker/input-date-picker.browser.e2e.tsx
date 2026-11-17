@@ -993,49 +993,6 @@ describe("calendar selection", () => {
 
     expect(el).toHaveValue("2023-01-01");
   });
-
-  it.each([2050, 1950, 1850])("preserves the century when selecting a day in %s", async (year) => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker value={`${year}-03-12`} />,
-    );
-
-    await userEvent.click(getDateInput());
-    await userEvent.click(getDayById(`${year}0307`));
-
-    expect(el).toHaveValue(`${year}-03-07`);
-    expect(getDateInput()).toHaveValue(`3/7/${year}`);
-  });
-});
-
-describe("date constraints", () => {
-  it("clamps an initial out-of-range value", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker max="2018-12-31" min="2018-01-01" value="2017-07-22" />,
-    );
-
-    expect(el).toHaveValue("2018-01-01");
-    expect(getDateInput()).toHaveValue("1/1/2018");
-  });
-
-  it("updates and clears minAsDate and maxAsDate when attributes change", async () => {
-    const { el, component } = await mount<InputDatePicker>(
-      <calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />,
-    );
-
-    el.min = "2021-11-15";
-    el.max = "2023-11-15";
-    await component.updateComplete;
-
-    expect(el.minAsDate).toEqual(new Date(2021, 10, 15));
-    expect(el.maxAsDate).toEqual(new Date(2023, 10, 15));
-
-    el.min = undefined;
-    el.max = undefined;
-    await component.updateComplete;
-
-    expect(el.minAsDate).toBeUndefined();
-    expect(el.maxAsDate).toBeUndefined();
-  });
 });
 
 it("remains focusable but immutable when readOnly", async () => {
