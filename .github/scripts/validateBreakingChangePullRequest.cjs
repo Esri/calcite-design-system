@@ -49,15 +49,20 @@ module.exports = async ({ context, core }) => {
 function getDescriptionLines(body) {
   let inComment = false;
   let fence = "";
+  let fenceIndent = 0;
+  /** @type {number[]} */
+  const listIndents = [];
 
   return body.split(/\r?\n/).map((line) => {
-    if (fence) {
-      const closing = /^ {0,3}(`{3,}|~{3,})[ \t]*$/.exec(line);
+    const indent = line.search(/[^ ]|$/);
+    if (fence && (!line.trim() || indent >= fenceIndent)) {
+      const closing = /^ {0,3}(`{3,}|~{3,})[ \t]*$/.exec(line.slice(fenceIndent));
       if (closing && closing[1][0] === fence[0] && closing[1].length >= fence.length) {
         fence = "";
       }
       return "";
     }
+    fence = "";
 
     let visibleLine = "";
     while (line) {
@@ -69,20 +74,39 @@ function getDescriptionLines(body) {
         inComment = false;
         line = line.slice(end + 3);
       } else {
-        const start = line.indexOf("<!--");
-        if (start === -1) {
+        const token = /\\.|(?<!`)(`+)(?!`)(.*?)\1(?!`)|<!--/.exec(line);
+        if (!token) {
           visibleLine += line;
           break;
         }
-        visibleLine += line.slice(0, start);
-        line = line.slice(start + 4);
-        inComment = true;
+        visibleLine += line.slice(0, token.index);
+        line = line.slice(token.index + token[0].length);
+        if (token[0] === "<!--") {
+          inComment = true;
+        } else {
+          visibleLine += token[0];
+        }
       }
     }
 
-    const opening = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(visibleLine);
+    if (visibleLine.trim()) {
+      const visibleIndent = visibleLine.search(/[^ ]|$/);
+      while (visibleIndent < (listIndents.at(-1) ?? 0)) {
+        listIndents.pop();
+      }
+    }
+
+    let content = visibleLine.slice(listIndents.at(-1) ?? 0);
+    let marker;
+    while ((marker = /^ {0,3}(?:[-+*]|\d{1,9}[.)])[ \t]+/.exec(content))) {
+      listIndents.push((listIndents.at(-1) ?? 0) + marker[0].length);
+      content = content.slice(marker[0].length);
+    }
+
+    const opening = /^ {0,3}(`{3,}|~{3,})(.*)$/.exec(content);
     if (opening && (opening[1][0] === "~" || !opening[2].includes("`"))) {
       fence = opening[1];
+      fenceIndent = listIndents.at(-1) ?? 0;
       return "";
     }
     return visibleLine;
