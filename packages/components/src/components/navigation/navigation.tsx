@@ -245,7 +245,10 @@ export class Navigation extends LitElement {
 
   private handleMenuActionSlotChange(event: Event): void {
     if (this.isPrimaryLevel()) {
-      this.navigationActionSlotHasElements = slotChangeHasAssignedElement(event);
+      // Flattening includes our fallback action, which must not suppress itself.
+      this.navigationActionSlotHasElements = !!(
+        event.currentTarget as HTMLSlotElement
+      ).assignedElements().length;
       if (this.navigationActionSlotHasElements) {
         this.navigationAction = false;
       }
