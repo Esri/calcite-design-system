@@ -1591,6 +1591,58 @@ describe("filtering", () => {
     await expect.element(items.nth(3)).not.toBeVisible();
   });
 
+  it.each([false, true])(
+    "preserves text selection when dragging outside with allowCustomValues=%s",
+    async (allowCustomValues) => {
+      const changeSpy = vi.fn();
+      const { el } = await mount<Combobox>(
+        <calcite-combobox
+          allowCustomValues={allowCustomValues}
+          oncalciteComboboxChange={changeSpy}
+          style="width: 300px;"
+        >
+          <calcite-combobox-item heading="One" value="one" />
+          <calcite-combobox-item heading="Two" value="two" />
+        </calcite-combobox>,
+      );
+      const input = page.getByRole("combobox");
+      const typedValue = "three";
+
+      await userEvent.tab();
+      await updateFilter(el, { type: "keyboard", value: typedValue });
+
+      const inputEl = input.element();
+      const inputBounds = inputEl.getBoundingClientRect();
+      const outsideX = el.getBoundingClientRect().right + 40;
+      const y = inputBounds.y + inputBounds.height / 2;
+
+      await commands.mouseMove(inputBounds.x, y);
+      await commands.mouseDown();
+      await commands.mouseMove(outsideX, y, { steps: 10 });
+      await commands.mouseUp();
+
+      await expect.element(input).toHaveValue(typedValue);
+      await expect.element(el).toHaveFocus();
+      expect(el).toHaveProperty("shadowRoot.activeElement", inputEl);
+      await expect.element(inputEl).toHaveProperty("selectionStart", 0);
+      await expect.element(inputEl).toHaveProperty("selectionEnd", typedValue.length);
+      expect(el).toHaveProperty("filterText", typedValue);
+      expect(el).toHaveProperty("open", true);
+      expect(el).toHaveProperty("value", "");
+      expect(changeSpy).not.toHaveBeenCalled();
+
+      await commands.mouseDown();
+      await commands.mouseUp();
+
+      await expect.element(input).toHaveValue("");
+      await expect.element(el).not.toHaveFocus();
+      expect(el).toHaveProperty("filterText", "");
+      expect(el).toHaveProperty("open", false);
+      expect(el).toHaveProperty("value", allowCustomValues ? typedValue : "");
+      expect(changeSpy).toHaveBeenCalledTimes(allowCustomValues ? 1 : 0);
+    },
+  );
+
   it("does not clear filter if pointer down/up on an item has a delay in between events", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox clear-disabled placeholder="Select a field" selection-mode="single-persist">

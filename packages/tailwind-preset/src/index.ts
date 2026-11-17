@@ -37,11 +37,11 @@ const config: Omit<Config, "content"> = {
       "danger-hover": "var(--calcite-color-status-danger-hover)",
       "danger-press": "var(--calcite-color-status-danger-press)",
       background: {
-        background: "var(--calcite-color-background)",
+        background: "var(--calcite-theme-color-surface-1, var(--calcite-color-background))",
         foreground: {
-          1: "var(--calcite-color-foreground-1)",
-          2: "var(--calcite-color-foreground-2)",
-          3: "var(--calcite-color-foreground-3)",
+          1: "var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))",
+          2: "var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))",
+          3: "var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))",
         },
       },
       color: {
@@ -141,7 +141,7 @@ const config: Omit<Config, "content"> = {
     fontWeight: {
       // assets/styles/_type
       light: "var(--calcite-font-weight-light)",
-      normal: "var(--calcite-font-weight-normal)",
+      normal: "var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal))",
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)",
     },
@@ -273,20 +273,32 @@ const config: Omit<Config, "content"> = {
         ".focus-outset": {
           outline:
             "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "var(--calcite-theme-space-base, var(--calcite-spacing-base))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".focus-inset": {
           outline:
             "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "calc(-1 * var(--calcite-theme-space-base, var(--calcite-spacing-base)))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".focus-outset-danger": {
           outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "var(--calcite-theme-space-base, var(--calcite-spacing-base))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".focus-inset-danger": {
           outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "calc(-1 * var(--calcite-theme-space-base, var(--calcite-spacing-base)))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".transition-default": {
           // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance

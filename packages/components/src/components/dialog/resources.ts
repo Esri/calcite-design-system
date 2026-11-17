@@ -8,7 +8,6 @@ export const CSS = {
   container: "container",
   containerOpen: "container--open",
   containerEmbedded: "container--embedded",
-  assistiveText: "assistive-text",
 };
 
 export const SLOTS = {

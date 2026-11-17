@@ -8,7 +8,8 @@ import "../option/option"; // Force Vite to statically trace the file for Chroma
 import "../option-group/option-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./select"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { status, width, scale } = ATTRIBUTES;
+const { status, scale } = ATTRIBUTES;
+const widthOptions: Select["width"][] = ["auto", "full"];
 
 interface SelectStoryArgs
   extends
@@ -25,7 +26,7 @@ export default {
   args: {
     disabled: false,
     status: status.defaultValue,
-    width: width.defaultValue,
+    width: widthOptions[0],
     scale: scale.defaultValue,
     validationMessage: "",
     validationIcon: "",
@@ -42,7 +43,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: widthOptions,
       control: { type: "select" },
     },
     scale: {

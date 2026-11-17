@@ -69,7 +69,7 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-color-picker-border-color": "*";
     /**
-     * Specifies the component's corner radius.
+     * Specifies the component's bottom corner radius by default, or all corners when `fieldDisabled` is `true`.
      */
     "--calcite-color-picker-corner-radius": "*";
     /**
@@ -318,7 +318,7 @@ export class ColorPicker extends LitElement {
     };
   };
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

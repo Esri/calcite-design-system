@@ -147,6 +147,9 @@ interface InputTimePickerSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Type-only metadata members
 
@@ -181,7 +184,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private direction = useDirection();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   formSupport = useForm<this>({
     inputType: "time",
@@ -708,7 +711,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
           <div class={CSS.contentContainer}>
             {this.showPlaceholder && <div class={CSS.placeholder}>{this.placeholder}</div>}
             <div
-              aria-label={getLabelText(this)}
+              aria-label={getLabelText(this) || this.placeholder || undefined}
               ariaRequired={this.required}
               class={{
                 [CSS.inputContainer]: true,

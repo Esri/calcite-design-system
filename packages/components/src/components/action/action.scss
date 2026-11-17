@@ -32,16 +32,13 @@
 
 :host {
   @extend %component-host;
-  @apply flex bg-transparent cursor-pointer;
+
+  display: flex;
+  background-color: var(--calcite-color-transparent);
+  cursor: pointer;
   --calcite-internal-action-text-color: var(--calcite-color-text-3);
 
-  border-radius: var(
-    --calcite-action-corner-radius,
-    var(--calcite-action-corner-radius-start-start, var(--calcite-corner-radius-xs))
-      var(--calcite-action-corner-radius-start-end, var(--calcite-corner-radius-xs))
-      var(--calcite-action-corner-radius-end-end, var(--calcite-corner-radius-xs))
-      var(--calcite-action-corner-radius-end-start, var(--calcite-corner-radius-xs))
-  );
+  border-radius: var(--calcite-action-corner-radius, var(--calcite-corner-radius-xs));
 }
 
 .interaction-container {
@@ -61,7 +58,8 @@
 }
 
 :host([drag-handle]) {
-  @apply cursor-move;
+  cursor: move;
+
   --calcite-internal-action-text-color: var(--calcite-color-border-input);
   --calcite-internal-action-padding-inline: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
 }
@@ -70,10 +68,10 @@
   position: relative;
   &::after {
     content: "";
-    @apply absolute
-      h-2
-      w-2
-      rounded-full;
+    position: absolute;
+    block-size: var(--calcite-space-sm);
+    inline-size: var(--calcite-space-sm);
+    border-radius: var(--calcite-corner-radius-pill);
     inset-block-end: $offset;
     inset-inline-end: $offset;
     background-color: var(--calcite-action-indicator-color, theme("colors.brand"));
@@ -81,14 +79,14 @@
 }
 
 .button {
-  @apply focus-base
-    relative
-    m-0
-    flex
-    w-auto
-    items-center
-    justify-start
-    border-none;
+  outline-color: var(--calcite-color-transparent);
+  position: relative;
+  margin: var(--calcite-space-none);
+  display: flex;
+  inline-size: auto;
+  align-items: center;
+  justify-content: flex-start;
+  border-style: none;
   box-sizing: border-box;
   background-color: var(
     --calcite-action-background-color,
@@ -113,23 +111,17 @@
       --calcite-action-background-color-hover,
       var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
     );
-    color: var(
-      --calcite-action-text-color-press,
-      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
-    );
+    color: var(--calcite-action-text-color-press, var(--calcite-color-text-1));
   }
 
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 
   &:active {
     background-color: var(
       --calcite-action-background-color-press,
-      var(
-        --calcite-action-background-color-pressed,
-        var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
-      )
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
     );
   }
 }
@@ -140,26 +132,27 @@
 }
 
 .icon-container {
-  @apply pointer-events-none
-    m-0
-    flex
-    items-center
-    justify-center;
+  pointer-events: none;
+  margin: var(--calcite-space-none);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .text-container {
-  @apply m-0
-    w-0
-    truncate
-    opacity-0
-    transition-opacity
-    ease-in-out;
+  @include shared.truncate();
+  @include shared.transition-default($target-props: "inline-size");
 
-  transition-property: inline-size;
+  margin: var(--calcite-space-none);
+  inline-size: var(--calcite-space-none);
+  opacity: 0;
+  transition-timing-function: var(--calcite-animation-easing-function);
 }
 
 .text-container--visible {
-  @apply w-auto flex-auto opacity-100;
+  inline-size: auto;
+  flex: 1 1 auto;
+  opacity: var(--calcite-opacity-full);
 }
 
 :host([active]) {
@@ -168,10 +161,7 @@
       --calcite-action-background-color,
       var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
     );
-    color: var(
-      --calcite-action-text-color-press,
-      var(--calcite-action-text-color-pressed, var(--calcite-color-text-1))
-    );
+    color: var(--calcite-action-text-color-press, var(--calcite-color-text-1));
 
     &:hover {
       background-color: var(
@@ -183,10 +173,7 @@
     &:active {
       background-color: var(
         --calcite-action-background-color-press,
-        var(
-          --calcite-action-background-color-pressed,
-          var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
-        )
+        var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
       );
     }
   }
@@ -212,16 +199,13 @@
 
 :host([appearance="transparent"]) {
   &:host([active]) .button {
-    background-color: var(
-      --calcite-action-background-color-press,
-      var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
-    );
+    background-color: var(--calcite-action-background-color-press, var(--calcite-color-transparent-press));
   }
 
   .button {
-    @apply transition-shadow
-      ease-in-out;
+    @include shared.transition-default($target-props: "box-shadow");
 
+    transition-timing-function: var(--calcite-animation-easing-function);
     background-color: var(--calcite-action-background-color, var(--calcite-color-transparent));
 
     &:hover {
@@ -229,10 +213,7 @@
     }
 
     &:active {
-      background-color: var(
-        --calcite-action-background-color-press,
-        var(--calcite-action-background-color-pressed, var(--calcite-color-transparent-press))
-      );
+      background-color: var(--calcite-action-background-color-press, var(--calcite-color-transparent-press));
     }
   }
 }
@@ -243,21 +224,21 @@
 }
 
 :host([active-descendant]) .button {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 :host([alignment="center"]) .button {
-  @apply justify-center;
+  justify-content: center;
 }
 
 :host([alignment="end"]) .button {
-  @apply justify-end;
+  justify-content: flex-end;
 }
 
 :host([alignment="center"]),
 :host([alignment="end"]) {
   .button .text-container--visible {
-    @apply flex-initial;
+    flex: 0 1 auto;
   }
 }
 
@@ -265,15 +246,15 @@
 :host([scale="s"][compact]) .button,
 :host([scale="m"][compact]) .button,
 :host([scale="l"][compact]) .button {
-  @apply px-0;
+  padding-inline: var(--calcite-space-none);
 }
 
 .slot-container {
-  @apply flex;
+  display: flex;
 }
 
 .slot-container--hidden {
-  @apply hidden;
+  display: none;
 }
 
 .indicator-with-icon {
@@ -281,7 +262,9 @@
 }
 
 .indicator-without-icon {
-  @apply w-4 mx-1;
+  inline-size: var(--calcite-space-lg);
+  margin-inline: var(--calcite-space-2xs);
+
   @include action-indicator();
 }
 

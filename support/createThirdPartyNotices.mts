@@ -17,7 +17,6 @@ import { getProjectLicenses } from "generate-license-file";
       "@arcgis/lumina-compiler",
       "@arcgis/toolkit",
       "@esri/calcite-components",
-      "@esri/calcite-components-react",
       "@esri/calcite-design-tokens",
       "@esri/calcite-tailwind-preset",
       "@esri/calcite-ui-icons",

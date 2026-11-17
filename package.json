@@ -31,7 +31,6 @@
     "util:upload-release-assets": "node support/uploadReleaseAssets.mts",
     "util:update-stylelint-custom-sass-functions": "node support/updateStylelintCustomSassFunctions.mts",
     "util:remove-prerelease-changelog-entries": "node support/removePrereleaseChangelogEntries.mts",
-    "util:sync-linked-package-versions": "node support/syncLinkedPackageVersions.mts",
     "util:update-3rd-party-notices": "turbo run util:update-3rd-party-notices --log-order=stream"
   },
   "devDependencies": {
@@ -46,7 +45,6 @@
     "@types/github-script": "github:actions/github-script",
     "@types/node": "catalog:",
     "@types/semver": "catalog:",
-    "@types/shell-quote": "catalog:",
     "concurrently": "catalog:",
     "conventional-changelog-conventionalcommits": "catalog:",
     "dedent": "catalog:",
@@ -61,7 +59,6 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "semver": "catalog:",
-    "shell-quote": "catalog:",
     "stylelint": "catalog:",
     "turbo": "catalog:",
     "type-fest": "catalog:",
@@ -82,13 +79,7 @@
     }
   },
   "dependencies": {
-    "@inquirer/select": "catalog:",
     "change-case": "catalog:",
     "patch-package": "catalog:"
-  },
-  "optionalDependencies": {
-    "@nx/nx-darwin-arm64": "catalog:",
-    "@nx/nx-linux-x64-gnu": "catalog:",
-    "@nx/nx-win32-x64-msvc": "catalog:"
   }
 }

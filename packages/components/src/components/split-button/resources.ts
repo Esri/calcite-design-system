@@ -6,7 +6,6 @@ export const CSS = {
   dividerContainer: "divider-container",
   divider: "divider",
   widthAuto: "width-auto",
-  widthHalf: "width-half",
   widthFull: "width-full",
 };
 

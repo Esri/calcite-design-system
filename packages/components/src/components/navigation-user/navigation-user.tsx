@@ -39,6 +39,10 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Navigation
+ * @parent calcite-navigation
+ */
 export class NavigationUser extends LitElement {
   // #region Static Members
 
@@ -50,7 +54,7 @@ export class NavigationUser extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   // #endregion
 

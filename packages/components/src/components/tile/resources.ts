@@ -11,7 +11,6 @@ export const CSS = {
   heading: "heading",
   icon: "icon",
   interactive: "interactive",
-  largeVisualDeprecated: "large-visual-deprecated",
   row: "row",
   selected: "selected",
   selectionIcon: "selection-icon",

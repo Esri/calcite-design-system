@@ -37,7 +37,7 @@
         },
         {
           "type": "json",
-          "path": "/examples/components/react-19-and-above/package.json",
+          "path": "/examples/components/react/package.json",
           "jsonpath": "$.dependencies['@esri/calcite-components']"
         },
         {
@@ -64,16 +64,6 @@
           "type": "json",
           "path": "/examples/components/webpack/package.json",
           "jsonpath": "$.dependencies['@esri/calcite-components']"
-        }
-      ]
-    },
-    "packages/components-react": {
-      "component": "@esri/calcite-components-react",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": "/examples/components/react-18-and-below/package.json",
-          "jsonpath": "$.dependencies['@esri/calcite-components-react']"
         }
       ]
     },
@@ -111,11 +101,6 @@
       "type": "node-workspace",
       "merge": false,
       "updatePeerDependencies": true
-    },
-    {
-      "type": "linked-versions",
-      "groupName": "components",
-      "components": ["@esri/calcite-components", "@esri/calcite-components-react"]
     },
     {
       "type": "sentence-case"

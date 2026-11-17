@@ -1,16 +1,22 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex;
+  display: flex;
   line-height: var(--calcite-font-line-height-fixed-lg);
 }
 
 ul {
-  @apply inline-flex items-center h-full m-0 p-0;
+  display: inline-flex;
+  align-items: center;
+  block-size: 100%;
+  margin: var(--calcite-space-none);
+  padding: var(--calcite-space-none);
 }
 
 :host([layout="vertical"]) ul {
-  @apply flex flex-col w-full;
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
 }
 
 @include shared.base-component();

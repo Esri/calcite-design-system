@@ -8,6 +8,7 @@ import {
   JsxNode,
   stringOrBoolean,
 } from "@arcgis/lumina";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
@@ -25,6 +26,8 @@ import { StarIcon } from "./functional/star";
 import { Star } from "./types";
 import { IDS, CSS } from "./resources";
 import { styles } from "./rating.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -83,13 +86,15 @@ export class Rating extends LitElement implements LabelableComponent {
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
   //#region Private Properties
 
   defaultValue?: Rating["value"];
+
+  private direction = useDirection();
 
   private emit = false;
 
@@ -121,7 +126,7 @@ export class Rating extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -311,6 +316,7 @@ export class Rating extends LitElement implements LabelableComponent {
     const inputValue = this.getValueFromLabelEvent(event);
     const key = event.key;
     const numberKey = key == " " ? NaN : Number(key);
+    const isRtl = this.direction === "rtl";
 
     this.emit = true;
     if (isNaN(numberKey)) {
@@ -320,15 +326,18 @@ export class Rating extends LitElement implements LabelableComponent {
           this.value = !this.required && this.value === inputValue ? 0 : inputValue;
           break;
         case "ArrowLeft":
-          this.value = this.getPreviousRatingValue(inputValue);
+        case "ArrowRight": {
+          const isLeft = key === "ArrowLeft";
+          const shouldIncrement = isLeft === isRtl;
+
+          this.value = shouldIncrement
+            ? this.getNextRatingValue(inputValue)
+            : this.getPreviousRatingValue(inputValue);
+
           this.updateFocus();
           event.preventDefault();
           break;
-        case "ArrowRight":
-          this.value = this.getNextRatingValue(inputValue);
-          this.updateFocus();
-          event.preventDefault();
-          break;
+        }
         case "Tab":
           this.hoverValue = undefined;
           break;
@@ -418,7 +427,7 @@ export class Rating extends LitElement implements LabelableComponent {
             />
           )}
           <fieldset class={CSS.fieldSet} disabled={this.disabled}>
-            <legend class={CSS.visuallyHidden}>{this.messages.rating}</legend>
+            <legend class={CSS_UTILITY.screenReaderText}>{this.messages.rating}</legend>
             {this.starsMap.map(
               ({ average, checked, fraction, hovered, id, partial, selected, value, tabIndex }) => {
                 return (
@@ -445,7 +454,7 @@ export class Rating extends LitElement implements LabelableComponent {
                       ariaLabel={getLabelText(this)}
                       ariaRequired={this.required}
                       checked={checked}
-                      class={CSS.visuallyHidden}
+                      class={CSS_UTILITY.screenReaderText}
                       disabled={this.disabled || this.readOnly}
                       id={id}
                       name={this.guid}
@@ -460,7 +469,7 @@ export class Rating extends LitElement implements LabelableComponent {
                         <StarIcon full partial scale={this.scale} />
                       </div>
                     )}
-                    <span class={CSS.visuallyHidden}>
+                    <span class={CSS_UTILITY.screenReaderText}>
                       {this.messages.stars.replace("{num}", `${value}`)}
                     </span>
                   </label>

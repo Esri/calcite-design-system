@@ -103,7 +103,7 @@ declare module "@arcgis/lumina" {
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
      */
-    "--calcite-action-background-color-pressed": "*";
+    "--calcite-action-background-color-press": "*";
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
      */
@@ -111,7 +111,7 @@ declare module "@arcgis/lumina" {
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
      */
-    "--calcite-action-text-color-pressed": "*";
+    "--calcite-action-text-color-press": "*";
     /**
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
      */
@@ -210,6 +210,10 @@ interface FlowItemSlots {
   "footer-start": Node[];
 }
 
+/**
+ * @docGroup Flow
+ * @parent calcite-flow
+ */
 export class FlowItem extends LitElement {
   //#region Type-only metadata members
 
@@ -287,10 +291,11 @@ export class FlowItem extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, enables focus trapping. Focus trapping is also prevented when `closed` or when `closable` is `false`.
-   * @private
+   * When `true`, disables focus trapping and dialog semantics.
+   *
+   * @since 6.0
    */
-  @property({ reflect: true }) focusTrapEnabled = false;
+  @property() focusTrapDisabled = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -506,7 +511,7 @@ export class FlowItem extends LitElement {
       beforeClose,
       icon,
       iconFlipRtl,
-      focusTrapEnabled,
+      focusTrapDisabled,
       focusTrapOptions,
     } = this;
     return (
@@ -520,7 +525,8 @@ export class FlowItem extends LitElement {
           collapsible={collapsible}
           description={description}
           disabled={disabled}
-          focusTrapEnabled={focusTrapEnabled}
+          focusTrapDisabled={focusTrapDisabled}
+          focusTrapEnabledByParent={true}
           focusTrapOptions={focusTrapOptions}
           heading={heading}
           headingLevel={headingLevel}

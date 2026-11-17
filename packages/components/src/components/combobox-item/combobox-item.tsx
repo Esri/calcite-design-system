@@ -80,6 +80,10 @@ interface ComboboxItemSlots {
   "content-start": Node[];
 }
 
+/**
+ * @docGroup Combobox
+ * @parent calcite-combobox
+ */
 export class ComboboxItem extends LitElement {
   //#region Type-only metadata members
 

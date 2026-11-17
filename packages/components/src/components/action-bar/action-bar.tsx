@@ -92,6 +92,9 @@ interface ActionBarSlots {
   "expand-tooltip": Node[];
 }
 
+/**
+ * @docGroup Actions
+ */
 export class ActionBar extends LitElement {
   //#region Type-only metadata members
 
@@ -216,7 +219,7 @@ export class ActionBar extends LitElement {
       slottedActionGroups.forEach((actionGroup, index) => {
         const actionGroupStyle = getComputedStyle(actionGroup);
         const actionGroupGap = getStylePixelValue(actionGroupStyle.gap);
-        const actionGroupItemCount = this.getVisibleActionGroupItemCount(actionGroup);
+        const actionGroupItemCount = this.getActionGroupItemCount(actionGroup);
         const actionGroupGapQuantity = Math.max(actionGroupItemCount - 1, 0);
         bufferSize += actionGroupGap * actionGroupGapQuantity;
 
@@ -300,7 +303,7 @@ export class ActionBar extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private setExpandToggleEl = (el: Action["el"] | undefined): void => {
     this.expandToggleEl = el;
@@ -617,7 +620,7 @@ export class ActionBar extends LitElement {
     return itemSizes.map((size) => size || fallbackSize);
   }
 
-  private getVisibleActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
+  private getActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
     const directActionGroupActions = actionGroup.actions.filter(
       (action) => action.parentElement === actionGroup,
     );
@@ -625,14 +628,8 @@ export class ActionBar extends LitElement {
       actionGroup,
       "calcite-action-menu",
     ).length;
-    const defaultActionsCount =
-      directActionGroupActions.filter((action) => action.slot !== ACTION_GROUP_SLOTS.menuActions)
-        .length + directActionMenusCount;
-    const hasMenuActions = directActionGroupActions.some(
-      (action) => action.slot === ACTION_GROUP_SLOTS.menuActions,
-    );
 
-    return defaultActionsCount + (hasMenuActions ? 1 : 0);
+    return directActionGroupActions.length + directActionMenusCount;
   }
 
   private expandedHandler(): void {

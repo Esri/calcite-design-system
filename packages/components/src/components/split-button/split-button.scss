@@ -15,19 +15,15 @@
 @use "../../styles/shared";
 
 :host {
-  @apply inline-block;
+  display: inline-block;
 }
 
 :host([width="auto"]) {
-  @apply w-auto;
-}
-
-:host([width="half"]) {
-  @apply w-2/4;
+  inline-size: auto;
 }
 
 :host([width="full"]) {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 :host([kind="brand"]) {
@@ -119,15 +115,20 @@
 }
 
 .container {
-  @apply flex items-stretch;
+  display: flex;
+  align-items: stretch;
   > calcite-dropdown > calcite-button {
-    @apply h-full align-top;
+    block-size: 100%;
+    vertical-align: top;
   }
 }
 
 .divider-container {
   @include shared.transition-default();
-  @apply flex w-px items-stretch;
+
+  display: flex;
+  inline-size: var(--calcite-space-px);
+  align-items: stretch;
   background-color: var(
     --calcite-split-button-divider-color,
     var(--calcite-internal-split-button-divider-border-color)
@@ -135,7 +136,9 @@
 }
 
 .divider {
-  @apply my-1 inline-block w-px;
+  margin-block: var(--calcite-space-2xs);
+  display: inline-block;
+  inline-size: var(--calcite-space-px);
   background-color: var(
     --calcite-split-button-divider-border-color,
     var(--calcite-internal-split-button-divider-color)
@@ -211,7 +214,7 @@ calcite-dropdown {
 
 @include shared.disabled() {
   calcite-dropdown > calcite-button {
-    @apply pointer-events-none;
+    pointer-events: none;
   }
   &:host([appearance="outline-fill"]) .divider-container {
     background-color: var(--calcite-theme-color-surface-1, var(--calcite-color-background));
