@@ -44,46 +44,11 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-action-background-color-press": "*";
     /**
-     * Specifies the component's background color when active.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead.
-     * @public
-     */
-    "--calcite-action-background-color-pressed": "*";
-    /**
      * Specifies the component's background color.
      *
      * @public
      */
     "--calcite-action-background-color": "*";
-    /**
-     * Specifies the component's corner radius end end.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     * @public
-     */
-    "--calcite-action-corner-radius-end-end": "*";
-    /**
-     * Specifies the component's corner radius end start.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     * @public
-     */
-    "--calcite-action-corner-radius-end-start": "*";
-    /**
-     * Specifies the component's corner radius start end.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     * @public
-     */
-    "--calcite-action-corner-radius-start-end": "*";
-    /**
-     * Specifies the component's corner radius start start.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     * @public
-     */
-    "--calcite-action-corner-radius-start-start": "*";
     /**
      * Specifies the component's corner radius.
      *
@@ -102,13 +67,6 @@ declare module "@arcgis/lumina" {
      * @public
      */
     "--calcite-action-text-color-press": "*";
-    /**
-     * Specifies the component's text color when hovered.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead.
-     * @public
-     */
-    "--calcite-action-text-color-pressed": "*";
     /**
      * Specifies the component's text color.
      *

@@ -139,7 +139,7 @@ declare module "@arcgis/lumina" {
      *
      * @public
      */
-    "--calcite-action-background-color-pressed": "*";
+    "--calcite-action-background-color-press": "*";
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
      *
@@ -151,7 +151,7 @@ declare module "@arcgis/lumina" {
      *
      * @public
      */
-    "--calcite-action-text-color-pressed": "*";
+    "--calcite-action-text-color-press": "*";
     /**
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
      *
