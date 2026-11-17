@@ -1372,7 +1372,11 @@ export class ActionBar extends LitElement {
     const nextItem = navigationItems[nextIndex];
 
     if (nextItem && nextItem !== current) {
-      this.focusItem(nextItem);
+      [...document.querySelectorAll("calcite-action-menu")].map((menu) => ({
+        focused: menu.matches(":focus-within"),
+        label: menu.label,
+      }));
+      void nextItem.setFocus();
     }
 
     this.syncNavigationItemTabIndexes(nextItem);
@@ -1411,37 +1415,10 @@ export class ActionBar extends LitElement {
       return false;
     }
 
-    this.focusItem(nextItem);
+    void nextItem.setFocus();
     this.syncNavigationItemTabIndexes(nextItem);
 
     return true;
-  }
-
-  private focusItem(item: Action["el"] | ActionMenu["el"]): void {
-    if (item.matches("calcite-action-menu")) {
-      const { menuButtonEl } = item;
-
-      if ("setFocus" in item && typeof item.setFocus === "function") {
-        void item.setFocus().then(() => {
-          if (!item.matches(":focus-within") && menuButtonEl) {
-            void menuButtonEl.setFocus();
-          }
-        });
-        return;
-      }
-
-      if (menuButtonEl) {
-        void menuButtonEl.setFocus();
-        return;
-      }
-    }
-
-    if ("setFocus" in item && typeof item.setFocus === "function") {
-      void item.setFocus();
-      return;
-    }
-
-    item.focus();
   }
 
   private getCurrentNavigationItem(): Action["el"] | ActionMenu["el"] | undefined {
