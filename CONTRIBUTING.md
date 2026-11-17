@@ -370,6 +370,9 @@ BREAKING CHANGE: <What the breaking change includes, why it is proposed, and mig
 
 When adding a `BREAKING CHANGE:` note to the summary block right before confirming a squash merge, remove all the info except the `BREAKING CHANGE:` note itself, or else everything ends up being added to the changelog.
 
+> [!NOTE]
+> The required Semantic PR check enforces both markers on the PR title and description: using either requires the other. Use the literal uppercase `BREAKING CHANGE:` spelling with an explanation on the same line or the next line. The declaration does not have to be the final paragraph. Examples in fenced code blocks, quoted text, and HTML comments do not count. Individual commits are not checked.
+
 ### Breaking change contribution example
 
 For instance, if adding a refactored breaking change to the Modal component, you could use the following conventional commit:

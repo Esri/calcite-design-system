@@ -1,7 +1,10 @@
 name: Semantic PR
 on:
   pull_request:
-    types: [edited, opened, synchronize]
+    types: [edited, opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: read
 jobs:
   semantic:
     runs-on: ubuntu-latest
@@ -26,3 +29,14 @@ jobs:
 
             # custom
             deprecate
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Test breaking-change validation
+        run: node --test .github/scripts/validateBreakingChangePullRequest.test.cjs
+      - name: Validate breaking-change markers
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const action = require('${{ github.workspace }}/.github/scripts/validateBreakingChangePullRequest.cjs')
+            await action({context, core})
