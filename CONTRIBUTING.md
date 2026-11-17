@@ -231,13 +231,29 @@ pnpm test
 
 ## Running the tests
 
-`pnpm test` will run the test suites.
+`pnpm test` will run the test suites. For Calcite Components, `test`, `test:watch`, and `test:ci` all include the Node/Puppeteer, Vitest browser-mode, and timezone browser suites.
 
 Calcite Components include [Vitest](https://vitest.dev)-based testing tools that use [Puppeteer](https://github.com/GoogleChrome/puppeteer) and [Playwright](https://playwright.dev/), including Playwright for Vitest browser mode.
 
 If you're working on writing tests for a particular component, it can be helpful to use `pnpm --filter @esri/calcite-components test:watch` to retest on file changes. If you need to run tests in interactive watch mode, you can use `pnpm --filter @esri/calcite-components test:watch:node` or `pnpm --filter @esri/calcite-components test:watch:browser`. In interactive watch mode, once the initial tests run, typing `o` at the prompt will run tests only on changed files, allowing you to quickly iterate on tests for a specific component. You can also add a pattern to the end of the command to match for a test's file path.
 
 Please refer to Calcite's [testing conventions](https://github.com/Esri/calcite-design-system/wiki/testing-conventions) for more information.
+
+### Timezone-dependent browser tests
+
+Tests requiring a specific browser timezone run separately from ordinary browser and Node tests. Name them `*.time-zone.browser.e2e.tsx` and register their include pattern and required IANA timezone names in `packages/components/src/tests/time-zone.ts`. The dedicated configuration creates named Chromium instances with those timezones and verifies the actual browser timezone before tests run. Keep component-specific expectations in the component's test fixtures.
+
+```sh
+# Run all registered timezone suites, or filter by component.
+pnpm --filter @esri/calcite-components test:browser:time-zone
+pnpm --filter @esri/calcite-components test:browser:time-zone src/components/date-picker/
+
+# Select a timezone instance, including in watch mode.
+pnpm --filter @esri/calcite-components test:browser:time-zone --project 'time-zone:Europe/Zurich'
+pnpm --filter @esri/calcite-components test:watch:browser:time-zone --project 'time-zone:Europe/Zurich'
+```
+
+`BROWSER_TIME_ZONE` can also select a registered timezone. These commands are optional tools for focused debugging; normal local testing with `test` or `test:watch` already includes every registered timezone suite. Component filters are forwarded to all three lanes, and aggregate commands allow lanes without matching files. Dedicated timezone and CI runs fail if no timezone tests match.
 
 ## Adding a new component
 
