@@ -1,5 +1,5 @@
 // @ts-check
-const { createLabelIfMissing } = require("./support/utils.cjs");
+const { createLabelIfMissing, getIssueFormResponse, syncAddedLabelWithMonday } = require("./support/utils.cjs");
 const {
   labels: { productColor },
 } = require("./support/resources.cjs");
@@ -19,9 +19,7 @@ module.exports = async ({ github, context, core }) => {
     return;
   }
 
-  const productRegex = /### Esri team(?:\r|\n)+(.+)$/m;
-  const productRegexMatch = body.match(productRegex);
-  const product = (productRegexMatch?.[1] || "").trim();
+  const product = getIssueFormResponse(body, "Esri team");
 
   // If issue includes "Esri team" line then create label, otherwise log message.
   if (product === "" || product === "N/A") {
@@ -42,18 +40,12 @@ module.exports = async ({ github, context, core }) => {
       labels: [product],
     });
 
-    await github.rest.actions.createWorkflowDispatch({
-      owner,
-      repo,
-      workflow_id: "issue-monday-sync.yaml",
-      ref: "dev",
-      inputs: {
-        issue_number: issue_number.toString(),
-        event_type: "SyncActionChanges",
-        label_name: product,
-        label_color: productColor,
-        label_action: "added",
-      },
+    await syncAddedLabelWithMonday({
+      github,
+      context,
+      issueNumber: issue_number,
+      label: product,
+      color: productColor,
     });
   }
 };

@@ -33,12 +33,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-navigation-width": "*";
     /**
-     * Specifies the background color of the component.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-navigation-background-color` instead.
-     */
-    "--calcite-navigation-background": "*";
-    /**
      * Specifies the component's background color.
      */
     "--calcite-navigation-background-color": "*";
