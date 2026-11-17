@@ -361,7 +361,7 @@ export const FloatingCSS = {
 
 /**
  * Exported for testing purposes only
- * @internal
+ *
  * @param options
  */
 export function getMiddleware({
@@ -544,7 +544,6 @@ type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
 
 /**
  * Exported for testing purposes only
- * @internal
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 

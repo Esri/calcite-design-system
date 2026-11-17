@@ -257,7 +257,6 @@ export class Stepper extends LitElement {
 
   /**
    * Fires when the active `calcite-stepper-item` changes.
-   * @internal
    */
   calciteInternalStepperItemChange = createEvent<StepperItemChangeEventDetail>({
     cancelable: false,

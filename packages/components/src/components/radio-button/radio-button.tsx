@@ -101,7 +101,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   /**
    * The focused state of the component.
-   * @internal
    */
   @property({ reflect: true }) focused = false;
 
@@ -113,12 +112,11 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   /**
    * The hovered state of the component.
-   * @internal
    */
   @property({ reflect: true }) hovered = false;
 
-  /** @copyDoc
-   * @internal
+  /**
+    @copyDoc
    */
   @property() label?: string;
 
@@ -182,7 +180,6 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   //#region Public Methods
 
-  /** @internal */
   @method()
   async emitCheckedChange(): Promise<void> {
     this.calciteInternalRadioButtonCheckedChange.emit();
@@ -221,20 +218,17 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   /**
    * Fires when the radio button is blurred.
-   * @internal
    */
   calciteInternalRadioButtonBlur = createEvent({ cancelable: false });
 
   /**
    * Fires when the checked property changes.  This is an internal event used for styling purposes only.
    * Use calciteRadioButtonChange or calciteRadioButtonGroupChange for responding to changes in the checked value for forms.
-   * @internal
    */
   calciteInternalRadioButtonCheckedChange = createEvent({ cancelable: false });
 
   /**
    * Fires when the radio button is focused.
-   * @internal
    */
   calciteInternalRadioButtonFocus = createEvent({ cancelable: false });
 

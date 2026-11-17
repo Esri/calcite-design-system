@@ -505,7 +505,6 @@ export class InputNumber
 
   /**
    * Toggles locale formatting for numbers.
-   * @internal
    */
   @property() localeFormat = false;
 
@@ -743,10 +742,8 @@ export class InputNumber
    */
   calciteInputNumberInput = createEvent();
 
-  /** @internal */
   calciteInternalInputNumberBlur = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
   //#endregion

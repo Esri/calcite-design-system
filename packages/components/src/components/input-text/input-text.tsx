@@ -657,13 +657,11 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    */
   calciteInputTextInput = createEvent();
 
-  /** @internal */
   calciteInternalInputTextBlur = createEvent<{
     element: HTMLInputElement;
     value: string;
   }>();
 
-  /** @internal */
   calciteInternalInputTextFocus = createEvent<{
     element: HTMLInputElement;
     value: string;

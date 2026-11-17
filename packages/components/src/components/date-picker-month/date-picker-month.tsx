@@ -81,7 +81,6 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
-   * @internal
    */
   @property() dateTimeFormat!: Intl.DateTimeFormat;
 
@@ -107,13 +106,11 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * Specifies the layout of the component.
-   * @internal
    */
   @property({ reflect: true }) layout!: "horizontal" | "vertical";
 
   /**
    * CLDR locale data for current locale.
-   * @internal
    */
   @property() localeData!: DateLocaleData;
 
@@ -126,7 +123,6 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   * @internal
    */
   @property() messages!: DatePicker["messages"]["_overrides"];
 
@@ -178,32 +174,27 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * Fires when user hovers the date.
-   * @internal
    */
   calciteInternalDatePickerDayHover = createEvent<Date>({ cancelable: false });
 
   /**
    * Fires when user selects the date.
-   * @internal
    */
   calciteInternalDatePickerDaySelect = createEvent<Date>({ cancelable: false });
 
   /**
    * Active date for the user keyboard access.
-   * @internal
    */
   calciteInternalDatePickerMonthActiveDateChange = createEvent<Date>({ cancelable: false });
 
   /**
    * Emits when user updates month or year using `calcite-date-picker-month-header` component.
-   * @internal
    */
   calciteInternalDatePickerMonthChange = createEvent<{
     date: Date;
     position: string;
   }>({ cancelable: false });
 
-  /** @internal */
   calciteInternalDatePickerMonthMouseOut = createEvent({ cancelable: false });
 
   //#endregion

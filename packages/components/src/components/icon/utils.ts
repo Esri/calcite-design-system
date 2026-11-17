@@ -12,14 +12,12 @@ export interface FetchIconProps {
 /**
  * Icon data cache.
  * Exported for testing purposes.
- * @internal
  */
 export const iconCache: Record<string, CalciteIconPath> = {};
 
 /**
  * Icon request cache.
  * Exported for testing purposes.
- * @internal
  */
 export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 
@@ -79,7 +77,6 @@ function getCachedIconDataByKey(id: string): CalciteIconPath {
  * Exported for testing purposes.
  *
  * @param name – an icon name that can be either kebab or camel-cased
- * @internal
  */
 export function normalizeIconName(name: string): string {
   const numberLeadingName = !isNaN(Number(name.charAt(0)));

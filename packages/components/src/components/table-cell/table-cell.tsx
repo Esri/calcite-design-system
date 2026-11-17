@@ -118,13 +118,10 @@ export class TableCell extends LitElement {
    */
   @property({ reflect: true }) colSpan?: number;
 
-  /** @internal */
   @property() disabled = false;
 
-  /** @internal */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @internal */
   @property() lastCell = false;
 
   /**
@@ -133,28 +130,20 @@ export class TableCell extends LitElement {
    */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @internal */
   @property() numberCell = false;
 
-  /** @internal */
   @property({ reflect: true }) reachesBodyEnd = false;
 
-  /** @internal */
   @property() parentRowAlignment: Alignment = "start";
 
-  /** @internal */
   @property() parentRowIsSelected = false;
 
-  /** @internal */
   @property() parentRowPositionLocalized?: string;
 
-  /** @internal */
   @property() parentRowType!: RowType;
 
-  /** @internal */
   @property() positionInRow!: number;
 
-  /** @internal */
   @property() readCellContentsToAT = false;
 
   /**
@@ -164,10 +153,8 @@ export class TableCell extends LitElement {
    */
   @property({ reflect: true }) rowSpan?: number;
 
-  /** @internal */
   @property() scale: Scale = "m";
 
-  /** @internal */
   @property() selectionCell = false;
 
   //#endregion

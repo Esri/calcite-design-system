@@ -89,7 +89,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * True when the item is highlighted from keyboard interaction.
-   * @internal
    */
   @property() active = false;
 
@@ -108,7 +107,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * The `id` attribute of the component
-   * @internal
    */
   @property() guid = IDS.host(guid());
 
@@ -140,7 +138,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * Pattern for highlighting text matches.
-   * @internal
    */
   @property({ reflect: true }) inputValueMatchPattern?: RegExp;
 
@@ -152,7 +149,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -176,7 +172,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * Requests selection by emitting the `calciteAutocompleteItemSelect` event. Selection state is managed by the parent `calcite-autocomplete`.
-   * @internal
    */
   @method()
   requestSelection(): void {
@@ -196,7 +191,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * Fires whenever a property the parent autocomplete needs to know about is changed.
-   * @internal
    */
   calciteInternalAutocompleteItemChange = createEvent({ cancelable: false });
 

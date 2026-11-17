@@ -102,7 +102,6 @@ export class NavigationUser extends LitElement {
 
   /**
    * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
-   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 

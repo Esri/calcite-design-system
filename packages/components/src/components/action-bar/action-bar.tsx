@@ -510,7 +510,6 @@ export class ActionBar extends LitElement {
 
   /**
    * Overflows actions that won't fit into menus.
-   * @internal
    */
   @method()
   async overflowActions(): Promise<void> {

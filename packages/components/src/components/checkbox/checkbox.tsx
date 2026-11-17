@@ -123,7 +123,6 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   /**
    * The hovered state of the checkbox.
-   * @internal
    */
   @property({ reflect: true }) hovered = false;
 
@@ -226,13 +225,11 @@ export class Checkbox extends LitElement implements LabelableComponent {
 
   /**
    * Fires when the component is blurred.
-   * @internal
    */
   calciteInternalCheckboxBlur = createEvent<boolean>({ cancelable: false });
 
   /**
    * Fires when the component is focused.
-   * @internal
    */
   calciteInternalCheckboxFocus = createEvent<boolean>({ cancelable: false });
 

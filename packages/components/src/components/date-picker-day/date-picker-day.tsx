@@ -61,7 +61,6 @@ export class DatePickerDay extends LitElement {
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
-   * @internal
    */
   @property() dateTimeFormat!: Intl.DateTimeFormat;
 
@@ -158,13 +157,11 @@ export class DatePickerDay extends LitElement {
 
   /**
    * Fires when user hovers over a day.
-   * @internal
    */
   calciteInternalDayHover = createEvent({ cancelable: false });
 
   /**
    * Fires when user selects day.
-   * @internal
    */
   calciteInternalDaySelect = createEvent({ cancelable: false });
 

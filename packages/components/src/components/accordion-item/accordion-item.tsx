@@ -256,7 +256,6 @@ export class AccordionItem extends LitElement {
 
   /**
    * Specifies the appearance of the component. Inherited from the `calcite-accordion`.
-   * @internal
    */
   @property() appearance!: Extract<"solid" | "transparent", Appearance>;
 
@@ -268,7 +267,6 @@ export class AccordionItem extends LitElement {
 
   /**
    * Specifies the placement of the icon in the header inherited from the `calcite-accordion`.
-   * @internal
    */
   @property() iconPosition!: Extract<"start" | "end", Position>;
 
@@ -280,13 +278,11 @@ export class AccordionItem extends LitElement {
 
   /**
    * Specifies the type of the icon in the header inherited from the `calcite-accordion`.
-   * @internal
    */
   @property() iconType!: Extract<"chevron" | "caret" | "plus-minus", IconType>;
 
   /**
    * Specifies the size of the component inherited from the `calcite-accordion`.
-   * @internal
    */
   @property({ reflect: true }) scale!: Scale;
 
@@ -330,10 +326,8 @@ export class AccordionItem extends LitElement {
    */
   calciteAccordionItemExpand = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalAccordionItemClose = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalAccordionItemSelect = createEvent<RequestedItem>({
     cancelable: false,
   });

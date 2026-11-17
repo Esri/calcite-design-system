@@ -250,7 +250,6 @@ export class InlineEditable extends LitElement implements LabelableComponent {
    */
   calciteInlineEditableEditConfirm = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalInlineEditableEnableEditingChange = createEvent({
     cancelable: false,
   });

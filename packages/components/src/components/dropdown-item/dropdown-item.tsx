@@ -168,7 +168,6 @@ export class DropdownItem extends LitElement {
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
-   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -184,7 +183,6 @@ export class DropdownItem extends LitElement {
    * - `multiple` allows any number of selected items,
    * - `single` allows only one selection (default),
    * - `none` doesn't allow for any selection.
-   * @internal
    */
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
@@ -201,8 +199,6 @@ export class DropdownItem extends LitElement {
 
   /**
    * Activates the component's link or selects the component.
-   *
-   * @internal
    */
   @method()
   async activateItem(): Promise<void> {
@@ -241,7 +237,6 @@ export class DropdownItem extends LitElement {
    */
   calciteDropdownItemSelect = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalDropdownItemSelect = createEvent<RequestedItem>({
     cancelable: false,
   });

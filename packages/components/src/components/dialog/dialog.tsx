@@ -483,7 +483,6 @@ export class Dialog extends LitElement {
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
-   * @internal
    */
   @property({ reflect: true }) embedded = false;
 

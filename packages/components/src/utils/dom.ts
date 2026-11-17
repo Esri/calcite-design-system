@@ -313,8 +313,9 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
  * @returns the first focusable element.
+ * @internal
  */
-function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
+export function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
     return;
   }
@@ -328,8 +329,9 @@ function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HT
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
  * @param options - When specified, customizes the element's focusing process.
+ * @internal
  */
-function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
+export function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstFocusable(element, includeContainer)?.focus(options);
 }
 
@@ -716,7 +718,7 @@ export function getStylePixelValue(value: string): number {
 
 /**
  * Exported for testing purposes only.
- * @internal
+ *
  * @param value
  * @param viewportSize
  */

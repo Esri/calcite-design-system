@@ -444,7 +444,7 @@ export class List extends LitElement {
 
   /**
    * Emits the `calciteListOrderChange` event.
-   * @internal
+   *
    * @param detail
    */
   @method()
@@ -476,7 +476,6 @@ export class List extends LitElement {
 
   /**
    * Fires when the default slot has changes in order to notify parent lists.
-   * @internal
    */
   calciteInternalListDefaultSlotChange = createEvent({ cancelable: false });
 

@@ -363,19 +363,16 @@ export class Block extends LitElement {
 
   /**
    * Defines the "Add to" items.
-   * @internal
    */
   @property() addToItems: SortMenuItem[] = [];
 
   /**
    * Defines the "Move to" items.
-   * @internal
    */
   @property() moveToItems: SortMenuItem[] = [];
 
   /**
    * Prevents reordering the component.
-   * @internal
    */
   @property() sortDisabled = false;
 
@@ -414,13 +411,11 @@ export class Block extends LitElement {
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   * @internal
    */
   @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   * @internal
    */
   @property() setSize?: number;
 
@@ -519,10 +514,6 @@ export class Block extends LitElement {
    */
   calciteBlockSortHandleOpen = createEvent({ cancelable: false });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalBlockChange = createEvent<{
     el: Block["el"];
     parentElement?: BlockGroup["el"];
@@ -530,10 +521,6 @@ export class Block extends LitElement {
     cancelable: false,
   });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalBlockUpdateSortMenuItems = createEvent({ cancelable: false });
 
   //#endregion

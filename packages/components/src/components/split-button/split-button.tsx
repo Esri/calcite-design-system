@@ -166,7 +166,6 @@ export class SplitButton extends LitElement {
 
   /**
    * When `true`, the component is active.
-   * @internal
    */
   @property({ reflect: true }) active = false;
 

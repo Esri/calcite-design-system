@@ -251,7 +251,6 @@ export class Card extends LitElement {
   /**
    * This internal property, managed by a containing `calcite-card-group`, is
    * conditionally set based on the `selectionMode` of the parent
-   * @internal
    */
   @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",

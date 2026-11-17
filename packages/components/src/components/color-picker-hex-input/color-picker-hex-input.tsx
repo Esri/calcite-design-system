@@ -87,7 +87,6 @@ export class ColorPickerHexInput extends LitElement {
 
   /**
    * Messages are passed by parent component for accessible labels.
-   * @internal
    */
   @property() messages!: ColorPicker["messages"]["_overrides"];
 

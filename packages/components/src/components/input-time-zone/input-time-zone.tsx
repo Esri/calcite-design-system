@@ -244,7 +244,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   /**
    * When `true` and the component resides in a form,
    * the component must have a `value` in order for the form to submit.
-   * @internal
    */
   @property({ reflect: true }) required = false;
 
@@ -474,7 +473,6 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * Helps override the selected item's label for region mode outside of item rendering logic to avoid flickering text change
    *
    * @param open
-   * @internal
    */
   private overrideSelectedLabelForRegion(open: boolean): void {
     if (this.mode !== "region" || !this.selectedTimeZoneItem) {

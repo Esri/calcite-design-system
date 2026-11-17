@@ -59,7 +59,6 @@ export class Tree extends LitElement {
 
   //#region Public Properties
 
-  /** @internal */
   @property({ reflect: true }) child = false;
 
   /**
@@ -69,7 +68,6 @@ export class Tree extends LitElement {
    */
   @property({ reflect: true }) lines = false;
 
-  /** @internal */
   @property() parentExpanded = false;
 
   /**

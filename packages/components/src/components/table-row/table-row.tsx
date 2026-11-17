@@ -139,14 +139,11 @@ export class TableRow extends LitElement {
 
   /**
    * When `true`, the item will be hidden
-   * @internal
    */
   @property({ reflect: true }) itemHidden = false;
 
-  /** @internal */
   @property() bodyRowCount!: number;
 
-  /** @internal */
   @property() cellCount!: number;
 
   /**
@@ -156,34 +153,24 @@ export class TableRow extends LitElement {
    */
   @property({ reflect: true }) disabled = false;
 
-  /** @internal */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @internal */
   @property() lastVisibleRow = false;
 
-  /** @internal */
   @property() numbered = false;
 
-  /** @internal */
   @property() positionAll!: number;
 
-  /** @internal */
   @property() positionSection!: number;
 
-  /** @internal */
   @property() positionSectionLocalized!: string;
 
-  /** @internal */
   @property() readCellContentsToAT!: boolean;
 
-  /** @internal */
   @property() rowType!: RowType;
 
-  /** @internal */
   @property() scale!: Scale;
 
-  /** @internal */
   @property() stickyHeaderEnabled = false;
 
   /**
@@ -203,25 +190,20 @@ export class TableRow extends LitElement {
     }
   }
 
-  /** @internal */
   @property() selectedRowCount!: number;
 
-  /** @internal */
   @property() selectedRowCountLocalized!: string;
 
-  /** @internal */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
   //#endregion
 
   //#region Events
 
-  /** @internal */
   calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({
     cancelable: false,
   });
 
-  /** @internal */
   calciteInternalTableRowSelect = createEvent({ cancelable: false });
 
   /**

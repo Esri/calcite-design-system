@@ -104,7 +104,6 @@ export class Swatch extends LitElement {
   /**
    * When `true`, enables the swatch to be focused, and allows the `calciteSwatchSelect` event to emit.
    * This is set to `true` by a parent Swatch Group component.
-   * @internal
    */
   @property() interactive = false;
 
@@ -115,7 +114,6 @@ export class Swatch extends LitElement {
    */
   @property() label!: string;
 
-  /** @internal */
   @property() parentSwatchGroup?: SwatchGroup["el"];
 
   /**
@@ -135,7 +133,6 @@ export class Swatch extends LitElement {
   /**
    * This internal property, managed by a containing `calcite-swatch-group`, is
    * conditionally set based on the `selectionMode` of the parent
-   * @internal
    */
   @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -168,10 +165,8 @@ export class Swatch extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalSwatchSelect = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalSyncSelectedSwatches = createEvent({ cancelable: false });
 
   /**

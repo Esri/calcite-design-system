@@ -977,7 +977,6 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param value
    * @param prop
-   * @internal
    */
   private clamp(value: number, prop?: ActiveSliderProperty): number {
     value = clamp(value, this.min, this.max);
@@ -997,7 +996,6 @@ export class Slider extends LitElement implements LabelableComponent {
    * Translate a pixel position to value along the range
    *
    * @param x
-   * @internal
    */
   private mapToRange(x: number): number {
     const range = this.max - this.min;
@@ -1017,7 +1015,6 @@ export class Slider extends LitElement implements LabelableComponent {
    * Get closest allowed value along stepped values
    *
    * @param value
-   * @internal
    */
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
@@ -1059,7 +1056,6 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param num
    * @return {number} number in the unit interval [0,1]
-   * @internal
    */
   private getUnitInterval(num: number): number {
     num = this.clamp(num);
@@ -1232,7 +1228,6 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @param leftBounds
    * @param rightBounds
-   * @internal
    */
   private getHostOffset(leftBounds: number, rightBounds: number): number {
     const { left, right } = this.el.getBoundingClientRect();
