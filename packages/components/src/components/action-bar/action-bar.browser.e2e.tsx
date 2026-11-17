@@ -1777,6 +1777,31 @@ describe("wrap", () => {
 });
 
 describe("slot-change action tracking", () => {
+  it("synchronizes navigation when an action-group is added dynamically", async () => {
+    const { el } = await mount<ActionBar>(
+      <calcite-action-bar expand-toggle-disabled layout="horizontal" />,
+    );
+    const group = document.createElement("calcite-action-group");
+
+    group.innerHTML = `
+      <calcite-action icon="plus" text="Add"></calcite-action>
+      <calcite-action icon="save" text="Save"></calcite-action>
+    `;
+    el.append(group);
+
+    const actions = page.getBySelector(
+      "calcite-action-bar > calcite-action-group > calcite-action",
+    );
+    const firstAction = actions.nth(0);
+    const secondAction = actions.nth(1);
+
+    await expect.element(firstAction).not.toHaveAttribute("tabindex");
+    await expect.element(secondAction).toHaveAttribute("tabindex", "-1");
+
+    await userEvent.keyboard("{Tab}{ArrowRight}");
+    await expect.element(secondAction).toHaveFocus();
+  });
+
   it("updates slotted action state when an action-group emits an actions change event", async () => {
     const actionsChange = vi.fn();
 
