@@ -9,9 +9,9 @@ import "../chip/chip"; // Force Vite to statically trace the file for Chromatic'
 import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
-import "../handle/handle"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../input/input"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../sort-handle/sort-handle"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./stack"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 export default {
@@ -38,7 +38,7 @@ export const simple = (args: StackStoryArgs): string => simpleHTML(args);
 
 export const stretchSlottedContent = (): string => html`
   <calcite-stack>
-    <calcite-handle slot="actions-start"></calcite-handle>
+    <calcite-sort-handle set-position="1" set-size="2" slot="actions-start"></calcite-sort-handle>
     <calcite-action appearance="transparent" text="banana" icon="banana" slot="actions-start"></calcite-action>
     Hello World
     <calcite-avatar slot="content-end" thumbnail="${thumbnailImage}" scale="s"> </calcite-avatar>

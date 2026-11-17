@@ -1,5 +1,5 @@
 // @ts-check
-const { createLabelIfMissing, includesLabel } = require("./support/utils.cjs");
+const { createLabelIfMissing, includesLabel, syncAddedLabelWithMonday } = require("./support/utils.cjs");
 const {
   packages: { icons: iconsPackage },
 } = require("./support/resources.cjs");
@@ -49,17 +49,11 @@ module.exports = async ({ github, context, core }) => {
       core.setOutput("icon-label-added", "true");
     }
 
-    await github.rest.actions.createWorkflowDispatch({
-      owner,
-      repo,
-      workflow_id: "issue-monday-sync.yaml",
-      ref: "dev",
-      inputs: {
-        issue_number: issue_number.toString(),
-        event_type: "SyncActionChanges",
-        label_name: packageLabel,
-        label_action: "added",
-      },
+    await syncAddedLabelWithMonday({
+      github,
+      context,
+      issueNumber: issue_number,
+      label: packageLabel,
     });
   }
 };

@@ -53,6 +53,9 @@ interface RadioButtonGroupSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Radio Button
+ */
 export class RadioButtonGroup extends LitElement {
   //#region Type-only metadata members
 
@@ -77,7 +80,7 @@ export class RadioButtonGroup extends LitElement {
 
   private mutationObserver = createObserver("mutation", () => this.passPropsToRadioButtons());
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private _disabled = false;
 

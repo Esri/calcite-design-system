@@ -30,6 +30,9 @@ interface TreeSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Tree
+ */
 export class Tree extends LitElement {
   //#region Type-only metadata members
 

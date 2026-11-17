@@ -35,6 +35,9 @@ interface FlowSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Flow
+ */
 export class Flow extends LitElement {
   //#region Type-only metadata members
 
@@ -60,7 +63,7 @@ export class Flow extends LitElement {
 
   private selectedIndex = -1;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 

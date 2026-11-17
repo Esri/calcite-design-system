@@ -7,13 +7,16 @@
 
 :host {
   @extend %component-host;
-  @apply flex w-full;
+
+  display: flex;
+  inline-size: 100%;
 }
 
 @include shared.disabled();
 
 .container {
-  @apply flex w-full;
+  display: flex;
+  inline-size: 100%;
 }
 
 :host([scale="s"]) {
@@ -33,15 +36,17 @@
 }
 
 label {
-  @apply relative
-    my-0
-    flex w-full
-    items-center
-    overflow-hidden;
+  position: relative;
+  margin-block: var(--calcite-space-none);
+  display: flex;
+  inline-size: 100%;
+  align-items: center;
+  overflow: hidden;
 }
 
 calcite-input {
-  @apply w-full;
+  inline-size: 100%;
+
   --calcite-input-background-color: var(--calcite-filter-input-background-color);
   --calcite-input-border-color: var(--calcite-filter-input-border-color);
   --calcite-input-corner-radius: var(--calcite-filter-input-corner-radius, var(--calcite-corner-radius));

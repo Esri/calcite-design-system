@@ -67,6 +67,9 @@ interface ActionGroupSlots {
   "menu-tooltip": Node[];
 }
 
+/**
+ * @docGroup Actions
+ */
 export class ActionGroup extends LitElement {
   //#region Type-only metadata members
 
@@ -93,7 +96,7 @@ export class ActionGroup extends LitElement {
 
   private _actions: Action["el"][] = [];
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 

@@ -2,7 +2,12 @@
 
 :host {
   @extend %component-host;
-  @apply align-top inline-block overflow-visible w-full border-solid border;
+  vertical-align: top;
+  display: inline-block;
+  overflow: visible;
+  inline-size: 100%;
+  border-style: solid;
+  border-width: var(--calcite-border-width-sm);
   border-color: var(--calcite-date-picker-border-color, var(--calcite-color-border-3));
   border-radius: var(--calcite-date-picker-corner-radius, var(--calcite-corner-radius));
 }
@@ -45,7 +50,7 @@
 
 // prevents focus ring from showing when Shift key press succeed click on non-interactive area
 .container {
-  @apply outline-none;
+  @include shared.outline-none();
 }
 
 @include shared.base-component();

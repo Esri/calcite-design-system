@@ -133,6 +133,8 @@ interface AccordionItemSlots {
 
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @docGroup Accordion
+ * @parent calcite-accordion
  */
 export class AccordionItem extends LitElement {
   //#region Type-only metadata members
@@ -153,7 +155,7 @@ export class AccordionItem extends LitElement {
 
   private headerRef = createRef<HTMLButtonElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   /**
    * Made into a prop for testing purposes only
