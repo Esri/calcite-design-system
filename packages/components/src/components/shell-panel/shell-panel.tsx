@@ -24,16 +24,10 @@ import { CSS, ICONS, SLOTS } from "./resources";
 import type { DisplayMode } from "./types";
 import { styles } from "./shell-panel.scss";
 
-/** @public */
 export type ShellPanelSizingData = {
-  /** @public */
   availableSize: number;
 };
 
-/**
- * @public
- * @param axis
- */
 type ShellSizingDataProvider = (axis: "inline" | "block") => ShellPanelSizingData | null;
 
 declare global {
@@ -267,7 +261,6 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) resizable = false;
 
-  /** @internal */
   @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
 
   /**
