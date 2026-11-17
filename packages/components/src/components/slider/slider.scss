@@ -319,10 +319,22 @@
     mt-3.5
     flex
     justify-center;
+  visibility: hidden;
+}
+
+.tick__label--visible {
+  visibility: visible;
 }
 
 .tick__label--min {
   transition: opacity var(--calcite-animation-timing);
+}
+
+.tick__label--min,
+.tick__label--max {
+  position: absolute;
+  inset-block-start: -1px;
+  inline-size: max-content;
 }
 
 .tick__label--max {

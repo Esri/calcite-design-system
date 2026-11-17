@@ -21,6 +21,8 @@ import { defaultValidity } from "../../tests/common/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
 
+// cspell:ignore loadingdone
+
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-slider", mountOptions));
 });
@@ -175,6 +177,331 @@ describe("internal label", () => {
 
 describe("renders", () => {
   renders(() => mount("calcite-slider"), { display: "block" });
+});
+
+describe("tick label alignment", () => {
+  describe.each(["s", "m", "l"] as const)("scale=%s", (scale) => {
+    it.each([
+      ["ltr", false, false],
+      ["rtl", false, false],
+      ["ltr", true, false],
+      ["rtl", true, false],
+      ["ltr", true, true],
+      ["rtl", true, true],
+    ] as const)(
+      "aligns endpoint labels to component bounds (dir=%s, mirrored=%s, hasHistogram=%s)",
+      async (dir, mirrored, hasHistogram) => {
+        const { el } = await mount<Slider>(
+          <calcite-slider
+            dir={dir}
+            hasHistogram={hasHistogram}
+            labelFormatter={(value, type, defaultFormatter) =>
+              type === "tick" && (value === 0 || value === 100)
+                ? `Long endpoint label ${value}`
+                : defaultFormatter(value)
+            }
+            labelTicks
+            mirrored={mirrored}
+            scale={scale}
+            style={{ inlineSize: "400px" }}
+            ticks={50}
+            value={[25, 75]}
+          />,
+        );
+
+        const minLabel = page.getBySelector(`.${CSS.tickMin}`).element().getBoundingClientRect();
+        const maxLabel = page.getBySelector(`.${CSS.tickMax}`).element().getBoundingClientRect();
+        const middleLabel = page
+          .getBySelector(`.${CSS.tickLabel}`)
+          .nth(1)
+          .element()
+          .getBoundingClientRect();
+        const middleTick = page
+          .getBySelector(`.${CSS.tick}`)
+          .nth(1)
+          .element()
+          .getBoundingClientRect();
+        const bounds = el.getBoundingClientRect();
+        const mirror = mirrored && !hasHistogram;
+
+        expect(mirror ? minLabel.right : minLabel.left).toBeCloseTo(
+          mirror ? bounds.right : bounds.left,
+        );
+        expect(mirror ? maxLabel.left : maxLabel.right).toBeCloseTo(
+          mirror ? bounds.left : bounds.right,
+        );
+        expect(middleLabel.left + middleLabel.width / 2).toBeCloseTo(
+          middleTick.left + middleTick.width / 2,
+        );
+        expect(minLabel.top).toBeCloseTo(middleLabel.top);
+        expect(maxLabel.top).toBeCloseTo(middleLabel.top);
+      },
+    );
+  });
+
+  it("allows omitting neighboring tick labels without changing default formatting", async () => {
+    await mount(
+      <calcite-slider
+        labelFormatter={(value, type) =>
+          type === "tick" && (value === 25 || value === 75) ? "" : undefined
+        }
+        labelHandles
+        labelTicks
+        ticks={25}
+        value={50}
+      />,
+    );
+
+    const labels = page.getBySelector(`.${CSS.tickLabel}`);
+    await expect.element(labels.nth(0)).toHaveTextContent("0");
+    await expect.element(labels.nth(1)).toBeEmptyDOMElement();
+    await expect.element(labels.nth(2)).toHaveTextContent("50");
+    await expect.element(labels.nth(3)).toBeEmptyDOMElement();
+    await expect.element(labels.nth(4)).toHaveTextContent("100");
+    await expect
+      .element(
+        page.getBySelector(`.${CSS.handleLabelValue}:not(.${CSS.static}):not(.${CSS.transformed})`),
+      )
+      .toHaveTextContent("50");
+  });
+});
+
+describe("overlapping tick labels", () => {
+  function visibleValues(): number[] {
+    return page
+      .getBySelector(`.${CSS.tickLabelVisible}`)
+      .all()
+      .map((label) => Number(label.element().getAttribute("data-tick")));
+  }
+
+  function textBounds(element: Element): DOMRect {
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    return range.getBoundingClientRect();
+  }
+
+  function expectNoOverlappingText(): void {
+    const bounds = page
+      .getBySelector(`.${CSS.tickLabelVisible}`)
+      .all()
+      .map((label) => textBounds(label.element()))
+      .sort((first, second) => first.left - second.left);
+
+    for (let index = 1; index < bounds.length; index++) {
+      expect(bounds[index].left).toBeGreaterThan(bounds[index - 1].right);
+    }
+  }
+
+  it.each([
+    ["ltr", false],
+    ["rtl", false],
+    ["ltr", true],
+    ["rtl", true],
+  ] as const)("prioritizes long endpoint labels (dir=%s, mirrored=%s)", async (dir, mirrored) => {
+    await mount(
+      <calcite-slider
+        dir={dir}
+        labelFormatter={(value, type, defaultFormatter) =>
+          type === "tick" && (value === 0 || value === 100)
+            ? `Selectable value ${value}`
+            : defaultFormatter(value)
+        }
+        labelTicks
+        mirrored={mirrored}
+        style={{ inlineSize: "320px" }}
+        ticks={10}
+        value={50}
+      />,
+    );
+
+    const minLabel = page.getBySelector(`.${CSS.tickMin}`);
+    const maxLabel = page.getBySelector(`.${CSS.tickMax}`);
+    await expect.element(minLabel).toBeVisible();
+    await expect.element(maxLabel).toBeVisible();
+    expect(visibleValues().length).toBeLessThan(11);
+    expectNoOverlappingText();
+
+    const suppressed = page
+      .getBySelector(`.${CSS.tickLabel}:not(.${CSS.tickLabelVisible})`)
+      .first();
+    await expect.element(suppressed).not.toBeVisible();
+    expect(textBounds(suppressed.element()).width).toBeGreaterThan(0);
+  });
+
+  it("keeps min when the endpoint labels themselves overlap", async () => {
+    await mount(
+      <calcite-slider
+        labelFormatter={(value) => `Long endpoint label ${value}`}
+        labelTicks
+        style={{ inlineSize: "100px" }}
+        ticks={100}
+      />,
+    );
+
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).not.toBeVisible();
+    expect(visibleValues()).toEqual([0]);
+  });
+
+  it("restores labels when more space becomes available, including after reconnecting", async () => {
+    const { el } = await mount(
+      <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} value={50} />,
+    );
+
+    await expect.poll(() => visibleValues().length).toBe(11);
+    const parent = el.parentElement!;
+    el.remove();
+    parent.append(el);
+    el.style.inlineSize = "90px";
+
+    await expect.poll(() => visibleValues().length).toBeLessThan(11);
+    expect(visibleValues()).toContain(0);
+    expect(visibleValues()).toContain(100);
+    expectNoOverlappingText();
+
+    el.style.inlineSize = "600px";
+    await expect.poll(() => visibleValues().length).toBe(11);
+    expectNoOverlappingText();
+  });
+
+  it("recovers after starting in a hidden container", async () => {
+    const { el } = await mount(
+      <calcite-slider hidden labelTicks style={{ inlineSize: "90px" }} ticks={10} />,
+    );
+
+    el.hidden = false;
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    expectNoOverlappingText();
+  });
+
+  it("remeasures changed formatter text and preserves explicit omissions", async () => {
+    let longLabels = false;
+    const formatter: Slider["labelFormatter"] = (value, _type, defaultFormatter) =>
+      longLabels ? (value === 50 ? "" : `Long tick label ${value}`) : defaultFormatter(value);
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider
+        labelFormatter={formatter}
+        labelTicks
+        style={{ inlineSize: "320px" }}
+        ticks={10}
+        value={50}
+      />,
+    );
+    await expect.poll(() => visibleValues().length).toBe(11);
+
+    longLabels = true;
+    el.value = 60;
+    await reRender();
+
+    await expect.poll(() => visibleValues().length).toBeLessThan(11);
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    expect(visibleValues()).not.toContain(50);
+    expectNoOverlappingText();
+
+    el.labelFormatter = undefined;
+    await reRender();
+    await expect.poll(() => visibleValues().length).toBe(11);
+  });
+
+  it("remeasures after scale and locale changes", async () => {
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider
+        labelTicks
+        max={10000}
+        min={1000}
+        scale="s"
+        style={{ inlineSize: "320px" }}
+        ticks={1000}
+      />,
+    );
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
+
+    el.scale = "l";
+    await reRender();
+    await expect.poll(() => measurements.mock.calls.length).toBeGreaterThan(0);
+    expectNoOverlappingText();
+    measurements.mockClear();
+
+    el.numberingSystem = "arab";
+    await reRender();
+    await expect.poll(() => measurements.mock.calls.length).toBeGreaterThan(0);
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toHaveTextContent("١٠٠٠٠");
+    expectNoOverlappingText();
+
+    el.min = 2000;
+    el.max = 11000;
+    await reRender();
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toHaveTextContent("٢٠٠٠");
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toHaveTextContent("١١٠٠٠");
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    expectNoOverlappingText();
+  });
+
+  it("preserves handle obscuration when variants and handle values change", async () => {
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider
+        labelHandles
+        labelTicks
+        precise
+        style={{ inlineSize: "400px" }}
+        ticks={10}
+        value={[0, 75]}
+      />,
+    );
+    const minLabel = page.getBySelector(`.${CSS.tickMin}`);
+    const maxLabel = page.getBySelector(`.${CSS.tickMax}`);
+    await expect.element(minLabel).not.toBeVisible();
+    await expect.element(maxLabel).toBeVisible();
+    await expect.element(minLabel).toHaveStyle({ opacity: "0" });
+
+    el.value = [25, 75];
+    await reRender();
+    await expect.element(minLabel).toBeVisible();
+    expect(visibleValues()).toEqual([0, 100]);
+
+    el.precise = false;
+    await reRender();
+    await expect.poll(() => visibleValues().length).toBeGreaterThan(2);
+    expectNoOverlappingText();
+  });
+
+  it("does not remeasure during dragging and coalesces layout measurements", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider labelTicks max={250} style={{ inlineSize: "800px" }} ticks={1} value={125} />,
+    );
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    await document.fonts.ready;
+    await new Promise(requestAnimationFrame);
+    const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
+    const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+
+    await commands.mouseMove(track.left + track.width / 2, track.top);
+    await commands.mouseDown();
+    await commands.mouseMove(track.left + track.width * 0.6, track.top);
+    await commands.mouseMove(track.left + track.width * 0.7, track.top);
+    await commands.mouseUp();
+    await new Promise(requestAnimationFrame);
+
+    expect(el.value).toBeGreaterThan(125);
+    expect(measurements).not.toHaveBeenCalled();
+
+    el.style.inlineSize = "700px";
+    el.style.inlineSize = "600px";
+    el.style.inlineSize = "500px";
+    await expect.poll(() => measurements.mock.calls.length).toBe(251);
+    await new Promise(requestAnimationFrame);
+    expect(measurements).toHaveBeenCalledTimes(251);
+
+    measurements.mockClear();
+    document.fonts.dispatchEvent(new Event("loadingdone"));
+    document.fonts.dispatchEvent(new Event("loadingdone"));
+    await expect.poll(() => measurements.mock.calls.length).toBe(251);
+    await new Promise(requestAnimationFrame);
+    expect(measurements).toHaveBeenCalledTimes(251);
+  });
 });
 
 describe("translation support", () => {

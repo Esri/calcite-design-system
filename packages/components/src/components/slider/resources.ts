@@ -22,6 +22,7 @@ export const CSS = {
   tick: "tick",
   tickActive: "tick--active",
   tickLabel: "tick__label",
+  tickLabelVisible: "tick__label--visible",
   tickMax: "tick__label--max",
   tickMin: "tick__label--min",
   ticks: "ticks",

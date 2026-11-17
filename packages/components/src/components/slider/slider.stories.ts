@@ -873,6 +873,38 @@ customLabelsAndTicks.parameters = {
   chromatic: { delay: 500 },
 };
 
+export const tickLabelsWithinBounds = (): string => html`
+  <style>
+    .bounded-tick-labels {
+      inline-size: 400px;
+      max-inline-size: 100%;
+      border-inline: 1px solid var(--calcite-color-border-1);
+    }
+  </style>
+  <calcite-slider
+    class="bounded-tick-labels"
+    id="boundedTickLabelsSlider"
+    label-text="Automatically spaced custom tick labels"
+    label-ticks
+    ticks="10"
+    value="50"
+  ></calcite-slider>
+  <script>
+    const slider = document.getElementById("boundedTickLabelsSlider");
+    slider.labelFormatter = (value, type, defaultFormatter) => {
+      if (type === "tick") {
+        if (value === slider.min) {
+          return "Minimum selectable value";
+        }
+        if (value === slider.max) {
+          return "Maximum selectable value";
+        }
+      }
+      return defaultFormatter(value);
+    };
+  </script>
+`;
+
 export const validationMessageAllScales = (): string => html`
   <style>
     .container {

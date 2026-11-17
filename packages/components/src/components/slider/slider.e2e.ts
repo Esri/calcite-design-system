@@ -159,7 +159,7 @@ it("should cap the rendered last tick label to the slider's provided max", async
       </calcite-slider>
     `);
   const slider = await page.find("calcite-slider");
-  const maxTickLabel = await page.find("calcite-slider >>> .tick:nth-of-type(11)");
+  const maxTickLabel = await page.find(`calcite-slider >>> .${CSS.tickMax}`);
   expect(parseFloat(maxTickLabel.textContent)).toBe(await slider.getProperty("max"));
 });
 
