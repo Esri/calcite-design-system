@@ -1584,7 +1584,7 @@ describe("localization", () => {
         await userEvent.click(next);
         await expect.element(next).toHaveFocus();
 
-        expect(el).toHaveValue("2023-05-31");
+        await expect.element(el).toHaveValue("2023-05-31");
       },
     );
 
