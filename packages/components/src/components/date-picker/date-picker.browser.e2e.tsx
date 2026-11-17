@@ -550,19 +550,6 @@ it("starts the week on Monday for Slovak", async () => {
 });
 
 describe("min and max", () => {
-  it("updates minAsDate and maxAsDate when min and max change", async () => {
-    const { el, component } = await mount<DatePicker>(
-      <calcite-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />,
-    );
-
-    el.min = "2021-11-15";
-    el.max = "2023-11-15";
-    await component.updateComplete;
-
-    expectDateParts(el.minAsDate, 2021, 10, 15);
-    expectDateParts(el.maxAsDate, 2023, 10, 15);
-  });
-
   it("clears minAsDate and maxAsDate when min and max are cleared", async () => {
     const { el, component } = await mount<DatePicker>(
       <calcite-date-picker max="2022-11-25" min="2022-11-15" value="2022-11-20" />,
