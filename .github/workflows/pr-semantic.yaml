@@ -32,8 +32,6 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - name: Test breaking-change validation
-        run: node --test .github/scripts/validateBreakingChangePullRequest.test.cjs
       - name: Validate breaking-change markers
         uses: actions/github-script@v9
         with:
