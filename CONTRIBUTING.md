@@ -243,6 +243,10 @@ Please refer to Calcite's [testing conventions](https://github.com/Esri/calcite-
 
 Tests requiring a specific browser timezone run separately from ordinary browser and Node tests. Name them `*.time-zone.browser.e2e.tsx` and register their include pattern and required IANA timezone names in `packages/components/src/tests/time-zone.ts`. The dedicated configuration creates named Chromium instances with those timezones and verifies the actual browser timezone before tests run. Keep component-specific expectations in the component's test fixtures.
 
+When expected values differ by timezone, keep a fixture for each registered zone and select it using `inject("timeZone")` from `vitest`. Run the same assertions against that fixture in each instance instead of scattering timezone conditionals through the tests. Throw if the fixture is missing so newly registered zones cannot silently lose coverage. Use fixed dates for date-sensitive expectations, including daylight saving time, and avoid computing expected values with the implementation being tested.
+
+For an existing example, see the [input-time-zone suite](packages/components/src/components/input-time-zone/input-time-zone.time-zone.browser.e2e.tsx) and its [timezone fixtures](packages/components/src/components/input-time-zone/time-zone-fixtures.ts). That suite selects its fixture using the browser's resolved timezone and checks the corresponding offset and label; new suites can use the injected timezone directly because the shared setup already verifies it against the browser.
+
 ```sh
 # Run all registered timezone suites, or filter by component.
 pnpm --filter @esri/calcite-components test:browser:time-zone
