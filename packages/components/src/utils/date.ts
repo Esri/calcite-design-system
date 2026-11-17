@@ -133,6 +133,8 @@ export function datePartsFromLocalizedString(
   localeData: DateLocaleData,
 ): { day: string; month: string; year: string } {
   const { unitOrder } = localeData;
+  // Intl date patterns can include whitespace and Arabic/left-to-right/right-to-left marks for display.
+  // Typed or pasted input may omit or repeat these; keep the other locale separator characters required.
   const optionalFormattingCharacters = String.raw`[\s\u061C\u200E\u200F]*`;
   const localizedDatePattern = unitOrder
     .split(/([dmy]+)/giu)
