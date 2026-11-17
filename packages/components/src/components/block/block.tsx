@@ -191,6 +191,8 @@ export class Block extends LitElement {
 
   private focusSetter = useFocusable<this>()(this);
 
+  private hasSlottedDescription = false;
+
   private interactiveContainer = useInteractive(this);
 
   //#endregion
@@ -545,6 +547,10 @@ export class Block extends LitElement {
     this.parentBlockGroupElement = this.el.parentElement?.closest("calcite-block-group");
   }
 
+  private handleDescriptionSlotChange(event: Event): void {
+    this.hasSlottedDescription = slotChangeHasAssignedElement(event);
+  }
+
   //#endregion
 
   //#region Rendering
@@ -609,14 +615,18 @@ export class Block extends LitElement {
 
   private renderTitle(): JsxNode {
     const { heading, headingLevel, description } = this;
-    return heading || description ? (
-      <div class={CSS.title}>
+    return (
+      <div class={CSS.title} hidden={!(heading || description || this.hasSlottedDescription)}>
         <Heading class={CSS.heading} level={headingLevel}>
           {heading}
         </Heading>
-        {description ? <div class={CSS.description}>{description}</div> : null}
+        <div class={CSS.description} hidden={!(description || this.hasSlottedDescription)}>
+          {description ?? (
+            <slot name={SLOTS.description} onSlotChange={this.handleDescriptionSlotChange} />
+          )}
+        </div>
       </div>
-    ) : null;
+    );
   }
 
   private renderIcon(position: Extract<"start" | "end", Position>): JsxNode {
