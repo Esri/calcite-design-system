@@ -77,7 +77,7 @@ describe("focusable", () => {
     await activeDay.setFocus();
     await userEvent.keyboard("{ArrowRight}");
 
-    expect(nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
+    await expect.poll(() => nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
   });
 });
 
@@ -159,7 +159,7 @@ describe("value", () => {
       el.value = value;
       await waitForCalendarUpdate(el, component);
 
-      expect(el.valueAsDate).toBeUndefined();
+      await expect.element(el).toHaveProperty("valueAsDate", undefined);
       expectDate(el.activeDate, today);
       expectDate(getMonth(el)?.activeDate, today);
       expect(getSelectedDays(el)).toHaveLength(0);
@@ -177,7 +177,7 @@ describe("value", () => {
     el.valueAsDate = undefined;
     await waitForCalendarUpdate(el, component);
 
-    expect(el.valueAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("valueAsDate", undefined);
     expectDate(el.activeDate, today);
     expectDate(getMonth(el)?.activeDate, today);
     expect(getSelectedDays(el)).toHaveLength(0);
@@ -196,7 +196,7 @@ describe("value", () => {
       el.value = value;
       await waitForCalendarUpdate(el, component);
 
-      expect(el.valueAsDate).toBeUndefined();
+      await expect.element(el).toHaveProperty("valueAsDate", undefined);
       expectDate(getMonth(el)?.activeDate, today);
       expect(el.activeEndDate).toBeUndefined();
       expect(getSelectedDays(el)).toHaveLength(0);
@@ -214,7 +214,7 @@ describe("value", () => {
     el.value = ["", ""];
     await waitForCalendarUpdate(el, component);
 
-    expect(el.valueAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("valueAsDate", undefined);
     expectDate(getMonth(el)?.activeDate, today);
     expect(el.activeEndDate).toBeUndefined();
     expect(getSelectedDays(el)).toHaveLength(0);
@@ -233,7 +233,7 @@ describe("value", () => {
     await waitForCalendarUpdate(el, component);
 
     // User selection preserved the view instead of shifting it to February/March.
-    expect(el.value).toEqual(["2024-02-10", ""]);
+    await expect.element(el).toHaveProperty("value", ["2024-02-10", ""]);
     await expect.element(monthSelectMenus.first()).toHaveProperty("value", "January");
     await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "February");
 
@@ -242,7 +242,7 @@ describe("value", () => {
     );
     await waitForCalendarUpdate(el, component);
 
-    expect(el.value).toEqual(["2024-02-10", "2024-02-15"]);
+    await expect.element(el).toHaveProperty("value", ["2024-02-10", "2024-02-15"]);
     await expect.element(monthSelectMenus.first()).toHaveProperty("value", "January");
     await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "February");
 
