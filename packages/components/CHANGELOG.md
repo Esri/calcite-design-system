@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.30...@esri/calcite-components@6.0.0-next.31) (2026-11-17)
+
+### ⚠ BREAKING CHANGES
+
+- **tab:** Deprecated token `--calcite-tab-content-block-padding`
+  is removed.
+
+- Replace `--calcite-tab-content-block-padding` with
+  `--calcite-tab-content-space-y`.
+- **action:** The following deprecated tokens are removed in
+  `action`.
+
+- `--calcite-action-background-color-pressed`
+- `--calcite-action-corner-radius-end-end`
+- `--calcite-action-corner-radius-end-start`
+- `--calcite-action-corner-radius-start-end`
+- `--calcite-action-corner-radius-start-start`
+- `--calcite-action-text-color-pressed`
+
+To migrate, replace:
+
+- `--calcite-action-background-color-pressed` with
+  `--calcite-action-background-color-press`.
+- `--calcite-action-corner-radius-end-end` with
+  `--calcite-action-corner-radius`.
+- `--calcite-action-corner-radius-end-start` with
+  `--calcite-action-corner-radius`.
+- `--calcite-action-corner-radius-start-end` with
+  `--calcite-action-corner-radius`.
+- `--calcite-action-corner-radius-start-start` with
+  `--calcite-action-corner-radius`.
+- `--calcite-action-text-color-pressed` with
+  `--calcite-action-text-color-press`.
+
+### Code Refactoring
+
+- **action:** drop deprecated tokens ([#15576](https://github.com/Esri/calcite-design-system/issues/15576)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **tab:** drop deprecated tokens ([#15550](https://github.com/Esri/calcite-design-system/issues/15550)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.30](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.29...@esri/calcite-components@6.0.0-next.30) (2026-11-16)
 
 ### ⚠ BREAKING CHANGES
