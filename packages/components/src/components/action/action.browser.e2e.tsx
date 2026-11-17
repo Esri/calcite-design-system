@@ -190,6 +190,40 @@ describe("type property", () => {
 });
 
 describe("a11y attributes", () => {
+  it("forwards aria states and element references to the internal button", async () => {
+    const { el, component } = await mount<Action>(
+      <>
+        <calcite-action />
+        <div data-testid="aria-reference">Related content</div>
+      </>,
+    );
+    const button = page.getByRole("button");
+    const references = [page.getByTestId("aria-reference").element()];
+
+    await expect.element(button).toHaveProperty("ariaExpanded", null);
+    await expect.element(button).toHaveProperty("ariaHasPopup", null);
+    await expect.element(button).toHaveProperty("ariaPressed", null);
+
+    el.aria = {
+      expanded: true,
+      hasPopup: true,
+      pressed: true,
+      controlsElements: references,
+      describedByElements: references,
+      labelledByElements: references,
+      ownsElements: references,
+    };
+    await component.updateComplete;
+
+    await expect.element(button).toHaveProperty("ariaExpanded", "true");
+    await expect.element(button).toHaveProperty("ariaHasPopup", "true");
+    await expect.element(button).toHaveProperty("ariaPressed", "true");
+    await expect.element(button).toHaveProperty("ariaControlsElements", references);
+    await expect.element(button).toHaveProperty("ariaDescribedByElements", references);
+    await expect.element(button).toHaveProperty("ariaLabelledByElements", references);
+    await expect.element(button).toHaveProperty("ariaOwnsElements", references);
+  });
+
   it("should omit aria-busy when not loading and set it when loading", async () => {
     const { reRender, el } = await mount<Action>(<calcite-action text="hello world" />);
     const button = page.getByRole("button");
