@@ -36,7 +36,6 @@ interface Day {
   day: number;
 }
 
-/** @internal */
 export class DatePickerMonth extends LitElement {
   //#region Static Members
 
@@ -67,15 +66,11 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * The currently active Date.
-   *
-   * @internal
    */
   @property() activeDate: Date = new Date();
 
   /**
    * Specifies the number of calendars displayed when `range` is `true`.
-   *
-   * @internal
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
@@ -86,21 +81,16 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * End date currently active.
-   *
-   * @internal
    */
   @property() endDate?: Date;
 
   /**
-   * @internal
    * @copyDoc
    */
   @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
 
   /**
    * The range of dates currently being hovered.
-   *
-   * @internal
    */
   @property() hoverRange?: HoverRange;
 
@@ -116,8 +106,6 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * Specifies the latest allowed date (`"yyyy-mm-dd"`).
-   *
-   * @internal
    */
   @property() max?: Date;
 
@@ -128,43 +116,31 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
-   *
-   * @internal
    */
   @property() min?: Date;
 
   /**
    * Specifies the monthStyle used by the component.
-   *
-   * @internal
    */
   @property() monthStyle!: "abbreviated" | "wide";
 
   /**
    * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
-   *
-   * @internal
    */
   @property({ reflect: true }) range: boolean = false;
 
   /**
    * Specifies the size of the component.
-   *
-   * @internal
    */
   @property({ reflect: true }) scale!: Scale;
 
   /**
    * Already selected date.
-   *
-   * @internal
    */
   @property() selectedDate?: Date;
 
   /**
    * Start date currently active.
-   *
-   * @internal
    */
   @property() startDate?: Date;
 
