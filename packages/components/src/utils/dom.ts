@@ -554,7 +554,6 @@ export function isKeyboardTriggeredClick(event: MouseEvent): boolean {
   return event.detail === 0;
 }
 
-/** @internal */
 export type FocusElementInGroupDestination = "first" | "last" | "next" | "previous";
 
 /**

@@ -245,7 +245,6 @@ export class NumberStringFormat {
 
 export const numberStringFormatter = new NumberStringFormat();
 
-/** @internal */
 export type LocaleDateTimeOptionKey = string;
 
 /**

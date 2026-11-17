@@ -5,7 +5,6 @@ export type ColorMode = "rgb" | "hsv";
 export type Channels<N extends number | undefined = number | undefined> = [N, N, N, N];
 
 // need to do this otherwise, stencil build doesn't pick up the type import
-/** @internal */
 export type InternalColor = ColorInstance;
 
 /** @public */

@@ -1,18 +1,12 @@
 import { FocusElementInGroupDestination } from "../../utils/dom";
 
-/** @internal */
 export interface TableRowFocusEvent {
-  /** @internal */
   cellPosition: number;
-  /** @internal */
   rowPosition: number;
-  /** @internal */
   destination: FocusElementInGroupDestination;
-  /** @internal */
   lastCell: boolean;
 }
 
-/** @internal */
 export type RowType = "head" | "body" | "foot";
 
 /** @public */

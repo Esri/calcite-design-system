@@ -6,8 +6,6 @@ export interface RegistryEntry {
   position: number;
 }
 
-/** @internal */
 export interface RequestedItem {
-  /** @internal */
   requestedAccordionItem: AccordionItem["el"];
 }
