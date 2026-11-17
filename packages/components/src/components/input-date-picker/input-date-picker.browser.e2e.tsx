@@ -198,10 +198,9 @@ describe("focus-trap behavior", () => {
     // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
     await afterNextTask();
 
-    expect(document).toHaveProperty(
-      "activeElement.shadowRoot.activeElement.dataset.testid",
-      pickerTestId,
-    );
+    await expect
+      .poll(() => document)
+      .toHaveProperty("activeElement.shadowRoot.activeElement.dataset.testid", pickerTestId);
   });
 });
 
@@ -216,12 +215,12 @@ describe("minAsDate and maxAsDate properties", () => {
     el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
     await component.updateComplete;
 
-    expect(el.value).toBe("2020-12-31");
+    await expect.element(el).toHaveProperty("value", "2020-12-31");
 
     const input = el.shadowRoot
       .querySelector<HTMLElement>("calcite-input-text")!
       .shadowRoot!.querySelector<HTMLInputElement>("input")!;
-    expect(input.value).toBe("12/31/2020");
+    await expect.element(input).toHaveValue("12/31/2020");
   });
 });
 
@@ -314,7 +313,7 @@ it.each([
     await userEvent.click(
       page.getBySelector(`calcite-date-picker-day[current-month][id='${endId}']`),
     );
-    expect(el.value).toEqual([startValue, endValue]);
+    await expect.element(el).toHaveProperty("value", [startValue, endValue]);
   },
 );
 
@@ -374,12 +373,12 @@ describe("clearable", () => {
     );
 
     expect(getClearButtons()).toHaveLength(1);
-    expect(el.validity.valueMissing).toBe(false);
+    await expect.element(el).toHaveProperty("validity.valueMissing", false);
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
     await expect.element(el).toHaveProperty("value", "");
 
-    expect(el.validity.valueMissing).toBe(true);
+    await expect.element(el).toHaveProperty("validity.valueMissing", true);
   });
 
   it("clears single value when Escape is pressed", async () => {
@@ -816,7 +815,7 @@ describe("value changes", () => {
     await userEvent.keyboard("{Enter}");
 
     await expect.element(el).toHaveProperty("value", "");
-    expect(el.valueAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("valueAsDate", undefined);
     expect(changeEventHandler).toHaveBeenCalledTimes(2);
   });
 
@@ -873,7 +872,7 @@ describe("value changes", () => {
     await userEvent.keyboard("3/7/{Enter}");
 
     expect(changeEventHandler).not.toHaveBeenCalled();
-    expect(getDateInput()).toHaveValue("3/7/");
+    await expect.element(getDateInput()).toHaveValue("3/7/");
   });
 
   it("emits once when a programmatic valueAsDate is changed by the user", async () => {
@@ -885,14 +884,14 @@ describe("value changes", () => {
     el.valueAsDate = new Date(1687528800000);
     await component.updateComplete;
 
-    expect(el).toHaveValue("2023-06-23");
-    expect(getDateInput()).toHaveValue("6/23/2023");
+    await expect.element(el).toHaveValue("2023-06-23");
+    await expect.element(getDateInput()).toHaveValue("6/23/2023");
     expect(changeEventHandler).not.toHaveBeenCalled();
 
     await userEvent.click(getDateInput());
     await userEvent.click(getDayById("20230628"));
 
-    expect(el).toHaveValue("2023-06-28");
+    await expect.element(el).toHaveValue("2023-06-28");
     expect(changeEventHandler).toHaveBeenCalledTimes(1);
   });
 
@@ -1005,7 +1004,7 @@ describe("calendar selection", () => {
     await userEvent.click(getDateInput());
     await userEvent.click(getDayById("20230101"));
 
-    expect(el).toHaveValue("2023-01-01");
+    await expect.element(el).toHaveValue("2023-01-01");
   });
 });
 
@@ -1017,8 +1016,8 @@ it("remains focusable but immutable when readOnly", async () => {
   await expect.element(getCalendar()).not.toBeVisible();
   await userEvent.keyboard("atención atención");
 
-  expect(el).toHaveValue("");
-  expect(getDateInput()).toHaveValue("");
+  await expect.element(el).toHaveValue("");
+  await expect.element(getDateInput()).toHaveValue("");
 });
 
 describe("valueAsDate", () => {
@@ -1028,8 +1027,8 @@ describe("valueAsDate", () => {
     el.valueAsDate = new Date(2022, 9, 1);
     await component.updateComplete;
 
-    expect(el).toHaveValue("2022-10-01");
-    expect(getDateInput()).toHaveValue("10/1/2022");
+    await expect.element(el).toHaveValue("2022-10-01");
+    await expect.element(getDateInput()).toHaveValue("10/1/2022");
   });
 
   it("updates both range values and displayed inputs", async () => {
@@ -1038,9 +1037,9 @@ describe("valueAsDate", () => {
     el.valueAsDate = [new Date(2022, 9, 1), new Date(2022, 9, 2)];
     await component.updateComplete;
 
-    expect(el).toHaveValue(["2022-10-01", "2022-10-02"]);
-    expect(getDateInput("start")).toHaveValue("10/1/2022");
-    expect(getDateInput("end")).toHaveValue("10/2/2022");
+    await expect.element(el).toHaveValue(["2022-10-01", "2022-10-02"]);
+    await expect.element(getDateInput("start")).toHaveValue("10/1/2022");
+    await expect.element(getDateInput("end")).toHaveValue("10/2/2022");
   });
 
   it("commits an end value typed directly", async () => {
@@ -1056,7 +1055,7 @@ describe("valueAsDate", () => {
     await userEvent.click(getDateInput("end"));
     await userEvent.keyboard("08/30/2022{Enter}");
 
-    expect(el).toHaveValue(["", "2022-08-30"]);
+    await expect.element(el).toHaveValue(["", "2022-08-30"]);
     expect(changeEventHandler).toHaveBeenCalledTimes(1);
   });
 
@@ -1069,7 +1068,7 @@ describe("valueAsDate", () => {
     await userEvent.clear(getNativeDateInput("start"));
     await userEvent.keyboard("08/15/2022{Enter}");
 
-    expect(el).toHaveValue(["2022-08-15", "2022-08-20"]);
+    await expect.element(el).toHaveValue(["2022-08-15", "2022-08-20"]);
   });
 });
 
@@ -1153,21 +1152,21 @@ describe("programmatically clearing input values", () => {
     }
     await userEvent.keyboard("{Enter}");
 
-    expect(el).toHaveValue(expected);
+    await expect.element(el).toHaveValue(expected);
     for (const [index, inputValue] of typed.entries()) {
-      expect(
-        page.getBySelector("calcite-input-date-picker calcite-input-text").nth(index),
-      ).toHaveValue(inputValue);
+      await expect
+        .element(page.getBySelector("calcite-input-date-picker calcite-input-text").nth(index))
+        .toHaveValue(inputValue);
     }
 
     el.value = "";
     await component.updateComplete;
 
-    expect(el).toHaveValue("");
+    await expect.element(el).toHaveValue("");
     for (const index of typed.keys()) {
-      expect(
-        page.getBySelector("calcite-input-date-picker calcite-input-text").nth(index),
-      ).toHaveValue("");
+      await expect
+        .element(page.getBySelector("calcite-input-date-picker calcite-input-text").nth(index))
+        .toHaveValue("");
     }
   });
 });
@@ -1199,7 +1198,7 @@ describe("normalizeYear", () => {
     await userEvent.click(getDateInput());
     await userEvent.keyboard("3/7/20{Enter}");
 
-    expect(el).toHaveValue("2020-03-07");
+    await expect.element(el).toHaveValue("2020-03-07");
   });
 
   it("does not normalize an attribute value", async () => {
@@ -1208,7 +1207,7 @@ describe("normalizeYear", () => {
     el.setAttribute("value", "20-01-01");
     await component.updateComplete;
 
-    expect(el).toHaveValue("0020-01-01");
+    await expect.element(el).toHaveValue("0020-01-01");
   });
 
   it("normalizes both user-typed range years", async () => {
@@ -1219,7 +1218,7 @@ describe("normalizeYear", () => {
     await userEvent.click(getDateInput("start"));
     await userEvent.keyboard("1/1/20{Enter}2/2/20{Enter}");
 
-    expect(el).toHaveValue(["2020-01-01", "2020-02-02"]);
+    await expect.element(el).toHaveValue(["2020-01-01", "2020-02-02"]);
   });
 });
 
@@ -1297,7 +1296,7 @@ describe("range calendar behavior", () => {
         await selectDayInMonthByIndex(60);
       }
       const expectedStart = calendars === 1 ? "2024-06-25" : "2024-06-29";
-      expect(el).toHaveValue([expectedStart, ""]);
+      await expect.element(el).toHaveValue([expectedStart, ""]);
       await expect.element(getCalendar()).toBeVisible();
     },
   );
@@ -1317,7 +1316,7 @@ describe("range calendar behavior", () => {
       getDayById("20240501").element().focus();
       await userEvent.keyboard("{PageUp}{PageUp}{Enter}");
 
-      expect(el).toHaveValue(["2024-03-01", "2024-06-20"]);
+      await expect.element(el).toHaveValue(["2024-03-01", "2024-06-20"]);
       await expect.element(getCalendar()).toBeVisible();
     },
   );
@@ -1382,7 +1381,7 @@ describe("keyboard month navigation", () => {
 
       await userEvent.keyboard("{ArrowUp}{PageUp}{Enter}");
       await expect.element(getCalendar()).toBeVisible();
-      expect(el).toHaveValue(["2023-11-25", "2024-02-10"]);
+      await expect.element(el).toHaveValue(["2023-11-25", "2024-02-10"]);
 
       await userEvent.keyboard("{ArrowDown}{PageDown}{Enter}");
       await expect.element(getCalendar()).not.toBeVisible();
@@ -1460,7 +1459,7 @@ it("does not focus or select a disabled date during keyboard navigation", async 
 
   await expect.element(getDayById("20240703")).not.toHaveAttribute("range-hover");
   await userEvent.keyboard("{Enter}");
-  expect(el.value[1]).toBe("2024-07-02");
+  await expect.element(el).toHaveProperty("value.1", "2024-07-02");
 });
 
 describe("editing an existing range", () => {
@@ -1472,8 +1471,8 @@ describe("editing an existing range", () => {
     await userEvent.click(getDateInput("start"));
     await userEvent.click(getDayById("20250925"));
 
-    expect(el).toHaveValue(["2025-09-25", "2025-11-11"]);
-    expect(getDateInput("end")).toHaveValue("11/11/2025");
+    await expect.element(el).toHaveValue(["2025-09-25", "2025-11-11"]);
+    await expect.element(getDateInput("end")).toHaveValue("11/11/2025");
   });
 
   it("does not update the start when the end is changed", async () => {
@@ -1484,8 +1483,8 @@ describe("editing an existing range", () => {
     await userEvent.click(getDateInput("end"));
     await userEvent.click(getDayById("20251005"));
 
-    expect(el).toHaveValue(["2025-09-21", "2025-10-05"]);
-    expect(getDateInput("start")).toHaveValue("9/21/2025");
+    await expect.element(el).toHaveValue(["2025-09-21", "2025-10-05"]);
+    await expect.element(getDateInput("start")).toHaveValue("9/21/2025");
   });
 });
 
@@ -1518,13 +1517,13 @@ describe("proximitySelectionDisabled", () => {
       await userEvent.click(getDateInput("start"));
       await selectDayInMonthByIndex(1);
       await selectDayInMonthByIndex(45);
-      expect(el).toHaveValue(["2099-01-01", "2099-02-14"]);
+      await expect.element(el).toHaveValue(["2099-01-01", "2099-02-14"]);
 
       await userEvent.click(getDateInput(position));
       await selectDayInMonthByIndex(3);
-      expect(el).toHaveValue(["2099-01-03", ""]);
+      await expect.element(el).toHaveValue(["2099-01-03", ""]);
       await selectDayInMonthByIndex(15);
-      expect(el).toHaveValue(["2099-01-03", "2099-01-15"]);
+      await expect.element(el).toHaveValue(["2099-01-03", "2099-01-15"]);
     },
   );
 
@@ -1538,7 +1537,7 @@ describe("proximitySelectionDisabled", () => {
       await userEvent.click(getDateInput("start"));
       await focusFirstDay({ previousMonthDisabled: true });
       await userEvent.keyboard("{Enter}{ArrowDown}{Enter}");
-      expect(el).toHaveValue(["2099-01-01", "2099-01-08"]);
+      await expect.element(el).toHaveValue(["2099-01-01", "2099-01-08"]);
 
       if (position === "start") {
         await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
@@ -1555,12 +1554,12 @@ describe("proximitySelectionDisabled", () => {
         await userEvent.keyboard(key);
         await component.updateComplete;
       }
-      expect(el).toHaveValue(["2099-01-15", ""]);
+      await expect.element(el).toHaveValue(["2099-01-15", ""]);
       await userEvent.keyboard("{ArrowDown}");
       await component.updateComplete;
       await userEvent.keyboard("{Enter}");
       await component.updateComplete;
-      expect(el).toHaveValue(["2099-01-15", "2099-01-22"]);
+      await expect.element(el).toHaveValue(["2099-01-15", "2099-01-22"]);
     },
   );
 });
@@ -1571,22 +1570,22 @@ describe("localization", () => {
 
     await userEvent.keyboard("{Tab}1/");
 
-    expect(getDateInput()).toHaveValue("١‏/");
+    await expect.element(getDateInput()).toHaveValue("١‏/");
 
     await userEvent.keyboard("2");
 
     // NOTE: This asserted value was copied from the received value in a test failure caused by
     // typing these same values into the test file using an Arabic input source on macOS.
     // Make sure to preserve this value when refactoring instead of typing these characters from scratch.
-    expect(getDateInput()).toHaveValue("١‏‏/٢");
+    await expect.element(getDateInput()).toHaveValue("١‏‏/٢");
 
     await userEvent.keyboard("/");
 
-    expect(getDateInput()).toHaveValue("١‏‏‏/٢‏/");
+    await expect.element(getDateInput()).toHaveValue("١‏‏‏/٢‏/");
 
     await userEvent.keyboard("1234");
 
-    expect(getDateInput()).toHaveValue("١‏‏‏‏‏‏‏/٢‏‏‏‏‏/١٢٣٤");
+    await expect.element(getDateInput()).toHaveValue("١‏‏‏‏‏‏‏/٢‏‏‏‏‏/١٢٣٤");
   });
 
   it("syncs lang changes to internal date-picker and input", async () => {
@@ -1604,10 +1603,14 @@ describe("localization", () => {
       <calcite-input-date-picker lang={lang} value={`${year}-${month}-${day}`} />,
     );
 
-    expect(getActiveMonth()).toHaveTextContent(langData.months.wide[Number(month) - 1]);
-    expect(getDateInput()).toHaveValue(
-      langData.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
-    );
+    await expect
+      .element(getActiveMonth())
+      .toHaveTextContent(langData.months.wide[Number(month) - 1]);
+    await expect
+      .element(getDateInput())
+      .toHaveValue(
+        langData.placeholder.replace("DD", day).replace("MM", month).replace("YYYY", year),
+      );
 
     el.lang = newLang;
 
@@ -1629,11 +1632,13 @@ describe("localization", () => {
       const calciteInputDatePickerOpenEvent = waitForEvent(el, "calciteInputDatePickerOpen");
 
       if (expectedFormattedValue) {
-        expect(getDateInput()).toHaveValue(
-          new Intl.DateTimeFormat(getDateFormatSupportedLocale(locale)).format(
-            new Date(2023, 4, 31),
-          ),
-        );
+        await expect
+          .element(getDateInput())
+          .toHaveValue(
+            new Intl.DateTimeFormat(getDateFormatSupportedLocale(locale)).format(
+              new Date(2023, 4, 31),
+            ),
+          );
       }
 
       await userEvent.click(el);
@@ -1643,11 +1648,11 @@ describe("localization", () => {
       await reRender();
       el.blur();
 
-      expect(el).toHaveValue("2023-05-01");
+      await expect.element(el).toHaveValue("2023-05-01");
 
       if (expectedFormattedValue) {
         const inputText = page.getBySelector("calcite-input-date-picker calcite-input-text");
-        expect(inputText).toHaveValue(expectedFormattedValue);
+        await expect.element(inputText).toHaveValue(expectedFormattedValue);
       }
     };
 

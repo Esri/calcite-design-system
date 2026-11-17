@@ -10,7 +10,7 @@ describe("cross-century date values", () => {
     const { el } = await mount<InputDatePicker>(<calcite-input-date-picker value={initialValue} />);
     const input = page.getBySelector("calcite-input-date-picker calcite-input-text");
 
-    expect(el).toHaveValue(initialValue);
+    await expect.element(el).toHaveValue(initialValue);
 
     await userEvent.click(input);
     await userEvent.click(
@@ -19,7 +19,7 @@ describe("cross-century date values", () => {
       ),
     );
 
-    expect(el).toHaveValue(`${year}-03-07`);
+    await expect.element(el).toHaveValue(`${year}-03-07`);
     await expect.element(input).toHaveValue(`3/7/${year}`);
   });
 });
@@ -30,7 +30,7 @@ describe("date constraints", () => {
       <calcite-input-date-picker max="2018-12-31" min="2018-01-01" value="2017-07-22" />,
     );
 
-    expect(el).toHaveValue("2018-01-01");
+    await expect.element(el).toHaveValue("2018-01-01");
     await expect
       .element(page.getBySelector("calcite-input-date-picker calcite-input-text"))
       .toHaveValue("1/1/2018");
@@ -45,14 +45,14 @@ describe("date constraints", () => {
     el.max = "2023-11-15";
     await component.updateComplete;
 
-    expect(el.minAsDate).toEqual(new Date(2021, 10, 15));
-    expect(el.maxAsDate).toEqual(new Date(2023, 10, 15));
+    await expect.element(el).toHaveProperty("minAsDate", new Date(2021, 10, 15));
+    await expect.element(el).toHaveProperty("maxAsDate", new Date(2023, 10, 15));
 
     el.min = undefined;
     el.max = undefined;
     await component.updateComplete;
 
-    expect(el.minAsDate).toBeUndefined();
-    expect(el.maxAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("minAsDate", undefined);
+    await expect.element(el).toHaveProperty("maxAsDate", undefined);
   });
 });

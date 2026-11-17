@@ -14,8 +14,8 @@ describe("min and max", () => {
     el.max = "2023-11-15";
     await component.updateComplete;
 
-    expect(el.minAsDate).toEqual(new Date(2021, 10, 15));
-    expect(el.maxAsDate).toEqual(new Date(2023, 10, 15));
+    await expect.element(el).toHaveProperty("minAsDate", new Date(2021, 10, 15));
+    await expect.element(el).toHaveProperty("maxAsDate", new Date(2023, 10, 15));
   });
 });
 
@@ -24,12 +24,12 @@ describe("cross-century date values", () => {
     const initialValue = `${year}-03-12`;
     const { el } = await mount<DatePicker>(<calcite-date-picker value={initialValue} />);
 
-    expect(el.value).toBe(initialValue);
+    await expect.element(el).toHaveProperty("value", initialValue);
 
     await userEvent.click(
       page.getBySelector(`calcite-date-picker-day[current-month][id="${year}0307"]`),
     );
 
-    expect(el.value).toBe(`${year}-03-07`);
+    await expect.element(el).toHaveProperty("value", `${year}-03-07`);
   });
 });

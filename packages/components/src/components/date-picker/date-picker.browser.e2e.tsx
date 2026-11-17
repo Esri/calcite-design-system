@@ -77,7 +77,7 @@ describe("focusable", () => {
     await activeDay.setFocus();
     await userEvent.keyboard("{ArrowRight}");
 
-    expect(nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
+    await expect.poll(() => nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
   });
 });
 
@@ -159,7 +159,7 @@ describe("value", () => {
       el.value = value;
       await waitForCalendarUpdate(el, component);
 
-      expect(el.valueAsDate).toBeUndefined();
+      await expect.element(el).toHaveProperty("valueAsDate", undefined);
       expectDate(el.activeDate, today);
       expectDate(getMonth(el)?.activeDate, today);
       expect(getSelectedDays(el)).toHaveLength(0);
@@ -177,7 +177,7 @@ describe("value", () => {
     el.valueAsDate = undefined;
     await waitForCalendarUpdate(el, component);
 
-    expect(el.valueAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("valueAsDate", undefined);
     expectDate(el.activeDate, today);
     expectDate(getMonth(el)?.activeDate, today);
     expect(getSelectedDays(el)).toHaveLength(0);
@@ -196,7 +196,7 @@ describe("value", () => {
       el.value = value;
       await waitForCalendarUpdate(el, component);
 
-      expect(el.valueAsDate).toBeUndefined();
+      await expect.element(el).toHaveProperty("valueAsDate", undefined);
       expectDate(getMonth(el)?.activeDate, today);
       expect(el.activeEndDate).toBeUndefined();
       expect(getSelectedDays(el)).toHaveLength(0);
@@ -214,7 +214,7 @@ describe("value", () => {
     el.value = ["", ""];
     await waitForCalendarUpdate(el, component);
 
-    expect(el.valueAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("valueAsDate", undefined);
     expectDate(getMonth(el)?.activeDate, today);
     expect(el.activeEndDate).toBeUndefined();
     expect(getSelectedDays(el)).toHaveLength(0);
@@ -233,7 +233,7 @@ describe("value", () => {
     await waitForCalendarUpdate(el, component);
 
     // User selection preserved the view instead of shifting it to February/March.
-    expect(el.value).toEqual(["2024-02-10", ""]);
+    await expect.element(el).toHaveProperty("value", ["2024-02-10", ""]);
     await expect.element(monthSelectMenus.first()).toHaveProperty("value", "January");
     await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "February");
 
@@ -242,7 +242,7 @@ describe("value", () => {
     );
     await waitForCalendarUpdate(el, component);
 
-    expect(el.value).toEqual(["2024-02-10", "2024-02-15"]);
+    await expect.element(el).toHaveProperty("value", ["2024-02-10", "2024-02-15"]);
     await expect.element(monthSelectMenus.first()).toHaveProperty("value", "January");
     await expect.element(monthSelectMenus.nth(1)).toHaveProperty("value", "February");
 
@@ -461,7 +461,7 @@ describe("change events", () => {
     await component.updateComplete;
 
     expect(changeHandler).not.toHaveBeenCalled();
-    expect(el.value).toBe("2000-11-27");
+    await expect.element(el).toHaveProperty("value", "2000-11-27");
   });
 
   it("emits change when a day is selected", async () => {
@@ -494,10 +494,10 @@ describe("change events", () => {
       );
 
       await selectDay(start, component);
-      expect(el.value).toEqual([dayIdToIso(start), ""]);
+      await expect.element(el).toHaveProperty("value", [dayIdToIso(start), ""]);
 
       await selectDay(end, component);
-      expect(el.value).toEqual([dayIdToIso(start), dayIdToIso(end)]);
+      await expect.element(el).toHaveProperty("value", [dayIdToIso(start), dayIdToIso(end)]);
       expect(changeHandler).toHaveBeenCalledTimes(2);
     },
   );
@@ -525,7 +525,7 @@ describe("change events", () => {
     await component.updateComplete;
 
     expect(changeHandler).not.toHaveBeenCalled();
-    expect(el.value).toBe("2001-10-28");
+    await expect.element(el).toHaveProperty("value", "2001-10-28");
   });
 
   it("emits range change only after a user selection", async () => {
@@ -568,8 +568,8 @@ describe("min and max", () => {
     el.max = undefined;
     await component.updateComplete;
 
-    expect(el.minAsDate).toBeUndefined();
-    expect(el.maxAsDate).toBeUndefined();
+    await expect.element(el).toHaveProperty("minAsDate", undefined);
+    await expect.element(el).toHaveProperty("maxAsDate", undefined);
 
     el.activeDate = new Date(2022, 10, 26);
     await component.updateComplete;
@@ -686,19 +686,19 @@ describe("arrow and page key navigation", () => {
 
       await userEvent.keyboard("{ArrowUp}{Enter}");
       await component.updateComplete;
-      expect(el.value).toEqual(expectedValues[0]);
+      await expect.element(el).toHaveProperty("value", expectedValues[0]);
 
       await userEvent.keyboard(initialValue ? "{ArrowDown}{ArrowDown}{Enter}" : "{PageUp}{Enter}");
       await component.updateComplete;
-      expect(el.value).toEqual(expectedValues[1]);
+      await expect.element(el).toHaveProperty("value", expectedValues[1]);
 
       await userEvent.keyboard(initialValue ? "{PageUp}{Enter}" : "{PageDown}{PageDown}{Enter}");
       await component.updateComplete;
-      expect(el.value).toEqual(expectedValues[2]);
+      await expect.element(el).toHaveProperty("value", expectedValues[2]);
 
       await userEvent.keyboard(initialValue ? "{PageDown}{PageDown}{Enter}" : "{ArrowDown}{Enter}");
       await component.updateComplete;
-      expect(el.value).toEqual(expectedValues[3]);
+      await expect.element(el).toHaveProperty("value", expectedValues[3]);
     },
   );
 });
@@ -711,13 +711,13 @@ describe("hover range", () => {
 
     await userEvent.hover(getDay("20240109"));
     await component.updateComplete;
-    expect(getDayElement("20240108").rangeHover).toBe(true);
-    expect(getDayElement("20240208").rangeHover).toBe(false);
+    await expect.element(getDay("20240108")).toHaveProperty("rangeHover", true);
+    await expect.element(getDay("20240208")).toHaveProperty("rangeHover", false);
 
     await userEvent.hover(getDay("20240205"));
     await component.updateComplete;
-    expect(getDayElement("20240108").rangeHover).toBe(false);
-    expect(getDayElement("20240208").rangeHover).toBe(true);
+    await expect.element(getDay("20240108")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240208")).toHaveProperty("rangeHover", true);
   });
 
   it("updates hover state when extending a completed range", async () => {
@@ -727,14 +727,14 @@ describe("hover range", () => {
 
     await userEvent.hover(getDay("20240101"));
     await component.updateComplete;
-    expect(getDayElement("20240102").rangeHover).toBe(true);
-    expect(getDayElement("20240108").rangeHover).toBe(false);
-    expect(getDayElement("20240208").rangeHover).toBe(false);
+    await expect.element(getDay("20240102")).toHaveProperty("rangeHover", true);
+    await expect.element(getDay("20240108")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240208")).toHaveProperty("rangeHover", false);
 
     await userEvent.hover(getDay("20240225"));
     await component.updateComplete;
-    expect(getDayElement("20240102").rangeHover).toBe(false);
-    expect(getDayElement("20240224").rangeHover).toBe(true);
+    await expect.element(getDay("20240102")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240224")).toHaveProperty("rangeHover", true);
   });
 
   it("limits hover state to dates between the start and prospective end dates", async () => {
@@ -743,17 +743,17 @@ describe("hover range", () => {
     );
 
     await selectDay("20240108", component);
-    expect(getDayElement("20240107").rangeHover).toBe(false);
-    expect(getDayElement("20240209").rangeHover).toBe(false);
+    await expect.element(getDay("20240107")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240209")).toHaveProperty("rangeHover", false);
 
     await userEvent.hover(getDay("20240205"));
     await component.updateComplete;
-    expect(getDayElement("20240107").rangeHover).toBe(false);
-    expect(getDayElement("20240209").rangeHover).toBe(false);
-    expect(getDayElement("20240201").rangeHover).toBe(true);
+    await expect.element(getDay("20240107")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240209")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240201")).toHaveProperty("rangeHover", true);
 
     await selectDay("20240205", component);
-    expect(getDayElement("20240201").rangeHover).toBe(false);
+    await expect.element(getDay("20240201")).toHaveProperty("rangeHover", false);
   });
 });
 
@@ -765,7 +765,7 @@ describe("cross-century date values", () => {
 
     await selectDay(`${year}0307`, component);
 
-    expect(el.value).toBe(`${year}-03-07`);
+    await expect.element(el).toHaveProperty("value", `${year}-03-07`);
   });
 });
 
@@ -794,7 +794,7 @@ describe("month and year selection", () => {
     await component.updateComplete;
     await expect.element(monthSelect).toHaveProperty("value", "October");
     await expect.element(yearInput).toHaveProperty("value", "2024");
-    expect(el.value).toBeUndefined();
+    await expect.element(el).toHaveProperty("value", undefined);
   });
 
   it("selects the last valid month from the start calendar", async () => {
@@ -914,7 +914,7 @@ describe("selection", () => {
       await userEvent.keyboard("{Enter}");
       await component.updateComplete;
 
-      expect(el.value).toEqual(expectedValue);
+      await expect.element(el).toHaveProperty("value", expectedValue);
     },
   );
 
@@ -933,7 +933,7 @@ describe("selection", () => {
     await userEvent.keyboard("{Enter}");
     await component.updateComplete;
 
-    expect(el.value).toEqual(range ? [min, ""] : min);
+    await expect.element(el).toHaveProperty("value", range ? [min, ""] : min);
   });
 
   it.each([{ range: true }, { range: false }])(
@@ -953,7 +953,7 @@ describe("selection", () => {
       await component.updateComplete;
 
       const todayIso = toDateOnlyIso(today);
-      expect(el.value).toEqual(range ? [todayIso, ""] : todayIso);
+      await expect.element(el).toHaveProperty("value", range ? [todayIso, ""] : todayIso);
     },
   );
 });
@@ -970,7 +970,7 @@ it("updates the calendar as a new year is typed without changing value", async (
 
   await expect.element(yearInput).toHaveProperty("value", "2016");
   expect(el.activeDate?.getTime()).not.toBe(initialActiveDate);
-  expect(el.value).toBe("2015-02-28");
+  await expect.element(el).toHaveProperty("value", "2015-02-28");
 });
 
 it("provides the default labels to the month header", async () => {
@@ -989,21 +989,17 @@ it("restarts a completed range when proximity selection is disabled", async () =
 
   await selectDay("20200908", component);
   await selectDay("20200923", component);
-  expect(el.value).toEqual(["2020-09-08", "2020-09-23"]);
+  await expect.element(el).toHaveProperty("value", ["2020-09-08", "2020-09-23"]);
 
   await selectDay("20200915", component);
-  expect(el.value).toEqual(["2020-09-15", ""]);
+  await expect.element(el).toHaveProperty("value", ["2020-09-15", ""]);
 
   await selectDay("20200930", component);
-  expect(el.value).toEqual(["2020-09-15", "2020-09-30"]);
+  await expect.element(el).toHaveProperty("value", ["2020-09-15", "2020-09-30"]);
 });
 
 function getDay(id: string): Locator {
   return page.getBySelector(`calcite-date-picker-day[current-month][id="${id}"]`);
-}
-
-function getDayElement(id: string): DatePickerDay["el"] {
-  return getDay(id).element() as DatePickerDay["el"];
 }
 
 async function selectDay(id: string, component: DatePicker): Promise<void> {
