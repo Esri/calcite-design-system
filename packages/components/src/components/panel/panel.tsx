@@ -246,7 +246,7 @@ export class Panel extends LitElement {
 
   private _closed = false;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {

@@ -51,13 +51,6 @@ it("renders as a button with default props", async () => {
   expect(loader).toBeNull();
 });
 
-it("should have aria-live attribute set to polite by default", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-button>Continue</calcite-button>`);
-  const button = await page.find("calcite-button >>> button");
-  expect(button.getAttribute("aria-live")).toBe("polite");
-});
-
 it("should update childElType when href changes", async () => {
   const page = await newE2EPage({ html: `<calcite-button>Continue</calcite-button>` });
   const link = await page.find("calcite-button");

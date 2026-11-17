@@ -8,23 +8,23 @@
 @use "../../styles/shared";
 
 :host {
-  @apply flex
-    cursor-pointer
-    self-stretch
-    font-normal
-    focus-base;
+  display: flex;
+  cursor: pointer;
+  align-self: stretch;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
+  outline-color: var(--calcite-color-transparent);
   transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
 .label {
-  @apply pointer-events-none
-    box-border
-    flex
-    flex-1
-    items-center;
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 0%;
+  align-items: center;
   color: var(--calcite-segmented-control-color, var(--calcite-theme-color-text-3, var(--calcite-color-text-3)));
-  border: var(--calcite-border-width-sm) solid transparent;
   background-color: var(--calcite-segmented-control-background-color);
+  border: var(--calcite-border-width-sm) solid transparent;
   box-shadow: var(--calcite-segmented-control-shadow);
   // Offsets the item radius to stay consistent with segmented-control roundness
   border-radius: max(0px, calc(var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius)) - 2px));
@@ -34,7 +34,7 @@
 }
 
 .label--horizontal {
-  @apply justify-center;
+  justify-content: center;
 }
 
 :host(:focus) {
@@ -42,22 +42,29 @@
 }
 
 :host(:focus) .label {
-  @apply focus-inset;
+  @include shared.focus-inset();
   outline-offset: -1px;
 }
 
 .label--scale-s {
-  @apply text-n2h px-2;
+  @include shared.text-n2h();
+
+  padding-inline: var(--calcite-space-sm);
   padding-block: 0.125rem;
 }
 
 .label--scale-m {
-  @apply text-n1h px-3;
+  @include shared.text-n1h();
+
+  padding-inline: var(--calcite-space-md);
   padding-block: 0.375rem;
 }
 
 .label--scale-l {
-  @apply text-0h px-4 py-2.5;
+  @include shared.text-0h();
+
+  padding-inline: var(--calcite-space-lg);
+  padding-block: var(--calcite-space-sm-plus);
 }
 
 :host(:hover) .label {
@@ -71,11 +78,11 @@
 }
 
 :host([checked]) .label {
-  @apply cursor-default;
-  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
-  border-radius: var(--calcite-corner-radius-none);
+  cursor: default;
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
+  border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
+  border-radius: var(--calcite-corner-radius-none);
 }
 
 :host([checked]) .label--neutral {
@@ -114,7 +121,7 @@
 }
 
 ::slotted(input) {
-  @apply hidden;
+  display: none;
 }
 
 @media (forced-colors: active) {
@@ -123,7 +130,7 @@
   }
   :host([checked]) .label--neutral,
   :host([checked]) .label--highlight {
-    @apply outline-none;
+    @include shared.outline-none();
   }
   :host([checked]) .label:not([class~="label--neutral"]) .icon {
     color: highlightText;
@@ -135,11 +142,10 @@
 }
 
 .icon {
-  @apply relative
-    m-0
-    inline-flex;
+  position: relative;
+  margin: var(--calcite-space-none);
+  display: inline-flex;
   line-height: inherit;
-
   margin-inline-start: var(--calcite-internal-segmented-control-icon-margin-start);
   margin-inline-end: var(--calcite-internal-segmented-control-icon-margin-end);
   --calcite-icon-color: var(--calcite-segmented-control-icon-color, currentColor);

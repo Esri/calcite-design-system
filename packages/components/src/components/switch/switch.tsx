@@ -80,7 +80,7 @@ export class Switch extends LitElement implements LabelableComponent {
 
   private switchRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

@@ -2582,10 +2582,26 @@ describe("themed", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "borderColor",
       },
-      "--calcite-color-picker-corner-radius": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "borderRadius",
-      },
+      "--calcite-color-picker-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopLeftRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopRightRadius",
+          expectedValue: "0px",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomLeftRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomRightRadius",
+        },
+      ],
       "--calcite-color-picker-shadow": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "boxShadow",
@@ -2630,6 +2646,29 @@ describe("themed", () => {
         shadowSelector: `.${CSS.container} >>> calcite-button`,
         targetProp: "--calcite-button-text-color",
       },
+    });
+  });
+
+  describe("field disabled", () => {
+    themed(() => mount(<calcite-color-picker alpha-channel fieldDisabled />), {
+      "--calcite-color-picker-corner-radius": [
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopLeftRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderTopRightRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomLeftRadius",
+        },
+        {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "borderBottomRightRadius",
+        },
+      ],
     });
   });
 });

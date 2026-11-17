@@ -155,7 +155,7 @@ export class ActionMenu extends LitElement {
     action.activeDescendant = index === activeMenuItemIndex;
   };
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private mouseDownHandler = (event: MouseEvent): void => {
     if (!event.composedPath().some(isAction)) {

@@ -38,6 +38,10 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Segmented Control
+ * @parent calcite-segmented-control
+ */
 export class SegmentedControlItem extends LitElement {
   // #region Static Members
 
