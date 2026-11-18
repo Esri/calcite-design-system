@@ -1320,8 +1320,22 @@ describe("range calendar behavior", () => {
       );
 
       await userEvent.click(getDateInput("start"));
-      getDayById("20240501").element().focus();
-      await userEvent.keyboard("{PageUp}{PageUp}{Enter}");
+      await expect.element(getCalendar()).toBeVisible();
+      await userEvent.keyboard(calendars === 1 ? "{Tab}{Tab}{Tab}" : "{Tab}");
+
+      const focusedPreviousMonth = page.getBySelector(
+        "calcite-input-date-picker calcite-action[aria-label='Previous month']:focus-within",
+      );
+      await expect.element(focusedPreviousMonth).toBeInTheDocument();
+
+      for (const month of ["April", "March"]) {
+        await userEvent.keyboard("{Enter}");
+        await expect.element(getActiveMonth()).toHaveTextContent(month);
+        await expect.element(getCalendar()).toBeVisible();
+        await expect.element(focusedPreviousMonth).toBeInTheDocument();
+      }
+
+      await userEvent.keyboard(calendars === 1 ? "{Tab}{Tab}{Enter}" : "{Tab}{Tab}{Tab}{Enter}");
 
       await expect.element(el).toHaveProperty("value", ["2024-03-01", "2024-06-20"]);
       await expect.element(getCalendar()).toBeVisible();
