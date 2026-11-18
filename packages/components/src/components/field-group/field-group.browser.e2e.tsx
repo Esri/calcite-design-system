@@ -306,14 +306,13 @@ describe("affix width coordination", () => {
     const { el: fieldGroup, reRender } = await mount<FieldGroup>(
       <calcite-field-group>
         <calcite-input
-          id="input"
           prefix-text="prefix"
           style={{ "--calcite-input-prefix-size": "24px", "--calcite-input-suffix-size": "32px" }}
           suffix-text="suffix"
         />
       </calcite-field-group>,
     );
-    const input = page.getBySelector("calcite-field-group").getBySelector("#input");
+    const input = page.getBySelector("calcite-field-group").getBySelector("calcite-input");
 
     fieldGroup.prefixAutoWidth = true;
     fieldGroup.suffixAutoWidth = true;
