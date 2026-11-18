@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.31...@esri/calcite-components@6.0.0-next.32) (2026-11-18)
+
+### Features
+
+- **link:** add label property for accessible name ([#15634](https://github.com/Esri/calcite-design-system/issues/15634)), closes [#14016](https://github.com/Esri/calcite-design-system/issues/14016)
+
 ## [6.0.0-next.31](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.30...@esri/calcite-components@6.0.0-next.31) (2026-11-17)
 
 ### ⚠ BREAKING CHANGES
