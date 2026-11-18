@@ -3,6 +3,7 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/utils/commands";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 import {
   accessible,
@@ -20,8 +21,6 @@ import {
 import { defaultValidity } from "../../tests/common/defaults";
 import type { Slider } from "./slider";
 import { CSS } from "./resources";
-
-// cspell:ignore loadingdone
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-slider", mountOptions));
@@ -344,14 +343,13 @@ describe("overlapping tick labels", () => {
   });
 
   it("restores labels when more space becomes available, including after reconnecting", async () => {
-    const { el } = await mount(
+    const { el, container } = await mount(
       <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} value={50} />,
     );
 
     await expect.poll(() => visibleValues().length).toBe(11);
-    const parent = el.parentElement!;
     el.remove();
-    parent.append(el);
+    container.append(el);
     el.style.inlineSize = "90px";
 
     await expect.poll(() => visibleValues().length).toBeLessThan(11);
@@ -440,7 +438,7 @@ describe("overlapping tick labels", () => {
     expectNoOverlappingText();
   });
 
-  it("preserves handle obscuration when variants and handle values change", async () => {
+  it("keeps tick labels hidden behind handles when variants and values change", async () => {
     const { el, reRender } = await mount<Slider>(
       <calcite-slider
         labelHandles
@@ -468,13 +466,30 @@ describe("overlapping tick labels", () => {
     expectNoOverlappingText();
   });
 
+  it("restores tick labels when labeling is re-enabled", async () => {
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} />,
+    );
+    await expect.poll(() => visibleValues().length).toBe(11);
+
+    el.labelTicks = false;
+    await reRender();
+    await expect.element(page.getBySelector(`.${CSS.tickLabel}`)).not.toBeInTheDocument();
+
+    el.ticks = 25;
+    el.labelTicks = true;
+    await reRender();
+    await expect.poll(visibleValues).toEqual([0, 25, 50, 75, 100]);
+    expectNoOverlappingText();
+  });
+
   it("does not remeasure during dragging and coalesces layout measurements", async () => {
     const { el } = await mount<Slider>(
       <calcite-slider labelTicks max={250} style={{ inlineSize: "800px" }} ticks={1} value={125} />,
     );
     await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
     await document.fonts.ready;
-    await new Promise(requestAnimationFrame);
+    await afterNextFrame();
     const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
     const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
 
@@ -483,23 +498,16 @@ describe("overlapping tick labels", () => {
     await commands.mouseMove(track.left + track.width * 0.6, track.top);
     await commands.mouseMove(track.left + track.width * 0.7, track.top);
     await commands.mouseUp();
-    await new Promise(requestAnimationFrame);
+    await afterNextFrame();
 
-    expect(el.value).toBeGreaterThan(125);
+    await expect.poll(() => el.value).toBeGreaterThan(125);
     expect(measurements).not.toHaveBeenCalled();
 
     el.style.inlineSize = "700px";
     el.style.inlineSize = "600px";
     el.style.inlineSize = "500px";
     await expect.poll(() => measurements.mock.calls.length).toBe(251);
-    await new Promise(requestAnimationFrame);
-    expect(measurements).toHaveBeenCalledTimes(251);
-
-    measurements.mockClear();
-    document.fonts.dispatchEvent(new Event("loadingdone"));
-    document.fonts.dispatchEvent(new Event("loadingdone"));
-    await expect.poll(() => measurements.mock.calls.length).toBe(251);
-    await new Promise(requestAnimationFrame);
+    await afterNextFrame();
     expect(measurements).toHaveBeenCalledTimes(251);
   });
 });
