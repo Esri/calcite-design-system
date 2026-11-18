@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.33](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.32...@esri/calcite-components@6.0.0-next.33) (2026-11-18)
+
+### Features
+
+- **action-bar, action-menu, action-group:** include action-menu in roving navigation and sync active descendant ([#15059](https://github.com/Esri/calcite-design-system/issues/15059)), closes [#7052](https://github.com/Esri/calcite-design-system/issues/7052)
+
 ## [6.0.0-next.32](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.31...@esri/calcite-components@6.0.0-next.32) (2026-11-18)
 
 ### Features
