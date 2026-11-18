@@ -70,24 +70,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-block-heading-text-color": "*";
     /**
-     * When the component is `expanded`, specifies the `heading` text color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-heading-text-color` instead.
-     */
-    "--calcite-block-heading-text-color-press": "*";
-    /**
-     * Specifies the padding of the component's `default` slot.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-block-content-space` instead.
-     */
-    "--calcite-block-padding": "*";
-    /**
-     * Specifies the component's text color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0.
-     */
-    "--calcite-block-text-color": "*";
-    /**
      * Specifies the component's `description` text color.
      */
     "--calcite-block-description-text-color": "*";
@@ -161,6 +143,9 @@ interface BlockSlots {
   children: Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class Block extends LitElement {
   //#region Type-only metadata members
 
@@ -189,7 +174,7 @@ export class Block extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private hasSlottedDescription = false;
 
@@ -555,13 +540,6 @@ export class Block extends LitElement {
 
   //#region Rendering
 
-  private renderScrim(): JsxNode {
-    const { loading } = this;
-    const defaultSlot = <slot onSlotChange={this.handleDefaultSlotChange} />;
-
-    return [loading ? <calcite-scrim loading={loading} /> : null, defaultSlot];
-  }
-
   private renderLoaderStatusIcon(): JsxNode {
     const { loading, messages, status } = this;
 
@@ -806,9 +784,12 @@ export class Block extends LitElement {
             hidden={!expanded}
             id={IDS.content}
           >
-            {this.renderScrim()}
+            <slot onSlotChange={this.handleDefaultSlotChange} />
           </section>
           <slot hidden={!expanded} name={SLOTS.children} />
+          {loading && expanded ? (
+            <calcite-scrim class={CSS.loadingScrim} loading={loading} />
+          ) : null}
         </article>
       </this.interactiveContainer>
     );

@@ -246,7 +246,7 @@ export class Panel extends LitElement {
 
   private _closed = false;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {
@@ -1042,8 +1042,8 @@ export class Panel extends LitElement {
 
     return (
       <this.interactiveContainer disabled={disabled}>
-        {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
+        {loading ? <calcite-scrim loading={loading} /> : null}
       </this.interactiveContainer>
     );
   }

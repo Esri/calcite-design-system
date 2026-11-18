@@ -7,7 +7,7 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 :host([scale="s"]) {
@@ -33,22 +33,22 @@
 }
 
 .container-height {
-  @apply h-full;
+  block-size: 100%;
 }
 
 .table-container {
-  @apply box-border
-  flex
-  w-full
-  flex-col
-  bg-transparent;
+  box-sizing: border-box;
+  display: flex;
+  inline-size: 100%;
+  flex-direction: column;
+  background-color: var(--calcite-color-transparent);
   * {
-    @apply box-border;
+    box-sizing: border-box;
   }
 }
 
 .table {
-  @apply w-full;
+  inline-size: 100%;
 }
 
 .stack {
@@ -57,17 +57,13 @@
 }
 
 .sticky-pos {
-  @apply sticky
-  top-0;
+  position: sticky;
+  inset-block-start: var(--calcite-space-none);
   z-index: calc(var(--calcite-z-index-sticky) + 1);
   background-color: var(
     --calcite-list-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-}
-
-.assistive-text {
-  @apply sr-only;
 }
 
 ::slotted(:is(calcite-action[slot="filter-actions-start"], calcite-action[slot="filter-actions-end"])) {

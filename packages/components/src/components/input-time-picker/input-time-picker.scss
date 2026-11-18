@@ -53,7 +53,7 @@ calcite-time-picker {
 
   &:focus-within {
     border-color: var(--calcite-color-brand);
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 
   &.read-only {
@@ -216,7 +216,7 @@ calcite-time-picker {
   .container {
     border-color: var(--calcite-color-status-danger);
     &:focus-within {
-      @apply focus-inset-danger;
+      @include shared.focus-inset-danger();
     }
   }
 }

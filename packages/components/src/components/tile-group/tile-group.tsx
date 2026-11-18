@@ -23,6 +23,9 @@ interface TileGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Tiles
+ */
 export class TileGroup extends LitElement implements SelectableGroupComponent {
   //#region Type-only metadata members
 
@@ -84,10 +87,9 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.
-   * - `"border"` displays a border. [Deprecated] in v5.0.0, removal target v6.0.0 - use `"highlight"` instead.
    */
   @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight" | "border",
+    "icon" | "highlight",
     SelectionAppearance
   > = "icon";
 

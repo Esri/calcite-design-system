@@ -121,7 +121,7 @@ export class Alert extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,
