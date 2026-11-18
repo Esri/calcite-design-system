@@ -246,7 +246,7 @@ describe("parseDateString", () => {
     expect(dateFromLocalizedString("not a date 3/7/2020", english)).toBeUndefined();
   });
 
-  describe.each(["da", "de", "mk", "ro", "tr"])("localized date parsing (%s)", (locale) => {
+  describe.each(["da", "de", "lv", "mk", "ro", "tr"])("localized date parsing (%s)", (locale) => {
     it.each(numberingSystems)("preserves date boundaries with %s digits", (numberingSystem) => {
       numberStringFormatter.numberFormatOptions = { locale, numberingSystem, useGrouping: false };
       const date = new Date(2023, 4, 31);

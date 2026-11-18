@@ -81,9 +81,10 @@ function getDatePattern(locale: Locale): {
   separator: string;
   unitOrder: string;
 } {
+  // Match the input formatter's numeric widths; padding can also change locale punctuation.
   const parts = getLocaleFormatter(locale, "date-pattern", {
-    day: "2-digit",
-    month: "2-digit",
+    day: "numeric",
+    month: "numeric",
     year: "numeric",
   }).formatToParts(dateForLocaleData);
   const placeholder = parts
