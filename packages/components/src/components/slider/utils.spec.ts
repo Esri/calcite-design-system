@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { selectTickLabels, type TickLabelMeasurement } from "./utils";
+import { getVisibleTickLabels, type TickLabelMeasurement } from "./utils";
 
 function label(value: number, left: number, right: number): TickLabelMeasurement {
   return {
@@ -11,34 +11,56 @@ function label(value: number, left: number, right: number): TickLabelMeasurement
   };
 }
 
-describe("selectTickLabels", () => {
+/**
+ * label(value, left, right) places a tick on a 0-100 scale and supplies its text
+ * bounds independently. Values 0 and 100 identify the endpoints.
+ *
+ * For example, [0--30] [20--35] [40--60] [65--80] [70--100] are text bounds
+ * for ticks 0, 25, 50, 75, 100. Keeping endpoints leaves tick 50 as the only
+ * interior label that fits. Assertions compare the visible tick values.
+ */
+describe(getVisibleTickLabels, () => {
   it("keeps all labels that fit, including sparse formatter output", () => {
-    expect(selectTickLabels([label(0, 0, 10), label(50, 45, 55), label(100, 90, 100)])).toEqual(new Set([0, 50, 100]));
-    expect(selectTickLabels([])).toEqual(new Set());
-    expect(selectTickLabels([label(50, 45, 55)])).toEqual(new Set([50]));
+    expect(getVisibleTickLabels([label(0, 0, 10), label(50, 45, 55), label(100, 90, 100)])).toEqual(
+      new Set([0, 50, 100]),
+    );
+    expect(getVisibleTickLabels([])).toEqual(new Set());
+    expect(getVisibleTickLabels([label(50, 45, 55)])).toEqual(new Set([50]));
   });
 
   it("prioritizes endpoints over conflicting interior labels", () => {
     expect(
-      selectTickLabels([label(0, 0, 30), label(25, 20, 35), label(50, 40, 60), label(75, 65, 80), label(100, 70, 100)]),
+      getVisibleTickLabels([
+        label(0, 0, 30),
+        label(25, 20, 35),
+        label(50, 40, 60),
+        label(75, 65, 80),
+        label(100, 70, 100),
+      ]),
     ).toEqual(new Set([0, 50, 100]));
   });
 
-  it("keeps min when endpoints collide, with an internal keep-both option", () => {
+  it("keeps min when endpoints collide unless both are requested", () => {
     const labels = [label(0, 0, 60), label(50, 45, 55), label(100, 40, 100)];
-    expect(selectTickLabels(labels)).toEqual(new Set([0]));
-    expect(selectTickLabels(labels, true)).toEqual(new Set([0, 100]));
+    expect(getVisibleTickLabels(labels)).toEqual(new Set([0]));
+    expect(getVisibleTickLabels(labels, true)).toEqual(new Set([0, 100]));
   });
 
   it("maximizes count instead of favoring a wide interior label", () => {
     expect(
-      selectTickLabels([label(0, 0, 5), label(25, 10, 30), label(50, 15, 85), label(75, 70, 90), label(100, 95, 100)]),
+      getVisibleTickLabels([
+        label(0, 0, 5),
+        label(25, 10, 30),
+        label(50, 15, 85),
+        label(75, 70, 90),
+        label(100, 95, 100),
+      ]),
     ).toEqual(new Set([0, 25, 75, 100]));
   });
 
   it("improves balance without reducing the maximum count", () => {
     expect(
-      selectTickLabels([
+      getVisibleTickLabels([
         label(0, 0, 5),
         label(20, 10, 30),
         label(25, 15, 35),
@@ -58,11 +80,11 @@ describe("selectTickLabels", () => {
       right: 110 - item.left,
     }));
 
-    expect(selectTickLabels(labels)).toEqual(new Set([0, 30, 60, 100]));
-    expect(selectTickLabels(mirrored)).toEqual(selectTickLabels(labels));
+    expect(getVisibleTickLabels(labels)).toEqual(new Set([0, 30, 60, 100]));
+    expect(getVisibleTickLabels(mirrored)).toEqual(getVisibleTickLabels(labels));
   });
 
   it("handles a single endpoint in a collapsed range", () => {
-    expect(selectTickLabels([label(0, 0, 10)])).toEqual(new Set([0]));
+    expect(getVisibleTickLabels([label(0, 0, 10)])).toEqual(new Set([0]));
   });
 });

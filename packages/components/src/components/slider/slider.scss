@@ -333,6 +333,10 @@
   visibility: visible;
 }
 
+.tick__label--covered {
+  opacity: 0;
+}
+
 .tick__label--min {
   transition: opacity var(--calcite-animation-timing);
 }

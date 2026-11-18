@@ -1,23 +1,22 @@
-export interface TickLabelMeasurement {
+import { intersectsHorizontally } from "../../utils/dom";
+
+export interface TickLabelMeasurement extends Pick<DOMRectReadOnly, "left" | "right"> {
   value: number;
   position: number;
-  left: number;
-  right: number;
   edge?: "min" | "max";
 }
 
-function overlaps(first: TickLabelMeasurement, second: TickLabelMeasurement): boolean {
-  return first.left <= second.right && second.left <= first.right;
-}
-
 /**
- * Reserve endpoints first, then choose intervals by earliest finish to maximize
+ * Determines which tick labels fit by sorting their horizontal text bounds by
+ * right edge, then balancing the gaps between visible labels.
+ *
+ * Reserve endpoints first, then choose the earliest-finishing bounds to maximize
  * the remaining label count. One sweep of legal one-for-one replacements improves
  * spacing without changing that count or overlapping neighbors. This is a local
  * balance heuristic, not a global spacing optimizer. Numeric value breaks ties
  * consistently in mirrored layouts. Sorting is O(n log n); balancing is O(n²).
  */
-export function selectTickLabels(
+export function getVisibleTickLabels(
   labels: readonly TickLabelMeasurement[],
   keepOverlappingEndpoints = false,
 ): Set<number> {
@@ -27,17 +26,17 @@ export function selectTickLabels(
   if (min) {
     endpoints.push(min);
   }
-  if (max && (!min || !overlaps(min, max) || keepOverlappingEndpoints)) {
+  if (max && (!min || !intersectsHorizontally(min, max) || keepOverlappingEndpoints)) {
     endpoints.push(max);
   }
   const candidates = labels
-    .filter((label) => !label.edge && !endpoints.some((endpoint) => overlaps(label, endpoint)))
+    .filter((label) => !label.edge && !endpoints.some((endpoint) => intersectsHorizontally(label, endpoint)))
     .sort((first, second) => first.right - second.right || first.value - second.value);
   const selected: TickLabelMeasurement[] = [];
 
   for (const candidate of candidates) {
     const previous = selected.at(-1);
-    if (!previous || !overlaps(previous, candidate)) {
+    if (!previous || !intersectsHorizontally(previous, candidate)) {
       selected.push(candidate);
     }
   }
@@ -67,8 +66,8 @@ export function selectTickLabels(
       if (
         candidate.position <= start ||
         candidate.position >= end ||
-        (previous && overlaps(previous, candidate)) ||
-        (next && overlaps(next, candidate))
+        (previous && intersectsHorizontally(previous, candidate)) ||
+        (next && intersectsHorizontally(next, candidate))
       ) {
         continue;
       }
