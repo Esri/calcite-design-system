@@ -446,6 +446,63 @@ describe("theme", () => {
       },
     });
   });
+
+  describe("selected", () => {
+    themed(() => mount(<calcite-date-picker value="2024-01-31" />), {
+      "--calcite-date-picker-day-background-color-selected": {
+        selector: "calcite-date-picker",
+        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,
+        targetProp: "backgroundColor",
+      },
+      "--calcite-date-picker-day-text-color-selected": {
+        selector: "calcite-date-picker",
+        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,
+        targetProp: "color",
+      },
+    });
+  });
+
+  describe("range", () => {
+    themed(
+      async () =>
+        mount<DatePicker>(<calcite-date-picker range value={["2025-01-01", "2025-02-20"]} />),
+      {
+        "--calcite-date-picker-range-calendar-divider-color": {
+          selector: "calcite-date-picker",
+          shadowSelector: `calcite-date-picker-month >>> .${MONTH_CSS.calendarStart}`,
+          targetProp: "borderColor",
+        },
+        "--calcite-date-picker-day-range-text-color": {
+          selector: "calcite-date-picker",
+          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[highlighted] >>> .day`,
+          targetProp: "color",
+        },
+        "--calcite-date-picker-day-range-background-color": {
+          selector: "calcite-date-picker",
+          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[highlighted] >>> .day`,
+          targetProp: "backgroundColor",
+        },
+        "--calcite-date-picker-day-outside-range-background-color-hover": {
+          selector: "calcite-date-picker",
+          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[id='20250105'] >>> .day`,
+          targetProp: "backgroundColor",
+          state: {
+            hover:
+              "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106'] >>> .day",
+          },
+        },
+        "--calcite-date-picker-day-outside-range-text-color-hover": {
+          selector: "calcite-date-picker",
+          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[id='20250105'] >>> .day`,
+          targetProp: "color",
+          state: {
+            hover:
+              "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106'] >>> .day",
+          },
+        },
+      },
+    );
+  });
 });
 
 describe("change events", () => {
@@ -454,7 +511,7 @@ describe("change events", () => {
     const { el, component } = await mount<DatePicker>(
       <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
     );
-    const yearInput = page.getByRole("textbox", { name: "Year" }).first();
+    const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" }).first();
 
     await userEvent.click(yearInput);
     await userEvent.keyboard("{ArrowUp}{ArrowDown}");
@@ -540,7 +597,7 @@ describe("change events", () => {
 
     expect(changeHandler).not.toHaveBeenCalled();
     await expect
-      .element(page.getByRole("combobox", { name: "Month menu" }).first())
+      .element(page.getByRole("combobox", { includeHidden: true, name: "Month menu" }).first())
       .toHaveProperty("value", "September");
 
     const selectedDay = getDay("20200908");
@@ -555,7 +612,9 @@ describe("change events", () => {
 it("starts the week on Monday for Slovak", async () => {
   await mount(<calcite-date-picker lang="sk" value="2000-11-27" />);
 
-  await expect.element(page.getByRole("columnheader").first()).toHaveTextContent("po");
+  await expect
+    .element(page.getByRole("columnheader", { includeHidden: true }).first())
+    .toHaveTextContent("po");
 });
 
 describe("min and max", () => {
@@ -587,11 +646,21 @@ describe("min and max", () => {
     el.max = "2025-04-15";
     await component.updateComplete;
 
-    await expect.element(page.getByRole("option", { name: "January" }).first()).toBeDisabled();
-    await expect.element(page.getByRole("option", { name: "February" }).first()).toBeEnabled();
-    await expect.element(page.getByRole("option", { name: "March" }).first()).toBeEnabled();
-    await expect.element(page.getByRole("option", { name: "April" }).first()).toBeEnabled();
-    await expect.element(page.getByRole("option", { name: "May" }).first()).toBeDisabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "January" }).first())
+      .toBeDisabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "February" }).first())
+      .toBeEnabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "March" }).first())
+      .toBeEnabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "April" }).first())
+      .toBeEnabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "May" }).first())
+      .toBeDisabled();
   });
 
   it("disables days outside minAsDate and maxAsDate", async () => {
@@ -782,8 +851,10 @@ describe("month and year selection", () => {
         range
       />,
     );
-    const monthSelect = page.getByRole("combobox", { name: "Month menu" }).first();
-    const yearInput = page.getByRole("textbox", { name: "Year" }).first();
+    const monthSelect = page
+      .getByRole("combobox", { includeHidden: true, name: "Month menu" })
+      .first();
+    const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" }).first();
 
     selectOption(monthSelect, "January");
     await component.updateComplete;
@@ -801,8 +872,8 @@ describe("month and year selection", () => {
     const { component } = await mount<DatePicker>(
       <calcite-date-picker activeDate={new Date(2024, 6, 1)} max="2024-10-21" range />,
     );
-    const monthSelects = page.getByRole("combobox", { name: "Month menu" });
-    const yearInputs = page.getByRole("textbox", { name: "Year" });
+    const monthSelects = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    const yearInputs = page.getByRole("textbox", { includeHidden: true, name: "Year" });
 
     selectOption(monthSelects.first(), "October");
     await component.updateComplete;
@@ -817,8 +888,8 @@ describe("month and year selection", () => {
     const { component } = await mount<DatePicker>(
       <calcite-date-picker activeDate={new Date(2024, 0, 1)} min="2024-01-21" range />,
     );
-    const monthSelects = page.getByRole("combobox", { name: "Month menu" });
-    const yearInputs = page.getByRole("textbox", { name: "Year" });
+    const monthSelects = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    const yearInputs = page.getByRole("textbox", { includeHidden: true, name: "Year" });
 
     selectOption(monthSelects.nth(1), "January");
     await component.updateComplete;
@@ -836,25 +907,29 @@ it("marks only the current day as current while it is displayed", async () => {
     .getBySelector("calcite-date-picker-day[current-month][tabindex='0']")
     .first();
 
-  expect(getCurrentDays()).toHaveLength(1);
+  await expect.element(getCurrentDays()).toHaveLength(1);
 
   await (activeDay.element() as DatePickerDay["el"]).setFocus();
   await userEvent.keyboard("{PageUp}");
   await component.updateComplete;
-  expect(getCurrentDays()).toHaveLength(1);
+  await expect.element(getCurrentDays()).toHaveLength(1);
 
   await userEvent.keyboard("{PageDown}{PageDown}");
   await component.updateComplete;
-  expect(getCurrentDays()).toHaveLength(0);
+  await expect.element(getCurrentDays()).toHaveLength(0);
 });
 
 describe("navigating months", () => {
   it("changes the displayed month with previous and next month actions", async () => {
     const { component } = await mount<DatePicker>(<calcite-date-picker value="2000-11-27" />);
-    const previousMonth = page.getByRole("button", { name: "Previous month" }).first();
-    const nextMonth = page.getByRole("button", { name: "Next month" }).first();
-    const monthSelect = page.getByRole("combobox", { name: "Month menu" }).first();
-    const yearInput = page.getByRole("textbox", { name: "Year" }).first();
+    const previousMonth = page
+      .getByRole("button", { includeHidden: true, name: "Previous month" })
+      .first();
+    const nextMonth = page.getByRole("button", { includeHidden: true, name: "Next month" }).first();
+    const monthSelect = page
+      .getByRole("combobox", { includeHidden: true, name: "Month menu" })
+      .first();
+    const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" }).first();
 
     await userEvent.click(previousMonth);
     await userEvent.click(nextMonth);
@@ -870,8 +945,10 @@ describe("navigating months", () => {
     const { component } = await mount<DatePicker>(
       <calcite-date-picker max="2025-11-11" value="2025-09-25" />,
     );
-    const nextMonth = page.getByRole("button", { name: "Next month" }).first();
-    const monthSelect = page.getByRole("combobox", { name: "Month menu" }).first();
+    const nextMonth = page.getByRole("button", { includeHidden: true, name: "Next month" }).first();
+    const monthSelect = page
+      .getByRole("combobox", { includeHidden: true, name: "Month menu" })
+      .first();
 
     await userEvent.click(nextMonth);
     await userEvent.click(nextMonth);
@@ -886,8 +963,12 @@ describe("navigating months", () => {
     const { component } = await mount<DatePicker>(
       <calcite-date-picker min="2024-11-11" value="2025-01-01" />,
     );
-    const previousMonth = page.getByRole("button", { name: "Previous month" }).first();
-    const monthSelect = page.getByRole("combobox", { name: "Month menu" }).first();
+    const previousMonth = page
+      .getByRole("button", { includeHidden: true, name: "Previous month" })
+      .first();
+    const monthSelect = page
+      .getByRole("combobox", { includeHidden: true, name: "Month menu" })
+      .first();
 
     await userEvent.click(previousMonth);
     await userEvent.click(previousMonth);
@@ -960,7 +1041,7 @@ describe("selection", () => {
 
 it("updates the calendar as a new year is typed without changing value", async () => {
   const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2015-02-28" />);
-  const yearInput = page.getByRole("textbox", { name: "Year" }).first();
+  const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" }).first();
   const initialActiveDate = el.activeDate?.getTime();
 
   await userEvent.click(yearInput);
@@ -976,10 +1057,18 @@ it("updates the calendar as a new year is typed without changing value", async (
 it("provides the default labels to the month header", async () => {
   await mount(<calcite-date-picker value="2000-11-27" />);
 
-  await expect.element(page.getByRole("combobox", { name: "Month menu" }).first()).toBeVisible();
-  await expect.element(page.getByRole("button", { name: "Next month" }).first()).toBeVisible();
-  await expect.element(page.getByRole("button", { name: "Previous month" }).first()).toBeVisible();
-  await expect.element(page.getByRole("textbox", { name: "Year" }).first()).toBeVisible();
+  await expect
+    .element(page.getByRole("combobox", { includeHidden: true, name: "Month menu" }).first())
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("button", { includeHidden: true, name: "Next month" }).first())
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("button", { includeHidden: true, name: "Previous month" }).first())
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("textbox", { includeHidden: true, name: "Year" }).first())
+    .toBeVisible();
 });
 
 it("restarts a completed range when proximity selection is disabled", async () => {
@@ -1042,62 +1131,3 @@ function toDateOnlyIso(date: Date): string {
   localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
   return localDate.toISOString().split("T")[0];
 }
-
-describe("theme states", () => {
-  describe("selected", () => {
-    themed(() => mount(<calcite-date-picker value="2024-01-31" />), {
-      "--calcite-date-picker-day-background-color-selected": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,
-        targetProp: "backgroundColor",
-      },
-      "--calcite-date-picker-day-text-color-selected": {
-        selector: "calcite-date-picker",
-        shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[selected] >>> .day`,
-        targetProp: "color",
-      },
-    });
-  });
-
-  describe("range", () => {
-    themed(
-      async () =>
-        mount<DatePicker>(<calcite-date-picker range value={["2025-01-01", "2025-02-20"]} />),
-      {
-        "--calcite-date-picker-range-calendar-divider-color": {
-          selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> .${MONTH_CSS.calendarStart}`,
-          targetProp: "borderColor",
-        },
-        "--calcite-date-picker-day-range-text-color": {
-          selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[highlighted] >>> .day`,
-          targetProp: "color",
-        },
-        "--calcite-date-picker-day-range-background-color": {
-          selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[highlighted] >>> .day`,
-          targetProp: "backgroundColor",
-        },
-        "--calcite-date-picker-day-outside-range-background-color-hover": {
-          selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[id='20250105'] >>> .day`,
-          targetProp: "backgroundColor",
-          state: {
-            hover:
-              "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106'] >>> .day",
-          },
-        },
-        "--calcite-date-picker-day-outside-range-text-color-hover": {
-          selector: "calcite-date-picker",
-          shadowSelector: `calcite-date-picker-month >>> calcite-date-picker-day[id='20250105'] >>> .day`,
-          targetProp: "color",
-          state: {
-            hover:
-              "calcite-date-picker >>> calcite-date-picker-month >>> calcite-date-picker-day[id='20250106'] >>> .day",
-          },
-        },
-      },
-    );
-  });
-});

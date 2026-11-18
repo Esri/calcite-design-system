@@ -231,7 +231,7 @@ pnpm test
 
 ## Running the tests
 
-`pnpm test` will run the test suites.
+`pnpm test` will run the test suites. For Calcite Components, `test`, `test:watch`, and `test:ci` all include the Node/Puppeteer, Vitest browser-mode, and timezone browser suites.
 
 Calcite Components include [Vitest](https://vitest.dev)-based testing tools that use [Puppeteer](https://github.com/GoogleChrome/puppeteer) and [Playwright](https://playwright.dev/), including Playwright for Vitest browser mode.
 
@@ -257,7 +257,7 @@ pnpm --filter @esri/calcite-components test:browser:time-zone --project 'time-zo
 pnpm --filter @esri/calcite-components test:watch:browser:time-zone --project 'time-zone:Europe/Zurich'
 ```
 
-`BROWSER_TIME_ZONE` can also select a registered timezone. Dedicated timezone and CI runs fail if no timezone tests match.
+`BROWSER_TIME_ZONE` can also select a registered timezone. These commands are optional tools for focused debugging; normal local testing with `test` or `test:watch` already includes every registered timezone suite. Component filters are forwarded to all three lanes, and aggregate commands allow lanes without matching files. Dedicated timezone and CI runs fail if no timezone tests match.
 
 ## Adding a new component
 
