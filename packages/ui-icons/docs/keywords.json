@@ -21613,13 +21613,17 @@
     "alias": [
       "4.7.0",
       "objects",
-      "stone",
+      "premium",
       "rock",
-      "carat",
+      "value",
       "mineral",
       "grade",
       "jewel",
-      "solitaire"
+      "feature",
+      "crystal",
+      "expensive",
+      "quality",
+      "special"
     ],
     "category": "Objects",
     "release": "4.7.0",
