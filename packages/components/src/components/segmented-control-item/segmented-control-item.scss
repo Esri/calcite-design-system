@@ -44,6 +44,7 @@
 :host(:focus) .label {
   @include shared.focus-inset();
   outline-offset: -1px;
+  border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
 .label--scale-s {
@@ -82,7 +83,6 @@
   background-color: var(--calcite-segmented-control-background-color, var(--calcite-color-brand));
   color: var(--calcite-segmented-control-color, var(--calcite-color-text-inverse));
   border-color: var(--calcite-segmented-control-item-border-color, var(--calcite-color-brand));
-  border-radius: var(--calcite-corner-radius-none);
 }
 
 :host([checked]) .label--neutral {
