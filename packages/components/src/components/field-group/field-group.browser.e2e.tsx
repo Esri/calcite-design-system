@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 import { Locator, page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
-import { nextFrame } from "../../utils/dom";
+import { afterNextFrame } from "../../tests/utils/timing";
 import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Input } from "../input/input";
 import { CSS } from "./resources";
@@ -188,7 +188,7 @@ describe("affix width coordination", () => {
   });
 
   it("clears affix widths when auto width is disabled", async () => {
-    const { el } = await mount(
+    const { el: fieldGroup, reRender } = await mount<FieldGroup>(
       <calcite-field-group prefix-auto-width suffix-auto-width>
         <calcite-input id="short" prefix-text="a" suffix-text="b" />
         <calcite-input
@@ -198,7 +198,6 @@ describe("affix width coordination", () => {
         />
       </calcite-field-group>,
     );
-    const fieldGroup = el as FieldGroup["el"];
     const group = page.getBySelector("calcite-field-group");
     const shortInput = group.getBySelector("#short");
     const longInput = group.getBySelector("#long");
@@ -210,7 +209,7 @@ describe("affix width coordination", () => {
 
     fieldGroup.prefixAutoWidth = false;
     fieldGroup.suffixAutoWidth = false;
-    await nextFrame();
+    await reRender();
 
     await vi.waitFor(() => {
       expect(getAffixWidth(shortInput, "prefix")).not.toBe(getAffixWidth(longInput, "prefix"));
@@ -236,19 +235,19 @@ describe("affix width coordination", () => {
       expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
     });
 
-    await nextFrame();
+    // Check again after a frame to catch late width updates.
+    await afterNextFrame();
 
     expect(getAffixWidth(first, "prefix")).not.toBe(getAffixWidth(second, "prefix"));
   });
 
   it("uses the latest affix values after rapid auto width changes", async () => {
-    const { el } = await mount(
+    const { el: fieldGroup, reRender } = await mount<FieldGroup>(
       <calcite-field-group prefix-auto-width suffix-auto-width>
         <calcite-input prefix-text="short" suffix-text="short" />
         <calcite-input prefix-text="long prefix" suffix-text="long suffix" />
       </calcite-field-group>,
     );
-    const fieldGroup = el as FieldGroup["el"];
     const inputs = page.getBySelector("calcite-field-group").getBySelector("calcite-input");
     const first = inputs.nth(0);
     const second = inputs.nth(1);
@@ -259,7 +258,7 @@ describe("affix width coordination", () => {
     const originalWidth = parseFloat(getAffixWidth(first, "suffix"));
 
     fieldGroup.suffixAutoWidth = false;
-    await nextFrame();
+    await reRender();
     (first.element() as Input["el"]).suffixText = "a considerably longer suffix";
     fieldGroup.suffixAutoWidth = true;
 
@@ -304,7 +303,7 @@ describe("affix width coordination", () => {
   });
 
   it("honors the public affix size override once auto width is disabled", async () => {
-    const { el } = await mount(
+    const { el: fieldGroup, reRender } = await mount<FieldGroup>(
       <calcite-field-group>
         <calcite-input
           id="input"
@@ -314,16 +313,15 @@ describe("affix width coordination", () => {
         />
       </calcite-field-group>,
     );
-    const fieldGroup = el as FieldGroup["el"];
     const input = page.getBySelector("calcite-field-group").getBySelector("#input");
 
     fieldGroup.prefixAutoWidth = true;
     fieldGroup.suffixAutoWidth = true;
-    await nextFrame();
+    await reRender();
 
     fieldGroup.prefixAutoWidth = false;
     fieldGroup.suffixAutoWidth = false;
-    await nextFrame();
+    await reRender();
 
     await vi.waitFor(() => {
       expect(getAffixWidth(input, "prefix")).toBe("24px");
@@ -332,7 +330,7 @@ describe("affix width coordination", () => {
   });
 
   it("toggles coordinated widths for inputs inside a field set", async () => {
-    const { el } = await mount(
+    const { el: fieldGroup, reRender } = await mount<FieldGroup>(
       <calcite-field-group prefix-auto-width suffix-auto-width>
         <calcite-field-set>
           <calcite-input prefix-text="prefix" suffix-text="px" />
@@ -341,7 +339,6 @@ describe("affix width coordination", () => {
         </calcite-field-set>
       </calcite-field-group>,
     );
-    const fieldGroup = el as FieldGroup["el"];
     const inputs = page.getBySelector("calcite-field-group").getBySelector("calcite-input");
 
     await vi.waitFor(() => {
@@ -351,7 +348,7 @@ describe("affix width coordination", () => {
 
     fieldGroup.prefixAutoWidth = false;
     fieldGroup.suffixAutoWidth = false;
-    await nextFrame();
+    await reRender();
 
     await vi.waitFor(() => {
       expect(getAffixWidth(inputs.nth(0), "prefix")).not.toBe(
@@ -414,7 +411,7 @@ describe("affix width coordination", () => {
   });
 
   it("recalculates widths when a slotted input affix is removed", async () => {
-    const { el } = await mount(
+    const { el } = await mount<FieldGroup>(
       <calcite-field-group>
         <calcite-input id="first" prefix-text="a much longer prefix" />
         <calcite-input id="second" prefix-text="medium" />
@@ -427,7 +424,7 @@ describe("affix width coordination", () => {
       getAffix(second, "prefix").element().getBoundingClientRect().width,
     );
 
-    (el as FieldGroup["el"]).prefixAutoWidth = true;
+    el.prefixAutoWidth = true;
 
     await vi.waitFor(() => {
       expect(getAffixWidth(second, "prefix")).not.toBe(`${secondIndividualWidth}px`);
@@ -475,23 +472,25 @@ describe("affix width coordination", () => {
       expect(getSuffixFootprintWidth(autocomplete)).toBeCloseTo(getSuffixFootprintWidth(input));
     });
 
-    await nextFrame();
+    await vi.waitFor(() => {
+      const inputSuffixRect = getAffix(input, "suffix").element().getBoundingClientRect();
+      const inputNumberSuffixRect = getAffix(inputNumber, "suffix")
+        .element()
+        .getBoundingClientRect();
+      const inputTextSuffixRect = getAffix(inputText, "suffix").element().getBoundingClientRect();
+      const autocompleteSuffixRect = getAffix(autocomplete, "suffix")
+        .element()
+        .getBoundingClientRect();
 
-    const inputSuffixRect = getAffix(input, "suffix").element().getBoundingClientRect();
-    const inputNumberSuffixRect = getAffix(inputNumber, "suffix").element().getBoundingClientRect();
-    const inputTextSuffixRect = getAffix(inputText, "suffix").element().getBoundingClientRect();
-    const autocompleteSuffixRect = getAffix(autocomplete, "suffix")
-      .element()
-      .getBoundingClientRect();
-
-    expect(
-      inputNumberSuffixRect.width +
-        getInputNumberButtonWrapper(inputNumber).element().getBoundingClientRect().width,
-    ).toBeCloseTo(inputSuffixRect.width);
-    expect(inputTextSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
-    expect(autocompleteSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
-    expect(inputNumberSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
-    expect(autocompleteSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
+      expect(
+        inputNumberSuffixRect.width +
+          getInputNumberButtonWrapper(inputNumber).element().getBoundingClientRect().width,
+      ).toBeCloseTo(inputSuffixRect.width);
+      expect(inputTextSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
+      expect(autocompleteSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
+      expect(inputNumberSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
+      expect(autocompleteSuffixRect.left).toBeCloseTo(inputSuffixRect.left);
+    });
 
     const originalPrefixWidth = parseFloat(getAffixWidth(autocomplete, "prefix"));
     const originalSuffixWidth = parseFloat(getAffixWidth(autocomplete, "suffix"));
