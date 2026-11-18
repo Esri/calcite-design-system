@@ -319,7 +319,7 @@ export const footerSlot = (): string =>
   </div>`;
 
 export const withNoHeaderBorderBlockEnd = (): string =>
-  html`<calcite-flow-item selected style="--calcite-flow-border-color:none;" height-scale="s" heading="My Panel"
+  html`<calcite-flow-item selected style="--calcite-flow-border-color:transparent;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-flow-item
   >`;
 
