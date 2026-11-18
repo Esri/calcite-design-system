@@ -466,6 +466,42 @@ describe("overlapping tick labels", () => {
     expectNoOverlappingText();
   });
 
+  it.each(["precise range", "labeled histogram"] as const)(
+    "refreshes tick label coverage when a %s shrinks and expands",
+    async (variant) => {
+      const { el } = await mount<Slider>(
+        <calcite-slider
+          histogram={
+            variant === "labeled histogram"
+              ? [
+                  [0, 0],
+                  [50, 1],
+                  [100, 0],
+                ]
+              : undefined
+          }
+          labelHandles
+          labelTicks
+          precise={variant === "precise range"}
+          style={{ inlineSize: "600px" }}
+          ticks={10}
+          value={[5, 95]}
+        />,
+      );
+      const minLabel = page.getBySelector(`.${CSS.tickMin}`);
+      await expect.element(minLabel).toBeVisible();
+      await expect.element(minLabel).toHaveStyle({ opacity: "1" });
+
+      el.style.inlineSize = "80px";
+      await expect.element(minLabel).toHaveStyle({ opacity: "0" });
+      await expect.element(minLabel).not.toBeVisible();
+
+      el.style.inlineSize = "600px";
+      await expect.element(minLabel).toHaveStyle({ opacity: "1" });
+      await expect.element(minLabel).toBeVisible();
+    },
+  );
+
   it("restores tick labels when labeling is re-enabled", async () => {
     const { el, reRender } = await mount<Slider>(
       <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} />,
