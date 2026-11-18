@@ -61,8 +61,8 @@ describe(getLocaleData, () => {
   it("uses the Bosnian date-format fallback for metadata affected by Chromium", () => {
     const localeData = getLocaleData("bs");
 
-    expect(localeData.placeholder).toBe("DD.MM.YYYY.");
-    expect(localeData.unitOrder).toBe("DD.MM.YYYY.");
+    expect(localeData.placeholder).toBe("DD. MM. YYYY.");
+    expect(localeData.unitOrder).toBe("DD. MM. YYYY.");
     expect(localeData.months.wide[4]).toBe("maj");
     expect(localeData.days.abbreviated?.[1]).not.toBe("Mon");
     expect(localeData.weekStart).toBe(1);
