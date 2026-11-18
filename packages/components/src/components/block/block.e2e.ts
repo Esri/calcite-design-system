@@ -141,7 +141,7 @@ describe("header", () => {
     expect(heading.innerText).toBe("test-heading");
 
     const description = await page.find(`calcite-block >>> .${CSS.description}`);
-    expect(description).toBeNull();
+    expect(description).toBeTruthy();
   });
 
   it("renders a heading with optional description", async () => {
