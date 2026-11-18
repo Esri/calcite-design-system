@@ -23,6 +23,16 @@ describe("accessible", () => {
     accessible(() => mount(<calcite-link href="/">link</calcite-link>));
   });
 
+  describe("with label", () => {
+    accessible(() =>
+      mount(
+        <calcite-link href="/" label="Read about maps">
+          link
+        </calcite-link>,
+      ),
+    );
+  });
+
   it("uses label as the accessible name when provided", async () => {
     await mount(
       <calcite-link href="/" label="Read about maps">
