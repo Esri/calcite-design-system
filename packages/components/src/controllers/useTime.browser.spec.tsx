@@ -154,6 +154,7 @@ describe("reactive configuration", () => {
     await component.updateComplete;
     expect(component.time.localizedHour).toBe("02");
     expect(component.time.localizedMeridiem).toBe("PM");
+    expect(component.value).toBe("14:02:03.004");
 
     component.hourFormat = "24";
     await component.updateComplete;
