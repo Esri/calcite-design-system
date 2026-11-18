@@ -1539,6 +1539,7 @@ export class ActionBar extends LitElement {
       ? this.navigationItems.find((item) => item === activeItem)
       : undefined;
 
+    // Slot updates do not provide an active item, so preserve the current item or use the default.
     const current = activeItemInNavigation || this.getCurrentNavigationItem();
 
     if (!current) {
