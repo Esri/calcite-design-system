@@ -49,6 +49,9 @@ interface BlockGroupSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Blocks
+ */
 export class BlockGroup extends LitElement {
   //#region Type-only metadata members
 
@@ -76,7 +79,7 @@ export class BlockGroup extends LitElement {
 
   private cancelable = useCancelable<this>()(this);
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private parentBlockGroupEl?: BlockGroup["el"];
 

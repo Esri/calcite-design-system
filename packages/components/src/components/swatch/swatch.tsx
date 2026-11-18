@@ -43,6 +43,9 @@ interface SwatchSlots {
   image: Node[];
 }
 
+/**
+ * @docGroup Swatch
+ */
 export class Swatch extends LitElement {
   //#region Type-only metadata members
 
@@ -62,7 +65,7 @@ export class Swatch extends LitElement {
 
   private containerRef = createRef<HTMLDivElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

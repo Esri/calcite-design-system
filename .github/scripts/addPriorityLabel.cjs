@@ -1,5 +1,5 @@
 // @ts-check
-const { createLabelIfMissing } = require("./support/utils.cjs");
+const { createLabelIfMissing, getIssueFormResponse, syncAddedLabelWithMonday } = require("./support/utils.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
@@ -16,9 +16,7 @@ module.exports = async ({ github, context, core }) => {
     return;
   }
 
-  const addPriorityRegex = /### Priority impact(?:\r|\n)+(.+)$/m;
-  const addPriorityRegexMatch = body.match(addPriorityRegex);
-  const addPriorityLabel = (addPriorityRegexMatch?.[1] || "").trim();
+  const addPriorityLabel = getIssueFormResponse(body, "Priority impact");
 
   if (addPriorityLabel === "N/A" || addPriorityLabel === "") {
     core.notice(`No priority impact listed on issue #${issue_number}`, logParams);
@@ -38,17 +36,11 @@ module.exports = async ({ github, context, core }) => {
       labels: [addPriorityLabel],
     });
 
-    await github.rest.actions.createWorkflowDispatch({
-      owner,
-      repo,
-      workflow_id: "issue-monday-sync.yaml",
-      ref: "dev",
-      inputs: {
-        issue_number: issue_number.toString(),
-        event_type: "SyncActionChanges",
-        label_name: addPriorityLabel,
-        label_action: "added",
-      },
+    await syncAddedLabelWithMonday({
+      github,
+      context,
+      issueNumber: issue_number,
+      label: addPriorityLabel,
     });
   }
 };
