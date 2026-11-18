@@ -842,7 +842,7 @@ describe("month and year selection", () => {
   mockConsole();
 
   it("selects the first and last valid months with one range calendar", async () => {
-    const { el, component } = await mount<DatePicker>(
+    const { el } = await mount<DatePicker>(
       <calcite-date-picker
         activeDate={new Date(2024, 6, 1)}
         calendars={1}
@@ -856,27 +856,25 @@ describe("month and year selection", () => {
       .first();
     const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" }).first();
 
-    selectOption(monthSelect, "January");
-    await component.updateComplete;
+    await userEvent.selectOptions(monthSelect, "January");
+    await expect.element(getDay("20240121")).toBeVisible();
     await expect.element(monthSelect).toHaveProperty("value", "January");
     await expect.element(yearInput).toHaveProperty("value", "2024");
 
-    selectOption(monthSelect, "October");
-    await component.updateComplete;
+    await userEvent.selectOptions(monthSelect, "October");
+    await expect.element(getDay("20241021")).toBeVisible();
     await expect.element(monthSelect).toHaveProperty("value", "October");
     await expect.element(yearInput).toHaveProperty("value", "2024");
     await expect.element(el).toHaveProperty("value", undefined);
   });
 
   it("selects the last valid month from the start calendar", async () => {
-    const { component } = await mount<DatePicker>(
-      <calcite-date-picker activeDate={new Date(2024, 6, 1)} max="2024-10-21" range />,
-    );
+    await mount(<calcite-date-picker activeDate={new Date(2024, 6, 1)} max="2024-10-21" range />);
     const monthSelects = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
     const yearInputs = page.getByRole("textbox", { includeHidden: true, name: "Year" });
 
-    selectOption(monthSelects.first(), "October");
-    await component.updateComplete;
+    await userEvent.selectOptions(monthSelects.first(), "October");
+    await expect.element(getDay("20241021")).toBeVisible();
 
     await expect.element(monthSelects.first()).toHaveProperty("value", "October");
     await expect.element(monthSelects.nth(1)).toHaveProperty("value", "November");
@@ -885,14 +883,12 @@ describe("month and year selection", () => {
   });
 
   it("selects the first valid month from the end calendar", async () => {
-    const { component } = await mount<DatePicker>(
-      <calcite-date-picker activeDate={new Date(2024, 0, 1)} min="2024-01-21" range />,
-    );
+    await mount(<calcite-date-picker activeDate={new Date(2024, 0, 1)} min="2024-01-21" range />);
     const monthSelects = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
     const yearInputs = page.getByRole("textbox", { includeHidden: true, name: "Year" });
 
-    selectOption(monthSelects.nth(1), "January");
-    await component.updateComplete;
+    await userEvent.selectOptions(monthSelects.nth(1), "January");
+    await expect.element(getDay("20240121")).toBeVisible();
 
     await expect.element(monthSelects.first()).toHaveProperty("value", "December");
     await expect.element(monthSelects.nth(1)).toHaveProperty("value", "January");
@@ -1098,12 +1094,6 @@ async function selectDay(id: string, component: DatePicker): Promise<void> {
 
 function dayIdToIso(id: string): string {
   return `${id.slice(0, 4)}-${id.slice(4, 6)}-${id.slice(6)}`;
-}
-
-function selectOption(selectLocator: Locator, value: string): void {
-  const select = selectLocator.element() as HTMLSelectElement;
-  select.value = value;
-  select.dispatchEvent(new Event("change", { bubbles: true }));
 }
 
 function expectDateParts(date: Date | undefined, year: number, month: number, day: number): void {
