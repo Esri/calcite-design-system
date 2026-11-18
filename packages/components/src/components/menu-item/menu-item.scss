@@ -138,7 +138,7 @@
 }
 
 :host([scale="s"]) {
-  --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
+  --calcite-internal-menu-item-content-min-block-size: 2.25rem;
   --calcite-internal-menu-item-font-size: var(--calcite-font-size);
   --calcite-internal-menu-item-icon-spacing-start: var(--calcite-space-sm);
   --calcite-internal-menu-item-icon-spacing-end: var(--calcite-space-sm);
@@ -184,7 +184,7 @@
 }
 
 :host([scale="s"][layout="vertical"]) .content:not([href]) {
-  --calcite-internal-menu-item-content-min-block-size: theme("spacing.9");
+  --calcite-internal-menu-item-content-min-block-size: 2.25rem;
 }
 
 :host([scale="s"][layout="vertical"]):has(.dropdown-action) {
@@ -428,7 +428,7 @@
   border: var(--calcite-internal-menu-item-border);
   border-radius: var(--calcite-menu-item-sub-menu-corner-radius, var(--calcite-corner-radius));
   inset-block-start: 100%;
-  z-index: theme("zIndex.dropdown");
+  z-index: var(--calcite-z-index-dropdown);
   &.open {
     display: block;
   }
