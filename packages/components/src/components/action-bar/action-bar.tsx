@@ -1372,10 +1372,6 @@ export class ActionBar extends LitElement {
     const nextItem = navigationItems[nextIndex];
 
     if (nextItem && nextItem !== current) {
-      [...document.querySelectorAll("calcite-action-menu")].map((menu) => ({
-        focused: menu.matches(":focus-within"),
-        label: menu.label,
-      }));
       void nextItem.setFocus();
     }
 
