@@ -10,3 +10,24 @@ To get the list of available commands, run:
 ```sh
 node cli
 ```
+
+## Validate breaking-change markers
+
+Validate a pull request's title and description locally:
+
+```sh
+node cli validate-breaking-change-pr \
+  --title 'feat(component)!: rename a property' \
+  --body 'BREAKING CHANGE: Use the new property name.'
+```
+
+In CI, pass the pull request title and description through the `PR_TITLE` and
+`PR_BODY` environment variables, then run:
+
+```sh
+node cli validate-breaking-change-pr
+```
+
+Explicit options override environment variables, including an empty `--body`.
+The title is required; an omitted body defaults to empty. Invalid markers produce
+a nonzero exit code and, in GitHub Actions, an error annotation.

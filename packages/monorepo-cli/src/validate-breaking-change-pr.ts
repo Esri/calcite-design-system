@@ -1,11 +1,33 @@
-// @ts-check
+import { Command } from "@commander-js/extra-typings";
+import dedent from "dedent";
+import { assertRequiredOption, errorAndExit, getSummary } from "./utils/commands.ts";
 
-/** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
-module.exports = async ({ context, core }) => {
-  const payload = /** @type {import('@octokit/webhooks-types').PullRequestEvent} */ (context.payload);
-  const { title, body } = payload.pull_request;
-  const hasBreakingTitle = /^[a-z]+(?:\([^()\r\n]*\))?!:\s+/i.test(title);
-  const lines = getDescriptionLines(body ?? "");
+type ValidateBreakingChangePrOptions = {
+  title: string;
+  body: string;
+};
+
+const description = dedent`
+  Validate breaking-change markers in a pull request.
+
+  Require matching title (!) and description (BREAKING CHANGE:) markers,
+  with an explanation outside Markdown examples and HTML comments.
+`;
+const titleUsage = "--title <TITLE>";
+
+export const registerCommand = (command: Command): void =>
+  void command
+    .command("validate-breaking-change-pr")
+    .summary(getSummary(description))
+    .description(description)
+    .option(titleUsage, "The pull request title. (env: PR_TITLE)")
+    .option("--body <BODY>", "The pull request description. Defaults to empty. (env: PR_BODY)")
+    .action(run);
+
+function run({ title, body }: Partial<ValidateBreakingChangePrOptions>): void {
+  const validatedTitle = assertRequiredOption(title ?? process.env.PR_TITLE, titleUsage);
+  const hasBreakingTitle = /^[a-z]+(?:\([^()\r\n]*\))?!:\s+/i.test(validatedTitle);
+  const lines = getDescriptionLines(body ?? process.env.PR_BODY ?? "");
   let hasBreakingDeclaration = false;
 
   for (const [index, line] of lines.entries()) {
@@ -16,8 +38,7 @@ module.exports = async ({ context, core }) => {
 
     hasBreakingDeclaration = true;
     if (declaration[1] === "-CHANGE") {
-      core.setFailed("Use the canonical `BREAKING CHANGE:` spelling in the PR description, not `BREAKING-CHANGE:`.");
-      return;
+      errorAndExit("Use the canonical `BREAKING CHANGE:` spelling in the PR description, not `BREAKING-CHANGE:`.");
     }
 
     const explanation = declaration[2].trim();
@@ -29,29 +50,26 @@ module.exports = async ({ context, core }) => {
         /^ {0,3}[>#]/.test(continuation) ||
         /^ {4}/.test(continuation))
     ) {
-      core.setFailed("Add an explanation after `BREAKING CHANGE:` in the PR description.");
-      return;
+      errorAndExit("Add an explanation after `BREAKING CHANGE:` in the PR description.");
     }
   }
 
   if (hasBreakingTitle && !hasBreakingDeclaration) {
-    core.setFailed(
+    errorAndExit(
       "The PR title uses `!`. Add `BREAKING CHANGE: <explanation>` to the PR description outside code blocks and HTML comments.",
     );
   } else if (hasBreakingDeclaration && !hasBreakingTitle) {
-    core.setFailed(
+    errorAndExit(
       "The PR description declares a breaking change. Add `!` immediately before the title's colon, e.g. `feat(component)!: describe the change`.",
     );
   }
-};
+}
 
-/** @param {string} body */
-function getDescriptionLines(body) {
+function getDescriptionLines(body: string): string[] {
   let inComment = false;
   let fence = "";
   let fenceIndent = 0;
-  /** @type {number[]} */
-  const listIndents = [];
+  const listIndents: number[] = [];
 
   return body.split(/\r?\n/).map((line) => {
     const indent = line.search(/[^ ]|$/);

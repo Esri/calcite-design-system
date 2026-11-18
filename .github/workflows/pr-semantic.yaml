@@ -32,9 +32,13 @@ jobs:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - name: Validate breaking-change markers
-        uses: actions/github-script@v9
+      - uses: pnpm/setup@v3
         with:
-          script: |
-            const action = require('${{ github.workspace }}/.github/scripts/validateBreakingChangePullRequest.cjs')
-            await action({context, core})
+          install: false
+      - name: Install CLI dependencies
+        run: pnpm install --frozen-lockfile --filter @esri/monorepo-cli --ignore-scripts
+      - name: Validate breaking-change markers
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: node cli validate-breaking-change-pr
