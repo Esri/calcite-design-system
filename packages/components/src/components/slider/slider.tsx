@@ -1161,6 +1161,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
     this.tickLabelLayoutFrame = requestAnimationFrame(() => {
       this.tickLabelLayoutFrame = undefined;
+      this.hideCoveredBoundingTickLabels();
       this.updateTickLabelVisibility();
     });
   }
