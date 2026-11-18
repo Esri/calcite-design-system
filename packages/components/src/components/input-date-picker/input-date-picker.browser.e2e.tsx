@@ -1660,7 +1660,7 @@ describe("localization", () => {
   });
 
   describe("regional date handling", () => {
-    it.each(["da", "de", "mk", "ro", "tr"])(
+    it.each(["da", "de", "lv", "mk", "ro", "tr"])(
       "preserves the localized selection on blur (%s)",
       async (locale) => {
         const { el } = await mount(
