@@ -49,7 +49,7 @@ export default defineConfig({
     },
   }),
   // CI runs the main and timezone browser lanes concurrently.
-  cacheDir: "node_modules/.vite/time-zone",
+  cacheDir: "node_modules/.pnpm/.vite/time-zone",
   optimizeDeps: {
     // The root include is empty; scan the instances' test files before starting browser sessions.
     entries: timeZoneTestSuites.flatMap(({ include }) => include),
