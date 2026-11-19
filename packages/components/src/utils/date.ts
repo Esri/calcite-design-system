@@ -1,3 +1,5 @@
+import { escapeRegExp } from "es-toolkit/compat";
+
 import { DateLocaleData } from "../components/date-picker/utils";
 import { numberStringFormatter } from "./locale";
 
@@ -81,7 +83,6 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   if (!localeData) {
     return undefined;
   }
-  const { separator } = localeData;
   const parts = parseDateString(value, localeData);
 
   const { day, month } = parts;
@@ -93,7 +94,7 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   const validDay = day > 0;
   const validMonth = month > -1;
   const validDate = !isNaN(date.getTime());
-  const validLength = value.split(separator).filter((c) => c).length > 2;
+  const validLength = Object.values(datePartsFromLocalizedString(value, localeData)).every(Boolean);
   const validYear = year.toString().length > 0;
 
   if (validDay && validMonth && validDate && validLength && validYear) {
@@ -131,9 +132,37 @@ export function datePartsFromLocalizedString(
   string: string,
   localeData: DateLocaleData,
 ): { day: string; month: string; year: string } {
-  const { separator, unitOrder } = localeData;
+  const { unitOrder } = localeData;
+  // Intl date patterns can include whitespace and Arabic/left-to-right/right-to-left marks for display.
+  // Typed or pasted input may omit or repeat these; keep the other locale separator characters required.
+  const optionalFormattingCharacters = String.raw`[\s\u061C\u200E\u200F]*`;
+  const localizedDatePattern = unitOrder
+    .split(/([dmy]+)/giu)
+    .filter(Boolean)
+    .map((part) => {
+      if (/^[dmy]+$/iu.test(part)) {
+        return String.raw`(\p{Decimal_Number}+)`;
+      }
+
+      return (
+        optionalFormattingCharacters +
+        Array.from(part)
+          .filter((character) => !/[\s\u061C\u200E\u200F]/u.test(character))
+          .map(escapeRegExp)
+          .join(optionalFormattingCharacters) +
+        optionalFormattingCharacters
+      );
+    })
+    .join("");
+  const localizedDateMatch = string.match(
+    new RegExp(`^${optionalFormattingCharacters}${localizedDatePattern}${optionalFormattingCharacters}$`, "u"),
+  );
+  if (!localizedDateMatch) {
+    return { day: "", month: "", year: "" };
+  }
+
   const order = getOrder(unitOrder);
-  const values = string.split(separator).map((part) => numberStringFormatter.delocalize(part));
+  const values = localizedDateMatch.slice(1).map((part) => numberStringFormatter.delocalize(part));
   const day = values[order.indexOf("d")];
   const month = values[order.indexOf("m")];
   const year = values[order.indexOf("y")];
