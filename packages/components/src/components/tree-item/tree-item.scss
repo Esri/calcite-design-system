@@ -277,14 +277,14 @@
   }
   :host(:focus:not([disabled])) {
     .node-container {
-      outline-width: 1px;
+      outline-width: var(--calcite-border-width-sm, 1px);
       outline-color: Highlight;
       outline-offset: -1px;
     }
   }
   :host([lines]) {
     .children-container::after {
-      border-inline-start: 1px solid CanvasText;
+      border-inline-start: var(--calcite-border-width-sm, 1px) solid CanvasText;
     }
   }
 }
