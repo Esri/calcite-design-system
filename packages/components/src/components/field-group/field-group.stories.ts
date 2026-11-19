@@ -184,7 +184,7 @@ const renderLayoutExample = (
   `;
 };
 
-const renderLabelLayoutExample = (
+const renderLabelLayout = (
   args: FieldGroupStoryArgs,
   layout: FieldGroupStoryArgs["layout"],
   columns: FieldGroupStoryArgs["columns"],
@@ -222,10 +222,10 @@ export const layouts = (args: FieldGroupStoryArgs): string => html`
   </div>
   <h1>calcite-label</h1>
   <div style="display: flex; flex-direction: column; gap: 3rem;">
-    ${renderLabelLayoutExample(args, "vertical", 1, 3)} ${renderLabelLayoutExample(args, "horizontal", 1, 3)}
-    ${renderLabelLayoutExample(args, "columns", 1, 1)} ${renderLabelLayoutExample(args, "columns", 2, 2)}
-    ${renderLabelLayoutExample(args, "columns", 3, 3)} ${renderLabelLayoutExample(args, "columns", 4, 4)}
-    ${renderLabelLayoutExample(args, "columns", 5, 5)} ${renderLabelLayoutExample(args, "columns", 6, 6)}
+    ${renderLabelLayout(args, "vertical", 1, 3)} ${renderLabelLayout(args, "horizontal", 1, 3)}
+    ${renderLabelLayout(args, "columns", 1, 1)} ${renderLabelLayout(args, "columns", 2, 2)}
+    ${renderLabelLayout(args, "columns", 3, 3)} ${renderLabelLayout(args, "columns", 4, 4)}
+    ${renderLabelLayout(args, "columns", 5, 5)} ${renderLabelLayout(args, "columns", 6, 6)}
   </div>
 `;
 layouts.parameters = { controls: { disable: true } };
