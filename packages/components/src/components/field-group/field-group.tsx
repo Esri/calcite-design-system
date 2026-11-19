@@ -2,7 +2,7 @@ import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Affix, UseAffixWidth } from "../../controllers/useAffixWidth";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
-import { CSS } from "./resources";
+import { CSS, isFieldGroup } from "./resources";
 import { styles } from "./field-group.scss";
 
 type Layout = "columns" | "horizontal" | "vertical";
@@ -89,7 +89,7 @@ export class FieldGroup extends LitElement {
       return [element as AffixInput];
     }
 
-    if (element.matches("calcite-field-group")) {
+    if (isFieldGroup(element)) {
       return [];
     }
 
