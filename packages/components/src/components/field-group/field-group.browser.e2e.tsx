@@ -6,6 +6,7 @@ import { defaults, hidden, reflects, renders, themed } from "../../tests/common"
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Input } from "../input/input";
+import type { InputNumber } from "../input-number/input-number";
 import { CSS as InputCSS } from "../input/resources";
 import { CSS as InputNumberCSS } from "../input-number/resources";
 import { CSS as InputTextCSS } from "../input-text/resources";
@@ -30,15 +31,17 @@ function getAffix(input: Locator, affix: "prefix" | "suffix"): Locator {
   }
 }
 
-function getInputNumberButtonWrapper(input: Locator): Locator {
-  return input.getBySelector(`.${InputNumberCSS.numberButtonWrapper}`);
+function getNumberButtonWrapper(input: Locator): Locator {
+  const css = input.element().localName === "calcite-input" ? InputCSS : InputNumberCSS;
+
+  return input.getBySelector(`.${css.numberButtonWrapper}`);
 }
 
 function getSuffixFootprintWidth(input: Locator): number {
   const suffixWidth = getAffix(input, "suffix").element().getBoundingClientRect().width;
 
-  return input.element().matches("calcite-input-number")
-    ? suffixWidth + getInputNumberButtonWrapper(input).element().getBoundingClientRect().width
+  return input.element().matches("calcite-input-number, calcite-input[type='number']")
+    ? suffixWidth + getNumberButtonWrapper(input).element().getBoundingClientRect().width
     : suffixWidth;
 }
 
@@ -208,6 +211,65 @@ describe("affix width coordination", () => {
     await vi.waitFor(() => {
       expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(second, "prefix"));
       expect(parseFloat(getAffixWidth(first, "prefix"))).toBe(originalWidth);
+    });
+  });
+
+  it("recalculates affix widths when inputs are added to and removed from a slotted field set", async () => {
+    await mount(
+      <calcite-field-group prefix-auto-width>
+        <calcite-field-set>
+          <calcite-input prefix-text="a" />
+          <calcite-input prefix-text="medium" />
+        </calcite-field-set>
+      </calcite-field-group>,
+    );
+    const inputs = page.getBySelector("calcite-field-group").getBySelector("calcite-input");
+    const first = inputs.nth(0);
+    const second = inputs.nth(1);
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(second, "prefix"));
+    });
+    const originalWidth = parseFloat(getAffixWidth(first, "prefix"));
+    const addedInput = document.createElement("calcite-input");
+    addedInput.prefixText = "a considerably longer prefix";
+    page.getBySelector("calcite-field-set").element().append(addedInput);
+    const added = inputs.nth(2);
+
+    await vi.waitFor(() => {
+      expect(parseFloat(getAffixWidth(first, "prefix"))).toBeGreaterThan(originalWidth);
+      expect(getAffixWidth(first, "prefix")).toBe(getAffixWidth(added, "prefix"));
+    });
+
+    addedInput.remove();
+
+    await vi.waitFor(() => {
+      expect(parseFloat(getAffixWidth(first, "prefix"))).toBe(originalWidth);
+    });
+  });
+
+  it("restores the natural affix width of an input moved out of the field group", async () => {
+    await mount(
+      <div>
+        <calcite-field-group prefix-auto-width>
+          <calcite-input id="short" prefix-text="a" />
+          <calcite-input id="long" prefix-text="a considerably longer prefix" />
+        </calcite-field-group>
+        <div id="standalone" />
+      </div>,
+    );
+    const short = page.getBySelector("#short");
+    const long = page.getBySelector("#long");
+
+    await vi.waitFor(() => {
+      expect(getAffixWidth(short, "prefix")).toBe(getAffixWidth(long, "prefix"));
+    });
+    const coordinatedWidth = parseFloat(getAffixWidth(short, "prefix"));
+
+    page.getBySelector("#standalone").element().append(short.element());
+
+    await vi.waitFor(() => {
+      expect(parseFloat(getAffixWidth(short, "prefix"))).toBeLessThan(coordinatedWidth);
     });
   });
 
@@ -392,7 +454,7 @@ describe("affix width coordination", () => {
 
       expect(
         inputNumberSuffixRect.width +
-          getInputNumberButtonWrapper(inputNumber).element().getBoundingClientRect().width,
+          getNumberButtonWrapper(inputNumber).element().getBoundingClientRect().width,
       ).toBeCloseTo(inputSuffixRect.width);
       expect(inputTextSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
       expect(autocompleteSuffixRect.width).toBeCloseTo(inputSuffixRect.width);
@@ -417,6 +479,44 @@ describe("affix width coordination", () => {
       expect(getAffixWidth(inputText, "prefix")).toBe(prefixWidth);
       expect(getAffixWidth(input, "suffix")).toBe(suffixWidth);
       expect(getAffixWidth(inputText, "suffix")).toBe(suffixWidth);
+    });
+  });
+
+  it.for([
+    { name: "input number", fixture: <calcite-input-number id="number" suffix-text="px" /> },
+    {
+      name: "number-type input",
+      fixture: <calcite-input id="number" suffix-text="px" type="number" />,
+    },
+  ])("keeps suffix widths aligned when $name read-only state changes", async ({ fixture }) => {
+    await mount(
+      <calcite-field-group suffix-auto-width>
+        <calcite-input id="reference" suffix-text="a considerably longer suffix" />
+        {fixture}
+      </calcite-field-group>,
+    );
+    const group = page.getBySelector("calcite-field-group");
+    const input = group.getBySelector("#reference");
+    const numberInput = group.getBySelector("#number");
+    const numberInputEl = numberInput.element() as Input["el"] | InputNumber["el"];
+
+    await vi.waitFor(() => {
+      expect(getSuffixFootprintWidth(numberInput)).toBeCloseTo(getSuffixFootprintWidth(input));
+    });
+
+    numberInputEl.readOnly = true;
+
+    await expect.element(getNumberButtonWrapper(numberInput)).not.toBeInTheDocument();
+    await vi.waitFor(() => {
+      expect(getAffix(numberInput, "suffix").element().getBoundingClientRect().width).toBeCloseTo(
+        getSuffixFootprintWidth(input),
+      );
+    });
+
+    numberInputEl.readOnly = false;
+
+    await vi.waitFor(() => {
+      expect(getSuffixFootprintWidth(numberInput)).toBeCloseTo(getSuffixFootprintWidth(input));
     });
   });
 

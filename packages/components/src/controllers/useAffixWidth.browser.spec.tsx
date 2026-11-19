@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { createRef } from "lit/directives/ref.js";
 import { describe, expect, it, vi } from "vitest";
 import type { Scale } from "../components/types";
+import { afterNextTask } from "../tests/utils/timing";
 import { useAffixWidth } from "./useAffixWidth";
 
 class AffixWidthTestComponent extends LitElement {
@@ -14,14 +15,20 @@ class AffixWidthTestComponent extends LitElement {
 
   @property() disabled = false;
 
+  @property() trailingContent = "";
+
   calciteInternalAffixChange = createEvent({ cancelable: false });
 
   prefixRef = createRef<HTMLDivElement>();
 
   suffixRef = createRef<HTMLDivElement>();
 
+  trailingContentReady = Promise.withResolvers<void>();
+
   affixWidth = useAffixWidth<AffixWidthTestComponent>({
     getTrailingWidth: (affix) => (affix === "prefix" ? 3 : 5),
+    trailingWidthReady: () => this.trailingContentReady.promise,
+    trailingWidthProperties: ["trailingContent"],
   })(this);
 
   override render(): JsxNode {
@@ -74,6 +81,17 @@ describe("useAffixWidth", () => {
     });
   });
 
+  it("emits for configured trailing width property changes", async () => {
+    const { component, el } = await mount(AffixWidthTestComponent);
+    const listener = vi.fn();
+    el.addEventListener("calciteInternalAffixChange", listener);
+
+    el.trailingContent = "buttons";
+    await component.updateComplete;
+
+    expect(listener).toHaveBeenCalledTimes(1);
+  });
+
   it("does not emit for unrelated changes", async () => {
     const { component, el } = await mount(AffixWidthTestComponent);
     const listener = vi.fn();
@@ -102,6 +120,21 @@ describe("useAffixWidth", () => {
 
     expect(component.affixWidth.getTrailingWidth("prefix")).toBe(3);
     expect(component.affixWidth.getTrailingWidth("suffix")).toBe(5);
+  });
+
+  it("waits for the configured trailing content to be ready", async () => {
+    const { component } = await mount(AffixWidthTestComponent);
+    const ready = vi.fn();
+
+    const trailingWidthReady = component.affixWidth.trailingWidthReady().then(ready);
+    await afterNextTask();
+
+    expect(ready).not.toHaveBeenCalled();
+
+    component.trailingContentReady.resolve();
+    await trailingWidthReady;
+
+    expect(ready).toHaveBeenCalledTimes(1);
   });
 
   it("sets and removes the corresponding affix width custom property", async () => {

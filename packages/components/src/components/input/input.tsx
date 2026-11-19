@@ -230,7 +230,19 @@ export class Input
 
   suffixRef = createRef<HTMLDivElement>();
 
-  private _affixWidth = useAffixWidth<Input>()(this);
+  private _affixWidth = useAffixWidth<Input>({
+    getTrailingWidth: (affix) =>
+      affix === "suffix"
+        ? Math.ceil(this.numberButtonWrapperRef.value?.getBoundingClientRect().width ?? 0)
+        : 0,
+    trailingWidthReady: async () => {
+      const actions = this.numberButtonWrapperRef.value?.querySelectorAll("calcite-action") ?? [];
+      await Promise.all(Array.from(actions, (action) => action.componentOnReady()));
+    },
+    trailingWidthProperties: ["numberButtonType", "readOnly", "type"],
+  })(this);
+
+  private numberButtonWrapperRef = createRef<HTMLDivElement>();
 
   /** @private */
   @property({ attribute: false }) get affixWidth(): UseAffixWidth {
@@ -1411,7 +1423,7 @@ export class Input
     );
 
     const numberButtonsVertical = (
-      <div class={CSS.numberButtonWrapper}>
+      <div class={CSS.numberButtonWrapper} ref={this.numberButtonWrapperRef}>
         {numberButtonsHorizontalUp}
         {numberButtonsHorizontalDown}
       </div>

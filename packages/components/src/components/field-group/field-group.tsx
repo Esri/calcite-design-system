@@ -1,7 +1,7 @@
 import type { PropertyValues } from "lit";
 import { LitElement, h, JsxNode, property } from "@arcgis/lumina";
 import type { Affix, UseAffixWidth } from "../../controllers/useAffixWidth";
-import { slotChangeGetAssignedElements } from "../../utils/dom";
+import { createObserver } from "../../utils/observers";
 import { CSS, isFieldGroup } from "./resources";
 import { styles } from "./field-group.scss";
 
@@ -49,6 +49,8 @@ export class FieldGroup extends LitElement {
 
   private affixInputs: AffixInput[] = [];
 
+  private mutationObserver = createObserver("mutation", () => this.updateAffixInputs());
+
   //#endregion
 
   //#region Public Properties
@@ -74,10 +76,18 @@ export class FieldGroup extends LitElement {
     this.listen("calciteInternalAffixChange", this.handleAffixChange);
   }
 
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true, subtree: true });
+  }
+
   override updated(changes: PropertyValues<this>): void {
     if (changes.has("prefixAutoWidth") || changes.has("suffixAutoWidth")) {
       void this.syncInputsAffixWidths();
     }
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
   }
 
   //#endregion
@@ -98,10 +108,19 @@ export class FieldGroup extends LitElement {
     );
   }
 
-  private handleSlotChange(event: Event): void {
-    const slottedElements = slotChangeGetAssignedElements<HTMLElement>(event);
+  private updateAffixInputs(): void {
+    const affixInputs = Array.from(this.el.children).flatMap((element) =>
+      this.collectOwnedAffixInputs(element as HTMLElement),
+    );
 
-    this.affixInputs = slottedElements.flatMap((element) => this.collectOwnedAffixInputs(element));
+    this.affixInputs
+      .filter((input) => !affixInputs.includes(input))
+      .forEach((input) => {
+        input.affixWidth?.setAffixWidth("prefix", undefined);
+        input.affixWidth?.setAffixWidth("suffix", undefined);
+      });
+
+    this.affixInputs = affixInputs;
 
     void this.syncInputsAffixWidths();
   }
@@ -120,6 +139,7 @@ export class FieldGroup extends LitElement {
       inputs.map(async (input) => {
         await input.componentOnReady();
         await input.updateComplete;
+        await input.affixWidth?.trailingWidthReady();
       }),
     );
 
@@ -172,7 +192,7 @@ export class FieldGroup extends LitElement {
         }}
         style={{ "--calcite-internal-field-group-columns": this.columns }}
       >
-        <slot onSlotChange={this.handleSlotChange} />
+        <slot onSlotChange={this.updateAffixInputs} />
       </div>
     );
   }

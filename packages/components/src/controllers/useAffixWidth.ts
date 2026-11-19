@@ -13,8 +13,10 @@ interface AffixWidthComponent extends LitElement {
   calciteInternalAffixChange: EventEmitter;
 }
 
-type AffixWidthOptions = {
+type AffixWidthOptions<T extends AffixWidthComponent> = {
   getTrailingWidth?: (affix: Affix) => number;
+  trailingWidthReady?: () => Promise<void>;
+  trailingWidthProperties?: (keyof T)[];
 };
 
 export type Affix = "prefix" | "suffix";
@@ -28,17 +30,25 @@ export interface UseAffixWidth {
   getAffixWidth: (affix: Affix) => number;
   getTrailingWidth: (affix: Affix) => number;
   setAffixWidth: (affix: Affix, width: number | undefined) => void;
+  trailingWidthReady: () => Promise<void>;
 }
 
 /**
  * Provides affix measurements, width overrides, and change notifications for Field Group affix-width coordination.
  */
 export const useAffixWidth = <T extends AffixWidthComponent>(
-  options: AffixWidthOptions = {},
+  options: AffixWidthOptions<T> = {},
 ): ReturnType<typeof makeGenericController<UseAffixWidth, T>> => {
+  const changeProperties: (keyof T)[] = [
+    "prefixText",
+    "scale",
+    "suffixText",
+    ...(options.trailingWidthProperties ?? []),
+  ];
+
   return makeGenericController<UseAffixWidth, T>((component, controller) => {
-    controller.onUpdated((changes: PropertyValues<AffixWidthComponent>) => {
-      if (changes.has("prefixText") || changes.has("scale") || changes.has("suffixText")) {
+    controller.onUpdated((changes: PropertyValues) => {
+      if (changeProperties.some((property) => changes.has(property))) {
         component.calciteInternalAffixChange.emit();
       }
     });
@@ -55,6 +65,9 @@ export const useAffixWidth = <T extends AffixWidthComponent>(
         }
 
         component.el.style.setProperty(property, `${width}px`);
+      },
+      trailingWidthReady: async (): Promise<void> => {
+        await options.trailingWidthReady?.();
       },
     };
   });

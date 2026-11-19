@@ -225,6 +225,11 @@ export class InputNumber
       affix === "suffix"
         ? Math.ceil(this.numberButtonWrapperRef.value?.getBoundingClientRect().width ?? 0)
         : 0,
+    trailingWidthReady: async () => {
+      const actions = this.numberButtonWrapperRef.value?.querySelectorAll("calcite-action") ?? [];
+      await Promise.all(Array.from(actions, (action) => action.componentOnReady()));
+    },
+    trailingWidthProperties: ["numberButtonType", "readOnly"],
   })(this);
 
   private numberButtonWrapperRef = createRef<HTMLDivElement>();
