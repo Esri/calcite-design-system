@@ -470,7 +470,6 @@ export class Stepper extends LitElement {
         class={{
           [CSS.actionIcon]: true,
         }}
-        compact={true}
         data-position={position}
         disabled={disabled}
         icon={path}
