@@ -45,7 +45,7 @@ class AffixWidthTestComponent extends LitElement {
 
 describe("useAffixWidth", () => {
   it.each(["prefixText", "suffixText", "scale"] as const)(
-    "emits after rendering a %s change",
+    "emits calciteInternalAffixChange after rendering a %s change",
     async (property) => {
       const { component, el } = await mount(AffixWidthTestComponent);
       const listener = vi.fn(() => [
@@ -81,7 +81,7 @@ describe("useAffixWidth", () => {
     });
   });
 
-  it("emits for configured trailing width property changes", async () => {
+  it("emits calciteInternalAffixChange for configured trailing width property changes", async () => {
     const { component, el } = await mount(AffixWidthTestComponent);
     const listener = vi.fn();
     el.addEventListener("calciteInternalAffixChange", listener);
@@ -92,7 +92,7 @@ describe("useAffixWidth", () => {
     expect(listener).toHaveBeenCalledTimes(1);
   });
 
-  it("does not emit for unrelated changes", async () => {
+  it("does not emit calciteInternalAffixChange for unrelated property changes", async () => {
     const { component, el } = await mount(AffixWidthTestComponent);
     const listener = vi.fn();
     el.addEventListener("calciteInternalAffixChange", listener);
