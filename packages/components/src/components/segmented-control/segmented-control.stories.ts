@@ -7,7 +7,8 @@ import "../label/label"; // Force Vite to statically trace the file for Chromati
 import "./segmented-control"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../segmented-control-item/segmented-control-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { layout, appearance, scale, width, status } = ATTRIBUTES;
+const { layout, appearance, scale, status } = ATTRIBUTES;
+const widthOptions: SegmentedControl["width"][] = ["auto", "full"];
 
 type SegmentedControlStoryArgs = Pick<
   SegmentedControl,
@@ -29,7 +30,7 @@ export default {
     layout: layout.defaultValue,
     appearance: appearance.defaultValue,
     scale: scale.defaultValue,
-    width: width.defaultValue,
+    width: widthOptions[0],
     disabled: false,
     labelText: "Label text",
     required: false,
@@ -60,7 +61,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values.filter((option) => option !== "half"),
+      options: widthOptions,
       control: { type: "select" },
     },
     status: {

@@ -22,12 +22,6 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-cell-background-color` instead.
-     */
-    "--calcite-table-cell-background": "*";
-    /**
-     * Specifies the component's background color.
      */
     "--calcite-table-cell-background-color": "*";
     /**
@@ -48,6 +42,10 @@ interface TableCellSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Table
+ * @parent calcite-table
+ */
 export class TableCell extends LitElement {
   //#region Type-only metadata members
 
@@ -67,7 +65,7 @@ export class TableCell extends LitElement {
 
   private direction = useDirection();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

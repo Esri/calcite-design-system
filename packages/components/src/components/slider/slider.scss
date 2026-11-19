@@ -6,7 +6,7 @@
   --calcite-slider-container-font-size: var(--calcite-font-size--3);
   .handle__label,
   .tick__label {
-    @apply leading-3;
+    line-height: 0.75rem;
   }
 }
 
@@ -16,7 +16,7 @@
   --calcite-slider-container-font-size: var(--calcite-font-size--2);
   .handle__label,
   .tick__label {
-    @apply leading-4;
+    line-height: 1rem;
   }
 }
 
@@ -26,19 +26,19 @@
   --calcite-slider-container-font-size: var(--calcite-font-size--1);
   .handle__label,
   .tick__label {
-    @apply leading-4;
+    line-height: 1rem;
   }
 }
 
 .handle__label,
 .tick__label {
-  @apply font-medium;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-slider-text-color, var(--calcite-color-text-2));
   font-size: var(--calcite-slider-container-font-size);
 }
 
 :host {
-  @apply block;
+  display: block;
   inline-size: 100%;
   min-inline-size: 0;
 
@@ -49,7 +49,10 @@
 }
 
 .container {
-  @apply relative block break-normal;
+  position: relative;
+  display: block;
+  overflow-wrap: normal;
+  word-break: normal;
   padding-inline: calc(var(--calcite-slider-handle-size) * 0.5);
   padding-block: calc(var(--calcite-slider-handle-size) * 0.5);
   margin-block: calc(var(--calcite-slider-handle-size) * 0.5);
@@ -92,22 +95,25 @@
 }
 
 .thumb-container {
-  @apply relative max-w-full;
+  position: relative;
+  max-inline-size: 100%;
 }
 
 .thumb {
   --calcite-slider-thumb-x-offset: calc(var(--calcite-slider-handle-size) * 0.5);
-  @apply font-inherit
-    absolute
-    m-0
-    flex
-    cursor-pointer
-    flex-col
-    items-center
-    border-none
-    bg-transparent
-    p-0
-    outline-none;
+
+  @include shared.outline-none();
+
+  font-family: inherit;
+  position: absolute;
+  margin: var(--calcite-space-none);
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  align-items: center;
+  border-style: none;
+  background-color: var(--calcite-color-transparent);
+  padding: var(--calcite-space-none);
   transform: translate(var(--calcite-slider-thumb-x-offset), var(--calcite-slider-thumb-y-offset));
 
   .handle__label {
@@ -115,10 +121,9 @@
 
     &.static,
     &.transformed {
-      @apply absolute
-        top-0
-        bottom-0
-        opacity-0;
+      position: absolute;
+      inset-block: var(--calcite-space-none);
+      opacity: 0;
     }
     &.hyphen::after {
       content: "\2014";
@@ -131,9 +136,9 @@
   }
 
   .handle {
-    @apply focus-base
-      box-border
-      rounded-full;
+    outline-color: var(--calcite-color-transparent);
+    box-sizing: border-box;
+    border-radius: var(--calcite-corner-radius-pill);
     background-color: var(
       --calcite-slider-handle-fill-color,
       var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -148,7 +153,7 @@
   }
 
   .handle-extension {
-    @apply w-0.5;
+    inline-size: 0.125rem;
     block-size: var(--calcite-slider-handle-extension-height);
     background-color: var(--calcite-slider-handle-extension-color, var(--calcite-color-text-3));
   }
@@ -164,7 +169,7 @@
 
   &:focus {
     .handle {
-      @apply focus-outset;
+      @include shared.focus-outset();
     }
     .handle-extension {
       background-color: var(--calcite-slider-accent-color, var(--calcite-color-brand));
@@ -243,16 +248,17 @@
 }
 
 .track {
-  @apply relative h-0.5;
+  position: relative;
+  block-size: 0.125rem;
   background-color: var(--calcite-slider-track-color, var(--calcite-color-border-2));
   transition: all var(--calcite-internal-animation-timing-medium) ease-in;
   border-radius: var(--calcite-corner-radius);
 }
 
 .track__range {
-  @apply absolute
-  top-0
-  h-0.5;
+  position: absolute;
+  inset-block-start: var(--calcite-space-none);
+  block-size: 0.125rem;
   background-color: var(--calcite-slider-track-fill-color, var(--calcite-color-brand));
   border-radius: var(--calcite-corner-radius);
 }
@@ -263,7 +269,8 @@
       cursor: ew-resize;
     }
     &::after {
-      @apply absolute w-full;
+      position: absolute;
+      inline-size: 100%;
       content: "";
       inset-block-start: calc(calc(var(--calcite-slider-full-handle-height) * 0.5) * -1);
       block-size: calc(var(--calcite-slider-handle-size) + var(--calcite-slider-handle-extension-height));
@@ -277,7 +284,7 @@
     outline-offset: 0;
   }
   .handle {
-    @apply outline-none;
+    @include shared.outline-none();
   }
   .thumb:focus .handle,
   .thumb .handle-extension,
@@ -295,11 +302,11 @@
 }
 
 .tick {
-  @apply absolute
-    h-1
-    w-0.5
-    border
-    border-solid;
+  position: absolute;
+  block-size: var(--calcite-space-2xs);
+  inline-size: 0.125rem;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
   background-color: var(--calcite-slider-tick-color, var(--calcite-color-border-input));
   border-color: var(
     --calcite-slider-tick-border-color,
@@ -315,10 +322,10 @@
 }
 
 .tick__label {
-  @apply pointer-events-none
-    mt-3.5
-    flex
-    justify-center;
+  pointer-events: none;
+  margin-block-start: var(--calcite-space-md-plus);
+  display: flex;
+  justify-content: center;
 }
 
 .tick__label--min {
@@ -333,7 +340,8 @@
 :host([has-histogram][precise]) {
   .tick__label--min,
   .tick__label--max {
-    @apply text-color-3 font-normal;
+    color: var(--calcite-color-text-3);
+    font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   }
 }
 

@@ -66,6 +66,8 @@ interface BlockSectionSlots {
 
 /**
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @docGroup Blocks
+ * @parent calcite-block
  */
 export class BlockSection extends LitElement {
   //#region Type-only metadata members
@@ -89,7 +91,7 @@ export class BlockSection extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 

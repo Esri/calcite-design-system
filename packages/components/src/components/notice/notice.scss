@@ -6,13 +6,13 @@
   --calcite-notice-spacing-token-small: theme("spacing.2");
   --calcite-notice-spacing-token-large: theme("spacing.3");
   @include shared.slotted("title", "*", ".container") {
-    @apply text-n1-wrap;
+    @include shared.text-n1-wrap();
   }
   @include shared.slotted("message", "*", ".container") {
-    @apply text-n2-wrap;
+    @include shared.text-n2-wrap();
   }
   ::slotted(calcite-link) {
-    @apply text-n2-wrap;
+    @include shared.text-n2-wrap();
   }
 }
 
@@ -20,13 +20,13 @@
   --calcite-notice-spacing-token-small: theme("spacing.3");
   --calcite-notice-spacing-token-large: theme("spacing.4");
   @include shared.slotted("title", "*", ".container") {
-    @apply text-0-wrap;
+    @include shared.text-0-wrap();
   }
   @include shared.slotted("message", "*", ".container") {
-    @apply text-n1-wrap;
+    @include shared.text-n1-wrap();
   }
   ::slotted(calcite-link) {
-    @apply text-n1-wrap;
+    @include shared.text-n1-wrap();
   }
 }
 
@@ -34,13 +34,13 @@
   --calcite-notice-spacing-token-small: theme("spacing.4");
   --calcite-notice-spacing-token-large: theme("spacing.5");
   @include shared.slotted("title", "*", ".container") {
-    @apply text-1-wrap;
+    @include shared.text-1-wrap();
   }
   @include shared.slotted("message", "*", ".container") {
-    @apply text-0-wrap;
+    @include shared.text-0-wrap();
   }
   ::slotted(calcite-link) {
-    @apply text-0-wrap;
+    @include shared.text-0-wrap();
   }
   .notice-close {
     margin-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
@@ -55,27 +55,25 @@
   --calcite-notice-width: theme("width.auto");
 }
 
-:host([width="half"]) {
-  --calcite-notice-width: theme("width[1/2]");
-}
-
 :host([width="full"]) {
   --calcite-notice-width: theme("width.full");
 }
 
 :host {
-  @apply mx-auto hidden max-w-full items-center;
+  margin-inline: auto;
+  display: none;
+  max-inline-size: 100%;
+  align-items: center;
   inline-size: var(--calcite-notice-width);
 }
 
 .container {
-  @apply pointer-events-none
-    my-0
-    box-border
-    flex
-    w-full
-    opacity-0;
-
+  pointer-events: none;
+  margin-block: var(--calcite-space-none);
+  box-sizing: border-box;
+  display: flex;
+  inline-size: 100%;
+  opacity: 0;
   overflow: hidden;
   max-block-size: 0;
   transition-property: opacity, max-block-size;
@@ -86,14 +84,14 @@
 }
 
 :host {
-  @apply flex;
+  display: flex;
 }
 
 :host([open]) .container {
-  @apply pointer-events-auto
-    max-h-full
-    items-center
-    opacity-100;
+  pointer-events: auto;
+  max-block-size: 100%;
+  align-items: center;
+  opacity: var(--calcite-opacity-full);
   overflow: visible;
 
   @starting-style {
@@ -107,14 +105,15 @@
 }
 
 @include shared.slotted("title", "*", ".container") {
-  @apply m-0 font-medium;
-
+  margin: var(--calcite-space-none);
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-notice-title-text-color, var(--calcite-color-text-1));
 }
 
 @include shared.slotted("message", "*", ".container") {
-  @apply m-0 inline font-normal;
-
+  margin: var(--calcite-space-none);
+  display: inline;
+  font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   color: var(--calcite-notice-content-text-color, var(--calcite-color-text-2));
 }
 
@@ -128,7 +127,8 @@
 
 @mixin notice-element-base() {
   @include shared.transition-default();
-  @apply box-border;
+
+  box-sizing: border-box;
   padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline: var(--calcite-notice-spacing-token-large);
   flex: 0 0 auto;
@@ -136,7 +136,11 @@
 
 .notice-content {
   @include notice-element-base;
-  @apply flex min-w-0 flex-col break-words;
+
+  display: flex;
+  min-inline-size: var(--calcite-space-none);
+  flex-direction: column;
+  overflow-wrap: break-word;
   flex: 1 1 0;
   padding-block: var(--calcite-notice-spacing-token-small);
   padding-inline: 0 var(--calcite-notice-spacing-token-large);
@@ -151,14 +155,20 @@
 }
 
 .notice-icon {
-  @apply flex  items-center;
   @include notice-element-base;
+
+  display: flex;
+  align-items: center;
   padding-inline: var(--calcite-notice-spacing-token-small);
 }
 
 .notice-close {
   @include shared.transition-default();
-  @apply flex cursor-pointer items-center box-border;
+
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  box-sizing: border-box;
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
   --calcite-action-background-color: var(--calcite-notice-close-background-color);
@@ -172,7 +182,8 @@
 }
 
 .actions-end {
-  @apply flex items-center;
+  display: flex;
+  align-items: center;
   flex: 0 0 auto;
   margin-inline-end: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));
   gap: var(--calcite-theme-space-xs, var(--calcite-spacing-xs));

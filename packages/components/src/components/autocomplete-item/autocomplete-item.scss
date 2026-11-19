@@ -71,24 +71,24 @@
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
-:host([selected]) .container {
-  color: var(--calcite-color-text-1);
-  background-color: var(--calcite-color-surface-highlight);
+:host([selected]) .heading {
+  font-weight: var(--calcite-font-weight-medium);
+}
+
+:host(:hover:not([disabled]):not([selected])) .container {
+  background-color: var(
+    --calcite-autocomplete-background-color,
+    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
+  );
 
   .description {
     color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));
   }
 }
 
-:host([selected]) .heading {
-  font-weight: var(--calcite-font-weight-medium);
-}
-
-:host(:hover:not([disabled])) .container {
-  background-color: var(
-    --calcite-autocomplete-background-color,
-    var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
-  );
+:host([selected]) .container {
+  color: var(--calcite-color-text-1);
+  background-color: var(--calcite-color-surface-highlight);
 
   .description {
     color: var(--calcite-autocomplete-description-text-color, var(--calcite-color-text-2));

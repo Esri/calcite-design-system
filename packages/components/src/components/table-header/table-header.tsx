@@ -21,12 +21,6 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-header-background-color` instead.
-     */
-    "--calcite-table-header-background": "*";
-    /**
-     * Specifies the component's background color.
      */
     "--calcite-table-header-background-color": "*";
     /**
@@ -44,6 +38,10 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Table
+ * @parent calcite-table
+ */
 export class TableHeader extends LitElement {
   //#region Static Members
 
@@ -55,7 +53,7 @@ export class TableHeader extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 
