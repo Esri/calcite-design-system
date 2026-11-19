@@ -278,7 +278,8 @@
   }
   :host(:focus:not([disabled])) {
     .node-container {
-      outline-width: 0;
+      outline-width: 1px;
+      outline-color: Highlight;
     }
   }
   :host([lines]) {
