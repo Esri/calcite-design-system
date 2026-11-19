@@ -575,6 +575,27 @@ describe("disabled", () => {
   disabled(() => mount("calcite-input-text"));
 });
 
+describe("prefix and suffix", () => {
+  it("does not apply an inline affix width when used standalone", async () => {
+    const { el } = await mount<InputText>(
+      <calcite-input-text prefix-text="prefix" suffix-text="suffix" />,
+    );
+    const prefix = page.getBySelector(`.${CSS.prefix}`);
+    const suffix = page.getBySelector(`.${CSS.suffix}`);
+
+    await expect.element(prefix).toBeInTheDocument();
+    await expect.element(suffix).toBeInTheDocument();
+    await expect.element(prefix).toHaveProperty("style.width", "");
+    await expect.element(suffix).toHaveProperty("style.width", "");
+
+    el.prefixText = undefined;
+    el.suffixText = undefined;
+
+    await expect.element(prefix).not.toBeInTheDocument();
+    await expect.element(suffix).not.toBeInTheDocument();
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-text"), {
@@ -693,25 +714,6 @@ describe("theme", () => {
         },
       },
     );
-
-    it("does not apply an inline affix width when used standalone", async () => {
-      const { el } = await mount<InputText>(
-        <calcite-input-text prefix-text="prefix" suffix-text="suffix" />,
-      );
-      const prefix = page.getBySelector(`.${CSS.prefix}`);
-      const suffix = page.getBySelector(`.${CSS.suffix}`);
-
-      await expect.element(prefix).toBeInTheDocument();
-      await expect.element(suffix).toBeInTheDocument();
-      await expect.element(prefix).toHaveProperty("style.width", "");
-      await expect.element(suffix).toHaveProperty("style.width", "");
-
-      el.prefixText = undefined;
-      el.suffixText = undefined;
-
-      await expect.element(prefix).not.toBeInTheDocument();
-      await expect.element(suffix).not.toBeInTheDocument();
-    });
   });
 
   describe("clearable", () => {

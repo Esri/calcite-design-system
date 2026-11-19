@@ -1387,6 +1387,27 @@ it("emits events when value is modified", async () => {
   expect(calciteInputNumberChange).toHaveBeenCalledTimes(3);
 });
 
+describe("prefix and suffix", () => {
+  it("does not apply an inline affix width when used standalone", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number prefix-text="prefix" suffix-text="suffix" />,
+    );
+    const prefix = page.getBySelector(`.${CSS.prefix}`);
+    const suffix = page.getBySelector(`.${CSS.suffix}`);
+
+    await expect.element(prefix).toBeInTheDocument();
+    await expect.element(suffix).toBeInTheDocument();
+    await expect.element(prefix).toHaveProperty("style.width", "");
+    await expect.element(suffix).toHaveProperty("style.width", "");
+
+    el.prefixText = undefined;
+    el.suffixText = undefined;
+
+    await expect.element(prefix).not.toBeInTheDocument();
+    await expect.element(suffix).not.toBeInTheDocument();
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-number"), {
@@ -1508,25 +1529,6 @@ describe("theme", () => {
         shadowSelector: `.${CSS.suffix}`,
         targetProp: "color",
       },
-    });
-
-    it("does not apply an inline affix width when used standalone", async () => {
-      const { el } = await mount<InputNumber>(
-        <calcite-input-number prefix-text="prefix" suffix-text="suffix" />,
-      );
-      const prefix = page.getBySelector(`.${CSS.prefix}`);
-      const suffix = page.getBySelector(`.${CSS.suffix}`);
-
-      await expect.element(prefix).toBeInTheDocument();
-      await expect.element(suffix).toBeInTheDocument();
-      await expect.element(prefix).toHaveProperty("style.width", "");
-      await expect.element(suffix).toHaveProperty("style.width", "");
-
-      el.prefixText = undefined;
-      el.suffixText = undefined;
-
-      await expect.element(prefix).not.toBeInTheDocument();
-      await expect.element(suffix).not.toBeInTheDocument();
     });
   });
 
