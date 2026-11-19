@@ -12,6 +12,12 @@ const description = dedent`
 
   Require matching title (!) and description (BREAKING CHANGE:) markers,
   with an explanation outside Markdown examples and HTML comments.
+
+  The title is required; an omitted body defaults to empty. Explicit options
+  override environment variables, including an empty body.
+
+  Invalid markers produce a nonzero exit code and, in GitHub Actions,
+  an error annotation.
 `;
 const titleUsage = "--title <TITLE>";
 
