@@ -182,7 +182,7 @@ export class Select extends LitElement implements LabelableComponent {
   @property({ readOnly: true }) validity!: ValidityState;
 
   /** The component's `selectedOption` value, or `undefined` when no option is selected. */
-  @property() value?: string;
+  @property() value: string | undefined;
 
   /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
