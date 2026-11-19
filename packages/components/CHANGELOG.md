@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.35...@esri/calcite-components@6.0.0-next.36) (2026-11-19)
+
+### ⚠ BREAKING CHANGES
+
+- **action-bar:** Removes deprecated `expandDisabled` property in
+  `action-bar`.
+
+- Replace it with `expandToggleDisabled` property.
+
+- **action:** Removes the deprecated `compact` property from `action`
+
+### Code Refactoring
+
+- **action-bar:** remove deprecated expandDisabled property ([#15657](https://github.com/Esri/calcite-design-system/issues/15657)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **action:** remove deprecated compact property ([#15647](https://github.com/Esri/calcite-design-system/issues/15647)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.34...@esri/calcite-components@6.0.0-next.35) (2026-11-18)
 
 ### Bug Fixes
