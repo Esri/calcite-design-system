@@ -21608,5 +21608,25 @@
     "category": "GIS",
     "release": "4.7.0",
     "codepoint": 61963
+  },
+  "diamond-gem": {
+    "alias": [
+      "4.7.0",
+      "objects",
+      "premium",
+      "rock",
+      "value",
+      "mineral",
+      "grade",
+      "jewel",
+      "feature",
+      "crystal",
+      "expensive",
+      "quality",
+      "special"
+    ],
+    "category": "Objects",
+    "release": "4.7.0",
+    "codepoint": null
   }
 }
