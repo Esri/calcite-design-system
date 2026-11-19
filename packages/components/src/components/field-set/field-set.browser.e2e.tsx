@@ -22,15 +22,7 @@ describe("honors hidden attribute", () => {
 });
 
 describe("renders", () => {
-  renders(
-    () =>
-      mount(
-        <calcite-field-set legend="Legend text">
-          <calcite-input />
-        </calcite-field-set>,
-      ),
-    { display: "block" },
-  );
+  renders(() => mount(<calcite-field-set legend="Legend text" />), { display: "block" });
 });
 
 describe("structure", () => {
