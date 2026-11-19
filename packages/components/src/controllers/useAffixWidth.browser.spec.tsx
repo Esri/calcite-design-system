@@ -56,7 +56,7 @@ describe("useAffixWidth", () => {
     },
   );
 
-  it("emits one bubbling, composed, non-cancelable event for a batched affix update", async () => {
+  it("emits calciteInternalAffixChange once for batched affix-related property changes", async () => {
     const { component, el } = await mount(AffixWidthTestComponent);
     const listener = vi.fn();
     el.addEventListener("calciteInternalAffixChange", listener);
