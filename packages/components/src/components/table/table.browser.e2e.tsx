@@ -19,6 +19,7 @@ import type { TableHeader } from "../table-header/table-header";
 import type { TableRow } from "../table-row/table-row";
 import type { Table } from "./table";
 import { CSS, SLOTS } from "./resources";
+import englishMessages from "./assets/t9n/messages.en.json";
 import frenchMessages from "./assets/t9n/messages.fr.json";
 
 type SimpleTableRowConfig = {
@@ -466,15 +467,17 @@ describe("messages", () => {
         </calcite-table>,
       );
       const headerText = page.getByText(
-        "Selection column. 1 rows selected Press Enter or Space to select all rows",
+        `${englishMessages.selectionColumn}. 1 ${englishMessages.selectedRows} ${englishMessages.keyboardSelectAll}`,
         { exact: true },
       );
-      const selectedText = page.getByText("row 1 selected Press Enter or Space to deselect row", {
-        exact: true,
-      });
-      const unselectedText = page.getByText("row 2 unselected Press Enter or Space to select row", {
-        exact: true,
-      });
+      const selectedText = page.getByText(
+        `${englishMessages.selectionRow} 1 ${englishMessages.selectionSelected} ${englishMessages.keyboardDeselect}`,
+        { exact: true },
+      );
+      const unselectedText = page.getByText(
+        `${englishMessages.selectionRow} 2 ${englishMessages.unselected} ${englishMessages.keyboardSelect}`,
+        { exact: true },
+      );
       await expect.element(headerText).toBeInTheDocument();
       await expect.element(selectedText).toBeInTheDocument();
       await expect.element(unselectedText).toBeInTheDocument();
