@@ -279,6 +279,7 @@
     .node-container {
       outline-width: 1px;
       outline-color: Highlight;
+      outline-offset: -1px;
     }
   }
   :host([lines]) {
