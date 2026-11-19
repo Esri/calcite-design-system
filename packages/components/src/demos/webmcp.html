@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Calcite WebMCP</title>
+    <style>
+      main {
+        display: grid;
+        gap: 1rem;
+        max-width: 40rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        justify-items: start;
+      }
+
+      calcite-panel {
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Calcite WebMCP</h1>
+      <calcite-pagination label="Results pages" total-items="100" tools></calcite-pagination>
+      <calcite-button id="open-dialog">Open details</calcite-button>
+      <calcite-dialog id="details" heading="Details" modal tools>
+        <p>Map details</p>
+      </calcite-dialog>
+      <calcite-panel heading="Layers" collapsible tools>
+        <p>Streets and boundaries</p>
+      </calcite-panel>
+    </main>
+    <script type="module">
+      const dialog = document.querySelector("#details");
+      document.querySelector("#open-dialog").addEventListener("click", () => {
+        dialog.open = true;
+      });
+    </script>
+  </body>
+</html>

@@ -1,8 +1,38 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { accessible, defaults, focusable, hidden, renders, t9n, themed } from "../../tests/common";
+import { mockWebMcp } from "../../tests/utils/webmcp";
 import { CSS } from "./resources";
+
+it("navigates pages through opt-in WebMCP tools", async () => {
+  const registered = mockWebMcp();
+  const { el } = await mount<"calcite-pagination">(<calcite-pagination tools totalItems={100} />);
+  const getter = "calcite-pagination.get.startItem";
+  const goTo = "calcite-pagination.goTo";
+  const next = "calcite-pagination.nextPage";
+  const previous = "calcite-pagination.previousPage";
+  const execution = { signal: new AbortController().signal };
+
+  await expect
+    .poll(() => [...registered.keys()], { timeout: 10_000 })
+    .toEqual([getter, goTo, next, previous]);
+  expect(registered.get(goTo)!.inputSchema).toMatchObject({
+    properties: {
+      page: {
+        anyOf: expect.arrayContaining([{ type: "number" }, { type: "string", const: "end" }]),
+      },
+    },
+    required: ["page"],
+  });
+
+  await registered.get(goTo)!.execute({ page: "end" }, execution);
+  expect(await registered.get(getter)!.execute({}, execution)).toEqual({ value: 81 });
+  await registered.get(previous)!.execute({}, execution);
+  expect(el.startItem).toBe(61);
+  await registered.get(next)!.execute({}, execution);
+  expect(el.startItem).toBe(81);
+});
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-pagination page-size="10" start-item="50" total-items="100" />));

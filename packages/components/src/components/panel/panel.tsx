@@ -9,6 +9,8 @@ import {
   JsxNode,
   ToEvents,
 } from "@arcgis/lumina";
+import { WebMcpController } from "@lit-labs/webmcp/controller.js";
+import { tool } from "@lit-labs/webmcp/tool.js";
 import { createRef } from "lit/directives/ref.js";
 import {
   hasVisibleContent,
@@ -339,7 +341,16 @@ export class Panel extends LitElement {
   @property() collapseDirection: CollapseDirection = "down";
 
   /** When `true`, hides the component's content area. */
-  @property({ reflect: true }) collapsed = false;
+  @tool()
+  @property({ reflect: true })
+  collapsed = false;
+
+  /**
+   * When `true`, exposes the component's WebMCP tools to the browser.
+   *
+   * @experimental
+   */
+  @property() tools = false;
 
   /** When `true`, the component is collapsible. */
   @property({ reflect: true }) collapsible = false;
@@ -488,6 +499,7 @@ export class Panel extends LitElement {
 
   constructor() {
     super();
+    new WebMcpController(this, { enabled: () => this.tools, element: () => this.el });
     this.listen("keydown", this.panelKeyDownHandler);
     this.listen<ToEvents<Panel>["calcitePanelClose"]>("calcitePanelClose", this.panelCloseHandler);
   }
