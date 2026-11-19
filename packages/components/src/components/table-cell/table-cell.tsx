@@ -105,7 +105,7 @@ export class TableCell extends LitElement {
   @property() lastCell = false;
 
   /** @private */
-  @property() messages!: Table["messages"];
+  @property() messages!: Table["messages"]["_overrides"];
 
   /** @private */
   @property() numberCell = false;

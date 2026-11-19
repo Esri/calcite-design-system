@@ -61,7 +61,7 @@ export class TableHeader extends LitElement {
 
   @state() focused = false;
 
-  @state() screenReaderText = "";
+  @state() screenReaderText?: string = "";
 
   //#endregion
 
@@ -89,7 +89,7 @@ export class TableHeader extends LitElement {
   @property() lastCell = false;
 
   /** @private */
-  @property() messages!: Table["messages"];
+  @property() messages!: Table["messages"]["_overrides"];
 
   /** @private */
   @property() numberCell = false;
@@ -163,7 +163,7 @@ export class TableHeader extends LitElement {
   //#region Private Methods
 
   private updateScreenReaderText(): void {
-    let text = "";
+    let text: string | undefined = "";
     const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selectedRows}`;
     if (this.numberCell) {
       text = this.messages?.rowNumber;

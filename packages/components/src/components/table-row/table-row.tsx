@@ -144,7 +144,7 @@ export class TableRow extends LitElement {
   @property() lastVisibleRow = false;
 
   /** @private */
-  @property() messages!: Table["messages"];
+  @property() messages!: Table["messages"]["_overrides"];
 
   /** @private */
   @property() numbered = false;
