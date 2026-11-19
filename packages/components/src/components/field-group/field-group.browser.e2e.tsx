@@ -130,13 +130,12 @@ describe("affix width coordination", () => {
   });
 
   it("does not reapply stale widths after auto width is disabled during measurement", async () => {
-    const { el } = await mount(
+    const { el: fieldGroup } = await mount<FieldGroup>(
       <calcite-field-group prefix-auto-width>
         <calcite-input prefix-text="prefix" />
         <calcite-input prefix-text="longer prefix" />
       </calcite-field-group>,
     );
-    const fieldGroup = el as FieldGroup["el"];
     const inputs = page.getBySelector("calcite-field-group").getBySelector("calcite-input");
     const first = inputs.nth(0);
     const second = inputs.nth(1);
