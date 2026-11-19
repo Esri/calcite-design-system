@@ -2,6 +2,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-padding-inline
 // --calcite-internal-step-bar-gap
 // --calcite-internal-stepper-action-block-size
 // --calcite-internal-stepper-action-inline-size
@@ -88,6 +89,7 @@
   flex-grow: 0;
   block-size: var(--calcite-internal-stepper-action-block-size);
   inline-size: var(--calcite-internal-stepper-action-inline-size);
+  --calcite-internal-action-padding-inline: var(--calcite-theme-space-none, var(--calcite-spacing-none));
 }
 
 .action-container {

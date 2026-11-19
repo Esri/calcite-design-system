@@ -3,7 +3,6 @@ import { isTag } from "../resources";
 export const CSS = {
   button: "button",
   buttonTextVisible: "button--text-visible",
-  buttonCompact: "button--compact",
   indicatorText: "indicator-text",
   iconContainer: "icon-container",
   slotContainer: "slot-container",
