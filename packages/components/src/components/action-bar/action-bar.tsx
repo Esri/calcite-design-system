@@ -372,25 +372,6 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) expandToggleDisabled = false;
 
   /**
-   * When `true`, the expand/collapse toggle button is not shown.
-   *
-   * @deprecated in v5.2.0, removal target v6.0.0 - Use `expandToggleDisabled` instead.
-   */
-  @property({ reflect: true })
-  get expandDisabled(): boolean {
-    return this.expandToggleDisabled;
-  }
-  set expandDisabled(value: boolean) {
-    logger.deprecated("property", {
-      component: this,
-      name: "expandDisabled",
-      removalVersion: 6,
-      suggested: "expandToggleDisabled",
-    });
-    this.expandToggleDisabled = value;
-  }
-
-  /**
    * When `true`, expands the component.
    *
    * The `expanded` or `textEnabled` state of `calcite-action`, `calcite-action-group`, and `calcite-action-menu` children is synced when this property is toggled, not during initialization.
@@ -548,7 +529,6 @@ export class ActionBar extends LitElement {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("expandDisabled") && (this.hasUpdated || this.expandDisabled !== false)) ||
       (changes.has("expandToggleDisabled") &&
         (this.hasUpdated || this.expandToggleDisabled !== false)) ||
       (changes.has("expandPosition") && (this.hasUpdated || this.expandPosition !== "end"))

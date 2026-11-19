@@ -254,7 +254,7 @@ export const withPaginationHeaderTop = (): string => html`
     <div class="header" slot="header-top">
       <calcite-action-bar
         class="pagination-action-bar"
-        expand-disabled
+        expand-toggle-disabled
         layout="horizontal"
         overflow-actions-disabled
         scale="s"
