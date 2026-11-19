@@ -1166,7 +1166,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
             ariaExpanded={expandable ? expanded : undefined}
             ariaLabel={label}
             ariaLevel={level}
-            ariaSelected={selected}
+            ariaSelected={selectionMode === "none" ? undefined : selected}
             class={{
               [CSS.row]: true,
               [CSS.container]: true,
