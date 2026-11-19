@@ -198,10 +198,9 @@ describe("focus-trap behavior", () => {
     // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
     await afterNextTask();
 
-    expect(document).toHaveProperty(
-      "activeElement.shadowRoot.activeElement.dataset.testid",
-      pickerTestId,
-    );
+    await expect
+      .poll(() => document)
+      .toHaveProperty("activeElement.shadowRoot.activeElement.dataset.testid", pickerTestId);
   });
 });
 
@@ -216,12 +215,12 @@ describe("minAsDate and maxAsDate properties", () => {
     el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
     await component.updateComplete;
 
-    expect(el.value).toBe("2020-12-31");
+    await expect.element(el).toHaveProperty("value", "2020-12-31");
 
     const input = el.shadowRoot
       .querySelector<HTMLElement>("calcite-input-text")!
       .shadowRoot!.querySelector<HTMLInputElement>("input")!;
-    expect(input.value).toBe("12/31/2020");
+    await expect.element(input).toHaveValue("12/31/2020");
   });
 });
 
@@ -314,7 +313,7 @@ it.each([
     await userEvent.click(
       page.getBySelector(`calcite-date-picker-day[current-month][id='${endId}']`),
     );
-    expect(el.value).toEqual([startValue, endValue]);
+    await expect.element(el).toHaveProperty("value", [startValue, endValue]);
   },
 );
 
@@ -353,11 +352,14 @@ describe("clearable", () => {
   });
 
   it("emits change when single value is cleared via clear button", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker clearable value="2024-05-05" />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        oncalciteInputDatePickerChange={changeEventHandler}
+        value="2024-05-05"
+      />,
+    );
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
 
@@ -371,12 +373,12 @@ describe("clearable", () => {
     );
 
     expect(getClearButtons()).toHaveLength(1);
-    expect(el.validity.valueMissing).toBe(false);
+    await expect.element(el).toHaveProperty("validity.valueMissing", false);
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
     await expect.element(el).toHaveProperty("value", "");
 
-    expect(el.validity.valueMissing).toBe(true);
+    await expect.element(el).toHaveProperty("validity.valueMissing", true);
   });
 
   it("clears single value when Escape is pressed", async () => {
@@ -450,11 +452,15 @@ describe("clearable", () => {
   });
 
   it("emits change when range values are cleared via Escape", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        oncalciteInputDatePickerChange={changeEventHandler}
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
 
     await userEvent.click(page.getByRole("combobox").first());
     await userEvent.keyboard("{Escape}");
