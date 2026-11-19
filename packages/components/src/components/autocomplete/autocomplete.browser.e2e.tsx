@@ -26,6 +26,7 @@ import {
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
+import { CSS as InputCSS } from "../input/resources";
 import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
@@ -678,7 +679,7 @@ describe("theme", () => {
         targetProp: "--calcite-input-prefix-size",
       },
       {
-        shadowSelector: `.${CSS.input} >>> .prefix`,
+        shadowSelector: `.${CSS.input} >>> .${InputCSS.prefix}`,
         targetProp: "inlineSize",
       },
     ],
@@ -688,7 +689,7 @@ describe("theme", () => {
         targetProp: "--calcite-input-suffix-size",
       },
       {
-        shadowSelector: `.${CSS.input} >>> .suffix`,
+        shadowSelector: `.${CSS.input} >>> .${InputCSS.suffix}`,
         targetProp: "inlineSize",
       },
     ],

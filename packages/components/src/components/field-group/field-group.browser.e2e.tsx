@@ -6,6 +6,9 @@ import { defaults, hidden, reflects, renders, themed } from "../../tests/common"
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { Autocomplete } from "../autocomplete/autocomplete";
 import type { Input } from "../input/input";
+import { CSS as InputCSS } from "../input/resources";
+import { CSS as InputNumberCSS } from "../input-number/resources";
+import { CSS as InputTextCSS } from "../input-text/resources";
 import { CSS } from "./resources";
 import type { FieldGroup } from "./field-group";
 
@@ -14,11 +17,21 @@ function getAffixWidth(input: Locator, affix: "prefix" | "suffix"): string {
 }
 
 function getAffix(input: Locator, affix: "prefix" | "suffix"): Locator {
-  return input.getBySelector(`.${affix}`);
+  switch (input.element().localName) {
+    case "calcite-input":
+    case "calcite-autocomplete":
+      return input.getBySelector(`.${InputCSS[affix]}`);
+    case "calcite-input-number":
+      return input.getBySelector(`.${InputNumberCSS[affix]}`);
+    case "calcite-input-text":
+      return input.getBySelector(`.${InputTextCSS[affix]}`);
+    default:
+      throw new Error("Unsupported affix input");
+  }
 }
 
 function getInputNumberButtonWrapper(input: Locator): Locator {
-  return input.getBySelector(".number-button-wrapper");
+  return input.getBySelector(`.${InputNumberCSS.numberButtonWrapper}`);
 }
 
 function getSuffixFootprintWidth(input: Locator): number {

@@ -20,6 +20,7 @@ import {
 } from "../../tests/common";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
+import { CSS as ActionCSS } from "../action/resources";
 import { defaultValidity } from "../../tests/common/defaults";
 import { InputText } from "./input-text";
 import { CSS } from "./resources";
@@ -716,18 +717,18 @@ describe("theme", () => {
   describe("clearable", () => {
     themed(() => mount(<calcite-input-text clearable value="Value" />), {
       "--calcite-input-action-background-color": {
-        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
       },
       "--calcite-input-action-background-color-hover": {
-        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
         state: "hover",
       },
       "--calcite-input-action-background-color-press": {
-        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
-        state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> .button` },
+        state: { press: `calcite-input-text >>> .${CSS.clearButton} >>> .${ActionCSS.button}` },
       },
       "--calcite-input-action-icon-color": {
         shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,

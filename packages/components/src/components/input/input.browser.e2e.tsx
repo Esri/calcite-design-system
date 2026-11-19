@@ -25,6 +25,7 @@ import { numberStringFormatter } from "../../utils/locale";
 import { supportedNlsLocales } from "../date-picker/utils";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
+import { CSS as ActionCSS } from "../action/resources";
 import { defaultValidity } from "../../tests/common/defaults";
 import { Input } from "./input";
 import { CSS, NUDGE_DELAY_IN_MS } from "./resources";
@@ -1918,18 +1919,18 @@ describe("theme", () => {
   describe("with icon, value and clearable", () => {
     themed(() => mount(<calcite-input clearable icon="layer" value="Forty two" />), {
       "--calcite-input-actions-background-color": {
-        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
       },
       "--calcite-input-actions-background-color-hover": {
-        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
         state: "hover",
       },
       "--calcite-input-actions-background-color-press": {
-        shadowSelector: `.${CSS.clearButton} >>> .button`,
+        shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
-        state: { press: `calcite-input >>> .${CSS.clearButton} >>> .button` },
+        state: { press: `calcite-input >>> .${CSS.clearButton} >>> .${ActionCSS.button}` },
       },
       "--calcite-input-actions-icon-color": {
         shadowSelector: `.${CSS.clearButton} >>> calcite-icon`,
@@ -1951,18 +1952,18 @@ describe("theme", () => {
   describe("with icon value and number type", () => {
     themed(() => mount(<calcite-input icon="layer" type="number" value="42" />), {
       "--calcite-input-actions-background-color": {
-        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        shadowSelector: `.${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
       },
       "--calcite-input-actions-background-color-hover": {
-        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        shadowSelector: `.${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
         state: "hover",
       },
       "--calcite-input-actions-background-color-press": {
-        shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+        shadowSelector: `.${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
         targetProp: "backgroundColor",
-        state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> .button` },
+        state: { press: `calcite-input >>> .${CSS.numberButtonItem} >>> .${ActionCSS.button}` },
       },
       "--calcite-input-actions-icon-color": {
         shadowSelector: `.${CSS.numberButtonItem} >>> calcite-icon`,
