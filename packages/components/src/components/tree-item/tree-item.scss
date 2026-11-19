@@ -92,6 +92,7 @@
     inset-inline-start: var(--calcite-internal-tree-item-line-left-position);
     content: "";
     background-color: var(--calcite-color-border-2);
+    border-inline-start: 1px solid var(--calcite-color-border-2);
   }
 }
 
@@ -262,6 +263,28 @@
 :host([has-children][indeterminate]) {
   .checkbox {
     color: var(--calcite-tree-selected-icon-color, var(--calcite-color-brand));
+  }
+}
+
+@media (forced-colors: active) {
+  :host {
+    outline-width: 0;
+    &:focus,
+    &:active {
+      .node-container {
+        outline-width: 0;
+      }
+    }
+  }
+  :host(:focus:not([disabled])) {
+    .node-container {
+      outline-width: 0;
+    }
+  }
+  :host([lines]) {
+    .children-container::after {
+      border-inline-start: 1px solid CanvasText;
+    }
   }
 }
 
