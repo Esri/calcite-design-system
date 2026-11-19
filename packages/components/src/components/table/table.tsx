@@ -251,8 +251,6 @@ export class Table extends LitElement {
 
   private tableHeadSlotRef = createRef<HTMLSlotElement>();
 
-  private syncedMessages?: typeof this.messages._overrides;
-
   private tableContainerOverflowAnimationFrame: number | null = null;
 
   private tableContainerResizeObserver = createObserver("resize", () =>
@@ -399,12 +397,11 @@ export class Table extends LitElement {
     this.tableContainerResizeObserver?.disconnect();
   }
 
-  override updated(): void {
-    if (this.syncedMessages === this.messages) {
+  override updated(changes: PropertyValues<this>): void {
+    if (!changes.has("messages")) {
       return;
     }
 
-    this.syncedMessages = this.messages;
     this.allRows.forEach((row) => {
       row.messages = this.messages;
     });
