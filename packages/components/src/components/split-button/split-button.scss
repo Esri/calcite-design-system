@@ -16,6 +16,7 @@
 
 :host {
   display: inline-block;
+  max-inline-size: 100%;
 }
 
 :host([width="auto"]) {
@@ -24,7 +25,6 @@
 
 :host([width="full"]) {
   inline-size: 100%;
-  max-inline-size: 100%;
 }
 
 :host([kind="brand"]) {
