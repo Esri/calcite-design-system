@@ -989,6 +989,13 @@ export class InputNumber
       if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
+      if (
+        value &&
+        this.childNumberRef.value?.selectionStart == 0 &&
+        this.childNumberRef.value?.selectionEnd == this.childNumberRef.value?.value.length
+      ) {
+        return;
+      }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
       if (!value && !this.childNumberRef.value?.value) {
@@ -1110,21 +1117,15 @@ export class InputNumber
 
     const previousDraftValue = this.valueForEditing;
     const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
-    const isValueDeleted =
-      this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
-    const hasTrailingDecimalSeparator =
-      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+    const hasTrailingDecimalSeparator = value.length > 1 && value.endsWith(".");
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -1133,7 +1134,8 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    let newLocalizedValue = numberStringFormatter.localize(newValue);
+    let newLocalizedValue =
+      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(value);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1143,8 +1145,9 @@ export class InputNumber
       );
     }
 
-    // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
+    // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
+    if (hasTrailingDecimalSeparator) {
+      // TODO: move this to a separate localize() function that can localize raw non-sanitized user input
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
