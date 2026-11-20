@@ -155,7 +155,7 @@ export class AccordionItem extends LitElement {
 
   private headerRef = createRef<HTMLButtonElement>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   /**
    * Made into a prop for testing purposes only

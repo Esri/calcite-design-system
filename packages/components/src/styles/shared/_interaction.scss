@@ -8,7 +8,7 @@
     ::slotted([calcite-hydrated][disabled]),
     [calcite-hydrated][disabled] {
       /* prevent opacity stacking */
-      @apply opacity-100;
+      opacity: var(--calcite-opacity-full);
     }
   }
 
@@ -19,14 +19,17 @@
 
 // used for host-specific styling when the `disabled` mixin cannot be applied on the host (e.g., `display: contents`)
 %disabled-host-only {
-  @apply opacity-disabled cursor-default select-none;
+  opacity: var(--calcite-opacity-disabled);
+  cursor: default;
+  user-select: none;
+
   @extend %non-interactive-host-contents;
 }
 
 %non-interactive-host-contents {
   *,
   ::slotted(*) {
-    @apply pointer-events-none;
+    pointer-events: none;
   }
 }
 

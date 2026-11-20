@@ -1,7 +1,18 @@
 {
+  "all": "všetko",
   "clear": "Vyčistiť",
   "hiddenSelected": "Riadky vybrané, ale mimo zobrazenia",
+  "keyboardDeselect": "Stlačením Enter alebo medzerníka zrušíte výber riadku",
+  "keyboardDeselectAll": "Stlačením Enter alebo medzerníka zrušíte výber všetkých riadkov",
+  "keyboardSelect": "Stlačením Enter alebo medzerníka vyberte riadok",
+  "keyboardSelectAll": "Stlačením Enter alebo medzerníka vyberiete všetky riadky",
   "page": "Strana",
   "row": "Riadok",
-  "selected": "Vybrané"
+  "rowNumber": "Číslo riadku",
+  "selected": "Vybrané",
+  "selectedRows": "vybrané riadky",
+  "selectionColumn": "Výberový stĺpec",
+  "selectionRow": "riadok",
+  "selectionSelected": "vybrané",
+  "unselected": "nevybrané"
 }

@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import {
@@ -18,6 +18,23 @@ import {
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
+import type { SegmentedControl } from "./segmented-control";
+
+it("sets value to undefined when selectedItem is unset", async () => {
+  const { el } = await mount<SegmentedControl>(
+    <calcite-segmented-control>
+      <calcite-segmented-control-item checked value="1">
+        one
+      </calcite-segmented-control-item>
+    </calcite-segmented-control>,
+  );
+
+  await expect.element(el).toHaveProperty("value", "1");
+
+  el.selectedItem = undefined;
+
+  await expect.element(el).toHaveProperty("value", undefined);
+});
 
 describe("labelable", () => {
   labelable(
@@ -72,6 +89,14 @@ describe("defaults", () => {
       {
         propertyName: "validity",
         defaultValue: defaultValidity,
+      },
+      {
+        propertyName: "value",
+        defaultValue: undefined,
+      },
+      {
+        propertyName: "selectedItem",
+        defaultValue: undefined,
       },
     ],
   );

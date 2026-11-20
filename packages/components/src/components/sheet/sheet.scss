@@ -47,8 +47,8 @@
   z-index: var(--calcite-z-index-overlay);
 }
 
-:host([modal-disabled]),
-:host([modal-disabled]) .container {
+:host(:not([modal])),
+:host(:not([modal])) .container {
   pointer-events: none;
 }
 
