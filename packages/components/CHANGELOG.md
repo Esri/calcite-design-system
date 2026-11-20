@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.41...@esri/calcite-components@6.0.0-next.42) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **date-picker, dropdown, input-date-picker, input-time-zone, popover, segmented-control, select, tooltip:** Improves strictness of public API. The codebase was
+  refactored to be strict to better reflect the component runtime
+  behavior. Developers will need to update code to match updated types.
+
+### Code Refactoring
+
+- **date-picker, dropdown, input-date-picker, input-time-zone, popover, segmented-control, select, tooltip:** make public API strict ([#15540](https://github.com/Esri/calcite-design-system/issues/15540)), closes [#14582](https://github.com/Esri/calcite-design-system/issues/14582)
+
 ## [6.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.40...@esri/calcite-components@6.0.0-next.41) (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
