@@ -976,17 +976,30 @@ export class InputNumber
       return;
     }
 
+    const locale = this.messages._lang;
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
+      locale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
 
-    if (event.key === numberStringFormatter.decimal && !this.integer) {
+    const effectiveDecimalSeparator =
+      locale === "bs" || locale === "mk"
+        ? numberStringFormatter.group
+        : numberStringFormatter.decimal;
+
+    if (event.key === effectiveDecimalSeparator && !this.integer) {
       if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && this.childNumberRef.value?.value.indexOf(effectiveDecimalSeparator) === -1) {
+        return;
+      }
+      if (
+        value &&
+        this.childNumberRef.value?.selectionStart == 0 &&
+        this.childNumberRef.value?.selectionEnd == this.childNumberRef.value?.value.length
+      ) {
         return;
       }
     }
@@ -1102,8 +1115,9 @@ export class InputNumber
     previousValue?: string;
     value: string;
   }): void {
+    const locale = this.messages._lang;
     numberStringFormatter.numberFormatOptions = {
-      locale: this.messages._lang,
+      locale,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -1113,7 +1127,7 @@ export class InputNumber
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
-    const hasTrailingDecimalSeparator = value.endsWith(".");
+    const hasTrailingDecimalSeparator = value.length > 1 && value.endsWith(".");
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
@@ -1127,7 +1141,13 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    let newLocalizedValue = numberStringFormatter.localize(newValue);
+    const effectiveDecimalSeparator =
+      locale === "bs" || locale === "mk"
+        ? numberStringFormatter.group
+        : numberStringFormatter.decimal;
+
+    let newLocalizedValue =
+      value === "." ? effectiveDecimalSeparator : numberStringFormatter.localize(value);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1137,9 +1157,10 @@ export class InputNumber
       );
     }
 
-    // adds localized trailing decimal separator
+    // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
     if (hasTrailingDecimalSeparator) {
-      newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
+      // TODO: move this to a separate localize() function that can localize raw non-sanitized user input
+      newLocalizedValue = `${newLocalizedValue}${effectiveDecimalSeparator}`;
     }
 
     // adds localized leading zeros
