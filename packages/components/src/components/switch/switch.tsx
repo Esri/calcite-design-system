@@ -29,12 +29,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-switch-background-color-hover": "*";
     /**
-     * Specifies the component's border color.
-     *
-     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
-     */
-    "--calcite-switch-border-color": "*";
-    /**
      * Specifies the component's corner radius.
      */
     "--calcite-switch-corner-radius": "*";
@@ -42,18 +36,6 @@ declare module "@arcgis/lumina" {
      * Specifies the handle's background color.
      */
     "--calcite-switch-handle-background-color": "*";
-    /**
-     * Specifies the handle's border color.
-     *
-     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
-     */
-    "--calcite-switch-handle-border-color": "*";
-    /**
-     * Specifies the handle's shadow.
-     *
-     * @deprecated in v3.2.0, removal target v6.0.0 - No longer necessary.
-     */
-    "--calcite-switch-handle-shadow": "*";
   }
 }
 
