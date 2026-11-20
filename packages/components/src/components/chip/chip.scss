@@ -521,10 +521,7 @@
   margin-block: 0;
   display: inline-flex;
   transition-timing-function: var(--calcite-animation-easing-function);
-  color: var(
-    --calcite-chip-icon-color,
-    var(--calcite-chip-text-color, var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor)))
-  );
+  color: var(--calcite-chip-icon-color, var(--calcite-chip-text-color, var(--calcite-icon-color, currentColor)));
   padding-inline: var(
     --calcite-internal-chip-icon-space,
     var(--calcite-theme-space-xs, var(--calcite-spacing-xs, 0.375rem)) /* 6px */

@@ -1,6 +1,6 @@
 @use "../../styles/shared";
 :host {
-  color: var(--calcite-icon-color, var(--calcite-ui-icon-color, currentColor));
+  color: var(--calcite-icon-color, currentColor);
   display: inline-flex;
 }
 

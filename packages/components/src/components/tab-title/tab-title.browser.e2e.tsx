@@ -205,7 +205,7 @@ describe("theme", () => {
     themed(
       () =>
         mount(
-          <calcite-tab-title closable selected>
+          <calcite-tab-title closable icon-end="3d-glasses" icon-start="layers" selected>
             yeah!
           </calcite-tab-title>,
         ),
@@ -218,6 +218,16 @@ describe("theme", () => {
           shadowSelector: `.${CSS.close}`,
           targetProp: "--calcite-action-background-color",
         },
+        "--calcite-icon-color": [
+          {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+        ],
       },
     );
   });
@@ -244,33 +254,78 @@ describe("theme", () => {
   });
 
   describe("start/end icons", () => {
-    themed(
-      () =>
-        mount(
-          <calcite-tab-title icon-end="3d-glasses" icon-start="banana">
-            close me
-          </calcite-tab-title>,
-        ),
-      {
-        "--calcite-tab-icon-color-start": {
-          shadowSelector: `.${CSS.iconStart}`,
-          targetProp: "color",
+    describe("icon colors", () => {
+      themed(
+        () =>
+          mount(
+            <calcite-tab-title icon-end="3d-glasses" icon-start="banana">
+              close me
+            </calcite-tab-title>,
+          ),
+        {
+          "--calcite-tab-icon-color-start": {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+          },
+          "--calcite-tab-icon-color-start-press": {
+            shadowSelector: `.${CSS.iconStart}`,
+            targetProp: "color",
+            state: { press: `calcite-tab-title >>> .${CSS.container}` },
+          },
+          "--calcite-tab-icon-color-end": {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+          },
+          "--calcite-tab-icon-color-end-press": {
+            shadowSelector: `.${CSS.iconEnd}`,
+            targetProp: "color",
+            state: { press: `calcite-tab-title >>> .${CSS.container}` },
+          },
         },
-        "--calcite-tab-icon-color-start-press": {
-          shadowSelector: `.${CSS.iconStart}`,
-          targetProp: "color",
-          state: { press: `calcite-tab-title >>> .${CSS.container}` },
+      );
+    });
+
+    describe("global icon token", () => {
+      themed(
+        () =>
+          mount(
+            <calcite-tab-title icon-end="3d-glasses" icon-start="banana">
+              close me
+            </calcite-tab-title>,
+          ),
+        {
+          "--calcite-icon-color": [
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+            },
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+              state: "hover",
+            },
+            {
+              shadowSelector: `.${CSS.iconStart}`,
+              targetProp: "color",
+              state: { press: `calcite-tab-title >>> .${CSS.container}` },
+            },
+            {
+              shadowSelector: `.${CSS.iconEnd}`,
+              targetProp: "color",
+              state: { press: `calcite-tab-title >>> .${CSS.container}` },
+            },
+          ],
         },
-        "--calcite-tab-icon-color-end": {
-          shadowSelector: `.${CSS.iconEnd}`,
-          targetProp: "color",
-        },
-        "--calcite-tab-icon-color-end-press": {
-          shadowSelector: `.${CSS.iconEnd}`,
-          targetProp: "color",
-          state: { press: `calcite-tab-title >>> .${CSS.container}` },
-        },
-      },
-    );
+      );
+    });
   });
 });

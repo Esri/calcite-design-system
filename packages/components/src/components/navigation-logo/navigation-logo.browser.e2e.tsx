@@ -213,15 +213,6 @@ describe("theme", () => {
     });
   });
 
-  describe("deprecated", () => {
-    themed(() => mount(navigationLogo()), {
-      "--calcite-ui-icon-color": {
-        shadowSelector: `calcite-icon`,
-        targetProp: "color",
-      },
-    });
-  });
-
   describe("with link + active", () => {
     themed(
       () =>
@@ -242,5 +233,14 @@ describe("theme", () => {
         },
       },
     );
+  });
+
+  describe("icon", () => {
+    themed(() => mount(navigationLogo()), {
+      "--calcite-icon-color": {
+        shadowSelector: `.${CSS.icon}`,
+        targetProp: "color",
+      },
+    });
   });
 });
