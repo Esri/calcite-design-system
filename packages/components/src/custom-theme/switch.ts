@@ -1,3 +1,5 @@
+import "../components/label/label";
+import "../components/switch/switch";
 import { html } from "../../support/formatting";
 
 export const switchTokens = {

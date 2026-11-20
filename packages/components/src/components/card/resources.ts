@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   container: "container",
@@ -29,3 +30,8 @@ export const ICONS: Record<string, IconName> = {
   selectedSingle: "circle-f",
   unselectedSingle: "circle",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isCard = isTag("calcite-card");

@@ -1,10 +1,9 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import { Appearance, Kind, Scale } from "../interfaces";
-import { IconName } from "../icon/interfaces";
+import { Appearance, Kind, Scale } from "../types";
+import { IconName } from "../icon/types";
 import type { Button } from "../button/button";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./fab.scss";
@@ -15,6 +14,38 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-fab-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-fab-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-fab-corner-radius": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-fab-text-color": "*";
+    /**
+     * Specifies the component's loader color.
+     */
+    "--calcite-fab-loader-color": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-fab-shadow": "*";
+  }
+}
+
+/**
+ * @docGroup Buttons
+ */
 export class Fab extends LitElement {
   //#region Static Members
 
@@ -26,7 +57,7 @@ export class Fab extends LitElement {
 
   private buttonRef = createRef<Button["el"]>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -34,28 +65,26 @@ export class Fab extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance style of the component. */
+  /** Specifies the component's appearance style. */
   @property({ reflect: true }) appearance: Extract<"solid" | "outline-fill", Appearance> = "solid";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
    * Specifies an icon to display.
-   *
-   * @default "plus"
    */
-  @property({ reflect: true, type: String }) icon: IconName = ICONS.plus;
+  @property({ reflect: true }) icon: IconName = ICONS.plus;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the kind of the component, which will apply to border and background. */
+  /** Specifies the component's kind, which determines border and background styling. */
   @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
     "brand";
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
@@ -64,7 +93,7 @@ export class Fab extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies text to accompany the component's icon. */
-  @property() text: string;
+  @property() text?: string;
 
   /** When `true`, displays the `text` value in the component. */
   @property({ reflect: true }) textEnabled = false;
@@ -78,7 +107,7 @@ export class Fab extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -103,7 +132,7 @@ export class Fab extends LitElement {
       iconFlipRtl,
     } = this;
 
-    const title = !textEnabled ? label || text || null : null;
+    const title = !textEnabled ? label || text || undefined : undefined;
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -111,7 +140,7 @@ export class Fab extends LitElement {
           appearance={appearance === "solid" ? "solid" : "outline-fill"}
           class={CSS.button}
           disabled={disabled}
-          iconFlipRtl={iconFlipRtl ? "start" : null}
+          iconFlipRtl={iconFlipRtl ? "start" : undefined}
           iconStart={icon}
           kind={kind}
           label={label}

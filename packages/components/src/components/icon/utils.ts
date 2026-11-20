@@ -1,8 +1,8 @@
 import { CalciteIconPath } from "@esri/calcite-ui-icons";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { getAssetPath } from "../../runtime";
 import { logger } from "../../utils/logger";
-import { IconName } from "./interfaces";
+import { IconName } from "./types";
 
 export interface FetchIconProps {
   icon: IconName;

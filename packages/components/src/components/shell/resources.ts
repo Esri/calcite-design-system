@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const CSS = {
   main: "main",
   content: "content",
@@ -19,6 +21,10 @@ export const SLOTS = {
   footer: "footer",
   alerts: "alerts",
   sheets: "sheets",
-  modals: "modals",
   dialogs: "dialogs",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isShell = isTag("calcite-shell");

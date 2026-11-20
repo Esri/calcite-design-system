@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import { setAssetPath } from "@esri/calcite-components/dist/components";
+import { setAssetPath } from "@esri/calcite-components";
 import App from "./App.vue";
 
 setAssetPath(location.href);

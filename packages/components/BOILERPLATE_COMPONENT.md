@@ -108,36 +108,34 @@ export const CSS = {
 ```ts
 import { newE2EPage } from "@arcgis/lumina-compiler/puppeteerTesting";
 import { CSS, TEXT } from "./resources";
-import { accessible, hidden, renders } from "../../tests/commonTests";
+import { accessible, hidden, renders } from "../../tests/common";
 
-describe("calcite-example", () => {
-  describe("renders", () => {
-    renders("calcite-example");
-  });
+describe("renders", () => {
+  renders("calcite-example");
+});
 
-  describe("honors hidden attribute", () => {
-    hidden("calcite-example");
-  });
+describe("honors hidden attribute", () => {
+  hidden("calcite-example");
+});
 
-  describe("accessible", () => {
-    accessible("calcite-example");
-  });
+describe("accessible", () => {
+  accessible("calcite-example");
+});
 
-  it("shows myString by default", async () => {
-    const page = await newE2EPage();
+it("shows myString by default", async () => {
+  const page = await newE2EPage();
 
-    await page.setContent("<calcite-example></calcite-example>");
+  await page.setContent("<calcite-example></calcite-example>");
 
-    const div = await page.find(`calcite-example >>> .${CSS.foo}`);
-    expect(div.innerText).toBe(TEXT.myString);
-  });
+  const div = await page.find(`calcite-example >>> .${CSS.foo}`);
+  expect(div.innerText).toBe(TEXT.myString);
+});
 
-  it("hides myString when someProp is false", async () => {
-    const page = await newE2EPage();
+it("hides myString when someProp is false", async () => {
+  const page = await newE2EPage();
 
-    await page.setContent(`<calcite-example></calcite-example>`);
-    const div = await page.find(`calcite-example >>> .${CSS.foo}`);
-    expect(div.innerText).toBe("");
-  });
+  await page.setContent(`<calcite-example></calcite-example>`);
+  const div = await page.find(`calcite-example >>> .${CSS.foo}`);
+  expect(div.innerText).toBe("");
 });
 ```

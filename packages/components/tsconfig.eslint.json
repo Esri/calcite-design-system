@@ -1,5 +1,6 @@
 {
-  "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "@esri/calcite-typescript-config/tsconfig.lumina.json",
   "include": ["**/*", "**/*.config.mjs", "**/.*.cjs", ".storybook/*"],
-  "exclude": ["**/[!_]*assets*/**", "dist", "hydrate", "docs"]
+  "exclude": ["**/[!_]*assets*/**", "dist", "docs"]
 }

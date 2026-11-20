@@ -17,10 +17,10 @@
 //
 // --calcite-internal-table-advanced-font-size
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply flex;
+  display: flex;
 }
 
 :host([scale="s"]) {
@@ -36,7 +36,10 @@
 }
 
 .container {
-  @apply flex flex-col w-full h-full;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
 }
 
 .tabulator {
@@ -79,5 +82,5 @@
   }
 }
 
-@include includes.base-component();
-@import "../../../../../node_modules/tabulator-tables/dist/css/tabulator.min.css";
+@include shared.base-component();
+//@import "../../../../../node_modules/tabulator-tables/dist/css/tabulator.min.css";

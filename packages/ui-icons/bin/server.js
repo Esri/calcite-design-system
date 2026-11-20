@@ -18,7 +18,7 @@ build().then(() => {
     ui: false,
     port: 8080,
   });
-  execSync("npm run build:fonts");
+  execSync("pnpm build:fonts");
   bs.watch("./icons/*.svg", options, onChange);
   bs.watch("./docs/keywords.json", options, onChange);
   function onChange(event, file) {

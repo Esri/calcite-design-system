@@ -1,3 +1,6 @@
+import "../components/label/label";
+import "../components/radio-button-group/radio-button-group";
+import "../components/radio-button/radio-button";
 import { html } from "../../support/formatting";
 
 export const radioButtonGroupTokens = {

@@ -20,17 +20,23 @@ describe("common input utils", () => {
       expect(hiddenFormInput.type).toBe(expectedType);
 
       if (minMaxStepTypes.includes(type)) {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
         expect(hiddenFormInput.min).toBe(`${minMaxStepTestValues.min}`);
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
         expect(hiddenFormInput.max).toBe(`${minMaxStepTestValues.max}`);
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
         expect(hiddenFormInput.step).toBe(`${minMaxStepTestValues.step}`);
       }
 
       if (minMaxLengthTypes.includes(type)) {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
         expect(hiddenFormInput.minLength).toBe(minMaxLengthTestValues.minLength);
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
         expect(hiddenFormInput.maxLength).toBe(minMaxLengthTestValues.maxLength);
       }
 
       if (patternTypes.includes(type)) {
+        // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test config
         expect(hiddenFormInput.pattern).toBe(patternTestValue.pattern);
       }
     });

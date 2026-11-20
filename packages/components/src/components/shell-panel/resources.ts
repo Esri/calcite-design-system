@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   container: "container",
@@ -8,7 +9,6 @@ export const CSS = {
   contentHeader: "content__header",
   contentBody: "content__body",
   contentOverlay: "content--overlay",
-  float: "float",
   floatAll: "float-all",
   floatContent: "float--content",
   resizeHandle: "resize-handle",
@@ -25,3 +25,8 @@ export const ICONS: Record<string, IconName> = {
   dragVertical: "drag-resize-vertical",
   dragHorizontal: "drag-resize-horizontal",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isShellPanel = isTag("calcite-shell-panel");

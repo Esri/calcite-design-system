@@ -1,0 +1,21 @@
+@mixin slotted($selector, $tag, $scope: "") {
+  #{$scope} slot[name="#{$selector}"]::slotted(#{$tag}),
+  #{$scope} #{$tag}::slotted([slot="#{$selector}"]) {
+    @content;
+  }
+}
+
+@mixin word-break() {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+// Mixin for text highlighting styles.
+// - This should be used in conjunction with the `text.tsx` util.
+@mixin text-highlight-item() {
+  .text-match {
+    background-color: transparent;
+    color: inherit;
+    font-weight: var(--calcite-font-weight-bold);
+  }
+}

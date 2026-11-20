@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Abbrechen",
   "clear": "Wert löschen",
+  "confirmInlineEditingChanges": "Speichern",
+  "enableInlineEditing": "Bearbeiten",
   "loading": "Wird geladen",
   "required": "Erforderlich"
 }

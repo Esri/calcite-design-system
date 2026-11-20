@@ -1,13 +1,45 @@
-import type { DecoratorFunction } from "@storybook/html";
+import type { Decorator } from "@storybook/web-components-vite";
+import { userEvent } from "storybook/test";
 import { ShellPanel } from "../shell-panel/shell-panel";
+import { Shell } from "./shell";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Dialog } from "../dialog/dialog";
-import { dialogPlacements } from "../dialog/resources";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-bar/action-bar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action-group/action-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../alert/alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block/block"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-group/block-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../block-section/block-section"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip-group/chip-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dialog/dialog"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown/dropdown"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../fab/fab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow/flow"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../flow-item/flow-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../notice/notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../popover/popover"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../sheet/sheet"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./shell"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../shell-panel/shell-panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab/tab"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-nav/tab-nav"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tab-title/tab-title"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tabs/tabs"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { shellDisplayMode, position, scale } = ATTRIBUTES;
+const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
 
 interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "heightScale" | "resizable"> {
   centerPanelPosition: ShellPanel["position"];
@@ -15,7 +47,7 @@ interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | 
   trailingPanelPosition: ShellPanel["position"];
 }
 
-type ShellStoryArgs = ShellPanelArgs;
+type ShellStoryArgs = ShellPanelArgs & Pick<Shell, "contentBehind">;
 
 type ShellSlottedElementsStoryArgs = {
   dialogPlacement: Dialog["placement"];
@@ -32,6 +64,7 @@ export default {
     leadingPanelPosition: position.values[0],
     trailingPanelPosition: position.values[1],
     resizable: true,
+    contentBehind: false,
     detached: false,
     heightScale: scale.values[0],
   },
@@ -170,28 +203,28 @@ const contentHTML = html`
 const advancedLeadingPanelHTML = html`
   ${actionBarStartHTML}
   <calcite-panel heading="Advanced panel example">
-    <calcite-block collapsible open heading="Start Content" description="This is the primary.">
+    <calcite-block expandable open heading="Start Content" description="This is the primary.">
       <calcite-block-content>
         <calcite-action text="Play" text-enabled indicator icon="play"></calcite-action>
         <calcite-action text="Extent" text-enabled icon="extent"></calcite-action>
         <calcite-action text="Chart" text-enabled icon="arrow-up-right"></calcite-action>
       </calcite-block-content>
     </calcite-block>
-    <calcite-block collapsible open heading="Another Block" description="This is the primary.">
+    <calcite-block expandable open heading="Another Block" description="This is the primary.">
       <calcite-block-content>
         <div style="height: 300px;">
           <p>Cool thing.</p>
         </div>
       </calcite-block-content>
     </calcite-block>
-    <calcite-block collapsible open heading="Additional Block" description="This is the primary.">
+    <calcite-block expandable open heading="Additional Block" description="This is the primary.">
       <calcite-block-content>
         <div style="height: 300px;">
           <p>Cool thing.</p>
         </div>
       </calcite-block-content>
     </calcite-block>
-    <calcite-block collapsible open heading="More Block" description="This is the primary.">
+    <calcite-block expandable open heading="More Block" description="This is the primary.">
       <calcite-block-content>
         <div style="height: 300px;">
           <p>Cool thing.</p>
@@ -210,7 +243,7 @@ const advancedTrailingPanelHTMl = html`
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
       <calcite-action slot="header-menu-actions" text="Cool thing" text-enabled></calcite-action>
-      <calcite-block collapsible open heading="End Content" description="Select goodness">
+      <calcite-block expandable open heading="End Content" description="Select goodness">
         <calcite-block-content>
           <img alt="demo" src="${placeholderImage({ width: 640, height: 480 })}" width="100%" />
           <calcite-block-section text="Cool things">
@@ -229,7 +262,7 @@ const advancedTrailingPanelHTMl = html`
       <calcite-button slot="footer" width="half">Save</calcite-button>
     </calcite-flow-item>
     <calcite-flow-item heading="Deeper flow item">
-      <calcite-block collapsible open heading="End Content" description="Select goodness">
+      <calcite-block expandable open heading="End Content" description="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -244,7 +277,7 @@ const advancedTrailingPanelHTMl = html`
           </calcite-block-section>
         </calcite-block-content>
       </calcite-block>
-      <calcite-block collapsible open heading="Even more content" description="Select goodness">
+      <calcite-block expandable open heading="Even more content" description="Select goodness">
         <calcite-block-content>
           <calcite-block-section text="Cool things">
             <calcite-action text="Cool thing" text-enabled></calcite-action>
@@ -266,7 +299,7 @@ const advancedTrailingPanelHTMl = html`
 `;
 
 export const simple = (args: ShellStoryArgs): string => html`
-  <calcite-shell>
+  <calcite-shell ${boolean("content-behind", args.contentBehind)}>
     ${headerHTML}
     <calcite-shell-panel
       slot="panel-start"
@@ -297,7 +330,267 @@ export const simple = (args: ShellStoryArgs): string => html`
   </calcite-shell>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const fullResizeHorizontal = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      slot="panel-start"
+      resizable
+      style="
+        --calcite-shell-panel-min-width: 0;
+        --calcite-shell-panel-max-width: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      slot="panel-end"
+      resizable
+      style="
+        --calcite-shell-panel-min-width: 0;
+        --calcite-shell-panel-max-width: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>
+`;
+
+export const fullResizeHorizontalFloat = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      display-mode="float-content"
+      slot="panel-start"
+      resizable
+      style="
+        --calcite-shell-panel-min-width: 0;
+        --calcite-shell-panel-max-width: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      display-mode="float-content"
+      slot="panel-end"
+      resizable
+      style="
+        --calcite-shell-panel-min-width: 0;
+        --calcite-shell-panel-max-width: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>
+`;
+
+export const fullResizeHorizontalFloatAll = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      display-mode="float-all"
+      slot="panel-start"
+      resizable
+      style="
+        --calcite-shell-panel-min-width: 0;
+        --calcite-shell-panel-max-width: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      display-mode="float-all"
+      slot="panel-end"
+      resizable
+      style="
+        --calcite-shell-panel-min-width: 0;
+        --calcite-shell-panel-max-width: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>
+`;
+
+export const fullResizeVertical = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      slot="panel-top"
+      resizable
+      style="
+        --calcite-shell-panel-min-height: 0;
+        --calcite-shell-panel-max-height: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      slot="panel-bottom"
+      resizable
+      style="
+        --calcite-shell-panel-min-height: 0;
+        --calcite-shell-panel-max-height: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>
+`;
+
+export const fullResizeVerticalFloat = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      display-mode="float-content"
+      slot="panel-top"
+      resizable
+      style="
+        --calcite-shell-panel-min-height: 0;
+        --calcite-shell-panel-max-height: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      display-mode="float-content"
+      slot="panel-bottom"
+      resizable
+      style="
+        --calcite-shell-panel-min-height: 0;
+        --calcite-shell-panel-max-height: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>
+`;
+
+export const fullResizeVerticalFloatAll = (): string => html`
+  <calcite-shell>
+    <calcite-shell-panel
+      display-mode="float-all"
+      slot="panel-top"
+      resizable
+      style="
+        --calcite-shell-panel-min-height: 0;
+        --calcite-shell-panel-max-height: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-shell-panel
+      display-mode="float-all"
+      slot="panel-bottom"
+      resizable
+      style="
+        --calcite-shell-panel-min-height: 0;
+        --calcite-shell-panel-max-height: 100%;
+      "
+    >
+      <calcite-action-bar slot="action-bar">
+        <calcite-action-group>
+          <calcite-action text="Add" icon="plus"></calcite-action>
+        </calcite-action-group>
+      </calcite-action-bar>
+      <calcite-panel heading="Layers" closable>
+        <calcite-block heading="Symbology" description="Select type, color, and transparency" icon-start="map-pin">
+        </calcite-block>
+      </calcite-panel>
+    </calcite-shell-panel>
+    <calcite-panel heading="Content"></calcite-panel>
+  </calcite-shell>
+`;
+
+export const darkModeRTL = (): string => html`
   <calcite-shell dir="rtl" class="calcite-mode-dark">
     ${headerHTML}
     <calcite-shell-panel slot="panel-start" display-mode="dock"> ${advancedLeadingPanelHTML} </calcite-shell-panel>
@@ -309,48 +602,42 @@ export const darkModeRTL_TestOnly = (): string => html`
   </calcite-shell>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-const closedPanelsHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
-  closedPanelsHtml[i] = html`<calcite-shell content-behind>
-    <calcite-shell-panel slot="panel-start" display-mode="${d}">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
-        <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
-        <calcite-action data-action-id="legend" icon="legend" text="Legend"></calcite-action>
-        <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
-        <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
-      </calcite-action-bar>
-      <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" closable closed>
-        <div id="layers-container"></div>
-      </calcite-panel>
-      <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" closable closed>
-        <div id="basemaps-container"></div>
-      </calcite-panel>
-      <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" closable closed>
-        <div id="legend-container"></div>
-      </calcite-panel>
-      <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" closable closed>
-        <div id="bookmarks-container"></div>
-      </calcite-panel>
-      <calcite-panel heading="Print" height-scale="l" data-panel-id="print" closable closed>
-        <div id="print-container"></div>
-      </calcite-panel>
-    </calcite-shell-panel>
-  </calcite-shell>`;
-});
-export const closedPanelsFloat = (): string => closedPanelsHtml[0];
-export const closedPanelsFloatContent = (): string => closedPanelsHtml[1];
+const closedPanelsHtml = html`<calcite-shell content-behind>
+  <calcite-shell-panel slot="panel-start" display-mode="float-content">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action data-action-id="layers" icon="layers" text="Layers"></calcite-action>
+      <calcite-action data-action-id="basemaps" icon="basemap" text="Basemaps"></calcite-action>
+      <calcite-action data-action-id="legend" icon="legend" text="Legend"></calcite-action>
+      <calcite-action data-action-id="bookmarks" icon="bookmark" text="Bookmarks"></calcite-action>
+      <calcite-action data-action-id="print" icon="print" text="Print"></calcite-action>
+    </calcite-action-bar>
+    <calcite-panel heading="Layers" height-scale="l" data-panel-id="layers" closable closed>
+      <div id="layers-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Basemaps" height-scale="l" data-panel-id="basemaps" closable closed>
+      <div id="basemaps-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Legend" height-scale="l" data-panel-id="legend" closable closed>
+      <div id="legend-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Bookmarks" height-scale="l" data-panel-id="bookmarks" closable closed>
+      <div id="bookmarks-container"></div>
+    </calcite-panel>
+    <calcite-panel heading="Print" height-scale="l" data-panel-id="print" closable closed>
+      <div id="print-container"></div>
+    </calcite-panel>
+  </calcite-shell-panel>
+</calcite-shell>`;
+export const closedPanelsFloatContent = (): string => closedPanelsHtml;
 
-const endPanelHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
-  endPanelHtml[i] = html`<calcite-shell content-behind>
-    <header slot="header">
-      <h2>My Shell Header</h2>
-    </header>
-    <div
-      style="
+const endPanelHtml = html`<calcite-shell content-behind>
+  <header slot="header">
+    <h2>My Shell Header</h2>
+  </header>
+  <div
+    style="
 width:100%;
 height:100%;
 background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
@@ -360,131 +647,129 @@ background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
 background-size: 20px 20px;
 background-position: 0 0, 0 10px, 10px -10px, -10px 0;
 "
-    ></div>
-    <calcite-shell-panel slot="panel-end" display-mode="${d}">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
-          <calcite-action
-            text="Information"
-            label="Save Item"
-            icon="information"
-            appearance="solid"
-            scale="m"
-          ></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-          <calcite-action
-            text="Question"
-            label="View Layers"
-            icon="question"
-            appearance="solid"
-            scale="m"
-          ></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <calcite-flow>
-        <calcite-flow-item heading="Layer settings">
-          <calcite-action
-            slot="header-menu-actions"
-            text="Cool thing"
-            text-enabled
-            appearance="solid"
-            scale="m"
-          ></calcite-action>
-          <calcite-action
-            slot="header-menu-actions"
-            text="Cool thing"
-            text-enabled
-            appearance="solid"
-            scale="m"
-          ></calcite-action>
-          <calcite-action
-            slot="header-menu-actions"
-            text="Cool thing"
-            text-enabled
-            appearance="solid"
-            scale="m"
-          ></calcite-action>
-          <calcite-block collapsible open heading="End Content" description="Select goodness">
-            <calcite-block-content>
-              <img
-                alt="demo"
-                src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%3E%20%3Crect%20fill%3D%22%23ddd%22%20width%3D%22640%22%20height%3D%22480%22%2F%3E%20%3Ctext%20fill%3D%22rgba%280%2C0%2C0%2C0.5%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2296%22%20dy%3D%2233.599999999999994%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E640%C3%97480%3C%2Ftext%3E%20%3C%2Fsvg%3E"
-                width="100%"
-              />
-              <calcite-block-section text="Cool things" toggle-display="button">
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-              </calcite-block-section>
-              <calcite-block-section text="Neat things" toggle-display="button">
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-              </calcite-block-section>
-            </calcite-block-content>
-          </calcite-block>
-          <calcite-button slot="footer" width="half" appearance="outline" alignment="center" kind="brand" scale="m">
-            Cancel
-          </calcite-button>
-          <calcite-button slot="footer" width="half" alignment="center" appearance="solid" kind="brand" scale="m">
-            Save
-          </calcite-button>
-        </calcite-flow-item>
-        <calcite-flow-item heading="Deeper flow item" show-back-button>
-          <calcite-block collapsible open heading="End Content" description="Select goodness">
-            <calcite-block-content>
-              <calcite-block-section text="Cool things" toggle-display="button">
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-              </calcite-block-section>
-              <img
-                alt="demo"
-                src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%3E%20%3Crect%20fill%3D%22%23ddd%22%20width%3D%22640%22%20height%3D%22480%22%2F%3E%20%3Ctext%20fill%3D%22rgba%280%2C0%2C0%2C0.5%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2296%22%20dy%3D%2233.599999999999994%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E640%C3%97480%3C%2Ftext%3E%20%3C%2Fsvg%3E"
-                width="100%"
-              />
-              <calcite-block-section text="Neat things" toggle-display="button">
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-              </calcite-block-section>
-            </calcite-block-content>
-          </calcite-block>
-          <calcite-block collapsible open heading="Even more content" description="Select goodness">
-            <calcite-block-content>
-              <calcite-block-section text="Cool things" toggle-display="button">
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-              </calcite-block-section>
-              <img
-                alt="demo"
-                src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%3E%20%3Crect%20fill%3D%22%23ddd%22%20width%3D%22640%22%20height%3D%22480%22%2F%3E%20%3Ctext%20fill%3D%22rgba%280%2C0%2C0%2C0.5%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2296%22%20dy%3D%2233.599999999999994%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E640%C3%97480%3C%2Ftext%3E%20%3C%2Fsvg%3E"
-                width="100%"
-              />
-              <calcite-block-section text="Neat things" toggle-display="button">
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-                <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
-              </calcite-block-section>
-            </calcite-block-content>
-          </calcite-block>
-          <calcite-button slot="footer" width="half" appearance="outline" alignment="center" kind="brand" scale="m">
-            Cancel
-          </calcite-button>
-          <calcite-button slot="footer" width="half" alignment="center" appearance="solid" kind="brand" scale="m">
-            Save
-          </calcite-button>
-        </calcite-flow-item>
-      </calcite-flow>
-    </calcite-shell-panel>
-    <footer slot="footer">My Shell Footer</footer>
-  </calcite-shell>`;
-});
-export const endPanelFloat_TestOnly = (): string => endPanelHtml[0];
-export const endPanelFloatContent_TestOnly = (): string => endPanelHtml[1];
+  ></div>
+  <calcite-shell-panel slot="panel-end" display-mode="float-content">
+    <calcite-action-bar slot="action-bar">
+      <calcite-action-group>
+        <calcite-action text="Idea" label="Add Item" icon="lightbulb" appearance="solid" scale="m"></calcite-action>
+        <calcite-action
+          text="Information"
+          label="Save Item"
+          icon="information"
+          appearance="solid"
+          scale="m"
+        ></calcite-action>
+      </calcite-action-group>
+      <calcite-action-group>
+        <calcite-action
+          text="Question"
+          label="View Layers"
+          icon="question"
+          appearance="solid"
+          scale="m"
+        ></calcite-action>
+      </calcite-action-group>
+    </calcite-action-bar>
+    <calcite-flow>
+      <calcite-flow-item heading="Layer settings">
+        <calcite-action
+          slot="header-menu-actions"
+          text="Cool thing"
+          text-enabled
+          appearance="solid"
+          scale="m"
+        ></calcite-action>
+        <calcite-action
+          slot="header-menu-actions"
+          text="Cool thing"
+          text-enabled
+          appearance="solid"
+          scale="m"
+        ></calcite-action>
+        <calcite-action
+          slot="header-menu-actions"
+          text="Cool thing"
+          text-enabled
+          appearance="solid"
+          scale="m"
+        ></calcite-action>
+        <calcite-block expandable open heading="End Content" description="Select goodness">
+          <calcite-block-content>
+            <img
+              alt="demo"
+              src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%3E%20%3Crect%20fill%3D%22%23ddd%22%20width%3D%22640%22%20height%3D%22480%22%2F%3E%20%3Ctext%20fill%3D%22rgba%280%2C0%2C0%2C0.5%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2296%22%20dy%3D%2233.599999999999994%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E640%C3%97480%3C%2Ftext%3E%20%3C%2Fsvg%3E"
+              width="100%"
+            />
+            <calcite-block-section text="Cool things" toggle-display="button">
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+            </calcite-block-section>
+            <calcite-block-section text="Neat things" toggle-display="button">
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+            </calcite-block-section>
+          </calcite-block-content>
+        </calcite-block>
+        <calcite-button slot="footer" width="half" appearance="outline" alignment="center" kind="brand" scale="m">
+          Cancel
+        </calcite-button>
+        <calcite-button slot="footer" width="half" alignment="center" appearance="solid" kind="brand" scale="m">
+          Save
+        </calcite-button>
+      </calcite-flow-item>
+      <calcite-flow-item heading="Deeper flow item" show-back-button>
+        <calcite-block expandable open heading="End Content" description="Select goodness">
+          <calcite-block-content>
+            <calcite-block-section text="Cool things" toggle-display="button">
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+            </calcite-block-section>
+            <img
+              alt="demo"
+              src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%3E%20%3Crect%20fill%3D%22%23ddd%22%20width%3D%22640%22%20height%3D%22480%22%2F%3E%20%3Ctext%20fill%3D%22rgba%280%2C0%2C0%2C0.5%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2296%22%20dy%3D%2233.599999999999994%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E640%C3%97480%3C%2Ftext%3E%20%3C%2Fsvg%3E"
+              width="100%"
+            />
+            <calcite-block-section text="Neat things" toggle-display="button">
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+            </calcite-block-section>
+          </calcite-block-content>
+        </calcite-block>
+        <calcite-block expandable open heading="Even more content" description="Select goodness">
+          <calcite-block-content>
+            <calcite-block-section text="Cool things" toggle-display="button">
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+            </calcite-block-section>
+            <img
+              alt="demo"
+              src="data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22640%22%20height%3D%22480%22%20viewBox%3D%220%200%20640%20480%22%3E%20%3Crect%20fill%3D%22%23ddd%22%20width%3D%22640%22%20height%3D%22480%22%2F%3E%20%3Ctext%20fill%3D%22rgba%280%2C0%2C0%2C0.5%29%22%20font-family%3D%22sans-serif%22%20font-size%3D%2296%22%20dy%3D%2233.599999999999994%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20text-anchor%3D%22middle%22%3E640%C3%97480%3C%2Ftext%3E%20%3C%2Fsvg%3E"
+              width="100%"
+            />
+            <calcite-block-section text="Neat things" toggle-display="button">
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+              <calcite-action text="Cool thing" text-enabled appearance="solid" scale="m"></calcite-action>
+            </calcite-block-section>
+          </calcite-block-content>
+        </calcite-block>
+        <calcite-button slot="footer" width="half" appearance="outline" alignment="center" kind="brand" scale="m">
+          Cancel
+        </calcite-button>
+        <calcite-button slot="footer" width="half" alignment="center" appearance="solid" kind="brand" scale="m">
+          Save
+        </calcite-button>
+      </calcite-flow-item>
+    </calcite-flow>
+  </calcite-shell-panel>
+  <footer slot="footer">My Shell Footer</footer>
+</calcite-shell>`;
+export const endPanelFloatContent = (): string => endPanelHtml;
 
 export const slottedDialogAndAlert = (): string =>
   html` <main>
@@ -584,7 +869,7 @@ export const slottedSheetOverlay = (): string => html`
     "
   >
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -676,7 +961,7 @@ const slottedSheetHtml: string[] = [];
     "
     >
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
+      <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
         <calcite-panel closable heading="Ultrices neque"
           ><p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -762,7 +1047,7 @@ export const contentBehind = (): string =>
     ${footerHTML}
   </calcite-shell>`;
 
-export const slottedPanelTop_TestOnly = (): string =>
+export const slottedPanelTop = (): string =>
   html`<calcite-shell
     style="
     width:100%;
@@ -787,19 +1072,17 @@ export const slottedPanelTop_TestOnly = (): string =>
     <footer slot="footer">Footer Example</footer>
   </calcite-shell> `;
 
-const contentBehindPanelBottomHtml: string[] = [];
-["float", "float-content"].forEach((d, i) => {
-  contentBehindPanelBottomHtml[i] = html`
-    <calcite-shell
-      content-behind
-      style="
+const contentBehindPanelBottomHtml = html`
+  <calcite-shell
+    content-behind
+    style="
       width:700px;
       height:700px;
       position:relative;
       "
-    >
-      <div
-        style="
+  >
+    <div
+      style="
         width:100%;
         height:100%;
         background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
@@ -808,15 +1091,13 @@ const contentBehindPanelBottomHtml: string[] = [];
         linear-gradient(-45deg, transparent 75%, #ccc 75%);
         background-size: 20px 20px;
         background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
-      ></div>
-      <calcite-shell-panel slot="panel-bottom" display-mode="${d}">${bottomPanelHTML}</calcite-shell-panel>
-    </calcite-shell>
-  `;
-});
-export const contentBehindPanelBottomFloat = (): string => contentBehindPanelBottomHtml[0];
-export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml[1];
+    ></div>
+    <calcite-shell-panel slot="panel-bottom" display-mode="float-content">${bottomPanelHTML}</calcite-shell-panel>
+  </calcite-shell>
+`;
+export const contentBehindPanelBottomFloatContent = (): string => contentBehindPanelBottomHtml;
 
-export const slottedPanelBottom_TestOnly = (): string => html`
+export const slottedPanelBottom = (): string => html`
   <calcite-shell
     style="
     width:100%;
@@ -902,7 +1183,7 @@ export const slottedPanelTopAndBottomAndSides = (): string => html`
   </calcite-shell>
 `;
 
-export const shellCenterRowWithActionBar_TestOnly = (): string =>
+export const shellCenterRowWithActionBar = (): string =>
   html`<calcite-shell content-behind>
     ${headerHTML}
     <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
@@ -912,7 +1193,7 @@ export const shellCenterRowWithActionBar_TestOnly = (): string =>
     ${footerHTML}
   </calcite-shell>`;
 
-export const shellPanelZIndex_TestOnly = (): string =>
+export const shellPanelZIndex = (): string =>
   html` <calcite-shell
       style="
 height:400px;
@@ -934,7 +1215,7 @@ position:relative;
       });
     </script>`;
 
-shellPanelZIndex_TestOnly.parameters = {
+shellPanelZIndex.parameters = {
   chromatic: { delay: 800 },
 };
 
@@ -1205,7 +1486,7 @@ resizableShellPanelsRTL.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const overlayDisplayMode_TestOnly = (): string =>
+export const overlayDisplayMode = (): string =>
   html`<calcite-shell
     style="
 width:800px;
@@ -1273,7 +1554,7 @@ position:relative;
           width-scale="m"
         >
           <calcite-action slot="header-actions-end" icon="x" text="Close"> </calcite-action>
-          <calcite-block heading="Title" description="County: {NAME}" collapsible icon-start="title">
+          <calcite-block heading="Title" description="County: {NAME}" expandable icon-start="title">
             <div class="combo-control">
               <div class="combo-button">
                 <button class="combo-button__main">County: {NAME}</button>
@@ -1281,8 +1562,8 @@ position:relative;
               </div>
             </div>
           </calcite-block>
-          <calcite-sortable-list>
-            <calcite-block drag-handle heading="Attributes" description="2/98" collapsible icon-start="feature-details">
+          <calcite-block-group drag-enabled label="Attributes">
+            <calcite-block drag-handle heading="Attributes" description="2/98" expandable icon-start="feature-details">
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <calcite-list drag-enabled>
                 <calcite-list-item
@@ -1302,7 +1583,7 @@ position:relative;
                 >
               </div>
             </calcite-block>
-            <calcite-block drag-handle heading="Image" collapsible icon-start="image">
+            <calcite-block drag-handle heading="Image" expandable icon-start="image">
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <section class="form-section">
                 <label>
@@ -1355,13 +1636,13 @@ position:relative;
               drag-handle
               heading="Text"
               description="Cool. he {expression/..."
-              collapsible
+              expandable
               icon-start="image"
             >
               <calcite-action label="ellipsis" slot="actions-end" icon="ellipsis" scale="m"></calcite-action>
               <button class="multiline-button">Cool. he {expression/expr1} population is {expression/expr2}%...</button>
             </calcite-block>
-          </calcite-sortable-list>
+          </calcite-block-group>
           <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
           <calcite-tooltip label="tooltip" reference-element="label-fab"> Add label class </calcite-tooltip>
         </calcite-flow-item>
@@ -1428,11 +1709,11 @@ position:relative;
     </calcite-shell-panel>
   </calcite-shell>`;
 
-overlayDisplayMode_TestOnly.parameters = {
+overlayDisplayMode.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const panelEndWithPositionStart_TestOnly = (): string =>
+export const panelEndWithPositionStart = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-end" width-scale="l" resizable>
       <calcite-action-bar slot="action-bar">
@@ -1443,7 +1724,7 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
       <calcite-panel heading="Map Options">
         <calcite-button width="half" slot="footer"> Next </calcite-button>
         <calcite-block
-          collapsible
+          expandable
           heading="Layer effects"
           description="Adjust blur, highlight, and more"
           icon-start="effects"
@@ -1453,7 +1734,7 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
           </calcite-notice>
         </calcite-block>
         <calcite-block
-          collapsible
+          expandable
           heading="Symbology"
           description="Select type, color, and transparency"
           icon-start="map-pin"
@@ -1467,10 +1748,10 @@ export const panelEndWithPositionStart_TestOnly = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelTopFloatHorizontal_TestOnly = (): string =>
+export const panelTopFloatHorizontal = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
-      <calcite-action-bar slot="action-bar" expand-disabled layout="horizontal" overlay-positioning="absolute">
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="horizontal" overlay-positioning="absolute">
         <calcite-action-group layout="horizontal" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
           <calcite-action icon="map" text="New" appearance="solid" scale="m"> </calcite-action>
@@ -1513,10 +1794,10 @@ export const panelTopFloatHorizontal_TestOnly = (): string =>
     </calcite-shell-panel>
   </calcite-shell>`;
 
-export const panelTopFloatVertical_TestOnly = (): string =>
+export const panelTopFloatVertical = (): string =>
   html`<calcite-shell>
     <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
-      <calcite-action-bar slot="action-bar" expand-disabled layout="vertical" overlay-positioning="absolute">
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="vertical" overlay-positioning="absolute">
         <calcite-action-group layout="vertical" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
           <calcite-action icon="map" text="New" appearance="solid" scale="m" text-enabled slot="menu-actions">
@@ -1579,7 +1860,7 @@ export const resizeHandlePositioning = (): string =>
         </calcite-action-group>
       </calcite-action-bar>
       <calcite-panel heading="Panel 1">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-panel heading="Main content"></calcite-panel>
@@ -1591,7 +1872,7 @@ export const resizeHandlePositioning = (): string =>
         </calcite-action-group>
       </calcite-action-bar>
       <calcite-panel heading="Panel 1">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
@@ -1616,7 +1897,7 @@ export const shellPanelWithTabs = (): string =>
       </calcite-action-bar>
       <calcite-panel heading="Layers" id="panel-start" closable>
         <calcite-block
-          collapsible
+          expandable
           heading="Symbology"
           description="Select type, color, and transparency"
           icon-start="map-pin"
@@ -1786,7 +2067,7 @@ export const popoverZIndex = (): string =>
         <calcite-action icon="layer" text="Layer"></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
 
@@ -1803,7 +2084,7 @@ export const popoverZIndex = (): string =>
         <calcite-action text="Configure" icon="popup"></calcite-action>
       </calcite-action-bar>
       <calcite-panel id="panel-end" closable closed>
-        <calcite-block heading="Block 1" collapsible></calcite-block>
+        <calcite-block heading="Block 1" expandable></calcite-block>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-panel heading="Content"></calcite-panel>
@@ -1842,7 +2123,7 @@ export const floatAllArrangements = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
         </calcite-action>
@@ -1864,7 +2145,7 @@ export const floatAllArrangements = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-top" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
         </calcite-action-group>
@@ -1881,7 +2162,7 @@ export const floatAllArrangements = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
         <calcite-action-group>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
@@ -1912,14 +2193,14 @@ export const resizableShellPanelWithDropdown = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s" focus-trap-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
         <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
         <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
-        <calcite-dropdown open width="m" overlay-positioning="fixed">
+        <calcite-dropdown width="m" overlay-positioning="fixed">
           <calcite-button slot="trigger">Select landform</calcite-button>
           <calcite-dropdown-group group-title="Natural places">
             <calcite-dropdown-item>Mountain</calcite-dropdown-item>
@@ -1933,6 +2214,15 @@ export const resizableShellPanelWithDropdown = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+resizableShellPanelWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const shell = canvasElement.querySelector<Shell["el"]>("calcite-shell")!;
+  const trigger = canvasElement.querySelector("calcite-button[slot='trigger']")!;
+
+  await shell.componentOnReady();
+  await userEvent.click(trigger);
+};
+resizableShellPanelWithDropdown.parameters = { chromatic: { delay: 0 } };
 
 export const floatAllArrangementsStart = (): string =>
   html` <calcite-shell content-behind>
@@ -1967,7 +2257,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
         </calcite-action>
@@ -1989,7 +2279,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-top" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action-group>
           <calcite-action text="Save" icon="save" indicator> </calcite-action>
         </calcite-action-group>
@@ -2006,7 +2296,7 @@ export const floatAllArrangementsStart = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all"  slot="panel-bottom" >
-      <calcite-action-bar slot="action-bar" expand-disabled>
+      <calcite-action-bar slot="action-bar" expand-toggle-disabled>
         <calcite-action text="Save" icon="save" indicator> </calcite-action>
         <calcite-action-group>
           <calcite-action icon="layers" text="Layers" active> </calcite-action>
@@ -2406,7 +2696,7 @@ export const customPanelWithOverflowingContent = (): string =>
     --calcite-shell-panel-min-height: auto;
     --calcite-shell-panel-height: auto;"
     >
-      <calcite-shell-panel display-mode="float" width-scale="l" slot="panel-bottom" style="height: 100%;">
+      <calcite-shell-panel display-mode="float-content" width-scale="l" slot="panel-bottom" style="height: 100%;">
         <calcite-panel heading="Panel">
           <div style="display: flex; flex-direction: row; height: 100%; width:100%">
             <calcite-action-bar
@@ -2713,7 +3003,7 @@ customPanelWithOverflowingContent.parameters = {
   },
 };
 
-const embeddedSlotsShellDecorator: DecoratorFunction = (storyFn) => html`
+const embeddedSlotsShellDecorator: Decorator = (storyFn) => html`
   <style>
     calcite-shell {
       position: relative;
@@ -2758,7 +3048,7 @@ export const embeddedSlots = (): string => html`
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -2921,6 +3211,69 @@ export const floatAllHeights = (): string => html`
   </div>
 `;
 
+export const cornerRadiusAndBoxShadow = (): string => html`
+  <style>
+    .corner-radius-and-box-shadow {
+      display: grid;
+      gap: var(--calcite-space-3xl);
+      padding: var(--calcite-space-3xl);
+    }
+    .corner-radius-and-box-shadow > calcite-shell {
+      position: relative;
+      inline-size: auto;
+      block-size: auto;
+    }
+  </style>
+  <div class="corner-radius-and-box-shadow">
+    <calcite-shell style="--calcite-shell-corner-radius: var(--calcite-size-xs);">
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-corner-radius: var(--calcite-size-xs);">
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell style="--calcite-shell-shadow: var(--calcite-shadow-md);">
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+    <calcite-shell
+      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
+    >
+      ${headerHTML}
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+      ${footerHTML}
+    </calcite-shell>
+    <calcite-shell
+      style="--calcite-shell-corner-radius: var(--calcite-size-xs); --calcite-shell-shadow: var(--calcite-shadow-md);"
+    >
+      <calcite-shell-panel slot="panel-start">${leadingPanelHTML}</calcite-shell-panel>
+      ${contentHTML}
+      <calcite-shell-panel slot="panel-bottom">${centerPanelHTML}</calcite-shell-panel>
+      <calcite-shell-panel slot="panel-end">${trailingPanelHTML}</calcite-shell-panel>
+    </calcite-shell>
+  </div>
+`;
+
 embeddedSlotsInteractive.args = {
   dialogPlacement: "center",
   dialogHeight: "300px",
@@ -2929,7 +3282,7 @@ embeddedSlotsInteractive.args = {
 embeddedSlotsInteractive.argTypes = {
   dialogPlacement: {
     control: { type: "select" },
-    options: dialogPlacements,
+    options: dialogPlacement.values,
   },
   dialogWidth: {
     control: "text",

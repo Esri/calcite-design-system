@@ -37,11 +37,11 @@ const config: Omit<Config, "content"> = {
       "danger-hover": "var(--calcite-color-status-danger-hover)",
       "danger-press": "var(--calcite-color-status-danger-press)",
       background: {
-        background: "var(--calcite-color-background)",
+        background: "var(--calcite-theme-color-surface-1, var(--calcite-color-background))",
         foreground: {
-          1: "var(--calcite-color-foreground-1)",
-          2: "var(--calcite-color-foreground-2)",
-          3: "var(--calcite-color-foreground-3)",
+          1: "var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))",
+          2: "var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))",
+          3: "var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))",
         },
       },
       color: {
@@ -141,7 +141,7 @@ const config: Omit<Config, "content"> = {
     fontWeight: {
       // assets/styles/_type
       light: "var(--calcite-font-weight-light)",
-      normal: "var(--calcite-font-weight-normal)",
+      normal: "var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal))",
       medium: "var(--calcite-font-weight-medium)",
       bold: "var(--calcite-font-weight-bold)",
     },
@@ -227,13 +227,10 @@ const config: Omit<Config, "content"> = {
         disabled: "var(--calcite-opacity-disabled)",
       },
       spacing: {
-        0.5: "0.125rem",
-        2.5: "0.625rem",
-        3.5: "0.875rem",
-        4.5: "1.125rem",
-        9: "2.25rem",
-        11: "2.75rem",
-        13: "3.25rem",
+        2.5: "var(--calcite-space-sm-plus)", // Deprecated in v1.1.1, removal target v2.0.0 - Use the `--calcite-space-sm-plus` token directly instead.
+        4.5: "1.125rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
+        11: "2.75rem", // Deprecated in v1.1.1, removal target v2.0.0 - Not intended for sizing, use `--calcite-size-lg` instead.
+        13: "3.25rem", // Deprecated in v1.1.1, removal target v2.0.0 - No longer needed.
       },
       transitionProperty: {
         margin: "margin",
@@ -276,20 +273,32 @@ const config: Omit<Config, "content"> = {
         ".focus-outset": {
           outline:
             "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "var(--calcite-theme-space-base, var(--calcite-spacing-base))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".focus-inset": {
           outline:
             "var(--calcite-border-width-md) solid var(--calcite-color-focus, var(--calcite-ui-focus-color, var(--calcite-color-brand)))",
-          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "calc(-1 * var(--calcite-theme-space-base, var(--calcite-spacing-base)))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".focus-outset-danger": {
           outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("var(--calcite-spacing-base)", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "var(--calcite-theme-space-base, var(--calcite-spacing-base))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".focus-inset-danger": {
           outline: "var(--calcite-border-width-md) solid var(--calcite-color-status-danger)",
-          "outline-offset": invert("calc(-1 * var(--calcite-spacing-base))", "--calcite-offset-invert-focus"),
+          "outline-offset": invert(
+            "calc(-1 * var(--calcite-theme-space-base, var(--calcite-spacing-base)))",
+            "--calcite-offset-invert-focus",
+          ),
         },
         ".transition-default": {
           // we explicitly list these properties to avoid animating properties that are not intended to be animated and that might affect performance

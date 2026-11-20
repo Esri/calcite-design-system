@@ -1,38 +1,56 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-navigation-accent-color: Specifies the components's border color when `active`.
- * @prop --calcite-navigation-user-avatar-corner-radius: Specifies the component's avatar corner radius.
- * @prop --calcite-navigation-user-avatar-color: Specifies the component's avatar icon color.
- * @prop --calcite-navigation-background-color: Specifies the component's background color.
- * @prop --calcite-navigation-user-full-name-text-color: Specifies the component's `fullName` text color.
- * @prop --calcite-navigation-user-name-text-color: Specifies the component's `username` text color.
- *
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-navigation-user-background-color
+// --calcite-internal-navigation-user-full-name-font-size
+// --calcite-internal-navigation-user-full-name-line-height
+// --calcite-internal-navigation-user-padding-inline
+// --calcite-internal-navigation-user-username-font-size
+// --calcite-internal-navigation-user-username-line-height
 
-@use "../../styles/includes";
+@use "../../styles/shared";
+
+:host([scale="s"]) {
+  --calcite-internal-navigation-user-padding-inline: var(--calcite-space-md);
+  --calcite-internal-navigation-user-full-name-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-sm);
+  --calcite-internal-navigation-user-full-name-line-height: var(--calcite-space-lg);
+  --calcite-internal-navigation-user-username-line-height: var(--calcite-space-lg);
+}
+
+:host([scale="m"]) {
+  --calcite-internal-navigation-user-padding-inline: var(--calcite-space-lg);
+  --calcite-internal-navigation-user-full-name-font-size: var(--calcite-font-size-relative-md);
+  --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-base);
+  --calcite-internal-navigation-user-full-name-line-height: var(--calcite-space-xl);
+  --calcite-internal-navigation-user-username-line-height: var(--calcite-space-lg);
+}
+
+:host([scale="l"]) {
+  --calcite-internal-navigation-user-padding-inline: var(--calcite-space-xl);
+  --calcite-internal-navigation-user-full-name-font-size: var(--calcite-font-size-relative-xl);
+  --calcite-internal-navigation-user-username-font-size: var(--calcite-font-size-relative-lg);
+  --calcite-internal-navigation-user-full-name-line-height: var(--calcite-space-2xl);
+  --calcite-internal-navigation-user-username-line-height: var(--calcite-space-2xl);
+}
 
 :host {
-  @apply inline-flex outline-none;
+  @include shared.outline-none();
+
+  display: inline-flex;
   & .button {
-    @apply flex
-      m-0
-      items-center
-      justify-center
-      cursor-pointer
-      transition-default
-      focus-base
-      text-0h;
+    @include shared.text-0h();
+
+    display: flex;
+    margin: var(--calcite-space-none);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline-color: var(--calcite-color-transparent);
     font-family: inherit;
     border: none;
+    padding-inline: 0;
     background-color: var(
       --calcite-navigation-background-color,
       var(--calcite-internal-navigation-user-background-color, var(--calcite-color-transparent))
@@ -42,48 +60,63 @@
 }
 
 .text-container {
-  @apply flex
-  flex-col
-  text-start
-  px-4
-  mt-0.5;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-block-start: var(--calcite-space-base);
+  padding-inline: var(--calcite-internal-navigation-user-padding-inline);
 }
 
 calcite-avatar {
-  @apply px-4;
   --calcite-avatar-corner-radius: var(--calcite-navigation-user-avatar-corner-radius);
   --calcite-avatar-color: var(--calcite-navigation-user-avatar-color);
+  padding-inline: var(--calcite-internal-navigation-user-padding-inline);
 }
 
 calcite-avatar ~ .text-container {
-  @apply ps-0;
+  padding-inline-start: var(--calcite-space-none);
 }
 
 .full-name {
-  @apply ms-0 text-0 font-medium;
+  margin-inline-start: var(--calcite-space-none);
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-navigation-user-full-name-text-color, var(--calcite-color-text-1));
+  font-size: var(--calcite-internal-navigation-user-full-name-font-size);
+  padding-block-start: var(--calcite-space-2xs);
+  line-height: var(--calcite-internal-navigation-user-full-name-line-height);
+}
+
+.standalone {
+  padding-block-start: 0;
 }
 
 .username {
-  font-size: var(--calcite-font-size--1);
+  font-size: var(--calcite-internal-navigation-user-username-font-size);
   color: var(--calcite-navigation-user-name-text-color, var(--calcite-color-text-2));
+  line-height: var(--calcite-internal-navigation-user-username-line-height);
 }
 
 :host(:hover) .button,
 :host(:focus) .button {
-  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-2);
+  --calcite-internal-navigation-user-background-color: var(
+    --calcite-theme-color-surface-3,
+    var(--calcite-color-foreground-2)
+  );
 }
 
 :host(:focus) .button {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 :host(:active) .button {
-  --calcite-internal-navigation-user-background-color: var(--calcite-color-foreground-3);
+  --calcite-internal-navigation-user-background-color: var(
+    --calcite-theme-color-surface-4,
+    var(--calcite-color-foreground-3)
+  );
 }
 
 :host([active]) .button {
   border-block-end-color: var(--calcite-navigation-accent-color, var(--calcite-color-brand));
 }
 
-@include includes.base-component();
+@include shared.base-component();

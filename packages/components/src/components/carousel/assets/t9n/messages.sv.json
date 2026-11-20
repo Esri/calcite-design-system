@@ -4,5 +4,6 @@
   "play": "Spela",
   "pause": "Pausa",
   "carousel": "Karusell",
-  "carouselItemProgress": "Förloppsindikator för karusellobjekt"
+  "carouselItemProgress": "Förloppsindikator för karusellobjekt",
+  "paginationStatus": "Objekt {current} av {total}"
 }

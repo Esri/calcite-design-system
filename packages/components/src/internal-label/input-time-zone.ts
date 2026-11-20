@@ -1,4 +1,6 @@
 import { html } from "../../support/formatting";
+import "../components/icon/icon";
+import "../components/input-time-zone/input-time-zone";
 
 export const inputTimeZone = html`<calcite-input-time-zone scale="m" label-text="Label text" required
   ><calcite-icon slot="label-content" icon="banana" scale="m"></calcite-icon

@@ -2,130 +2,130 @@
   "core": {
     "opacity": {
       "0": {
-        "value": "0%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "0%"
       },
       "4": {
-        "value": "4%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "4%"
       },
       "8": {
-        "value": "8%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "8%"
       },
       "10": {
-        "value": "10%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "10%"
       },
       "12": {
-        "value": "12%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "12%"
       },
       "16": {
-        "value": "16%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "16%"
       },
       "20": {
-        "value": "20%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "20%"
       },
       "30": {
-        "value": "30%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "30%"
       },
       "40": {
-        "value": "40%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "40%"
       },
       "50": {
-        "value": "50%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "50%"
       },
       "60": {
-        "value": "60%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "60%"
       },
       "70": {
-        "value": "70%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "70%"
       },
       "80": {
-        "value": "80%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "80%"
       },
       "85": {
-        "value": "85%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "85%"
       },
       "90": {
-        "value": "90%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "90%"
       },
       "92": {
-        "value": "92%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "92%"
       },
       "96": {
-        "value": "96%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "96%"
       },
       "100": {
-        "value": "100%",
-        "type": "opacity",
         "attributes": {
           "category": "opacity"
-        }
+        },
+        "$type": "opacity",
+        "$value": "100%"
       }
     }
   }

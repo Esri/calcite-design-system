@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const SLOTS = {
   trigger: "trigger",
 };
@@ -8,9 +10,7 @@ export const CSS = {
   triggerContainer: "trigger-container",
 };
 
-const idPrefix = "calcite-dropdown";
-
-export const IDS = {
-  menuButton: (id: string) => `${idPrefix}-${id}-menubutton`,
-  menu: (id: string) => `${idPrefix}-${id}-menu`,
-} as const;
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isDropdown = isTag("calcite-dropdown");

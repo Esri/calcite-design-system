@@ -1,33 +1,37 @@
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { iconNames } from "../../../.storybook/helpers";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { Slider } from "./slider";
-import type { Slider as HTMLCalciteSliderElement } from "./slider";
+import type { Slider } from "./slider";
+import "../label/label"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./slider"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale, status } = ATTRIBUTES;
+const { scale, sliderFillPlacement, status } = ATTRIBUTES;
 
-interface SliderStoryArgs
-  extends Pick<
-    Slider,
-    | "min"
-    | "max"
-    | "value"
-    | "step"
-    | "minLabel"
-    | "disabled"
-    | "labelHandles"
-    | "labelTicks"
-    | "ticks"
-    | "pageStep"
-    | "precise"
-    | "mirrored"
-    | "snap"
-    | "scale"
-    | "status"
-    | "validationMessage"
-    | "validationIcon"
-  > {
+interface SliderStoryArgs extends Pick<
+  Slider,
+  | "min"
+  | "max"
+  | "maxLabel"
+  | "value"
+  | "step"
+  | "fillPlacement"
+  | "minLabel"
+  | "disabled"
+  | "labelText"
+  | "labelHandles"
+  | "labelTicks"
+  | "ticks"
+  | "pageStep"
+  | "precise"
+  | "required"
+  | "mirrored"
+  | "snap"
+  | "scale"
+  | "status"
+  | "validationIcon"
+  | "validationMessage"
+> {
   temperature: string;
 }
 
@@ -38,13 +42,17 @@ export default {
     max: 100,
     value: 50,
     step: 1,
+    maxLabel: "",
+    fillPlacement: "all",
     minLabel: "Temperature",
     disabled: false,
+    labelText: "Label text",
     labelHandles: false,
     labelTicks: false,
     ticks: 0,
     pageStep: 5,
     precise: false,
+    required: false,
     mirrored: false,
     snap: true,
     scale: scale.defaultValue,
@@ -65,6 +73,10 @@ export default {
       options: iconNames,
       control: { type: "select" },
     },
+    fillPlacement: {
+      options: sliderFillPlacement.values,
+      control: { type: "select" },
+    },
   },
   parameters: {
     chromatic: {
@@ -79,22 +91,47 @@ export const simple = (args: SliderStoryArgs): string => html`
   <calcite-slider
     min="${args.min}"
     max="${args.max}"
+    max-label="${args.maxLabel}"
     value="${args.value}"
     step="${args.step}"
+    fill-placement="${args.fillPlacement}"
     min-label="${args.minLabel}"
     ${boolean("disabled", args.disabled)}
+    ${optionalAttribute("label-text", args.labelText)}
     ${boolean("label-handles", args.labelHandles)}
     ${boolean("label-ticks", args.labelTicks)}
     ticks="${args.ticks}"
     page-step="${args.pageStep}"
     ${boolean("precise", args.precise)}
+    ${boolean("required", args.required)}
     ${boolean("mirrored", args.mirrored)}
     ${boolean("snap", args.snap)}
     scale="${args.scale}"
     status="${args.status}"
     validation-message="${args.validationMessage}"
-    validation-icon="${args.validationIcon}"
+    ${optionalAttribute("validation-icon", args.validationIcon)}
   ></calcite-slider>
+`;
+
+export const WrappedInLabel = (): string => html`
+  <style>
+    calcite-slider {
+      /* revert global/preview-level width – see https://github.com/Esri/calcite-design-system/blob/c0547b81ef742b3590aaf95423c46ec26283039e/packages/components/.storybook/preview-head.html#L12-L15 */
+      width: revert-layer;
+    }
+  </style>
+  <calcite-label>
+    Block
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+  <calcite-label layout="inline">
+    Inline
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
+  <calcite-label layout="inline-space-between">
+    Inline space between
+    <calcite-slider value="50"></calcite-slider>
+  </calcite-label>
 `;
 
 export const range = (): string => html`
@@ -112,7 +149,7 @@ export const range = (): string => html`
   ></calcite-slider>
 `;
 
-export const darkModeMirroredRange_TestOnly = (): string => html`
+export const darkModeMirroredRange = (): string => html`
   <calcite-slider
     class="calcite-mode-dark"
     mirrored
@@ -132,11 +169,11 @@ export const darkModeMirroredRange_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-darkModeMirroredRange_TestOnly.story = {
+darkModeMirroredRange.story = {
   parameters: { themes: modesDarkDefault },
 };
 
-export const rangeLabeledTicks_TestOnly = (): string => html`
+export const rangeLabeledTicks = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -151,11 +188,11 @@ export const rangeLabeledTicks_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-rangeLabeledTicks_TestOnly.parameters = {
+rangeLabeledTicks.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
+export const rangeLabeledTicksOverlappingAtMax = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -170,11 +207,11 @@ export const rangeLabeledTicksOverlappingAtMax_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-rangeLabeledTicksOverlappingAtMax_TestOnly.parameters = {
+rangeLabeledTicksOverlappingAtMax.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
+export const rangeLabeledTicksOverlappingAtMin = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -189,11 +226,11 @@ export const rangeLabeledTicksOverlappingAtMin_TestOnly = (): string => html`
   ></calcite-slider>
 `;
 
-rangeLabeledTicksOverlappingAtMin_TestOnly.parameters = {
+rangeLabeledTicksOverlappingAtMin.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html`
+export const rangeLabeledTicksEdgePositioningAtMax = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -208,11 +245,11 @@ export const rangeLabeledTicksEdgePositioningAtMax_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
-rangeLabeledTicksEdgePositioningAtMax_TestOnly.parameters = {
+rangeLabeledTicksEdgePositioningAtMax.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
-export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html`
+export const rangeLabeledTicksEdgePositioningAtMin = (): string => html`
   <calcite-slider
     min="5"
     min-label="Temperature, lower bound"
@@ -227,7 +264,7 @@ export const rangeLabeledTicksEdgePositioningAtMin_TestOnly = (): string => html
   ></calcite-slider>
 `;
 
-rangeLabeledTicksEdgePositioningAtMin_TestOnly.parameters = {
+rangeLabeledTicksEdgePositioningAtMin.parameters = {
   chromatic: { diffThreshold: 1 },
 };
 
@@ -238,7 +275,7 @@ function createHistogramSlider({
 }: {
   range: [number, number];
   values: [number, number];
-  histogram: HTMLCalciteSliderElement["histogram"];
+  histogram: Slider["histogram"];
 }) {
   const slider = document.createElement("calcite-slider");
   slider.min = range[0];
@@ -250,7 +287,7 @@ function createHistogramSlider({
   return slider;
 }
 
-export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const Histogram = (): HTMLDivElement => {
   function createTitle(title: string) {
     const titleElement = document.createElement("h1");
     titleElement.textContent = title;
@@ -410,7 +447,7 @@ export const Histogram = (): HTMLCalciteSliderElement["el"]["el"] => {
   return sliderContainer;
 };
 
-export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement["el"]["el"] => {
+export const darkModeHistogramRTL = (): Slider["el"] => {
   const slider = createHistogramSlider({
     range: [0, 100],
     values: [25, 75],
@@ -428,11 +465,11 @@ export const darkModeHistogramRTL_TestOnly = (): HTMLCalciteSliderElement["el"][
   return slider;
 };
 
-darkModeHistogramRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeHistogramRTL.parameters = { themes: modesDarkDefault };
 
-export const disabled_TestOnly = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
+export const disabled = (): string => html`<calcite-slider disabled value="5"></calcite-slider>`;
 
-export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
+export const wordBreakDoesNotAffectLabels = (): string =>
   html`<calcite-slider
     min="-100"
     max="100"
@@ -445,9 +482,9 @@ export const wordBreakDoesNotAffectLabels_TestOnly = (): string =>
     style="word-break: break-all"
   ></calcite-slider>`;
 
-export const WithLabelHandlesAndNoValue_TestOnly = (): string => html` <calcite-slider max="750"></calcite-slider> `;
+export const WithLabelHandlesAndNoValue = (): string => html` <calcite-slider max="750"></calcite-slider> `;
 
-export const WithLargeFontSize_TestOnly = (): string =>
+export const WithLargeFontSize = (): string =>
   html`<html lang="en">
     <head>
       <style>
@@ -562,7 +599,7 @@ export const WithLargeFontSize_TestOnly = (): string =>
     </body>
   </html>`;
 
-export const maxTickRendering_TestOnly = (): string => html`
+export const maxTickRendering = (): string => html`
   <style>
     calcite-slider {
       width: 60vw;
@@ -583,7 +620,7 @@ export const maxTickRendering_TestOnly = (): string => html`
   <calcite-slider min="-1000" max="1000" ticks="10"></calcite-slider>
 `;
 
-export const rendersWhenTrackRelatedPropChanges_TestOnly = (): string => html`
+export const rendersWhenTrackRelatedPropChanges = (): string => html`
   <calcite-slider id="example-slider" label-ticks max="32" value="24" min="16" snap step="8" ticks="8"></calcite-slider>
   <script>
     (async () => {
@@ -600,11 +637,11 @@ export const rendersWhenTrackRelatedPropChanges_TestOnly = (): string => html`
   </script>
 `;
 
-rendersWhenTrackRelatedPropChanges_TestOnly.parameters = {
+rendersWhenTrackRelatedPropChanges.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const spaceGroupSeparatorNoBreak_TestOnly = (): string => html`
+export const spaceGroupSeparatorNoBreak = (): string => html`
   <calcite-slider
     lang="ru"
     value="1000"
@@ -836,7 +873,7 @@ customLabelsAndTicks.parameters = {
   chromatic: { delay: 500 },
 };
 
-export const validationMessageAllScales_TestOnly = (): string => html`
+export const validationMessageAllScales = (): string => html`
   <style>
     .container {
       display: flex;
@@ -997,4 +1034,53 @@ export const validationMessageAllScales_TestOnly = (): string => html`
       label-handles
     ></calcite-slider>
   </div>
+`;
+
+export const negativeSignHandlingForDifferentNumberingSystems = (): string => html`
+  <calcite-slider
+    label-text="numbering-system=latn"
+    numbering-system="latn"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="en"
+    label-handles
+    label-text="dir=rtl, numbering-system=latn"
+    numbering-system="latn"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="-5"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="ar"
+    label-text="numbering-system=arab"
+    numbering-system="arab"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
+  <br />
+  <calcite-slider
+    dir="rtl"
+    lang="ar"
+    label-text="numbering-system=arabext"
+    numbering-system="arabext"
+    label-ticks
+    min="-10"
+    max="10"
+    ticks="5"
+    value="0"
+  ></calcite-slider>
 `;

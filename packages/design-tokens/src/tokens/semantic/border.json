@@ -1,39 +1,49 @@
 {
-  "semantic": {
-    "border": {
-      "width": {
-        "none": {
-          "value": "{core.size.default.none}",
-          "type": "borderWidth",
-          "attributes": {
-            "category": "border",
-            "group": "width"
-          }
+  "border": {
+    "width": {
+      "none": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
         },
-        "sm": {
-          "value": "{core.size.default.1}",
-          "type": "borderWidth",
-          "attributes": {
-            "category": "border",
-            "group": "width"
-          }
+        "$extensions": {
+          "calcite.theme": true
         },
-        "md": {
-          "value": "{core.size.default.2}",
-          "type": "borderWidth",
-          "attributes": {
-            "category": "border",
-            "group": "width"
-          }
+        "$type": "borderWidth",
+        "$value": "{core.size.default.none}"
+      },
+      "sm": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
         },
-        "lg": {
-          "value": "{core.size.default.4}",
-          "type": "borderWidth",
-          "attributes": {
-            "category": "border",
-            "group": "width"
-          }
-        }
+        "$extensions": {
+          "calcite.theme": true
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.1}"
+      },
+      "md": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
+        },
+        "$extensions": {
+          "calcite.theme": true
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.2}"
+      },
+      "lg": {
+        "attributes": {
+          "category": "border",
+          "group": "width"
+        },
+        "$extensions": {
+          "calcite.theme": true
+        },
+        "$type": "borderWidth",
+        "$value": "{core.size.default.4}"
       }
     }
   }

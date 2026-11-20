@@ -1,6 +1,24 @@
 import type { FormatFnArguments, Dictionary, TransformedToken } from "style-dictionary/types";
 import { formattedVariables } from "style-dictionary/utils";
-import type { Stylesheet } from "../../../types/interfaces.d.ts";
+import type { PlatformConfig, Stylesheet } from "../../../types.ts";
+
+export function createBlock(selector: string, declarations: string[]): string {
+  const content = declarations
+    .join("\n")
+    .split("\n")
+    .map((line) => `  ${line}`)
+    .join("\n");
+
+  return `${selector} {\n${content}\n}`;
+}
+
+export function getStylesheetFormat(platform: PlatformConfig): Stylesheet {
+  if (platform.options.platform !== "css" && platform.options.platform !== "scss") {
+    throw new Error("Only css and scss platforms are supported.");
+  }
+
+  return platform.options.platform;
+}
 
 /**
  * Helper function to remove extraneous token attributes

@@ -1,3 +1,4 @@
+import "../components/color-picker/color-picker";
 import { html } from "../../support/formatting";
 
 export const colorPickerTokens = {
@@ -23,3 +24,5 @@ export const colorPickerTokens = {
 };
 
 export const colorPicker = html`<calcite-color-picker alpha-channel></calcite-color-picker>`;
+
+export const colorPickerFieldDisabled = html`<calcite-color-picker field-disabled></calcite-color-picker>`;

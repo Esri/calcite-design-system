@@ -1,28 +1,51 @@
 import type { Filter, TransformedToken, ValueTransform } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../../types.ts";
 
-const correctedValueTypes = ["shadow"] as const;
+const correctedValueTypes = ["boxShadow"] as const;
 const filterTypes: Filter["filter"] = (token) =>
-  correctedValueTypes.includes(token.type) && typeof token.value === "object";
+  correctedValueTypes.includes(token.$type) && typeof token.$value === "object";
 
-function fixableShadowToken(
-  token: TransformedToken,
-): token is TransformedToken & { value: { offsetX: number; offsetY: number } } {
-  return (
-    token.type === "shadow" && typeof token.value === "object" && "offsetX" in token.value && "offsetY" in token.value
-  );
+type ShadowWithOffset = {
+  offsetX: string | number;
+  offsetY: string | number;
+  x?: string | number;
+  y?: string | number;
+};
+
+type NormalizedShadow = Omit<ShadowWithOffset, "offsetX" | "offsetY"> & {
+  x: string | number;
+  y: string | number;
+};
+
+function hasShadowOffset(value: unknown): value is ShadowWithOffset {
+  return typeof value === "object" && value !== null && "offsetX" in value && "offsetY" in value;
+}
+
+function fixableShadowToken(token: TransformedToken): token is TransformedToken & { $type: "boxShadow" } {
+  return token.$type === "boxShadow";
+}
+
+function normalizeShadowOffset(shadow: ShadowWithOffset): NormalizedShadow {
+  const { offsetX, offsetY, ...rest } = shadow;
+
+  return {
+    ...rest,
+    x: offsetX,
+    y: offsetY,
+  };
 }
 
 const transformValueCorrectPropName: ValueTransform["transform"] = (token) => {
   if (fixableShadowToken(token)) {
-    token.value["x"] = token.value.offsetX;
-    delete token.value.offsetX;
-    token.value["y"] = token.value.offsetY;
-    delete token.value.offsetY;
+    token.$value = Array.isArray(token.$value)
+      ? token.$value.map((value) => (hasShadowOffset(value) ? normalizeShadowOffset(value) : value))
+      : hasShadowOffset(token.$value)
+        ? normalizeShadowOffset(token.$value)
+        : token.$value;
   }
 
-  return token.value;
+  return token.$value;
 };
 
 export const registerValueCorrectPropName: RegisterFn = () => {

@@ -1,10 +1,7 @@
+import { isTag } from "../resources";
 import Color from "color";
-import {
-  calciteSpacingFixedSm,
-  calciteSpacingFixedMd,
-  calciteSpacingFixedXl,
-} from "@esri/calcite-design-tokens/dist/es6/global";
-import { IconName } from "../icon/interfaces";
+import { calciteSpaceSm, calciteSpaceMd, calciteSpaceLg } from "@esri/calcite-design-tokens/dist/es6/semantic.js";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   channel: "channel",
@@ -64,7 +61,7 @@ export const OPACITY_LIMITS = {
 
 export const STATIC_DIMENSIONS = {
   s: {
-    gap: parseInt(calciteSpacingFixedSm),
+    gap: Math.floor(parseFloat(calciteSpaceSm) * 16),
     slider: {
       height: 12,
     },
@@ -77,7 +74,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 200,
   },
   m: {
-    gap: parseInt(calciteSpacingFixedMd),
+    gap: Math.floor(parseFloat(calciteSpaceMd) * 16),
     slider: {
       height: 12,
     },
@@ -90,7 +87,7 @@ export const STATIC_DIMENSIONS = {
     minWidth: 240,
   },
   l: {
-    gap: parseInt(calciteSpacingFixedXl),
+    gap: Math.floor(parseFloat(calciteSpaceLg) * 16),
     slider: {
       height: 12,
     },
@@ -110,3 +107,8 @@ export const ICONS: Record<string, IconName> = {
   minus: "minus",
   plus: "plus",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isColorPicker = isTag("calcite-color-picker");

@@ -1,14 +1,12 @@
-// @ts-strict-ignore
-import { TemplateResult } from "lit-html";
 import { h } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
-import { queryActions } from "../action-bar/utils";
+import { TemplateResult } from "lit";
 import { SLOTS as ACTION_GROUP_SLOTS } from "../action-group/resources";
-import { Position, Scale } from "../interfaces";
+import { Position, Scale } from "../types";
 import type { Action } from "../action/action";
 import type { Tooltip } from "../tooltip/tooltip";
 import type { ActionGroup } from "../action-group/action-group";
 import type { ActionMenu } from "../action-menu/action-menu";
+import type { Direction } from "../../utils/dom";
 
 interface ExpandToggleProps {
   expanded: boolean;
@@ -16,11 +14,12 @@ interface ExpandToggleProps {
   collapseText: string;
   expandLabel: string;
   collapseLabel: string;
+  direction: Direction;
   el: HTMLElement;
-  position: Position;
+  position?: Extract<"start" | "end", Position>;
   tooltip?: Tooltip["el"];
   toggle: () => void;
-  ref?: (el: HTMLElement) => void;
+  ref?: (el?: Action["el"]) => void;
   scale?: Scale;
 }
 
@@ -29,23 +28,23 @@ const ICONS = {
   chevronsRight: "chevrons-right",
 } as const;
 
-function getCalcitePosition(position: Position, el: HTMLElement): Position {
+function getCalcitePosition(el: HTMLElement, position?: Position): Position {
   return position || el.closest("calcite-shell-panel")?.position || "start";
 }
 
-export function toggleChildActionText({
-  el,
+export function toggleActionBarChildActionText({
+  actions,
+  expandables,
   expanded,
 }: {
-  el: HTMLElement;
+  actions: Action["el"][];
+  expandables: (ActionGroup["el"] | ActionMenu["el"])[];
   expanded: boolean;
 }): void {
-  queryActions(el)
+  actions
     .filter((el) => el.slot !== ACTION_GROUP_SLOTS.menuActions)
     .forEach((action) => (action.textEnabled = expanded));
-  el.querySelectorAll("calcite-action-group, calcite-action-menu").forEach(
-    (el: ActionMenu["el"] | ActionGroup["el"]) => (el.expanded = expanded),
-  );
+  expandables.forEach((item) => (item.expanded = expanded));
 }
 
 const setTooltipReference = ({
@@ -54,13 +53,13 @@ const setTooltipReference = ({
   expanded,
   ref,
 }: {
-  tooltip: Tooltip["el"];
-  referenceElement: Action["el"];
+  tooltip?: Tooltip["el"];
+  referenceElement?: Action["el"];
   expanded: boolean;
-  ref?: (el: HTMLElement) => void;
-}): Action["el"] => {
+  ref?: (el?: Action["el"]) => void;
+}): Action["el"] | undefined => {
   if (tooltip) {
-    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : null;
+    tooltip.referenceElement = !expanded && referenceElement ? referenceElement : undefined;
   }
 
   if (ref) {
@@ -71,11 +70,12 @@ const setTooltipReference = ({
 };
 
 export const ExpandToggle = ({
+  collapseText,
+  collapseLabel,
+  direction,
   expanded,
   expandText,
-  collapseText,
   expandLabel,
-  collapseLabel,
   toggle,
   el,
   position,
@@ -83,7 +83,7 @@ export const ExpandToggle = ({
   ref,
   scale,
 }: ExpandToggleProps): TemplateResult => {
-  const rtl = getElementDir(el) === "rtl";
+  const rtl = direction === "rtl";
 
   const text = expanded ? collapseText : expandText;
   const label = expanded ? collapseLabel : expandLabel;
@@ -93,7 +93,7 @@ export const ExpandToggle = ({
     icons.reverse();
   }
 
-  const end = getCalcitePosition(position, el) === "end";
+  const end = getCalcitePosition(el, position) === "end";
   const expandIcon = end ? icons[1] : icons[0];
   const collapseIcon = end ? icons[0] : icons[1];
 
@@ -104,13 +104,13 @@ export const ExpandToggle = ({
       id="expand-toggle"
       label={label}
       onClick={toggle}
-      ref={(referenceElement): Action["el"] =>
+      ref={(referenceElement): Action["el"] | undefined =>
         setTooltipReference({ tooltip, referenceElement, expanded, ref })
       }
       scale={scale}
       text={text}
       textEnabled={expanded}
-      title={!expanded && !tooltip ? text : null}
+      title={!expanded && !tooltip ? text : undefined}
     />
   );
 

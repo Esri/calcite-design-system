@@ -1,15 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-stepper-bar-gap: Specifies the space between items in the component.
- * @prop --calcite-stepper-bar-inactive-fill-color: Specifies the fill color of items in the component.
- * @prop --calcite-stepper-bar-active-fill-color: Specifies the fill color of active items in the component.
- * @prop --calcite-stepper-bar-complete-fill-color: Specifies the fill color of complete items in the component.
- * @prop --calcite-stepper-bar-error-fill-color: Specifies the fill color of error items in the component.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -19,7 +7,7 @@
 // --calcite-internal-stepper-action-inline-size
 // --calcite-internal-stepper-item-spacing-unit-s
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host([scale="s"]) {
   --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
@@ -42,22 +30,23 @@
 }
 
 :host {
-  @apply flex;
+  display: flex;
 }
 
 .container {
-  @apply relative
-    flex
-    w-full
-    min-w-fit
-    flex-row
-    flex-wrap
-    items-stretch
-    justify-between;
+  position: relative;
+  display: flex;
+  inline-size: 100%;
+  min-inline-size: fit-content;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: space-between;
 }
 
 :host([layout="vertical"]) .container {
-  @apply flex-auto flex-col;
+  flex: 1 1 auto;
+  flex-direction: column;
 }
 
 :host([layout="horizontal"]),
@@ -65,11 +54,12 @@
   .container {
     display: grid;
     // grid-templates-columns are dynamically generated
-    // grid-templates-rows are dynamically generated
+    // grid-templates-areas are dynamically generated
     grid-template-areas:
       "items"
       "content";
     gap: theme("spacing.2") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    grid-template-rows: auto 1fr;
   }
 }
 
@@ -88,30 +78,38 @@
 }
 
 :host([layout="horizontal"]) .container.single-view {
-  @apply flex  grid-cols-none;
+  display: flex;
+  grid-template-columns: none;
 }
 
 .action-icon {
-  @apply flex relative grow-0;
+  display: flex;
+  position: relative;
+  flex-grow: 0;
   block-size: var(--calcite-internal-stepper-action-block-size);
   inline-size: var(--calcite-internal-stepper-action-inline-size);
 }
 
 .action-container {
-  @apply absolute flex justify-between;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
   padding-block: 0.25rem;
   inline-size: 100%;
 }
 
 @mixin step-bar {
   .step-bar {
-    @apply flex;
+    display: flex;
     block-size: 100%;
     inline-size: 100%;
   }
 
   .step-bar-container {
-    @apply flex absolute justify-between items-start;
+    display: flex;
+    position: absolute;
+    justify-content: space-between;
+    align-items: flex-start;
     block-size: 0.125rem;
     inline-size: 100%;
     gap: var(--calcite-stepper-bar-gap, var(--calcite-internal-step-bar-gap, 0.5rem));
@@ -142,4 +140,4 @@
 }
 
 @include step-bar();
-@include includes.base-component();
+@include shared.base-component();

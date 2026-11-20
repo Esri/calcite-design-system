@@ -1,26 +1,27 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
+import { useDirection } from "@arcgis/lumina/controllers";
 import {
   focusElementInGroup,
-  getElementDir,
   slotChangeGetAssignedElements,
   whenAnimationDone,
 } from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { createObserver } from "../../utils/observers";
 import { breakpoints } from "../../utils/responsive";
+import { numberStringFormatter } from "../../utils/locale";
 import { getRoundRobinIndex } from "../../utils/array";
+import { CSS_UTILITY } from "../../utils/resources";
 import { useT9n } from "../../controllers/useT9n";
-import type { Action } from "../action/action";
 import type { CarouselItem } from "../carousel-item/carousel-item";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { centerItemsByBreakpoint, CSS, DURATION, ICONS, IDS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { ArrowType, AutoplayType } from "./interfaces";
+import { ArrowType, AutoplayType, PaginationPosition } from "./types";
 import { styles } from "./carousel.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -28,11 +29,75 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-carousel-item`s. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls.
+     */
+    "--calcite-carousel-pagination-background-color": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when hovered.
+     */
+    "--calcite-carousel-pagination-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when pressed.
+     */
+    "--calcite-carousel-pagination-background-color-press": "*";
+    /**
+     * Specifies the background color of the component's pagination items, navigation arrows, and autoplay controls when selected.
+     */
+    "--calcite-carousel-pagination-background-color-selected": "*";
+    /**
+     * Specifies the icon color of the component's pagination items and autoplay controls.
+     */
+    "--calcite-carousel-pagination-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's pagination items when hovered or pressed.
+     */
+    "--calcite-carousel-pagination-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's pagination items when selected.
+     */
+    "--calcite-carousel-pagination-icon-color-selected": "*";
+    /**
+     * Specifies the icon color of the component's navigation arrow controls.
+     */
+    "--calcite-carousel-control-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's navigation arrow controls when hovered or pressed.
+     */
+    "--calcite-carousel-control-icon-color-hover": "*";
+    /**
+     * Specifies the background color of the component's autoplay progress when `autoplay` is specified.
+     */
+    "--calcite-carousel-autoplay-progress-background-color": "*";
+    /**
+     * Specifies the fill color of the component's autoplay progress when `autoplay` is specified.
+     */
+    "--calcite-carousel-autoplay-progress-fill-color": "*";
+  }
+}
+
+interface CarouselSlots {
+  /**
+   * A slot for adding `calcite-carousel-item`s.
+   */
+  "": Node[];
+}
+
+/**
+ * @docGroup Carousel
+ */
 export class Carousel extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: CarouselSlots;
+
+  //#endregion
+
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -47,6 +112,8 @@ export class Carousel extends LitElement {
 
   private containerId = IDS.host(guid());
 
+  private direction = useDirection();
+
   private itemContainerRef = createRef<HTMLDivElement>();
 
   private resizeHandler = ({ contentRect: { width } }: ResizeObserverEntry): void => {
@@ -57,9 +124,9 @@ export class Carousel extends LitElement {
     entries.forEach(this.resizeHandler),
   );
 
-  private slideDurationInterval = null;
+  private slideDurationInterval?: ReturnType<typeof setInterval>;
 
-  private slideInterval = null;
+  private slideInterval?: ReturnType<typeof setInterval>;
 
   private tabListRef = createRef<HTMLDivElement>();
 
@@ -70,7 +137,7 @@ export class Carousel extends LitElement {
     if (notSuspended) {
       if (time <= 0.01) {
         time = 1;
-        this.direction = "forward";
+        this.itemDirection = "forward";
         this.nextItem(false);
       } else {
         time = time - 0.01;
@@ -86,9 +153,9 @@ export class Carousel extends LitElement {
    *
    * @private
    */
-  messages = useT9n<typeof T9nStrings>();
+  messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -96,7 +163,9 @@ export class Carousel extends LitElement {
 
   //#region State Properties
 
-  @state() direction: "forward" | "backward" | "standby" = "standby";
+  @state() itemDirection: "forward" | "backward" | "standby" = "standby";
+
+  @state() hasMultiple = false;
 
   @state() items: CarouselItem["el"][] = [];
 
@@ -104,7 +173,7 @@ export class Carousel extends LitElement {
 
   @state() playing = false;
 
-  @state() selectedIndex: number;
+  @state() selectedIndex = 0;
 
   @state() slideDurationRemaining = 1;
 
@@ -136,38 +205,49 @@ export class Carousel extends LitElement {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Accessible name for the component.
-   *
+   * @copyDoc
    * @required
    */
-  @property() label: string;
+  @property() label!: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * When `true`, the component's pagination controls are hidden.
+   */
+  @property() paginationDisabled: boolean = false;
+
+  /** Specifies the position of the component's pagination controls. */
+  @property({ reflect: true }) paginationPosition: PaginationPosition = "bottom";
 
   /**
    * Made into a prop for testing purposes only
    *
    * @private
    */
-  @property() paused: boolean;
+  @property() paused!: boolean;
 
   /**
    * The component's selected `calcite-carousel-item`.
    *
    * @readonly
    */
-  @property() selectedItem: CarouselItem["el"];
+  @property() selectedItem!: CarouselItem["el"];
 
   //#endregion
 
   //#region Public Methods
 
-  /** Play the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
+  /** Plays the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @method()
   async play(): Promise<void> {
     /* When the 'autoplay' property of type 'boolean | string' is set to true, the value is "". */
-    if (this.playing || (this.autoplay !== "" && !this.autoplay && this.autoplay !== "paused")) {
+    if (
+      this.playing ||
+      !this.hasMultiple ||
+      (this.autoplay !== "" && this.autoplay !== true && this.autoplay !== "paused")
+    ) {
       return;
     }
     this.handlePlay(true);
@@ -178,14 +258,14 @@ export class Carousel extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.containerRef.value, options);
   }
 
-  /** Stop the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
+  /** Stops the carousel. If `autoplay` is not enabled (initialized either to `true` or `"paused"`), these methods will have no effect. */
   @method()
   async stop(): Promise<void> {
     if (!this.playing) {
@@ -235,12 +315,16 @@ export class Carousel extends LitElement {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
+    if (this.hasUpdated && !this.hasMultiple) {
+      this.handlePause(false);
+    }
+
     if (changes.has("autoplay") && this.hasUpdated) {
       this.autoplayWatcher(this.autoplay);
     }
 
-    if (changes.has("direction") && (this.hasUpdated || this.direction !== "standby")) {
-      this.directionWatcher(this.direction);
+    if (changes.has("itemDirection") && (this.hasUpdated || this.itemDirection !== "standby")) {
+      this.itemDirectionWatcher(this.itemDirection);
     }
 
     if (changes.has("playing") && (this.hasUpdated || this.playing !== false)) {
@@ -272,16 +356,18 @@ export class Carousel extends LitElement {
     }
   }
 
-  private async directionWatcher(direction: "forward" | "backward" | "standby"): Promise<void> {
-    if (direction === "standby" || !this.itemContainerRef.value) {
+  private async itemDirectionWatcher(
+    itemDirection: "forward" | "backward" | "standby",
+  ): Promise<void> {
+    if (itemDirection === "standby" || !this.itemContainerRef.value) {
       return;
     }
 
     await whenAnimationDone(
       this.itemContainerRef.value,
-      direction === "forward" ? "item-forward" : "item-backward",
+      itemDirection === "forward" ? "item-forward" : "item-backward",
     );
-    this.direction = "standby";
+    this.itemDirection = "standby";
   }
 
   private suspendWatcher(): void {
@@ -363,15 +449,11 @@ export class Carousel extends LitElement {
 
   private handleSlotChange(event: Event): void {
     const items = slotChangeGetAssignedElements<CarouselItem["el"]>(event);
-
-    if (items.length < 1) {
-      return;
-    }
-
     const activeItemIndex = items.findIndex((item) => item.selected);
     const requestedSelectedIndex = activeItemIndex > -1 ? activeItemIndex : 0;
 
     this.items = items;
+    this.hasMultiple = items.length > 1;
 
     this.setSelectedItem(requestedSelectedIndex, false);
   }
@@ -397,24 +479,24 @@ export class Carousel extends LitElement {
   }
 
   private handleArrowClick(event: MouseEvent): void {
-    const direction = (event.target as HTMLDivElement).dataset.direction;
+    const direction = (event.target as HTMLDivElement).dataset.itemDirection;
 
     if (this.playing) {
       this.handlePause(true);
     }
 
     if (direction === "next") {
-      this.direction = "forward";
+      this.itemDirection = "forward";
       this.nextItem(true);
     } else if (direction === "previous") {
-      this.direction = "backward";
+      this.itemDirection = "backward";
       this.previousItem();
     }
   }
 
   private handleItemSelection(event: MouseEvent): void {
-    const item = event.target as Action["el"];
-    const requestedPosition = parseInt(item.dataset.index);
+    const item = event.currentTarget as HTMLElement;
+    const requestedPosition = parseInt(item.dataset.index!, 10);
 
     if (requestedPosition === this.selectedIndex) {
       return;
@@ -424,7 +506,7 @@ export class Carousel extends LitElement {
       this.handlePause(true);
     }
 
-    this.direction = requestedPosition > this.selectedIndex ? "forward" : "backward";
+    this.itemDirection = requestedPosition > this.selectedIndex ? "forward" : "backward";
     this.setSelectedItem(requestedPosition, true);
   }
 
@@ -496,18 +578,24 @@ export class Carousel extends LitElement {
       case " ":
       case "Enter":
         event.preventDefault();
-        if (this.autoplay === "" || this.autoplay || this.autoplay === "paused") {
+        if (this.autoplay === "" || this.autoplay === true || this.autoplay === "paused") {
           this.toggleRotation();
         }
         break;
       case "ArrowRight":
         event.preventDefault();
-        this.direction = "forward";
+        if (!this.hasMultiple) {
+          return;
+        }
+        this.itemDirection = "forward";
         this.nextItem(true);
         break;
       case "ArrowLeft":
         event.preventDefault();
-        this.direction = "backward";
+        if (!this.hasMultiple) {
+          return;
+        }
+        this.itemDirection = "backward";
         this.previousItem();
         break;
       case "Home":
@@ -515,7 +603,7 @@ export class Carousel extends LitElement {
         if (this.selectedIndex === 0) {
           return;
         }
-        this.direction = "backward";
+        this.itemDirection = "backward";
         this.setSelectedItem(0, true);
         break;
       case "End":
@@ -523,7 +611,7 @@ export class Carousel extends LitElement {
         if (this.selectedIndex === lastItem) {
           return;
         }
-        this.direction = "forward";
+        this.itemDirection = "forward";
         this.setSelectedItem(lastItem, true);
         break;
     }
@@ -531,9 +619,12 @@ export class Carousel extends LitElement {
 
   private tabListKeyDownHandler(event: KeyboardEvent): void {
     const visiblePaginationEls = Array(
-      ...this.tabListRef.value.querySelectorAll(`button:not(.${CSS.paginationItemOutOfRange})`),
+      ...this.tabListRef.value!.querySelectorAll<HTMLButtonElement>(
+        `button:not(.${CSS.paginationItemOutOfRange})`,
+      ),
     );
-    const currentEl = event.target as Action["el"];
+    const currentEl = event.target as HTMLButtonElement;
+
     switch (event.key) {
       case "ArrowRight":
         focusElementInGroup(visiblePaginationEls, currentEl, "next");
@@ -581,21 +672,31 @@ export class Carousel extends LitElement {
     );
   }
 
-  private renderPaginationArea(): JsxNode {
+  private renderControlsArea(): JsxNode {
+    const showRotationControl =
+      (this.playing ||
+        this.autoplay === "" ||
+        this.autoplay === true ||
+        this.autoplay === "paused") &&
+      this.hasMultiple;
+    const showInlineArrows = this.arrowType === "inline" && this.hasMultiple;
+
+    if (this.paginationDisabled && !showRotationControl && !showInlineArrows) {
+      return;
+    }
+
     return (
       <div
         class={{
-          [CSS.pagination]: true,
-          [CSS.containerOverlaid]: this.controlOverlay,
+          [CSS.controlsArea]: true,
         }}
-        onKeyDown={this.tabListKeyDownHandler}
-        ref={this.tabListRef}
       >
-        {(this.playing || this.autoplay === "" || this.autoplay || this.autoplay === "paused") &&
-          this.renderRotationControl()}
-        {this.arrowType === "inline" && this.renderArrow("previous")}
-        {this.renderPaginationItems()}
-        {this.arrowType === "inline" && this.renderArrow("next")}
+        {showRotationControl && this.renderRotationControl()}
+        {showInlineArrows && this.renderArrow("previous")}
+        {!this.paginationDisabled && (
+          <div class={CSS.pagination}>{this.renderPaginationItems()}</div>
+        )}
+        {showInlineArrows && this.renderArrow("next")}
       </div>
     );
   }
@@ -603,7 +704,13 @@ export class Carousel extends LitElement {
   private renderPaginationItems(): JsxNode {
     const { selectedIndex, maxItems, items, label, handleItemSelection } = this;
     return (
-      <div ariaLabel={label} class={CSS.paginationItems} role="tablist">
+      <div
+        ariaLabel={label}
+        class={CSS.paginationItems}
+        onKeyDown={this.tabListKeyDownHandler}
+        ref={this.tabListRef}
+        role="tablist"
+      >
         {items.map((item, index) => {
           const itemCount = items.length;
           const match = index === selectedIndex;
@@ -647,9 +754,34 @@ export class Carousel extends LitElement {
     );
   }
 
-  private renderArrow(direction: "previous" | "next"): JsxNode {
-    const isPrev = direction === "previous";
-    const dir = getElementDir(this.el);
+  private renderPaginationAriaLive(): JsxNode {
+    const {
+      messages,
+      messages: { _lang: effectiveLocale },
+      selectedIndex,
+      items,
+    } = this;
+
+    if (messages._loading) {
+      return;
+    }
+
+    numberStringFormatter.numberFormatOptions = {
+      locale: effectiveLocale,
+    };
+
+    return (
+      <div ariaLive="off" class={CSS_UTILITY.screenReaderText} role="status">
+        {messages.paginationStatus
+          .replace("{current}", numberStringFormatter.localize(`${selectedIndex + 1}`))
+          .replace("{total}", numberStringFormatter.localize(`${items.length}`))}
+      </div>
+    );
+  }
+
+  private renderArrow(itemDirection: "previous" | "next"): JsxNode {
+    const isPrev = itemDirection === "previous";
+    const dir = this.direction;
     const scale = this.arrowType === "edge" ? "m" : "s";
     const css = isPrev ? CSS.pagePrevious : CSS.pageNext;
     const title = isPrev ? this.messages.previous : this.messages.next;
@@ -658,7 +790,7 @@ export class Carousel extends LitElement {
       <button
         aria-controls={this.containerId}
         class={{ [CSS.paginationItem]: true, [css]: true }}
-        data-direction={direction}
+        data-item-direction={itemDirection}
         onClick={this.handleArrowClick}
         title={title}
       >
@@ -668,7 +800,35 @@ export class Carousel extends LitElement {
   }
 
   override render(): JsxNode {
-    const { direction } = this;
+    const { arrowType, hasMultiple, itemDirection, items, paginationDisabled, paginationPosition } =
+      this;
+    const controlsArea = items.length > 0 ? this.renderControlsArea() : undefined;
+    const paginationStatus =
+      paginationDisabled && items.length > 0 ? this.renderPaginationAriaLive() : undefined;
+    const itemContainer = (
+      <section
+        class={{
+          [CSS.itemContainer]: true,
+          [CSS.itemContainerForward]: itemDirection === "forward",
+          [CSS.itemContainerBackward]: itemDirection === "backward",
+        }}
+        id={this.containerId}
+        ref={this.itemContainerRef}
+      >
+        <slot onSlotChange={this.handleSlotChange} />
+      </section>
+    );
+
+    const content = [itemContainer, controlsArea, paginationStatus];
+
+    if (paginationPosition === "top") {
+      content.reverse();
+    }
+
+    if (arrowType === "edge" && hasMultiple) {
+      content.push(this.renderArrow("previous"), this.renderArrow("next"));
+    }
+
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <div
@@ -678,7 +838,7 @@ export class Carousel extends LitElement {
           class={{
             [CSS.container]: true,
             [CSS.containerOverlaid]: this.controlOverlay,
-            [CSS.containerEdged]: this.arrowType === "edge",
+            [CSS.containerEdged]: arrowType === "edge",
           }}
           onFocusIn={this.handleFocusIn}
           onFocusOut={this.handleFocusOut}
@@ -689,20 +849,7 @@ export class Carousel extends LitElement {
           role="group"
           tabIndex={0}
         >
-          <section
-            class={{
-              [CSS.itemContainer]: true,
-              [CSS.itemContainerForward]: direction === "forward",
-              [CSS.itemContainerBackward]: direction === "backward",
-            }}
-            id={this.containerId}
-            ref={this.itemContainerRef}
-          >
-            <slot onSlotChange={this.handleSlotChange} />
-          </section>
-          {this.items.length > 1 && this.renderPaginationArea()}
-          {this.arrowType === "edge" && this.renderArrow("previous")}
-          {this.arrowType === "edge" && this.renderArrow("next")}
+          {content}
         </div>
       </this.interactiveContainer>
     );

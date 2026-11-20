@@ -2,6 +2,7 @@ import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Avatar } from "./avatar";
+import "./avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { scale } = ATTRIBUTES;
 
@@ -40,6 +41,27 @@ export const simple = (args: AvatarStoryArgs): string => html`
 export const missingThumbnail = (): string => html`
   <calcite-avatar scale="m" full-name="John Doe" username="jdoe" user-id="9a7c50e6b3ce4b859f7b31e302437164">
   </calcite-avatar>
+`;
+
+export const constrainedSpace = (): string => html`
+  <style>
+    .constrained-flex {
+      display: flex;
+      inline-size: 300px;
+    }
+  </style>
+  <div class="constrained-flex">
+    <p>A lot of filler text so that the avatar does not have space.</p>
+    <calcite-avatar full-name="Urbano Monti"></calcite-avatar>
+  </div>
+  <br />
+  <div class="constrained-flex">
+    <p>A lot of filler text so that the avatar does not have space.</p>
+    <calcite-avatar
+      full-name="Urbano Monti"
+      thumbnail="${placeholderImage({ width: 120, height: 120 })}"
+    ></calcite-avatar>
+  </div>
 `;
 
 const users = [
@@ -86,14 +108,13 @@ export const contrast = (): string => html`
     <style>
       .container {
         display: flex;
-        width: 35%;
-        justify-content: space-between;
-        align-items: center;
-        padding: 25px 0;
+        gap: 40px;
       }
       .use-case {
-        flex: 1 0 21%;
-        margin: 0 15px;
+        display: flex;
+        gap: 5px;
+        flex-wrap: wrap;
+        width: 217px;
       }
     </style>
     <div class="container">

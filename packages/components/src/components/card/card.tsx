@@ -1,5 +1,4 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   createEvent,
   h,
@@ -10,17 +9,19 @@ import {
   state,
   ToEvents,
 } from "@arcgis/lumina";
+import { getIconScale } from "../../utils/component";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
-import { LogicalFlowPosition, SelectionMode } from "../interfaces";
+import { LogicalFlowPosition, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import type { Checkbox } from "../checkbox/checkbox";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./card.scss";
+import { toAriaBoolean } from "../../utils/aria";
 
 declare global {
   interface DeclareElements {
@@ -28,15 +29,102 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's accent color when `selected`.
+     */
+    "--calcite-card-accent-color-selected": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-card-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-card-border-color": "*";
+    /**
+     * Specifies the component's corner radius.
+     */
+    "--calcite-card-corner-radius": "*";
+    /**
+     * Specifies the component's selection element background color when hovered.
+     */
+    "--calcite-card-selection-background-color-hover": "*";
+    /**
+     * Specifies the component's selection element background color when active.
+     */
+    "--calcite-card-selection-background-color-press": "*";
+    /**
+     * Specifies the component's selection element background color.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color` instead.
+     */
+    "--calcite-card-selection-background-color": "*";
+    /**
+     * Specifies the component's selection element color when hovered or focused.
+     */
+    "--calcite-card-selection-color-hover": "*";
+    /**
+     * Specifies the component's selection element color.
+     */
+    "--calcite-card-selection-color": "*";
+    /**
+     * Specifies the component's selection element icon color when hovered.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover` instead.
+     */
+    "--calcite-card-selection-icon-color-hover": "*";
+    /**
+     * Specifies the component's selection element icon color when `selected`.
+     *
+     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected` instead.
+     */
+    "--calcite-card-selection-icon-color-selected": "*";
+    /**
+     * Specifies the component's shadow.
+     */
+    "--calcite-card-shadow": "*";
+  }
+}
+
+interface CardSlots {
+  /**
+   * A slot for adding content.
+   */
+  "": Node[];
+  /**
+   * A slot for adding a thumbnail.
+   */
+  thumbnail: Node[];
+  /**
+   * A slot for adding a heading.
+   */
+  heading: Node[];
+  /**
+   * A slot for adding a description.
+   */
+  description: Node[];
+  /**
+   * A slot for adding a leading footer.
+   */
+  "footer-start": Node[];
+  /**
+   * A slot for adding a trailing footer.
+   */
+  "footer-end": Node[];
+}
+
 /**
- * @slot - A slot for adding content.
- * @slot thumbnail - A slot for adding a thumbnail.
- * @slot heading - A slot for adding a heading.
- * @slot description - A slot for adding a description.
- * @slot footer-start - A slot for adding a leading footer.
- * @slot footer-end - A slot for adding a trailing footer.
+ * @docGroup Cards
  */
 export class Card extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: CardSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -54,7 +142,7 @@ export class Card extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -81,14 +169,19 @@ export class Card extends LitElement {
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, a busy indicator is displayed. */
   @property({ reflect: true }) loading = false;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
+
+  /**
+   * Specifies the size of the component. When contained in a parent `calcite-card-group`, inherits the parent's `scale` value, but can be overridden if needed.
+   */
+  @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `true`, the component is selectable.
@@ -123,12 +216,12 @@ export class Card extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(
-      () => ({ target: this.containerRef.value, includeContainer: true }),
+      () => ({ target: this.containerRef.value!, includeContainer: true }),
       options,
     );
   }
@@ -139,9 +232,6 @@ export class Card extends LitElement {
 
   /** Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected. */
   calciteCardSelect = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalCardKeyEvent = createEvent<KeyboardEvent>({ cancelable: false });
 
   //#endregion
 
@@ -176,16 +266,6 @@ export class Card extends LitElement {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
-      } else {
-        switch (event.key) {
-          case "ArrowRight":
-          case "ArrowLeft":
-          case "Home":
-          case "End":
-            this.calciteInternalCardKeyEvent.emit(event);
-            event.preventDefault();
-            break;
-        }
       }
     }
   }
@@ -202,7 +282,7 @@ export class Card extends LitElement {
     this.calciteCardSelect.emit();
   }
 
-  private cardSelectClick(event): void {
+  private cardSelectClick(event: PointerEvent): void {
     if (!this.disabled) {
       event.preventDefault();
       this.calciteCardSelect.emit();
@@ -246,7 +326,7 @@ export class Card extends LitElement {
 
     return (
       <div class={CSS.checkboxWrapper} onPointerDown={this.cardSelectClick} tabIndex={-1}>
-        <calcite-icon icon={icon} scale="s" />
+        <calcite-icon icon={icon} scale={getIconScale(this.scale)} />
       </div>
     );
   }
@@ -303,7 +383,10 @@ export class Card extends LitElement {
             </div>
           ) : null}
           {thumbnailStart && this.renderThumbnail()}
-          <section ariaBusy={this.loading} class={{ [CSS.container]: true }}>
+          <section
+            ariaBusy={toAriaBoolean(this.loading, undefined)}
+            class={{ [CSS.container]: true }}
+          >
             {this.renderHeader()}
             <div
               class={{

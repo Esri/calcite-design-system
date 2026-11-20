@@ -14,36 +14,32 @@ describe("constrainHeadingLevel", () => {
 });
 describe("Heading", () => {
   it("should render", async () => {
-    expect(
+    const result = (
       <Heading class="test" level={1}>
         My Heading
-      </Heading>,
-    ).toEqual(
-      expect.objectContaining({
-        values: [
-          undefined,
-          {
-            _$litType$: 1,
-            strings: expect.arrayContaining(["<h1 class=", ">", "</h1>"]),
-            values: ["test", "My Heading"],
-          },
-        ],
-      }),
+      </Heading>
+    ) as unknown as { values: unknown[] };
+
+    const template = result.values[1] as { strings: string[]; values: unknown[] };
+
+    expect(template.strings).toEqual(
+      expect.arrayContaining(["<h1 class=", " .hidden=", ">", "</h1>"]),
     );
+    expect(template.values[0]).toBe("test");
+    expect(template.values[1]).toBe(false);
+    expect(template.values[template.values.length - 1]).toBe("My Heading");
   });
 
   it("should render a div", async () => {
-    expect(<Heading class="test">My Heading</Heading>).toEqual(
-      expect.objectContaining({
-        values: [
-          undefined,
-          {
-            _$litType$: 1,
-            strings: expect.arrayContaining(["<div class=", ">", "</div>"]),
-            values: ["test", "My Heading"],
-          },
-        ],
-      }),
+    const result = (<Heading class="test">My Heading</Heading>) as unknown as { values: unknown[] };
+
+    const template = result.values[1] as { strings: string[]; values: unknown[] };
+
+    expect(template.strings).toEqual(
+      expect.arrayContaining(["<div class=", " .hidden=", ">", "</div>"]),
     );
+    expect(template.values[0]).toBe("test");
+    expect(template.values[1]).toBe(false);
+    expect(template.values[template.values.length - 1]).toBe("My Heading");
   });
 });

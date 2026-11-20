@@ -1,14 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@esri/calcite-typescript-config/tsconfig.base.json",
   "compilerOptions": {
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "strict": false,
-    "plugins": [
-      {
-        "name": "typescript-strict-plugin"
-      }
-    ]
+    "noEmit": true
   },
-  "include": ["src/demos"]
+  "include": ["src/demos", "src/lumina.ts", "vite-env.d.ts"]
 }

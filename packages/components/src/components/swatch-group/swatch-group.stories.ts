@@ -1,16 +1,18 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { SwatchGroup } from "./swatch-group";
+import "../swatch/swatch"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./swatch-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { selectionMode, scale } = ATTRIBUTES;
 
-type SwatchGroupStoryArgs = Pick<SwatchGroup, "selectionMode" | "scale">;
+type SwatchGroupStoryArgs = Pick<SwatchGroup, "disabled" | "scale" | "selectionMode">;
 
 export default {
   title: "Components/Swatch Group",
-  args: { selectionMode: selectionMode.defaultValue, scale: scale.defaultValue },
+  args: { disabled: false, selectionMode: selectionMode.defaultValue, scale: scale.defaultValue },
   argTypes: {
     selectionMode: {
       options: selectionMode.values.filter(
@@ -23,7 +25,11 @@ export default {
 };
 
 export const simple = (args: SwatchGroupStoryArgs): string => html`
-  <calcite-swatch-group selection-mode="${args.selectionMode}" scale="${args.scale}">
+  <calcite-swatch-group
+    ${boolean("disabled", args.disabled)}
+    selection-mode="${args.selectionMode}"
+    scale="${args.scale}"
+  >
     <calcite-swatch value="calcite swatch"></calcite-swatch>
     <calcite-swatch color="#ff0000" value="calcite swatch"></calcite-swatch>
     <calcite-swatch value="calcite swatch">
@@ -59,7 +65,7 @@ export const simple = (args: SwatchGroupStoryArgs): string => html`
   </calcite-swatch-group>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-swatch-group>
       <calcite-swatch value="calcite swatch"></calcite-swatch>
@@ -106,4 +112,4 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkThemeRTL.parameters = { themes: modesDarkDefault };

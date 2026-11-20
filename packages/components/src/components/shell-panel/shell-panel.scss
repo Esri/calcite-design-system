@@ -1,25 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-shell-panel-background-color: Specifies the background color of the component.
- * @prop --calcite-shell-panel-border-color: When `displayMode` is `"float-all"`, specifies the component's border color.
- * @prop --calcite-shell-panel-corner-radius: When `displayMode` is `"float-all"`, specifies the component's corner radius.
- * @prop --calcite-shell-panel-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float` or `float-all`, specifies the height of the component.
- * @prop --calcite-shell-panel-max-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the maximum height of the component.
- * @prop --calcite-shell-panel-max-width: Specifies the maximum width of the component.
- * @prop --calcite-shell-panel-min-height: When `layout` is `horizontal`, or `layout` is `vertical` and `displayMode` is `float-content` or `float`, specifies the minimum height of the component.
- * @prop --calcite-shell-panel-min-width: Specifies the minimum width of the component.
- * @prop --calcite-shell-panel-resize-background-color: Specifies the background color of the resize handle.
- * @prop --calcite-shell-panel-resize-icon-color: Specifies the text color of the resize handle.
- * @prop --calcite-shell-panel-shadow: When `displayMode` is `"float-all"`, specifies the component's shadow.
- * @prop --calcite-shell-panel-text-color: Specifies the text color of the component.
- * @prop --calcite-shell-panel-width: Specifies the width of the component.
- * @prop --calcite-shell-panel-z-index: Specifies the z-index value for the component.
- *
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -36,14 +14,14 @@
 // --calcite-internal-shell-panel-shadow-inline-start
 // --calcite-internal-shell-panel-width
 
-@use "../../styles/includes";
+@use "../../styles/shared";
 
 :host {
-  @apply relative
-    pointer-events-none
-    flex
-    flex-initial
-    items-stretch;
+  position: relative;
+  pointer-events: none;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: stretch;
   z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
   --calcite-shell-panel-max-height: unset;
   --calcite-internal-shell-panel-shadow-block-start:
@@ -142,31 +120,33 @@
 }
 
 .container {
-  @apply text-n1
-  pointer-events-none
-  box-border
-  flex
-  flex-auto
-  items-stretch
-  bg-transparent
-  h-full;
-
+  font-size: var(--calcite-font-size-relative-base);
+  pointer-events: none;
+  box-sizing: border-box;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  background-color: var(--calcite-color-transparent);
+  block-size: 100%;
   color: var(--calcite-shell-panel-text-color, var(--calcite-color-text-2));
 
   * {
-    @apply box-border;
+    box-sizing: border-box;
   }
 
   &.float-all {
-    margin-block: var(--calcite-spacing-sm);
-    margin-inline: var(--calcite-spacing-sm);
+    margin-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+    margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   }
 }
 
 .float-all {
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+  border-radius: var(
+    --calcite-shell-panel-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+  );
   overflow: hidden;
 }
 
@@ -186,34 +166,53 @@
 }
 
 :host([layout="horizontal"]) .container {
-  @apply w-full h-auto;
+  inline-size: 100%;
+  block-size: auto;
   flex-direction: column;
 }
 
 .resize-handle {
-  @apply absolute flex justify-center items-center select-none box-border outline-none;
+  @include shared.outline-none();
+
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  box-sizing: border-box;
+
   --calcite-internal-shell-panel-resize-handle-offset: calc(
     (var(--calcite-size-fixed-xxl) - var(--calcite-size-fixed-sm-plus)) / 2 * -1
   );
   z-index: var(--calcite-z-index-header);
+  touch-action: none;
 }
 
 .resize-handle:active,
 .resize-handle:hover {
   .resize-handle-bar {
     color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-text-1));
-    background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-foreground-3));
+    background-color: var(
+      --calcite-shell-panel-resize-background-color,
+      var(--calcite-theme-color-surface-4, var(--calcite-color-foreground-3))
+    );
   }
 }
 
 .resize-handle-bar {
-  @apply flex justify-center items-center pointer-events-none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
   color: var(--calcite-shell-panel-resize-icon-color, var(--calcite-color-border-input));
-  background-color: var(--calcite-shell-panel-resize-background-color, var(--calcite-color-background));
+  background-color: var(
+    --calcite-shell-panel-resize-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
 }
 
 .resize-handle:focus .resize-handle-bar {
-  @apply focus-base focus-normal;
+  @include shared.focus-normal();
 }
 
 :host([position="start"][layout="vertical"]) {
@@ -231,8 +230,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-end-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 }
 
@@ -251,8 +256,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-end-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 }
 
@@ -271,8 +282,14 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-end-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-end-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-end-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-end-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 }
 
@@ -291,34 +308,42 @@
   }
 
   &:host([display-mode^="float"]) .resize-handle-bar {
-    border-start-start-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-    border-start-end-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
+    border-start-start-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
+    border-start-end-radius: var(
+      --calcite-shell-panel-corner-radius,
+      var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
+    );
   }
 }
 
 ::slotted(calcite-panel),
 ::slotted(calcite-flow) {
-  @apply h-full w-full flex-auto;
+  block-size: 100%;
+  inline-size: 100%;
+  flex: 1 1 auto;
   max-block-size: unset;
   max-inline-size: unset;
 }
 
 .action-bar-container {
-  @apply pointer-events-auto
-  flex
-  flex-auto
-  box-border;
+  pointer-events: auto;
+  display: flex;
+  flex: 1 1 auto;
+  box-sizing: border-box;
 }
 
 .content-container {
-  @apply flex
-  flex-auto
-  items-stretch
-  self-stretch
-  relative
-  box-border
-  w-full
-  h-full;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: stretch;
+  align-self: stretch;
+  position: relative;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
 }
 
 :host([layout="horizontal"]) .action-bar-container,
@@ -327,17 +352,20 @@
 }
 
 .content {
-  @apply pointer-events-auto
-  flex
-  flex-col
-  flex-nowrap
-  items-stretch
-  self-stretch
-  p-0
-  relative
-  box-border
-  flex-auto;
-  background-color: var(--calcite-shell-panel-background-color, var(--calcite-color-background));
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  align-self: stretch;
+  padding: var(--calcite-space-none);
+  position: relative;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  background-color: var(
+    --calcite-shell-panel-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
   transition:
     max-block-size var(--calcite-animation-timing),
     max-inline-size var(--calcite-animation-timing);
@@ -385,38 +413,33 @@
 }
 
 .content__header {
-  @apply flex
-  flex-initial
-  flex-col
-  flex-nowrap
-  items-stretch;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
 }
 
 .content__body {
-  @apply flex
-  flex-auto
-  flex-col
-  overflow-hidden;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .content--overlay {
-  @apply absolute;
-  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-shell-panel-shadow,
-    var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000),
-    var(--tw-shadow)
-  );
+  position: absolute;
+  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
 }
 
 :host([layout="vertical"]) .content--overlay {
-  @apply top-0 h-full;
+  inset-block-start: var(--calcite-space-none);
+  block-size: 100%;
 }
 
 :host([layout="horizontal"]) .content--overlay {
-  @apply start-0 w-full;
+  inset-inline-start: var(--calcite-space-none);
+  inline-size: 100%;
 }
 
 :host([layout="vertical"][position="start"]) .content--overlay {
@@ -440,22 +463,16 @@
 }
 
 .float--content {
-  @apply mb-auto
-  h-auto
-  overflow-hidden;
-
-  --tw-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-  --tw-shadow-colored: 0 4px 8px -1px var(--tw-shadow-color), 0 2px 4px -1px var(--tw-shadow-color);
-  box-shadow: var(
-    --calcite-shell-panel-shadow,
-    var(--tw-ring-offset-shadow, 0 0 #0000),
-    var(--tw-ring-shadow, 0 0 #0000),
-    var(--tw-shadow)
+  margin-block-end: auto;
+  block-size: auto;
+  overflow: hidden;
+  box-shadow: var(--calcite-shell-panel-shadow, var(--calcite-shadow-sm));
+  border-radius: var(
+    --calcite-shell-panel-corner-radius,
+    var(--calcite-theme-corner-radius-sm, var(--calcite-corner-radius-round))
   );
-
-  border-radius: var(--calcite-shell-panel-corner-radius, var(--calcite-corner-radius-round));
-  margin-inline: var(--calcite-spacing-sm);
-  margin-block-start: var(--calcite-spacing-sm);
+  margin-inline: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
+  margin-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   max-block-size: var(--calcite-internal-shell-panel-max-height, calc(100% - 1rem));
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
@@ -464,14 +481,14 @@
 }
 
 :host([layout="horizontal"]) .float--content {
-  margin-block: var(--calcite-spacing-sm);
+  margin-block: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
 }
 
 :host([position="start"]) .float--content,
 :host([position="end"]) .float--content {
   ::slotted(calcite-panel),
   ::slotted(calcite-flow) {
-    @apply border-none;
+    border-style: none;
   }
 }
 
@@ -531,4 +548,14 @@ slot[name="action-bar"]::slotted(calcite-action-bar),
   border-block-end: 0;
 }
 
-@include includes.base-component();
+:host([display-mode="dock"]),
+:host([display-mode="float-all"]),
+:host([display-mode="overlay"]) {
+  .resize-handle-bar {
+    border-block-start: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-inline-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+    border-block-end: var(--calcite-border-width-sm) solid var(--calcite-color-border-3);
+  }
+}
+
+@include shared.base-component();

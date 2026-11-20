@@ -1,3 +1,6 @@
+import "../components/combobox-item-group/combobox-item-group";
+import "../components/combobox-item/combobox-item";
+import "../components/combobox/combobox";
 import { html } from "../../support/formatting";
 
 export const comboboxTokens = {
@@ -8,6 +11,7 @@ export const comboboxTokens = {
   calciteComboboxIconColor: "",
   calciteComboboxIconColorHover: "",
   calciteComboboxBackgroundColor: "",
+  calciteComboboxCornerRadius: "",
   calciteChipBackgroundColor: "",
   calciteChipTextColor: "",
   calciteChipIconColor: "",

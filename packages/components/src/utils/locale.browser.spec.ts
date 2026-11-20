@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { describe, expect, it, beforeEach, MockInstance } from "vitest";
 import { defaultLocale } from "@arcgis/toolkit/intl";
 import { supportedNlsLocales } from "../components/date-picker/utils";
@@ -165,10 +164,14 @@ describe("getDateTimeFormat()", () => {
   });
 
   it("supports passing options", () => {
-    const options: Intl.DateTimeFormatOptions = { dateStyle: "full", numberingSystem: "latn" }; // using a subset and assuming other props will work the same
+    const options: Pick<Intl.ResolvedDateTimeFormatOptions, "dateStyle" | "numberingSystem"> = {
+      dateStyle: "full",
+      numberingSystem: "latn",
+    }; // using a subset and assuming other props will work the same
     const enDateTimeFormat = getDateTimeFormat("en", options);
 
-    for (const [key, value] of Object.entries(options)) {
+    for (const key of Object.keys(options) as (keyof typeof options)[]) {
+      const value = options[key];
       expect(enDateTimeFormat.resolvedOptions()[key]).toBe(value);
     }
   });

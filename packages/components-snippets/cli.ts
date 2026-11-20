@@ -5,8 +5,8 @@ import process from "node:process";
 import type { Dirent } from "node:fs";
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
-import select from "@inquirer/select";
-import checkbox from "@inquirer/checkbox";
+import { checkbox, select } from "@inquirer/prompts";
+import { parse } from "yaml";
 
 type ComponentEntry = {
   componentName: string;
@@ -20,22 +20,42 @@ type ParsedBlocks = {
   unknownLanguages: Set<string>;
 };
 
-const SNIPPETS_DIR_REL = "../calcite-documentation/documentation/component-sample-snippets";
+const SNIPPETS_DIR = `${
+  process.env.CALCITE_DOCUMENTATION ? process.env.CALCITE_DOCUMENTATION : "../calcite-documentation"
+}/documentation/component-sample-snippets`;
+
 const INDEX_HTML_REL = "packages/components/index.html";
 
-yargs(hideBin(process.argv)).scriptName("snippet").strict().help().parseSync();
+type CliArgs = {
+  component?: string;
+};
+
+const args = yargs(hideBin(process.argv))
+  .scriptName("snippet")
+  .command("$0 [component]", "Insert demo snippet for a specific component", (y) =>
+    y.positional("component", {
+      describe: "Component name (optional)",
+      type: "string",
+    }),
+  )
+  .usage("Usage: $0 [component]")
+  .strict()
+  .help()
+  .parseSync() as CliArgs;
+
+const component = args.component;
 
 async function findRepoRoot(startDir: string): Promise<string> {
   let current = path.resolve(startDir);
 
   while (true) {
-    const pkgPath = path.join(current, "package.json");
+    const pkgPath = path.join(current, "pnpm-workspace.yaml");
 
     try {
-      const pkgRaw = await fs.readFile(pkgPath, "utf8");
-      const pkg = JSON.parse(pkgRaw) as { workspaces?: unknown };
+      const workspace = await fs.readFile(pkgPath, "utf8");
+      const pkg = parse(workspace) as { packages?: unknown };
 
-      if (pkg && pkg.workspaces) {
+      if (pkg && pkg.packages) {
         return current;
       }
     } catch {
@@ -67,8 +87,9 @@ async function promptForChoice(promptLabel: string, options: string[]): Promise<
     pageSize: 10,
   });
 
-  const index = Number.parseInt(value);
+  const index = Number.parseInt(value, 10);
   if (Number.isNaN(index) || index < 0 || index >= options.length) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("Unexpected selection result");
     process.exit(1);
   }
@@ -93,10 +114,11 @@ async function promptForMultipleChoices(promptLabel: string, options: string[]):
   });
 
   const indices = values
-    .map((value) => Number.parseInt(value))
+    .map((value) => Number.parseInt(value, 10))
     .filter((index) => !Number.isNaN(index) && index >= 0 && index < options.length);
 
   if (indices.length === 0) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("No valid selections resolved from prompt");
     process.exit(1);
   }
@@ -111,6 +133,7 @@ async function collectComponents(rootDir: string): Promise<Map<string, Component
     entries = await fs.readdir(rootDir, { withFileTypes: true });
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      // eslint-disable-next-line no-console -- script logging
       console.error(`Error: Documentation snippets directory not found at: ${rootDir}`);
       process.exit(1);
     }
@@ -272,6 +295,7 @@ async function updateIndexHtml(indexHtmlPath: string, snippetContent: string): P
   const endIndex = originalContent.indexOf(endMarker);
 
   if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("Could not find demo snippet markers in index.html");
     process.exit(1);
   }
@@ -284,29 +308,46 @@ async function updateIndexHtml(indexHtmlPath: string, snippetContent: string): P
   await fs.writeFile(indexHtmlPath, updatedContent, "utf8");
 }
 
-async function run(): Promise<void> {
+async function run(component?: string): Promise<void> {
   const repoRoot = await findRepoRoot(process.cwd());
-  const snippetsRoot = path.join(repoRoot, SNIPPETS_DIR_REL);
+  const snippetsRoot = process.env.CALCITE_DOCUMENTATION ? SNIPPETS_DIR : path.join(repoRoot, SNIPPETS_DIR);
   const indexHtmlPath = path.join(repoRoot, INDEX_HTML_REL);
 
   const componentsMap = await collectComponents(snippetsRoot);
   const componentNames = Array.from(componentsMap.keys()).sort();
 
   if (componentNames.length === 0) {
+    // eslint-disable-next-line no-console -- script logging
     console.error(`No MDX snippets found in ${snippetsRoot}`);
     process.exit(1);
   }
 
-  const selectedComponentIndex = await promptForChoice("Select a component", componentNames);
-  const selectedComponentName = componentNames[selectedComponentIndex];
-  const component = componentsMap.get(selectedComponentName);
+  let selectedComponentIndex = -1;
 
-  if (!component) {
+  if (component) {
+    const normalizedArg = component.toLowerCase();
+    selectedComponentIndex = componentNames.findIndex((name) => name.toLowerCase() === normalizedArg);
+
+    if (selectedComponentIndex === -1) {
+      // eslint-disable-next-line no-console -- script logging
+      console.error(`Component "${component}" not found.`);
+    }
+  }
+
+  if (selectedComponentIndex === -1) {
+    selectedComponentIndex = await promptForChoice("Select a component", componentNames);
+  }
+
+  const selectedComponentName = componentNames[selectedComponentIndex];
+  const componentEntry = componentsMap.get(selectedComponentName);
+
+  if (!componentEntry) {
+    // eslint-disable-next-line no-console -- script logging
     console.error(`Component not found for selection: ${selectedComponentName}`);
     process.exit(1);
   }
 
-  const files = component.files;
+  const files = componentEntry.files;
 
   // read titles from frontmatter for each snippet
   const snippetTitles = await Promise.all(
@@ -345,6 +386,7 @@ async function run(): Promise<void> {
   }
 
   if (aggregateUnknownLanguages.size > 0) {
+    // eslint-disable-next-line no-console -- script logging
     console.warn(`Warning: unrecognized code block languages: ${Array.from(aggregateUnknownLanguages).join(", ")}`);
   }
 
@@ -354,11 +396,12 @@ async function run(): Promise<void> {
 
   const snippetNames = selectedSnippetPaths.map((filePath) => path.basename(filePath));
 
+  // eslint-disable-next-line no-console -- script logging
   console.log(`Updated ${indexHtmlPath} with snippet(s) from ${selectedComponentName}: ${snippetNames.join(", ")}`);
 }
 
 try {
-  await run();
+  await run(component);
 } catch (error) {
   const userCancelled = error && typeof error === "object" && "name" in error && error.name === "ExitPromptError";
 
@@ -366,6 +409,7 @@ try {
     process.exit(130);
   }
 
+  // eslint-disable-next-line no-console -- script logging
   console.error(error);
   process.exit(1);
 }

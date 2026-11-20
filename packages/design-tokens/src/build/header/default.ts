@@ -1,6 +1,6 @@
 import type { FileHeader } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../types.ts";
 
 export const headerDefault: FileHeader = (defaultMessage = [""]) => {
   return ["Calcite Design System", ...defaultMessage];

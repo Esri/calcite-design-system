@@ -1,6 +1,12 @@
-import { isServer } from "lit-html/is-server.js";
-import { FocusTrap } from "../controllers/useFocusTrap";
-import { LogLevel } from "./logger";
+import { isServer } from "lit";
+import type { FocusTrap } from "focus-trap";
+import type { LogLevel } from "./logger";
+import type { GlobalThis } from "type-fest";
+import { logger } from "./logger";
+
+type CalciteGlobalThis = GlobalThis & {
+  calciteConfig?: Partial<CalciteConfig>;
+};
 
 export interface CalciteConfig {
   /**
@@ -38,7 +44,7 @@ export const defaultConfig: CalciteConfig = {
 function initConfig(): CalciteConfig {
   return {
     ...defaultConfig,
-    ...(globalThis["calciteConfig"] ?? {}),
+    ...((globalThis as CalciteGlobalThis)["calciteConfig"] ?? {}),
   };
 }
 
@@ -79,12 +85,12 @@ export function stampVersion(): void {
     return;
   }
 
-  console.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
+  logger.info(`Using Calcite Components ${version} [Date: ${buildDate}, Revision: ${revision}]`);
 
   Object.defineProperty(config, "version", {
     value: version,
     writable: false,
   });
 
-  globalThis["calciteConfig"] = config;
+  (globalThis as CalciteGlobalThis)["calciteConfig"] = config;
 }

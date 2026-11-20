@@ -1,12 +1,12 @@
 # Preact and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/preact?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/preact?configPath=examples/components/preact)
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install --ignore-workspace --lockfile=false
+pnpm dev
 ```
 
 ## Developer info
@@ -14,7 +14,7 @@ npm run dev
 To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
 
 ### Setup components

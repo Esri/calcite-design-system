@@ -1,41 +1,39 @@
 {
-  "semantic": {
-    "opacity": {
-      "light": {
-        "value": "{core.opacity.40}",
-        "type": "opacity",
-        "attributes": {
-          "category": "opacity"
-        }
+  "opacity": {
+    "disabled": {
+      "attributes": {
+        "category": "opacity"
       },
-      "half": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
-        "attributes": {
-          "category": "opacity"
-        }
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
+    },
+    "light": {
+      "attributes": {
+        "category": "opacity"
       },
-      "dark": {
-        "value": "{core.opacity.85}",
-        "type": "opacity",
-        "attributes": {
-          "category": "opacity"
-        }
+      "$type": "opacity",
+      "$value": "{core.opacity.40}"
+    },
+    "half": {
+      "attributes": {
+        "category": "opacity"
       },
-      "full": {
-        "value": "{core.opacity.100}",
-        "type": "opacity",
-        "attributes": {
-          "category": "opacity"
-        }
+      "$type": "opacity",
+      "$value": "{core.opacity.50}"
+    },
+    "dark": {
+      "attributes": {
+        "category": "opacity"
       },
-      "disabled": {
-        "value": "{core.opacity.50}",
-        "type": "opacity",
-        "attributes": {
-          "category": "opacity"
-        }
-      }
+      "$type": "opacity",
+      "$value": "{core.opacity.85}"
+    },
+    "full": {
+      "attributes": {
+        "category": "opacity"
+      },
+      "$type": "opacity",
+      "$value": "{core.opacity.100}"
     }
   }
 }

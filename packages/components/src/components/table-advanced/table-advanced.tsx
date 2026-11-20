@@ -3,7 +3,7 @@ import { PropertyValues } from "lit";
 import { LitElement, method, property, h, JsxNode } from "@arcgis/lumina";
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 import type { ColumnDefinition, OptionsData } from "tabulator-tables";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./table-advanced.scss";
 import { CustomFilterFunction } from "./interfaces";
@@ -24,24 +24,27 @@ export class TableAdvanced extends LitElement {
 
   //#region Private Properties
 
-  private tableEl: HTMLElement;
+  private tableEl: HTMLElement | undefined;
 
-  private customSlotTableEl: HTMLElement = this.el.querySelector("table");
+  private customSlotTableEl: HTMLTableElement | null = this.el.querySelector("table");
 
   //#endregion
 
   //#region Public Properties
 
-  @property() tabulator: Tabulator;
+  @property()
+  tabulator!: Tabulator;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the table data of the component. */
-  @property() data: OptionsData[];
+  @property()
+  data!: OptionsData[];
 
   /** Specifies the table columns of the component. */
-  @property() columns: ColumnDefinition[];
+  @property()
+  columns!: ColumnDefinition[];
 
   /** Specifies the component's height. Default is `auto`. */
   @property() height: string = "auto";
@@ -146,7 +149,8 @@ export class TableAdvanced extends LitElement {
     if (row) {
       row.getCells().forEach((cell) => {
         if (cell.getField() === cellName) {
-          cell.getElement().style[cellClass] = cellClassValue;
+          (cell.getElement().style as CSSStyleDeclaration & Record<string, string>)[cellClass] =
+            cellClassValue;
         }
       });
     }
@@ -168,7 +172,8 @@ export class TableAdvanced extends LitElement {
     const row = this.tabulator.getRows()[rowIndex];
 
     if (row) {
-      row.getElement().style[rowClass] = rowClassValue;
+      (row.getElement().style as CSSStyleDeclaration & Record<string, string>)[rowClass] =
+        rowClassValue;
     }
   }
 
@@ -260,15 +265,21 @@ export class TableAdvanced extends LitElement {
   }
 
   loaded(): void {
+    const tableEl = this.customSlotTableEl ?? this.tableEl;
+
+    if (!tableEl) {
+      throw new Error("Cannot initialize Tabulator without a table element.");
+    }
+
     this.tabulator = this.customSlotTableEl
-      ? new Tabulator(this.customSlotTableEl, {
+      ? new Tabulator(tableEl, {
           columns: this.columns || [],
           height: this.height,
           placeholder: "No Data Available", // display message to user on empty table
           movableColumns: this.movableColumns,
           selectableRows: this.selectableRows,
         })
-      : new Tabulator(this.tableEl, {
+      : new Tabulator(tableEl, {
           data: this.data || [],
           columns: this.setFrozenColumns(this.columns) || [],
           index: this.rowIndexProp,
@@ -285,6 +296,7 @@ export class TableAdvanced extends LitElement {
         column: cell.getColumn().getField(),
         value: cell.getValue(),
       };
+      // eslint-disable-next-line no-console
       console.log("Cell clicked:", cellData);
     });
 
@@ -295,6 +307,7 @@ export class TableAdvanced extends LitElement {
         column: cell.getColumn().getField(),
         value: cell.getValue(),
       };
+      // eslint-disable-next-line no-console
       console.log("Cell hovered:", cellData);
     });
   }
@@ -303,9 +316,9 @@ export class TableAdvanced extends LitElement {
 
   //#region Private Methods
 
-  private setTableElRef(el: HTMLElement) {
+  private setTableElRef = (el: HTMLDivElement | undefined): void => {
     this.tableEl = el;
-  }
+  };
 
   private dataWatcher(data: OptionsData[]): void {
     if (this.tabulator) {
@@ -321,11 +334,12 @@ export class TableAdvanced extends LitElement {
 
   private setFrozenColumns(columns: ColumnDefinition[]): Array<ColumnDefinition> {
     this.frozenColumns.forEach((frozenColumn) => {
-      const column = columns.find(
-        (column) =>
-          column[this.frozenColumnProp].toString().toLowerCase() ===
-          frozenColumn.toString().toLowerCase(),
-      );
+      const column = columns.find((column) => {
+        const value = (column as ColumnDefinition & Record<string, unknown>)[this.frozenColumnProp];
+        return (
+          value != null && String(value).toLowerCase() === frozenColumn.toString().toLowerCase()
+        );
+      });
 
       if (column) {
         column.frozen = true;

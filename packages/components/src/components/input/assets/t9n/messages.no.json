@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Avbryt",
   "clear": "Fjern verdi",
+  "confirmInlineEditingChanges": "Lagre",
+  "enableInlineEditing": "Rediger",
   "loading": "Laster inn",
   "required": "Obligatorisk"
 }

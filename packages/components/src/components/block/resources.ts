@@ -1,5 +1,5 @@
-import { IconName } from "../icon/interfaces";
-
+import { isTag } from "../resources";
+import type { IconName } from "../icon/types";
 export const IDS = {
   content: "content",
   toggle: "toggle",
@@ -14,6 +14,7 @@ export const CSS = {
   contentEnd: "content-end",
   contentStart: "content-start",
   description: "description",
+  hasSlottedContent: "has-slotted-content",
   header: "header",
   headerContainer: "header-container",
   headerHasContent: "header--has-content",
@@ -24,6 +25,7 @@ export const CSS = {
   iconEnd: "icon--end",
   iconEndContainer: "icon-end-container",
   invalid: "invalid",
+  loadingScrim: "loading-scrim",
   statusIcon: "status-icon",
   summary: "summary",
   title: "title",
@@ -36,6 +38,7 @@ export const SLOTS = {
   actionsEnd: "actions-end",
   contentEnd: "content-end",
   contentStart: "content-start",
+  children: "children",
   headerMenuActions: "header-menu-actions",
 };
 
@@ -45,3 +48,8 @@ export const ICONS: Record<string, IconName> = {
   valid: "check-circle",
   invalid: "exclamation-mark-triangle",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isBlock = isTag("calcite-block");

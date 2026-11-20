@@ -1,6 +1,5 @@
-// @ts-strict-ignore
 import { LitElement, property, h, JsxNode } from "@arcgis/lumina";
-import { getElementDir } from "../../utils/dom";
+import { useDirection } from "@arcgis/lumina/controllers";
 import { CSS_UTILITY } from "../../utils/resources";
 import { styles } from "./progress.scss";
 import { CSS } from "./resources";
@@ -11,23 +10,46 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-progress-background-color": "*";
+    /**
+     * Specifies the component's fill color.
+     */
+    "--calcite-progress-fill-color": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-progress-text-color": "*";
+  }
+}
+
 export class Progress extends LitElement {
-  // #region Static Members
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Private Properties
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  private direction = useDirection();
+
+  //#endregion
+
+  //#region Public Properties
+
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true` and type is `"indeterminate"`, reverses the animation direction. */
   @property({ reflect: true }) reversed = false;
 
   /** Text that displays under the component's indicator. */
-  @property() text: string;
+  @property() text?: string;
 
   /**
    * Specifies the component type.
@@ -39,14 +61,14 @@ export class Progress extends LitElement {
   /** When `type` is `"determinate"`, specifies the component's value with a range of 0 to 100. */
   @property() value = 0;
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const isDeterminate = this.type === "determinate";
     const barStyles = isDeterminate ? { width: `${this.value}%` } : {};
-    const dir = getElementDir(this.el);
+    const dir = this.direction;
     return (
       <div
         ariaLabel={this.label || this.text}
@@ -71,5 +93,5 @@ export class Progress extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

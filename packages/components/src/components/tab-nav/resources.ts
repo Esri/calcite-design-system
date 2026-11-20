@@ -1,5 +1,6 @@
-import { TabPosition } from "../tabs/interfaces";
-import { Scale } from "../interfaces";
+import { isTag } from "../resources";
+import { TabPosition } from "../tabs/types";
+import { Scale } from "../types";
 
 export const ICON = {
   chevronRight: "chevron-right",
@@ -16,3 +17,10 @@ export const CSS = {
   scale: (scale: Scale) => `scale-${scale}` as const,
   position: (position: TabPosition) => `position-${position}` as const,
 };
+
+export const SCROLL_THRESHOLD = 1;
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTabNav = isTag("calcite-tab-nav");

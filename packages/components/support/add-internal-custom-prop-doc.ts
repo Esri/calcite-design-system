@@ -103,16 +103,19 @@ async function main(): Promise<void> {
       : await globby(["src/components/**/*.scss"]);
 
   if (!scssFiles.length) {
+    // eslint-disable-next-line no-console -- script logging
     console.log("No SCSS files found.");
     return;
   }
 
+  // eslint-disable-next-line no-console -- script logging
   console.log(`Updating internal custom property documentation for ${scssFiles.length} file(s)...`);
 
   for (const filePath of scssFiles) {
     await updateFileWithInternalProps(filePath);
   }
 
+  // eslint-disable-next-line no-console -- script logging
   console.log("Internal custom property documentation updated.");
 }
 
@@ -120,6 +123,7 @@ async function main(): Promise<void> {
   try {
     await main();
   } catch (error) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("Error updating internal custom property documentation:", error);
     process.exit(1);
   }

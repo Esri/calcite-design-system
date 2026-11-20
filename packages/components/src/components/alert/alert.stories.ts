@@ -1,11 +1,13 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
-import { menuPlacements } from "../../utils/floating-ui";
 import { Alert } from "./alert";
+import "./alert"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale, duration, kind, numberingSystem, queue } = ATTRIBUTES;
+const { scale, duration, kind, menuPlacement, numberingSystem, queue } = ATTRIBUTES;
 
 type AlertStoryArgs = Pick<
   Alert,
@@ -27,15 +29,15 @@ export default {
   args: {
     autoClose: false,
     autoCloseDuration: duration.defaultValue,
-    icon: "",
+    icon: "lightbulb",
     iconFlipRtl: false,
     kind: kind.defaultValue,
     label: "Alert",
-    numberingSystem: numberingSystem[2],
+    numberingSystem: numberingSystem.defaultValue,
     open: true,
-    placement: menuPlacements[4],
-    scale: "m",
-    queue: "last",
+    placement: menuPlacement.values[4],
+    scale: scale.defaultValue,
+    queue: queue.defaultValue,
   },
   argTypes: {
     autoCloseDuration: {
@@ -51,11 +53,11 @@ export default {
       control: { type: "select" },
     },
     numberingSystem: {
-      options: numberingSystem,
+      options: numberingSystem.values,
       control: { type: "select" },
     },
     placement: {
-      options: menuPlacements,
+      options: menuPlacement.values,
       control: { type: "select" },
     },
     queue: {
@@ -97,7 +99,7 @@ export const simple = (args: AlertStoryArgs): string => html`
       auto-close-duration="${args.autoCloseDuration}"
       scale="${args.scale}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      ${optionalAttribute("icon", args.icon)}
       label="${args.label}"
       numbering-system="${args.numberingSystem}"
       placement="${args.placement}"
@@ -129,6 +131,78 @@ export const titleMessageLink = (): string => html`
 `;
 
 titleMessageLink.storyName = "Title, message, link";
+
+export const titleMessageLongLink = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
+      style="--calcite-alert-width:350px;"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action" href="http://google.com"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+export const titleMessageLongLinkNaturalWidth = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert icon auto-close-duration="medium" placement="bottom" open scale="m" kind="danger">
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action" href="http://google.com"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+export const titleMessageLongLinkNoHref = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert
+      icon
+      auto-close-duration="medium"
+      placement="bottom"
+      open
+      scale="m"
+      kind="danger"
+      style="--calcite-alert-width:350px;"
+    >
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+titleMessageLongLinkNoHref.storyName = "Title, message, long link no href";
+
+export const titleMessageLongLinkNoHrefNaturalWidth = (): string => html`
+  ${wrapperStyles}
+  <div class="wrapper">
+    <calcite-alert icon auto-close-duration="medium" placement="bottom" open scale="m" kind="danger">
+      <div slot="title">Here's a general bit of information</div>
+      <div slot="message">Some kind of contextually relevant content</div>
+      <calcite-link slot="link" title="my action"
+        >Take action with this link made up of a very long text string</calcite-link
+      >
+    </calcite-alert>
+  </div>
+`;
+
+titleMessageLongLinkNoHrefNaturalWidth.storyName = "Title, message, long link no href natural width";
 
 export const titleMessage = (): string => html`
   ${wrapperStyles}
@@ -205,7 +279,7 @@ export const customIcon = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -225,9 +299,9 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
-export const actionsEndNoQueue_TestOnly = (): string => html`
+export const actionsEndNoQueue = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert
@@ -246,7 +320,7 @@ export const actionsEndNoQueue_TestOnly = (): string => html`
   </div>
 `;
 
-export const actionsEndQueued_TestOnly = (): string => html`
+export const actionsEndQueued = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert id="one" label="One" scale="l" kind="danger" icon open style="--calcite-alert-width:450px;">
@@ -269,7 +343,7 @@ export const actionsEndQueued_TestOnly = (): string => html`
   </div>
 `;
 
-export const textAlignDoesNotAffectComponentAlignment_TestOnly = (): string => html`
+export const textAlignDoesNotAffectComponentAlignment = (): string => html`
   ${wrapperStyles}
   <div class="wrapper">
     <calcite-alert

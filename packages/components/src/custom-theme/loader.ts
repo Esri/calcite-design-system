@@ -1,9 +1,9 @@
+import "../components/loader/loader";
 import { html } from "../../support/formatting";
 
 export const loaderTokens = {
   calciteLoaderFontSize: "",
   calciteLoaderSize: "",
-  calciteLoaderSizeInline: "",
   calciteLoaderProgressColorInline: "",
   calciteLoaderSpacing: "",
   calciteLoaderColor: "",

@@ -1,12 +1,16 @@
 import { iconNames } from "../../../.storybook/helpers";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Notice } from "./notice";
+import "../action/action"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "./notice"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { scale, width, kind } = ATTRIBUTES;
+const { appearance, scale, kind } = ATTRIBUTES;
+const widthOptions: Notice["width"][] = ["auto", "full"];
 
-interface NoticeStoryArgs extends Pick<Notice, "open" | "closable" | "width" | "kind" | "icon"> {
+interface NoticeStoryArgs extends Pick<Notice, "appearance" | "closable" | "icon" | "kind" | "open" | "width"> {
   showIcon: boolean;
   noticeScale: string;
   actionScale: string;
@@ -18,8 +22,9 @@ export default {
     showIcon: true,
     open: true,
     closable: true,
+    appearance: "outline-fill",
     noticeScale: scale.defaultValue,
-    width: width.defaultValue,
+    width: widthOptions[0],
     kind: kind.defaultValue,
     icon: iconNames[0],
     actionScale: scale.defaultValue,
@@ -30,11 +35,15 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: widthOptions,
       control: { type: "select" },
     },
     kind: {
       options: kind.values.filter((option) => option !== "inverse" && option !== "neutral"),
+      control: { type: "select" },
+    },
+    appearance: {
+      options: appearance.values.filter((option) => option === "outline-fill" || option === "transparent"),
       control: { type: "select" },
     },
     icon: {
@@ -57,7 +66,27 @@ export const simple = (args: NoticeStoryArgs): string => html`
       scale="${args.noticeScale}"
       width="${args.width}"
       kind="${args.kind}"
-      icon="${args.icon}"
+      appearance="${args.appearance}"
+      ${optionalAttribute("icon", args.icon)}
+    >
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action" href="http://google.com">Learn more</calcite-link>
+      <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
+    </calcite-notice>
+  </div>
+`;
+
+export const linkNoHref = (args: NoticeStoryArgs): string => html`
+  <div style="width:600px;max-width:100%;text-align:center;">
+    <calcite-notice
+      ${boolean("icon", args.showIcon)}
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
+      scale="${args.noticeScale}"
+      width="${args.width}"
+      kind="${args.kind}"
+      ${optionalAttribute("icon", args.icon)}
     >
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
@@ -67,9 +96,51 @@ export const simple = (args: NoticeStoryArgs): string => html`
   </div>
 `;
 
+export const longLinkText = (args: NoticeStoryArgs): string => html`
+  <div style="width:600px;max-width:100%;text-align:center;">
+    <calcite-notice
+      ${boolean("icon", args.showIcon)}
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
+      scale="${args.noticeScale}"
+      width="${args.width}"
+      kind="${args.kind}"
+      ${optionalAttribute("icon", args.icon)}
+    >
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action" href="http://google.com"
+        >Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique</calcite-link
+      >
+      <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
+    </calcite-notice>
+  </div>
+`;
+
+export const longLinkTextNoHref = (args: NoticeStoryArgs): string => html`
+  <div style="width:600px;max-width:100%;text-align:center;">
+    <calcite-notice
+      ${boolean("icon", args.showIcon)}
+      ${boolean("open", args.open)}
+      ${boolean("closable", args.closable)}
+      scale="${args.noticeScale}"
+      width="${args.width}"
+      kind="${args.kind}"
+      ${optionalAttribute("icon", args.icon)}
+    >
+      <div slot="title">Your settings area has changed</div>
+      <div slot="message">Look around and let us know what you think</div>
+      <calcite-link slot="link" title="my action"
+        >Lorem ipsum odor amet, consectetur adipiscing elit. Egestas magnis porta tristique</calcite-link
+      >
+      <calcite-action label="Retry" icon="reset" scale="${args.actionScale}" slot="actions-end"></calcite-action>
+    </calcite-notice>
+  </div>
+`;
+
 export const customIcon = (args: NoticeStoryArgs): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
-    <calcite-notice icon="${args.icon}" open closable scale="m" width="auto" kind="brand">
+    <calcite-notice ${optionalAttribute("icon", args.icon)} open closable scale="m" width="auto" kind="brand">
       <div slot="title">Your settings area has changed</div>
       <div slot="message">Look around and let us know what you think</div>
       <calcite-link slot="link" title="my action">Learn more</calcite-link>
@@ -87,7 +158,7 @@ export const withAction = (): string => html`
   </div>
 `;
 
-export const darkModeRTL_TestOnly = (): string => html`
+export const darkModeRTL = (): string => html`
   <div style="width:600px;max-width:100%;text-align:center;">
     <calcite-notice dir="rtl" class="calcite-mode-dark" icon open scale="m" width="auto" kind="danger">
       <div slot="title">This is a destructive action</div>
@@ -96,12 +167,12 @@ export const darkModeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkModeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkModeRTL.parameters = { themes: modesDarkDefault };
 
 const appearances: Notice["appearance"][] = ["outline-fill", "transparent"];
 const kinds: Notice["kind"][] = ["brand", "neutral", "danger", "info", "success", "warning"];
 
-const allKindsAndAppearancesHTML = (kind, appearance): string => `
+const allKindsAndAppearancesHTML = (kind: Notice["kind"], appearance: Notice["appearance"]): string => `
   <div class="story-container"> 
   <calcite-notice open kind="${kind}" appearance="${appearance}" icon closable>
         <div slot="title">Try this trick next time</div>

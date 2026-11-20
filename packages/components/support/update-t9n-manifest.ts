@@ -11,7 +11,9 @@ import { globby } from "globby";
   const bundles = await globby([bundlePath]);
   const manifestFilePathSeparator = "\\";
 
+  // eslint-disable-next-line no-console -- script logging
   console.log(`found ${bundles.length} t9n bundles`);
+  // eslint-disable-next-line no-console -- script logging
   console.log("starting generation of file paths for t9n files");
 
   const paths = await Promise.all(
@@ -34,8 +36,10 @@ import { globby } from "globby";
 
   try {
     await writeFile(resolve("t9nmanifest.txt"), manifestFileContents);
+    // eslint-disable-next-line no-console -- script logging
     console.log("finished writing manifest");
   } catch (error) {
+    // eslint-disable-next-line no-console -- script logging
     console.error("Error writing t9n manifest file:", error);
     return;
   }

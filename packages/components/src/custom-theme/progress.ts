@@ -1,3 +1,5 @@
+import "../components/label/label";
+import "../components/progress/progress";
 import { html } from "../../support/formatting";
 
 export const progressTokens = {

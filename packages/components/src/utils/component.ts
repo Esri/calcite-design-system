@@ -1,6 +1,6 @@
 import type { LitElement } from "@arcgis/lumina";
-import { Scale } from "../components/interfaces";
-import { ComboboxChildElement } from "../components/combobox/interfaces";
+import { Scale } from "../components/types";
+import { ComboboxChildElement } from "../components/combobox/types";
 import { StepperItem } from "../components/stepper-item/stepper-item";
 import { TableRow } from "../components/table-row/table-row";
 import { logger } from "./logger";
@@ -31,7 +31,7 @@ export function warnIfMissingRequiredProp<C extends LitElement>(
 }
 
 export function isHidden<C extends ComboboxChildElement | StepperItem["el"] | TableRow["el"]>(el: C): boolean {
-  return el.hidden || el.itemHidden;
+  return el.hidden !== false || el.itemHidden;
 }
 
 /**

@@ -1,16 +1,21 @@
+import "../components/notice/notice";
 import { html } from "../../support/formatting";
 
 export const noticeTokens = {
   calciteNoticeBackgroundColor: "",
   calciteNoticeBorderColor: "",
+  calciteNoticeCloseBackgroundColor: "",
   calciteNoticeCloseBackgroundColorFocus: "",
+  calciteNoticeCloseBackgroundColorHover: "",
   calciteNoticeCloseBackgroundColorPress: "",
   calciteNoticeCloseTextColorHover: "",
   calciteNoticeCloseTextColor: "",
   calciteNoticeCloseIconColorHover: "",
   calciteNoticeCloseIconColor: "",
+  calciteNoticeCornerRadius: "",
   calciteNoticeTitleTextColor: "",
   calciteNoticeContentTextColor: "",
+  calciteNoticeShadow: "",
 };
 
 const noticeHTML = (

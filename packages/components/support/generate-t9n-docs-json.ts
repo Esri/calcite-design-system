@@ -44,6 +44,7 @@
     }
     await writeFile(outFile, JSON.stringify(data), "utf-8");
   } catch (err) {
+    // eslint-disable-next-line no-console -- script logging
     console.error(err);
     process.exit(1);
   }

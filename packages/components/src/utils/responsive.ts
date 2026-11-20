@@ -3,8 +3,8 @@ import {
   calciteContainerSizeWidthMd,
   calciteContainerSizeWidthSm,
   calciteContainerSizeWidthXs,
-  calciteContainerSizeWidthXxs,
-} from "@esri/calcite-design-tokens/dist/es6/global";
+  calciteContainerSizeWidth2xs,
+} from "@esri/calcite-design-tokens/dist/es6/breakpoints.js";
 
 export interface Breakpoints {
   width: {
@@ -23,10 +23,10 @@ export const breakpoints: Breakpoints = {
     medium: cssLengthToNumber(calciteContainerSizeWidthMd.max),
     small: cssLengthToNumber(calciteContainerSizeWidthSm.max),
     xsmall: cssLengthToNumber(calciteContainerSizeWidthXs.max),
-    xxsmall: cssLengthToNumber(calciteContainerSizeWidthXxs.max),
+    xxsmall: cssLengthToNumber(calciteContainerSizeWidth2xs.max),
   },
 };
 
 function cssLengthToNumber(length: string): number {
-  return parseInt(length);
+  return parseInt(length, 10);
 }

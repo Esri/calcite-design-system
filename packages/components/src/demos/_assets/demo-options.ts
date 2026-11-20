@@ -78,7 +78,8 @@ class DemoOptions extends HTMLElement {
   };
 
   handleToggleMode = (): void => {
-    document.body.classList.toggle("calcite-mode-dark");
+    const existingColorScheme = getComputedStyle(document.body).colorScheme;
+    document.body.style.colorScheme = existingColorScheme && existingColorScheme === "dark" ? "light" : "dark";
   };
 
   handleToggleDom = (event: Event): void => {

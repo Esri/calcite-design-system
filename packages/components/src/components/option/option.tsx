@@ -1,4 +1,3 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, JsxNode } from "@arcgis/lumina";
 import { trim } from "es-toolkit";
@@ -13,16 +12,20 @@ declare global {
 const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
+/**
+ * @docGroup Select
+ * @parent calcite-select
+ */
 export class Option extends LitElement {
   // #endregion
 
   // #region Private Properties
 
-  private internallySetLabel: string;
+  private internallySetLabel?: string;
 
   private internallySetValue: any;
 
-  private mutationObserver: MutationObserver = createObserver("mutation", () => {
+  private mutationObserver = createObserver("mutation", () => {
     this.ensureTextContentDependentProps();
     this.calciteInternalOptionChange.emit();
   });
@@ -37,14 +40,14 @@ export class Option extends LitElement {
   })
   disabled = false;
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, the component is selected. */
   @property({
     reflect: true,
   })
-  selected: boolean;
+  selected = false;
 
   /** The component's value. */
   @property() value: any;

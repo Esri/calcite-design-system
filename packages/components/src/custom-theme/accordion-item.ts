@@ -1,3 +1,4 @@
+import "../components/accordion-item/accordion-item";
 import { placeholderImage } from "../../.storybook/placeholder-image";
 import { html } from "../../support/formatting";
 

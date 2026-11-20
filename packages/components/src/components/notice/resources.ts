@@ -1,3 +1,5 @@
+import { isTag } from "../resources";
+
 export const SLOTS = {
   title: "title",
   message: "message",
@@ -12,3 +14,8 @@ export const CSS = {
   content: "notice-content",
   icon: "notice-icon",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isNotice = isTag("calcite-notice");

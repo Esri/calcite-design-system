@@ -1,15 +1,19 @@
-import { modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { ChipGroup } from "./chip-group";
+import "./chip-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../chip/chip"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../avatar/avatar"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { selectionMode, scale } = ATTRIBUTES;
 
-type ChipGroupStoryArgs = Pick<ChipGroup, "selectionMode" | "scale">;
+type ChipGroupStoryArgs = Pick<ChipGroup, "disabled" | "scale" | "selectionMode">;
 
 export default {
   title: "Components/Chip Group",
   args: {
+    disabled: false,
     selectionMode: selectionMode.defaultValue,
     scale: scale.defaultValue,
   },
@@ -28,7 +32,11 @@ export default {
 };
 
 export const simple = (args: ChipGroupStoryArgs): string => html`
-  <calcite-chip-group selection-mode="${args.selectionMode}" scale="${args.scale}">
+  <calcite-chip-group
+    ${boolean("disabled", args.disabled)}
+    selection-mode="${args.selectionMode}"
+    scale="${args.scale}"
+  >
     <calcite-chip value="forest">Forest</calcite-chip>
     <calcite-chip value="tundra">Tundra</calcite-chip>
     <calcite-chip value="shore">Seashore</calcite-chip>
@@ -36,7 +44,7 @@ export const simple = (args: ChipGroupStoryArgs): string => html`
   </calcite-chip-group>
 `;
 
-export const singleWithIcon_TestOnly = (): string => html`
+export const singleWithIcon = (): string => html`
   <calcite-chip-group selection-mode="single">
     <calcite-chip icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip icon="layer" value="tundra">Tundra</calcite-chip>
@@ -45,7 +53,7 @@ export const singleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleClosable_TestOnly = (): string => html`
+export const multipleClosable = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip value="forest" closable>Forest</calcite-chip>
     <calcite-chip selected value="tundra" closable>Tundra</calcite-chip>
@@ -54,7 +62,7 @@ export const multipleClosable_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleWithIcon_TestOnly = (): string => html`
+export const multipleWithIcon = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip selected icon="layer" value="tundra">Tundra</calcite-chip>
@@ -63,7 +71,7 @@ export const multipleWithIcon_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleClosableWithAvatar_TestOnly = (): string => html`
+export const multipleClosableWithAvatar = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip icon="layer" value="forest" closable>
       <calcite-avatar slot="image" user-id="25684463a00c449585dbb32a065f6b74" full-name="user name"></calcite-avatar>
@@ -84,7 +92,7 @@ export const multipleClosableWithAvatar_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const multipleWithIconAndClosable_TestOnly = (): string => html`
+export const multipleWithIconAndClosable = (): string => html`
   <calcite-chip-group selection-mode="multiple">
     <calcite-chip closable icon="layer" value="forest">Forest</calcite-chip>
     <calcite-chip closable icon="layer" value="tundra">Tundra</calcite-chip>
@@ -93,7 +101,7 @@ export const multipleWithIconAndClosable_TestOnly = (): string => html`
   </calcite-chip-group>
 `;
 
-export const darkThemeRTL_TestOnly = (): string => html`
+export const darkThemeRTL = (): string => html`
   <div dir="rtl">
     <calcite-chip-group>
       <calcite-chip value="forest">Forest</calcite-chip>
@@ -104,7 +112,7 @@ export const darkThemeRTL_TestOnly = (): string => html`
   </div>
 `;
 
-darkThemeRTL_TestOnly.parameters = { themes: modesDarkDefault };
+darkThemeRTL.parameters = { themes: modesDarkDefault };
 
 export const interactivityStates = (): string => html`
   <div>

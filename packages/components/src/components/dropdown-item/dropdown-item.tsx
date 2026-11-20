@@ -1,5 +1,4 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import {
   LitElement,
   property,
@@ -9,14 +8,13 @@ import {
   JsxNode,
   setAttribute,
 } from "@arcgis/lumina";
-import { toAriaBoolean } from "../../utils/dom";
-import { ItemKeyboardEvent } from "../dropdown/interfaces";
-import { RequestedItem } from "../dropdown-group/interfaces";
-import { FlipContext, Scale, SelectionMode } from "../interfaces";
+import { toAriaBoolean } from "../../utils/aria";
+import { RequestedItem } from "../dropdown-group/types";
+import { FlipContext, Scale, SelectionMode } from "../types";
 import { getIconScale } from "../../utils/component";
-import { IconName } from "../icon/interfaces";
+import { IconName } from "../icon/types";
 import type { DropdownGroup } from "../dropdown-group/dropdown-group";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./dropdown-item.scss";
@@ -27,8 +25,55 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding text. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color when hovered.
+     */
+    "--calcite-dropdown-item-background-color-hover": "*";
+    /**
+     * Specifies the component's background color when `selected` or active.
+     */
+    "--calcite-dropdown-item-background-color-press": "*";
+    /**
+     * Specifies the color of the component's selection icon when hovered.
+     *
+     * @deprecated in v5.0.0, removal target v6.0.0.
+     */
+    "--calcite-dropdown-item-icon-color-hover": "*";
+    /**
+     * Specifies the color of the component's selection icon when `selected` or active.
+     */
+    "--calcite-dropdown-item-icon-color-press": "*";
+    /**
+     * Specifies the component's text color when `selected` or active.
+     */
+    "--calcite-dropdown-item-text-color-press": "*";
+    /**
+     * Specifies the component's text color.
+     */
+    "--calcite-dropdown-item-text-color": "*";
+  }
+}
+
+interface DropdownItemSlots {
+  /**
+   * A slot for adding text.
+   */
+  "": Node[];
+}
+
+/**
+ * @docGroup Dropdown
+ * @parent calcite-dropdown
+ */
 export class DropdownItem extends LitElement {
+  //#region Type-only metadata members
+
+  override ["@slots"]!: DropdownItemSlots;
+
+  //#endregion
+
   //#region Static Members
 
   static override styles = styles;
@@ -40,15 +85,15 @@ export class DropdownItem extends LitElement {
   private childLinkRef = createRef<HTMLAnchorElement>();
 
   /** id of containing group */
-  private parentDropdownGroupEl: DropdownGroup["el"];
+  private parentDropdownGroupEl?: DropdownGroup["el"];
 
   /** requested group */
-  private requestedDropdownGroup: DropdownGroup["el"];
+  private requestedDropdownGroup?: DropdownGroup["el"];
 
   /** requested item */
-  private requestedDropdownItem: DropdownItem["el"];
+  private requestedDropdownItem?: DropdownItem["el"];
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -56,30 +101,31 @@ export class DropdownItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    *
    * Determines if the component will render as an anchor.
+   * Calling `click()` on the component does not activate the link.
    */
-  @property({ reflect: true }) href: string;
+  @property({ reflect: true }) href?: string;
 
-  /** Specifies an icon to display at the end of the component. */
-  @property({ reflect: true, type: String }) iconEnd: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
-  @property({ reflect: true }) iconFlipRtl: FlipContext;
+  /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** Specifies an icon to display at the start of the component. */
-  @property({ reflect: true, type: String }) iconStart: IconName;
+  /** @copyDoc */
+  @property({ reflect: true }) iconStart?: IconName;
 
-  /** Accessible name for the component. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Specifies the relationship to the linked document defined in `href`. */
-  @property({ reflect: true }) rel: string;
+  /** Specifies the relationship to the linked resource defined in `href`. */
+  @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
@@ -101,19 +147,38 @@ export class DropdownItem extends LitElement {
    */
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
-  /** Specifies the frame or window to open the linked document. */
-  @property({ reflect: true }) target: string;
+  /** Specifies the frame or window to open the linked resource. */
+  @property({ reflect: true }) target?: string;
 
   //#endregion
 
   //#region Public Methods
 
   /**
+   * Activates the component's link or selects the component.
+   *
+   * @private
+   */
+  @method()
+  async activateItem(): Promise<void> {
+    if (this.disabled) {
+      return;
+    }
+
+    if (this.href) {
+      this.childLinkRef.value?.click();
+      return;
+    }
+
+    this.emitRequestedItem();
+  }
+
+  /**
    * Sets focus on the component.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -128,12 +193,6 @@ export class DropdownItem extends LitElement {
   calciteDropdownItemSelect = createEvent({ cancelable: false });
 
   /** @private */
-  calciteInternalDropdownCloseRequest = createEvent({ cancelable: false });
-
-  /** @private */
-  calciteInternalDropdownItemKeyEvent = createEvent<ItemKeyboardEvent>({ cancelable: false });
-
-  /** @private */
   calciteInternalDropdownItemSelect = createEvent<RequestedItem>({ cancelable: false });
 
   //#endregion
@@ -143,7 +202,6 @@ export class DropdownItem extends LitElement {
   constructor() {
     super();
     this.listen("click", this.onClick);
-    this.listen("keydown", this.keyDownHandler);
     this.listenOn<CustomEvent>(
       document.body,
       "calciteInternalDropdownItemChange",
@@ -163,39 +221,17 @@ export class DropdownItem extends LitElement {
 
   //#region Private Methods
 
-  private onClick(): void {
+  private onClick(event: MouseEvent): void {
+    if (this.href && event.defaultPrevented && event.composedPath()[0] === this.el) {
+      return;
+    }
+
     this.emitRequestedItem();
   }
 
-  private keyDownHandler(event: KeyboardEvent): void {
-    switch (event.key) {
-      case " ":
-      case "Enter":
-        this.emitRequestedItem();
-        if (this.href) {
-          this.childLinkRef.value.click();
-        }
-        event.preventDefault();
-        break;
-      case "Escape":
-        this.calciteInternalDropdownCloseRequest.emit();
-        event.preventDefault();
-        break;
-      case "Tab":
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
-        break;
-      case "ArrowUp":
-      case "ArrowDown":
-      case "Home":
-      case "End":
-        event.preventDefault();
-        this.calciteInternalDropdownItemKeyEvent.emit({ keyboardEvent: event });
-        break;
-    }
-  }
-
   private updateActiveItemOnChange(event: CustomEvent): void {
-    const parentEmittedChange = event.composedPath().includes(this.parentDropdownGroupEl);
+    const parentEmittedChange =
+      this.parentDropdownGroupEl && event.composedPath().includes(this.parentDropdownGroupEl);
 
     if (parentEmittedChange) {
       this.requestedDropdownGroup = event.detail.requestedDropdownGroup;
@@ -206,7 +242,7 @@ export class DropdownItem extends LitElement {
   }
 
   private initialize(): void {
-    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group");
+    this.parentDropdownGroupEl = this.el.closest("calcite-dropdown-group") ?? undefined;
     if (this.selectionMode === "none") {
       this.selected = false;
     }
@@ -238,7 +274,7 @@ export class DropdownItem extends LitElement {
     this.calciteDropdownItemSelect.emit();
     this.calciteInternalDropdownItemSelect.emit({
       requestedDropdownItem: this.el,
-      requestedDropdownGroup: this.parentDropdownGroupEl,
+      requestedDropdownGroup: this.parentDropdownGroupEl!,
     });
   }
 
@@ -297,23 +333,26 @@ export class DropdownItem extends LitElement {
     );
 
     const itemRole = href
-      ? null
+      ? "menuitem"
       : selectionMode === "single"
         ? "menuitemradio"
         : selectionMode === "multiple"
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const itemAria = selectionMode !== "none" ? toAriaBoolean(this.selected) : null;
+    const isSelectable = !href && selectionMode !== "none";
+    const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = !href ? label : "";
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", disabled ? -1 : 0);
+    if (!this.el.hasAttribute("tabindex")) {
+      setAttribute(this.el, "tabIndex", -1);
+    }
 
     return (
       <this.interactiveContainer disabled={disabled}>
@@ -324,11 +363,7 @@ export class DropdownItem extends LitElement {
           }}
         >
           {selectionMode !== "none" ? (
-            <calcite-icon
-              class={CSS.icon}
-              icon={selectionMode === "multiple" ? ICONS.check : ICONS.bulletPoint}
-              scale={getIconScale(this.scale)}
-            />
+            <calcite-icon class={CSS.icon} icon={ICONS.check} scale={getIconScale(this.scale)} />
           ) : null}
           {contentEl}
         </div>

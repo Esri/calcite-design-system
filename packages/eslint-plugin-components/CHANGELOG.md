@@ -3,29 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-## [2.0.4-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.4...@esri/eslint-plugin-calcite-components@2.0.4-next.5) (2025-12-04)
+## [2.0.5-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.5-next.0...@esri/eslint-plugin-calcite-components@2.0.5-next.1) (2026-11-12)
 
 **Note:** Version bump only for package @esri/eslint-plugin-calcite-components
 
-## [2.0.4-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.3...@esri/eslint-plugin-calcite-components@2.0.4-next.4) (2025-12-03)
+## [2.0.5-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.23...@esri/eslint-plugin-calcite-components@2.0.5-next.0) (2026-10-21)
 
 **Note:** Version bump only for package @esri/eslint-plugin-calcite-components
 
-## [2.0.4-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.2...@esri/eslint-plugin-calcite-components@2.0.4-next.3) (2025-11-17)
+## [2.0.4](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.3...@esri/eslint-plugin-calcite-components@2.0.4) (2026-10-20)
 
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+### Deprecations
 
-## [2.0.4-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.1...@esri/eslint-plugin-calcite-components@2.0.4-next.2) (2025-11-12)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
-
-## [2.0.4-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.4-next.0...@esri/eslint-plugin-calcite-components@2.0.4-next.1) (2025-11-04)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
-
-## [2.0.4-next.0](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.3-next.5...@esri/eslint-plugin-calcite-components@2.0.4-next.0) (2025-09-19)
-
-**Note:** Version bump only for package @esri/eslint-plugin-calcite-components
+- Deprecate `@esri/eslint-plugin-calcite-components` package ([#15295](https://github.com/Esri/calcite-design-system/issues/15295)) ([a659cd3](https://github.com/Esri/calcite-design-system/commit/a659cd326f385dc201e316e5d793bdd3d5265565))
 
 ## [2.0.3](https://github.com/Esri/calcite-design-system/compare/@esri/eslint-plugin-calcite-components@2.0.2...@esri/eslint-plugin-calcite-components@2.0.3) (2025-09-16)
 

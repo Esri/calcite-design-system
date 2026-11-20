@@ -3,7 +3,13 @@ import { UserConfig } from "vite";
 import { html } from "../support/formatting";
 
 const config: StorybookConfig = {
-  addons: ["@storybook/addon-a11y", "@storybook/addon-docs", "@storybook/addon-themes", "storybook-addon-rtl"],
+  addons: [
+    "@storybook/addon-a11y",
+    "@storybook/addon-docs",
+    "@storybook/addon-themes",
+    "@whitespace/storybook-addon-html",
+    "storybook-addon-rtl",
+  ],
   core: {
     builder: "@storybook/builder-vite",
   },

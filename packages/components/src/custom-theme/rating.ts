@@ -1,3 +1,4 @@
+import "../components/rating/rating";
 import { html } from "../../support/formatting";
 
 export const ratingTokens = {

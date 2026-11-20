@@ -1,15 +1,14 @@
-// @ts-strict-ignore
 import { debounce } from "es-toolkit";
 import { PropertyValues } from "lit";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, h, method, JsxNode } from "@arcgis/lumina";
 import { filter } from "../../utils/filter";
-import { Scale } from "../interfaces";
+import { Scale } from "../types";
 import { DEBOUNCE } from "../../utils/resources";
 import { useCancelable } from "../../controllers/useCancelable";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
@@ -18,6 +17,67 @@ import { styles } from "./filter.scss";
 declare global {
   interface DeclareElements {
     "calcite-filter": Filter;
+  }
+}
+
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the padding of the component's content.
+     */
+    "--calcite-filter-content-space": "*";
+    /**
+     * Specifies the component's input background color.
+     */
+    "--calcite-filter-input-background-color": "*";
+    /**
+     * Specifies the component's input border color.
+     */
+    "--calcite-filter-input-border-color": "*";
+    /**
+     * Specifies the component's input corner radius.
+     */
+    "--calcite-filter-input-corner-radius": "*";
+    /**
+     * Specifies the component's input shadow.
+     */
+    "--calcite-filter-input-shadow": "*";
+    /**
+     * Specifies the component's input icon color.
+     */
+    "--calcite-filter-input-icon-color": "*";
+    /**
+     * Specifies the component's input text color.
+     */
+    "--calcite-filter-input-text-color": "*";
+    /**
+     * Specifies the component's input placeholder text color.
+     */
+    "--calcite-filter-input-placeholder-text-color": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element.
+     */
+    "--calcite-filter-input-actions-background-color": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element when hovered.
+     */
+    "--calcite-filter-input-actions-background-color-hover": "*";
+    /**
+     * Specifies the background color of the component's input `clearable` element when pressed.
+     */
+    "--calcite-filter-input-actions-background-color-press": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element.
+     */
+    "--calcite-filter-input-actions-icon-color": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element when hovered.
+     */
+    "--calcite-filter-input-actions-icon-color-hover": "*";
+    /**
+     * Specifies the icon color of the component's input `clearable` element when pressed.
+     */
+    "--calcite-filter-input-actions-icon-color-press": "*";
   }
 }
 
@@ -51,7 +111,7 @@ export class Filter extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -59,11 +119,11 @@ export class Filter extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /** When `true`, prevents interaction and decreases the component's opacity. */
   @property({ reflect: true }) disabled = false;
 
-  /** Specifies the properties to match against when filtering. This will only apply when `value` is an object. If not set, all properties will be matched. */
-  @property() filterProps: string[];
+  /** When `value` is an object, specifies the properties to match against when filtering. If not set, all properties will be matched. */
+  @property() filterProps?: string[];
 
   /**
    * The component's resulting items after filtering.
@@ -73,7 +133,7 @@ export class Filter extends LitElement {
   @property() filteredItems: object[] = [];
 
   /**
-   * Defines the items to filter. The component uses the values as the starting point, and returns items
+   * Specifies the items to filter. The component uses the values as the starting point, and returns items
    *
    * that contain the string entered in the input, using a partial match and recursive search.
    *
@@ -81,16 +141,14 @@ export class Filter extends LitElement {
    */
   @property() items: object[] = [];
 
-  /**
-   * Specifies an accessible name for the component.
-   */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
-  /** Use this property to override individual strings used by the component. */
+  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies placeholder text for the input element. */
-  @property() placeholder: string;
+  /** Specifies the component's input placeholder text. */
+  @property() placeholder?: string;
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
@@ -117,8 +175,7 @@ export class Filter extends LitElement {
    *
    * This method can be useful because filtering is delayed and asynchronous.
    *
-   * @param {string} value - The filter text value.
-   * @returns {Promise<void>}
+   * @param value - The filter text value.
    */
   @method()
   async filter(value: string = this.value): Promise<void> {
@@ -134,7 +191,7 @@ export class Filter extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -193,8 +250,10 @@ export class Filter extends LitElement {
     }
 
     if (event.key === "Escape") {
-      this.clear();
-      event.preventDefault();
+      if (this.value.length > 0) {
+        this.clear();
+        event.preventDefault();
+      }
     }
 
     if (event.key === "Enter") {
@@ -233,8 +292,8 @@ export class Filter extends LitElement {
               icon={ICONS.search}
               label={this.label ?? this.messages.label}
               messageOverrides={{ clear: this.messages.clear }}
-              onKeyDown={this.keyDownHandler}
               oncalciteInputInput={this.inputHandler}
+              onKeyDown={this.keyDownHandler}
               placeholder={this.placeholder}
               ref={this.textInputRef}
               scale={scale}

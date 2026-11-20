@@ -1,20 +1,3 @@
-/**
- * CSS Custom Properties
- *
- * These properties can be overridden using the component's tag as selector.
- *
- * @prop --calcite-loader-font-size: When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
- * @prop --calcite-loader-size: Specifies the component's width and height.
- * @prop --calcite-loader-size-inline: [Deprecated] Use `--calcite-loader-size`. Specifies the width and height of the component when set to inline.
- * @prop --calcite-loader-spacing: Specifies the the component's padding.
- * @prop --calcite-loader-progress-color-inline: When `inline`, specifies the component's progress ring color.
- * @prop --calcite-loader-text-spacing: When not `inline`, specifies the component's `text` margin.
- * @prop --calcite-loader-text-weight: When not `inline` and `text` is provided, specifies the component's `text` font weight.
- * @prop --calcite-loader-text-color: When not `inline` and `text` is provided, specifies the component's `text` color.
- * @prop --calcite-loader-progress-color: When not `inline`, specifies the component's progress ring color.
- * @prop --calcite-loader-track-color: Specifies the component's track color.
- */
-
 // AUTO-GENERATED — do not modify. Changes will be overwritten.
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
@@ -26,11 +9,15 @@
 // --calcite-internal-stroke-width
 // --calcite-internal-text-offset
 
-@use "../../styles/includes";
-@use "../../styles/shared/animation";
+@use "../../styles/shared";
 
 :host {
-  @apply flex relative mx-auto items-center justify-center opacity-100;
+  display: flex;
+  position: relative;
+  margin-inline: auto;
+  align-items: center;
+  justify-content: center;
+  opacity: var(--calcite-opacity-full);
   flex-direction: column;
   min-block-size: var(--calcite-loader-size);
   font-size: var(--calcite-loader-font-size);
@@ -42,7 +29,7 @@
 
 :host([scale="s"]) {
   --calcite-internal-stroke-width: 3;
-  --calcite-internal-text-offset: var(--calcite-spacing-xxs);
+  --calcite-internal-text-offset: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   --calcite-internal-loader-font-size: var(--calcite-font-size--3);
   --calcite-internal-loader-size: theme("spacing.8");
   --calcite-internal-loader-size-inline: theme("spacing.3");
@@ -51,7 +38,7 @@
 
 :host([scale="m"]) {
   --calcite-internal-stroke-width: 6;
-  --calcite-internal-text-offset: var(--calcite-spacing-sm);
+  --calcite-internal-text-offset: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
   --calcite-internal-loader-font-size: theme("fontSize.0");
   --calcite-internal-loader-size: theme("spacing.16");
   --calcite-internal-loader-size-inline: theme("spacing.4");
@@ -60,7 +47,7 @@
 
 :host([scale="l"]) {
   --calcite-internal-stroke-width: 8;
-  --calcite-internal-text-offset: var(--calcite-spacing-md);
+  --calcite-internal-text-offset: var(--calcite-theme-space-md, var(--calcite-spacing-md));
   --calcite-internal-loader-font-size: theme("fontSize.2");
   --calcite-internal-loader-size: theme("spacing.24");
   --calcite-internal-loader-size-inline: theme("spacing.6");
@@ -68,16 +55,21 @@
 }
 
 .text {
-  @apply text-n2h
-  block
-  text-center;
+  @include shared.text-n2h();
+
+  display: block;
+  text-align: center;
   margin-block-start: var(--calcite-loader-text-spacing, var(--calcite-internal-text-offset));
-  font-weight: var(--calcite-loader-text-weight, var(--calcite-font-weight-normal));
+  font-weight: var(
+    --calcite-loader-text-weight,
+    var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal))
+  );
   color: var(--calcite-loader-text-color, var(--calcite-color-text-1));
 }
 
 .percentage {
-  @apply block text-center;
+  display: block;
+  text-align: center;
   font-size: var(--calcite-loader-font-size);
   inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   line-height: var(--calcite-internal-loader-value-line-height);
@@ -86,13 +78,19 @@
 }
 
 .rings {
-  @apply relative flex overflow-visible opacity-100;
+  position: relative;
+  display: flex;
+  overflow: visible;
+  opacity: var(--calcite-opacity-full);
   inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
 }
 
 .ring {
-  @apply absolute top-0 origin-center overflow-visible;
+  position: absolute;
+  inset-block-start: var(--calcite-space-none);
+  transform-origin: center;
+  overflow: visible;
   inset-inline-start: 0;
   inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
   block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size));
@@ -110,49 +108,34 @@
 
 :host([type="indeterminate"]) {
   .ring--progress {
-    animation: loader-clockwise animation.scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
+    animation: loader-clockwise shared.scale-duration(--calcite-internal-animation-timing-slow, 2) linear infinite;
   }
 }
 
 :host([inline]) {
   --calcite-internal-stroke-width: 2;
 
-  @apply relative m-0 stroke-current stroke-2 py-0;
-  block-size: var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline)));
-  min-block-size: var(
-    --calcite-loader-size,
-    var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-  );
-  inline-size: var(
-    --calcite-loader-size,
-    var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-  );
-  vertical-align: calc(
-    var(--calcite-loader-size, var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))) * -1 * 0.2
-  );
+  position: relative;
+  margin: var(--calcite-space-none);
+  stroke: currentColor;
+  stroke-width: 2;
+  padding-block: var(--calcite-space-none);
+  block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+  min-block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+  inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+  vertical-align: calc(var(--calcite-loader-size, var(--calcite-internal-loader-size-inline)) * -1 * 0.2);
 
   .rings {
-    @apply top-0 m-0;
+    inset-block-start: var(--calcite-space-none);
+    margin: var(--calcite-space-none);
     inset-inline-start: 0;
-    inline-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
-    block-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
+    inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+    block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
   }
 
   .ring {
-    inline-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
-    block-size: var(
-      --calcite-loader-size,
-      var(--calcite-loader-size-inline, var(--calcite-internal-loader-size-inline))
-    );
+    inline-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
+    block-size: var(--calcite-loader-size, var(--calcite-internal-loader-size-inline));
   }
 
   .ring--progress {
@@ -161,7 +144,7 @@
 }
 
 :host([complete]) {
-  @apply opacity-0;
+  opacity: 0;
   transform: scale(0.75, 0.75);
   transform-origin: center;
   transition:
@@ -169,7 +152,7 @@
     transform var(--calcite-internal-animation-timing-medium) linear 1000ms;
 
   .rings {
-    @apply opacity-0;
+    opacity: 0;
     transform: scale(0.75, 0.75);
     transform-origin: center;
     transition:
@@ -196,4 +179,4 @@
   }
 }
 
-@include includes.base-component();
+@include shared.base-component();

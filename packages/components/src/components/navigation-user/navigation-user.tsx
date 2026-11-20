@@ -1,6 +1,6 @@
-// @ts-strict-ignore
 import { LitElement, property, h, method, JsxNode } from "@arcgis/lumina";
-import { useSetFocus } from "../../controllers/useSetFocus";
+import { useFocusable } from "../../controllers/useFocusable";
+import { Scale } from "../types";
 import { CSS } from "./resources";
 import { styles } from "./navigation-user.scss";
 
@@ -10,6 +10,39 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * When `active`, specifies the component's border color.
+     */
+    "--calcite-navigation-accent-color": "*";
+    /**
+     * Specifies the component's avatar corner radius.
+     */
+    "--calcite-navigation-user-avatar-corner-radius": "*";
+    /**
+     * Specifies the component's avatar icon color.
+     */
+    "--calcite-navigation-user-avatar-color": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's `fullName` text color.
+     */
+    "--calcite-navigation-user-full-name-text-color": "*";
+    /**
+     * Specifies the component's `username` text color.
+     */
+    "--calcite-navigation-user-name-text-color": "*";
+  }
+}
+
+/**
+ * @docGroup Navigation
+ * @parent calcite-navigation
+ */
 export class NavigationUser extends LitElement {
   // #region Static Members
 
@@ -21,32 +54,39 @@ export class NavigationUser extends LitElement {
 
   // #region Private Properties
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   // #endregion
 
   // #region Public Properties
 
   /** When `true`, the component is highlighted. */
-  @property({ reflect: true }) active: boolean;
+  @property({ reflect: true }) active = false;
 
   /** Specifies the full name of the user. */
-  @property() fullName: string;
+  @property() fullName?: string;
 
-  /** Describes the appearance of the avatar. If no label is provided, context will not be provided to assistive technologies. */
-  @property() label: string;
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, hides the `fullName` and `username` contents. */
   @property({ reflect: true }) textDisabled = false;
 
+  /**
+   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
+   *
+   * @private
+   */
+  @property({ reflect: true }) scale: Scale = "m";
+
   /** Specifies the `src` to an image (remember to add a token if the user is private). */
-  @property() thumbnail: string;
+  @property() thumbnail?: string;
 
   /** Specifies the unique id of the user. */
-  @property() userId: string;
+  @property() userId?: string;
 
   /** Specifies the username of the user. */
-  @property() username: string;
+  @property() username?: string;
 
   // #endregion
 
@@ -57,7 +97,7 @@ export class NavigationUser extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
@@ -74,6 +114,7 @@ export class NavigationUser extends LitElement {
         <calcite-avatar
           fullName={this.fullName}
           label={this.label}
+          scale={this.scale}
           thumbnail={this.thumbnail}
           userId={this.userId}
           username={this.username}
@@ -81,7 +122,13 @@ export class NavigationUser extends LitElement {
         {(this.fullName || this.username) && !this.textDisabled && (
           <div class={CSS.textContainer}>
             {this.fullName && (
-              <span class={CSS.fullName} key={CSS.fullName}>
+              <span
+                class={{
+                  [CSS.fullName]: true,
+                  [CSS.standalone]: !this.username,
+                }}
+                key={CSS.fullName}
+              >
                 {this.fullName}
               </span>
             )}

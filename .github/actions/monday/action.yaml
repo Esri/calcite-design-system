@@ -1,0 +1,137 @@
+name: Sync Issue to Monday.com
+description: Syncs a new issue or specific issue changes to Monday.com tasks.
+
+inputs:
+  monday_key:
+    description: The API key for Monday.com (set as a secret in the repository)
+    required: true
+  monday_board:
+    description: The ID of the Monday.com board to sync with (set as a secret in the repository)
+    required: true
+  username_map:
+    description: JSON string mapping public GH usernames to Devtopia usernames
+    required: false
+
+runs:
+  using: composite
+  steps:
+    - name: "Create Task"
+      if: github.event.action == 'opened' ||
+        (github.event.action == 'labeled' && github.event.label.name == 'monday.com sync')
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Create Task");
+          const action = require('${{ github.action_path }}/../../scripts/monday/createTask.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Update Label on Task"
+      if: github.event.action == 'labeled' && github.event.label.name != 'monday.com sync'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Update Label on Task");
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateLabels.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Remove Label from Task"
+      if: github.event.action == 'unlabeled'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Remove Label from Task");
+          const action = require('${{ github.action_path }}/../../scripts/monday/removeLabel.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Update Milestone"
+      if: github.event.action == 'milestoned' || github.event.action == 'demilestoned'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Update Milestone");
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateMilestone.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Update Task Title"
+      if: github.event.action == 'edited'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Update Task Title");
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateTitle.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Update Task Assignee"
+      if: github.event.action == 'assigned' || github.event.action == 'unassigned'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Update Task Assignee");
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateAssignee.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Update Task Status"
+      if: github.event.action == 'closed' || github.event.action == 'reopened'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Update Task Status");
+          const action = require('${{ github.action_path }}/../../scripts/monday/updateState.cjs')
+          await action({github, context, core})
+          core.endGroup();
+
+    - name: "Sync Action Changes"
+      if: github.event.inputs.event_type == 'SyncActionChanges'
+      uses: actions/github-script@v9
+      env:
+        MONDAY_KEY: ${{ inputs.monday_key }}
+        MONDAY_BOARD: ${{ inputs.monday_board }}
+        USERNAME_MAP: ${{ inputs.username_map }}
+        GITHUB_REPO: ${{ github.event.repository.name }}
+      with:
+        script: |
+          core.startGroup("Sync Action Changes");
+          const action = require('${{ github.action_path }}/../../scripts/monday/syncActionChanges.cjs')
+          await action({github, context, core})
+          core.endGroup();

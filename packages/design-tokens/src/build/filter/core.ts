@@ -1,10 +1,10 @@
 import type { Filter } from "style-dictionary/types";
 import StyleDictionary from "style-dictionary";
-import type { RegisterFn } from "../../types/interfaces.d.ts";
+import type { RegisterFn } from "../../types.ts";
 import { isLightOrDarkColorToken } from "./light-or-dark.ts";
 
 export const filterCoreTokens: Filter["filter"] = (token, config) =>
-  !token.isSource && token.type !== "typography" && !isLightOrDarkColorToken(token, config);
+  !token.isSource && token.$type !== "typography" && !isLightOrDarkColorToken(token, config);
 
 export const registerFilterCoreTokens: RegisterFn = () =>
   StyleDictionary.registerFilter({

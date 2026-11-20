@@ -1,11 +1,10 @@
-// @ts-strict-ignore
 import { DateLocaleData } from "../components/date-picker/utils";
 import { numberStringFormatter } from "./locale";
 
 export interface HoverRange {
   focused: "end" | "start";
-  start: Date;
-  end: Date;
+  start?: Date;
+  end?: Date;
 }
 
 /**
@@ -15,9 +14,9 @@ export interface HoverRange {
  * @param min
  * @param max
  */
-export function inRange(date: Date, min?: Date | string, max?: Date | string): boolean {
+export function inRange(date?: Date, min?: Date | string, max?: Date | string): boolean {
   if (!date) {
-    return;
+    return false;
   }
   const time = date.getTime();
   const afterMin = !(min instanceof Date) || time >= min.getTime();
@@ -33,9 +32,9 @@ export function inRange(date: Date, min?: Date | string, max?: Date | string): b
  * @param min
  * @param max
  */
-export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | null {
+export function dateFromRange(date?: any, min?: Date | string, max?: Date | string): Date | undefined {
   if (!(date instanceof Date)) {
-    return null;
+    return undefined;
   }
   const time = date.getTime();
   const beforeMin = min instanceof Date && time < min.getTime();
@@ -56,12 +55,12 @@ export function dateFromRange(date?: any, min?: Date | string, max?: Date | stri
  * @param iso8601
  * @param isEndDate
  */
-export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | null {
+export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | undefined {
   if (iso8601 instanceof Date) {
     return iso8601;
   }
   if (!iso8601 || typeof iso8601 !== "string") {
-    return null;
+    return undefined;
   }
   const d = iso8601.split(/[: T-]/).map(parseFloat);
   const date = new Date(d[0], (d[1] || 1) - 1, d[2] || 1);
@@ -77,14 +76,10 @@ export function dateFromISO(iso8601: string | Date, isEndDate = false): Date | n
 
 /**
  * Parse a localized date string into a valid Date.
- * return false if date is invalid, or out of range
- *
- * @param value
- * @param localeData
  */
-export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date {
+export function dateFromLocalizedString(value: string, localeData: DateLocaleData): Date | undefined {
   if (!localeData) {
-    return null;
+    return undefined;
   }
   const { separator } = localeData;
   const parts = parseDateString(value, localeData);
@@ -104,7 +99,7 @@ export function dateFromLocalizedString(value: string, localeData: DateLocaleDat
   if (validDay && validMonth && validDate && validLength && validYear) {
     return date;
   }
-  return null;
+  return undefined;
 }
 
 export function parseCalendarYear(year: number, localeData: DateLocaleData): number {
@@ -177,7 +172,7 @@ export function datePartsFromISO(isoDate: string): { day: string; month: string;
  * @param d1
  * @param d2
  */
-export function sameDate(d1: Date, d2: Date): boolean {
+export function sameDate(d1: Date | undefined, d2: Date | undefined): boolean {
   return (
     d1 instanceof Date &&
     d2 instanceof Date &&
@@ -222,7 +217,11 @@ export function getDateInMonth(date: Date, month: number): Date {
  * @param min
  * @param max
  */
-export function getFirstValidDateInMonth(date: Date, min: Date, max: Date): Date {
+export function getFirstValidDateInMonth(date?: Date, min?: Date, max?: Date): Date | undefined {
+  if (!date) {
+    return undefined;
+  }
+
   const newDate = new Date(date);
   newDate.setDate(1);
   return inRange(newDate, min, max) ? newDate : dateFromRange(newDate, min, max);
@@ -258,9 +257,9 @@ export function parseDateString(
 ): { day: number; month: number; year: number } {
   const { day, month, year } = datePartsFromLocalizedString(string, localeData);
   return {
-    day: parseInt(day),
-    month: parseInt(month) - 1, // this subtracts by 1 because the month in the Date constructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
-    year: parseInt(year),
+    day: parseInt(day, 10),
+    month: parseInt(month, 10) - 1, // this subtracts by 1 because the month in the Date constructor is zero-based https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/getMonth
+    year: parseInt(year, 10),
   };
 }
 
@@ -292,8 +291,8 @@ export function getDaysDiff(date1: Date, date2: Date): number {
 /**
  * Set time of the day to the end.
  *
- * @param {Date} date Date.
- * @returns {Date} Date with time set to end of day .
+ * @param date Date.
+ * @returns Date with time set to end of day .
  */
 export function setEndOfDay(date: Date): Date {
   date.setHours(23, 59, 59, 999);
@@ -305,8 +304,7 @@ export function setEndOfDay(date: Date): Date {
  *
  * @param date1
  * @param date2
- * @returns {boolean}
  */
-export function hasSameMonthAndYear(date1: Date, date2: Date): boolean {
-  return date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
+export function hasSameMonthAndYear(date1?: Date, date2?: Date): boolean {
+  return !!(date1 && date2 && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear());
 }

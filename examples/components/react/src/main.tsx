@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { setAssetPath } from "@esri/calcite-components/dist/components";
+import { setAssetPath } from "@esri/calcite-components";
 
 setAssetPath(window.location.href);
 

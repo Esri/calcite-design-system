@@ -1,5 +1,8 @@
 {
+  "cancelInlineEditing": "Annullér",
   "clear": "Ryd værdi",
+  "confirmInlineEditingChanges": "Gem",
+  "enableInlineEditing": "Redigér",
   "loading": "Indlæser",
   "required": "Obligatorisk"
 }

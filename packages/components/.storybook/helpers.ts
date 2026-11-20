@@ -1,5 +1,5 @@
 import * as icons from "@esri/calcite-ui-icons";
-import { IconName } from "../src/components/icon/interfaces";
+import { IconName } from "../src/components/icon/types";
 
 // we can get all unique icon names from all size 16 non-filled icons.
 export const iconNames: IconName[] = Object.keys(icons)

@@ -1,10 +1,14 @@
+import "../components/menu-item/menu-item";
+import "../components/menu/menu";
+import "../components/navigation-logo/navigation-logo";
+import "../components/navigation-user/navigation-user";
+import "../components/navigation/navigation";
 import { html } from "../../support/formatting";
 
 export const navigationTokens = {
   calciteNavigationBackgroundColor: "",
   calciteNavigationBorderColor: "",
   calciteNavigationWidth: "",
-  calciteNavigationBackground: "",
 };
 export const navigation = html`<calcite-navigation>
   <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" icon="layers" slot="logo">

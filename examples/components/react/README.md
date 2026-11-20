@@ -1,50 +1,42 @@
-# React and TypeScript
+# React 19+ and TypeScript
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/esri/calcite-design-system/tree/dev/examples/components/react?file=README.md)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Esri/calcite-design-system/tree/dev/examples/components/react?configPath=examples/components/react)
 
-This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components-react`](https://www.npmjs.com/package/@esri/calcite-components-react), which provides React wrappers for Calcite components.
+This example was bootstrapped with [Vite](https://vitejs.dev/guide/#scaffolding-your-first-vite-project). The example uses [`@esri/calcite-components`](https://www.npmjs.com/package/@esri/calcite-components).
 
 To install dependencies and start the development server, run:
 
 ```sh
-npm install
-npm run dev
+pnpm install --ignore-workspace --lockfile=false
+pnpm dev
 ```
 
 ## Developer info
 
-To install `@esri/calcite-components-react`, run:
+To install `@esri/calcite-components`, run:
 
 ```sh
-npm install @esri/calcite-components-react
+pnpm add @esri/calcite-components --ignore-workspace --lockfile=false
 ```
-
-This package includes the compatible version of the main component library as a dependency, so no need to install `@esri/calcite-components` separately.
 
 ### Setup components
 
-By default, Calcite components use assets hosted on a CDN. If you are hosting assets locally, you can import and use `setAssetPath`. This ensures that translations, icons, and other required assets are available to Calcite components. (More on copying assets below.)
+By default, Calcite components use assets hosted on a CDN. If you are hosting assets locally, you can copy your assets to a project directory and set the asset path in your app with `setAssetPath`. This ensures that translations, icons, and other required assets are available to Calcite components:
 
 ```ts
-import { setAssetPath } from "@esri/calcite-components/dist/components";
+import { setAssetPath } from "@esri/calcite-components";
 
 // Local assets
 setAssetPath(window.location.href);
-
-// CDN hosted assets
-// setAssetPath("https://unpkg.com/@esri/calcite-components/dist/cdn/assets");
 ```
 
 Next, import the components used in your application:
 
 ```tsx
 // define the custom elements on the browser
-import "@esri/calcite-components/dist/components/calcite-button";
-import "@esri/calcite-components/dist/components/calcite-icon";
-import "@esri/calcite-components/dist/components/calcite-slider";
-
-// import the React wrapper components
-import { CalciteButton, CalciteIcon, CalciteSlider } from "@esri/calcite-components-react";
+import "@esri/calcite-components/components/calcite-button";
+import "@esri/calcite-components/components/calcite-icon";
+import "@esri/calcite-components/components/calcite-slider";
 ```
 
 ### Copy the assets
@@ -55,28 +47,6 @@ Calcite components' assets need to be copied from `node_modules` to your applica
 cp -r node_modules/@esri/calcite-components/dist/cdn/assets/* ./public
 ```
 
-## Why not use the web components directly?
+### Typescript
 
-The React wrappers improve the developer experience in TypeScript projects because you'll benefit from code completion, go to definition, increased type safety, and more.
-
-Additionally, React [lacked support](https://github.com/facebook/react/issues/11347) for custom elements until `v19`. For example, with `v18` or below, updating the value of `calcite-slider` on change required saving a ref to the element and adding a listener:
-
-```jsx
-const sliderEl = useRef(null);
-const [sliderValue, setSliderValue] = useState(50);
-
-function onUpdate(event) {
-  setSliderValue(event.target.value);
-}
-
-useEffect(() => {
-  sliderEl.current.addEventListener("calciteSliderUpdate", onUpdate);
-}, [sliderEl]);
-```
-
-Using `@esri/calcite-components-react`, these events are connected for you:
-
-```jsx
-const [sliderValue, setSliderValue] = useState(50);
-<CalciteSlider onCalciteSliderUpdate={(e) => setSliderValue(e.target.value)} />;
-```
+The `dependencies.ts` file in the `src` folder is used to ensure TypeScript properly recognizes Calcite component typings by including the required reference directive.

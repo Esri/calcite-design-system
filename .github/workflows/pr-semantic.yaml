@@ -1,0 +1,44 @@
+name: Semantic PR
+on:
+  pull_request:
+    types: [edited, opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: read
+jobs:
+  semantic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v6.1.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            # default https://github.com/commitizen/conventional-commit-types/blob/master/index.json
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+
+            # custom
+            deprecate
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/setup@v3
+        with:
+          install: false
+      - name: Install CLI dependencies
+        run: pnpm install --frozen-lockfile --filter @esri/monorepo-cli --ignore-scripts
+      - name: Validate breaking-change markers
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: node cli validate-breaking-change-pr

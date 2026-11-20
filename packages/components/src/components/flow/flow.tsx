@@ -1,14 +1,17 @@
-// @ts-strict-ignore
 import { PropertyValues } from "lit";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
+import { getSlotAssignedElements, whenAnimationDone } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
-import { whenAnimationDone } from "../../utils/dom";
 import type { FlowItem } from "../flow-item/flow-item";
-import { useSetFocus } from "../../controllers/useSetFocus";
-import { FlowDirection, FlowItemLikeElement } from "./interfaces";
-import { CSS } from "./resources";
+import { useFocusable } from "../../controllers/useFocusable";
+import { FlowDirection, FlowItemLikeElement } from "./types";
+import { CSS, SELECTORS } from "./resources";
 import { styles } from "./flow.scss";
+
+function getFlowItemSelectors(customItemSelectors?: string): string {
+  return customItemSelectors ? `${SELECTORS.item},${customItemSelectors}` : SELECTORS.item;
+}
 
 declare global {
   interface DeclareElements {
@@ -16,56 +19,80 @@ declare global {
   }
 }
 
-/** @slot - A slot for adding `calcite-flow-item` elements to the component. */
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-flow-background-color": "*";
+  }
+}
+
+interface FlowSlots {
+  /**
+   * A slot for adding `calcite-flow-item`s to the component.
+   */
+  "": Node[];
+}
+
+/**
+ * @docGroup Flow
+ */
 export class Flow extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: FlowSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private frameRef = createRef<HTMLDivElement>();
 
-  private itemMutationObserver: MutationObserver = createObserver("mutation", () =>
-    this.updateItemsAndProps(),
-  );
+  private defaultSlotRef = createRef<HTMLSlotElement>();
+
+  private itemMutationObserver = createObserver("mutation", () => this.updateItemsAndProps());
 
   private items: FlowItemLikeElement[] = [];
 
   private selectedIndex = -1;
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
-  // #endregion
+  //#endregion
 
-  // #region State Properties
+  //#region State Properties
 
   @state() flowDirection: FlowDirection = "standby";
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
-   * This property enables the component to consider other custom elements implementing flow-item's interface.
+   * This property enables the component to consider additional custom elements implementing flow-item's interface.
    *
    * @private
    */
-  @property() customItemSelectors: string;
+  @property() customItemSelectors?: string;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Methods
+  //#region Public Methods
 
   /**
-   * Removes the currently active `calcite-flow-item`.
+   * Removes selection of the currently active `calcite-flow-item`.
    *
-   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement>
+   * @returns Promise<HTMLCalciteFlowItemElement | FlowItemLikeElement | undefined>
    */
   @method()
-  async back(): Promise<FlowItem["el"] | FlowItemLikeElement> {
+  async back(): Promise<FlowItem["el"] | FlowItemLikeElement | undefined> {
     const { items, selectedIndex } = this;
 
     const selectedItem = items[selectedIndex];
@@ -96,7 +123,7 @@ export class Flow extends LitElement {
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    * @returns Promise<void>
    */
   @method()
@@ -104,9 +131,9 @@ export class Flow extends LitElement {
     return this.focusSetter(() => this.items[this.selectedIndex], options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -136,9 +163,9 @@ export class Flow extends LitElement {
     this.itemMutationObserver?.disconnect();
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
 
   private async handleFlowDirectionChange(flowDirection: FlowDirection): Promise<void> {
     if (flowDirection === "standby" || !this.frameRef.value) {
@@ -171,10 +198,7 @@ export class Flow extends LitElement {
     this.flowDirection = "standby";
   }
 
-  private getFlowDirection(
-    oldSelectedIndex: number,
-    newSelectedIndex: number,
-  ): FlowDirection | null {
+  private getFlowDirection(oldSelectedIndex: number, newSelectedIndex: number): FlowDirection {
     const allowRetreatingDirection = oldSelectedIndex > 0;
     const allowAdvancingDirection = oldSelectedIndex > -1 && newSelectedIndex > 0;
 
@@ -186,15 +210,12 @@ export class Flow extends LitElement {
   }
 
   private updateItemsAndProps(): void {
-    const { customItemSelectors, el } = this;
+    const itemSelectors = getFlowItemSelectors(this.customItemSelectors);
+    const slottedItems = this.defaultSlotRef.value
+      ? getSlotAssignedElements<FlowItemLikeElement>(this.defaultSlotRef.value, itemSelectors)
+      : [];
 
-    const newItems = Array.from<FlowItemLikeElement>(
-      el.querySelectorAll(
-        `calcite-flow-item${customItemSelectors ? `,${customItemSelectors}` : ""}`,
-      ),
-    ).filter((flowItem) => flowItem.closest("calcite-flow") === el);
-
-    this.items = newItems;
+    this.items = slottedItems;
 
     this.ensureSelectedFlowItemExists();
     this.updateFlowProps();
@@ -230,7 +251,7 @@ export class Flow extends LitElement {
       .reverse()
       .find((item) => !!item.selected);
 
-    return items.indexOf(selectedItem);
+    return selectedItem ? items.indexOf(selectedItem) : -1;
   }
 
   private ensureSelectedFlowItemExists(): void {
@@ -248,9 +269,9 @@ export class Flow extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Rendering
+  //#region Rendering
 
   override render(): JsxNode {
     const { flowDirection } = this;
@@ -263,10 +284,10 @@ export class Flow extends LitElement {
 
     return (
       <div class={frameDirectionClasses} ref={this.frameRef}>
-        <slot />
+        <slot onSlotChange={this.updateItemsAndProps} ref={this.defaultSlotRef} />
       </div>
     );
   }
 
-  // #endregion
+  //#endregion
 }

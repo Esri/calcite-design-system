@@ -1,13 +1,13 @@
 import { html } from "../support/formatting";
+import { allModes } from "../.storybook/modes";
 import { setCSSVariables } from "./tests/utils/cssTokenValues";
 import {
   actionBar,
+  floatingActionBar,
   actionMenu,
-  actionPad,
   actionTokens,
   actionBarTokens,
   actionMenuTokens,
-  actionPadTokens,
   actionGroupTokens,
 } from "./custom-theme/action";
 import { alertTokens, alert } from "./custom-theme/alert";
@@ -15,7 +15,7 @@ import { accordionItemTokens } from "./custom-theme/accordion-item";
 import { accordion, accordionTokens } from "./custom-theme/accordion";
 import { autocomplete, autocompleteTokens } from "./custom-theme/autocomplete";
 import { block, blockTokens } from "./custom-theme/block";
-import { buttons } from "./custom-theme/button";
+import { buttons, buttonTokens } from "./custom-theme/button";
 import { blockSection, blockSectionTokens } from "./custom-theme/block-section";
 import { calciteSwitch } from "./custom-theme/switch";
 import { card, cardThumbnail, cardTokens } from "./custom-theme/card";
@@ -28,9 +28,9 @@ import { fab, fabLoading, fabTokens } from "./custom-theme/fab";
 import { filter, filterTokens } from "./custom-theme/filter";
 import { flow, flowTokens } from "./custom-theme/flow";
 import { graph, graphTokens } from "./custom-theme/graph";
-import { handle, handleTokens } from "./custom-theme/handle";
 import { icon } from "./custom-theme/icon";
-import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable";
+import { sortHandle } from "./custom-theme/sort-handle";
+import { inlineEditable, inlineEditableTokens } from "./custom-theme/inline-editable"; // `calcite-inline-editable` deprecated in v5.2.0, removal target v7.0.0
 import { input, inputTokens } from "./custom-theme/input";
 import {
   inputDatePicker,
@@ -51,6 +51,8 @@ import {
   inputNumberClearableReadOnly,
   inputNumberReadOnlyWithPrefixSuffix,
   inputNumberTokens,
+  inputNumberWithPrefixAndSuffix,
+  inputNumberLoading,
 } from "./custom-theme/input-number";
 import {
   inputText,
@@ -104,7 +106,8 @@ import { swatchGroup, swatchGroupTokens } from "./custom-theme/swatch-group";
 import { swatch, swatchTokens } from "./custom-theme/swatch";
 import { splitButton, splitButtonTokens } from "./custom-theme/split-button";
 import { inputTimePicker, inputTimePickerTokens } from "./custom-theme/input-time-picker";
-import { colorPicker, colorPickerTokens } from "./custom-theme/color-picker";
+import { inputTimeZone, inputTimeZoneTokens } from "./custom-theme/input-time-zone";
+import { colorPicker, colorPickerFieldDisabled, colorPickerTokens } from "./custom-theme/color-picker";
 
 const globalTokens = {
   calciteColorBrand: "#007ac2",
@@ -132,7 +135,7 @@ const globalTokens = {
   calciteUiIconColor: "currentColor",
 };
 
-function convertToParamCase(str) {
+function convertToParamCase(str: string): string {
   return str.replace(/([A-Z])/g, "-$1").toLowerCase();
 }
 
@@ -176,15 +179,15 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
     </style>
     <div class="demo">
       <div class="demo-column">
-        ${accordion} ${actionBar} ${autocomplete} ${notice} ${segmentedControl}
+        ${accordion} ${actionBar} ${floatingActionBar} ${autocomplete} ${notice} ${segmentedControl}
         <div style="display: flex">
-          ${actionPad}
           <div style="width: 40px; height: 40px;">${actionMenu}</div>
           ${icon}
         </div>
         ${inlineEditable} ${input} ${select} ${singleSelectCombobox} ${inputNumber} ${inputNumberClearable}
-        ${inputNumberReadOnly} ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText}
-        ${inputTextClearable} ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly}
+        ${inputNumberLoading} ${inputNumberWithPrefixAndSuffix} ${inputNumberReadOnly}
+        ${inputNumberReadOnlyWithPrefixSuffix} ${inputNumberClearableReadOnly} ${inputText} ${inputTextClearable}
+        ${inputTextLoading} ${inputTextWithSuffixAndPrefix} ${inputTextReadOnly} ${inputTimePicker} ${inputTimeZone}
         ${comboboxWithPlaceHolderIcon} ${defaultCombobox}
       </div>
       <div class="demo-column">
@@ -197,7 +200,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       </div>
       <div class="demo-column">
         ${tabs} ${tabsBordered} ${label} ${link} ${list} ${loader} ${calciteSwitch} ${avatarIcon} ${avatarInitials}
-        ${avatarThumbnail} ${progress} ${handle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
+        ${avatarThumbnail} ${progress} ${sortHandle} ${graph} ${textArea} ${popover} ${tile} ${timePicker} ${tooltip}
         ${comboboxItem} ${selectedComboboxItem}
       </div>
       <div class="demo-column">
@@ -260,10 +263,7 @@ const kitchenSink = (args: Record<string, string>, useTestValues = false) =>
       <div class="demo-column">${splitButton}</div>
     </div>
     <div class="demo-row">
-      <div class="demo-column">${colorPicker}</div>
-    </div>
-    <div class="demo-row">
-      <div class="demo-column">${inputTimePicker}</div>
+      <div class="demo-column">${colorPicker} ${colorPickerFieldDisabled}</div>
     </div>
   </div>`;
 
@@ -274,13 +274,13 @@ const componentTokens = {
   ...actionBarTokens,
   ...actionGroupTokens,
   ...actionMenuTokens,
-  ...actionPadTokens,
   ...actionTokens,
   ...alertTokens,
   ...autocompleteTokens,
   ...avatarTokens,
   ...blockSectionTokens,
   ...blockTokens,
+  ...buttonTokens,
   ...cardTokens,
   ...checkboxTokens,
   ...chipTokens,
@@ -293,7 +293,6 @@ const componentTokens = {
   ...fabTokens,
   ...filterTokens,
   ...flowTokens,
-  ...handleTokens,
   ...inlineEditableTokens,
   ...inputNumberTokens,
   ...graphTokens,
@@ -338,6 +337,7 @@ const componentTokens = {
   ...swatchTokens,
   ...splitButtonTokens,
   ...inputTimePickerTokens,
+  ...inputTimeZoneTokens,
   ...colorPickerTokens,
 };
 
@@ -352,6 +352,7 @@ export default {
 export const themingInteractive = (args: Record<string, string>): string => {
   return kitchenSink(args);
 };
+themingInteractive.parameters = { chromatic: { modes: { large: allModes.squareLarge } } };
 
 export const theming = (): string => {
   return kitchenSink(
@@ -361,3 +362,4 @@ export const theming = (): string => {
     true,
   );
 };
+theming.parameters = { chromatic: { modes: { large: allModes.squareLarge } } };

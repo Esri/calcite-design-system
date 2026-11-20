@@ -1,5 +1,5 @@
-// @ts-strict-ignore
-import { createRef } from "lit-html/directives/ref.js";
+import { createRef } from "lit/directives/ref.js";
+import { PropertyValues } from "lit";
 import {
   LitElement,
   property,
@@ -12,8 +12,12 @@ import {
 } from "@arcgis/lumina";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import type { Action } from "../action/action";
-import { useSetFocus } from "../../controllers/useSetFocus";
-import { CSS, ICONS, SLOTS } from "./resources";
+import { isNavigationLogo } from "../navigation-logo/resources";
+import { isNavigationUser } from "../navigation-user/resources";
+import { useFocusable } from "../../controllers/useFocusable";
+import { createObserver } from "../../utils/observers";
+import { Scale } from "../types";
+import { CSS, ICONS, SLOTS, isNavigation } from "./resources";
 import { styles } from "./navigation.scss";
 
 declare global {
@@ -22,88 +26,180 @@ declare global {
   }
 }
 
+declare module "@arcgis/lumina" {
+  interface DeclareCssProperties {
+    /**
+     * Specifies the width of the component's content area.
+     */
+    "--calcite-navigation-width": "*";
+    /**
+     * Specifies the component's background color.
+     */
+    "--calcite-navigation-background-color": "*";
+    /**
+     * Specifies the component's border color.
+     */
+    "--calcite-navigation-border-color": "*";
+  }
+}
+
+interface NavigationSlots {
+  /**
+   * A slot for adding a `calcite-logo` component to the primary navigation level.
+   */
+  logo: Node[];
+  /**
+   * A slot for adding a `calcite-user` component to the primary navigation level.
+   */
+  user: Node[];
+  /**
+   * A slot for adding a `calcite-progress` component to the primary navigation level.
+   */
+  progress: Node[];
+  /**
+   * A slot for adding a `calcite-action` component to the primary navigation level.
+   */
+  "navigation-action": Node[];
+  /**
+   * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
+   */
+  "content-start": Node[];
+  /**
+   * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
+   */
+  "content-center": Node[];
+  /**
+   * A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
+   */
+  "content-end": Node[];
+  /**
+   * A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+   */
+  "navigation-secondary": Node[];
+  /**
+   * A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+   */
+  "navigation-tertiary": Node[];
+}
+
 /**
- * @slot logo - A slot for adding a `calcite-logo` component to the primary navigation level.
- * @slot user - A slot for adding a `calcite-user` component to the primary navigation level.
- * @slot progress - A slot for adding a `calcite-progress` component to the primary navigation level.
- * @slot navigation-action - A slot for adding a `calcite-action` component to the primary navigation level.
- * @slot content-start - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the start position of any navigation level.
- * @slot content-center - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the center position of the primary navigation level.
- * @slot content-end - A slot for adding a `calcite-menu`, `calcite-action`, or other interactive elements in the end position of any navigation level.
- * @slot navigation-secondary - A slot for adding a `calcite-navigation` component in the secondary navigation level. Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
- * @slot navigation-tertiary - A slot for adding a `calcite-navigation` component in the tertiary navigation level.  Components rendered here will not display `calcite-navigation-logo` or `calcite-navigation-user` components.
+ * @docGroup Navigation
  */
 export class Navigation extends LitElement {
-  // #region Static Members
+  //#region Type-only metadata members
+
+  override ["@slots"]!: NavigationSlots;
+
+  //#endregion
+
+  //#region Static Members
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
-  // #region Private Properties
+  //#region Private Properties
 
   private navigationActionRef = createRef<Action["el"]>();
 
-  private focusSetter = useSetFocus<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
-  // #endregion
+  private mutationObserver = createObserver("mutation", () => {
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+    this.updateNestedNavigation();
+  });
 
-  // #region State Properties
+  //#endregion
 
-  @state() logoSlotHasElements: boolean;
+  //#region State Properties
 
-  @state() navigationActionSlotHasElements: boolean;
+  @state() logoSlotHasElements = false;
 
-  @state() primaryContentCenterSlotHasElements: boolean;
+  @state() navigationActionSlotHasElements = false;
 
-  @state() primaryContentEndSlotHasElements: boolean;
+  @state() primaryContentCenterSlotHasElements = false;
 
-  @state() primaryContentStartSlotHasElements: boolean;
+  @state() primaryContentEndSlotHasElements = false;
 
-  @state() progressSlotHasElement: boolean;
+  @state() primaryContentStartSlotHasElements = false;
 
-  @state() secondarySlotHasElements: boolean;
+  @state() progressSlotHasElement = false;
 
-  @state() tertiarySlotHasElements: boolean;
+  @state() secondarySlotHasElements = false;
 
-  @state() userSlotHasElements: boolean;
+  @state() tertiarySlotHasElements = false;
 
-  // #endregion
+  @state() userSlotHasElements = false;
 
-  // #region Public Properties
+  //#endregion
 
-  /** When `navigationAction` is `true`, specifies the label of the `calcite-action`. */
-  @property() label: string;
+  //#region Public Properties
+
+  /** @copyDoc */
+  @property() label?: string;
 
   /** When `true`, displays a `calcite-action` and emits a `calciteNavActionSelect` event on selection change. */
   @property({ reflect: true }) navigationAction = false;
 
-  // #endregion
+  /** Specifies the size of the component. */
+  @property({ reflect: true }) scale: Scale = "m";
 
-  // #region Public Methods
+  //#endregion
+
+  //#region Public Methods
 
   /**
    * When `navigationAction` is `true`, sets focus on the component's action element.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
    *
-   * @mdn [focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
+   * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
   async setFocus(options?: FocusOptions): Promise<void> {
     return this.focusSetter(() => this.navigationActionRef.value, options);
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Events
+  //#region Events
 
   /** When `navigationAction` is `true`, emits when the displayed action selection changes. */
   calciteNavigationActionSelect = createEvent({ cancelable: false });
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Lifecycle
+
+  override connectedCallback(): void {
+    this.mutationObserver?.observe(this.el, { childList: true });
+    this.updateNavigationLogo();
+    this.updateNavigationUser();
+    this.updateNestedNavigation();
+  }
+
+  override updated(changes: PropertyValues<this>): void {
+    if (
+      changes.has("scale") ||
+      changes.has("logoSlotHasElements") ||
+      changes.has("userSlotHasElements") ||
+      changes.has("secondarySlotHasElements") ||
+      changes.has("tertiarySlotHasElements")
+    ) {
+      this.updateNavigationLogo();
+      this.updateNavigationUser();
+      this.updateNestedNavigation();
+    }
+  }
+
+  override disconnectedCallback(): void {
+    this.mutationObserver?.disconnect();
+  }
+
+  //#endregion
+
+  //#region Private Methods
 
   private actionClickHandler() {
     this.calciteNavigationActionSelect.emit();
@@ -166,9 +262,46 @@ export class Navigation extends LitElement {
     return this.el.slot !== SLOTS.navSecondary && this.el.slot !== SLOTS.navTertiary;
   }
 
-  // #endregion
+  private getOwnedNavigationElements<T extends Element>(
+    slotName: string,
+    predicate: (element: Element) => element is T,
+  ): T[] {
+    const slot = this.el.shadowRoot?.querySelector<HTMLSlotElement>(`slot[name="${slotName}"]`);
 
-  // #region Rendering
+    if (!slot) {
+      return [];
+    }
+
+    return slot.assignedElements({ flatten: true }).filter(predicate);
+  }
+
+  private updateNavigationLogo(): void {
+    this.getOwnedNavigationElements(SLOTS.logo, isNavigationLogo).forEach((item) => {
+      item.scale = this.scale;
+    });
+  }
+
+  private updateNavigationUser(): void {
+    this.getOwnedNavigationElements(SLOTS.user, isNavigationUser).forEach((item) => {
+      item.scale = this.scale;
+    });
+  }
+
+  private updateNestedNavigation(): void {
+    const nestedNavigation = [
+      ...this.getOwnedNavigationElements(SLOTS.navSecondary, isNavigation),
+      ...this.getOwnedNavigationElements(SLOTS.navTertiary, isNavigation),
+    ];
+    nestedNavigation.forEach((item) => {
+      if (item !== this.el) {
+        (item as Navigation).scale = this.scale;
+      }
+    });
+  }
+
+  //#endregion
+
+  //#region Rendering
 
   private renderMenuAction(): JsxNode {
     return (
@@ -232,5 +365,5 @@ export class Navigation extends LitElement {
     );
   }
 
-  // #endregion
+  //#endregion
 }

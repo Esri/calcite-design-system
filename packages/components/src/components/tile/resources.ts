@@ -1,4 +1,5 @@
-import { IconName } from "../icon/interfaces";
+import { isTag } from "../resources";
+import { IconName } from "../icon/types";
 
 export const CSS = {
   container: "container",
@@ -10,7 +11,6 @@ export const CSS = {
   heading: "heading",
   icon: "icon",
   interactive: "interactive",
-  largeVisualDeprecated: "large-visual-deprecated",
   row: "row",
   selected: "selected",
   selectionIcon: "selection-icon",
@@ -28,3 +28,8 @@ export const SLOTS = {
   contentBottom: "content-bottom",
   contentTop: "content-top",
 };
+
+/**
+ * Use this type guard to narrow an element or event target to this component's element type.
+ */
+export const isTile = isTag("calcite-tile");
