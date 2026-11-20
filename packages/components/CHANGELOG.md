@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.36...@esri/calcite-components@6.0.0-next.37) (2026-11-20)
+
+### Bug Fixes
+
+- preserve grouped numbers in Bosnian and Macedonian locales ([#15625](https://github.com/Esri/calcite-design-system/issues/15625)), closes [#15654](https://github.com/Esri/calcite-design-system/issues/15654)
+
 ## [6.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.35...@esri/calcite-components@6.0.0-next.36) (2026-11-19)
 
 ### ⚠ BREAKING CHANGES
