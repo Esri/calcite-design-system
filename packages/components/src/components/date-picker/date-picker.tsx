@@ -249,8 +249,8 @@ export class DatePicker extends LitElement {
   /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). Set to `undefined` or an empty string (`""`) to clear the selection. */
   @property() value?: string | string[];
 
-  /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
-  @property() valueAsDate?: Date | Date[];
+  /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). Unselected range endpoints are `undefined`. */
+  @property() valueAsDate?: Date | (Date | undefined)[];
 
   //#endregion
 
@@ -378,7 +378,6 @@ export class DatePicker extends LitElement {
 
   private valueHandler(value: string | string[] | null | undefined): void {
     if (Array.isArray(value)) {
-      // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
       this.valueAsDate = value.every((rangeValue) => rangeValue === "")
         ? undefined
         : getValueAsDateRange(value);
@@ -594,7 +593,6 @@ export class DatePicker extends LitElement {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [startDate, date];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
@@ -609,7 +607,6 @@ export class DatePicker extends LitElement {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [date, endDate];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();

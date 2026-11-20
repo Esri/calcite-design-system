@@ -151,13 +151,6 @@ export class Action extends LitElement {
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
 
-  /**
-   * When `true`, the side padding of the component is reduced.
-   *
-   * @deprecated in v2.11.0, removal target v5.0.0 - No longer necessary.
-   */
-  @property({ reflect: true }) compact = false;
-
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
@@ -368,14 +361,12 @@ export class Action extends LitElement {
   }
 
   private renderButton(): JsxNode {
-    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
-      this;
+    const { disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } = this;
     const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact,
     };
 
     const buttonContent = (

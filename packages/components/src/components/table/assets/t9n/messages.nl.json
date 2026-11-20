@@ -1,7 +1,18 @@
 {
+  "all": "alle",
   "clear": "Wissen",
   "hiddenSelected": "Er zijn rijen geselecteerd maar deze zijn buiten beeld",
+  "keyboardDeselect": "Druk op Enter of op de spatiebalk om de selectie van de rij ongedaan te maken",
+  "keyboardDeselectAll": "Druk op Enter of op de spatiebalk om de selectie voor alle rijen ongedaan te maken",
+  "keyboardSelect": "Druk op Enter of op de spatiebalk om de rij te selecteren",
+  "keyboardSelectAll": "Druk op Enter of op de spatiebalk om alle rijen te selecteren",
   "page": "Pagina",
   "row": "Rij",
-  "selected": "Geselecteerd"
+  "rowNumber": "Rijnummer",
+  "selected": "Geselecteerd",
+  "selectedRows": "geselecteerde rijen",
+  "selectionColumn": "Selectiekolom",
+  "selectionRow": "rij",
+  "selectionSelected": "geselecteerd",
+  "unselected": "niet geselecteerd"
 }

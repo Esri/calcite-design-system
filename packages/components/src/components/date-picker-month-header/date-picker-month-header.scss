@@ -3,6 +3,7 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-action-padding-block
+// --calcite-internal-action-padding-inline
 // --calcite-internal-select-block-size
 // --calcite-internal-select-font-weight
 // --calcite-internal-select-icon-container-padding-inline
@@ -82,6 +83,7 @@
   block-size: 100%;
 
   --calcite-internal-action-padding-block: 0;
+  --calcite-internal-action-padding-inline: var(--calcite-theme-space-none, var(--calcite-spacing-none));
   --calcite-action-background-color: var(--calcite-date-picker-header-action-background-color);
   --calcite-action-background-color-hover: var(--calcite-date-picker-header-action-background-color-hover);
   --calcite-action-background-color-press: var(--calcite-date-picker-header-action-background-color-press);

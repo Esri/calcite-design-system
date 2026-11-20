@@ -38,10 +38,6 @@ describe("defaults", () => {
         defaultValue: "transparent",
       },
       {
-        propertyName: "compact", // (deprecated)
-        defaultValue: false,
-      },
-      {
         propertyName: "disabled",
         defaultValue: false,
       },
@@ -100,10 +96,6 @@ describe("reflects", () => {
       {
         propertyName: "appearance",
         value: "solid",
-      },
-      {
-        propertyName: "compact",
-        value: true,
       },
       {
         propertyName: "disabled",

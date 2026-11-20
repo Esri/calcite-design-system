@@ -90,8 +90,6 @@ interface ListSlots {
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
- * A general purpose list that enables users to construct list items that conform to Calcite styling.
- *
  * @docGroup List
  */
 export class List extends LitElement {
