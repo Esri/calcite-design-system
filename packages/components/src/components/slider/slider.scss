@@ -317,6 +317,11 @@
   margin-inline-start: calc(-1 * theme("margin[0.5]"));
 }
 
+.tick--end-aligned {
+  margin-inline-start: 0;
+  margin-inline-end: calc(-1 * theme("margin[0.5]"));
+}
+
 .tick--active {
   background-color: var(--calcite-slider-tick-selected-color, var(--calcite-color-brand));
 }
@@ -346,6 +351,22 @@
   position: absolute;
   inset-block-start: -1px;
   inline-size: max-content;
+}
+
+.tick__label--left {
+  transform: translateX(-0.25ch);
+
+  &.tick__label--centered {
+    transform: translateX(-50%);
+  }
+}
+
+.tick__label--right {
+  transform: translateX(0.25ch);
+
+  &.tick__label--centered {
+    transform: translateX(50%);
+  }
 }
 
 .tick__label--max {

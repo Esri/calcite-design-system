@@ -370,7 +370,8 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
    *
-   * The minimum and maximum tick labels align to the component bounds.
+   * Compact minimum and maximum tick labels are centered on their ticks.
+   * Longer endpoint labels align near the track edges with a small outward offset.
    * Overlapping tick labels are automatically hidden, prioritizing the minimum and maximum labels.
    * When the minimum and maximum labels overlap, only the minimum label is displayed.
    * Use `labelFormatter` to customize text or omit additional labels.
@@ -1161,7 +1162,6 @@ export class Slider extends LitElement implements LabelableComponent {
 
     this.tickLabelLayoutFrame = requestAnimationFrame(() => {
       this.tickLabelLayoutFrame = undefined;
-      this.hideCoveredBoundingTickLabels();
       this.updateTickLabelVisibility();
     });
   }
@@ -1179,6 +1179,21 @@ export class Slider extends LitElement implements LabelableComponent {
       }
 
       const range = document.createRange();
+      const handleSize = this.maxHandleRef
+        .value!.querySelector<HTMLDivElement>(`.${CSS.handle}`)!
+        .getBoundingClientRect().width;
+      const endpointAlignment = [this.minTickLabelRef.value, this.maxTickLabelRef.value]
+        .filter((element) => element !== undefined)
+        .map((element) => {
+          range.selectNodeContents(element);
+          return { element, centered: range.getBoundingClientRect().width <= handleSize };
+        });
+
+      for (const { element, centered } of endpointAlignment) {
+        element.classList.toggle(CSS.tickLabelCentered, centered);
+      }
+
+      // Measure final positions after endpoint alignment so collision bounds stay consistent.
       const labels: TickLabelLayout["labels"] = [];
       const mirror = this.shouldMirror();
       for (const [value, labelRef] of this.tickLabelRefs) {
@@ -1207,6 +1222,7 @@ export class Slider extends LitElement implements LabelableComponent {
       this.tickLabelLayout = { direction: this.direction, labels };
     }
 
+    this.hideCoveredBoundingTickLabels();
     if (this.tickLabelLayout.visibleValues) {
       return;
     }
@@ -1417,6 +1433,7 @@ export class Slider extends LitElement implements LabelableComponent {
                       class={{
                         [CSS.tick]: true,
                         [CSS.tickActive]: activeTicks,
+                        [CSS.tickEndAligned]: mirror !== (this.direction === "rtl"),
                       }}
                       style={{
                         left: mirror ? "" : tickOffset,
@@ -1576,6 +1593,7 @@ export class Slider extends LitElement implements LabelableComponent {
     const isMinTickLabel = tick === min;
     const isMaxTickLabel = tick === max;
     const isAtEdge = isMinTickLabel || isMaxTickLabel;
+    const isLeftEdge = isMinTickLabel !== this.shouldMirror();
 
     const shouldDisplayLabel =
       labelTicks &&
@@ -1591,6 +1609,8 @@ export class Slider extends LitElement implements LabelableComponent {
       [CSS.tickMin]: isMinTickLabel,
       [CSS.tickMax]: isMaxTickLabel,
       [CSS.tickLabelCovered]: this.coveredTickLabels.has(tick),
+      [CSS.tickLabelLeft]: isAtEdge && isLeftEdge,
+      [CSS.tickLabelRight]: isAtEdge && !isLeftEdge,
     };
     const tickLabel = this.internalLabelFormatter(tick, "tick");
     // Text may depend on consumer state, even when the formatter itself is unchanged.
@@ -1598,11 +1618,6 @@ export class Slider extends LitElement implements LabelableComponent {
       this.tickLabelText.set(tick, tickLabel);
       this.tickLabelLayout = undefined;
     }
-    const edgeLabelStyle = {
-      [isMinTickLabel !== this.shouldMirror() ? "left" : "right"]:
-        "calc(var(--calcite-slider-handle-size) * -0.5)",
-    };
-
     let tickLabelRef = this.tickLabelRefs.get(tick);
     if (!tickLabelRef) {
       tickLabelRef = isMinTickLabel
@@ -1618,7 +1633,7 @@ export class Slider extends LitElement implements LabelableComponent {
         class={tickLabelClasses}
         data-tick={tick}
         ref={tickLabelRef}
-        style={isAtEdge ? edgeLabelStyle : undefined}
+        style={isAtEdge ? { [isLeftEdge ? "left" : "right"]: "0" } : undefined}
       >
         {tickLabel}
       </span>
