@@ -2782,7 +2782,6 @@ panelsWithOverflowingContent.parameters = {
         },
       },
     },
-    cropToViewport: true,
   },
 };
 
@@ -3159,7 +3158,6 @@ customPanelWithOverflowingContent.parameters = {
         },
       },
     },
-    cropToViewport: true,
   },
 };
 
