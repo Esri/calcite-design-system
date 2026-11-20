@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.40...@esri/calcite-components@6.0.0-next.41) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **table, table-cell, table-header, table-row:** `messageOverrides` is no longer available on
+  `calcite-table-header` or `calcite-table-cell`. Move overrides to the
+  owning `calcite-table`. All keys are unchanged except for the following:
+
+**`calcite-table-row`**
+
+- `row` → `selectionRow`
+- `selected` → `selectionSelected`
+
+**`calcite-table-header`**
+
+- `selected` → `selectedRows`
+
+### Code Refactoring
+
+- **table, table-cell, table-header, table-row:** move `messageOverrides` to parent ([#15215](https://github.com/Esri/calcite-design-system/issues/15215)), closes [#15216](https://github.com/Esri/calcite-design-system/issues/15216) [#15326](https://github.com/Esri/calcite-design-system/issues/15326)
+
 ## [6.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.39...@esri/calcite-components@6.0.0-next.40) (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
