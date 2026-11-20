@@ -358,7 +358,15 @@ export const primaryAsADownloadAppearanceOutlineFill = (): string =>
   </calcite-split-button>`;
 
 export const longPrimaryText = (): string => html`
-  <div style="width: 300px; display: flex; flex-direction: column;gap: 1rem;">
+  <style>
+    .container {
+      width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  </style>
+  <div class="container">
     <p>width="full"</p>
     <calcite-split-button primary-text="very long text that can be truncated in narrow layout" width="full">
       <calcite-dropdown-group selection-mode="none" group-title="Veggies">
