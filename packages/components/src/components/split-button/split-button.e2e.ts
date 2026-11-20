@@ -128,7 +128,7 @@ it("changes the size and width of the dropdown + primary button based on scale",
     element.setProperty("scale", elementScale);
     await page.waitForChanges();
     const dropdownScale = elementScaleToDropdownScale[elementScale];
-    expect(dropdown).toEqualAttribute("width-scale", dropdownScale);
+    expect(dropdown).toEqualAttribute("width", dropdownScale);
     expect(dropdown).toEqualAttribute("scale", dropdownScale);
     expect(primaryButton).toEqualAttribute("scale", elementScaleToButtonScale[elementScale]);
   }
