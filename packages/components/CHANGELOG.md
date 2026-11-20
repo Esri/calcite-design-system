@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.38...@esri/calcite-components@6.0.0-next.39) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **stepper:** The following deprecated tokens are removed in
+  `stepper`.
+
+- `--calcite-stepper-bar-active-fill-color`
+- `--calcite-stepper-bar-inactive-fill-color`
+
+To migrate, replace
+
+- `--calcite-stepper-bar-active-fill-color` with
+  `--calcite-stepper-bar-selected-fill-color`.
+- `--calcite-stepper-bar-inactive-fill-color` with
+  `--calcite-stepper-bar-fill-color`.
+
+### Code Refactoring
+
+- **stepper:** drop deprecated tokens ([#15552](https://github.com/Esri/calcite-design-system/issues/15552)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.37...@esri/calcite-components@6.0.0-next.38) (2026-11-20)
 
 ### Bug Fixes
