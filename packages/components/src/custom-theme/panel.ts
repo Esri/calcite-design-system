@@ -9,7 +9,6 @@ export const panelTokens = {
   calcitePanelBackgroundColor: "",
   calcitePanelBorderColor: "",
   calcitePanelContentBottomSpace: "",
-  calcitePanelContentSpace: "",
   calcitePanelContentTopSpace: "",
   calcitePanelCornerRadius: "",
   calcitePanelDescriptionTextColor: "",
