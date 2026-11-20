@@ -48,12 +48,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-chip-select-icon-color-press": "*";
     /**
-     * Specifies the component's selection element icon color when active.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-chip-select-icon-color-press` instead.
-     */
-    "--calcite-chip-select-icon-color-pressed": "*";
-    /**
      * Specifies the component's selection element icon color.
      */
     "--calcite-chip-select-icon-color": "*";
