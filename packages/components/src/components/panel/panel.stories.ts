@@ -407,6 +407,13 @@ export const withActionBar = (): string =>
       )
       .join("")}`;
 
+export const genericContentTopWithoutHeader = (): string => html`
+  <calcite-panel style="width: 300px; height: 200px; --calcite-panel-content-top-space: 0;">
+    <div slot="content-top">Content top</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
+
 export const footerPadding = (): string =>
   html`<div style="width: 300px;">
     <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">

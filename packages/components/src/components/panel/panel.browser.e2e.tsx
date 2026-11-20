@@ -340,20 +340,6 @@ describe("header slots", () => {
     },
   );
 
-  it("preserves the leading separator for generic content-top content without other header content", async () => {
-    const { el } = await mount(
-      <calcite-panel style="--calcite-panel-content-top-space: 0;">
-        <div slot={SLOTS.contentTop}>Content top</div>
-      </calcite-panel>,
-    );
-    const contentTop = page.getByText("Content top");
-
-    await expect.element(contentTop).toBeVisible();
-    expect(contentTop.element().getBoundingClientRect().top).toBe(
-      el.getBoundingClientRect().top + 1,
-    );
-  });
-
   it("updates the leading separator when content-top is replaced", async () => {
     const { el } = await mount(
       <calcite-panel style="--calcite-panel-content-top-space: 0;">
