@@ -157,6 +157,10 @@ describe("theme", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "gap",
       },
+      "--calcite-card-group-space": {
+        shadowSelector: `.${CSS.container}`,
+        targetProp: "gap",
+      },
     });
   });
 });
