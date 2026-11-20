@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.39...@esri/calcite-components@6.0.0-next.40) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **input-time-zone:** `input-time-zone` no longer supports `Factory` or its
+  message override because it represents an unknown time zone and is
+  inconsistently supported by browsers. Replace persisted
+  `value="Factory"` with a supported IANA time zone, or omit `value` to
+  use the user's time zone; an initial `Factory` value now falls back to
+  the user's time zone. Remove any `Factory` entry from
+  `messageOverrides`.
+
+### Bug Fixes
+
+- **input-time-zone:** drop `Factory` time zone support ([#15649](https://github.com/Esri/calcite-design-system/issues/15649)), closes [#15643](https://github.com/Esri/calcite-design-system/issues/15643) [1930466#c1](https://github.com/Esri/1930466/issues/c1)
+
 ## [6.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.38...@esri/calcite-components@6.0.0-next.39) (2026-11-20)
 
 ### ⚠ BREAKING CHANGES
