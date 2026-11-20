@@ -1944,3 +1944,28 @@ it("does not render an icon when requested without an explicit Calcite UI, and i
   const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
   await expect.element(icon).not.toBeInTheDocument();
 });
+
+it("prevent typing disallowed english letters and symbols", async () => {
+  const { el } = await mount(<calcite-input-number />);
+  const input = page.getByRole("textbox").element();
+
+  await userEvent.keyboard(`{Tab}abcdfghijklmnopqrstuvwxyz~!@#$%^&*()_+=|"':;?,`);
+
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("");
+});
+
+it("only allow 2 minus signs in the input at a time", async () => {
+  const { el } = await mount(<calcite-input-number />);
+  const input = page.getByRole("textbox").element();
+
+  await userEvent.keyboard("{Tab}1--2---3");
+
+  expect(input).toHaveDisplayValue("1--23");
+  expect(el).toHaveProperty("value", "123");
+
+  await userEvent.keyboard("----");
+
+  expect(input).toHaveDisplayValue("1--23");
+  expect(el).toHaveProperty("value", "123");
+});
