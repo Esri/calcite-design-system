@@ -12,7 +12,6 @@ export const CSS = {
   handleLabelValue: "handle__label--value",
   hyphen: "hyphen",
   hyphenWrap: "hyphen--wrap",
-  static: "static",
   thumb: "thumb",
   thumbActive: "thumb--active",
   thumbContainer: "thumb-container",
@@ -32,7 +31,6 @@ export const CSS = {
   ticks: "ticks",
   track: "track",
   trackRange: "track__range",
-  transformed: "transformed",
   scale: (scale: Scale) => `scale--${scale}` as const,
 };
 

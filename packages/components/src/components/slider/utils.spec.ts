@@ -1,6 +1,59 @@
 import { describe, expect, it } from "vitest";
-import { getVisibleTickLabels } from "./utils";
 import type { TickLabelMeasurement } from "./types";
+import { getHandleLabelOffsets, getVisibleTickLabels } from "./utils";
+
+describe(getHandleLabelOffsets, () => {
+  const host = { left: 0, right: 100 };
+
+  it("clamps single labels and prioritizes the left edge when neither edge fits", () => {
+    expect(getHandleLabelOffsets(host, { left: -10, right: 10 })).toEqual({
+      left: 10,
+      right: 0,
+      hyphenate: false,
+    });
+    expect(getHandleLabelOffsets(host, { left: 90, right: 110 })).toEqual({
+      left: -10,
+      right: 0,
+      hyphenate: false,
+    });
+    expect(getHandleLabelOffsets(host, { left: -10, right: 110 }).left).toBe(10);
+  });
+
+  it("keeps labels separate when joining is disabled or the font-size gap fits", () => {
+    expect(getHandleLabelOffsets(host, { left: 40, right: 60 }, { left: 45, right: 65 })).toEqual({
+      left: 0,
+      right: 0,
+      hyphenate: false,
+    });
+    expect(getHandleLabelOffsets(host, { left: 10, right: 20 }, { left: 30, right: 40 }, 10)).toEqual({
+      left: 0,
+      right: 0,
+      hyphenate: false,
+    });
+  });
+
+  it.each([
+    ["center", { left: 30, right: 50 }, { left: 45, right: 65 }, -2.5, 7.5],
+    ["left edge", { left: -10, right: 10 }, { left: -5, right: 15 }, 15, 35],
+    ["right edge", { left: 85, right: 105 }, { left: 90, right: 110 }, -30, -10],
+    ["near left edge", { left: 0, right: 20 }, { left: 5, right: 25 }, 5, 25],
+    ["near right edge", { left: 75, right: 95 }, { left: 80, right: 100 }, -20, 0],
+  ])("joins labels at the %s", (_position, leftLabel, rightLabel, left, right) => {
+    expect(getHandleLabelOffsets(host, leftLabel, rightLabel, 10)).toEqual({
+      left,
+      right,
+      hyphenate: true,
+    });
+  });
+
+  it("preserves both edge corrections when the joined pair exceeds the host", () => {
+    expect(getHandleLabelOffsets({ left: 0, right: 30 }, { left: 0, right: 20 }, { left: 10, right: 30 }, 40)).toEqual({
+      left: -5,
+      right: 25,
+      hyphenate: true,
+    });
+  });
+});
 
 function label(value: number, left: number, right: number): TickLabelMeasurement {
   return {

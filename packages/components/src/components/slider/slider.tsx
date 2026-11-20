@@ -32,7 +32,7 @@ import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
-import {
+import type {
   ActiveSliderProperty,
   SetValueProperty,
   SideOffset,
@@ -43,7 +43,11 @@ import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isEqual } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
-import { getVisibleTickLabels } from "./utils";
+import {
+  getHandleLabelOffsets,
+  getVisibleTickLabels,
+  type HorizontalBounds,
+} from "./utils";
 
 declare global {
   interface DeclareElements {
@@ -266,11 +270,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private maxHandleRef = createRef<HTMLDivElement>();
 
-  private maxValueLabelRefs = {
-    label: createRef<HTMLSpanElement>(),
-    static: createRef<HTMLSpanElement>(),
-    transformed: createRef<HTMLSpanElement>(),
-  };
+  private maxValueLabelRef = createRef<HTMLSpanElement>();
 
   private maxTickLabelRef = createRef<HTMLSpanElement>();
 
@@ -281,11 +281,7 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private minHandleRef = createRef<HTMLDivElement>();
 
-  private minValueLabelRefs = {
-    label: createRef<HTMLSpanElement>(),
-    static: createRef<HTMLSpanElement>(),
-    transformed: createRef<HTMLSpanElement>(),
-  };
+  private minValueLabelRef = createRef<HTMLSpanElement>();
 
   private minTickLabelRef = createRef<HTMLSpanElement>();
 
@@ -725,13 +721,7 @@ export class Slider extends LitElement implements LabelableComponent {
     }
 
     if (this.labelHandles) {
-      this.adjustHostObscuredHandleLabel("value");
-      if (isRange(this.value)) {
-        this.adjustHostObscuredHandleLabel("minValue");
-        if (!(this.precise && !this.hasHistogram)) {
-          this.hyphenateCollidingRangeHandleLabels();
-        }
-      }
+      this.positionHandleLabels();
     }
     this.hideCoveredBoundingTickLabels();
     if (this.tickLabelLayout && this.tickLabelLayout.direction !== this.direction) {
@@ -1136,117 +1126,45 @@ export class Slider extends LitElement implements LabelableComponent {
     return (num - this.min) / range;
   }
 
-  private adjustHostObscuredHandleLabel(name: "value" | "minValue"): void {
-    const labelRefs = name === "minValue" ? this.minValueLabelRefs : this.maxValueLabelRefs;
-    const label = labelRefs.label.value!;
-    const labelStatic = labelRefs.static.value!;
-    const labelTransformed = labelRefs.transformed.value!;
-    const labelStaticBounds = labelStatic.getBoundingClientRect();
-    const labelStaticOffset = this.getHostOffset(labelStaticBounds.left, labelStaticBounds.right);
-    label.style.transform = `translateX(${labelStaticOffset}px)`;
-    labelTransformed.style.transform = `translateX(${labelStaticOffset}px)`;
-  }
-
-  private hyphenateCollidingRangeHandleLabels(): void {
-    const mirror = this.shouldMirror();
-    const leftValueLabelRefs = mirror ? this.maxValueLabelRefs : this.minValueLabelRefs;
-    const rightValueLabelRefs = mirror ? this.minValueLabelRefs : this.maxValueLabelRefs;
-    const leftValueLabel = leftValueLabelRefs.label.value!;
-    const leftValueLabelStatic = leftValueLabelRefs.static.value!;
-    const leftValueLabelTransformed = leftValueLabelRefs.transformed.value!;
-    const leftValueLabelStaticHostOffset = this.getHostOffset(
-      leftValueLabelStatic.getBoundingClientRect().left,
-      leftValueLabelStatic.getBoundingClientRect().right,
+  private positionHandleLabels(): void {
+    const valueIsRange = isRange(this.value);
+    const mirror = valueIsRange && this.shouldMirror();
+    const leftLabel = (valueIsRange && !mirror ? this.minValueLabelRef : this.maxValueLabelRef)
+      .value!;
+    const leftHandle = (valueIsRange && !mirror ? this.minHandleRef : this.maxHandleRef).value!;
+    const rightLabel = valueIsRange
+      ? (mirror ? this.minValueLabelRef : this.maxValueLabelRef).value!
+      : undefined;
+    const rightHandle = valueIsRange
+      ? (mirror ? this.minHandleRef : this.maxHandleRef).value!
+      : undefined;
+    const host = this.el.getBoundingClientRect();
+    const range = document.createRange();
+    // Measure text without the hyphen, anchored independently of the previous transform.
+    const measure = (label: HTMLSpanElement, handle: HTMLDivElement): HorizontalBounds => {
+      range.selectNodeContents(label);
+      const { width } = range.getBoundingClientRect();
+      const handleBounds = handle.getBoundingClientRect();
+      const center = (handleBounds.left + handleBounds.right) / 2;
+      return { left: center - width / 2, right: center + width / 2 };
+    };
+    const leftBounds = measure(leftLabel, leftHandle);
+    const rightBounds = rightLabel ? measure(rightLabel, rightHandle!) : undefined;
+    const canJoin = valueIsRange && !(this.precise && !this.hasHistogram);
+    const offsets = getHandleLabelOffsets(
+      host,
+      leftBounds,
+      rightBounds,
+      canJoin ? this.getFontSizeForElement(leftLabel) : undefined,
     );
 
-    const rightValueLabel = rightValueLabelRefs.label.value!;
-    const rightValueLabelStatic = rightValueLabelRefs.static.value!;
-    const rightValueLabelTransformed = rightValueLabelRefs.transformed.value!;
-    const rightValueLabelStaticHostOffset = this.getHostOffset(
-      rightValueLabelStatic.getBoundingClientRect().left,
-      rightValueLabelStatic.getBoundingClientRect().right,
-    );
-
-    const labelFontSize = this.getFontSizeForElement(leftValueLabel);
-    const labelTransformedOverlap = this.getRangeLabelOverlap(
-      leftValueLabelTransformed,
-      rightValueLabelTransformed,
-    );
-
-    const hyphenLabel = leftValueLabel;
-    const labelOffset = labelFontSize / 2;
-
-    if (labelTransformedOverlap > 0) {
-      hyphenLabel.classList.add(CSS.hyphen, CSS.hyphenWrap);
-      if (rightValueLabelStaticHostOffset === 0 && leftValueLabelStaticHostOffset === 0) {
-        // Neither handle overlaps the host boundary
-        let leftValueLabelTranslate = labelTransformedOverlap / 2 - labelOffset;
-        leftValueLabelTranslate =
-          Math.sign(leftValueLabelTranslate) === -1
-            ? Math.abs(leftValueLabelTranslate)
-            : -leftValueLabelTranslate;
-
-        const leftValueLabelTransformedHostOffset = this.getHostOffset(
-          leftValueLabelTransformed.getBoundingClientRect().left +
-            leftValueLabelTranslate -
-            labelOffset,
-          leftValueLabelTransformed.getBoundingClientRect().right +
-            leftValueLabelTranslate -
-            labelOffset,
-        );
-
-        let rightValueLabelTranslate = labelTransformedOverlap / 2;
-        const rightValueLabelTransformedHostOffset = this.getHostOffset(
-          rightValueLabelTransformed.getBoundingClientRect().left + rightValueLabelTranslate,
-          rightValueLabelTransformed.getBoundingClientRect().right + rightValueLabelTranslate,
-        );
-
-        if (leftValueLabelTransformedHostOffset !== 0) {
-          leftValueLabelTranslate += leftValueLabelTransformedHostOffset;
-          rightValueLabelTranslate += leftValueLabelTransformedHostOffset;
-        }
-
-        if (rightValueLabelTransformedHostOffset !== 0) {
-          leftValueLabelTranslate += rightValueLabelTransformedHostOffset;
-          rightValueLabelTranslate += rightValueLabelTransformedHostOffset;
-        }
-
-        leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
-        leftValueLabelTransformed.style.transform = `translateX(${
-          leftValueLabelTranslate - labelOffset
-        }px)`;
-        rightValueLabel.style.transform = `translateX(${rightValueLabelTranslate}px)`;
-        rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelTranslate}px)`;
-      } else if (leftValueLabelStaticHostOffset > 0 || rightValueLabelStaticHostOffset > 0) {
-        // labels overlap host boundary on the left side
-        leftValueLabel.style.transform = `translateX(${
-          leftValueLabelStaticHostOffset + labelOffset
-        }px)`;
-        rightValueLabel.style.transform = `translateX(${
-          labelTransformedOverlap + rightValueLabelStaticHostOffset
-        }px)`;
-        rightValueLabelTransformed.style.transform = `translateX(${
-          labelTransformedOverlap + rightValueLabelStaticHostOffset
-        }px)`;
-      } else if (leftValueLabelStaticHostOffset < 0 || rightValueLabelStaticHostOffset < 0) {
-        // labels overlap host boundary on the right side
-        let leftValueLabelTranslate =
-          Math.abs(leftValueLabelStaticHostOffset) + labelTransformedOverlap - labelOffset;
-        leftValueLabelTranslate =
-          Math.sign(leftValueLabelTranslate) === -1
-            ? Math.abs(leftValueLabelTranslate)
-            : -leftValueLabelTranslate;
-        leftValueLabel.style.transform = `translateX(${leftValueLabelTranslate}px)`;
-        leftValueLabelTransformed.style.transform = `translateX(${
-          leftValueLabelTranslate - labelOffset
-        }px)`;
-      }
-    } else {
-      hyphenLabel.classList.remove(CSS.hyphen, CSS.hyphenWrap);
-      leftValueLabel.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
-      leftValueLabelTransformed.style.transform = `translateX(${leftValueLabelStaticHostOffset}px)`;
-      rightValueLabel.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
-      rightValueLabelTransformed.style.transform = `translateX(${rightValueLabelStaticHostOffset}px)`;
+    leftLabel.style.transform = `translateX(${offsets.left}px)`;
+    if (rightLabel) {
+      rightLabel.style.transform = `translateX(${offsets.right}px)`;
+    }
+    if (canJoin) {
+      leftLabel.classList.toggle(CSS.hyphen, offsets.hyphenate);
+      leftLabel.classList.toggle(CSS.hyphenWrap, offsets.hyphenate);
     }
   }
 
@@ -1366,42 +1284,6 @@ export class Slider extends LitElement implements LabelableComponent {
       }
     }
     this.tickLabelLayout.visibleValues = visibleValues;
-  }
-
-  /**
-   * Returns an integer representing the number of pixels to offset on the left or right side based on desired position behavior.
-   *
-   * @param leftBounds
-   * @param rightBounds
-   */
-  private getHostOffset(leftBounds: number, rightBounds: number): number {
-    const { left, right } = this.el.getBoundingClientRect();
-
-    if (leftBounds < left) {
-      return left - leftBounds;
-    }
-
-    if (rightBounds > right) {
-      return -(rightBounds - right);
-    }
-
-    return 0;
-  }
-
-  /**
-   * Returns an integer representing the number of pixels that the two given span elements are overlapping, taking into account
-   * a space in between the two spans equal to the font-size set on them to account for the space needed to render a hyphen.
-   *
-   * @param leftLabel
-   * @param rightLabel
-   */
-  private getRangeLabelOverlap(leftLabel: HTMLSpanElement, rightLabel: HTMLSpanElement): number {
-    const leftLabelBounds = leftLabel.getBoundingClientRect();
-    const rightLabelBounds = rightLabel.getBoundingClientRect();
-    const leftLabelFontSize = this.getFontSizeForElement(leftLabel);
-    const rangeLabelOverlap = leftLabelBounds.right + leftLabelFontSize - rightLabelBounds.left;
-
-    return Math.max(rangeLabelOverlap, 0);
   }
 
   /**
@@ -1634,32 +1516,17 @@ export class Slider extends LitElement implements LabelableComponent {
     const thumbLabelClasses = `${CSS.handleLabel} ${
       isMinThumb ? CSS.handleLabelMinValue : CSS.handleLabelValue
     }`;
-    const labelRefs = isMinThumb ? this.minValueLabelRefs : this.maxValueLabelRefs;
-
-    const labels = isLabeled
-      ? [
-          <span ariaHidden="true" class={thumbLabelClasses} ref={labelRefs.label}>
-            {displayedValue}
-          </span>,
-          <span
-            ariaHidden="true"
-            class={`${thumbLabelClasses} ${CSS.static}`}
-            ref={labelRefs.static}
-          >
-            {displayedValue}
-          </span>,
-          <span
-            ariaHidden="true"
-            class={`${thumbLabelClasses} ${CSS.transformed}`}
-            ref={labelRefs.transformed}
-          >
-            {displayedValue}
-          </span>,
-        ]
-      : [];
 
     const thumbContent: JsxNode[] = [
-      ...labels,
+      isLabeled && (
+        <span
+          ariaHidden="true"
+          class={thumbLabelClasses}
+          ref={isMinThumb ? this.minValueLabelRef : this.maxValueLabelRef}
+        >
+          {displayedValue}
+        </span>
+      ),
       <div class={CSS.handle} />,
       isPrecise && <div class={CSS.handleExtension} />,
     ];

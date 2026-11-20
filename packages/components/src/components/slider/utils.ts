@@ -1,6 +1,64 @@
 import { intersectsHorizontally } from "../../utils/dom";
 import type { TickLabelMeasurement } from "./types";
 
+export type HorizontalBounds = Pick<DOMRectReadOnly, "left" | "right">;
+
+function getHostOffset(host: HorizontalBounds, label: HorizontalBounds): number {
+  if (label.left < host.left) {
+    return host.left - label.left;
+  }
+  if (label.right > host.right) {
+    return host.right - label.right;
+  }
+  return 0;
+}
+
+/**
+ * Clamps handle labels to the host and joins colliding range labels when a
+ * font size is supplied. Bounds are untransformed and ordered physically.
+ */
+export function getHandleLabelOffsets(
+  host: HorizontalBounds,
+  leftLabel: HorizontalBounds,
+  rightLabel?: HorizontalBounds,
+  fontSize?: number,
+): { left: number; right: number; hyphenate: boolean } {
+  let left = getHostOffset(host, leftLabel);
+  let right = rightLabel ? getHostOffset(host, rightLabel) : 0;
+
+  if (!rightLabel || fontSize === undefined) {
+    return { left, right, hyphenate: false };
+  }
+
+  const overlap = Math.max(leftLabel.right + left + fontSize - (rightLabel.left + right), 0);
+  if (overlap === 0) {
+    return { left, right, hyphenate: false };
+  }
+
+  const labelOffset = fontSize / 2;
+  if (left === 0 && right === 0) {
+    left = labelOffset - overlap / 2;
+    right = overlap / 2;
+    const leftHostOffset = getHostOffset(host, {
+      left: leftLabel.left + left - labelOffset,
+      right: leftLabel.right + left - labelOffset,
+    });
+    const rightHostOffset = getHostOffset(host, {
+      left: rightLabel.left + right,
+      right: rightLabel.right + right,
+    });
+    left += leftHostOffset + rightHostOffset;
+    right += leftHostOffset + rightHostOffset;
+  } else if (left > 0 || right > 0) {
+    left += labelOffset;
+    right += overlap;
+  } else {
+    left = -(Math.abs(left) + overlap - labelOffset);
+  }
+
+  return { left, right, hyphenate: true };
+}
+
 /**
  * Determines which tick labels fit by sorting their horizontal text bounds by
  * right edge, then balancing the gaps between visible labels.
