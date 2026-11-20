@@ -983,10 +983,9 @@ export class InputNumber
       useGrouping: this.groupSeparator,
     };
 
+    // TODO: remove this workaround after #15625 merges
     const effectiveDecimalSeparator =
-      locale === "bs" || locale === "mk"
-        ? numberStringFormatter.group
-        : numberStringFormatter.decimal;
+      locale === "bs" || locale === "mk" ? "," : numberStringFormatter.decimal;
 
     if (event.key === effectiveDecimalSeparator && !this.integer) {
       if (!value && !this.childNumberRef.value?.value) {
