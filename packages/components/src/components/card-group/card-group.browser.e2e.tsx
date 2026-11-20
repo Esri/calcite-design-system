@@ -157,10 +157,15 @@ describe("theme", () => {
         shadowSelector: `.${CSS.container}`,
         targetProp: "gap",
       },
-      "--calcite-card-group-space": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "gap",
-      },
     });
+  });
+});
+
+describe("deprecated", () => {
+  themed(() => mount("calcite-card-group"), {
+    "--calcite-card-group-space": {
+      shadowSelector: `.${CSS.container}`,
+      targetProp: "gap",
+    },
   });
 });
