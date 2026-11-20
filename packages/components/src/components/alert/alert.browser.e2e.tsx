@@ -4,15 +4,15 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 
 import {
+  accessible,
   defaults,
-  reflects,
   hidden,
+  openClose,
+  reflects,
   renders,
   t9n,
-  topLayer,
-  openClose,
-  accessible,
   themed,
+  topLayer,
 } from "../../tests/common";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
@@ -102,6 +102,20 @@ describe("honors hidden attribute", () => {
 
 describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-alert", mountOptions));
+});
+
+describe("host inertness", () => {
+  it("updates when opened and closed", async () => {
+    const { el } = await mount<Alert>(<calcite-alert />);
+
+    await expect.element(el).toHaveProperty("inert", true);
+
+    el.open = true;
+    await expect.element(el).toHaveProperty("inert", false);
+
+    el.open = false;
+    await expect.element(el).toHaveProperty("inert", true);
+  });
 });
 
 describe("renders", () => {

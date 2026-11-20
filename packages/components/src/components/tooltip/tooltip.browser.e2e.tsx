@@ -1,23 +1,23 @@
-import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, JsxNode, LitElement } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { it, expect, beforeAll, afterAll, describe, vi, beforeEach } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import {
-  defaults,
-  reflects,
-  hidden,
-  renders,
-  floatingUIOwner,
-  topLayer,
-  openClose,
   accessible,
+  defaults,
+  floatingUIOwner,
+  hidden,
+  openClose,
+  reflects,
+  renders,
   themed,
+  topLayer,
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { css } from "../../../support/formatting";
 import {
-  HOVER_OPEN_DELAY_MS,
   HOVER_CLOSE_DELAY_MS,
+  HOVER_OPEN_DELAY_MS,
   HOVER_QUICK_OPEN_DELAY_MS,
 } from "../../controllers/useReferenceElement/manager";
 import { FloatingCSS } from "../../utils/floating-ui";
@@ -315,6 +315,43 @@ describe("reflects", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-tooltip open />));
+});
+
+describe("host inertness", () => {
+  it("updates when opened and closed", async () => {
+    const { el } = await mount<Tooltip>(
+      <>
+        <calcite-tooltip referenceElement="ref">Content</calcite-tooltip>
+        <button id="ref" type="button">
+          Reference
+        </button>
+      </>,
+    );
+
+    await expect.element(el).toHaveProperty("inert", true);
+
+    el.open = true;
+    await expect.element(el).toHaveProperty("inert", false);
+
+    el.open = false;
+    await expect.element(el).toHaveProperty("inert", true);
+  });
+
+  it("keeps an open tooltip inert without a reference element", async () => {
+    const { el } = await mount<Tooltip>(
+      <>
+        <calcite-tooltip open>Content</calcite-tooltip>
+        <button type="button">Reference</button>
+      </>,
+    );
+    const tooltip = page.elementLocator(el);
+
+    await expect.element(tooltip).toHaveProperty("open", true);
+    await expect.element(tooltip).toHaveProperty("inert", true);
+
+    el.referenceElement = page.getByRole("button", { name: "Reference" }).element();
+    await expect.element(tooltip).toHaveProperty("inert", false);
+  });
 });
 
 describe("renders", () => {
