@@ -242,13 +242,6 @@
   }
 }
 
-/* Deprecated Compact */
-:host([scale="s"][compact]) .button,
-:host([scale="m"][compact]) .button,
-:host([scale="l"][compact]) .button {
-  padding-inline: var(--calcite-space-none);
-}
-
 .slot-container {
   display: flex;
 }

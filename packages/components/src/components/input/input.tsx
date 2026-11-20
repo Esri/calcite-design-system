@@ -654,6 +654,9 @@ export class Input
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
+  /** @private */
+  calciteInternalInputClear = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -863,6 +866,7 @@ export class Input
     event.preventDefault();
     event.stopPropagation();
     this.clearInputValue(event);
+    this.calciteInternalInputClear.emit();
     const target = this.type === "number" ? this.childNumberRef.value : this.childRef.value;
     target?.focus();
   }

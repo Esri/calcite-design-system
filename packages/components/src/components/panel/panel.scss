@@ -177,7 +177,8 @@ slot[name="alerts"]::slotted(calcite-alert) {
   inline-size: 100%;
 }
 
-.action-bar-container ::slotted(calcite-action-bar) {
+.action-bar-container ::slotted(calcite-action-bar),
+.content-top ::slotted(calcite-action-bar) {
   inline-size: 100%;
 }
 

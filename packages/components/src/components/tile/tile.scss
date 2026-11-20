@@ -236,6 +236,22 @@ calcite-link {
   }
 }
 
+@media (forced-colors: active) {
+  .container.interactive {
+    &:hover,
+    &:focus,
+    &.selected {
+      outline-color: Highlight;
+      z-index: calc(var(--calcite-z-index) + 1);
+    }
+  }
+  :host([selection-appearance="highlight"]) {
+    .container.selected {
+      outline-width: calc(var(--calcite-border-width-sm, 1px) * 3);
+    }
+  }
+}
+
 @include shared.disabled();
 @include shared.base-component();
 

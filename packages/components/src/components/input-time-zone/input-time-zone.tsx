@@ -476,7 +476,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return;
     }
 
-    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
+    const fallbackValue =
+      this.mode === "offset" ? getUserTimeZoneOffset() : this.normalizeValue(getUserTimeZoneName());
     const valueToMatch = this.value === "" || !this.value ? fallbackValue : this.value;
 
     this.selectedTimeZoneItem =

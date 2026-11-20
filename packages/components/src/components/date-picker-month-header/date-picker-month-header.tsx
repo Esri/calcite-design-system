@@ -523,7 +523,6 @@ export class DatePickerMonthHeader extends LitElement {
         ariaDisabled={isDisabled}
         ariaLabel={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
-        compact={true}
         data-direction={direction}
         disabled={isDisabled}
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}

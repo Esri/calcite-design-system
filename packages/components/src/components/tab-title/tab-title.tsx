@@ -108,6 +108,8 @@ interface TabTitleSlots {
 }
 
 /**
+ * @privateRemarks
+ *
  * Tab-titles are optionally individually closable.
  *
  * @docGroup Tabs
