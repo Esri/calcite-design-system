@@ -193,7 +193,7 @@ export class BlockGroup extends LitElement {
 
   /**
    * Emits the `calciteBlockGroupOrderChange` event.
-   * @internal
+   *
    * @param detail
    */
   @method()

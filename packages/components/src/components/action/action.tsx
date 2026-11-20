@@ -191,7 +191,6 @@ export class Action extends LitElement {
 
   /**
    * When `true`, the component is draggable.
-   * @internal
    */
   @property({ reflect: true }) dragHandle = false;
 
@@ -258,7 +257,6 @@ export class Action extends LitElement {
 
   /**
    * When `full`, the component's width spans all its parent's available space
-   * @internal
    */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
@@ -289,7 +287,6 @@ export class Action extends LitElement {
 
   /**
    * Specifies the selection appearance of the component. Inherited from `calcite-action-bar`.
-   * @internal
    */
   @property({ reflect: true }) selectionAppearance?: Extract<
     "neutral" | "highlight",

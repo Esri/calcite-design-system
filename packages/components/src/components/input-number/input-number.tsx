@@ -502,7 +502,6 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
 
   /**
    * Toggles locale formatting for numbers.
-   * @internal
    */
   @property() localeFormat = false;
 
@@ -719,10 +718,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    */
   calciteInputNumberInput = createEvent();
 
-  /** @internal */
   calciteInternalInputNumberBlur = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
   //#endregion

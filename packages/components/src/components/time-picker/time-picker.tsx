@@ -130,7 +130,6 @@ export class TimePicker extends LitElement implements TimeComponent {
 
   //#region Public Properties
 
-  /** @internal */
   @property() time: ReturnType<typeof useTime> = useTime(this);
 
   /**

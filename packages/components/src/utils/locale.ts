@@ -228,12 +228,10 @@ export class NumberStringFormat {
 
 export const numberStringFormatter = new NumberStringFormat();
 
-/** @internal */
 export type LocaleDateTimeOptionKey = string;
 
 /**
  * Exported for testing purposes only.
- * @internal
  */
 export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
 
@@ -257,7 +255,7 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * Returns an instance of Intl.DateTimeFormat and reuses it if requested with the same locale and options.
  *
  * **Note**: the cache will be cleared if a different locale is provided
- * @internal
+ *
  * @param locale
  * @param options
  */

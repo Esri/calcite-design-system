@@ -12,7 +12,6 @@ type MinMaxType = "min" | "max";
 
 /**
  * Translation resource data structure
- * @internal
  */
 export interface DateLocaleData {
   "default-calendar": "gregorian" | "buddhist";
@@ -40,14 +39,12 @@ export interface DateLocaleData {
 /**
  * CLDR cache.
  * Exported for testing purposes.
- * @internal
  */
 export const translationCache: Record<Locale, DateLocaleData> = {};
 
 /**
  * CLDR request cache.
  * Exported for testing purposes.
- * @internal
  */
 export const requestCache: Record<Locale, Promise<DateLocaleData>> = {};
 

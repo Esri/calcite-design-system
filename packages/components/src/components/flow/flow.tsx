@@ -84,7 +84,6 @@ export class Flow extends LitElement {
 
   /**
    * This property enables the component to consider additional custom elements implementing flow-item's interface.
-   * @internal
    */
   @property() customItemSelectors?: string;
 

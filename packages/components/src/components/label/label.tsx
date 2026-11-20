@@ -91,7 +91,6 @@ export class Label extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalLabelClick = createEvent<{
     sourceEvent: MouseEvent;
   }>({ bubbles: false, cancelable: false });

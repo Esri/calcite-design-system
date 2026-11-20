@@ -1,12 +1,8 @@
-/** @internal */
 export interface StepperItemEventDetail {
-  /** @internal */
   position: number;
 }
 
-/** @internal */
 export interface StepperItemChangeEventDetail {
-  /** @internal */
   position: number;
 }
 

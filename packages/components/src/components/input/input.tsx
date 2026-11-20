@@ -423,7 +423,6 @@ export class Input
 
   /**
    * Specifies ARIA properties for the component's native input.
-   * @internal
    */
   @property() aria?: Partial<
     Pick<
@@ -448,7 +447,6 @@ export class Input
 
   /**
    * Specifies the role for the component's native input.
-   * @internal
    */
   @property() inputRole?: LuminaJsx.HTMLAttributes["role"];
 
@@ -543,7 +541,6 @@ export class Input
 
   /**
    * When `true`, uses locale formatting for numbers.
-   * @internal
    */
   @property() localeFormat = false;
 
@@ -826,10 +823,8 @@ export class Input
    */
   calciteInputInput = createEvent();
 
-  /** @internal */
   calciteInternalInputBlur = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
   /** @private */

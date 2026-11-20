@@ -101,7 +101,6 @@ export class DropdownGroup extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
-   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -123,7 +122,6 @@ export class DropdownGroup extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalDropdownItemChange = createEvent<RequestedItem>({
     cancelable: false,
   });

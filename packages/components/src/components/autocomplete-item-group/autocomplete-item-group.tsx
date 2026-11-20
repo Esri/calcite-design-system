@@ -79,7 +79,6 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * When `true`, signifies that the group should not have extra spacing. Used for styling.
-   * @internal
    */
   @property() disableSpacing = false;
 
@@ -105,7 +104,6 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the `calcite-autocomplete`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -124,7 +122,6 @@ export class AutocompleteItemGroup extends LitElement {
 
   /**
    * Fires after the component's slotted `calcite-autocomplete-item`s change.
-   * @internal
    */
   calciteInternalAutocompleteItemGroupItemsChange = createEvent({
     cancelable: false,

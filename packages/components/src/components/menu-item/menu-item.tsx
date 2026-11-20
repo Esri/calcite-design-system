@@ -161,7 +161,6 @@ export class MenuItem extends LitElement {
    */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @internal */
   @property() isTopLevelItem = false;
 
   /**
@@ -171,7 +170,6 @@ export class MenuItem extends LitElement {
    */
   @property() label!: string;
 
-  /** @internal */
   @property({ reflect: true }) layout!: Layout;
 
   /**
@@ -217,7 +215,6 @@ export class MenuItem extends LitElement {
    */
   @property() text?: string;
 
-  /** @internal */
   @property() topLevelMenuLayout?: Layout;
 
   //#endregion

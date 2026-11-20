@@ -131,7 +131,6 @@ export class Accordion extends LitElement {
 
   //#region Events
 
-  /** @internal */
   private calciteInternalAccordionChange = createEvent<RequestedItem>({
     cancelable: false,
   });

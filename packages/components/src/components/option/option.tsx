@@ -72,7 +72,6 @@ export class Option extends LitElement {
 
   // #region Events
 
-  /** @internal */
   private calciteInternalOptionChange = createEvent({ cancelable: false });
 
   // #endregion

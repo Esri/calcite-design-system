@@ -236,7 +236,7 @@ function getMessage(messages: InputTimeZone["messages"], key: string): string | 
 
 /**
  * Exported for testing purposes only
- * @internal
+ *
  * @param timeZone
  */
 export function getCity(timeZone: string): string {
@@ -245,7 +245,7 @@ export function getCity(timeZone: string): string {
 
 /**
  * Exported for testing purposes only
- * @internal
+ *
  * @param timeZoneName
  */
 export function toUserFriendlyName(timeZoneName: string): string {

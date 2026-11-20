@@ -15,7 +15,6 @@ export interface UseCancelable {
 
   /**
    * Made into a prop for testing purposes only
-   * @internal
    */
   resources: Set<Cancelable>;
 }

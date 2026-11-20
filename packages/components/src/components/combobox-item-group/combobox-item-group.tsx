@@ -68,7 +68,6 @@ export class ComboboxItemGroup extends LitElement {
 
   /**
    * When `true`, signifies that the group comes after another group without any children (items or sub-groups), otherwise indicates that the group comes after another group that has children. Used for styling.
-   * @internal
    */
   @property({ reflect: true }) afterEmptyGroup = false;
 
@@ -95,13 +94,11 @@ export class ComboboxItemGroup extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
   /**
    * When `true`, the item will be hidden
-   * @internal
    */
   @property({ reflect: true }) itemHidden = false;
 

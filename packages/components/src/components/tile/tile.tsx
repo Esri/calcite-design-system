@@ -203,7 +203,6 @@ export class Tile extends LitElement implements SelectableComponent {
   /**
    * When `true`, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
    * This is set to `true` by a parent Tile Group component.
-   * @internal
    */
   @property() interactive = false;
 
@@ -217,7 +216,6 @@ export class Tile extends LitElement implements SelectableComponent {
    * Defines the layout of the component.
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
-   * @internal
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
@@ -242,7 +240,6 @@ export class Tile extends LitElement implements SelectableComponent {
    * - `"highlight"` changes the background color.
    *
    * This property is set by the parent tile-group.
-   * @internal
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -258,7 +255,6 @@ export class Tile extends LitElement implements SelectableComponent {
    * - `"none"` allows no selected items.
    *
    * This property is set by the parent tile-group.
-   * @internal
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",

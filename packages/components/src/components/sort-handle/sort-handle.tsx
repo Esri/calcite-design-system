@@ -144,7 +144,6 @@ export class SortHandle extends LitElement {
 
   /**
    * Made into a prop for testing purposes only.
-   * @internal
    */
   @property() messages = useT9n<typeof T9nStrings>({ blocking: true });
 

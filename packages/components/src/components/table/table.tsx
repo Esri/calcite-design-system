@@ -499,7 +499,6 @@ export class Table extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalTableRowFocusChange = createEvent<TableRowFocusEvent>({
     cancelable: false,
   });

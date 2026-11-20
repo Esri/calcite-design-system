@@ -44,17 +44,21 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/** @internal */
 interface ActionMenuSlots {
   /**
    * A slot for adding `calcite-action`s.
+   * @internal
    */
   "": Node[];
   /**
    * A slot for adding a `calcite-action` to trigger opening the menu.
+   * @internal
    */
   trigger: Node[];
   /**
    * A slot for adding a tooltip for the menu.
+   * @internal
    */
   tooltip: Node[];
 }
@@ -70,6 +74,7 @@ const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
 export class ActionMenu extends LitElement {
   //#region Type-only metadata members
 
+  /** @internal */
   override ["@slots"]!: ActionMenuSlots;
 
   //#endregion

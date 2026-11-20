@@ -365,7 +365,6 @@ export class DatePicker extends LitElement {
 
   /**
    * Resets active date state.
-   * @internal
    */
   @method()
   async reset(): Promise<void> {

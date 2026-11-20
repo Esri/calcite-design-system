@@ -246,7 +246,6 @@ export class StepperItem extends LitElement {
 
   /**
    * When `true`, displays a status icon in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
-   * @internal
    */
   @property() icon = false;
 
@@ -259,13 +258,11 @@ export class StepperItem extends LitElement {
 
   /**
    * When `true`, the item will be hidden.
-   * @internal
    */
   @property({ reflect: true }) itemHidden = false;
 
   /**
    * Specifies the layout of the `calcite-stepper-item` inherited from parent `calcite-stepper`, defaults to `horizontal`.
-   * @internal
    */
   @property({ reflect: true }) layout!: StepperLayout;
 
@@ -277,16 +274,13 @@ export class StepperItem extends LitElement {
 
   /**
    * When `true`, displays the step number in the `calcite-stepper-item` heading inherited from parent `calcite-stepper`.
-   * @internal
    */
   @property() numbered = false;
 
-  /** @internal */
   @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
-   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
@@ -320,12 +314,10 @@ export class StepperItem extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalStepperItemSelect = createEvent<StepperItemEventDetail>({
     cancelable: false,
   });
 
-  /** @internal */
   calciteInternalStepperItemUpdate = createEvent<void>({ cancelable: false });
 
   /**

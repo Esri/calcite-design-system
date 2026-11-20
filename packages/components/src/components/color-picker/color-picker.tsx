@@ -414,7 +414,6 @@ export class ColorPicker extends LitElement {
 
   /**
    * Internal prop for advanced use-cases.
-   * @internal
    */
   @property()
   get color(): InternalColor | undefined {
