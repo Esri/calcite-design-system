@@ -72,7 +72,6 @@ export class Tab extends LitElement {
 
   /**
    * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -114,7 +113,6 @@ export class Tab extends LitElement {
   /**
    * @param tabIds
    * @param titleIds
-   * @internal
    */
   @method()
   _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {

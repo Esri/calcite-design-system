@@ -12,7 +12,6 @@ export interface SelectableGroupComponent {
 export interface SelectableComponent {
   /**
    * The selected state of the component.
-   * @internal
    */
   selected: boolean;
 }

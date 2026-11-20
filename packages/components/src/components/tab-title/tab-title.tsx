@@ -213,7 +213,6 @@ export class TabTitle extends LitElement {
    */
   @property() beforeClose?: () => Promise<void>;
 
-  /** @internal */
   @property({ reflect: true }) bordered = false;
 
   /**
@@ -262,7 +261,6 @@ export class TabTitle extends LitElement {
    */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @internal */
   @property({ reflect: true }) layout!: TabLayout;
 
   /**
@@ -280,7 +278,6 @@ export class TabTitle extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -310,7 +307,6 @@ export class TabTitle extends LitElement {
    * This activates a tab in order for it and its associated tab-title be selected.
    *
    * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
-   * @internal
    */
   @method()
   async activateTab(userTriggered = true): Promise<void> {
@@ -326,7 +322,6 @@ export class TabTitle extends LitElement {
     }
   }
 
-  /** @internal */
   @method()
   async getTabIdentifier(): Promise<TabID> {
     return this.tab ? this.tab : this.getTabIndex();
@@ -348,7 +343,6 @@ export class TabTitle extends LitElement {
   /**
    * @param tabIds
    * @param titleIds
-   * @internal
    */
   @method()
   _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
@@ -359,18 +353,14 @@ export class TabTitle extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalTabIconChanged = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   * @internal
    */
   calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({
     cancelable: false,
@@ -378,22 +368,17 @@ export class TabTitle extends LitElement {
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   * @internal
    */
   calciteInternalTabsClose = createEvent<TabCloseEventDetail>({
     cancelable: false,
   });
 
-  /** @internal */
   calciteInternalTabsFocusFirst = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalTabsFocusLast = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalTabsFocusNext = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalTabsFocusPrevious = createEvent({ cancelable: false });
 
   /**

@@ -168,7 +168,6 @@ export class Alert extends LitElement {
   /**
    * This internal property, managed by the AlertManager, is used
    * to inform the component if it is the active open Alert.
-   * @internal
    */
   @property() active = false;
 
@@ -189,7 +188,6 @@ export class Alert extends LitElement {
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
-   * @internal
    */
   @property({ reflect: true }) embedded = false;
 
@@ -248,7 +246,6 @@ export class Alert extends LitElement {
   /**
    * This internal property, managed by the AlertManager, is used
    * to inform the component of how many alerts are currently open.
-   * @internal
    */
   @property() openAlertCount = 0;
 

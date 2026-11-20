@@ -74,7 +74,6 @@ export class ListItemGroup extends LitElement {
 
   /**
    * Hides the component when filtered.
-   * @internal
    */
   @property({ reflect: true }) filterHidden = false;
 
@@ -97,13 +96,11 @@ export class ListItemGroup extends LitElement {
 
   /**
    * Fires when group property changes should notify parent lists.
-   * @internal
    */
   calciteInternalListItemGroupChange = createEvent({ cancelable: false });
 
   /**
    * Fires when changes occur in the default slot, notifying parent lists of the changes.
-   * @internal
    */
   calciteInternalListItemGroupDefaultSlotChange = createEvent({
     cancelable: false,

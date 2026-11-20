@@ -278,7 +278,6 @@ export class Carousel extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   * @internal
    */
   @property() paused!: boolean;
 

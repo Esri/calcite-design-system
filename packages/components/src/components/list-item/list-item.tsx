@@ -225,19 +225,16 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Sets the item as focusable. Only one item should be focusable within a list.
-   * @internal
    */
   @property() active = false;
 
   /**
    * Sets the item to display a border.
-   * @internal
    */
   @property() bordered = false;
 
   /**
    * Prevents reordering the component.
-   * @internal
    */
   @property() sortDisabled = false;
 
@@ -275,7 +272,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * When `true`, the component displays a draggable button.
-   * @internal
    */
   @property({ reflect: true }) dragHandle = false;
 
@@ -288,13 +284,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Hides the component when filtered.
-   * @internal
    */
   @property({ reflect: true }) filterHidden = false;
 
   /**
    * Specifies the interaction mode of the component - `"interactive"` (allows interaction styling and pointer changes on hover), `"static"` (does not allow interaction styling and pointer changes on hover), The `"static"` value should only be used when `selectionMode` is `"none"`.
-   * @internal
    */
   @property({ reflect: true }) interactionMode?: InteractionMode;
 
@@ -319,19 +313,16 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Specifies the nesting behavior.
-   * @internal
    */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
   /**
    * Defines the "Add to" items.
-   * @internal
    */
   @property() addToItems: SortMenuItem[] = [];
 
   /**
    * Defines the "Move to" items.
-   * @internal
    */
   @property() moveToItems: SortMenuItem[] = [];
 
@@ -389,7 +380,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"none"` does not allow any selections.
-   * @internal
    */
   @property({ reflect: true }) selectionMode!: Extract<
     "none" | "multiple" | "single" | "single-persist",
@@ -398,13 +388,11 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   * @internal
    */
   @property() setPosition?: number;
 
   /**
    * Used to determine what menu options are available in the sort-handle
-   * @internal
    */
   @property() setSize?: number;
 
@@ -492,42 +480,18 @@ export class ListItem extends LitElement implements SortableComponentItem {
 
   //#region Events
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalFocusPreviousItem = createEvent({ cancelable: false });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalListItemActive = createEvent({ cancelable: false });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalListItemChange = createEvent({ cancelable: false });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalListItemSelect = createEvent({ cancelable: false });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalListItemSelectMultiple = createEvent<{
     selectMultiple: boolean;
   }>({ cancelable: false });
 
-  /**
-   *
-   * @internal
-   */
   calciteInternalListItemToggle = createEvent({ cancelable: false });
 
   /**

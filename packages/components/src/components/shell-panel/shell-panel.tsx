@@ -306,10 +306,8 @@ export class ShellPanel extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalShellPanelResizeEnd = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalShellPanelResizeStart = createEvent({ cancelable: false });
 
   /**

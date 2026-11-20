@@ -83,7 +83,6 @@ export class TableHeader extends LitElement {
    */
   @property({ reflect: true }) alignment: Alignment = "start";
 
-  /** @internal */
   @property() bodyRowCount!: number;
 
   /**
@@ -105,27 +104,20 @@ export class TableHeader extends LitElement {
    */
   @property({ reflect: true }) heading?: string;
 
-  /** @internal */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @internal */
   @property() lastCell = false;
 
   @property() messages!: Table["messages"]["_overrides"];
 
-  /** @internal */
   @property() numberCell = false;
 
-  /** @internal */
   @property() parentRowAlignment: Alignment = "start";
 
-  /** @internal */
   @property() parentRowIsSelected = false;
 
-  /** @internal */
   @property() parentRowType!: RowType;
 
-  /** @internal */
   @property() positionInRow!: number;
 
   /**
@@ -135,19 +127,14 @@ export class TableHeader extends LitElement {
    */
   @property({ reflect: true }) rowSpan?: number;
 
-  /** @internal */
   @property() scale!: Scale;
 
-  /** @internal */
   @property() selectedRowCount!: number;
 
-  /** @internal */
   @property() selectedRowCountLocalized!: string;
 
-  /** @internal */
   @property() selectionCell = false;
 
-  /** @internal */
   @property() selectionMode!: SelectionMode;
 
   //#endregion

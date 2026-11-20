@@ -36,7 +36,6 @@ interface Day {
   day: number;
 }
 
-/** @internal */
 export class DatePickerMonth extends LitElement {
   //#region Static Members
 
@@ -67,108 +66,81 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * The currently active Date.
-   *
-   * @internal
    */
   @property() activeDate: Date = new Date();
 
   /**
    * Specifies the number of calendars displayed when `range` is `true`.
-   *
-   * @internal
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
-   * @internal
    */
   @property() dateTimeFormat!: Intl.DateTimeFormat;
 
   /**
    * End date currently active.
-   *
-   * @internal
    */
   @property() endDate?: Date;
 
   /**
-   * @internal
    * @copyDoc
    */
   @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
 
   /**
    * The range of dates currently being hovered.
-   *
-   * @internal
    */
   @property() hoverRange?: HoverRange;
 
   /**
    * Specifies the layout of the component.
-   * @internal
    */
   @property({ reflect: true }) layout!: "horizontal" | "vertical";
 
   /**
    * CLDR locale data for current locale.
-   * @internal
    */
   @property() localeData!: DateLocaleData;
 
   /**
    * Specifies the latest allowed date (`"yyyy-mm-dd"`).
-   *
-   * @internal
    */
   @property() max?: Date;
 
   /**
    * Made into a prop for testing purposes only
-   * @internal
    */
   @property() messages!: DatePicker["messages"]["_overrides"];
 
   /**
    * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
-   *
-   * @internal
    */
   @property() min?: Date;
 
   /**
    * Specifies the monthStyle used by the component.
-   *
-   * @internal
    */
   @property() monthStyle!: "abbreviated" | "wide";
 
   /**
    * When `true`, activates the component's range mode which renders two calendars for selecting ranges of dates.
-   *
-   * @internal
    */
   @property({ reflect: true }) range: boolean = false;
 
   /**
    * Specifies the size of the component.
-   *
-   * @internal
    */
   @property({ reflect: true }) scale!: Scale;
 
   /**
    * Already selected date.
-   *
-   * @internal
    */
   @property() selectedDate?: Date;
 
   /**
    * Start date currently active.
-   *
-   * @internal
    */
   @property() startDate?: Date;
 
@@ -178,32 +150,27 @@ export class DatePickerMonth extends LitElement {
 
   /**
    * Fires when user hovers the date.
-   * @internal
    */
   calciteInternalDatePickerDayHover = createEvent<Date>({ cancelable: false });
 
   /**
    * Fires when user selects the date.
-   * @internal
    */
   calciteInternalDatePickerDaySelect = createEvent<Date>({ cancelable: false });
 
   /**
    * Active date for the user keyboard access.
-   * @internal
    */
   calciteInternalDatePickerMonthActiveDateChange = createEvent<Date>({ cancelable: false });
 
   /**
    * Emits when user updates month or year using `calcite-date-picker-month-header` component.
-   * @internal
    */
   calciteInternalDatePickerMonthChange = createEvent<{
     date: Date;
     position: string;
   }>({ cancelable: false });
 
-  /** @internal */
   calciteInternalDatePickerMonthMouseOut = createEvent({ cancelable: false });
 
   //#endregion

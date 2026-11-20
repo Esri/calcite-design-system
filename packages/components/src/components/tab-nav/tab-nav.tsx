@@ -130,13 +130,10 @@ export class TabNav extends LitElement {
 
   //#region Public Properties
 
-  /** @internal */
   @property({ reflect: true }) bordered = false;
 
-  /** @internal */
   @property({ reflect: true }) layout: TabLayout = "inline";
 
-  /** @internal */
   @property() lastTabClosable = false;
 
   /**
@@ -154,7 +151,6 @@ export class TabNav extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -184,12 +180,10 @@ export class TabNav extends LitElement {
 
   //#region Events
 
-  /** @internal */
   calciteInternalTabChange = createEvent<TabChangeEventDetail>({
     cancelable: false,
   });
 
-  /** @internal */
   calciteInternalTabNavSlotChange = createEvent<Element[]>();
 
   /**

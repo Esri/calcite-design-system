@@ -258,7 +258,6 @@ export class Sheet extends LitElement {
   /**
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
-   * @internal
    */
   @property({ reflect: true }) embedded = false;
 
@@ -341,7 +340,6 @@ export class Sheet extends LitElement {
 
   /**
    * We use an internal property to handle styles for when a modal is actually opened, not just when the open attribute is applied. This is a property because we need to apply styles to the host element and to keep the styles present while beforeClose is .
-   * @internal
    */
   @property({ reflect: true }) opened = false;
 

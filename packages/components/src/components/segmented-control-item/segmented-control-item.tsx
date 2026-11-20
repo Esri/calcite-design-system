@@ -64,7 +64,6 @@ export class SegmentedControlItem extends LitElement {
 
   /**
    * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
-   * @internal
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
@@ -95,13 +94,11 @@ export class SegmentedControlItem extends LitElement {
 
   /**
    * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
-   * @internal
    */
   @property() layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "horizontal";
 
   /**
    * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -118,7 +115,6 @@ export class SegmentedControlItem extends LitElement {
 
   /**
    * Fires when the item has been selected.
-   * @internal
    */
   calciteInternalSegmentedControlItemChange = createEvent({ cancelable: false });
 

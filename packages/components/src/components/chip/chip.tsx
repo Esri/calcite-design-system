@@ -195,7 +195,6 @@ export class Chip extends LitElement {
   /**
    * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit.
    * This is set to `true` by a parent Chip Group component.
-   * @internal
    */
   @property() interactive = false;
 
@@ -219,7 +218,6 @@ export class Chip extends LitElement {
    */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @internal */
   @property() parentChipGroup?: ChipGroup["el"];
 
   /**
@@ -241,7 +239,6 @@ export class Chip extends LitElement {
   /**
    * This internal property, managed by a containing `calcite-chip-group`, is
    * conditionally set based on the `selectionMode` of the parent
-   * @internal
    */
   @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -296,10 +293,8 @@ export class Chip extends LitElement {
    */
   calciteChipSelect = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalChipSelect = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalSyncSelectedChips = createEvent({ cancelable: false });
 
   //#endregion

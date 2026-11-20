@@ -446,7 +446,6 @@ export class FlowItem extends LitElement {
    * - `"returnFocusOnDeactivate"` returns focus when not active.
    * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
-   * @internal
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
@@ -536,7 +535,6 @@ export class FlowItem extends LitElement {
    * Updates the element(s) that are included in the focus-trap of the component.
    *
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
-   * @internal
    */
   @method()
   async updateFocusTrapElements(
@@ -591,7 +589,6 @@ export class FlowItem extends LitElement {
    */
   calciteFlowItemToggle = createEvent({ cancelable: false });
 
-  /** @internal */
   calciteInternalFlowItemChange = createEvent({ cancelable: false });
 
   //#endregion

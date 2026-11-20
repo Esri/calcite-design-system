@@ -179,7 +179,6 @@ export class ComboboxItem extends LitElement {
 
   /**
    * Pattern for highlighting filter text matches.
-   * @internal
    */
   @property({ reflect: true }) filterTextMatchPattern?: RegExp;
 
@@ -226,7 +225,6 @@ export class ComboboxItem extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
-   * @internal
    */
   @property() scale: Scale = "m";
 
@@ -255,7 +253,6 @@ export class ComboboxItem extends LitElement {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
-   * @internal
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
@@ -267,7 +264,6 @@ export class ComboboxItem extends LitElement {
    *
    * - `"icon"` displays a radio or checkbox.
    * - `"highlight"` displays a background highlight.
-   * @internal
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -300,13 +296,11 @@ export class ComboboxItem extends LitElement {
 
   /**
    * When `true`, the item will be hidden.
-   * @internal
    */
   @property({ reflect: true }) itemHidden = false;
 
   /**
    * When `selectionMode` is `"multiple"` or `"ancestors"` and one or more, but not all `calcite-combobox-item`s are selected, displays an indeterminate "select all" checkbox.
-   * @internal
    */
   @property({ reflect: true }) indeterminate = false;
 
@@ -316,7 +310,6 @@ export class ComboboxItem extends LitElement {
 
   /**
    * Toggle selection of the component.
-   * @internal
    */
   @method()
   toggleSelection(): void {
@@ -343,7 +336,6 @@ export class ComboboxItem extends LitElement {
 
   /**
    * Fires whenever a property the parent combobox needs to know about is changed.
-   * @internal
    */
   calciteInternalComboboxItemChange = createEvent({ cancelable: false });
 

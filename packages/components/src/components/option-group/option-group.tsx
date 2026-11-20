@@ -52,7 +52,6 @@ export class OptionGroup extends LitElement {
 
   //#region Events
 
-  /** @internal */
   private calciteInternalOptionGroupChange = createEvent({ cancelable: false });
 
   //#endregion

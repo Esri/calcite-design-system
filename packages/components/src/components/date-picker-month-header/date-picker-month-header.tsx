@@ -36,7 +36,6 @@ declare global {
   }
 }
 
-/** @internal */
 export class DatePickerMonthHeader extends LitElement {
   // #region Static Members
 
@@ -97,7 +96,6 @@ export class DatePickerMonthHeader extends LitElement {
   /**
    * This property specifies accessible strings for the component's previous month button ,next month button & year input elements.
    * Made into a prop for testing purposes only.
-   * @internal
    */
   @property() messages!: DatePicker["messages"]["_overrides"];
 
@@ -115,7 +113,6 @@ export class DatePickerMonthHeader extends LitElement {
 
   /**
    * Specifies the position of the component in a range date-picker.
-   * @internal
    */
   @property() position?: Extract<"start" | "end", Position>;
 
@@ -137,7 +134,6 @@ export class DatePickerMonthHeader extends LitElement {
 
   /**
    * Fires to active date
-   * @internal
    */
   calciteInternalDatePickerMonthHeaderSelectChange = createEvent<Date>({ cancelable: false });
 

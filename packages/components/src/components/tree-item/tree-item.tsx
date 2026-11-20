@@ -121,7 +121,6 @@ export class TreeItem extends LitElement {
 
   //#region Public Properties
 
-  /** @internal */
   @property({ reflect: true }) depth = -1;
 
   /**
@@ -138,7 +137,6 @@ export class TreeItem extends LitElement {
    */
   @property({ reflect: true }) expanded = false;
 
-  /** @internal */
   @property({ reflect: true }) get hasChildren(): boolean {
     return !!this.childTree;
   }
@@ -158,7 +156,6 @@ export class TreeItem extends LitElement {
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
-   * @internal
    */
   @property({ reflect: true }) indeterminate = false;
 
@@ -168,13 +165,10 @@ export class TreeItem extends LitElement {
    */
   @property() label?: string;
 
-  /** @internal */
   @property({ reflect: true }) lines: boolean = false;
 
-  /** @internal */
   @property() parentExpanded = false;
 
-  /** @internal */
   @property({ reflect: true }) scale!: Scale;
 
   /**
@@ -184,14 +178,12 @@ export class TreeItem extends LitElement {
    */
   @property({ reflect: true }) selected = false;
 
-  /** @internal */
   @property({ reflect: true }) selectionMode?: SelectionMode;
 
   //#endregion
 
   //#region Events
 
-  /** @internal */
   calciteInternalTreeItemSelect = createEvent<TreeItemSelectDetail>({
     cancelable: false,
   });
@@ -384,7 +376,6 @@ export class TreeItem extends LitElement {
   /**
    * This is meant to be called in `componentDidLoad` in order to take advantage of the hierarchical component lifecycle
    * and help check for item selection as items are initialized
-   * @internal
    */
   private updateAncestorTree(): void {
     const parentItem = this.parentTreeItem;

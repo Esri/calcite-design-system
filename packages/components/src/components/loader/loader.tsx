@@ -91,7 +91,6 @@ export class Loader extends LitElement {
 
   /**
    * Indicates whether the component is in a loading state.
-   * @internal
    */
   @property({ reflect: true }) complete = false;
 
