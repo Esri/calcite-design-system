@@ -102,7 +102,7 @@ interface InlineEditableSlots {
 
 /**
  * @public
- * @deprecated in v5.2.0, removal target v7.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline edit (`inline-edit` and `inline-edit="controls-disabled"` prop) instead.
+ * @deprecated in v5.2.0, removal target v8.0.0 - Use `calcite-input`, `calcite-input-number`, or `calcite-input-text` with built-in inline edit (`inline-edit` and `inline-edit="controls-disabled"` prop) instead.
  */
 export class InlineEditable extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
