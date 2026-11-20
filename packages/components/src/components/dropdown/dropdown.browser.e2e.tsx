@@ -92,10 +92,6 @@ describe("reflects", () => {
         value: "m",
       },
       {
-        propertyName: "widthScale",
-        value: "m",
-      },
-      {
         propertyName: "width",
         value: "m",
       },

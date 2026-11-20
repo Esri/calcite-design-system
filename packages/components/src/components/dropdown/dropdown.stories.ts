@@ -14,15 +14,7 @@ const { clickType, menuPlacement, overlayPositioning, scale, selectionMode } = A
 
 type DropdownStoryArgs = Pick<
   Dropdown,
-  | "closeOnSelectDisabled"
-  | "disabled"
-  | "open"
-  | "overlayPositioning"
-  | "placement"
-  | "scale"
-  | "type"
-  | "width"
-  | "widthScale"
+  "closeOnSelectDisabled" | "disabled" | "open" | "overlayPositioning" | "placement" | "scale" | "type" | "width"
 > &
   Pick<DropdownGroup, "selectionMode">;
 
@@ -34,7 +26,6 @@ export default {
     overlayPositioning: overlayPositioning.defaultValue,
     scale: scale.defaultValue,
     width: scale.defaultValue,
-    widthScale: scale.defaultValue,
     type: clickType.defaultValue,
     closeOnSelectDisabled: false,
     disabled: false,
@@ -50,10 +41,6 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: scale.values,
-      control: { type: "select" },
-    },
-    widthScale: {
       options: scale.values,
       control: { type: "select" },
     },
@@ -87,7 +74,6 @@ export const simple = (args: DropdownStoryArgs): string => html`
     placement="${args.placement}"
     scale="${args.scale}"
     width="${args.width}"
-    width-scale="${args.widthScale}"
     type="${args.type}"
     ${boolean("close-on-select-disabled", args.closeOnSelectDisabled)}
     ${boolean("disabled", args.disabled)}
@@ -126,14 +112,7 @@ export const simpleAutoWidth = (): string => html`
 
 export const simpleFullWidth = (): string => html`
   <div style="width: 500px;">
-    <calcite-dropdown
-      style="width:100%"
-      open
-      placement="${defaultMenuPlacement}"
-      scale="m"
-      width-scale="m"
-      type="click"
-    >
+    <calcite-dropdown style="width:100%" open placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
       <calcite-button width="full" slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="single" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -145,7 +124,7 @@ export const simpleFullWidth = (): string => html`
 `;
 
 export const withIcons = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
+  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="single" group-title="Icon Start">
       <calcite-dropdown-item icon-start="list">List</calcite-dropdown-item>
@@ -166,7 +145,7 @@ export const withIcons = (): string => html`
 `;
 
 export const groupsAndSelectionModes = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
+  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="Select one">
       <calcite-dropdown-item>Apple</calcite-dropdown-item>
@@ -186,7 +165,7 @@ export const groupsAndSelectionModes = (): string => html`
 `;
 
 export const itemsAsLinks = (): string => html`
-  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
+  <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
       <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
@@ -215,7 +194,7 @@ export const darkModeRTL = (): string => html`
     class="calcite-mode-dark"
     placement="${defaultMenuPlacement}"
     scale="m"
-    width-scale="m"
+    width="m"
     type="click"
   >
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
@@ -249,14 +228,7 @@ export const darkModeRTL = (): string => html`
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const itemsAsLinksDarkMode = (): string => html`
-  <calcite-dropdown
-    open
-    class="calcite-mode-dark"
-    placement="${defaultMenuPlacement}"
-    scale="m"
-    width-scale="m"
-    type="click"
-  >
+  <calcite-dropdown open class="calcite-mode-dark" placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group selection-mode="none" group-title="Select one">
       <calcite-dropdown-item href="http://www.esri.com" target="_blank" title="Test title"
@@ -282,7 +254,7 @@ itemsAsLinksDarkMode.parameters = { themes: modesDarkDefault };
 
 export const scrollingAfterCertainItems = (): string => html`
   <!-- we use large scale to test max viewport height-->
-  <calcite-dropdown open placement="${defaultMenuPlacement}" max-items="7" width-scale="m" type="click">
+  <calcite-dropdown open placement="${defaultMenuPlacement}" max-items="7" width="m" type="click">
     <calcite-button slot="trigger">Open Dropdown</calcite-button>
     <calcite-dropdown-group group-title="First group">
       <calcite-dropdown-item>1</calcite-dropdown-item>
@@ -395,7 +367,7 @@ export const disabled = (): string => html`
 
 export const flipPositioning = (): string => html`
   <div style="margin:10px;">
-    <calcite-dropdown width-scale="m" placement="top" open>
+    <calcite-dropdown width="m" placement="top" open>
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group>
         <calcite-dropdown-item>1</calcite-dropdown-item>
@@ -413,7 +385,7 @@ flipPositioning.parameters = {
 
 export const alignedCenter = (): string => html`
   <div style="text-align:center">
-    <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
+    <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="single" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -426,7 +398,7 @@ export const alignedCenter = (): string => html`
 
 export const alignedCenterRTL = (): string => html`
   <div dir="rtl" style="text-align:center">
-    <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width-scale="m" type="click">
+    <calcite-dropdown open placement="${defaultMenuPlacement}" scale="m" width="m" type="click">
       <calcite-button slot="trigger">Open Dropdown</calcite-button>
       <calcite-dropdown-group selection-mode="single" group-title="Sort by">
         <calcite-dropdown-item>Relevance</calcite-dropdown-item>
@@ -469,7 +441,7 @@ export const flipPlacements = (): string => html`
 `;
 
 export const mediumIconForLargeDropdownItem = (): string => html`
-  <calcite-dropdown scale="l" width-scale="m" open>
+  <calcite-dropdown scale="l" width="m" open>
     <calcite-dropdown-group group-title="View">
       <calcite-dropdown-item scale="l">Table</calcite-dropdown-item>
       <calcite-dropdown-item icon-start="grid" scale="l">Grid</calcite-dropdown-item>
@@ -521,7 +493,7 @@ export const openInAllScales = (): string => html`
     }
   </style>
   <div class="container">
-    <calcite-dropdown scale="s" width-scale="s" open>
+    <calcite-dropdown scale="s" width="s" open>
       <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale S</calcite-button>
       <calcite-dropdown-group group-title="View">
         <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
@@ -531,7 +503,7 @@ export const openInAllScales = (): string => html`
   </div>
 
   <div class="container">
-    <calcite-dropdown scale="m" width-scale="s" open>
+    <calcite-dropdown scale="m" width="s" open>
       <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale M</calcite-button>
       <calcite-dropdown-group group-title="View">
         <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>
@@ -541,7 +513,7 @@ export const openInAllScales = (): string => html`
   </div>
 
   <div class="container">
-    <calcite-dropdown scale="l" width-scale="s" open>
+    <calcite-dropdown scale="l" width="s" open>
       <calcite-button icon-end="hamburger" appearance="outline" slot="trigger">Scale L</calcite-button>
       <calcite-dropdown-group group-title="View">
         <calcite-dropdown-item icon-end="list-bullet" selected>List</calcite-dropdown-item>

@@ -302,7 +302,7 @@ export class SplitButton extends LitElement {
             placement={this.placement}
             scale={this.scale}
             topLayerDisabled={this.topLayerDisabled}
-            widthScale={this.scale}
+            width={this.scale}
           >
             <calcite-button
               appearance={this.appearance}
