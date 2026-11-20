@@ -2116,15 +2116,6 @@ describe("theme", () => {
     });
   });
 
-  describe("deprecated", () => {
-    themed(() => mount(comboboxSelectAllEnabledHTML), {
-      "--calcite-combobox-item-border-color": {
-        shadowSelector: `.${CSS.selectAll}`,
-        targetProp: "borderBlockEndColor",
-      },
-    });
-  });
-
   describe("no-matches", () => {
     themed(
       async () => {

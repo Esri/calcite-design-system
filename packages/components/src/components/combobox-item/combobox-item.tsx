@@ -21,12 +21,6 @@ declare global {
 declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
-     * Specifies the component's border color.
-     *
-     * @deprecated in v3.3.0, removal target v6.0.0.
-     */
-    "--calcite-combobox-item-border-color": "*";
-    /**
      * Specifies the component's text and `icon` color.
      */
     "--calcite-combobox-text-color": "*";
