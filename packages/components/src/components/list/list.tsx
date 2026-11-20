@@ -103,9 +103,9 @@ interface ListSlots {
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
+ * @public
  * @docGroup List
  */
-/** @public */
 export class List extends LitElement {
   //#region Type-only metadata members
 

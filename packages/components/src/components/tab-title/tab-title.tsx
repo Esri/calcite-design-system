@@ -141,11 +141,11 @@ interface TabTitleSlots {
 }
 
 /**
+ * @public
  * @privateRemarks
  *
  * Tab-titles are optionally individually closable.
  *
- * @public
  * @docGroup Tabs
  * @parent calcite-tabs
  */
