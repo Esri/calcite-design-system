@@ -173,6 +173,8 @@ interface DialogSlots {
   "custom-content": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @deprecated in v6.0.0, removal target v7.0.0 - Use the `content-top` slot with `--calcite-dialog-content-top-space` set to `0` instead. Set `layout` to `"horizontal"` on the slotted `calcite-action-bar`.
    */
   "action-bar": Node[];
   /**
@@ -185,6 +187,7 @@ interface DialogSlots {
   "content-bottom": Node[];
   /**
    * A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+   * A directly slotted `calcite-action-bar` has an `inline-size` of `100%`. Set its `layout` to `"horizontal"` and the component's `--calcite-dialog-content-top-space` to `0` to match the `action-bar` slot.
    */
   "content-top": Node[];
   /**
@@ -293,7 +296,7 @@ export class Dialog extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private sizeOverride = useSizeOverride({
     targetElement: () => ({ value: this.transitionEl }),

@@ -33,12 +33,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-navigation-width": "*";
     /**
-     * Specifies the background color of the component.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-navigation-background-color` instead.
-     */
-    "--calcite-navigation-background": "*";
-    /**
      * Specifies the component's background color.
      */
     "--calcite-navigation-background-color": "*";
@@ -108,7 +102,7 @@ export class Navigation extends LitElement {
 
   private navigationActionRef = createRef<Action["el"]>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private mutationObserver = createObserver("mutation", () => {
     this.updateNavigationLogo();

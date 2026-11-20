@@ -88,7 +88,7 @@ export class Tile extends LitElement implements SelectableComponent {
 
   private containerEl?: HTMLDivElement;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

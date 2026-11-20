@@ -89,32 +89,6 @@ describe("expand functionality", () => {
     expect(expandAction).toBeNull();
   });
 
-  it("should map deprecated 'expandDisabled' prop to 'expandToggleDisabled' prop", async () => {
-    const page = await newE2EPage({
-      html: html`<calcite-action-bar></calcite-action-bar>`,
-    });
-    const actionBar = await page.find("calcite-action-bar");
-
-    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(false);
-
-    actionBar.setProperty("expandDisabled", true);
-    await page.waitForChanges();
-    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
-
-    actionBar.setProperty("expandDisabled", false);
-    await page.waitForChanges();
-    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(false);
-  });
-
-  it("should map deprecated 'expand-disabled' attribute to 'expandToggleDisabled' prop", async () => {
-    const page = await newE2EPage();
-    await page.setContent("<calcite-action-bar expand-disabled></calcite-action-bar>");
-    await page.waitForChanges();
-
-    const actionBar = await page.find("calcite-action-bar");
-    expect(await actionBar.getProperty("expandToggleDisabled")).toBe(true);
-  });
-
   it("should toggle expanded", async () => {
     const page = await newE2EPage({ html: "<calcite-action-bar></calcite-action-bar>" });
 
