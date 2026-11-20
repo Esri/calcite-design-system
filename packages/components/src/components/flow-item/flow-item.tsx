@@ -150,6 +150,8 @@ interface FlowItemSlots {
   "": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @deprecated in v6.0.0, removal target v7.0.0 - Use the `content-top` slot with `--calcite-flow-content-top-space` set to `0` instead. Set `layout` to `"horizontal"` on the slotted `calcite-action-bar`.
    */
   "action-bar": Node[];
   /**
@@ -157,7 +159,8 @@ interface FlowItemSlots {
    */
   alerts: Node[];
   /**
-   * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   * A slot for adding content above the unnamed (default) slot and below the `action-bar` slot (if populated).
+   * A directly slotted `calcite-action-bar` has an `inline-size` of `100%`. Set its `layout` to `"horizontal"` and the component's `--calcite-flow-content-top-space` to `0` to match the `action-bar` slot.
    */
   "content-top": Node[];
   /**

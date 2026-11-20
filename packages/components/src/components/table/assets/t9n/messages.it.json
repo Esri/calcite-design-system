@@ -1,7 +1,18 @@
 {
+  "all": "tutto",
   "clear": "Azzera",
   "hiddenSelected": "Righe selezionate fuori dal campo visivo",
+  "keyboardDeselect": "Premere Invio o Spazio per deselezionare la riga",
+  "keyboardDeselectAll": "Premere Invio o Spazio per deselezionare tutte le righe",
+  "keyboardSelect": "Premere Invio o Spazio per selezionare la riga",
+  "keyboardSelectAll": "Premere Invio o Spazio per selezionare tutte le righe",
   "page": "Pagina",
   "row": "Riga",
-  "selected": "Selezionato"
+  "rowNumber": "Numero riga",
+  "selected": "Selezionato",
+  "selectedRows": "righe selezionate",
+  "selectionColumn": "Selezione colonne",
+  "selectionRow": "riga",
+  "selectionSelected": "selezionato",
+  "unselected": "deselezionato"
 }

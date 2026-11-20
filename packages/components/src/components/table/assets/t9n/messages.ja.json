@@ -1,7 +1,18 @@
 {
+  "all": "すべて",
   "clear": "解除",
   "hiddenSelected": "行が選択されましたが、見えなくなっています",
+  "keyboardDeselect": "行を選択解除するには Enter キーまたは Space キーを押します",
+  "keyboardDeselectAll": "すべての行を選択解除するには Enter キーまたは Space キーを押します",
+  "keyboardSelect": "行を選択するには Enter キーまたは Space キーを押します",
+  "keyboardSelectAll": "すべての行を選択するには Enter キーまたは Space キーを押します",
   "page": "ページ",
   "row": "行",
-  "selected": "選択済み"
+  "rowNumber": "行番号",
+  "selected": "選択済み",
+  "selectedRows": "選択行",
+  "selectionColumn": "選択列",
+  "selectionRow": "行",
+  "selectionSelected": "選択済み",
+  "unselected": "選択解除"
 }

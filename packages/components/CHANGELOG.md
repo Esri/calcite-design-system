@@ -3,6 +3,104 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.41...@esri/calcite-components@6.0.0-next.42) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **date-picker, dropdown, input-date-picker, input-time-zone, popover, segmented-control, select, tooltip:** Improves strictness of public API. The codebase was
+  refactored to be strict to better reflect the component runtime
+  behavior. Developers will need to update code to match updated types.
+
+### Code Refactoring
+
+- **date-picker, dropdown, input-date-picker, input-time-zone, popover, segmented-control, select, tooltip:** make public API strict ([#15540](https://github.com/Esri/calcite-design-system/issues/15540)), closes [#14582](https://github.com/Esri/calcite-design-system/issues/14582)
+
+## [6.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.40...@esri/calcite-components@6.0.0-next.41) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **table, table-cell, table-header, table-row:** `messageOverrides` is no longer available on
+  `calcite-table-header` or `calcite-table-cell`. Move overrides to the
+  owning `calcite-table`. All keys are unchanged except for the following:
+
+**`calcite-table-row`**
+
+- `row` → `selectionRow`
+- `selected` → `selectionSelected`
+
+**`calcite-table-header`**
+
+- `selected` → `selectedRows`
+
+### Code Refactoring
+
+- **table, table-cell, table-header, table-row:** move `messageOverrides` to parent ([#15215](https://github.com/Esri/calcite-design-system/issues/15215)), closes [#15216](https://github.com/Esri/calcite-design-system/issues/15216) [#15326](https://github.com/Esri/calcite-design-system/issues/15326)
+
+## [6.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.39...@esri/calcite-components@6.0.0-next.40) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **input-time-zone:** `input-time-zone` no longer supports `Factory` or its
+  message override because it represents an unknown time zone and is
+  inconsistently supported by browsers. Replace persisted
+  `value="Factory"` with a supported IANA time zone, or omit `value` to
+  use the user's time zone; an initial `Factory` value now falls back to
+  the user's time zone. Remove any `Factory` entry from
+  `messageOverrides`.
+
+### Bug Fixes
+
+- **input-time-zone:** drop `Factory` time zone support ([#15649](https://github.com/Esri/calcite-design-system/issues/15649)), closes [#15643](https://github.com/Esri/calcite-design-system/issues/15643) [1930466#c1](https://github.com/Esri/1930466/issues/c1)
+
+## [6.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.38...@esri/calcite-components@6.0.0-next.39) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **stepper:** The following deprecated tokens are removed in
+  `stepper`.
+
+- `--calcite-stepper-bar-active-fill-color`
+- `--calcite-stepper-bar-inactive-fill-color`
+
+To migrate, replace
+
+- `--calcite-stepper-bar-active-fill-color` with
+  `--calcite-stepper-bar-selected-fill-color`.
+- `--calcite-stepper-bar-inactive-fill-color` with
+  `--calcite-stepper-bar-fill-color`.
+
+### Code Refactoring
+
+- **stepper:** drop deprecated tokens ([#15552](https://github.com/Esri/calcite-design-system/issues/15552)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
+## [6.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.37...@esri/calcite-components@6.0.0-next.38) (2026-11-20)
+
+### Bug Fixes
+
+- **tree:** remove visual noise in forced-colors mode ([#15653](https://github.com/Esri/calcite-design-system/issues/15653)), closes [#15452](https://github.com/Esri/calcite-design-system/issues/15452) [/github.com/Esri/calcite-design-system/issues/15452#issuecomment-7016969115](https://github.com/Esri//github.com/Esri/calcite-design-system/issues/15452/issues/issuecomment-7016969115)
+
+## [6.0.0-next.37](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.36...@esri/calcite-components@6.0.0-next.37) (2026-11-20)
+
+### Bug Fixes
+
+- preserve grouped numbers in Bosnian and Macedonian locales ([#15625](https://github.com/Esri/calcite-design-system/issues/15625)), closes [#15654](https://github.com/Esri/calcite-design-system/issues/15654)
+
+## [6.0.0-next.36](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.35...@esri/calcite-components@6.0.0-next.36) (2026-11-19)
+
+### ⚠ BREAKING CHANGES
+
+- **action-bar:** Removes deprecated `expandDisabled` property in
+  `action-bar`.
+
+- Replace it with `expandToggleDisabled` property.
+
+- **action:** Removes the deprecated `compact` property from `action`
+
+### Code Refactoring
+
+- **action-bar:** remove deprecated expandDisabled property ([#15657](https://github.com/Esri/calcite-design-system/issues/15657)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **action:** remove deprecated compact property ([#15647](https://github.com/Esri/calcite-design-system/issues/15647)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.35](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.34...@esri/calcite-components@6.0.0-next.35) (2026-11-18)
 
 ### Bug Fixes
