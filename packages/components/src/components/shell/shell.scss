@@ -2,16 +2,18 @@
 
 :host {
   @extend %component-host;
-
-  position: absolute;
-  inset: var(--calcite-space-none);
   display: flex;
-  block-size: 100%;
-  inline-size: 100%;
   flex-direction: column;
-  overflow: hidden;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
+}
+
+:host([fit="cover"]) {
+  position: absolute;
+  inset: var(--calcite-space-none);
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
 }
 
 .main {
@@ -27,13 +29,17 @@
 
 .content {
   display: flex;
-  block-size: 100%;
+  // block-size: 100%;
   inline-size: 100%;
   flex-direction: column;
   flex-wrap: nowrap;
   overflow: auto;
   justify-content: space-between;
 }
+
+// :host(:not([fit="cover"])) .content {
+//   block-size: auto;
+// }
 
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
@@ -99,7 +105,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  block-size: 100%;
+  // block-size: 100%;
   inline-size: 100%;
   min-inline-size: 0;
 }

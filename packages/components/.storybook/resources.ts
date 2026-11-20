@@ -24,7 +24,7 @@ import type { DropdownClickType } from "../src/components/dropdown/types.ts";
 import type { TextType } from "../src/components/input/types.ts";
 import type { TimeZoneMode } from "../src/components/input-time-zone/types.ts";
 import type { DisplayMode } from "../src/components/sheet/types.ts";
-import type { ShellDisplayMode } from "../src/components/shell/types.ts";
+import type { ShellDisplayMode, ShellFit } from "../src/components/shell/types.ts";
 import type { OverlayPositioning } from "../src/utils/floating-ui.ts";
 import type { AlertDuration, AlertQueue } from "../src/components/alert/types";
 import { defaultMenuPlacement, placements, menuPlacements } from "../src/utils/floating-ui";
@@ -71,6 +71,7 @@ interface CommonAttributes {
   mode: AttributeMetadata<TimeZoneMode>;
   selectionAppearance: AttributeMetadata<SelectionAppearance>;
   shellDisplayMode: AttributeMetadata<ShellDisplayMode>;
+  shellFit: AttributeMetadata<ShellFit>;
   overlayPositioning: AttributeMetadata<OverlayPositioning>;
   numberingSystem: AttributeMetadata<string>;
   calendarCount: AttributeMetadata<number>;
@@ -152,6 +153,7 @@ const modeOptions: TimeZoneMode[] = ["offset", "name"];
 const selectionAppearanceOptions: SelectionAppearance[] = ["icon", "border", "neutral", "highlight"];
 const overlayPositioningOptions: OverlayPositioning[] = ["absolute", "fixed"];
 const shellDisplayModeOptions: ShellDisplayMode[] = ["dock", "float-content", "overlay"];
+const shellFitOptions: ShellFit[] = ["cover", "static"];
 const calendarCountOptions = [1, 2];
 const colorPickerFormatOptions = [
   "auto",
@@ -325,6 +327,10 @@ export const ATTRIBUTES: CommonAttributes = {
   shellDisplayMode: {
     values: shellDisplayModeOptions,
     defaultValue: shellDisplayModeOptions[0],
+  },
+  shellFit: {
+    values: shellFitOptions,
+    defaultValue: shellFitOptions[1],
   },
   numberingSystem: {
     values: numberingSystems,
