@@ -36,15 +36,18 @@
 }
 
 :host {
-  @apply inline-flex outline-none;
+  @include shared.outline-none();
+
+  display: inline-flex;
   & .button {
-    @apply flex
-      m-0
-      items-center
-      justify-center
-      cursor-pointer
-      focus-base
-      text-0h;
+    @include shared.text-0h();
+
+    display: flex;
+    margin: var(--calcite-space-none);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    outline-color: var(--calcite-color-transparent);
     font-family: inherit;
     border: none;
     padding-inline: 0;
@@ -57,11 +60,10 @@
 }
 
 .text-container {
-  @apply flex
-  flex-col
-  text-start
-  mt-0.5;
-
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  margin-block-start: var(--calcite-space-base);
   padding-inline: var(--calcite-internal-navigation-user-padding-inline);
 }
 
@@ -72,11 +74,12 @@ calcite-avatar {
 }
 
 calcite-avatar ~ .text-container {
-  @apply ps-0;
+  padding-inline-start: var(--calcite-space-none);
 }
 
 .full-name {
-  @apply ms-0 font-medium;
+  margin-inline-start: var(--calcite-space-none);
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-navigation-user-full-name-text-color, var(--calcite-color-text-1));
   font-size: var(--calcite-internal-navigation-user-full-name-font-size);
   padding-block-start: var(--calcite-space-2xs);
@@ -102,7 +105,7 @@ calcite-avatar ~ .text-container {
 }
 
 :host(:focus) .button {
-  @apply focus-inset;
+  @include shared.focus-inset();
 }
 
 :host(:active) .button {

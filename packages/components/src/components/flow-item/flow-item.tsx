@@ -103,7 +103,7 @@ declare module "@arcgis/lumina" {
     /**
      * Specifies the background color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
      */
-    "--calcite-action-background-color-pressed": "*";
+    "--calcite-action-background-color-press": "*";
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when hovered. Applies to any slotted `calcite-action`s.
      */
@@ -111,7 +111,7 @@ declare module "@arcgis/lumina" {
     /**
      * Specifies the text and icon color of the component's `closable`, `collapsible`, and `back` `calcite-action`s when pressed. Applies to any slotted `calcite-action`s.
      */
-    "--calcite-action-text-color-pressed": "*";
+    "--calcite-action-text-color-press": "*";
     /**
      * Specifies the border color of the component's internally rendered `calcite-popover`, which is rendered within a `calcite-action` menu when slotted `calcite-action`s are present in the `header-actions-end` slot. Applies to any slotted `calcite-popover`s.
      */
@@ -150,6 +150,8 @@ interface FlowItemSlots {
   "": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @deprecated in v6.0.0, removal target v7.0.0 - Use the `content-top` slot with `--calcite-flow-content-top-space` set to `0` instead. Set `layout` to `"horizontal"` on the slotted `calcite-action-bar`.
    */
   "action-bar": Node[];
   /**
@@ -157,7 +159,8 @@ interface FlowItemSlots {
    */
   alerts: Node[];
   /**
-   * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   * A slot for adding content above the unnamed (default) slot and below the `action-bar` slot (if populated).
+   * A directly slotted `calcite-action-bar` has an `inline-size` of `100%`. Set its `layout` to `"horizontal"` and the component's `--calcite-flow-content-top-space` to `0` to match the `action-bar` slot.
    */
   "content-top": Node[];
   /**
@@ -210,6 +213,10 @@ interface FlowItemSlots {
   "footer-start": Node[];
 }
 
+/**
+ * @docGroup Flow
+ * @parent calcite-flow
+ */
 export class FlowItem extends LitElement {
   //#region Type-only metadata members
 

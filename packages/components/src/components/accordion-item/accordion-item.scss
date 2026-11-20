@@ -38,11 +38,10 @@
 }
 
 :host {
-  @apply relative
-    flex
-    flex-col
-    no-underline;
-
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  text-decoration-line: none;
   color: var(--calcite-accordion-text-color, var(--calcite-accordion-item-text-color, var(--calcite-color-text-3)));
   background-color: var(--calcite-accordion-background-color, var(--calcite-accordion-item-background-color));
   border-width: 0;
@@ -142,16 +141,18 @@
 }
 
 .header {
-  @apply flex items-stretch;
+  display: flex;
+  align-items: stretch;
 
   &-content,
   &-container,
   .actions-start,
   .actions-end {
-    @apply flex
-      items-center
-      ease-in-out;
     @include shared.word-break();
+
+    display: flex;
+    align-items: center;
+    transition-timing-function: var(--calcite-animation-easing-function);
   }
   .has-actions {
     gap: var(--calcite-internal-accordion-item-action-slot-spacing);
@@ -166,12 +167,14 @@
 }
 
 .header-content {
-  @apply focus-base flex-grow cursor-pointer;
+  outline-color: var(--calcite-color-transparent);
+  flex-grow: 1;
+  cursor: pointer;
   flex-direction: var(--calcite-internal-accordion-item-flex-direction);
   color: var(--calcite-accordion-item-heading-text-color, var(--calcite-accordion-text-color, inherit));
 
   &:focus {
-    @apply focus-inset;
+    @include shared.focus-inset();
   }
 
   // Deprecated
@@ -200,19 +203,25 @@
 
 // accordion item title
 .header-text {
-  @apply my-0 flex-grow flex-col py-0;
+  margin-block: var(--calcite-space-none);
+  flex-grow: 1;
+  flex-direction: column;
+  padding-block: var(--calcite-space-none);
   text-align: initial;
   margin-inline-end: theme("margin.auto");
 }
 
 .heading,
 .description {
-  @apply flex w-full;
+  display: flex;
+  inline-size: 100%;
   line-height: var(--calcite-font-line-height-relative-snug);
 }
 
 .heading {
-  @apply font-medium m-0 p-0;
+  font-weight: var(--calcite-font-weight-medium);
+  margin: var(--calcite-space-none);
+  padding: var(--calcite-space-none);
 }
 
 :host([scale="s"]) .heading {
@@ -228,9 +237,9 @@
 }
 
 .icon {
-  @apply ease-in-out
-    flex
-    items-center;
+  transition-timing-function: var(--calcite-animation-easing-function);
+  display: flex;
+  align-items: center;
   margin-inline-end: var(--calcite-internal-accordion-item-icon-spacing-start);
   margin-inline-start: var(--calcite-internal-accordion-item-icon-spacing-end);
 }
@@ -278,7 +287,7 @@
 }
 
 .content {
-  @apply hidden;
+  display: none;
   text-align: initial;
 }
 
@@ -339,7 +348,7 @@
   }
 
   .content {
-    @apply block;
+    display: block;
   }
 }
 

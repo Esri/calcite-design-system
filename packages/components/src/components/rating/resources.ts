@@ -10,7 +10,6 @@ export const CSS = {
   numberAverage: "number--average",
   numberCount: "number--count",
   wrapper: "wrapper",
-  visuallyHidden: "visually-hidden",
   partial: "partial",
 };
 

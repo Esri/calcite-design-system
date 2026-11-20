@@ -25,6 +25,7 @@ export const CSS = {
   iconEnd: "icon--end",
   iconEndContainer: "icon-end-container",
   invalid: "invalid",
+  loadingScrim: "loading-scrim",
   statusIcon: "status-icon",
   summary: "summary",
   title: "title",

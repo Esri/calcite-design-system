@@ -9,14 +9,16 @@
 @use "../../styles/shared";
 
 :host {
-  @apply relative
-    block
-    max-w-full
-    leading-6;
+  position: relative;
+  display: block;
+  max-inline-size: 100%;
+  line-height: var(--calcite-font-line-height-relative-normal);
 }
 
 .accordion {
-  @apply border border-solid border-b-0;
+  border-width: var(--calcite-border-width-sm);
+  border-style: solid;
+  border-block-end-width: var(--calcite-border-width-none);
   border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
   background-color: var(--calcite-accordion-background-color, theme("backgroundColor.foreground.1"));
 }
@@ -32,21 +34,24 @@
   --calcite-internal-accordion-item-spacing-unit: theme("spacing.1");
   --calcite-internal-accordion-icon-margin: theme("spacing.2");
   --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.2");
-  @apply text-n2h;
+
+  @include shared.text-n2h();
 }
 
 :host([scale="m"]) {
   --calcite-internal-accordion-item-spacing-unit: theme("spacing.2");
   --calcite-internal-accordion-icon-margin: theme("spacing.3");
   --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.3");
-  @apply text-n1h;
+
+  @include shared.text-n1h();
 }
 
 :host([scale="l"]) {
   --calcite-internal-accordion-item-spacing-unit: theme("spacing.3");
   --calcite-internal-accordion-icon-margin: theme("spacing.4");
   --calcite-internal-accordion-item-padding: var(--calcite-internal-accordion-item-spacing-unit) theme("spacing.4");
-  @apply text-0h;
+
+  @include shared.text-0h();
 }
 
 @include shared.base-component();

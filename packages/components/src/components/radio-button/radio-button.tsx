@@ -41,6 +41,9 @@ declare module "@arcgis/lumina" {
   }
 }
 
+/**
+ * @docGroup Radio Button
+ */
 export class RadioButton extends LitElement implements LabelableComponent {
   //#region Static Members
 
@@ -66,7 +69,7 @@ export class RadioButton extends LitElement implements LabelableComponent {
 
   private rootNode!: HTMLElement;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 

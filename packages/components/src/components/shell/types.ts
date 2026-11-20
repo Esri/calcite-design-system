@@ -1,1 +1,1 @@
-export type ShellDisplayMode = "dock" | "float" | "overlay";
+export type ShellDisplayMode = "dock" | "float-content" | "overlay";

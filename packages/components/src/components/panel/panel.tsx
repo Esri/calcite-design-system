@@ -156,6 +156,8 @@ interface PanelSlots {
   "": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @deprecated in v6.0.0, removal target v7.0.0 - Use the `content-top` slot with `--calcite-panel-content-top-space` set to `0` instead. Set `layout` to `"horizontal"` on the slotted `calcite-action-bar`.
    */
   "action-bar": Node[];
   /**
@@ -167,7 +169,8 @@ interface PanelSlots {
    */
   "content-bottom": Node[];
   /**
-   * A slot for adding content above the unnamed (default) slot and below the action-bar slot (if populated).
+   * A slot for adding content above the unnamed (default) slot and below the `action-bar` slot (if populated).
+   * A directly slotted `calcite-action-bar` has an `inline-size` of `100%`. Set its `layout` to `"horizontal"` and the component's `--calcite-panel-content-top-space` to `0` to match the `action-bar` slot.
    */
   "content-top": Node[];
   /**
@@ -246,7 +249,7 @@ export class Panel extends LitElement {
 
   private _closed = false;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private focusTrapController = useFocusTrap<this>({
     focusTrapOptions: {
@@ -288,6 +291,8 @@ export class Panel extends LitElement {
   @state() hasContentBottom = false;
 
   @state() hasContentTop = false;
+
+  @state() hasContentTopActionBar = false;
 
   @state() hasEndActions = false;
 
@@ -665,6 +670,7 @@ export class Panel extends LitElement {
 
   private contentTopSlotChangeHandler(event: Event): void {
     this.hasContentTop = slotChangeHasAssignedElement(event);
+    this.hasContentTopActionBar = slotChangeGetAssignedElements(event).some(isActionBar);
   }
 
   private setPanelScrollEl(el?: HTMLElement): void {
@@ -998,7 +1004,10 @@ export class Panel extends LitElement {
       <div
         class={{
           [CSS.contentTop]: true,
-          [CSS.contentTopNoBorder]: this.hasHeaderTop && !this.hasHeaderRow && !this.hasActionBar,
+          [CSS.contentTopNoBorder]:
+            !this.hasHeaderRow &&
+            !this.hasActionBar &&
+            (this.hasHeaderTop || this.hasContentTopActionBar),
         }}
         hidden={!this.hasContentTop}
       >
@@ -1042,8 +1051,8 @@ export class Panel extends LitElement {
 
     return (
       <this.interactiveContainer disabled={disabled}>
-        {loading ? <calcite-scrim loading={loading} /> : null}
         {panelNode}
+        {loading ? <calcite-scrim loading={loading} /> : null}
       </this.interactiveContainer>
     );
   }

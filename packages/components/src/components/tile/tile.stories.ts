@@ -258,9 +258,9 @@ export const allVariants = (): string => html`
     </div>
   </div>
 
-  <!-- large visual -->
+  <!-- icon and heading -->
   <div class="parent">
-    <div class="child right-aligned-text">large visual</div>
+    <div class="child right-aligned-text">icon and heading</div>
 
     <div class="child">
       <calcite-tile icon="layers" heading="Tile title lorem ipsum" scale="s"></calcite-tile>
@@ -273,9 +273,9 @@ export const allVariants = (): string => html`
     </div>
   </div>
 
-  <!-- link large visual -->
+  <!-- icon and heading with link -->
   <div class="parent">
-    <div class="child right-aligned-text">link large visual</div>
+    <div class="child right-aligned-text">icon and heading with link</div>
 
     <div class="child">
       <calcite-tile href="/" icon="layers" heading="Tile title lorem ipsum" scale="s"></calcite-tile>

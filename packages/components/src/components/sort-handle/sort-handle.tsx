@@ -39,7 +39,7 @@ export class SortHandle extends LitElement {
 
   private dropdownEl?: Dropdown["el"];
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   get hasSetInfo(): boolean {
     return typeof this.setPosition === "number" && typeof this.setSize === "number";

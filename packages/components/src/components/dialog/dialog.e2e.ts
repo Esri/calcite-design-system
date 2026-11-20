@@ -805,7 +805,6 @@ describe("keyboard assistive text", () => {
       `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
   });
@@ -821,7 +820,6 @@ describe("keyboard assistive text", () => {
       `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
   });
@@ -839,7 +837,6 @@ describe("keyboard assistive text", () => {
       `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
   });

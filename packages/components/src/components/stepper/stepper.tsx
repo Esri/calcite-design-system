@@ -58,6 +58,9 @@ interface StepperSlots {
   "": Node[];
 }
 
+/**
+ * @docGroup Stepper
+ */
 export class Stepper extends LitElement {
   //#region Type-only metadata members
 
@@ -467,7 +470,6 @@ export class Stepper extends LitElement {
         class={{
           [CSS.actionIcon]: true,
         }}
-        compact={true}
         data-position={position}
         disabled={disabled}
         icon={path}

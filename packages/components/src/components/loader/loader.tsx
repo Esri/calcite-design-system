@@ -23,12 +23,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-loader-size": "*";
     /**
-     * Specifies the width and height of the component when set to inline.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-loader-size` instead.
-     */
-    "--calcite-loader-size-inline": "*";
-    /**
      * Specifies the the component's padding.
      */
     "--calcite-loader-spacing": "*";

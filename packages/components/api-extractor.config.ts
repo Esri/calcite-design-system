@@ -2,6 +2,7 @@ import type { ApiExtractorConfig } from "@arcgis/api-extractor/extractor/config"
 
 export const config: ApiExtractorConfig = {
   documentation: {
+    basePath: "/calcite-design-system/api/",
     copyDocDefinitions: {
       properties: {
         checked: {

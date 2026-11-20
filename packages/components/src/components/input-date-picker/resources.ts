@@ -2,7 +2,6 @@ import { isTag } from "../resources";
 import { IconName } from "../icon/types";
 
 export const CSS = {
-  assistiveText: "assistive-text",
   calendarWrapper: "calendar-wrapper",
   clearButton: "clear-button",
   container: "container",

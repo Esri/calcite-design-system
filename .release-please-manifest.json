@@ -1,6 +1,6 @@
 {
-  "packages/components": "5.2.0",
-  "packages/components-react": "5.2.0",
+  "packages/components": "5.2.1",
+  "packages/components-react": "5.2.1",
   "packages/design-tokens": "4.2.0",
   "packages/ui-icons": "4.6.0",
   "packages/eslint-plugin-components": "2.0.4",

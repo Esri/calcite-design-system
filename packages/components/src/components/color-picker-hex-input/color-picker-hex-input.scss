@@ -1,11 +1,14 @@
 @use "../../styles/shared";
 
 :host {
-  @apply block;
+  display: block;
 }
 
 .container {
-  @apply flex w-full items-center flex-nowrap;
+  display: flex;
+  inline-size: 100%;
+  align-items: center;
+  flex-wrap: nowrap;
 }
 
 .hex-input {
@@ -23,7 +26,8 @@
 }
 
 .hex-input {
-  @apply grow uppercase;
+  flex-grow: 1;
+  text-transform: uppercase;
 }
 
 .opacity-input {

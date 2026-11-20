@@ -1,24 +1,28 @@
 @use "../../styles/shared";
 
 :host {
-  @apply relative block w-full;
+  position: relative;
+  display: block;
+  inline-size: 100%;
 }
 
 .track,
 .bar {
-  @apply absolute top-0;
+  position: absolute;
+  inset-block-start: var(--calcite-space-none);
   block-size: 2px;
   border-radius: var(--calcite-corner-radius);
 }
 
 .track {
-  @apply z-default w-full overflow-hidden;
+  z-index: var(--calcite-z-index);
+  inline-size: 100%;
+  overflow: hidden;
   background-color: var(--calcite-progress-background-color, var(--calcite-color-border-3));
 }
 
 .bar {
-  @apply z-default;
-
+  z-index: var(--calcite-z-index);
   background-color: var(--calcite-progress-fill-color, var(--calcite-color-brand));
 }
 
@@ -32,7 +36,7 @@
 }
 
 .indeterminate {
-  @apply w-1/5;
+  inline-size: 20%;
   animation: looping-progress-bar-ani shared.scale-duration(--calcite-internal-animation-timing-medium, 11) linear
     infinite;
   &.calcite--rtl {
@@ -45,7 +49,12 @@
 }
 
 .text {
-  @apply text-n2h px-0 pt-4 pb-0 text-center font-medium;
+  @include shared.text-n2h();
+
+  padding-inline: var(--calcite-space-none);
+  padding-block: var(--calcite-space-lg) var(--calcite-space-none);
+  text-align: center;
+  font-weight: var(--calcite-font-weight-medium);
   color: var(--calcite-progress-text-color, var(--calcite-color-text-2));
 }
 
