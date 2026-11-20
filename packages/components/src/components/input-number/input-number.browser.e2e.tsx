@@ -1322,9 +1322,10 @@ describe("number locale support", () => {
       const localizedNegativeExponentialInteger = `${minusSign}${localizedExponentialInteger}`;
 
       const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
-      const input = page.getByRole("textbox");
+      const input = page.getByRole("textbox").element() as HTMLInputElement;
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1334,7 +1335,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", "12345");
       expect(input).toHaveDisplayValue(localizedInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1344,7 +1346,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", negativeIntegerValue);
       expect(input).toHaveDisplayValue(localizedNegativeInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1354,7 +1357,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", exponentialInteger);
       expect(input).toHaveDisplayValue(localizedExponentialInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1364,7 +1368,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", negativeExponentialInteger);
       expect(input).toHaveDisplayValue(localizedNegativeExponentialInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1395,9 +1400,10 @@ describe("number locale support", () => {
       const { el } = await mount(
         <calcite-input-number group-separator lang={locale} value={integerValue} />,
       );
-      const input = page.getByRole("textbox");
+      const input = page.getByRole("textbox").element() as HTMLInputElement;
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1407,7 +1413,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", "12345");
       expect(input).toHaveDisplayValue(localizedInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1417,7 +1424,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", negativeIntegerValue);
       expect(input).toHaveDisplayValue(localizedNegativeInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1427,7 +1435,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", exponentialInteger);
       expect(input).toHaveDisplayValue(localizedExponentialInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
@@ -1437,7 +1446,8 @@ describe("number locale support", () => {
       expect(el).toHaveProperty("value", negativeExponentialInteger);
       expect(input).toHaveDisplayValue(localizedNegativeExponentialInteger);
 
-      await userEvent.fill(input, decimalSeparator);
+      await input.select();
+      await userEvent.keyboard(decimalSeparator);
 
       expect(el).toHaveProperty("value", "");
       expect(input).toHaveDisplayValue(decimalSeparator);
