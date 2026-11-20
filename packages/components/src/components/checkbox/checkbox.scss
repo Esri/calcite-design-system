@@ -3,22 +3,22 @@
 :host([scale="s"]) {
   .check-svg,
   .toggle {
-    inline-size: var(--calcite-checkbox-size, theme("spacing.3"));
-    block-size: var(--calcite-checkbox-size, theme("spacing.3"));
+    inline-size: var(--calcite-checkbox-size, var(--calcite-size-3xs));
+    block-size: var(--calcite-checkbox-size, var(--calcite-size-3xs));
   }
 }
 :host([scale="m"]) {
   .check-svg,
   .toggle {
-    inline-size: var(--calcite-checkbox-size, theme("fontSize.n1"));
-    block-size: var(--calcite-checkbox-size, theme("fontSize.n1"));
+    inline-size: var(--calcite-checkbox-size, var(--calcite-size-2xs));
+    block-size: var(--calcite-checkbox-size, var(--calcite-size-2xs));
   }
 }
 :host([scale="l"]) {
   .check-svg,
   .toggle {
-    inline-size: var(--calcite-checkbox-size, theme("spacing.4"));
-    block-size: var(--calcite-checkbox-size, theme("spacing.4"));
+    inline-size: var(--calcite-checkbox-size, var(--calcite-size-xs));
+    block-size: var(--calcite-checkbox-size, var(--calcite-size-xs));
   }
 }
 
@@ -42,7 +42,7 @@
     stroke: currentColor;
     stroke-width: var(--calcite-border-width-sm);
     box-shadow: inset 0 0 0 1px var(--calcite-checkbox-border-color, var(--calcite-color-border-input));
-    color: var(--calcite-checkbox-icon-color, theme("backgroundColor.background"));
+    color: var(--calcite-checkbox-icon-color, var(--calcite-theme-color-surface-1, var(--calcite-color-background)));
   }
 }
 
@@ -112,8 +112,8 @@
   &::before {
     inset-block-start: 50%;
     inset-inline-start: 50%;
-    min-block-size: theme("width.6");
-    min-inline-size: theme("width.6");
+    min-block-size: var(--calcite-size-sm);
+    min-inline-size: var(--calcite-size-sm);
     position: absolute;
   }
 }
