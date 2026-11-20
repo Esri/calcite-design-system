@@ -32,10 +32,14 @@ declare module "@arcgis/lumina" {
     "--calcite-stepper-bar-gap": "*";
     /**
      * Specifies the `calcite-stepper-item`s' bar fill color of the component's `calcite-stepper-item`s.
+     *
+     * @public
      */
     "--calcite-stepper-bar-fill-color": "*";
     /**
      * Specifies the `calcite-stepper-item`s' bar fill color of the component's selected `calcite-stepper-item`s.
+     *
+     * @public
      */
     "--calcite-stepper-bar-selected-fill-color": "*";
     /**
