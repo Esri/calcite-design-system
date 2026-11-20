@@ -184,7 +184,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   private direction = useDirection();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   formSupport = useForm<this>({
     inputType: "time",

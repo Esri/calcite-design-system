@@ -9,7 +9,6 @@ export const navigationTokens = {
   calciteNavigationBackgroundColor: "",
   calciteNavigationBorderColor: "",
   calciteNavigationWidth: "",
-  calciteNavigationBackground: "",
 };
 export const navigation = html`<calcite-navigation>
   <calcite-navigation-logo heading="Walt's Chips" description="Eastern Potato Chip Company" icon="layers" slot="logo">
