@@ -14,6 +14,7 @@ import {
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { setRequestedIcon } from "../../utils/dom";
 import { useForm } from "../../controllers/useForm";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { CSS_UTILITY } from "../../utils/resources";
@@ -199,6 +200,14 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   );
 
   private childRef = createRef<HTMLInputElement>();
+  prefixRef = createRef<HTMLDivElement>();
+  suffixRef = createRef<HTMLDivElement>();
+  private _affixWidth = useAffixWidth<InputText>()(this);
+
+  /** @private */
+  @property({ attribute: false }) get affixWidth(): UseAffixWidth {
+    return this._affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -507,6 +516,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
     element: HTMLInputElement;
     value: string;
   }>();
+  /** @private */
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -851,8 +862,16 @@ export class InputText extends LitElement implements LabelableComponent, Textual
         />
       </div>
     );
-    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+    const prefixText = (
+      <div class={CSS.prefix} ref={this.prefixRef}>
+        {this.prefixText}
+      </div>
+    );
+    const suffixText = (
+      <div class={CSS.suffix} ref={this.suffixRef}>
+        {this.suffixText}
+      </div>
+    );
 
     const childEl = (
       <input

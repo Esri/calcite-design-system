@@ -26,6 +26,7 @@ import {
 import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
+import { CSS as InputCSS } from "../input/resources";
 import type { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
@@ -672,14 +673,6 @@ describe("theme", () => {
       shadowSelector: `.${CSS.contentAnimation}`,
       targetProp: "maxBlockSize",
     },
-    "--calcite-autocomplete-input-prefix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-size",
-    },
-    "--calcite-autocomplete-input-suffix-size": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-size",
-    },
     "--calcite-autocomplete-input-background-color": {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-background-color",
@@ -740,13 +733,38 @@ describe("theme", () => {
       shadowSelector: `.${CSS.input}`,
       targetProp: "--calcite-input-loading-fill-color",
     },
-    "--calcite-autocomplete-input-prefix-text-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-prefix-text-color",
-    },
-    "--calcite-autocomplete-input-suffix-text-color": {
-      shadowSelector: `.${CSS.input}`,
-      targetProp: "--calcite-input-suffix-text-color",
-    },
+  });
+
+  describe("with prefix and suffix", () => {
+    themed(() => mount(<calcite-autocomplete prefix-text="prefix" suffix-text="suffix" />), {
+      "--calcite-autocomplete-input-prefix-size": [
+        {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-prefix-size",
+        },
+        {
+          shadowSelector: `.${CSS.input} >>> .${InputCSS.prefix}`,
+          targetProp: "inlineSize",
+        },
+      ],
+      "--calcite-autocomplete-input-suffix-size": [
+        {
+          shadowSelector: `.${CSS.input}`,
+          targetProp: "--calcite-input-suffix-size",
+        },
+        {
+          shadowSelector: `.${CSS.input} >>> .${InputCSS.suffix}`,
+          targetProp: "inlineSize",
+        },
+      ],
+      "--calcite-autocomplete-input-prefix-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-prefix-text-color",
+      },
+      "--calcite-autocomplete-input-suffix-text-color": {
+        shadowSelector: `.${CSS.input}`,
+        targetProp: "--calcite-input-suffix-text-color",
+      },
+    });
   });
 });
