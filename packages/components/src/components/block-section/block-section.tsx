@@ -65,7 +65,7 @@ interface BlockSectionSlots {
 }
 
 /**
- * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
+ * @deprecated in v5.2.0, removal target v8.0.0 - Use the `calcite-block` component instead.
  * @docGroup Blocks
  * @parent calcite-block
  */
