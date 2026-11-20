@@ -1,0 +1,39 @@
+name: Team Status
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * 1"
+      timezone: "America/Los_Angeles"
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set pnpm + Node
+        uses: pnpm/setup@v3
+        with:
+          install: false
+
+      - name: Install CLI dependencies
+        run: pnpm install --frozen-lockfile --filter @esri/monorepo-cli --ignore-scripts
+
+      - name: Generate team status
+        id: team-status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: node cli team-status
+
+      - name: Send status to Teams
+        env:
+          TEAMS_WEBHOOK: ${{ secrets.TEAMS_STATUS_WEBHOOK_URI }}
+          TEAMS_TITLE: "Current Team Status"
+          TEAMS_MESSAGE: ${{ steps.team-status.outputs.message }}
+        run: node cli notify-teams
