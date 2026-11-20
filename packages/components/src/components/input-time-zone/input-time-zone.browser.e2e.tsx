@@ -21,6 +21,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
+import { getNormalizer } from "./utils";
 
 mockConsole();
 
@@ -28,10 +29,11 @@ it.each(["name", "region", "offset"] as const)(
   "excludes Factory and falls back to the user's time zone in %s mode",
   async (mode) => {
     const { el } = await mount(<calcite-input-time-zone mode={mode} value="Factory" />);
+    const normalize = await getNormalizer(mode);
     const expectedValue =
       mode === "offset"
         ? `${new Date().getTimezoneOffset() * -1}`
-        : new Intl.DateTimeFormat().resolvedOptions().timeZone;
+        : normalize(new Intl.DateTimeFormat().resolvedOptions().timeZone);
 
     await expect.element(el).toHaveProperty("value", expectedValue);
     await expect
