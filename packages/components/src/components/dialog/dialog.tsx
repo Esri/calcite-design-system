@@ -3,6 +3,8 @@ import type { DragEvent, Interactable, ResizeEvent } from "@interactjs/types";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
+import { WebMcpController } from "@lit-labs/webmcp/controller.js";
+import { tool } from "@lit-labs/webmcp/tool.js";
 import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
@@ -426,6 +428,7 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /** When `true`, displays and positions the component. */
+  @tool()
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -451,6 +454,13 @@ export class Dialog extends LitElement {
 
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
+
+  /**
+   * When `true`, exposes the component's WebMCP tools to the browser.
+   *
+   * @experimental
+   */
+  @property() tools = false;
 
   /**
    * @copyDoc
@@ -549,6 +559,11 @@ export class Dialog extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    new WebMcpController(this, { enabled: () => this.tools, element: () => this.el });
+  }
 
   override connectedCallback(): void {
     this.mutationObserver?.observe(this.el, { childList: true, subtree: true });

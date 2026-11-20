@@ -5,6 +5,8 @@ import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://webgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
 import { defineConfig, type UserConfig } from "vite";
 import { useLumina } from "@arcgis/lumina-compiler";
+import { useWebMcp } from "@lit-labs/webmcp-compiler/vite.js";
+import type { Program } from "typescript";
 import { defaultExclude } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
 import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-browser-commands";
@@ -33,11 +35,12 @@ export function createConfig({
   puppeteerTestingEnabled = !runBrowserTests,
   test,
 }: ComponentsViteConfigOptions = {}): UserConfig {
+  let extractorProgram: Program | undefined;
   const lumina = useLumina({
     build: {
       dependencies: {
         // Workaround for https://github.com/Esri/calcite-design-system/issues/10761
-        bundleIn: nonEsmDependencies,
+        bundleIn: [...nonEsmDependencies, "@lit-labs/webmcp"],
       },
     },
     css: {
@@ -53,6 +56,9 @@ export function createConfig({
     },
     types: {
       sourceFileTransformers: [removeTestDataAttr()],
+      typeScriptInstanceCreated: (program) => {
+        extractorProgram = program;
+      },
     },
   });
 
@@ -64,7 +70,12 @@ export function createConfig({
       noExternal: nonEsmDependencies,
     },
 
-    plugins: [lumina, customBrowserModeCommandsPlugin(), customElementDependenciesPlugin(lumina)],
+    plugins: [
+      useWebMcp({ getProgram: () => extractorProgram }),
+      lumina,
+      customBrowserModeCommandsPlugin(),
+      customElementDependenciesPlugin(lumina),
+    ],
 
     css: {
       postcss: {

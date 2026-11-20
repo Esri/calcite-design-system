@@ -1,0 +1,25 @@
+{
+  "name": "@lit-labs/webmcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Experimental WebMCP tools for Lit components",
+  "exports": {
+    "./controller.js": "./dist/controller.js",
+    "./tool.js": "./dist/tool.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:ci": "vitest run",
+    "test:related": "vitest related --run --passWithNoTests"
+  },
+  "peerDependencies": {
+    "lit": "catalog:dependency-ranges"
+  },
+  "devDependencies": {
+    "lit": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}
