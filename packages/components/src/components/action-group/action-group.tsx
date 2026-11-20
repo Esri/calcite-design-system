@@ -308,8 +308,6 @@ export class ActionGroup extends LitElement {
 
   /**
    * Fires after the component's slotted `calcite-action`s change.
-   *
-   * @public
    */
   calciteInternalActionGroupActionsChange = createEvent({ cancelable: false });
 
