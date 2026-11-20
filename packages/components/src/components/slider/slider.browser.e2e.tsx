@@ -367,11 +367,153 @@ describe("tick label alignment", () => {
     await expect.element(labels.nth(2)).toHaveTextContent("50");
     await expect.element(labels.nth(3)).toBeEmptyDOMElement();
     await expect.element(labels.nth(4)).toHaveTextContent("100");
+    await expect.element(page.getBySelector(`.${CSS.handleLabelValue}`)).toHaveTextContent("50");
+  });
+});
+
+describe("handle label layout", () => {
+  const visibleLabel = `.${CSS.handleLabel}`;
+
+  it.each([
+    ["ltr", false, "s"],
+    ["rtl", false, "m"],
+    ["ltr", true, "l"],
+    ["rtl", true, "m"],
+  ] as const)(
+    "joins and separates unequal labels at the center and edges (dir=%s, mirrored=%s, scale=%s)",
+    async (dir, mirrored, scale) => {
+      const { el, reRender } = await mount<Slider>(
+        <calcite-slider
+          dir={dir}
+          labelFormatter={(value, type) =>
+            type === "min" ? `Low ${value}` : `Upper value ${value}`
+          }
+          labelHandles
+          mirrored={mirrored}
+          scale={scale}
+          style={{ inlineSize: "400px" }}
+          value={[20, 80]}
+        />,
+      );
+      const labels = page.getBySelector(visibleLabel);
+      const left = labels.nth(mirrored ? 1 : 0);
+      const right = labels.nth(mirrored ? 0 : 1);
+      await expect.element(left).not.toHaveClass(CSS.hyphen);
+
+      for (const value of [
+        [49, 50],
+        [0, 0],
+        [100, 100],
+      ] as const) {
+        el.value = [...value];
+        await reRender();
+        await expect.element(left).toHaveClass(CSS.hyphen);
+        await expect
+          .poll(() =>
+            Math.abs(
+              left.element().getBoundingClientRect().right -
+                right.element().getBoundingClientRect().left,
+            ),
+          )
+          .toBeLessThan(0.05);
+        await expect
+          .poll(() => left.element().getBoundingClientRect().left - el.getBoundingClientRect().left)
+          .toBeGreaterThanOrEqual(-0.02);
+        await expect
+          .poll(
+            () => right.element().getBoundingClientRect().right - el.getBoundingClientRect().right,
+          )
+          .toBeLessThanOrEqual(0.02);
+      }
+
+      el.value = [20, 80];
+      await reRender();
+      await expect.element(left).not.toHaveClass(CSS.hyphen);
+      await expect.element(right).not.toHaveClass(CSS.hyphen);
+      await expect.element(left).toHaveStyle({ transform: "translateX(0px)" });
+      await expect.element(right).toHaveStyle({ transform: "translateX(0px)" });
+    },
+  );
+
+  it("joins labels only when there is less than one font-size of space between them", async () => {
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider
+        labelFormatter={() => "Label"}
+        labelHandles
+        style={{ inlineSize: "400px" }}
+        value={[20, 80]}
+      />,
+    );
+    const left = page.getBySelector(visibleLabel).nth(0);
+    const labelWidth = left.element().getBoundingClientRect().width;
+    const fontSize = Number.parseInt(getComputedStyle(left.element()).fontSize, 10);
+    const trackWidth = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect().width;
+    const joined = expect.stringContaining(CSS.hyphen);
+    const separated = expect.not.stringContaining(CSS.hyphen);
+
+    for (const extraSpace of [1, -1, 1]) {
+      el.value = [40, 40 + ((labelWidth + fontSize + extraSpace) / trackWidth) * 100];
+      await reRender();
+      await expect.element(left).toHaveAttribute("class", extraSpace < 0 ? joined : separated);
+    }
+  });
+
+  it.each([
+    [true, false, false],
+    [false, true, true],
+    [true, true, true],
+  ] as const)(
+    "preserves joining for precise=%s and histogram=%s",
+    async (precise, histogram, joined) => {
+      await mount(
+        <calcite-slider
+          histogram={
+            histogram
+              ? [
+                  [0, 0],
+                  [50, 1],
+                  [100, 0],
+                ]
+              : undefined
+          }
+          labelHandles
+          precise={precise}
+          value={[50, 50]}
+        />,
+      );
+      const left = page.getBySelector(visibleLabel).nth(0);
+      const joinedClasses = expect.stringContaining(CSS.hyphen);
+      const separatedClasses = expect.not.stringContaining(CSS.hyphen);
+      await expect
+        .element(left)
+        .toHaveAttribute("class", joined ? joinedClasses : separatedClasses);
+    },
+  );
+
+  it("keeps the left label anchored when the joined labels cannot fit within the host", async () => {
+    const { el } = await mount(
+      <calcite-slider
+        labelFormatter={(value) => `Long formatted value ${value}`}
+        labelHandles
+        style={{ inlineSize: "80px" }}
+        value={[50, 50]}
+      />,
+    );
+    const labels = page.getBySelector(visibleLabel);
+    await expect.element(labels.nth(0)).toHaveClass(CSS.hyphen);
     await expect
-      .element(
-        page.getBySelector(`.${CSS.handleLabelValue}:not(.${CSS.static}):not(.${CSS.transformed})`),
+      .poll(() =>
+        Math.abs(
+          labels.nth(0).element().getBoundingClientRect().left - el.getBoundingClientRect().left,
+        ),
       )
-      .toHaveTextContent("50");
+      .toBeLessThan(0.02);
+    await expect
+      .poll(
+        () =>
+          labels.nth(1).element().getBoundingClientRect().right - el.getBoundingClientRect().right,
+      )
+      .toBeGreaterThan(0);
   });
 });
 
@@ -620,14 +762,29 @@ describe("overlapping tick labels", () => {
     expectNoOverlappingText();
   });
 
-  it("does not remeasure during dragging and coalesces layout measurements", async () => {
+  it("does not remeasure ticks while dragging labeled range handles and coalesces resizing", async () => {
     const { el } = await mount<Slider>(
-      <calcite-slider labelTicks max={250} style={{ inlineSize: "800px" }} ticks={1} value={125} />,
+      <calcite-slider
+        labelHandles
+        labelTicks
+        max={250}
+        style={{ inlineSize: "800px" }}
+        ticks={1}
+        value={[125, 200]}
+      />,
     );
     await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
     await document.fonts.ready;
     await afterNextFrame();
-    const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
+    const measurements = vi.fn();
+    const getTextBounds = Range.prototype.getBoundingClientRect;
+    vi.spyOn(Range.prototype, "getBoundingClientRect").mockImplementation(function (this: Range) {
+      const container = this.commonAncestorContainer;
+      if (container instanceof Element && container.classList.contains(CSS.tickLabel)) {
+        measurements();
+      }
+      return getTextBounds.call(this);
+    });
     const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
 
     await commands.mouseMove(track.left + track.width / 2, track.top);
@@ -637,7 +794,7 @@ describe("overlapping tick labels", () => {
     await commands.mouseUp();
     await afterNextFrame();
 
-    await expect.poll(() => el.value).toBeGreaterThan(125);
+    await expect.poll(() => el.minValue).toBeGreaterThan(125);
     expect(measurements).not.toHaveBeenCalled();
 
     el.style.inlineSize = "700px";
@@ -1205,9 +1362,7 @@ describe("number locale support", () => {
       />,
     );
 
-    const handleLabels = page.getBySelector(
-      `calcite-slider .${CSS.handleLabel}:not(.${CSS.static}):not(.${CSS.transformed})`,
-    );
+    const handleLabels = page.getBySelector(`calcite-slider .${CSS.handleLabel}`);
     const tickLabels = page.getBySelector(`calcite-slider .${CSS.tickLabel}`);
 
     await expect.element(handleLabels.nth(0)).toHaveTextContent("\u061C-١٠");
@@ -1231,9 +1386,7 @@ describe("number locale support", () => {
       />,
     );
 
-    const handleLabels = page.getBySelector(
-      `calcite-slider .${CSS.handleLabel}:not(.${CSS.static}):not(.${CSS.transformed})`,
-    );
+    const handleLabels = page.getBySelector(`calcite-slider .${CSS.handleLabel}`);
     const tickLabels = page.getBySelector(`calcite-slider .${CSS.tickLabel}`);
 
     await expect.element(handleLabels.nth(0)).toHaveTextContent("\u200E-10");

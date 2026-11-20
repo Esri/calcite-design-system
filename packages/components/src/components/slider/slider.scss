@@ -119,12 +119,6 @@
   .handle__label {
     white-space: nowrap;
 
-    &.static,
-    &.transformed {
-      position: absolute;
-      inset-block: var(--calcite-space-none);
-      opacity: 0;
-    }
     &.hyphen::after {
       content: "\2014";
       display: inline-block;
