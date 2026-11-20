@@ -1017,11 +1017,11 @@ export class Dialog extends LitElement {
             <calcite-panel
               class={CSS.panel}
               closable={!this.closeDisabled}
+              closed={!this.opened}
               description={description}
               focusTrapDisabled={true}
               heading={heading}
               headingLevel={this.headingLevel}
-              hidden={!this.opened}
               icon={icon}
               iconFlipRtl={iconFlipRtl}
               loading={this.loading}
