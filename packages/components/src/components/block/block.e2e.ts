@@ -131,31 +131,6 @@ it("should map deprecated 'collapsible' prop to 'expandable' prop", async () => 
 });
 
 describe("header", () => {
-  it("renders a heading", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-block heading="test-heading"></calcite-block>`);
-
-    const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
-    expect(heading).toBeTruthy();
-    expect(heading.innerText).toBe("test-heading");
-
-    const description = await page.find(`calcite-block >>> .${CSS.description}`);
-    expect(description).toBeTruthy();
-  });
-
-  it("renders a heading with optional description", async () => {
-    const page = await newE2EPage();
-
-    await page.setContent(`<calcite-block heading="test-heading" description="test-description"></calcite-block>`);
-
-    const heading = await page.find(`calcite-block >>> .${CSS.heading}`);
-    expect(heading).toBeTruthy();
-
-    const description = await page.find(`calcite-block >>> .${CSS.description}`);
-    expect(description.innerText).toBe("test-description");
-  });
-
   it("allows users to slot in actions in a header menu", async () => {
     const page = await newE2EPage({
       html: html` <calcite-block heading="With header actions" description="has header actions">

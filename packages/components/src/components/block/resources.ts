@@ -41,6 +41,7 @@ export const SLOTS = {
   children: "children",
   description: "description",
   headerMenuActions: "header-menu-actions",
+  heading: "heading",
 };
 
 export const ICONS: Record<string, IconName> = {
