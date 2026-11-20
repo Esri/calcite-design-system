@@ -33,6 +33,8 @@ interface LinkSlots {
 }
 
 /**
+ * @privateRemarks
+ *
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
  * Passing a 'href' allows the component to behave like a link
