@@ -983,15 +983,11 @@ export class InputNumber
       useGrouping: this.groupSeparator,
     };
 
-    // TODO: remove this workaround after #15625 merges
-    const effectiveDecimalSeparator =
-      locale === "bs" || locale === "mk" ? "," : numberStringFormatter.decimal;
-
-    if (event.key === effectiveDecimalSeparator && !this.integer) {
+    if (event.key === numberStringFormatter.decimal && !this.integer) {
       if (!value && !this.childNumberRef.value?.value) {
         return;
       }
-      if (value && this.childNumberRef.value?.value.indexOf(effectiveDecimalSeparator) === -1) {
+      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
       if (
@@ -1140,13 +1136,8 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    const effectiveDecimalSeparator =
-      locale === "bs" || locale === "mk"
-        ? numberStringFormatter.group
-        : numberStringFormatter.decimal;
-
     let newLocalizedValue =
-      value === "." ? effectiveDecimalSeparator : numberStringFormatter.localize(value);
+      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(value);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1159,7 +1150,7 @@ export class InputNumber
     // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
     if (hasTrailingDecimalSeparator) {
       // TODO: move this to a separate localize() function that can localize raw non-sanitized user input
-      newLocalizedValue = `${newLocalizedValue}${effectiveDecimalSeparator}`;
+      newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
     // adds localized leading zeros

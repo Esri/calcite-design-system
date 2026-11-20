@@ -1376,10 +1376,6 @@ describe("number locale support", () => {
     });
 
     it(`replaces selection of entire integer with localized decimal separator with group-separator turned on for ${locale} locale`, async () => {
-      // TODO: remove these after fix in #15625 merges
-      if (locale === "bs" || locale === "mk") {
-        return;
-      }
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem: "latn",
@@ -1481,10 +1477,6 @@ describe("number locale support", () => {
     });
 
     it(`replaces last integer digit selection with localized decimal separator with group-separator turned on for ${locale} locale`, async () => {
-      // TODO: remove these after fix in #15625 merges
-      if (locale === "bs" || locale === "mk") {
-        return;
-      }
       numberStringFormatter.numberFormatOptions = {
         locale,
         numberingSystem: "latn",
