@@ -976,9 +976,8 @@ export class InputNumber
       return;
     }
 
-    const locale = this.messages._lang;
     numberStringFormatter.numberFormatOptions = {
-      locale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
@@ -1110,9 +1109,8 @@ export class InputNumber
     previousValue?: string;
     value: string;
   }): void {
-    const locale = this.messages._lang;
     numberStringFormatter.numberFormatOptions = {
-      locale,
+      locale: this.messages._lang,
       numberingSystem: this.numberingSystem,
       useGrouping: this.groupSeparator,
     };
