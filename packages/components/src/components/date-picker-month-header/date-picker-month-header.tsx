@@ -71,25 +71,21 @@ export class DatePickerMonthHeader extends LitElement {
 
   /**
    * The focused date is indicated and will become the selected date if the user proceeds.
-   * @internal
    */
   @property() activeDate!: Date;
 
   /**
-   * @internal
    * @copyDoc
    */
   @property({ type: Number }) headingLevel!: HeadingLevel;
 
   /**
    * CLDR locale data for translated calendar info.
-   * @internal
    */
   @property() localeData!: DateLocaleData;
 
   /**
    * Specifies the latest allowed date (`"yyyy-mm-dd"`).
-   * @internal
    */
   @property() max?: Date;
 
@@ -101,13 +97,11 @@ export class DatePickerMonthHeader extends LitElement {
 
   /**
    * Specifies the earliest allowed date (`"yyyy-mm-dd"`).
-   * @internal
    */
   @property() min?: Date;
 
   /**
    * Specifies the monthStyle used by the component.
-   * @internal
    */
   @property() monthStyle!: "abbreviated" | "wide";
 
@@ -118,13 +112,11 @@ export class DatePickerMonthHeader extends LitElement {
 
   /**
    * Specifies the size of the component.
-   * @internal
    */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Already selected date.
-   * @internal
    */
   @property() selectedDate?: Date;
 
