@@ -238,8 +238,8 @@ catalogs:
       specifier: 10.6.2
       version: 10.6.2
     storybook-addon-rtl:
-      specifier: 3.0.1
-      version: 3.0.1
+      specifier: 3.0.2
+      version: 3.0.2
     style-dictionary:
       specifier: 5.4.4
       version: 5.4.4
@@ -665,7 +665,7 @@ importers:
         version: 10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1)
       storybook-addon-rtl:
         specifier: 'catalog:'
-        version: 3.0.1(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1))
+        version: 3.0.2(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1))
       stylelint:
         specifier: 'catalog:'
         version: 17.13.0(supports-color@10.2.2)(typescript@6.0.3)
@@ -8485,8 +8485,8 @@ packages:
   std-env@4.2.0:
     resolution: {integrity: sha512-oCUKSupKTHX53EyjDtuZQ64pjLJ6yYCtpmEw0goYxtjG9KpbRe8KAsl2tBUGU9DyMcJ0RwJ8GqJAFzMXcXW1Rw==}
 
-  storybook-addon-rtl@3.0.1:
-    resolution: {integrity: sha512-RqnFv/xAUa1ME42xDzUuYvNouwnrlaXdXEwtyv1jEuWAISuUF8vrcfxSUmx7njS+S9IJ4jjvjBuz7x+wkNFs8g==}
+  storybook-addon-rtl@3.0.2:
+    resolution: {integrity: sha512-b3OxFvIe1Nct+lS6PA1oOalBGkfI3RE4Efju/3WE69tzmFtCUuU/eNLasjtp07TxbtsRsIg+1OkyPycnk4YPkA==}
     peerDependencies:
       storybook: ^10.0.0
 
@@ -17706,7 +17706,7 @@ snapshots:
 
   std-env@4.2.0: {}
 
-  storybook-addon-rtl@3.0.1(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1)):
+  storybook-addon-rtl@3.0.2(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1)):
     dependencies:
       storybook: 10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1)
 
