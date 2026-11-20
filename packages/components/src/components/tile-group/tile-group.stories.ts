@@ -176,7 +176,7 @@ function createVariantsHtmlStory(layout: TileGroup["layout"]): () => string {
         display: flex;
         color: var(--calcite-color-text-3);
         font-family: var(--calcite-sans-family);
-        font-size: var(--calcite-font-size-0);
+        font-size: var(--calcite-font-size-relative-md);
         font-weight: var(--calcite-font-weight-medium);
       }
 
