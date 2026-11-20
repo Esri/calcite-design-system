@@ -188,17 +188,12 @@ describe("tick label alignment", () => {
       ["ltr", true, true],
       ["rtl", true, true],
     ] as const)(
-      "aligns endpoint labels to component bounds (dir=%s, mirrored=%s, hasHistogram=%s)",
+      "centers compact endpoints and nudges longer labels toward the track edges (dir=%s, mirrored=%s, hasHistogram=%s)",
       async (dir, mirrored, hasHistogram) => {
         const { el } = await mount<Slider>(
           <calcite-slider
             dir={dir}
             hasHistogram={hasHistogram}
-            labelFormatter={(value, type, defaultFormatter) =>
-              type === "tick" && (value === 0 || value === 100)
-                ? `Long endpoint label ${value}`
-                : defaultFormatter(value)
-            }
             labelTicks
             mirrored={mirrored}
             scale={scale}
@@ -208,8 +203,12 @@ describe("tick label alignment", () => {
           />,
         );
 
-        const minLabel = page.getBySelector(`.${CSS.tickMin}`).element().getBoundingClientRect();
-        const maxLabel = page.getBySelector(`.${CSS.tickMax}`).element().getBoundingClientRect();
+        const min = page.getBySelector(`.${CSS.tickMin}`);
+        const max = page.getBySelector(`.${CSS.tickMax}`);
+        await expect.element(min).toBeVisible();
+        await expect.element(max).toBeVisible();
+        const minLabel = min.element().getBoundingClientRect();
+        const maxLabel = max.element().getBoundingClientRect();
         const middleLabel = page
           .getBySelector(`.${CSS.tickLabel}`)
           .nth(1)
@@ -220,15 +219,26 @@ describe("tick label alignment", () => {
           .nth(1)
           .element()
           .getBoundingClientRect();
-        const bounds = el.getBoundingClientRect();
+        const bounds = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
         const mirror = mirrored && !hasHistogram;
 
-        expect(mirror ? minLabel.right : minLabel.left).toBeCloseTo(
+        for (const [index, tick] of page.getBySelector(`.${CSS.tick}`).all().entries()) {
+          const tickBounds = tick.element().getBoundingClientRect();
+          expect(tickBounds.left + tickBounds.width / 2).toBeCloseTo(
+            bounds.left + bounds.width * (mirror ? 1 - index / 2 : index / 2),
+            1,
+          );
+        }
+        expect(minLabel.left + minLabel.width / 2).toBeCloseTo(
           mirror ? bounds.right : bounds.left,
+          1,
         );
-        expect(mirror ? maxLabel.left : maxLabel.right).toBeCloseTo(
-          mirror ? bounds.left : bounds.right,
-        );
+        const outwardOffset = mirror ? bounds.left - maxLabel.left : maxLabel.right - bounds.right;
+        expect(outwardOffset).toBeGreaterThan(0);
+        expect(outwardOffset).toBeLessThan(3);
+        const hostBounds = el.getBoundingClientRect();
+        expect(minLabel.left).toBeGreaterThanOrEqual(hostBounds.left);
+        expect(maxLabel.right).toBeLessThanOrEqual(hostBounds.right);
         expect(middleLabel.left + middleLabel.width / 2).toBeCloseTo(
           middleTick.left + middleTick.width / 2,
         );
@@ -236,6 +246,125 @@ describe("tick label alignment", () => {
         expect(maxLabel.top).toBeCloseTo(middleLabel.top);
       },
     );
+  });
+
+  it.each([
+    ["percent", (value: number) => `${value}%`],
+    ["custom", (value: number) => (value === 0 ? "Minimum" : "Maximum")],
+  ] as const)("nudges longer %s labels outward consistently", async (_format, labelFormatter) => {
+    await mount(
+      <calcite-slider
+        labelFormatter={labelFormatter}
+        labelTicks
+        style={{ inlineSize: "400px" }}
+        ticks={100}
+        value={50}
+      />,
+    );
+    const min = page.getBySelector(`.${CSS.tickMin}`);
+    const max = page.getBySelector(`.${CSS.tickMax}`);
+    await expect.element(min).toBeVisible();
+    await expect.element(max).toBeVisible();
+    const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+    const leftOffset = track.left - min.element().getBoundingClientRect().left;
+    const rightOffset = max.element().getBoundingClientRect().right - track.right;
+
+    expect(leftOffset).toBeGreaterThan(0);
+    expect(leftOffset).toBeLessThan(3);
+    expect(rightOffset).toBeCloseTo(leftOffset, 1);
+  });
+
+  it("updates endpoint alignment when scale and formatted width change", async () => {
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider
+        labelFormatter={() => "-5"}
+        labelTicks
+        scale="s"
+        style={{
+          "--calcite-font-size--3": "12px",
+          "--calcite-font-size--1": "12px",
+          inlineSize: "400px",
+        }}
+        ticks={100}
+        value={50}
+      />,
+    );
+    const min = page.getBySelector(`.${CSS.tickMin}`);
+    const track = page.getBySelector(`.${CSS.track}`);
+    const handle = page.getBySelector(`.${CSS.handle}`).first();
+    const centerOffset = () => {
+      const bounds = min.element().getBoundingClientRect();
+      return bounds.left + bounds.width / 2 - track.element().getBoundingClientRect().left;
+    };
+    await expect.element(min).toBeVisible();
+    expect(min.element().getBoundingClientRect().width).toBeGreaterThan(
+      handle.element().getBoundingClientRect().width,
+    );
+    expect(centerOffset()).toBeGreaterThan(0);
+
+    el.scale = "l";
+    await reRender();
+    await expect.poll(centerOffset).toBeCloseTo(0, 1);
+    expect(min.element().getBoundingClientRect().width).toBeLessThan(
+      handle.element().getBoundingClientRect().width,
+    );
+
+    el.labelFormatter = () => "Long formatted endpoint";
+    await reRender();
+    await expect.element(min).toHaveTextContent("Long formatted endpoint");
+    await expect
+      .poll(
+        () =>
+          track.element().getBoundingClientRect().left - min.element().getBoundingClientRect().left,
+      )
+      .toBeLessThan(3);
+    expect(centerOffset()).toBeGreaterThan(0);
+
+    el.labelFormatter = () => "";
+    await reRender();
+    await expect.element(min).not.toBeVisible();
+
+    el.labelFormatter = undefined;
+    await reRender();
+    await expect.element(min).toHaveTextContent("0");
+    await expect.element(min).toBeVisible();
+    await expect.poll(centerOffset).toBeCloseTo(0, 1);
+  });
+
+  it("preserves physical tick anchors when direction and mirroring change", async () => {
+    const { el, reRender } = await mount<Slider>(
+      <calcite-slider labelTicks style={{ inlineSize: "400px" }} ticks={50} value={50} />,
+    );
+    const track = page.getBySelector(`.${CSS.track}`);
+    const largestTickOffset = () => {
+      const bounds = track.element().getBoundingClientRect();
+      const mirrored = el.mirrored && !el.hasHistogram;
+      return Math.max(
+        ...page
+          .getBySelector(`.${CSS.tick}`)
+          .all()
+          .map((tick, index) => {
+            const tickBounds = tick.element().getBoundingClientRect();
+            const expected = bounds.left + bounds.width * (mirrored ? 1 - index / 2 : index / 2);
+            return Math.abs(tickBounds.left + tickBounds.width / 2 - expected);
+          }),
+      );
+    };
+
+    for (const [dir, mirrored, hasHistogram] of [
+      ["ltr", false, false],
+      ["rtl", false, false],
+      ["rtl", true, false],
+      ["ltr", true, false],
+      ["ltr", true, true],
+      ["rtl", true, true],
+    ] as const) {
+      el.dir = dir;
+      el.mirrored = mirrored;
+      el.hasHistogram = hasHistogram;
+      await reRender();
+      await expect.poll(largestTickOffset).toBeLessThan(0.02);
+    }
   });
 
   it("allows omitting neighboring tick labels without changing default formatting", async () => {
@@ -542,9 +671,9 @@ describe("overlapping tick labels", () => {
     el.style.inlineSize = "700px";
     el.style.inlineSize = "600px";
     el.style.inlineSize = "500px";
-    await expect.poll(() => measurements.mock.calls.length).toBe(251);
+    await expect.poll(() => measurements.mock.calls.length).toBe(253);
     await afterNextFrame();
-    expect(measurements).toHaveBeenCalledTimes(251);
+    expect(measurements).toHaveBeenCalledTimes(253);
   });
 });
 
