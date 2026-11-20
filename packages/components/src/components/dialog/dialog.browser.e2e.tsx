@@ -126,7 +126,7 @@ describe("defaults", () => {
         defaultValue: "m",
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
       {
@@ -260,10 +260,6 @@ describe("reflects", () => {
       },
       {
         propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "widthScale",
         value: "s",
       },
       {
@@ -517,7 +513,7 @@ describe("theme sizing", () => {
   themed(
     () =>
       mount(
-        <calcite-dialog fullscreen-disabled icon="banana" modal open width-scale="s">
+        <calcite-dialog fullscreen-disabled icon="banana" modal open width="s">
           <p>Hello world!</p>
         </calcite-dialog>,
       ),
