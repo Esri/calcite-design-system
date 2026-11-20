@@ -1,4 +1,4 @@
-import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -352,6 +352,52 @@ describe("openClose", () => {
       mountOptions,
     ),
   );
+});
+
+describe("outside click", () => {
+  async function mountWithOutsideButton(): Promise<Autocomplete["el"]> {
+    await mount(
+      <>
+        <button type="button">Outside</button>
+        <calcite-autocomplete label="Item list">
+          <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
+          <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
+        </calcite-autocomplete>
+      </>,
+    );
+
+    return document.querySelector("calcite-autocomplete")!;
+  }
+
+  it("closes when clicking outside", async () => {
+    const el = await mountWithOutsideButton();
+    const outsideButton = page.getByRole("button", { name: "Outside" });
+    const floatingUI = page.getBySelector(`calcite-autocomplete .${CSS.floatingUIContainer}`);
+
+    el.open = true;
+    await expect.element(floatingUI).toBeVisible();
+
+    await userEvent.click(outsideButton);
+
+    await expect.element(floatingUI).not.toBeVisible();
+    expect(el).toHaveProperty("open", false);
+  });
+
+  it("does not close when the outside click is prevented", async () => {
+    const el = await mountWithOutsideButton();
+    const outsideButton = page.getByRole("button", { name: "Outside" });
+    const floatingUI = page.getBySelector(`calcite-autocomplete .${CSS.floatingUIContainer}`);
+
+    outsideButton.element().addEventListener("click", (event) => {
+      event.preventDefault();
+      el.open = true;
+    });
+
+    await userEvent.click(outsideButton);
+
+    await expect.element(floatingUI).toBeVisible();
+    expect(el).toHaveProperty("open", true);
+  });
 });
 
 describe("top layer placement", () => {
