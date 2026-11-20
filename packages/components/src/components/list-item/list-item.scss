@@ -102,7 +102,9 @@
 .content-container-wrapper {
   display: flex;
   flex: 1 1 auto;
+  min-inline-size: 0;
 }
+
 .content-container-wrapper--bordered {
   border-block-end: 1px solid var(--calcite-list-border-color, var(--calcite-color-border-3));
 }
@@ -113,6 +115,7 @@
   font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
   align-items: stretch;
   color: var(--calcite-list-content-text-color, var(--calcite-color-text-2));
+  min-inline-size: 0;
 }
 
 .content-container--unavailable {
@@ -186,6 +189,10 @@
   flex-direction: column;
   justify-content: center;
   line-height: var(--calcite-font-line-height-relative-snug);
+}
+
+.content {
+  min-inline-size: 0;
 }
 
 .label {

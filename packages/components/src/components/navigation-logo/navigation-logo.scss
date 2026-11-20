@@ -68,6 +68,7 @@
     )
   );
   border-block-end: 2px solid var(--calcite-color-transparent);
+  grid-template-columns: auto minmax(0, 1fr);
 }
 
 .container--link {

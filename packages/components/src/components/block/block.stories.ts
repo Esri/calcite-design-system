@@ -513,3 +513,34 @@ export const nestedBlockGroupInChildrenSlot = (): string => html`
     <calcite-block-group slot="children"> ${nestedBlockHTML(false)} </calcite-block-group>
   </calcite-block>
 `;
+
+export const slottedDescription = (): string => html`
+  <style>
+    calcite-block {
+      width: 400px;
+    }
+  </style>
+  <p>Slotted calcite-text as description with truncate-position="end"</p>
+  <calcite-block heading="Heading">
+    <calcite-text slot="description" truncate-position="end">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
+    </calcite-text>
+  </calcite-block>
+  <br />
+  <p>Slotted calcite-text as description with truncate-position="middle"</p>
+  <calcite-block heading="Heading">
+    <calcite-text slot="description" truncate-position="middle">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
+    </calcite-text>
+  </calcite-block>
+  <br />
+  <p>Slotted calcite-text as description with max-lines="2"</p>
+  <calcite-block heading="Heading">
+    <calcite-text slot="description" max-lines="2">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore
+      magna aliqua.
+    </calcite-text>
+  </calcite-block>
+`;

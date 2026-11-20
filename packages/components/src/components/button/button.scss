@@ -116,6 +116,7 @@
 
     span {
       @include shared.truncate();
+      @apply flex-auto;
     }
 
     calcite-loader {

@@ -275,6 +275,25 @@ describe("a11y attributes", () => {
   });
 });
 
+it("renders a heading", async () => {
+  await mount(<calcite-block heading="test-heading" />);
+
+  const heading = page.getByText("test-heading");
+  expect(heading).toBeTruthy();
+  await expect.element(heading).toHaveTextContent("test-heading");
+});
+
+it("renders a heading with optional description", async () => {
+  await mount(<calcite-block description="test-description" heading="test-heading" />);
+
+  const heading = page.getByText("test-heading");
+  expect(heading).toBeTruthy();
+  await expect.element(heading).toHaveTextContent("test-heading");
+  const description = page.getByText("test-description");
+  expect(description).toBeTruthy();
+  await expect.element(description).toHaveTextContent("test-description");
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(
