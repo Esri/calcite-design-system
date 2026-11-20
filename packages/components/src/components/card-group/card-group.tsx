@@ -24,6 +24,8 @@ declare module "@arcgis/lumina" {
     "--calcite-card-group-gap": "*";
     /**
      * Specifies the space between slotted elements.
+     *
+     * @deprecated in v6.0, removal target v7.0.0 - Use `--calcite-card-group-gap` instead.
      */
     "--calcite-card-group-space": "*";
   }
