@@ -657,7 +657,7 @@
 // generate fab scales (scenario: 1 icon, ie., should be square)
 :host([scale="s"]) button:not(.content--slotted),
 :host([scale="s"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: var(--calcite-space-base);
+  --calcite-internal-button-padding-x: 0.125rem;
   --calcite-internal-button-padding-y: 3px;
 
   @include shared.text-0h();
@@ -668,7 +668,7 @@
 
 :host([scale="m"]) button:not(.content--slotted),
 :host([scale="m"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: var(--calcite-space-base);
+  --calcite-internal-button-padding-x: 0.125rem;
   --calcite-internal-button-padding-y: 7px;
 
   @include shared.text-0h();
@@ -678,7 +678,7 @@
 }
 :host([scale="l"]) button:not(.content--slotted),
 :host([scale="l"]) a:not(.content--slotted) {
-  --calcite-internal-button-padding-x: var(--calcite-space-base);
+  --calcite-internal-button-padding-x: 0.125rem;
   --calcite-internal-button-padding-y: 9px;
 
   @include shared.text-0h();

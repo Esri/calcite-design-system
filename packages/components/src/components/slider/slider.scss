@@ -314,7 +314,7 @@
   );
   inset-block-start: -2px;
   pointer-events: none;
-  margin-inline-start: calc(-1 * var(--calcite-space-base));
+  margin-inline-start: 0.125rem;
 }
 
 .tick--active {
