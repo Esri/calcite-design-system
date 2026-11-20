@@ -36,12 +36,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-dropdown-item-background-color-press": "*";
     /**
-     * Specifies the color of the component's selection icon when hovered.
-     *
-     * @deprecated in v5.0.0, removal target v6.0.0.
-     */
-    "--calcite-dropdown-item-icon-color-hover": "*";
-    /**
      * Specifies the color of the component's selection icon when `selected` or active.
      */
     "--calcite-dropdown-item-icon-color-press": "*";
