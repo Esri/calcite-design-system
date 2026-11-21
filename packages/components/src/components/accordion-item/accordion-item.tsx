@@ -44,23 +44,11 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-accordion-text-color-press": "*";
     /**
-     * Specifies the component's background color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-background-color` instead.
-     */
-    "--calcite-accordion-item-background-color": "*";
-    /**
-     * Specifies the component's border color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-border-color` instead.
-     */
-    "--calcite-accordion-item-border-color": "*";
-    /**
      * Specifies the component's padding.
      */
     "--calcite-accordion-item-content-space": "*";
     /**
-     * Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     * Specifies the component's `iconEnd` color. Falls back to `--calcite-icon-color` or current color
      */
     "--calcite-accordion-item-end-icon-color": "*";
     /**
@@ -84,27 +72,10 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-accordion-item-heading-text-color": "*";
     /**
-     * Specifies the component's default icon color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
-     */
-    "--calcite-accordion-item-icon-color": "*";
     /**
-     * Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     * Specifies the component's `iconStart` color. Falls back to `--calcite-icon-color` or current color.
      */
     "--calcite-accordion-item-start-icon-color": "*";
-    /**
-     * Specifies the component's text color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color` instead.
-     */
-    "--calcite-accordion-item-text-color": "*";
-    /**
-     * Specifies the component's text color on hover.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color-hover` instead.
-     */
-    "--calcite-accordion-item-text-color-hover": "*";
   }
 }
 
