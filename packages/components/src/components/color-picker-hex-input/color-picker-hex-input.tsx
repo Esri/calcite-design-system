@@ -433,7 +433,6 @@ export class ColorPickerHexInput extends LitElement {
             key="opacity-input"
             label={messages?.opacity}
             max={OPACITY_LIMITS.max}
-            maxLength={3}
             min={OPACITY_LIMITS.min}
             numberButtonType="none"
             numberingSystem={this.numberingSystem}
