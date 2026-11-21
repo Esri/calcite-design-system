@@ -184,13 +184,6 @@ export class ShellPanel extends LitElement {
   @property({ reflect: true }) displayMode: DisplayMode = "dock";
 
   /**
-   * When `layout` is `horizontal`, specifies the component's maximum height.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
-   */
-  @property({ reflect: true }) heightScale?: Scale;
-
-  /**
    * Specifies the component's direction.
    *
    * @deprecated in v5.0.0, removal target v7.0.0 - No longer necessary.
@@ -216,15 +209,8 @@ export class ShellPanel extends LitElement {
   /** @copyDoc */
   @property({ reflect: true }) height?: Height;
 
-  /**
-   * When `layout` is `vertical`, specifies the component's width.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 -  Use the `width` property instead.
-   */
-  @property({ reflect: true }) widthScale: Scale = "m";
-
   /** Specifies the component's width. */
-  @property({ reflect: true }) width?: Extract<Width, Scale>;
+  @property({ reflect: true }) width: Extract<Width, Scale> = "m";
 
   //#endregion
 
@@ -696,12 +682,8 @@ export class ShellPanel extends LitElement {
             [CSS.floatContent]: displayMode === "float-content",
             [CSS_UTILITY.calciteAnimate]: displayMode === "overlay",
             [getAnimationDir()]: displayMode === "overlay",
-            [getDimensionClass("width", this.width, this.widthScale)]: !!(
-              this.width || this.widthScale
-            ),
-            [getDimensionClass("height", this.height, this.heightScale)]: !!(
-              this.height || this.heightScale
-            ),
+            [getDimensionClass("width", this.width)]: true,
+            [getDimensionClass("height", this.height)]: !!this.height,
           }}
           hidden={collapsed}
           key="content"
