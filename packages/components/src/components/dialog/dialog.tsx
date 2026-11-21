@@ -459,15 +459,8 @@ export class Dialog extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /**
-   * Specifies the component's width.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
-   */
-  @property({ reflect: true }) widthScale: Scale = "m";
-
   /** Specifies the component's width. */
-  @property({ reflect: true }) width?: Extract<Width, Scale>;
+  @property({ reflect: true }) width: Extract<Width, Scale> = "m";
 
   //#endregion
 
@@ -997,9 +990,7 @@ export class Dialog extends LitElement {
         <div
           class={{
             [CSS.dialog]: true,
-            [getDimensionClass("width", this.width, this.widthScale)]: !!(
-              this.width || this.widthScale
-            ),
+            [getDimensionClass("width", this.width)]: true,
           }}
           onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
