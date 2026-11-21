@@ -47,8 +47,7 @@ describe("defaults", () => {
   );
 });
 
-// navigationAction is incorrectly being reset when set to true dynamically - see https://github.com/Esri/calcite-design-system/issues/14057
-describe.skip("reflects", () => {
+describe("reflects", () => {
   reflects(
     () => mount("calcite-navigation"),
     [
@@ -58,6 +57,55 @@ describe.skip("reflects", () => {
       },
     ],
   );
+
+  it("shows and hides the fallback action when navigationAction changes", async () => {
+    const { el } = await mount<Navigation>(<calcite-navigation label="Menu" />);
+    const action = page.getByRole("button", { name: "Menu" });
+
+    await expect.element(action).not.toBeInTheDocument();
+
+    el.navigationAction = true;
+    await expect.element(action).toBeVisible();
+    await expect.element(el).toHaveProperty("navigationAction", true);
+
+    el.navigationAction = false;
+    await expect.element(action).not.toBeInTheDocument();
+
+    el.navigationAction = true;
+    await expect.element(action).toBeVisible();
+    await expect.element(el).toHaveProperty("navigationAction", true);
+  });
+
+  it("uses a slotted action instead of the fallback action as slot assignments change", async () => {
+    const { el } = await mount<Navigation>(
+      <calcite-navigation label="Menu" navigation-action>
+        <calcite-action slot="navigation-action" text="Custom menu" />
+      </calcite-navigation>,
+    );
+
+    await expect.element(page.getByRole("button", { name: "Custom menu" })).toBeVisible();
+    await expect
+      .element(page.getByRole("button", { name: "Menu", exact: true }))
+      .not.toBeInTheDocument();
+    await expect.element(el).toHaveProperty("navigationAction", false);
+    await expect.element(el).not.toHaveAttribute("navigation-action");
+
+    const customAction = page.getBySelector('calcite-action[slot="navigation-action"]').element();
+    customAction.remove();
+    await expect.element(page.getByRole("button", { name: "Custom menu" })).not.toBeInTheDocument();
+
+    el.navigationAction = true;
+    await expect.element(page.getByRole("button", { name: "Menu", exact: true })).toBeVisible();
+    await expect.element(el).toHaveProperty("navigationAction", true);
+
+    el.append(customAction);
+    await expect.element(page.getByRole("button", { name: "Custom menu" })).toBeVisible();
+    await expect
+      .element(page.getByRole("button", { name: "Menu", exact: true }))
+      .not.toBeInTheDocument();
+    await expect.element(el).toHaveProperty("navigationAction", false);
+    await expect.element(el).not.toHaveAttribute("navigation-action");
+  });
 });
 
 describe("honors hidden attribute", () => {

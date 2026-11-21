@@ -1,4 +1,4 @@
-import { Fragment, JsxNode, LitElement, method } from "@arcgis/lumina";
+import { Fragment, h, JsxNode, LitElement, method } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { html } from "lit";
 import { describe, expect, it, afterEach, vi } from "vitest";
@@ -546,6 +546,45 @@ describe("slot utils", () => {
   });
 
   describe(slotChangeHasAssignedElement, () => {
+    it.each([
+      {
+        name: "includes fallback content by default",
+        options: undefined,
+        expected: true,
+      },
+      {
+        name: "excludes fallback content when flattening is disabled",
+        options: { flatten: false },
+        expected: false,
+      },
+    ])("$name", async ({ options, expected }) => {
+      const slotChangeHandler = vi.fn((event: Event) =>
+        slotChangeHasAssignedElement(event, options),
+      );
+
+      class SlotWithFallback extends LitElement {
+        override render(): JsxNode {
+          return (
+            <slot onSlotChange={slotChangeHandler}>
+              <span>Fallback</span>
+            </slot>
+          );
+        }
+      }
+
+      const { el, reRender } = await mount(SlotWithFallback);
+      const assigned = document.createElement("span");
+      el.append(assigned);
+      await reRender();
+
+      expect(slotChangeHandler).toHaveLastReturnedWith(true);
+
+      assigned.remove();
+      await reRender();
+
+      expect(slotChangeHandler).toHaveLastReturnedWith(expected);
+    });
+
     it("handles slotted elements", async () => {
       const { el, reRender, slotEl } = await setUpSimpleSlotTest();
       const slotChangeHandler = vi.fn((event: Event) => {
