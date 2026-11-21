@@ -397,6 +397,19 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
 }
 
 /**
+ * Returns whether two horizontal bounds overlap, including touching edges.
+ *
+ * @param first The first bounds.
+ * @param second The second bounds.
+ */
+export function intersectsHorizontally(
+  first: Pick<DOMRectReadOnly, "left" | "right">,
+  second: Pick<DOMRectReadOnly, "left" | "right">,
+): boolean {
+  return first.left <= second.right && second.left <= first.right;
+}
+
+/**
  * This helper returns `true` if the target `slot` element from the `onSlotchange` event has any content (text or elements).
  *
  * ```

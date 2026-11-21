@@ -873,6 +873,102 @@ customLabelsAndTicks.parameters = {
   chromatic: { delay: 500 },
 };
 
+export const tickLabelsWithinBounds = (): string => html`
+  <style>
+    .tick-label-examples {
+      display: grid;
+      gap: var(--calcite-space-lg);
+    }
+
+    .bounded-tick-labels {
+      inline-size: 400px;
+      max-inline-size: 100%;
+      outline: 1px solid var(--calcite-color-border-1);
+    }
+  </style>
+  <div class="tick-label-examples">
+    <calcite-slider
+      class="bounded-tick-labels"
+      label-text="Compact and longer endpoints"
+      label-ticks
+      ticks="10"
+      value="50"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      label-text="Compact endpoints"
+      label-ticks
+      max="9"
+      ticks="1"
+      value="5"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      label-text="Signed endpoints"
+      label-ticks
+      min="-5"
+      max="5"
+      ticks="1"
+      value="0"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      id="percentTickLabelsSlider"
+      label-text="Formatted percentages"
+      label-ticks
+      ticks="20"
+      value="50"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      label-text="Mirrored"
+      label-ticks
+      mirrored
+      ticks="10"
+      value="50"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      dir="rtl"
+      label-text="RTL"
+      label-ticks
+      ticks="10"
+      value="50"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      label-text="Endpoint handle label"
+      label-handles
+      label-ticks
+      ticks="10"
+      value="0"
+    ></calcite-slider>
+    <calcite-slider
+      class="bounded-tick-labels"
+      id="boundedTickLabelsSlider"
+      label-text="Automatically spaced custom tick labels"
+      label-ticks
+      ticks="10"
+      value="50"
+    ></calcite-slider>
+  </div>
+  <script>
+    document.getElementById("percentTickLabelsSlider").labelFormatter = (value) => value + "%";
+    const slider = document.getElementById("boundedTickLabelsSlider");
+    slider.labelFormatter = (value, type, defaultFormatter) => {
+      if (type === "tick") {
+        if (value === slider.min) {
+          return "Minimum selectable value";
+        }
+        if (value === slider.max) {
+          return "Maximum selectable value";
+        }
+      }
+      return defaultFormatter(value);
+    };
+  </script>
+`;
+
 export const validationMessageAllScales = (): string => html`
   <style>
     .container {
