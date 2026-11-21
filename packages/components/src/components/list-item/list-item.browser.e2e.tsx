@@ -43,10 +43,6 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
         propertyName: "expanded",
         defaultValue: false,
       },
@@ -118,10 +114,6 @@ describe("reflects", () => {
       },
       {
         propertyName: "sortHandleOpen",
-        value: true,
-      },
-      {
-        propertyName: "open",
         value: true,
       },
       {
