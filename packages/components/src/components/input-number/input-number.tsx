@@ -1160,7 +1160,9 @@ export class InputNumber
     this.displayedValue = newLocalizedValue;
     this.setPreviousNumberValue(previousValue ?? previousDraftValue);
     this.previousValueOrigin = origin;
-    this.userChangedValue = origin === "user" && this.value !== newValue;
+    // don't sanitize the start of negative/decimal numbers, but
+    // don't set value to an invalid number
+    const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
 
     if (newValue) {
       const valid = isValidNumber(value);
@@ -1171,19 +1173,13 @@ export class InputNumber
           To remedy this, we need a way to localize invalid number values for display only.
           We need to also keep the existing way of localizing that sanitizes the incoming value too, for initial, reset and direct value changes.
         */
-        this.displayedValue = value;
+        // this.displayedValue = value;
       } else {
         this.formSupport.setCustomValidity("");
       }
     } else if (!this.required && origin !== "connected") {
       this.formSupport.setCustomValidity("");
     }
-
-    const validNewValue = isValidNumber(newValue)
-      ? newValue
-      : newValue.endsWith(".") && !isNaN(Number(newValue))
-        ? String(Number(newValue))
-        : "";
 
     if (shouldStageValue) {
       this.draftValue = validNewValue;
