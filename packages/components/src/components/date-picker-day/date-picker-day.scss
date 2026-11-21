@@ -90,7 +90,7 @@
 :host(:not([range]):not([selected]).current-day) {
   & .day {
     color: var(--calcite-date-picker-current-day-text-color, var(--calcite-color-brand));
-    font-weight: var(--calcite-font-weight-bold);
+    font-weight: var(--calcite-font-weight-semibold);
   }
 }
 
