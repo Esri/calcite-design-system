@@ -332,23 +332,6 @@ describe("calciteListItemToggle event", () => {
   });
 });
 
-// Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
-it("should map deprecated 'open' prop to 'expanded' prop", async () => {
-  const page = await newE2EPage({
-    html: html`<calcite-list-item></calcite-list-item>`,
-  });
-  const listItem = await page.find("calcite-list-item");
-  expect(await listItem.getProperty("expanded")).toBe(false);
-
-  listItem.setProperty("open", true);
-  await page.waitForChanges();
-  expect(await listItem.getProperty("expanded")).toBe(true);
-
-  listItem.setProperty("open", false);
-  await page.waitForChanges();
-  expect(await listItem.getProperty("expanded")).toBe(false);
-});
-
 it("should set displayMode on slotted list", async () => {
   const page = await newE2EPage({
     html: html`<calcite-list-item><calcite-list></calcite-list></calcite-list-item>`,
