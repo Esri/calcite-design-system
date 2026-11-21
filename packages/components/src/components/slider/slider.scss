@@ -123,9 +123,14 @@
       content: "\2014";
       display: inline-block;
       inline-size: 1em;
+      text-align: center;
     }
     &.hyphen--wrap {
       display: flex;
+
+      &:dir(rtl) {
+        flex-direction: row-reverse;
+      }
     }
   }
 
