@@ -1000,7 +1000,14 @@ export class InputNumber
     }
 
     if (event.key === "-") {
-      if (this.childNumberRef.value && this.childNumberRef.value.value.split("-").length <= 2) {
+      if (!value && !this.childNumberRef.value?.value) {
+        return;
+      }
+      if (
+        value &&
+        this.childNumberRef.value &&
+        this.childNumberRef.value.value.split("-").length <= 2
+      ) {
         return;
       }
     }
