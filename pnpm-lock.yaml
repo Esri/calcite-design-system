@@ -339,7 +339,7 @@ catalogs:
       version: 1.15.7
     tabbable:
       specifier: ^6.5.0
-      version: 6.5.0
+      version: 6.5.2
     timezone-groups:
       specifier: ^1.0.1
       version: 1.0.1
@@ -505,7 +505,7 @@ importers:
         version: 1.15.7
       tabbable:
         specifier: catalog:dependency-ranges
-        version: 6.5.0
+        version: 6.5.2
       timezone-groups:
         specifier: catalog:dependency-ranges
         version: 1.0.1
@@ -8694,8 +8694,8 @@ packages:
     resolution: {integrity: sha512-U+/AXT6LWsxnj2vz9HeUuPWBNgdWxjyIEjEPdbJARC9txmgPzo2VEdqnFo4hHaNyMPtycyVJrSaQYeQv/PoyyA==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  tabbable@6.5.0:
-    resolution: {integrity: sha512-wieBHXygIm7OyQOu5hQlkk62/WyCFYGlWg7L6/ZCUZwx0o398Zkn4pVmMyfYhfMG8kGrj/Krt8eIk6UKC6VzwA==}
+  tabbable@6.5.2:
+    resolution: {integrity: sha512-XgdnB1nGU6KU4VgMnZPaZCx7M1hBrLyEiZYau2G2gq9UT0d7d4FUBlNX7vvPlm/B1vk1PjrzJBx9Lbv4fsqS9g==}
 
   table@6.9.0:
     resolution: {integrity: sha512-9kY+CygyYM6j02t5YFHbNz2FN5QmYGv9zAjVp4lCDjlCw7amdckXlEt/bjMhUIfj4ThGRE4gCUH5+yGnNuPo5A==}
@@ -14285,7 +14285,7 @@ snapshots:
 
   focus-trap@8.2.4:
     dependencies:
-      tabbable: 6.5.0
+      tabbable: 6.5.2
 
   follow-redirects@1.16.0(debug@4.4.3(supports-color@10.2.2)):
     optionalDependencies:
@@ -18006,7 +18006,7 @@ snapshots:
       '@dual-bundle/import-meta-resolve': 4.2.1
       '@pkgr/core': 0.3.6
 
-  tabbable@6.5.0: {}
+  tabbable@6.5.2: {}
 
   table@6.9.0:
     dependencies:
