@@ -9,8 +9,11 @@ export interface TableRowFocusEvent {
 
 export type RowType = "head" | "body" | "foot";
 
+/** @public */
 export type TableLayout = "auto" | "fixed";
 
+/** @public */
 export type TableSelectionDisplay = "top" | "none";
 
+/** @public */
 export type TableInteractionMode = "interactive" | "static";

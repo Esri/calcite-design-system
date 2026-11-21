@@ -37,8 +37,6 @@ export interface TimeComponent extends LitElement {
   hourFormat: HourFormat;
   /**
    * Translated messages and locale information
-   *
-   * @internal
    */
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
   /**
@@ -148,7 +146,7 @@ const localizedTimePartProperty = {
 } as const;
 
 class TimeController extends GenericController<TimeProperties, TimeComponent> {
-  //#region Properties
+  //#region Private Properties
 
   fractionalSecond?: string | null;
 
@@ -381,7 +379,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   //#endregion
 
-  //#region Public Methods
+  //#region Private Methods
 
   decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour, 10) - 1;
@@ -414,6 +412,10 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.incrementMinuteOrSecond("second");
   }
 
+  /**
+   *
+   * @param direction
+   */
   nudgeFractionalSecond(direction: "up" | "down"): void {
     const stepDecimal = getDecimals(this.component.step);
     const stepPrecision = decimalPlaces(this.component.step);
@@ -449,6 +451,10 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.setValuePart("fractionalSecond", newFractionalSecond);
   }
 
+  /**
+   *
+   * @param direction
+   */
   toggleMeridiem(direction: "down" | "up"): void {
     let newMeridiem;
     if (!this.meridiem) {
@@ -459,16 +465,16 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.setValuePart("meridiem", newMeridiem);
   }
 
-  //#endregion
-
-  //#region Private Methods
-
   hostConnected(): void {
     this.setHourFormat();
     this.setMeridiemOrder();
     this.setValue(this.component.value);
   }
 
+  /**
+   *
+   * @param changes
+   */
   hostUpdate(changes: PropertyValues): void {
     let updateHourFormat = false;
     let updateMeridiemOrder = false;
@@ -532,6 +538,11 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     this.meridiemOrder = getMeridiemOrder(messages._lang as Locale);
   }
 
+  /**
+   *
+   * @param value
+   * @param userChangedValue
+   */
   setValue(value: string | null, userChangedValue: boolean = false): void {
     const { messages, numberingSystem, step, value: previousValue } = this.component;
     const locale = messages._lang as string;
@@ -603,6 +614,11 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
   }
 
+  /**
+   *
+   * @param key
+   * @param value
+   */
   setValuePart(
     key: "hour" | "minute" | "second" | "fractionalSecond" | "meridiem",
     value?: number | string | Meridiem,
@@ -698,5 +714,4 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#endregion
 }
 
-/** @public */
 export const useTime = toFunction(TimeController);

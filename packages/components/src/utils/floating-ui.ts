@@ -179,9 +179,11 @@ export const positionFloatingUI =
 /** Exported for testing purposes only */
 export const placementDataAttribute = "data-placement";
 
+/** @public */
 export type ReferenceElement = VirtualElement | Element;
 
 type UIType = "menu" | "tooltip" | "popover";
+/** @public */
 export type OverlayPositioning = Strategy;
 
 /**
@@ -193,9 +195,9 @@ export type OverlayPositioning = Strategy;
  *
  * see: https://github.com/floating-ui/floating-ui/issues/1563 and https://github.com/floating-ui/floating-ui/discussions/1549
  */
-
 export type EffectivePlacement = Placement;
 
+/** @public */
 export const placements = [
   // auto placements
   "auto",
@@ -223,6 +225,7 @@ export const placements = [
   "trailing-start",
 ] as const;
 
+/** @public */
 export type LogicalPlacement = (typeof placements)[number];
 
 export const effectivePlacements: EffectivePlacement[] = [
@@ -251,6 +254,7 @@ export const menuEffectivePlacements: EffectivePlacement[] = [
   "bottom-end",
 ];
 
+/** @public */
 export type FlipPlacement = Exclude<LogicalPlacement, "auto" | "auto-start" | "auto-end">;
 
 export const flipPlacements: FlipPlacement[] = [
@@ -274,6 +278,7 @@ export const flipPlacements: FlipPlacement[] = [
   "trailing-end",
 ];
 
+/** @public */
 export type MenuPlacement = Extract<
   LogicalPlacement,
   "top-start" | "top" | "top-end" | "bottom-start" | "bottom" | "bottom-end"
@@ -283,10 +288,14 @@ export const defaultMenuPlacement: MenuPlacement = "bottom-start";
 export const defaultEndMenuPlacement: MenuPlacement = "bottom-end";
 
 export interface FloatingUIComponent {
-  /** Whether the component is opened. */
+  /**
+   * Whether the component is opened.
+   */
   open: boolean;
 
-  /** Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value. */
+  /**
+   * Describes the type of positioning to use for the overlaid content. If your element is in a fixed container, use the 'fixed' value.
+   */
   overlayPositioning: OverlayPositioning;
 
   /**
@@ -299,7 +308,8 @@ export interface FloatingUIComponent {
   /**
    * Updates the position of the component.
    *
-   * @param delayed – (internal) when true, it will reposition the component after a delay. the default is false. This is useful for components that have multiple watched properties that schedule repositioning.
+   * When `delayed` is `true`, repositions the component after a delay. The default is `false`.
+   * This is useful for components that have multiple watched properties that schedule repositioning.
    */
   reposition: (delayed?: boolean) => Promise<void>;
 
@@ -318,10 +328,14 @@ export interface FloatingUIComponent {
    */
   floatingLayout?: FloatingLayout;
 
-  /** The `floatingElement` containing the floating ui. */
+  /**
+   * The `floatingElement` containing the floating ui.
+   */
   floatingEl?: HTMLElement;
 
-  /** The `referenceElement` used to position the component according to its `placement` value. */
+  /**
+   * The `referenceElement` used to position the component according to its `placement` value.
+   */
   referenceEl?: ReferenceElement;
 }
 
@@ -336,7 +350,8 @@ export const FloatingCSS = {
 
 /**
  * Exported for testing purposes only
- * @private
+ *
+ * @param options
  */
 export function getMiddleware({
   placement,
@@ -512,8 +527,6 @@ type TrackedFloatingUIState = PendingFloatingUIState | ActiveFloatingUIState;
 
 /**
  * Exported for testing purposes only
- *
- * @private
  */
 export const autoUpdatingComponentMap = new WeakMap<FloatingUIComponent, TrackedFloatingUIState>();
 
