@@ -353,8 +353,9 @@
   inline-size: max-content;
 }
 
-// A quarter of the zero glyph's advance nudges endpoint text outward without
-// centering it, scaling the optical adjustment with the font rather than label length.
+// Nudge endpoint text outward to reduce the visible gap at the track edges.
+// 1ch is the width of "0" in the label's font; 0.25ch is a small visual adjustment
+// that scales with font size while keeping labels anchored to their track edges.
 .tick__label--left {
   transform: translateX(-0.25ch);
 }

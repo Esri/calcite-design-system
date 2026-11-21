@@ -1593,7 +1593,8 @@ export class Slider extends LitElement implements LabelableComponent {
       [CSS.tickLabelRight]: isAtEdge && !isLeftEdge,
     };
     const tickLabel = this.internalLabelFormatter(tick, "tick");
-    // A formatter can capture changing values without changing its function identity.
+    // A formatter may use external data that changes between renders, even when
+    // the same function is reused. Compare its output so changed text is remeasured.
     if (this.tickLabelText.get(tick) !== tickLabel) {
       this.tickLabelText.set(tick, tickLabel);
       this.tickLabelLayout = undefined;
