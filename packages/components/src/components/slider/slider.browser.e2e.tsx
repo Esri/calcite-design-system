@@ -275,7 +275,7 @@ describe("tick label alignment", () => {
   });
 
   it("preserves edge alignment when scale and formatted width change", async () => {
-    const { el, reRender } = await mount<Slider>(
+    const { el } = await mount<Slider>(
       <calcite-slider
         labelFormatter={() => "-5"}
         labelTicks
@@ -295,29 +295,26 @@ describe("tick label alignment", () => {
     expect(smallOffset).toBeLessThan(3);
 
     el.scale = "l";
-    await reRender();
     await expect.poll(outwardOffset).toBeGreaterThan(smallOffset);
     const largeOffset = outwardOffset();
     expect(largeOffset).toBeLessThan(3);
 
     el.labelFormatter = () => "Long formatted endpoint";
-    await reRender();
     await expect.element(min).toHaveTextContent("Long formatted endpoint");
     await expect.poll(outwardOffset).toBeCloseTo(largeOffset, 1);
 
     el.labelFormatter = () => "";
-    await reRender();
+    await expect.element(min).toBeEmptyDOMElement();
     await expect.element(min).not.toBeVisible();
 
     el.labelFormatter = undefined;
-    await reRender();
     await expect.element(min).toHaveTextContent("0");
     await expect.element(min).toBeVisible();
     await expect.poll(outwardOffset).toBeCloseTo(largeOffset, 1);
   });
 
   it("preserves physical tick anchors when direction and mirroring change", async () => {
-    const { el, reRender } = await mount<Slider>(
+    const { el } = await mount<Slider>(
       <calcite-slider labelTicks style={{ inlineSize: "400px" }} ticks={50} value={50} />,
     );
     const track = page.getBySelector(`.${CSS.track}`);
@@ -347,7 +344,6 @@ describe("tick label alignment", () => {
       el.dir = dir;
       el.mirrored = mirrored;
       el.hasHistogram = hasHistogram;
-      await reRender();
       await expect.poll(largestTickOffset).toBeLessThan(0.02);
     }
   });
@@ -491,7 +487,7 @@ describe("overlapping tick labels", () => {
     let longLabels = false;
     const formatter: Slider["labelFormatter"] = (value, _type, defaultFormatter) =>
       longLabels ? (value === 50 ? "" : `Long tick label ${value}`) : defaultFormatter(value);
-    const { el, reRender } = await mount<Slider>(
+    const { el } = await mount<Slider>(
       <calcite-slider
         labelFormatter={formatter}
         labelTicks
@@ -504,7 +500,6 @@ describe("overlapping tick labels", () => {
 
     longLabels = true;
     el.value = 60;
-    await reRender();
 
     await expect.poll(() => visibleValues().length).toBeLessThan(11);
     await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
@@ -513,12 +508,11 @@ describe("overlapping tick labels", () => {
     expectNoOverlappingText();
 
     el.labelFormatter = undefined;
-    await reRender();
     await expect.poll(() => visibleValues().length).toBe(11);
   });
 
   it("remeasures after scale and locale changes", async () => {
-    const { el, reRender } = await mount<Slider>(
+    const { el } = await mount<Slider>(
       <calcite-slider
         labelTicks
         max={10000}
@@ -532,20 +526,17 @@ describe("overlapping tick labels", () => {
     const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
 
     el.scale = "l";
-    await reRender();
     await expect.poll(() => measurements.mock.calls.length).toBeGreaterThan(0);
     expectNoOverlappingText();
     measurements.mockClear();
 
     el.numberingSystem = "arab";
-    await reRender();
     await expect.poll(() => measurements.mock.calls.length).toBeGreaterThan(0);
     await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toHaveTextContent("١٠٠٠٠");
     expectNoOverlappingText();
 
     el.min = 2000;
     el.max = 11000;
-    await reRender();
     await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toHaveTextContent("٢٠٠٠");
     await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toHaveTextContent("١١٠٠٠");
     await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
@@ -553,7 +544,7 @@ describe("overlapping tick labels", () => {
   });
 
   it("keeps tick labels hidden behind handles when variants and values change", async () => {
-    const { el, reRender } = await mount<Slider>(
+    const { el } = await mount<Slider>(
       <calcite-slider
         labelHandles
         labelTicks
@@ -570,12 +561,10 @@ describe("overlapping tick labels", () => {
     await expect.element(minLabel).toHaveStyle({ opacity: "0" });
 
     el.value = [25, 75];
-    await reRender();
     await expect.element(minLabel).toBeVisible();
     expect(visibleValues()).toEqual([0, 100]);
 
     el.precise = false;
-    await reRender();
     await expect.poll(() => visibleValues().length).toBeGreaterThan(2);
     expectNoOverlappingText();
   });
@@ -617,18 +606,16 @@ describe("overlapping tick labels", () => {
   );
 
   it("restores tick labels when labeling is re-enabled", async () => {
-    const { el, reRender } = await mount<Slider>(
+    const { el } = await mount<Slider>(
       <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} />,
     );
     await expect.poll(() => visibleValues().length).toBe(11);
 
     el.labelTicks = false;
-    await reRender();
     await expect.element(page.getBySelector(`.${CSS.tickLabel}`)).not.toBeInTheDocument();
 
     el.ticks = 25;
     el.labelTicks = true;
-    await reRender();
     await expect.poll(visibleValues).toEqual([0, 25, 50, 75, 100]);
     expectNoOverlappingText();
   });

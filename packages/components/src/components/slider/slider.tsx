@@ -23,7 +23,7 @@ import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { clamp, decimalPlaces } from "../../utils/math";
 import { ColorStop, DataSeries } from "../graph/types";
-import { Dir, Scale, Status } from "../types";
+import { Scale, Status } from "../types";
 import { BigDecimal } from "../../utils/number";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
@@ -32,12 +32,18 @@ import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
-import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
+import {
+  ActiveSliderProperty,
+  SetValueProperty,
+  SideOffset,
+  ThumbType,
+  TickLabelLayout,
+} from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isEqual } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
-import { getVisibleTickLabels, type TickLabelMeasurement } from "./utils";
+import { getVisibleTickLabels } from "./utils";
 
 declare global {
   interface DeclareElements {
@@ -103,15 +109,6 @@ function isRange(value: number | number[]): value is number[] {
 
 const defaultValue = 0;
 const leftToRightMark = "\u200E";
-
-interface TickLabelLayout {
-  direction: Dir;
-  labels: {
-    element: HTMLSpanElement;
-    measurement?: TickLabelMeasurement;
-  }[];
-  visibleValues?: Set<number>;
-}
 
 export class Slider extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
@@ -529,7 +526,6 @@ export class Slider extends LitElement implements LabelableComponent {
     this.setValueFromMinMax();
     this.previousEmittedValue = this.value;
     this.tickLabelResizeObserver?.observe(this.el);
-    this.invalidateTickLabelLayout();
   }
 
   load(): void {
@@ -1597,7 +1593,7 @@ export class Slider extends LitElement implements LabelableComponent {
       [CSS.tickLabelRight]: isAtEdge && !isLeftEdge,
     };
     const tickLabel = this.internalLabelFormatter(tick, "tick");
-    // Text may depend on consumer state, even when the formatter itself is unchanged.
+    // A formatter can capture changing values without changing its function identity.
     if (this.tickLabelText.get(tick) !== tickLabel) {
       this.tickLabelText.set(tick, tickLabel);
       this.tickLabelLayout = undefined;

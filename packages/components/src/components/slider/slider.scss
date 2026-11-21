@@ -353,6 +353,8 @@
   inline-size: max-content;
 }
 
+// A quarter of the zero glyph's advance nudges endpoint text outward without
+// centering it, scaling the optical adjustment with the font rather than label length.
 .tick__label--left {
   transform: translateX(-0.25ch);
 }

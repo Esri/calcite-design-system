@@ -1,10 +1,5 @@
 import { intersectsHorizontally } from "../../utils/dom";
-
-export interface TickLabelMeasurement extends Pick<DOMRectReadOnly, "left" | "right"> {
-  value: number;
-  position: number;
-  edge?: "min" | "max";
-}
+import type { TickLabelMeasurement } from "./types";
 
 /**
  * Determines which tick labels fit by sorting their horizontal text bounds by

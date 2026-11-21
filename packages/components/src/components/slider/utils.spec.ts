@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { getVisibleTickLabels, type TickLabelMeasurement } from "./utils";
+import { getVisibleTickLabels } from "./utils";
+import type { TickLabelMeasurement } from "./types";
 
 function label(value: number, left: number, right: number): TickLabelMeasurement {
   return {
