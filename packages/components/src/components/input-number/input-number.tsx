@@ -1110,6 +1110,7 @@ export class InputNumber
 
     const hasTrailingDecimalSeparator =
       valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 

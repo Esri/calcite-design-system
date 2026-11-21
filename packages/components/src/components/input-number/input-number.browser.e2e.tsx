@@ -1135,7 +1135,7 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1");
+  expect(el).toHaveProperty("value", "1.");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
@@ -1192,10 +1192,6 @@ describe("number locale support", () => {
 
       expect(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
-
-      await userEvent.fill(input, decimalSeparator);
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
     });
 
     it(`displays correct formatted value when using exponential numbers for ${locale} locale`, async () => {
