@@ -314,12 +314,12 @@
   );
   inset-block-start: -2px;
   pointer-events: none;
-  margin-inline-start: calc(-1 * theme("margin[0.5]"));
+  margin-inline-start: calc(var(--calcite-space-2xs) * -0.5);
 }
 
 .tick--end-aligned {
   margin-inline-start: 0;
-  margin-inline-end: calc(-1 * theme("margin[0.5]"));
+  margin-inline-end: calc(var(--calcite-space-2xs) * -0.5);
 }
 
 .tick--active {
