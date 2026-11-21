@@ -355,18 +355,10 @@
 
 .tick__label--left {
   transform: translateX(-0.25ch);
-
-  &.tick__label--centered {
-    transform: translateX(-50%);
-  }
 }
 
 .tick__label--right {
   transform: translateX(0.25ch);
-
-  &.tick__label--centered {
-    transform: translateX(50%);
-  }
 }
 
 .tick__label--max {
