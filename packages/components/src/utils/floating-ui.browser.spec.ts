@@ -1,10 +1,13 @@
-import { describe, expect, it, beforeEach, vi } from "vitest";
+import { describe, expect, it, beforeEach, onTestFinished, vi } from "vitest";
+import { autoUpdate, computePosition } from "@floating-ui/dom";
 import { afterNextFrame } from "../tests/utils/timing";
 import { mockConsole } from "../tests/utils/logging";
 import { DEBOUNCE } from "./resources";
 import * as floatingUI from "./floating-ui";
 import type { positionFloatingUI } from "./floating-ui";
 import { FloatingUIComponent } from "./floating-ui";
+
+vi.mock("@floating-ui/dom", { spy: true });
 
 const {
   autoUpdatingComponentMap,
@@ -71,6 +74,11 @@ describe.each(["ltr", "rtl"] as const)("repositioning (%s)", (direction) => {
     document.body.append(floatingEl, referenceEl);
 
     fakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
+    onTestFinished(() => {
+      disconnectFloatingUI(fakeFloatingUiComponent);
+      floatingEl.remove();
+      referenceEl.remove();
+    });
 
     positionOptions = {
       direction,
@@ -154,21 +162,82 @@ describe.each(["ltr", "rtl"] as const)("repositioning (%s)", (direction) => {
     assertOpenPositioning(floatingEl);
   });
 
-  it.skip("debounces positioning per instance", async () => {
-    const positionSpy = vi.spyOn(floatingUI, "positionFloatingUI");
+  it("debounces positioning per instance", async () => {
+    vi.mocked(autoUpdate).mockImplementation((_reference, _floating, update) => {
+      update();
+      return () => {};
+    });
+    const positionSpy = vi.mocked(computePosition).mockResolvedValue({
+      x: 0,
+      y: 0,
+      placement: "top",
+      strategy: "absolute",
+      middlewareData: {},
+    });
+    onTestFinished(() => {
+      vi.mocked(autoUpdate).mockRestore();
+      positionSpy.mockRestore();
+    });
+    vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout"] });
+    onTestFinished(() => {
+      vi.useRealTimers();
+    });
+
+    const anotherReferenceEl = document.createElement("button");
+    const anotherFloatingEl = document.createElement("div");
+    document.body.append(anotherReferenceEl, anotherFloatingEl);
+    const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent(anotherReferenceEl, anotherFloatingEl);
+    onTestFinished(() => {
+      disconnectFloatingUI(anotherFakeFloatingUiComponent);
+      anotherFloatingEl.remove();
+      anotherReferenceEl.remove();
+    });
+
     fakeFloatingUiComponent.open = true;
-
-    const anotherFakeFloatingUiComponent = createFakeFloatingUiComponent(referenceEl, floatingEl);
     anotherFakeFloatingUiComponent.open = true;
+    await connectFloatingUI(fakeFloatingUiComponent);
+    await connectFloatingUI(anotherFakeFloatingUiComponent);
+    positionSpy.mockClear();
+    const anotherPositionOptions = {
+      ...positionOptions,
+      referenceEl: anotherReferenceEl,
+      floatingEl: anotherFloatingEl,
+    };
 
-    floatingUI.reposition(fakeFloatingUiComponent, positionOptions, true);
+    await reposition(fakeFloatingUiComponent, positionOptions, true);
+    await reposition(fakeFloatingUiComponent, { ...positionOptions, overlayPositioning: "fixed" }, true);
     expect(positionSpy).toHaveBeenCalledTimes(1);
 
-    floatingUI.reposition(anotherFakeFloatingUiComponent, positionOptions, true);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.reposition / 2);
+    await reposition(anotherFakeFloatingUiComponent, anotherPositionOptions, true);
+    await reposition(anotherFakeFloatingUiComponent, { ...anotherPositionOptions, overlayPositioning: "fixed" }, true);
     expect(positionSpy).toHaveBeenCalledTimes(2);
 
-    await new Promise<void>((resolve) => setTimeout(resolve, DEBOUNCE.reposition));
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.reposition / 2 - 1);
     expect(positionSpy).toHaveBeenCalledTimes(2);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(positionSpy).toHaveBeenCalledTimes(3);
+    expect(positionSpy).toHaveBeenLastCalledWith(
+      referenceEl,
+      floatingEl,
+      expect.objectContaining({ strategy: "fixed" }),
+    );
+
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.reposition / 2 - 1);
+    expect(positionSpy).toHaveBeenCalledTimes(3);
+    await vi.advanceTimersByTimeAsync(1);
+    expect(positionSpy).toHaveBeenCalledTimes(4);
+    expect(positionSpy).toHaveBeenLastCalledWith(
+      anotherReferenceEl,
+      anotherFloatingEl,
+      expect.objectContaining({ strategy: "fixed" }),
+    );
+
+    await reposition(fakeFloatingUiComponent, positionOptions, true);
+    await reposition(anotherFakeFloatingUiComponent, anotherPositionOptions, true);
+    expect(positionSpy).toHaveBeenCalledTimes(6);
+    await vi.advanceTimersByTimeAsync(DEBOUNCE.reposition);
+    expect(positionSpy).toHaveBeenCalledTimes(6);
   });
 });
 
