@@ -1,7 +1,41 @@
 import { intersectsHorizontally } from "../../utils/dom";
-import type { TickLabelMeasurement } from "./types";
+import type { RangeThumbProperty, ThumbCollisionMode, ThumbCollisionResult, TickLabelMeasurement } from "./types";
 
 export type HorizontalBounds = Pick<DOMRectReadOnly, "left" | "right">;
+
+/**
+ * Applies a range collision policy to an already bounded, quantized pointer value.
+ * Equality is allowed; swapping changes the moving role only after crossing.
+ */
+export function applyThumbCollisionMode(
+  mode: Exclude<ThumbCollisionMode, "legacy">,
+  prop: RangeThumbProperty,
+  value: number,
+  minValue: number,
+  maxValue: number,
+): ThumbCollisionResult {
+  const isMin = prop === "minValue";
+  const other = isMin ? maxValue : minValue;
+  if (mode === "swap") {
+    return {
+      minValue: Math.min(value, other),
+      maxValue: Math.max(value, other),
+      prop: value < other ? "minValue" : value > other ? "maxValue" : prop,
+    };
+  }
+  if (mode === "push") {
+    return {
+      minValue: isMin ? value : Math.min(minValue, value),
+      maxValue: isMin ? Math.max(maxValue, value) : value,
+      prop,
+    };
+  }
+  return {
+    minValue: isMin ? Math.min(value, maxValue) : minValue,
+    maxValue: isMin ? maxValue : Math.max(value, minValue),
+    prop,
+  };
+}
 
 function getHostOffset(host: HorizontalBounds, label: HorizontalBounds): number {
   if (label.left < host.left) {

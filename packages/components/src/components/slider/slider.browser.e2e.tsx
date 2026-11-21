@@ -948,6 +948,548 @@ describe("interactions", () => {
   });
 
   describe("mouse interaction", () => {
+    describe("close range thumbs", () => {
+      it.each([
+        ["ltr", false, -1, false, [40, 50], 0],
+        ["ltr", false, 1, false, [49, 59], 1],
+        ["rtl", true, -1, false, [49, 59], 1],
+        ["rtl", true, 1, false, [40, 50], 0],
+        ["rtl", false, -1, false, [40, 50], 0],
+        ["ltr", true, 1, false, [40, 50], 0],
+        ["rtl", true, -1, true, [40, 50], 0],
+      ] as const)(
+        "chooses the physical thumb from movement direction (dir=%s, mirrored=%s, direction=%s, histogram=%s)",
+        async (dir, mirrored, direction, hasHistogram, expectedValue, movingThumb) => {
+          const inputSpy = vi.fn();
+          const changeSpy = vi.fn();
+          const { el } = await mount<Slider>(
+            <calcite-slider
+              dir={dir}
+              hasHistogram={hasHistogram}
+              mirrored={mirrored}
+              oncalciteSliderChange={changeSpy}
+              oncalciteSliderInput={inputSpy}
+              style={{ inlineSize: "400px" }}
+              value={[49, 50]}
+            />,
+          );
+
+          const handles = page.getBySelector(`.${CSS.handle}`).all();
+          const thumbs = page.getByRole("slider").all();
+          const opposite = handles[1 - movingThumb].element().getBoundingClientRect();
+          const x = opposite.x + opposite.width / 2;
+          const y = opposite.y + opposite.height / 2;
+          const trackWidth = page
+            .getBySelector(`.${CSS.track}`)
+            .element()
+            .getBoundingClientRect().width;
+
+          await commands.mouseMove(x, y);
+          await commands.mouseDown();
+          try {
+            await expect.element(el).toHaveProperty("value", [49, 50]);
+            await commands.mouseMove(x + direction * trackWidth * 0.09, y);
+            expect(inputSpy).toHaveBeenCalledTimes(1);
+            expect(changeSpy).not.toHaveBeenCalled();
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", [...expectedValue]);
+          expect(changeSpy).toHaveBeenCalledTimes(1);
+          await expect.poll(() => el.shadowRoot.activeElement).toBe(thumbs[movingThumb].element());
+        },
+      );
+
+      it.each([
+        [false, [41, 50]],
+        [true, [50, 59]],
+      ] as const)(
+        "separates coincident thumbs toward the physical left (mirrored=%s)",
+        async (mirrored, expected) => {
+          const { el } = await mount<Slider>(
+            <calcite-slider mirrored={mirrored} style={{ inlineSize: "400px" }} value={[50, 50]} />,
+          );
+          const rect = page
+            .getBySelector(`.${CSS.handle}`)
+            .nth(1)
+            .element()
+            .getBoundingClientRect();
+          const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+          const x = rect.x + rect.width / 2;
+          const y = rect.y + rect.height / 2;
+          await commands.mouseMove(x, y);
+          await commands.mouseDown();
+          try {
+            await commands.mouseMove(x - track.width * 0.09, y);
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", [...expected]);
+        },
+      );
+
+      it.each(["label", "precise"] as const)(
+        "preserves ordinary targeting for a %s-only hit",
+        async (hit) => {
+          const { el } = await mount<Slider>(
+            <calcite-slider
+              labelHandles={hit === "label"}
+              precise={hit === "precise"}
+              style={{ inlineSize: "400px" }}
+              value={[49, 50]}
+            />,
+          );
+          const target = page
+            .getBySelector(hit === "label" ? `.${CSS.handleLabel}` : `.${CSS.handle}`)
+            .nth(1);
+          const rect = target.element().getBoundingClientRect();
+          const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+          const x = rect.x + rect.width / 2;
+          const y = rect.y + rect.height / 2;
+          await commands.mouseMove(x, y);
+          await commands.mouseDown();
+          try {
+            await commands.mouseMove(x - track.width * 0.09, y);
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", [49, 49]);
+        },
+      );
+
+      it("resolves intersecting hit boxes even when the circles do not overlap", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider
+            labelFormatter={(value) => `Long handle label ${value}`}
+            labelHandles
+            style={{ inlineSize: "400px" }}
+            value={[40, 45]}
+          />,
+        );
+        const [min, max] = page.getBySelector(`.${CSS.handle}`).all();
+        const minBounds = min.element().getBoundingClientRect();
+        const maxBounds = max.element().getBoundingClientRect();
+        expect(minBounds.right).toBeLessThan(maxBounds.left);
+        const x = maxBounds.x + maxBounds.width / 2;
+        const y = maxBounds.y + maxBounds.height / 2;
+        const width = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect().width;
+        await commands.mouseMove(x, y);
+        await commands.mouseDown();
+        try {
+          await commands.mouseMove(x - width * 0.1, y);
+        } finally {
+          await commands.mouseUp();
+        }
+        await expect.element(el).toHaveProperty("value", [30, 45]);
+      });
+
+      it.each([false, true])(
+        "keeps coincident values unchanged on a click (mirrored=%s)",
+        async (mirrored) => {
+          const inputSpy = vi.fn();
+          const changeSpy = vi.fn();
+          const { el } = await mount<Slider>(
+            <calcite-slider
+              mirrored={mirrored}
+              oncalciteSliderChange={changeSpy}
+              oncalciteSliderInput={inputSpy}
+              style={{ inlineSize: "400px" }}
+              value={[50, 50]}
+            />,
+          );
+          const rect = page
+            .getBySelector(`.${CSS.handle}`)
+            .nth(1)
+            .element()
+            .getBoundingClientRect();
+          await commands.mouseMove(rect.x + rect.width / 2, rect.y + rect.height / 2);
+          await commands.mouseDown();
+          await commands.mouseUp();
+          await expect.element(el).toHaveProperty("value", [50, 50]);
+          expect(inputSpy).not.toHaveBeenCalled();
+          expect(changeSpy).not.toHaveBeenCalled();
+        },
+      );
+
+      it("ignores vertical-only motion and locks the thumb after resolution", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider style={{ inlineSize: "400px" }} value={[49, 50]} />,
+        );
+        const rect = page.getBySelector(`.${CSS.handle}`).nth(1).element().getBoundingClientRect();
+        const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+        const x = rect.x + rect.width / 2;
+        const y = rect.y + rect.height / 2;
+        await commands.mouseMove(x, y);
+        await commands.mouseDown();
+        try {
+          await commands.mouseMove(x, y + 10);
+          await expect.element(el).toHaveProperty("value", [49, 50]);
+          await commands.mouseMove(x - track.width * 0.09, y);
+          await expect.element(el).toHaveProperty("value", [40, 50]);
+          await commands.mouseMove(x - track.width * 0.04, y);
+          await expect.element(el).toHaveProperty("value", [45, 50]);
+        } finally {
+          await commands.mouseUp();
+        }
+      });
+
+      it.each([
+        ["legacy", 1, [50, 100], [50, 50], 1],
+        ["swap", 1, [50, 100], [0, 50], 0],
+        ["push", 1, [50, 100], [0, 0], 1],
+        ["block", 1, [50, 100], [50, 50], 1],
+        ["legacy", 0, [0, 50], [50, 50], 0],
+        ["swap", 0, [0, 50], [50, 100], 1],
+        ["push", 0, [0, 50], [100, 100], 0],
+        ["block", 0, [0, 50], [50, 50], 0],
+      ] as const)(
+        "applies %s while dragging thumb %s past the other endpoint",
+        async (mode, startThumb, value, expected, focusedThumb) => {
+          const inputValues: Slider["value"][] = [];
+          const inputSpy = vi.fn(() => inputValues.push(el.value));
+          const changeSpy = vi.fn();
+          const { el, component } = await mount<Slider>(
+            <calcite-slider
+              oncalciteSliderChange={changeSpy}
+              oncalciteSliderInput={inputSpy}
+              style={{ inlineSize: "400px" }}
+              value={[...value]}
+            />,
+          );
+          component.thumbCollisionMode = mode;
+          const thumbs = page.getByRole("slider").all();
+          const rect = page
+            .getBySelector(`.${CSS.handle}`)
+            .nth(startThumb)
+            .element()
+            .getBoundingClientRect();
+          const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+          const y = rect.y + rect.height / 2;
+          await commands.mouseMove(rect.x + rect.width / 2, y);
+          await commands.mouseDown();
+          try {
+            await commands.mouseMove(startThumb === 1 ? 0 : track.right + 20, y);
+            if (mode === "block") {
+              await commands.mouseMove(
+                startThumb === 1 ? track.left + track.width * 0.1 : track.right - track.width * 0.1,
+                y,
+              );
+            }
+            await expect.element(thumbs[focusedThumb]).toHaveClass(CSS.thumbActive);
+            await expect.element(thumbs[1 - focusedThumb]).not.toHaveClass(CSS.thumbActive);
+            expect(changeSpy).not.toHaveBeenCalled();
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", [...expected]);
+          expect(inputValues).toEqual([[...expected]]);
+          expect(inputSpy).toHaveBeenCalledTimes(1);
+          expect(changeSpy).toHaveBeenCalledTimes(1);
+          await expect.poll(() => el.shadowRoot.activeElement).toBe(thumbs[focusedThumb].element());
+          await expect.element(thumbs[0]).toHaveAttribute("aria-valuenow", `${expected[0]}`);
+          await expect.element(thumbs[1]).toHaveAttribute("aria-valuenow", `${expected[1]}`);
+        },
+      );
+
+      it.each(["swap", "push"] as const)(
+        "handles reversal and complete-range change events in %s",
+        async (mode) => {
+          const changeSpy = vi.fn();
+          const { el, component } = await mount<Slider>(
+            <calcite-slider
+              oncalciteSliderChange={changeSpy}
+              style={{ inlineSize: "400px" }}
+              value={[50, 100]}
+            />,
+          );
+          component.thumbCollisionMode = mode;
+          const rect = page
+            .getBySelector(`.${CSS.handle}`)
+            .nth(1)
+            .element()
+            .getBoundingClientRect();
+          const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+          const y = rect.y + rect.height / 2;
+          await commands.mouseMove(rect.x + rect.width / 2, y);
+          await commands.mouseDown();
+          try {
+            await commands.mouseMove(0, y);
+            await expect.element(el).toHaveProperty("value", mode === "swap" ? [0, 50] : [0, 0]);
+            await commands.mouseMove(track.right, y);
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", mode === "swap" ? [50, 100] : [0, 100]);
+          expect(changeSpy).toHaveBeenCalledTimes(mode === "swap" ? 0 : 1);
+        },
+      );
+
+      it.each([false, true])(
+        "uses existing fractional quantization when swapping (snap=%s)",
+        async (snap) => {
+          const { el, component } = await mount<Slider>(
+            <calcite-slider
+              max={1}
+              min={-1}
+              snap={snap}
+              step={0.25}
+              style={{ inlineSize: "400px" }}
+              value={[0, 0.75]}
+            />,
+          );
+          component.thumbCollisionMode = "swap";
+          const rect = page
+            .getBySelector(`.${CSS.handle}`)
+            .nth(1)
+            .element()
+            .getBoundingClientRect();
+          const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+          const y = rect.y + rect.height / 2;
+          await commands.mouseMove(rect.x + rect.width / 2, y);
+          await commands.mouseDown();
+          try {
+            await commands.mouseMove(track.left + track.width * 0.2, y);
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", snap ? [-0.75, 0] : [-0.6, 0]);
+        },
+      );
+
+      it("ends once when pointer capture is lost and ignores later movement", async () => {
+        const downSpy = vi.fn<(event: PointerEvent) => void>();
+        const lostSpy = vi.fn();
+        const changeSpy = vi.fn();
+        const { el } = await mount<Slider>(
+          <calcite-slider
+            oncalciteSliderChange={changeSpy}
+            onLostPointerCapture={lostSpy}
+            onPointerDown={downSpy}
+            style={{ inlineSize: "400px" }}
+            value={[25, 75]}
+          />,
+        );
+        const rect = page.getBySelector(`.${CSS.handle}`).nth(1).element().getBoundingClientRect();
+        const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+        const y = rect.y + rect.height / 2;
+        await commands.mouseMove(rect.x + rect.width / 2, y);
+        await commands.mouseDown();
+        try {
+          const { pointerId } = downSpy.mock.lastCall![0];
+          expect(el.hasPointerCapture(pointerId)).toBe(true);
+          await commands.mouseMove(track.right + 20, y);
+          await expect.element(el).toHaveProperty("value", [25, 100]);
+          el.releasePointerCapture(pointerId);
+          await commands.mouseMove(track.left + track.width / 2, y);
+          await expect.poll(() => lostSpy.mock.calls.length).toBe(1);
+          expect(changeSpy).toHaveBeenCalledTimes(1);
+          await expect.element(el).toHaveProperty("value", [25, 100]);
+        } finally {
+          await commands.mouseUp();
+        }
+        expect(changeSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it.each(["disable", "disconnect"] as const)(
+        "clears a native drag on %s and supports a subsequent gesture",
+        async (action) => {
+          const downSpy = vi.fn<(event: PointerEvent) => void>();
+          const inputSpy = vi.fn();
+          const changeSpy = vi.fn();
+          const { el, container } = await mount<Slider>(
+            <calcite-slider
+              oncalciteSliderChange={changeSpy}
+              oncalciteSliderInput={inputSpy}
+              onPointerDown={downSpy}
+              style={{ inlineSize: "400px" }}
+              value={[25, 75]}
+            />,
+          );
+          const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+          const rect = page
+            .getBySelector(`.${CSS.handle}`)
+            .nth(1)
+            .element()
+            .getBoundingClientRect();
+          const y = rect.y + rect.height / 2;
+          await commands.mouseMove(rect.x + rect.width / 2, y);
+          await commands.mouseDown();
+          try {
+            const { pointerId } = downSpy.mock.lastCall![0];
+            expect(el.hasPointerCapture(pointerId)).toBe(true);
+            if (action === "disable") {
+              el.disabled = true;
+            } else {
+              el.remove();
+            }
+            await expect.element(el).toHaveProperty("disabled", action === "disable");
+            await expect.element(el).toHaveProperty("isConnected", action === "disable");
+            await expect.poll(() => el.hasPointerCapture(pointerId)).toBe(false);
+            await commands.mouseMove(track.right, y);
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", [25, 75]);
+          expect(inputSpy).not.toHaveBeenCalled();
+          expect(changeSpy).not.toHaveBeenCalled();
+
+          if (action === "disable") {
+            el.disabled = false;
+          } else {
+            container.append(el);
+          }
+          await expect.element(el).toHaveProperty("isConnected", true);
+          await expect.element(el).not.toHaveAttribute("disabled");
+          await commands.mouseMove(rect.x + rect.width / 2, y);
+          await commands.mouseDown();
+          try {
+            await commands.mouseMove(track.right, y);
+          } finally {
+            await commands.mouseUp();
+          }
+          await expect.element(el).toHaveProperty("value", [25, 100]);
+          expect(inputSpy).toHaveBeenCalledTimes(1);
+          expect(changeSpy).toHaveBeenCalledTimes(1);
+        },
+      );
+
+      it("cancels the gesture when the range becomes a single value", async () => {
+        const downSpy = vi.fn<(event: PointerEvent) => void>();
+        const changeSpy = vi.fn();
+        const { el } = await mount<Slider>(
+          <calcite-slider
+            oncalciteSliderChange={changeSpy}
+            onPointerDown={downSpy}
+            style={{ inlineSize: "400px" }}
+            value={[25, 75]}
+          />,
+        );
+        const rect = page.getBySelector(`.${CSS.handle}`).nth(1).element().getBoundingClientRect();
+        const y = rect.y + rect.height / 2;
+        await commands.mouseMove(rect.x + rect.width / 2, y);
+        await commands.mouseDown();
+        try {
+          const { pointerId } = downSpy.mock.lastCall![0];
+          el.value = 10;
+          await expect.poll(() => el.hasPointerCapture(pointerId)).toBe(false);
+          await expect.element(page.getByRole("slider").nth(1)).not.toBeInTheDocument();
+          await commands.mouseMove(0, y);
+        } finally {
+          await commands.mouseUp();
+        }
+        await expect.element(el).toHaveProperty("value", 10);
+        expect(changeSpy).not.toHaveBeenCalled();
+      });
+
+      it("ignores other pointer IDs while a native drag owns the gesture", async () => {
+        const downSpy = vi.fn<(event: PointerEvent) => void>();
+        const inputSpy = vi.fn();
+        const { el } = await mount<Slider>(
+          <calcite-slider
+            oncalciteSliderInput={inputSpy}
+            onPointerDown={downSpy}
+            style={{ inlineSize: "400px" }}
+            value={[25, 75]}
+          />,
+        );
+        const rect = page.getBySelector(`.${CSS.handle}`).nth(1).element().getBoundingClientRect();
+        const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+        const y = rect.y + rect.height / 2;
+        await commands.mouseMove(rect.x + rect.width / 2, y);
+        await commands.mouseDown();
+        try {
+          const { pointerId } = downSpy.mock.lastCall![0];
+          for (const type of ["pointerdown", "pointermove", "pointerup", "pointercancel"]) {
+            el.dispatchEvent(
+              new PointerEvent(type, { pointerId: pointerId + 1, clientX: 0, button: 0 }),
+            );
+          }
+          expect(inputSpy).not.toHaveBeenCalled();
+          await commands.mouseMove(track.right, y);
+        } finally {
+          await commands.mouseUp();
+        }
+        await expect.element(el).toHaveProperty("value", [25, 100]);
+        expect(inputSpy).toHaveBeenCalledTimes(1);
+      });
+
+      it("snapshots the collision policy for each gesture", async () => {
+        const { el, component } = await mount<Slider>(
+          <calcite-slider style={{ inlineSize: "400px" }} value={[50, 100]} />,
+        );
+        component.thumbCollisionMode = "block";
+        const maxThumb = page.getByRole("slider").nth(1);
+        const rect = page.getBySelector(`.${CSS.handle}`).nth(1).element().getBoundingClientRect();
+        const y = rect.y + rect.height / 2;
+        await commands.mouseMove(rect.x + rect.width / 2, y);
+        await commands.mouseDown();
+        try {
+          component.thumbCollisionMode = "swap";
+          await commands.mouseMove(0, y);
+        } finally {
+          await commands.mouseUp();
+        }
+        await expect.element(el).toHaveProperty("value", [50, 50]);
+        el.value = [50, 100];
+        await expect.element(maxThumb).toHaveAttribute("aria-valuenow", "100");
+        await commands.mouseMove(rect.x + rect.width / 2, y);
+        await commands.mouseDown();
+        try {
+          await commands.mouseMove(0, y);
+        } finally {
+          await commands.mouseUp();
+        }
+        await expect.element(el).toHaveProperty("value", [0, 50]);
+      });
+
+      it("does not apply pointer collision policies to keyboard interaction", async () => {
+        const { el, component } = await mount<Slider>(
+          <calcite-slider style={{ inlineSize: "400px" }} value={[25, 75]} />,
+        );
+        component.thumbCollisionMode = "swap";
+        const maxThumb = page.getByRole("slider").nth(1);
+        await maxThumb.click();
+        await userEvent.keyboard("{Home}");
+        await expect.element(el).toHaveProperty("value", [25, 25]);
+        await expect.poll(() => el.shadowRoot.activeElement).toBe(maxThumb.element());
+      });
+
+      it("measures hit regions once rather than on every drag movement", async () => {
+        const { el } = await mount<Slider>(
+          <calcite-slider style={{ inlineSize: "400px" }} value={[49, 50]} />,
+        );
+        const thumbs = page
+          .getByRole("slider")
+          .all()
+          .map((locator) => locator.element());
+        const circles = page
+          .getBySelector(`.${CSS.handle}`)
+          .all()
+          .map((locator) => locator.element());
+        const rect = circles[1].getBoundingClientRect();
+        const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+        const boundsSpies = [...thumbs, ...circles].map((element) =>
+          vi.spyOn(element, "getBoundingClientRect"),
+        );
+        const querySpies = thumbs.map((element) => vi.spyOn(element, "querySelector"));
+        const x = rect.x + rect.width / 2;
+        const y = rect.y + rect.height / 2;
+        await commands.mouseMove(x, y);
+        await commands.mouseDown();
+        try {
+          for (let i = 1; i <= 10; i++) {
+            await commands.mouseMove(x - track.width * i * 0.01, y);
+          }
+        } finally {
+          await commands.mouseUp();
+        }
+        await expect.element(el).toHaveProperty("value", [39, 50]);
+        for (const spy of [...boundsSpies, ...querySpies]) {
+          expect(spy).toHaveBeenCalledTimes(1);
+        }
+      });
+    });
+
     describe("single handle", () => {
       it("clicking the track changes value on mousedown, emits on mouseup", async () => {
         const inputEvent = vi.fn();
