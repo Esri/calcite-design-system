@@ -370,8 +370,7 @@ export class Slider extends LitElement implements LabelableComponent {
   /**
    * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
    *
-   * Compact minimum and maximum tick labels are centered on their ticks.
-   * Longer endpoint labels align near the track edges with a small outward offset.
+   * The minimum and maximum tick labels align near the track edges with a small outward offset.
    * Overlapping tick labels are automatically hidden, prioritizing the minimum and maximum labels.
    * When the minimum and maximum labels overlap, only the minimum label is displayed.
    * Use `labelFormatter` to customize text or omit additional labels.
@@ -1179,21 +1178,6 @@ export class Slider extends LitElement implements LabelableComponent {
       }
 
       const range = document.createRange();
-      const handleSize = this.maxHandleRef
-        .value!.querySelector<HTMLDivElement>(`.${CSS.handle}`)!
-        .getBoundingClientRect().width;
-      const endpointAlignment = [this.minTickLabelRef.value, this.maxTickLabelRef.value]
-        .filter((element) => element !== undefined)
-        .map((element) => {
-          range.selectNodeContents(element);
-          return { element, centered: range.getBoundingClientRect().width <= handleSize };
-        });
-
-      for (const { element, centered } of endpointAlignment) {
-        element.classList.toggle(CSS.tickLabelCentered, centered);
-      }
-
-      // Measure final positions after endpoint alignment so collision bounds stay consistent.
       const labels: TickLabelLayout["labels"] = [];
       const mirror = this.shouldMirror();
       for (const [value, labelRef] of this.tickLabelRefs) {

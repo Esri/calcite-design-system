@@ -23,7 +23,6 @@ export const CSS = {
   tickActive: "tick--active",
   tickEndAligned: "tick--end-aligned",
   tickLabel: "tick__label",
-  tickLabelCentered: "tick__label--centered",
   tickLabelCovered: "tick__label--covered",
   tickLabelLeft: "tick__label--left",
   tickLabelRight: "tick__label--right",

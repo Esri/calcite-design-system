@@ -188,7 +188,7 @@ describe("tick label alignment", () => {
       ["ltr", true, true],
       ["rtl", true, true],
     ] as const)(
-      "centers compact endpoints and nudges longer labels toward the track edges (dir=%s, mirrored=%s, hasHistogram=%s)",
+      "nudges endpoint labels outward from the track edges (dir=%s, mirrored=%s, hasHistogram=%s)",
       async (dir, mirrored, hasHistogram) => {
         const { el } = await mount<Slider>(
           <calcite-slider
@@ -229,13 +229,13 @@ describe("tick label alignment", () => {
             1,
           );
         }
-        expect(minLabel.left + minLabel.width / 2).toBeCloseTo(
-          mirror ? bounds.right : bounds.left,
-          1,
-        );
+        const minOutwardOffset = mirror
+          ? minLabel.right - bounds.right
+          : bounds.left - minLabel.left;
         const outwardOffset = mirror ? bounds.left - maxLabel.left : maxLabel.right - bounds.right;
         expect(outwardOffset).toBeGreaterThan(0);
         expect(outwardOffset).toBeLessThan(3);
+        expect(minOutwardOffset).toBeCloseTo(outwardOffset, 1);
         const hostBounds = el.getBoundingClientRect();
         expect(minLabel.left).toBeGreaterThanOrEqual(hostBounds.left);
         expect(maxLabel.right).toBeLessThanOrEqual(hostBounds.right);
@@ -251,7 +251,7 @@ describe("tick label alignment", () => {
   it.each([
     ["percent", (value: number) => `${value}%`],
     ["custom", (value: number) => (value === 0 ? "Minimum" : "Maximum")],
-  ] as const)("nudges longer %s labels outward consistently", async (_format, labelFormatter) => {
+  ] as const)("nudges %s labels outward consistently", async (_format, labelFormatter) => {
     await mount(
       <calcite-slider
         labelFormatter={labelFormatter}
@@ -274,51 +274,36 @@ describe("tick label alignment", () => {
     expect(rightOffset).toBeCloseTo(leftOffset, 1);
   });
 
-  it("updates endpoint alignment when scale and formatted width change", async () => {
+  it("preserves edge alignment when scale and formatted width change", async () => {
     const { el, reRender } = await mount<Slider>(
       <calcite-slider
         labelFormatter={() => "-5"}
         labelTicks
         scale="s"
-        style={{
-          "--calcite-font-size--3": "12px",
-          "--calcite-font-size--1": "12px",
-          inlineSize: "400px",
-        }}
+        style={{ inlineSize: "400px" }}
         ticks={100}
         value={50}
       />,
     );
     const min = page.getBySelector(`.${CSS.tickMin}`);
     const track = page.getBySelector(`.${CSS.track}`);
-    const handle = page.getBySelector(`.${CSS.handle}`).first();
-    const centerOffset = () => {
-      const bounds = min.element().getBoundingClientRect();
-      return bounds.left + bounds.width / 2 - track.element().getBoundingClientRect().left;
-    };
+    const outwardOffset = () =>
+      track.element().getBoundingClientRect().left - min.element().getBoundingClientRect().left;
     await expect.element(min).toBeVisible();
-    expect(min.element().getBoundingClientRect().width).toBeGreaterThan(
-      handle.element().getBoundingClientRect().width,
-    );
-    expect(centerOffset()).toBeGreaterThan(0);
+    const smallOffset = outwardOffset();
+    expect(smallOffset).toBeGreaterThan(0);
+    expect(smallOffset).toBeLessThan(3);
 
     el.scale = "l";
     await reRender();
-    await expect.poll(centerOffset).toBeCloseTo(0, 1);
-    expect(min.element().getBoundingClientRect().width).toBeLessThan(
-      handle.element().getBoundingClientRect().width,
-    );
+    await expect.poll(outwardOffset).toBeGreaterThan(smallOffset);
+    const largeOffset = outwardOffset();
+    expect(largeOffset).toBeLessThan(3);
 
     el.labelFormatter = () => "Long formatted endpoint";
     await reRender();
     await expect.element(min).toHaveTextContent("Long formatted endpoint");
-    await expect
-      .poll(
-        () =>
-          track.element().getBoundingClientRect().left - min.element().getBoundingClientRect().left,
-      )
-      .toBeLessThan(3);
-    expect(centerOffset()).toBeGreaterThan(0);
+    await expect.poll(outwardOffset).toBeCloseTo(largeOffset, 1);
 
     el.labelFormatter = () => "";
     await reRender();
@@ -328,7 +313,7 @@ describe("tick label alignment", () => {
     await reRender();
     await expect.element(min).toHaveTextContent("0");
     await expect.element(min).toBeVisible();
-    await expect.poll(centerOffset).toBeCloseTo(0, 1);
+    await expect.poll(outwardOffset).toBeCloseTo(largeOffset, 1);
   });
 
   it("preserves physical tick anchors when direction and mirroring change", async () => {
@@ -671,9 +656,9 @@ describe("overlapping tick labels", () => {
     el.style.inlineSize = "700px";
     el.style.inlineSize = "600px";
     el.style.inlineSize = "500px";
-    await expect.poll(() => measurements.mock.calls.length).toBe(253);
+    await expect.poll(() => measurements.mock.calls.length).toBe(251);
     await afterNextFrame();
-    expect(measurements).toHaveBeenCalledTimes(253);
+    expect(measurements).toHaveBeenCalledTimes(251);
   });
 });
 
