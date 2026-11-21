@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.43...@esri/calcite-components@6.0.0-next.44) (2026-11-21)
+
+### ⚠ BREAKING CHANGES
+
+- **input-number:** Remove the deprecated `maxLength` and `minLength`
+  properties in `input-number`.
+
+- These properties had no effect on the component and do not require
+  replacements.
+
+### Code Refactoring
+
+- **input-number:** remove deprecated length properties ([#15672](https://github.com/Esri/calcite-design-system/issues/15672)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.42...@esri/calcite-components@6.0.0-next.43) (2026-11-20)
 
 ### Bug Fixes
