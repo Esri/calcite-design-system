@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 
 import {
   defaults,
@@ -218,6 +219,20 @@ it("emits calciteInternalListItemChange only when metadata values change", async
   await component.updateComplete;
 
   expect(eventSpy).toHaveBeenCalledTimes(6);
+});
+
+it("does not expose aria-selected when selection-mode is none", async () => {
+  await mount(<calcite-list-item label="Item" selection-mode="none" />);
+
+  await expect.element(page.getByRole("row", { name: "Item" })).toBeVisible();
+  await expect.element(page.getByRole("row", { name: "Item" })).not.toHaveAttribute("aria-selected");
+});
+
+it("exposes aria-selected when selection-mode is single", async () => {
+  await mount(<calcite-list-item label="Item" selection-mode="single" />);
+
+  await expect.element(page.getByRole("row", { name: "Item" })).toBeVisible();
+  await expect.element(page.getByRole("row", { name: "Item" })).toHaveAttribute("aria-selected", "false");
 });
 
 describe("themed", () => {
