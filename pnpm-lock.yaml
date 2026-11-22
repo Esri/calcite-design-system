@@ -204,6 +204,9 @@ catalogs:
     lint-staged:
       specifier: 16.4.0
       version: 16.4.0
+    lit:
+      specifier: 3.3.3
+      version: 3.3.3
     markdownlint-cli2:
       specifier: 0.22.1
       version: 0.22.1
@@ -479,6 +482,9 @@ importers:
       '@interactjs/types':
         specifier: catalog:dependency-ranges
         version: 1.10.28
+      '@lit-labs/webmcp':
+        specifier: workspace:*
+        version: link:../webmcp
       '@types/sortablejs':
         specifier: catalog:dependency-ranges
         version: 1.15.9
@@ -540,6 +546,9 @@ importers:
       '@esri/stylelint-plugin-calcite-components':
         specifier: workspace:*
         version: link:../stylelint-plugin-components
+      '@lit-labs/webmcp-compiler':
+        specifier: workspace:*
+        version: link:../webmcp-compiler
       '@storybook/addon-a11y':
         specifier: 'catalog:'
         version: 10.3.6(storybook@10.6.2(@types/react@18.3.12)(prettier@3.8.4)(react@18.3.1))
@@ -1086,6 +1095,40 @@ importers:
       typescript-eslint:
         specifier: 'catalog:'
         version: 8.64.0(eslint@10.10.0(jiti@1.21.7)(supports-color@10.2.2))(supports-color@10.2.2)(typescript@6.0.3)
+
+  packages/webmcp:
+    devDependencies:
+      lit:
+        specifier: 'catalog:'
+        version: 3.3.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.11(@types/node@24.10.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(happy-dom@21.0.4)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))
+
+  packages/webmcp-compiler:
+    dependencies:
+      '@lit-labs/webmcp':
+        specifier: workspace:*
+        version: link:../webmcp
+      magic-string:
+        specifier: ^0.30.21
+        version: 0.30.21
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.10.0
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vite:
+        specifier: 'catalog:'
+        version: 7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.11(@types/node@24.10.0)(@vitest/browser-playwright@4.1.11)(@vitest/coverage-v8@4.1.11)(happy-dom@21.0.4)(vite@7.3.6(@types/node@24.10.0)(jiti@1.21.7)(sass-embedded@1.104.1)(sass@1.104.1)(yaml@2.9.1))
 
 packages:
 

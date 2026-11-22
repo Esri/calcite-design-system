@@ -15,4 +15,5 @@ runs:
         pnpm --filter @esri/calcite-design-tokens build
         pnpm --filter @esri/calcite-tailwind-preset build
         pnpm --filter @esri/calcite-ui-icons build
+        pnpm --filter @lit-labs/webmcp-compiler... build
         pnpm --filter @esri/calcite-components build-storybook

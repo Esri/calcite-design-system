@@ -1,5 +1,7 @@
 import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, method, state, JsxNode } from "@arcgis/lumina";
+import { WebMcpController } from "@lit-labs/webmcp/controller.js";
+import { tool } from "@lit-labs/webmcp/tool.js";
 import { NumberingSystem, numberStringFormatter } from "../../utils/locale";
 import { Scale } from "../types";
 import { createObserver } from "../../utils/observers";
@@ -122,7 +124,16 @@ export class Pagination extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /** Specifies the starting item number. */
-  @property({ reflect: true }) startItem = 1;
+  @tool({ readOnly: true })
+  @property({ reflect: true })
+  startItem = 1;
+
+  /**
+   * When `true`, exposes the component's WebMCP tools to the browser.
+   *
+   * @experimental
+   */
+  @property() tools = false;
 
   /** Specifies the total number of items. */
   @property({ reflect: true }) totalItems = 0;
@@ -134,8 +145,9 @@ export class Pagination extends LitElement {
   /**
    * Set a specified page as active.
    *
-   * @param page
+   * @param page The one-based page number, or `"start"` or `"end"` for the first or last page.
    */
+  @tool()
   @method()
   async goTo(page: number | "start" | "end"): Promise<void> {
     switch (page) {
@@ -158,12 +170,14 @@ export class Pagination extends LitElement {
   }
 
   /** Go to the next page of results. */
+  @tool()
   @method()
   async nextPage(): Promise<void> {
     this.startItem = Math.min(this.lastStartItem, this.startItem + this.pageSize);
   }
 
   /** Go to the previous page of results. */
+  @tool()
   @method()
   async previousPage(): Promise<void> {
     this.startItem = Math.max(1, this.startItem - this.pageSize);
@@ -191,6 +205,11 @@ export class Pagination extends LitElement {
   //#endregion
 
   //#region Lifecycle
+
+  constructor() {
+    super();
+    new WebMcpController(this, { enabled: () => this.tools, element: () => this.el });
+  }
 
   override connectedCallback(): void {
     this.resizeObserver?.observe(this.el);

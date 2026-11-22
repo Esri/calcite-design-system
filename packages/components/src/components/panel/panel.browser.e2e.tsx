@@ -20,6 +20,7 @@ import {
 } from "../../tests/common";
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
+import { mockWebMcp } from "../../tests/utils/webmcp";
 import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "./panel";
 import { CSS, IDS, SLOTS } from "./resources";
@@ -78,6 +79,34 @@ export function renderScrollingContent(): JsxNode {
 }
 
 mockConsole();
+
+it("exposes the opted-in panel's collapsed property as WebMCP tools and hands off on disable", async () => {
+  const registered = mockWebMcp();
+  const { el: first } = await mount<"calcite-panel">(<calcite-panel collapsible />);
+  const getter = "calcite-panel.get.collapsed";
+  const setter = "calcite-panel.set.collapsed";
+  const execution = { signal: new AbortController().signal };
+
+  expect(registered.size).toBe(0);
+  first.setAttribute("tools", "");
+  expect(first.tools).toBe(true);
+  await expect.poll(() => [...registered.keys()], { timeout: 10_000 }).toEqual([getter, setter]);
+  const { el: second } = await mount<"calcite-panel">(<calcite-panel collapsible />);
+  second.tools = true;
+
+  expect(registered.get(setter)!.inputSchema).toMatchObject({
+    properties: { value: { type: "boolean" } },
+  });
+  await registered.get(setter)!.execute({ value: true }, execution);
+  expect(first.collapsed).toBe(true);
+  expect(second.collapsed).toBe(false);
+  expect(await registered.get(getter)!.execute({}, execution)).toEqual({ value: true });
+
+  first.tools = false;
+  await expect.poll(() => registered.get(getter)?.execute({}, execution)).toEqual({ value: false });
+  second.remove();
+  await expect.poll(() => registered.size).toBe(0);
+});
 
 describe("accessible", () => {
   accessible(() =>

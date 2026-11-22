@@ -20,11 +20,33 @@ import {
   themed,
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
+import { mockWebMcp } from "../../tests/utils/webmcp";
 import { CSS, SLOTS } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
 import { CSS_UTILITY } from "../../utils/resources";
 
 mockConsole();
+
+it("opens and closes through the opt-in WebMCP tools", async () => {
+  const registered = mockWebMcp();
+  const { el } = await mount<"calcite-dialog">(<calcite-dialog heading="Example dialog" tools />);
+  const getter = "calcite-dialog.get.open";
+  const setter = "calcite-dialog.set.open";
+  const execution = { signal: new AbortController().signal };
+  const dialog = page.getByRole("dialog", { name: "Example dialog" });
+
+  await expect.poll(() => [...registered.keys()], { timeout: 10_000 }).toEqual([getter, setter]);
+  const opened = waitForEvent(el, "calciteDialogOpen");
+  await registered.get(setter)!.execute({ value: true }, execution);
+  await opened;
+  await expect.element(dialog).toBeVisible();
+  expect(await registered.get(getter)!.execute({}, execution)).toEqual({ value: true });
+
+  const closed = waitForEvent(el, "calciteDialogClose");
+  await registered.get(setter)!.execute({ value: false }, execution);
+  await closed;
+  expect(dialog.length).toBe(0);
+});
 
 describe("accessible", () => {
   accessible(async () => {
