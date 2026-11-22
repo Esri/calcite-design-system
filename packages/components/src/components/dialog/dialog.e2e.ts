@@ -75,7 +75,7 @@ it("outsideCloseDisabled", async () => {
   const page = await newE2EPage();
   // set large page to ensure test dialog isn't becoming fullscreen
   await page.setViewport({ width: 1440, height: 1440 });
-  await page.setContent(`<calcite-dialog width-scale="s" modal open outside-close-disabled></calcite-dialog>`);
+  await page.setContent(`<calcite-dialog width="s" modal open outside-close-disabled></calcite-dialog>`);
   await skipAnimations(page);
   await page.waitForChanges();
 
@@ -758,7 +758,7 @@ describe("keyboard movement", () => {
   it("should move properly via arrow keys", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog width-scale="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
+      html`<calcite-dialog width="s" heading="Hello world" drag-enabled open>Hello world!</calcite-dialog>`,
     );
     await skipAnimations(page);
     await page.setViewport({ width: 1200, height: 1200 });
@@ -783,9 +783,7 @@ describe("keyboard movement", () => {
 describe("keyboard assistive text", () => {
   it("should not have assistive text by default", async () => {
     const page = await newE2EPage();
-    await page.setContent(
-      html`<calcite-dialog width-scale="s" heading="Hello world" open>Hello world!</calcite-dialog>`,
-    );
+    await page.setContent(html`<calcite-dialog width="s" heading="Hello world" open>Hello world!</calcite-dialog>`);
     await skipAnimations(page);
     await page.waitForChanges();
     const assistiveTextElement = await page.find(
@@ -797,7 +795,7 @@ describe("keyboard assistive text", () => {
   it("should have assistive text when resizable", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog width-scale="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
+      html`<calcite-dialog width="s" resizable heading="Hello world" open>Hello world!</calcite-dialog>`,
     );
     await skipAnimations(page);
     await page.waitForChanges();
@@ -805,7 +803,6 @@ describe("keyboard assistive text", () => {
       `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.resizeEnabled);
   });
@@ -813,7 +810,7 @@ describe("keyboard assistive text", () => {
   it("should have assistive text when dragEnabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog width-scale="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
+      html`<calcite-dialog width="s" drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
     );
     await skipAnimations(page);
     await page.waitForChanges();
@@ -821,7 +818,6 @@ describe("keyboard assistive text", () => {
       `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent.trim()).toBe(messages.dragEnabled);
   });
@@ -829,9 +825,7 @@ describe("keyboard assistive text", () => {
   it("should have assistive text when resizable and dragEnabled", async () => {
     const page = await newE2EPage();
     await page.setContent(
-      html`<calcite-dialog width-scale="s" resizable drag-enabled heading="Hello world" open
-        >Hello world!</calcite-dialog
-      >`,
+      html`<calcite-dialog width="s" resizable drag-enabled heading="Hello world" open>Hello world!</calcite-dialog>`,
     );
     await skipAnimations(page);
     await page.waitForChanges();
@@ -839,7 +833,6 @@ describe("keyboard assistive text", () => {
       `calcite-dialog >>> .${CSS.dialog} > .${CSS_UTILITY.screenReaderText}`,
     );
     expect(assistiveTextElement).not.toBeNull();
-    expect(assistiveTextElement.getAttribute("aria-live")).toBe("polite");
     const messages = await import("./assets/t9n/messages.json");
     expect(assistiveTextElement.textContent).toBe(`${messages.dragEnabled} ${messages.resizeEnabled}`);
   });
@@ -855,7 +848,7 @@ describe("keyboard resize", () => {
           --calcite-dialog-size-x: 400px;
           --calcite-dialog-min-size-y: 120px;
           --calcite-dialog-min-size-x: 120px;"
-        width-scale="s"
+        width="s"
         heading="Hello world"
         resizable
         open
@@ -907,7 +900,7 @@ describe("keyboard resize", () => {
           --calcite-dialog-size-x: 400px;
           --calcite-dialog-min-size-y: 400px;
           --calcite-dialog-min-size-x: 400px;"
-        width-scale="s"
+        width="s"
         heading="Hello world"
         resizable
         open

@@ -18,6 +18,25 @@ import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chro
 
 const { collapseDirection, placement, scale } = ATTRIBUTES;
 
+export const loadingNestedContent = (): string => html`
+  <style>
+    .loading-parent-panel {
+      inline-size: 400px;
+      block-size: 400px;
+    }
+    .loading-child-panel {
+      block-size: 160px;
+      flex: none;
+    }
+  </style>
+  <calcite-panel class="loading-parent-panel" heading="Loading parent" loading>
+    <calcite-button slot="header-actions-end" icon-start="gear" appearance="transparent">Settings</calcite-button>
+    <calcite-panel class="loading-child-panel" heading="Loading child" loading> Nested content </calcite-panel>
+    <p>Parent content below the loading child</p>
+    <calcite-button slot="footer" width="full">Footer action</calcite-button>
+  </calcite-panel>
+`;
+
 interface PanelStoryArgs extends Pick<
   Panel,
   | "closed"
@@ -235,7 +254,7 @@ export const withPaginationHeaderTop = (): string => html`
     <div class="header" slot="header-top">
       <calcite-action-bar
         class="pagination-action-bar"
-        expand-disabled
+        expand-toggle-disabled
         layout="horizontal"
         overflow-actions-disabled
         scale="s"
@@ -360,19 +379,40 @@ export const collapsedWithActions = (): string => html`
 `;
 
 export const withActionBar = (): string =>
-  html`<div style="width: 300px;">
-    <calcite-panel height-scale="s">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"> </calcite-action>
-          <calcite-action text="Save" icon="save"> </calcite-action>
-          <calcite-action text="Layers" icon="layers"> </calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <div slot="header-content">Header!</div>
-      <p>Slotted content!</p>
-    </calcite-panel>
-  </div>`;
+  html`<style>
+      .action-bar-example {
+        inline-size: 300px;
+      }
+      .action-bar-example-panel {
+        --calcite-panel-content-top-space: 0;
+      }
+    </style>
+    ${["Header!", ""]
+      .map(
+        (heading) => html`
+          <div class="action-bar-example">
+            <calcite-panel class="action-bar-example-panel" height-scale="s">
+              <calcite-action-bar slot="content-top" layout="horizontal">
+                <calcite-action-group>
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              ${heading ? html`<div slot="header-content">${heading}</div>` : ""}
+              <p>Slotted content!</p>
+            </calcite-panel>
+          </div>
+        `,
+      )
+      .join("")}`;
+
+export const genericContentTopWithoutHeader = (): string => html`
+  <calcite-panel style="width: 300px; height: 200px; --calcite-panel-content-top-space: 0;">
+    <div slot="content-top">Content top</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
 
 export const footerPadding = (): string =>
   html`<div style="width: 300px;">

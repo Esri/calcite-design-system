@@ -1,7 +1,18 @@
 {
+  "all": "todo",
   "clear": "Borrar",
   "hiddenSelected": "Filas seleccionadas pero fuera de vista",
+  "keyboardDeselect": "Pulsar intro o espacio para anular la selección de la fila",
+  "keyboardDeselectAll": "Pulsar intro o espacio para anular la selección de todas las filas",
+  "keyboardSelect": "Pulsar intro o espacio para seleccionar la fila",
+  "keyboardSelectAll": "Pulsar intro o espacio para seleccionar todas las filas",
   "page": "Página",
   "row": "Fila",
-  "selected": "Seleccionado"
+  "rowNumber": "Número de fila",
+  "selected": "Seleccionado",
+  "selectedRows": "filas seleccionadas",
+  "selectionColumn": "Columna de selección",
+  "selectionRow": "fila",
+  "selectionSelected": "seleccionado",
+  "unselected": "deseleccionado"
 }

@@ -3,9 +3,10 @@ concurrency:
   group: deploy_prerelease
   cancel-in-progress: true
 on:
-  # `next` versions are automatically released when deployabled commits are pushed to dev
+  # `next` versions are automatically released when deployable commits are pushed to dev
   push:
     branches: [dev]
+  # Manual `next` releases accept any commits since the last release, but skip when there are none.
   # `rc` versions must be manually released:
   # https://docs.github.com/en/actions/using-workflows/manually-running-a-workflow
   workflow_dispatch:
@@ -32,6 +33,7 @@ jobs:
       - name: Deploy prerelease and storybook
         env:
           NEXT_RELEASE_ENABLED: ${{ secrets.NEXT_RELEASE_ENABLED }}
+          MANUAL_NEXT_RELEASE: ${{ github.event_name == 'workflow_dispatch' && github.ref_name == 'dev' }}
           GH_TOKEN_FOR_STORYBOOK: ${{ github.actor }}:${{ secrets.ADMIN_TOKEN }}
           PNPM_CONFIG_PROVENANCE: true
           BRANCH: ${{ github.base_ref || github.ref_name }}

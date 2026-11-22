@@ -74,6 +74,8 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { isTwoDigitYear, normalizeToCurrentCentury } from "./utils";
 import { logger } from "../../utils/logger";
 import { isSelect } from "../select/resources";
+import { CSS_UTILITY } from "../../utils/resources";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
   interface DeclareElements {
@@ -139,12 +141,6 @@ declare module "@arcgis/lumina" {
      * Specifies the background color of the component's calendar day elements when hovered.
      */
     "--calcite-input-date-picker-calendar-day-background-color-hover": "*";
-    /**
-     * Specifies the text color of current day of the component's date-picker.
-     *
-     * @deprecated in v3.3.1, removal target v6.0.0 - Use `--calcite-input-date-picker-calendar-current-day-text-color` instead.
-     */
-    "--calcite-input-date-picker-calendar-day-current-text-color": "*";
     /**
      * Specifies the background color of the component's calendar selected day range.
      */
@@ -259,6 +255,9 @@ interface InputDatePickerSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputDatePicker extends LitElement implements FloatingUIComponent, LabelableComponent {
   //#region Type-only metadata members
 
@@ -272,7 +271,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
   static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -355,7 +354,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -520,8 +519,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
     }
   }
 
-  /** The component's `value` as a full date object. */
-  @property() valueAsDate?: Date | Date[];
+  /** The component's `value` as a full date object, or an array of full date objects for range values. Unselected range endpoints are `undefined`. */
+  @property() valueAsDate?: Date | (Date | undefined)[];
 
   //#endregion
 
@@ -718,7 +717,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
       }
 
       if (!this.valueAsDateChangedExternally && newValueAsDate !== this.valueAsDate) {
-        // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
         this.valueAsDate = newValueAsDate;
       }
 
@@ -1214,7 +1212,6 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
 
     this.userChangedValue = true;
     this.value = newValue;
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = newValue ? getValueAsDateRange(newValue) : undefined;
 
     const changeEvent = this.calciteInputDatePickerChange.emit();
@@ -1390,7 +1387,11 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
                 scale={this.scale}
                 status={this.status}
               />
-              <span ariaHidden="true" class={CSS.assistiveText} id={this.placeholderTextId}>
+              <span
+                ariaHidden="true"
+                class={CSS_UTILITY.screenReaderText}
+                id={this.placeholderTextId}
+              >
                 {this.placeholder ||
                   messages.dateFormat.replace("{format}", this.localeData?.placeholder)}
               </span>

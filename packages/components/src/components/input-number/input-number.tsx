@@ -32,7 +32,7 @@ import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
 import { Validation } from "../functional/Validation";
-import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
+import { NumericInputComponent } from "../input/common/input";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import {
@@ -185,10 +185,10 @@ interface InputNumberSlots {
   "label-content": Node[];
 }
 
-export class InputNumber
-  extends LitElement
-  implements LabelableComponent, NumericInputComponent, TextualInputComponent
-{
+/**
+ * @docGroup Inputs
+ */
+export class InputNumber extends LitElement implements LabelableComponent, NumericInputComponent {
   //#region Type-only metadata members
 
   override ["@slots"]!: InputNumberSlots;
@@ -258,7 +258,7 @@ export class InputNumber
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -409,15 +409,6 @@ export class InputNumber
    */
   @property({ reflect: true }) max?: number;
 
-  /**
-   * When the component resides in a form,
-   * specifies the maximum length of text for the component's `value`.
-   *
-   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
-   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
-   */
-  @property({ reflect: true }) maxLength?: number;
-
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
@@ -428,15 +419,6 @@ export class InputNumber
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min?: number;
-
-  /**
-   * When the component resides in a form,
-   * specifies the minimum length of text for the component's `value`.
-   *
-   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
-   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
-   */
-  @property({ reflect: true }) minLength?: number;
 
   /**
    * @copyDoc
@@ -1330,8 +1312,6 @@ export class InputNumber
           (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
         }
         key="localized-input"
-        maxLength={this.maxLength}
-        minLength={this.minLength}
         onBlur={this.inputNumberBlurHandler}
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}

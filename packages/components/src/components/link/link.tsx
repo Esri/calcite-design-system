@@ -33,11 +33,15 @@ interface LinkSlots {
 }
 
 /**
+ * @privateRemarks
+ *
  * Any attributes placed on <calcite-link> component will propagate to the rendered child
  *
  * Passing a 'href' allows the component to behave like a link
  *
- * It is the consumers responsibility to add aria information, rel, target, for links, and any link attributes for form submission
+ * Use the `label` property to provide a custom accessible name.
+ *
+ * Consumers are responsible for providing other link attributes such as `rel` and `target`.
  */
 export class Link extends LitElement {
   //#region Type-only metadata members
@@ -58,7 +62,7 @@ export class Link extends LitElement {
 
   private direction = useDirection();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -102,6 +106,9 @@ export class Link extends LitElement {
 
   /** @copyDoc */
   @property({ reflect: true }) iconStart?: IconName;
+
+  /** Specifies an accessible label for the component. */
+  @property() label?: string;
 
   /** Specifies the relationship to the linked resource defined in `href`. */
   @property() rel?: string;
@@ -158,6 +165,7 @@ export class Link extends LitElement {
     return (
       <this.interactiveContainer disabled={this.disabled}>
         <a
+          ariaLabel={this.label}
           class={{ [CSS_UTILITY.rtl]: dir === "rtl" }}
           /*
             When the 'download' property of type 'boolean | string' is set to true, the value is "".

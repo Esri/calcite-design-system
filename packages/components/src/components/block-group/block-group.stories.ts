@@ -93,6 +93,25 @@ export const loading = (): string => html`
   <calcite-block-group loading label="My Group"> ${blockHTML} </calcite-block-group>
 `;
 
+export const loadingNestedContent = (): string => html`
+  <style>
+    .loading-block-group {
+      inline-size: 400px;
+    }
+    .loading-block-content {
+      block-size: 120px;
+    }
+  </style>
+  <calcite-block-group class="loading-block-group" loading label="Loading parent group">
+    <calcite-block heading="Loading child" expandable expanded loading>
+      <div class="loading-block-content">Nested loading content</div>
+    </calcite-block>
+    <calcite-block heading="Sibling block" expandable expanded>
+      <div class="loading-block-content">Sibling content</div>
+    </calcite-block>
+  </calcite-block-group>
+`;
+
 export const disabled = (): string => html`
   <calcite-block-group disabled label="My Group"> ${blockHTML} </calcite-block-group>
 `;

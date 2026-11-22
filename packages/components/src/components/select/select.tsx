@@ -87,6 +87,9 @@ interface SelectSlots {
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
+/**
+ * @docGroup Select
+ */
 export class Select extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
@@ -123,7 +126,7 @@ export class Select extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -159,11 +162,11 @@ export class Select extends LitElement implements LabelableComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's selected option `HTMLElement`.
+   * The component's selected option `HTMLElement`, or `undefined` when no option is selected.
    *
    * @readonly
    */
-  @property() selectedOption!: Option["el"];
+  @property() selectedOption?: Option["el"];
 
   /** Specifies the status of the input field, which determines the message and icons. */
   @property({ reflect: true }) status: Status = "idle";
@@ -181,16 +184,11 @@ export class Select extends LitElement implements LabelableComponent {
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's `selectedOption` value. */
-  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
-  @property() value: string = null;
+  /** The component's `selectedOption` value, or `undefined` when no option is selected. */
+  @property() value: string | undefined;
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
@@ -241,7 +239,7 @@ export class Select extends LitElement implements LabelableComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+    if (changes.has("value") && (this.hasUpdated || this.value !== undefined)) {
       this.updateItemsFromValue(this.value);
     }
 
@@ -298,7 +296,7 @@ export class Select extends LitElement implements LabelableComponent {
     this.setFocus();
   }
 
-  private updateItemsFromValue(value: string): void {
+  private updateItemsFromValue(value: string | undefined): void {
     this.el
       .querySelectorAll("calcite-option")
       .forEach((item) => (item.selected = item.value === value));

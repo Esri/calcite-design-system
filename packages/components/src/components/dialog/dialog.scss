@@ -13,7 +13,7 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host {
-  // the dialog should always use a dark scrim, regardless of light / dark mode - matches value in global.scss
+  // the dialog should always use a dark scrim, regardless of light / dark mode
   --calcite-dialog-scrim-background-color: #{rgba(core.$calcite-color-neutral-blk-240, core.$calcite-opacity-85)};
   display: flex;
   inset: var(--calcite-space-none);

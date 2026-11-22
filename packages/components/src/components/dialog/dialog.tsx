@@ -7,7 +7,7 @@ import { getStylePixelValue } from "../../utils/dom";
 import { createObserver } from "../../utils/observers";
 import { getDimensionClass } from "../../utils/dynamicClasses";
 import { toggleOpenClose } from "../../utils/openCloseComponent";
-import { Kind, Scale, Width } from "../types";
+import { AriaAttributesCamelCased, Kind, Scale, Width } from "../types";
 import { SLOTS as PANEL_SLOTS } from "../panel/resources";
 import { HeadingLevel } from "../functional/Heading";
 import type { OverlayPositioning } from "../../utils/floating-ui";
@@ -173,6 +173,8 @@ interface DialogSlots {
   "custom-content": Node[];
   /**
    * A slot for adding a `calcite-action-bar` to the component.
+   *
+   * @deprecated in v6.0.0, removal target v7.0.0 - Use the `content-top` slot with `--calcite-dialog-content-top-space` set to `0` instead. Set `layout` to `"horizontal"` on the slotted `calcite-action-bar`.
    */
   "action-bar": Node[];
   /**
@@ -185,6 +187,7 @@ interface DialogSlots {
   "content-bottom": Node[];
   /**
    * A slot for adding content above the unnamed (default) slot and - if populated - below the `action-bar` slot.
+   * A directly slotted `calcite-action-bar` has an `inline-size` of `100%`. Set its `layout` to `"horizontal"` and the component's `--calcite-dialog-content-top-space` to `0` to match the `action-bar` slot.
    */
   "content-top": Node[];
   /**
@@ -293,7 +296,7 @@ export class Dialog extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private sizeOverride = useSizeOverride({
     targetElement: () => ({ value: this.transitionEl }),
@@ -351,6 +354,9 @@ export class Dialog extends LitElement {
 
   /** @copyDoc */
   @property() description?: string;
+
+  /** Specifies ARIA attributes for the dialog's assistive text live region. */
+  @property() aria?: Partial<Pick<AriaAttributesCamelCased, "live">>;
 
   /** When `true`, the component is draggable. */
   @property({ reflect: true }) dragEnabled = false;
@@ -453,15 +459,8 @@ export class Dialog extends LitElement {
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /**
-   * Specifies the component's width.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
-   */
-  @property({ reflect: true }) widthScale: Scale = "m";
-
   /** Specifies the component's width. */
-  @property({ reflect: true }) width?: Extract<Width, Scale>;
+  @property({ reflect: true }) width: Extract<Width, Scale> = "m";
 
   //#endregion
 
@@ -991,15 +990,17 @@ export class Dialog extends LitElement {
         <div
           class={{
             [CSS.dialog]: true,
-            [getDimensionClass("width", this.width, this.widthScale)]: !!(
-              this.width || this.widthScale
-            ),
+            [getDimensionClass("width", this.width)]: true,
           }}
           onKeyDown={this.handleKeyDown}
           ref={this.setTransitionEl}
         >
           {assistiveText ? (
-            <div ariaLive="polite" class={CSS_UTILITY.screenReaderText} key="assistive-text">
+            <div
+              ariaLive={this.aria?.live}
+              class={CSS_UTILITY.screenReaderText}
+              key="assistive-text"
+            >
               {assistiveText}
             </div>
           ) : null}

@@ -110,6 +110,8 @@ interface NoticeSlots {
 }
 
 /**
+ * @privateRemarks
+ *
  * Notices are intended to be used to present users with important-but-not-crucial contextual tips or copy. Because
  * notices are displayed inline, a common use case is displaying them on page-load to present users with short hints or contextual copy.
  * They are optionally closable - useful for keeping track of whether or not a user has closed the notice. You can also choose not
@@ -149,7 +151,7 @@ export class Notice extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 
@@ -189,12 +191,8 @@ export class Notice extends LitElement {
   /** Specifies the size of the component. */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
-  @property({ reflect: true }) width: Extract<Width, "auto" | "half" | "full"> = "auto";
+  /** Specifies the width of the component. */
+  @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
   //#endregion
 

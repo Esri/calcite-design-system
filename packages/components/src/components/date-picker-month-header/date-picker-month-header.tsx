@@ -2,7 +2,7 @@ import {
   calciteSpacingBase,
   calciteSpacingXxs,
   calciteSpacingSm,
-} from "@esri/calcite-design-tokens/dist/es6/global.js";
+} from "@esri/calcite-design-tokens/dist/es6/semantic.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, createEvent, Fragment, h, state, JsxNode } from "@arcgis/lumina";
@@ -349,7 +349,7 @@ export class DatePickerMonthHeader extends LitElement {
     if (isDirectionLeft && this.min) {
       const prevMonthDate = dateFromRange(prevMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = prevMonthDate ? hasSameMonthAndYear(prevMonthDate, this.min) : false;
-    } else if (this.max) {
+    } else if (!isDirectionLeft && this.max) {
       const nextMonthDate = dateFromRange(nextMonth(this.activeDate), this.min, this.max);
       isTargetLastValidMonth = nextMonthDate ? hasSameMonthAndYear(nextMonthDate, this.max) : false;
     }
@@ -510,11 +510,12 @@ export class DatePickerMonthHeader extends LitElement {
 
   private renderChevron(direction: "left" | "right"): JsxNode {
     const isDirectionRight = direction === "right";
+    const targetDate = isDirectionRight ? this.nextMonthDate : this.prevMonthDate;
+    const activeMonth = this.activeDate.getFullYear() * 12 + this.activeDate.getMonth();
+    const targetMonth = targetDate && targetDate.getFullYear() * 12 + targetDate.getMonth();
     const isDisabled =
-      hasSameMonthAndYear(
-        isDirectionRight ? this.nextMonthDate : this.prevMonthDate,
-        this.activeDate,
-      ) || !inRange(this.activeDate, this.min, this.max);
+      targetMonth === undefined ||
+      (isDirectionRight ? targetMonth <= activeMonth : targetMonth >= activeMonth);
 
     return (
       <calcite-action
@@ -522,7 +523,6 @@ export class DatePickerMonthHeader extends LitElement {
         ariaDisabled={isDisabled}
         ariaLabel={isDirectionRight ? this.messages.nextMonth : this.messages.prevMonth}
         class={CSS.chevron}
-        compact={true}
         data-direction={direction}
         disabled={isDisabled}
         icon={isDirectionRight ? ICON.chevronRight : ICON.chevronLeft}

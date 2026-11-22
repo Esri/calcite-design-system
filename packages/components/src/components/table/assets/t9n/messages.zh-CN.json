@@ -1,7 +1,18 @@
 {
+  "all": "所有",
   "clear": "清除",
   "hiddenSelected": "已选择但不在视图中的行",
+  "keyboardDeselect": "按 Enter 或 Space 取消选择行",
+  "keyboardDeselectAll": "按 Enter 或 Space 取消选择所有行",
+  "keyboardSelect": "按 Enter 或 Space 选择行",
+  "keyboardSelectAll": "按 Enter 或 Space 选择所有行",
   "page": "页面",
   "row": "行",
-  "selected": "已选"
+  "rowNumber": "行号",
+  "selected": "已选",
+  "selectedRows": "所选行",
+  "selectionColumn": "选项列",
+  "selectionRow": "行",
+  "selectionSelected": "选择",
+  "unselected": "取消选择"
 }

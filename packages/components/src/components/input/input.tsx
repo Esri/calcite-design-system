@@ -189,6 +189,9 @@ interface InputSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class Input
   extends LitElement
   implements LabelableComponent, NumericInputComponent, TextualInputComponent
@@ -266,7 +269,7 @@ export class Input
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -651,6 +654,9 @@ export class Input
   /** @private */
   calciteInternalInputFocus = createEvent({ cancelable: false });
 
+  /** @private */
+  calciteInternalInputClear = createEvent({ cancelable: false });
+
   //#endregion
 
   //#region Lifecycle
@@ -860,6 +866,7 @@ export class Input
     event.preventDefault();
     event.stopPropagation();
     this.clearInputValue(event);
+    this.calciteInternalInputClear.emit();
     const target = this.type === "number" ? this.childNumberRef.value : this.childRef.value;
     target?.focus();
   }

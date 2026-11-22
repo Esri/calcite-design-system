@@ -56,6 +56,9 @@ interface InputTimeZoneSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Inputs
+ */
 export class InputTimeZone extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
@@ -96,7 +99,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -473,7 +476,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
       return;
     }
 
-    const fallbackValue = this.mode === "offset" ? getUserTimeZoneOffset() : getUserTimeZoneName();
+    const fallbackValue =
+      this.mode === "offset" ? getUserTimeZoneOffset() : this.normalizeValue(getUserTimeZoneName());
     const valueToMatch = this.value === "" || !this.value ? fallbackValue : this.value;
 
     this.selectedTimeZoneItem =

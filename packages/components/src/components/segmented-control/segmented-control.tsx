@@ -59,6 +59,9 @@ interface SegmentedControlSlots {
   "label-content": Node[];
 }
 
+/**
+ * @docGroup Segmented Control
+ */
 export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
@@ -93,7 +96,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -139,11 +142,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's selected item `HTMLElement`.
+   * The component's selected item `HTMLElement`, or `undefined` when no item is selected.
    *
    * @readonly
    */
-  @property() selectedItem!: SegmentedControlItem["el"];
+  @property() selectedItem?: SegmentedControlItem["el"];
 
   /** Specifies the status of the validation message. */
   @property({ reflect: true }) status: Status = "idle";
@@ -161,15 +164,10 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's `selectedItem` value. */
-  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
-  @property() value: string = null;
+  /** The component's `selectedItem` value, or `undefined` when no item is selected. */
+  @property() value: string | undefined;
 
-  /**
-   * Specifies the width of the component.
-   *
-   * [Deprecated] The `"half"` value is deprecated in v3.0.0, removal target v6.0.0 - use `"full"` instead.
-   */
+  /** Specifies the width of the component. */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //#endregion
@@ -223,7 +221,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
       this.handleItemPropChange();
     }
 
-    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+    if (changes.has("value") && (this.hasUpdated || this.value !== undefined)) {
       this.valueHandler(this.value);
     }
 
@@ -240,13 +238,13 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Private Methods
 
-  private valueHandler(value: string): void {
+  private valueHandler(value: string | undefined): void {
     const { items } = this;
     items.forEach((item) => (item.checked = item.value === value));
   }
 
   private handleSelectedItemChange<T extends SegmentedControlItem["el"]>(
-    newItem: T,
+    newItem: T | undefined,
     oldItem?: T,
   ): void {
     this.value = newItem?.value;
@@ -392,7 +390,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
       }
     });
 
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.selectedItem = match;
 
     if (match && emit) {

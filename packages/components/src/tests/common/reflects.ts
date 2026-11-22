@@ -20,7 +20,7 @@ type ShorthandReflectProps<E extends HTMLElement> = {
  * describe("reflects", () => {
  *   reflects("calcite-action-bar", [
  *     {
- *       propertyName: "expandDisabled",
+ *       propertyName: "expandToggleDisabled",
  *       value: true
  *     },
  *     {
@@ -33,7 +33,7 @@ type ShorthandReflectProps<E extends HTMLElement> = {
  * @example <caption>using shorthand</caption>
  * describe("reflects", () => {
  *   reflects("calcite-action-bar", {
- *     expandDisabled: true,
+ *     expandToggleDisabled: true,
  *     expanded: true
  *    });
  * });
