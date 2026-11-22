@@ -132,7 +132,7 @@ const globalTokens = {
   calciteColorBorder2: "#d4d4d4",
   calciteColorBorder3: "#dfdfdf",
   calciteColorBorderInput: "#949494",
-  calciteUiIconColor: "currentColor",
+  calciteIconColor: "currentColor",
 };
 
 function convertToParamCase(str: string): string {

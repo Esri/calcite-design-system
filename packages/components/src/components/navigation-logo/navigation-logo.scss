@@ -92,7 +92,7 @@
   margin: var(--calcite-space-none);
   color: var(
     --calcite-navigation-logo-text-color,
-    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, var(--calcite-ui-icon-color, inherit)))
+    var(--calcite-icon-color, var(--calcite-internal-navigation-logo-text-color, inherit))
   );
   padding-inline: var(--calcite-internal-navigation-logo-padding-inline);
 }

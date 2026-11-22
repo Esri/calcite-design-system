@@ -49,13 +49,6 @@ describe("theme", () => {
       },
     });
   });
-  describe("deprecated", () => {
-    themed(() => mount("calcite-icon"), {
-      "--calcite-ui-icon-color": {
-        targetProp: "color",
-      },
-    });
-  });
 });
 
 it("flips icon when enabled and in RTL", async () => {

@@ -420,11 +420,7 @@ describe("theme", () => {
         shadowSelector: "button",
         targetProp: "color",
       },
-    });
-  });
-  describe("deprecated", () => {
-    themed(() => mount(<calcite-button icon-end="layer" icon-start="layer" />), {
-      "--calcite-ui-icon-color": [
+      "--calcite-icon-color": [
         {
           shadowSelector: `.${CSS.iconStart}`,
           targetProp: "color",

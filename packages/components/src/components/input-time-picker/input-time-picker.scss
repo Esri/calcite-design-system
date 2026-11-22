@@ -30,10 +30,6 @@ calcite-time-picker {
 }
 
 .container {
-  --calcite-icon-color: var(
-    --calcite-input-time-picker-icon-color,
-    var(--calcite-ui-icon-color, var(--calcite-color-text-3))
-  );
   align-items: center;
   background-color: var(
     --calcite-input-time-picker-input-background-color,
@@ -77,10 +73,7 @@ calcite-time-picker {
 }
 
 .clock-icon {
-  --calcite-icon-color: var(
-    --calcite-input-time-picker-icon-color,
-    var(--calcite-ui-icon-color, var(--calcite-color-text-3))
-  );
+  --calcite-icon-color: var(--calcite-input-time-picker-icon-color, var(--calcite-color-text-3));
 }
 
 .hour-suffix,
@@ -246,7 +239,6 @@ calcite-popover {
   $icon-color-press: "--calcite-input-time-picker-input-action-icon-color-press"
 );
 
-// Keep .container icon token support for deprecated tests without leaking it into clear-button icon color.
 .clear-button--container calcite-action {
   --calcite-icon-color: currentColor;
 }

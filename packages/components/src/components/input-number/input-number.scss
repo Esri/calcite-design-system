@@ -349,10 +349,7 @@ input[readonly]:focus {
     --calcite-input-number-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  --calcite-icon-color: var(
-    --calcite-input-number-icon-color,
-    var(--calcite-ui-icon-color, var(--calcite-color-text-3))
-  );
+  --calcite-icon-color: var(--calcite-input-number-icon-color, var(--calcite-color-text-3));
   align-items: center;
   padding-inline-start: var(--calcite-internal-input-number-icon-padding-inline);
 }
