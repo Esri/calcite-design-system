@@ -154,6 +154,7 @@ export class ComboboxItem extends LitElement {
    * Specifies the parent and grandparent `calcite-combobox-item`s, which are set on `calcite-combobox`.
    *
    * @internal
+   * @todo if there are no internal use-cases for this property, make it private in v7.0.0
    */
   @property() ancestors?: ComboboxChildElement[];
 
