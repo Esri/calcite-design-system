@@ -1343,9 +1343,7 @@ describe("number locale support", () => {
           await expect.element(input).toHaveValue(`0${decimalSeparator}5`);
         },
       );
-    });
 
-    describe.each([false, true])("group-separator=%s", (useGrouping) => {
       it(`replaces selection of last integer digit in "%s" with localized decimal for ${locale} locale with group-separator=${useGrouping}`, async () => {
         numberStringFormatter.numberFormatOptions = {
           locale,
