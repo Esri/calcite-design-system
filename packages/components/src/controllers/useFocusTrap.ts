@@ -84,6 +84,8 @@ export type FocusTrapOptions =
   Pick<Options, "allowOutsideClick" | "initialFocus" | "returnFocusOnDeactivate"> & {
     /**
      * Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus-trap element.
+     *
+     * @public
      */
     extraContainers: Parameters<FocusTrap["updateContainerElements"]>[0];
 
@@ -91,6 +93,8 @@ export type FocusTrapOptions =
      * By default, when the focus trap is deactivated, focus will return to the element that was focused before the trap was activated. This option allows customizing that behavior.
      *
      * Returning undefined will use the default behavior of returning focus to the element focused before activation.
+     *
+     * @public
      */
     setReturnFocus?:
       | Options["setReturnFocus"]
