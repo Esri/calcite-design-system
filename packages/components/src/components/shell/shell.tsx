@@ -14,7 +14,6 @@ import { isSheet } from "../sheet/resources";
 import { isShellPanel } from "../shell-panel/resources";
 import { styles } from "./shell.scss";
 import { CSS, SLOTS } from "./resources";
-import type { ShellFit } from "./types";
 
 type ShellPanelWithSizingProvider = ShellPanel["el"] & {
   shellSizingDataProvider?: (axis: "inline" | "block") => ShellPanelSizingData | null;
@@ -144,9 +143,6 @@ export class Shell extends LitElement {
 
   /** When `true`, positions the center content behind any `calcite-shell-panel`s. */
   @property({ reflect: true }) contentBehind = false;
-
-  /** Specifies how the component fits its containing block. When `"cover"`, the component fills the available space of the nearest element that has relative positioning. */
-  @property({ reflect: true }) fit: ShellFit = "static";
 
   // #endregion
 

@@ -8,14 +8,6 @@
   box-shadow: var(--calcite-shell-shadow);
 }
 
-:host([fit="cover"]) {
-  position: absolute;
-  inset: var(--calcite-space-none);
-  inline-size: 100%;
-  block-size: 100%;
-  overflow: hidden;
-}
-
 .main {
   position: relative;
   display: flex;
@@ -149,6 +141,7 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   margin-block-end: auto;
 }
 
+// What's this for?
 // positioning logic for expected slotted components
 .position-wrapper {
   position: absolute;
