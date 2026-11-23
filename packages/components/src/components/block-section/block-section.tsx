@@ -32,39 +32,55 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-block-section-background-color": "*";
     /**
      * Specifies the component's border color. When `expanded`, applies to the component's bottom border.
+     *
+     * @public
      */
     "--calcite-block-section-border-color": "*";
     /**
      * Specifies the component's header text color.
+     *
+     * @public
      */
     "--calcite-block-section-header-text-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-block-section-text-color": "*";
     /**
      * Specifies the component's text color on hover.
+     *
+     * @public
      */
     "--calcite-block-section-text-color-hover": "*";
     /**
      * Specifies the padding of the component's content in `default` slot.
+     *
+     * @public
      */
     "--calcite-block-section-content-space": "*";
   }
 }
 
+/** @public */
 interface BlockSectionSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @deprecated in v5.2.0, removal target v7.0.0 - Use the `calcite-block` component instead.
  * @docGroup Blocks
  * @parent calcite-block
@@ -72,6 +88,7 @@ interface BlockSectionSlots {
 export class BlockSection extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: BlockSectionSlots;
 
   //#endregion
@@ -86,8 +103,6 @@ export class BlockSection extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -103,24 +118,42 @@ export class BlockSection extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @public
+   */
   @property({ reflect: true }) expanded = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When `true`, expands the component and its contents.
    *
+   * @public
    * @deprecated in v3.1.0, removal target v6.0.0 - Use `expanded` prop instead.
    */
   @property({ reflect: true })
@@ -137,17 +170,26 @@ export class BlockSection extends LitElement {
     this.expanded = value;
   }
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Displays a status-related indicator icon.
    *
+   * @public
    * @deprecated in v2.8.1, removal target v6.0.0 - Use `icon-start` instead.
    */
   @property({ reflect: true }) status?: Status;
 
-  /** The component header text. */
+  /**
+   * The component header text.
+   *
+   * @public
+   */
   @property() text?: string;
 
   /**
@@ -155,6 +197,8 @@ export class BlockSection extends LitElement {
    *
    * - `"button"` sets the toggle to a selectable header.
    * - `"switch"` sets the toggle to a switch.
+   *
+   * @public
    */
   @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
 
@@ -165,8 +209,8 @@ export class BlockSection extends LitElement {
   /**
    * Sets focus on the component's first tabbable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -178,13 +222,25 @@ export class BlockSection extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @public
+   */
   calciteBlockSectionCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @public
+   */
   calciteBlockSectionExpand = createEvent({ cancelable: false });
 
-  /** Fires when the header has been clicked. */
+  /**
+   * Fires when the header has been clicked.
+   *
+   * @public
+   */
   calciteBlockSectionToggle = createEvent({ cancelable: false });
 
   //#endregion
