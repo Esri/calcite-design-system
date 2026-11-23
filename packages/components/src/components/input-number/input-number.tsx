@@ -1295,7 +1295,6 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
 
     // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
     if (hasTrailingDecimalSeparator) {
-      // TODO: move this to a separate localize() function that can localize raw non-sanitized user input
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
