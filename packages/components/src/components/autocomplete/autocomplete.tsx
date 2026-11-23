@@ -600,17 +600,9 @@ export class Autocomplete
   }
 
   /**
-   * Scrolls the component's content to a specified set of coordinates.
-   *
    * @public
-   * @example
-   * myAutocomplete.scrollContentTo({
-   *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
-   *   top: 0, // Specifies the number of pixels along the Y axis to scroll the window or element
-   *   behavior: "auto" // Specifies whether the scrolling should animate smoothly (smooth), or happen instantly in a single jump (auto, the default value).
-   * });
-   * @param options - allows specific coordinates to be defined.
-   * @returns promise that resolves once the content is scrolled to.
+   * @copyDoc
+   * @param options
    */
   @method()
   async scrollContentTo(options?: ScrollToOptions): Promise<void> {
