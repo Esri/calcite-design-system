@@ -44,16 +44,18 @@ export class DatePickerDay extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, the component is active. */
+  /**
+   * When `true`, the component is active.
+   */
   @property({ reflect: true }) active = false;
 
-  /** Date is in the current month. */
+  /**
+   * Date is in the current month.
+   */
   @property({ reflect: true }) currentMonth = false;
 
   /**
    * The DateTimeFormat used to provide screen reader labels.
-   *
-   * @private
    */
   @property() dateTimeFormat!: Intl.DateTimeFormat;
 
@@ -64,31 +66,49 @@ export class DatePickerDay extends LitElement {
    */
   @property() day!: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** Date is the end of date range. */
+  /**
+   * Date is the end of date range.
+   */
   @property({ reflect: true }) endOfRange = false;
 
-  /** Date is currently highlighted as part of the range, */
+  /**
+   * Date is currently highlighted as part of the range,
+   */
   @property({ reflect: true }) highlighted = false;
 
-  /** When `true`, activates the component's range mode to allow a start and end date. */
+  /**
+   * When `true`, activates the component's range mode to allow a start and end date.
+   */
   @property({ reflect: true }) range = false;
 
-  /** Date is being hovered and within the set range. */
+  /**
+   * Date is being hovered and within the set range.
+   */
   @property({ reflect: true }) rangeHover = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   */
   @property({ reflect: true }) scale!: Scale;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   */
   @property({ reflect: true }) selected = false;
 
-  /** Date is the start of date range. */
+  /**
+   * Date is the start of date range.
+   */
   @property({ reflect: true }) startOfRange = false;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   */
   @property() value!: Date;
 
   //#endregion
@@ -99,7 +119,6 @@ export class DatePickerDay extends LitElement {
    * Sets focus on the component.
    *
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -113,15 +132,11 @@ export class DatePickerDay extends LitElement {
 
   /**
    * Fires when user hovers over a day.
-   *
-   * @private
    */
   calciteInternalDayHover = createEvent({ cancelable: false });
 
   /**
    * Fires when user selects day.
-   *
-   * @private
    */
   calciteInternalDaySelect = createEvent({ cancelable: false });
 

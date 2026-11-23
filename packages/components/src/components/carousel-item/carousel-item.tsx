@@ -9,20 +9,25 @@ declare global {
   }
 }
 
+/** @public */
 interface CarouselItemSlots {
   /**
    * A slot for adding content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Carousel
  * @parent calcite-carousel
  */
 export class CarouselItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: CarouselItemSlots;
 
   //#endregion
@@ -42,12 +47,17 @@ export class CarouselItem extends LitElement {
   //#region Public Properties
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   //#endregion

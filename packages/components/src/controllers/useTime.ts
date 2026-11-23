@@ -37,8 +37,6 @@ export interface TimeComponent extends LitElement {
   hourFormat: HourFormat;
   /**
    * Translated messages and locale information
-   *
-   * @internal
    */
   messages: Partial<GenericT9nStrings> | T9nMeta<GenericT9nStrings>;
   /**
@@ -148,7 +146,7 @@ const localizedTimePartProperty = {
 } as const;
 
 class TimeController extends GenericController<TimeProperties, TimeComponent> {
-  //#region Properties
+  //#region Private Properties
 
   fractionalSecond?: string | null;
 
@@ -381,7 +379,7 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
 
   //#endregion
 
-  //#region Public Methods
+  //#region Private Methods
 
   decrementHour(): void {
     const newHour = !this.hour ? 0 : this.hour === "00" ? 23 : parseInt(this.hour, 10) - 1;
@@ -458,10 +456,6 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
     }
     this.setValuePart("meridiem", newMeridiem);
   }
-
-  //#endregion
-
-  //#region Private Methods
 
   hostConnected(): void {
     this.setHourFormat();
@@ -698,5 +692,4 @@ class TimeController extends GenericController<TimeProperties, TimeComponent> {
   //#endregion
 }
 
-/** @public */
 export const useTime = toFunction(TimeController);
