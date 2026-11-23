@@ -10,6 +10,7 @@ export type FlowDirection = "advancing" | "retreating" | "standby";
  *
  * @public
  * @example
+ * ```ts
  * class CustomFlowItem extends HTMLElement {
  *   constructor() {
  *     super();
@@ -106,6 +107,7 @@ export type FlowDirection = "advancing" | "retreating" | "standby";
  * }
  *
  * customElements.define("custom-flow-item", CustomFlowItem);
+ * ```
  */
 export type FlowItemLike = Pick<FlowItem["el"], "beforeBack" | "menuOpen" | "setFocus" | "showBackButton" | "selected">;
 
