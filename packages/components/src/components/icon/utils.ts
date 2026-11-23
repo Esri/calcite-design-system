@@ -73,10 +73,10 @@ function getCachedIconDataByKey(id: string): CalciteIconPath {
 }
 
 /**
- * Normalize a kebab-case icon name to match the path data module exports.
+ * Normalize the icon name to match the path data module exports.
  * Exported for testing purposes.
  *
- * @param name – a kebab-case icon name
+ * @param name – the icon name to normalize
  */
 export function normalizeIconName(name: IconName): string {
   const numberLeadingName = !isNaN(Number(name.charAt(0)));
