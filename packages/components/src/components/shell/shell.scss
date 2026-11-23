@@ -2,6 +2,7 @@
 
 :host {
   @extend %component-host;
+  position: relative;
   display: flex;
   flex-direction: column;
   border-radius: var(--calcite-shell-corner-radius);
