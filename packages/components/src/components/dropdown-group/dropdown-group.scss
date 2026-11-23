@@ -75,7 +75,7 @@
 
 @media (forced-colors: active) {
   .separator {
-    border-block-start: var(--calcite-border-width-sm, 1px) solid CanvasText;
+    border-block-start: var(--calcite-border-width-sm) solid CanvasText;
   }
 }
 
