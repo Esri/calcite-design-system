@@ -21,17 +21,13 @@
 
 .content {
   display: flex;
-  // block-size: 100%;
+  block-size: 100%;
   inline-size: 100%;
   flex-direction: column;
   flex-wrap: nowrap;
   overflow: auto;
   justify-content: space-between;
 }
-
-// :host(:not([fit="cover"])) .content {
-//   block-size: auto;
-// }
 
 .content ::slotted(calcite-panel),
 .content ::slotted(calcite-flow) {
@@ -97,7 +93,6 @@ slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // block-size: 100%;
   inline-size: 100%;
   min-inline-size: 0;
 }
@@ -141,7 +136,6 @@ slot[name="panel-top"]::slotted(calcite-shell-panel) {
   margin-block-end: auto;
 }
 
-// What's this for?
 // positioning logic for expected slotted components
 .position-wrapper {
   position: absolute;
