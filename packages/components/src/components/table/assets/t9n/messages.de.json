@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Löschen",
   "hiddenSelected": "Zeilen ausgewählt, jedoch nicht sichtbar",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Seite",
   "row": "Zeile",
-  "selected": "Ausgewählt"
+  "rowNumber": "Row number",
+  "selected": "Ausgewählt",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

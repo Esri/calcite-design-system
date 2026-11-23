@@ -7,6 +7,39 @@ const {
 
 module.exports = {
   /**
+   * Reads the first response line under an issue-form heading.
+   * @param {string} body
+   * @param {string} heading
+   * @returns {string}
+   */
+  getIssueFormResponse: (body, heading) => {
+    const response = body.match(new RegExp(`### ${RegExp.escape(heading)}(?:\\r|\\n)+(.+)$`, "m"));
+    return (response?.[1] ?? "").trim();
+  },
+  /**
+   * Syncs a programmatically added issue label to Monday.com.
+   * @param {object} params
+   * @param {import('github-script').AsyncFunctionArguments["github"]} params.github
+   * @param {import('github-script').AsyncFunctionArguments["context"]} params.context
+   * @param {number} params.issueNumber
+   * @param {string} params.label
+   * @param {string} [params.color]
+   */
+  syncAddedLabelWithMonday: async ({ github, context, issueNumber, label, color }) => {
+    await github.rest.actions.createWorkflowDispatch({
+      ...context.repo,
+      workflow_id: "issue-monday-sync.yaml",
+      ref: "dev",
+      inputs: {
+        issue_number: issueNumber.toString(),
+        event_type: "SyncActionChanges",
+        label_name: label,
+        label_action: "added",
+        ...(color === undefined ? {} : { label_color: color }),
+      },
+    });
+  },
+  /**
    * @typedef {object} removeLabelParam
    * @property {InstanceType<typeof import('@actions/github/lib/utils').GitHub>} github
    * @property {import('@actions/github/lib/context').Context} context

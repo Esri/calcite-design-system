@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
+import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
@@ -20,8 +21,26 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
+import { getNormalizer } from "./utils";
 
 mockConsole();
+
+it.each(["name", "region", "offset"] as const)(
+  "excludes Factory and falls back to the user's time zone in %s mode",
+  async (mode) => {
+    const { el } = await mount(<calcite-input-time-zone mode={mode} value="Factory" />);
+    const normalize = await getNormalizer(mode);
+    const expectedValue =
+      mode === "offset"
+        ? `${new Date().getTimezoneOffset() * -1}`
+        : normalize(new Intl.DateTimeFormat().resolvedOptions().timeZone);
+
+    await expect.element(el).toHaveProperty("value", expectedValue);
+    await expect
+      .element(page.getBySelector('calcite-combobox-item[value="Factory"]'))
+      .not.toBeInTheDocument();
+  },
+);
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-input-time-zone", mountOptions));

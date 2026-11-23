@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Hapus",
   "hiddenSelected": "Baris dipilih tetapi tidak terlihat",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Halaman",
   "row": "Baris",
-  "selected": "Terpilih"
+  "rowNumber": "Row number",
+  "selected": "Terpilih",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }
