@@ -20,14 +20,20 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When `layout` is `"columns"`, specifies the component's number of columns.
+     *
+     * @public
      */
     "--calcite-field-group-columns": "*";
     /**
      * When `layout` is `"columns"`, specifies the component's column gap.
+     *
+     * @public
      */
     "--calcite-field-group-column-gap": "*";
     /**
      * Specifies the gap between the component's slotted elements.
+     *
+     * @public
      */
     "--calcite-field-group-gap": "*";
   }

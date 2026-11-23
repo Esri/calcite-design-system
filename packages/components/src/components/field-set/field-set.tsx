@@ -13,10 +13,14 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's gap between slotted elements.
+     *
+     * @public
      */
     "--calcite-field-set-gap": "*";
     /**
      * Specifies the legend's text color.
+     *
+     * @public
      */
     "--calcite-field-set-legend-text-color": "*";
   }
