@@ -156,11 +156,17 @@ The component should not be placed within its own \`referenceElement\` to avoid 
       },
       methods: {
         scrollContentTo(apiMethod) {
-          const [options] = apiMethod.parameters ?? [];
-          if (!options || apiMethod.parameters?.length !== 1 || options.name !== "options") {
-            throw Error("Expected only parameter to be named 'options'");
+          // Check for params, as Lumina's minimal extraction
+          // used in CI tests omits method parameters.
+          if (apiMethod.parameters !== undefined) {
+            const [options] = apiMethod.parameters;
+
+            if (apiMethod.parameters.length !== 1 || options.name !== "options") {
+              throw Error("Expected only parameter to be named 'options'");
+            }
+
+            options.description = "When specified, an optional object customizes the component's scrolling process.";
           }
-          options.description = "When specified, an optional object customizes the component's scrolling process.";
 
           return {
             description: "Scrolls the component's content to a specified set of coordinates.",
