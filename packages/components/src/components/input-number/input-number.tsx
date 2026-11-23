@@ -1286,7 +1286,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
         : sanitizedValue;
 
     let newLocalizedValue =
-      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(value);
+      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(newValue);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(

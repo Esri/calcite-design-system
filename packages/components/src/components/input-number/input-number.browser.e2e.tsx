@@ -1947,17 +1947,30 @@ it("prevent typing disallowed english letters and symbols", async () => {
   expect(input).toHaveDisplayValue("");
 });
 
-it("only allow 2 minus signs in the input at a time", async () => {
+it("prevent typing invalid characters", async () => {
   const { el } = await mount(<calcite-input-number />);
   const input = page.getByRole("textbox").element();
 
+  await userEvent.keyboard(`{Tab}是`);
+
+  expect(el).toHaveProperty("value", "");
+  expect(input).toHaveDisplayValue("");
+
+  await userEvent.keyboard("-1士2大3.4夫5李6");
+
+  expect(el).toHaveProperty("value", "-123.456");
+  expect(input).toHaveDisplayValue("-123.456");
+});
+
+it("sanitize extra dashes from value", async () => {
+  const { el } = await mount(<calcite-input-number />);
+
   await userEvent.keyboard("{Tab}1--2---3");
 
-  expect(input).toHaveDisplayValue("1--23");
   expect(el).toHaveProperty("value", "123");
 
+  await userEvent.keyboard("{Home}");
   await userEvent.keyboard("----");
 
-  expect(input).toHaveDisplayValue("1--23");
-  expect(el).toHaveProperty("value", "123");
+  expect(el).toHaveProperty("value", "-123");
 });
