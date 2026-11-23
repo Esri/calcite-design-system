@@ -1527,6 +1527,28 @@ describe("number locale support", () => {
 
       await expect.element(input).toHaveValue(`12${groupSeparator}345${decimalSeparator}`);
     });
+
+    it.each(["", "123.4"])(
+      `prevents typing disallowed latin letters and symbols for ${locale} locale when starting from %j`,
+      async (value) => {
+        const numberingSystem = locale.startsWith("ar") ? "arab" : "latn";
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          numberingSystem,
+          useGrouping: false,
+        };
+        const expectedDisplayValue = numberStringFormatter.localize(value);
+        const { el } = await mount<InputNumber>(
+          <calcite-input-number lang={locale} numbering-system={numberingSystem} value={value} />,
+        );
+        const input = page.getByRole("textbox").element();
+
+        await userEvent.keyboard(`{Tab}abcdfghijklmnopqrstuvwxyz~!@#$%^&*()_+=|"':;?`);
+
+        expect(el).toHaveProperty("value", value);
+        expect(input).toHaveDisplayValue(expectedDisplayValue);
+      },
+    );
   });
 
   it(`allows negative, decimal numbers for ar locale`, async () => {
@@ -1935,16 +1957,6 @@ it("does not render an icon when requested without an explicit Calcite UI, and i
   await mount(<calcite-input-number icon />);
   const icon = page.getBySelector(`calcite-input-number .${CSS.inputIcon}`);
   await expect.element(icon).not.toBeInTheDocument();
-});
-
-it("prevent typing disallowed english letters and symbols", async () => {
-  const { el } = await mount(<calcite-input-number />);
-  const input = page.getByRole("textbox").element();
-
-  await userEvent.keyboard(`{Tab}abcdfghijklmnopqrstuvwxyz~!@#$%^&*()_+=|"':;?,`);
-
-  expect(el).toHaveProperty("value", "");
-  expect(input).toHaveDisplayValue("");
 });
 
 it("prevent typing invalid characters", async () => {
