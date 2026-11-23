@@ -1148,6 +1148,15 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
       ) {
         return;
       }
+      if (
+        value &&
+        Number(inputValue?.value.indexOf(numberStringFormatter.decimal)) >=
+          Number(inputValue?.selectionStart) &&
+        Number(inputValue?.value.indexOf(numberStringFormatter.decimal)) <=
+          Number(inputValue?.selectionEnd)
+      ) {
+        return;
+      }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
       if (!value && !inputValue?.value) {
