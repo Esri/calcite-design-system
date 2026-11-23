@@ -1303,209 +1303,80 @@ describe("number locale support", () => {
       await expect.element(input).toHaveProperty("value", "0");
     });
 
-    it(`replaces selection of entire integer with localized decimal separator for ${locale} locale`, async () => {
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem: "latn",
-        useGrouping: false,
-      };
-      const decimalSeparator = numberStringFormatter.decimal;
-      const minusSign = numberStringFormatter.minusSign;
-      const integerValue = "12345";
-      const localizedInteger = numberStringFormatter.localize(integerValue);
-      const negativeIntegerValue = "-12345";
-      const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
-      const exponentialInteger = "1234e5";
-      const localizedExponentialInteger = numberStringFormatter.localize(exponentialInteger);
+    describe.each([false, true])("group-separator=%s", (useGrouping) => {
+      it.each([
+        "12345",
+        "-12345",
+        "12.34",
+        "-12345.67",
+        "1234e5",
+        "-1234e5",
+        "12.34e5",
+        "-12.34e5",
+      ])(
+        `replaces entire selection of "%s" with localized decimal for ${locale} locale with group-separator=${useGrouping}`,
+        async (value) => {
+          numberStringFormatter.numberFormatOptions = {
+            locale,
+            numberingSystem: "latn",
+            useGrouping,
+          };
+          const decimalSeparator = numberStringFormatter.decimal;
+          const localizedValue = numberStringFormatter.localize(value);
+          const { el } = await mount<InputNumber>(
+            <calcite-input-number groupSeparator={useGrouping} lang={locale} value={value} />,
+          );
+          const input = page.getByRole("textbox");
 
-      const negativeExponentialInteger = "-1234e5";
-      const localizedNegativeExponentialInteger = `${minusSign}${localizedExponentialInteger}`;
+          await expect.element(el).toHaveProperty("value", value);
+          await expect.element(input).toHaveValue(localizedValue);
 
-      const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
-      const input = page.getByRole("textbox").element() as HTMLInputElement;
+          await el.selectText();
+          await userEvent.keyboard(decimalSeparator);
 
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
+          await expect.element(el).toHaveProperty("value", "");
+          await expect.element(input).toHaveValue(decimalSeparator);
 
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
+          await userEvent.keyboard("5");
 
-      await userEvent.fill(input, integerValue);
-
-      expect(el).toHaveProperty("value", "12345");
-      expect(input).toHaveDisplayValue(localizedInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, localizedNegativeInteger);
-
-      expect(el).toHaveProperty("value", negativeIntegerValue);
-      expect(input).toHaveDisplayValue(localizedNegativeInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, localizedExponentialInteger);
-
-      expect(el).toHaveProperty("value", exponentialInteger);
-      expect(input).toHaveDisplayValue(localizedExponentialInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, localizedNegativeExponentialInteger);
-
-      expect(el).toHaveProperty("value", negativeExponentialInteger);
-      expect(input).toHaveDisplayValue(localizedNegativeExponentialInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-    });
-
-    it(`replaces selection of entire integer with localized decimal separator with group-separator turned on for ${locale} locale`, async () => {
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem: "latn",
-        useGrouping: true,
-      };
-      const decimalSeparator = numberStringFormatter.decimal;
-      const minusSign = numberStringFormatter.minusSign;
-      const integerValue = "12345";
-      const localizedInteger = numberStringFormatter.localize(integerValue);
-      const negativeIntegerValue = "-12345";
-      const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
-      const exponentialInteger = "1234e5";
-      const localizedExponentialInteger = numberStringFormatter.localize(exponentialInteger);
-
-      const negativeExponentialInteger = "-1234e5";
-      const localizedNegativeExponentialInteger = `${minusSign}${localizedExponentialInteger}`;
-
-      const { el } = await mount(
-        <calcite-input-number group-separator lang={locale} value={integerValue} />,
+          await expect.element(el).toHaveProperty("value", "0.5");
+          await expect.element(input).toHaveValue(`0${decimalSeparator}5`);
+        },
       );
-      const input = page.getByRole("textbox").element() as HTMLInputElement;
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, integerValue);
-
-      expect(el).toHaveProperty("value", "12345");
-      expect(input).toHaveDisplayValue(localizedInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, localizedNegativeInteger);
-
-      expect(el).toHaveProperty("value", negativeIntegerValue);
-      expect(input).toHaveDisplayValue(localizedNegativeInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, localizedExponentialInteger);
-
-      expect(el).toHaveProperty("value", exponentialInteger);
-      expect(input).toHaveDisplayValue(localizedExponentialInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
-
-      await userEvent.fill(input, localizedNegativeExponentialInteger);
-
-      expect(el).toHaveProperty("value", negativeExponentialInteger);
-      expect(input).toHaveDisplayValue(localizedNegativeExponentialInteger);
-
-      await input.select();
-      await userEvent.keyboard(decimalSeparator);
-
-      expect(el).toHaveProperty("value", "");
-      expect(input).toHaveDisplayValue(decimalSeparator);
     });
 
-    it(`replaces selection of last integer digit with localized decimal separator for ${locale} locale`, async () => {
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem: "latn",
-        useGrouping: false,
-      };
-      const decimalSeparator = numberStringFormatter.decimal;
-      const minusSign = numberStringFormatter.minusSign;
-      const integerValue = "12345";
-      const localizedInteger = numberStringFormatter.localize(integerValue);
-      const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
+    describe.each([false, true])("group-separator=%s", (useGrouping) => {
+      it(`replaces selection of last integer digit in "%s" with localized decimal for ${locale} locale with group-separator=${useGrouping}`, async () => {
+        numberStringFormatter.numberFormatOptions = {
+          locale,
+          numberingSystem: "latn",
+          useGrouping,
+        };
+        const groupSeparator = useGrouping ? numberStringFormatter.group : "";
+        const decimalSeparator = numberStringFormatter.decimal;
+        const minusSign = numberStringFormatter.minusSign;
+        const integerValue = "12345";
+        const localizedInteger = numberStringFormatter.localize(integerValue);
+        const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
 
-      const { el } = await mount(<calcite-input-number lang={locale} value={integerValue} />);
-      const input = page.getByRole("textbox");
+        const { el } = await mount(
+          <calcite-input-number groupSeparator={useGrouping} lang={locale} value={integerValue} />,
+        );
+        const input = page.getByRole("textbox");
 
-      await userEvent.keyboard(`{Tab}{ArrowRight}{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
+        expect(input).toHaveDisplayValue(`12${groupSeparator}345`);
 
-      expect(el).toHaveProperty("value", "1234");
-      expect(input).toHaveDisplayValue(`1234${decimalSeparator}`);
+        await userEvent.keyboard(`{Tab}{ArrowRight}{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
 
-      await userEvent.fill(input, localizedNegativeInteger);
-      await userEvent.keyboard(`{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
+        expect(el).toHaveProperty("value", "1234");
+        expect(input).toHaveDisplayValue(`1${groupSeparator}234${decimalSeparator}`);
 
-      expect(el).toHaveProperty("value", "-1234");
-      expect(input).toHaveDisplayValue(`${minusSign}1234${decimalSeparator}`);
-    });
+        await userEvent.fill(input, localizedNegativeInteger);
+        await userEvent.keyboard(`{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
 
-    it(`replaces last integer digit selection with localized decimal separator with group-separator turned on for ${locale} locale`, async () => {
-      numberStringFormatter.numberFormatOptions = {
-        locale,
-        numberingSystem: "latn",
-        useGrouping: true,
-      };
-      const groupSeparator = numberStringFormatter.group;
-      const decimalSeparator = numberStringFormatter.decimal;
-      const minusSign = numberStringFormatter.minusSign;
-      const integerValue = "12345";
-      const localizedInteger = numberStringFormatter.localize(integerValue);
-      const localizedNegativeInteger = `${minusSign}${localizedInteger}`;
-
-      const { el } = await mount(
-        <calcite-input-number group-separator lang={locale} value={integerValue} />,
-      );
-      const input = page.getByRole("textbox");
-
-      expect(input).toHaveDisplayValue(`12${groupSeparator}345`);
-
-      await userEvent.keyboard(`{Tab}{ArrowRight}{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
-
-      expect(el).toHaveProperty("value", "1234");
-      expect(input).toHaveDisplayValue(`1${groupSeparator}234${decimalSeparator}`);
-
-      await userEvent.fill(input, localizedNegativeInteger);
-      await userEvent.keyboard(`{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
-
-      expect(el).toHaveProperty("value", "-1234");
-      expect(input).toHaveDisplayValue(`${minusSign}1${groupSeparator}234${decimalSeparator}`);
+        expect(el).toHaveProperty("value", "-1234");
+        expect(input).toHaveDisplayValue(`${minusSign}1${groupSeparator}234${decimalSeparator}`);
+      });
     });
 
     it(`preserves grouping when deleting the final fractional digit for ${locale} locale`, async () => {
