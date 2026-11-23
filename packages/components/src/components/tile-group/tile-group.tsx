@@ -16,19 +16,24 @@ declare global {
   }
 }
 
+/** @public */
 interface TileGroupSlots {
   /**
    * A slot for adding `calcite-tile` elements.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Tiles
  */
 export class TileGroup extends LitElement implements SelectableGroupComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TileGroupSlots;
 
   //#endregion
@@ -53,13 +58,22 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   //#region Public Properties
 
-  /** Specifies the alignment of each `calcite-tile`'s content. */
+  /**
+   * Specifies the alignment of each `calcite-tile`'s content.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Exclude<Alignment, "end"> = "start";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
@@ -69,15 +83,22 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    * Defines the layout of the component.
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
+   *
+   * @public
    */
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
-  /** Specifies the component's size. */
+  /**
+   * Specifies the component's size.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() selectedItems: Tile["el"][] = [];
@@ -87,6 +108,8 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -100,6 +123,8 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    * - `"single"` allows only one selected item.
    * - `"single-persist"` allows only one selected item and prevents de-selection.
    * - `"none"` allows no selected items.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",
@@ -110,7 +135,11 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
 
   //#region Events
 
-  /** Fires when the component's selection changes. */
+  /**
+   * Fires when the component's selection changes.
+   *
+   * @public
+   */
   calciteTileGroupSelect = createEvent({ cancelable: false });
 
   //#endregion
