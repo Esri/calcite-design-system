@@ -1,4 +1,5 @@
 import type { Decorator } from "@storybook/web-components-vite";
+import { userEvent } from "storybook/test";
 import { Shell } from "./shell";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import type { Position } from "../types";
@@ -1018,7 +1019,7 @@ export const slottedSheetOverlay = (): string => html`
     "
   >
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -1110,7 +1111,7 @@ const slottedSheetHtml: string[] = [];
     "
     >
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
+      <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
         <calcite-panel closable heading="Ultrices neque"
           ><p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -2342,14 +2343,14 @@ export const resizableShellPanelWithDropdown = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s" focus-trap-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
         <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
         <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
-        <calcite-dropdown open width="m" overlay-positioning="fixed">
+        <calcite-dropdown width="m" overlay-positioning="fixed">
           <calcite-button slot="trigger">Select landform</calcite-button>
           <calcite-dropdown-group group-title="Natural places">
             <calcite-dropdown-item>Mountain</calcite-dropdown-item>
@@ -2363,6 +2364,15 @@ export const resizableShellPanelWithDropdown = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+resizableShellPanelWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const shell = canvasElement.querySelector<Shell["el"]>("calcite-shell")!;
+  const trigger = canvasElement.querySelector("calcite-button[slot='trigger']")!;
+
+  await shell.componentOnReady();
+  await userEvent.click(trigger);
+};
+resizableShellPanelWithDropdown.parameters = { chromatic: { delay: 0 } };
 
 export const floatAllArrangementsStart = (): string =>
   html` <calcite-shell content-behind>
@@ -3174,7 +3184,7 @@ export const embeddedSlots = (): string => html`
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

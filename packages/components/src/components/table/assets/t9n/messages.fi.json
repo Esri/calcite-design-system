@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Tyhjennä",
   "hiddenSelected": "Rivit on valittu, mutta ne ovat näkymän ulkopuolella",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Sivu",
   "row": "Rivi",
-  "selected": "Valittu"
+  "rowNumber": "Row number",
+  "selected": "Valittu",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

@@ -17,23 +17,36 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's color.
+     *
+     * @public
      */
     "--calcite-segmented-control-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-segmented-control-background-color": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-segmented-control-shadow": "*";
     /**
      * Specifies the icons's color.
+     *
+     * @public
      */
     "--calcite-segmented-control-icon-color": "*";
   }
 }
 
+/**
+ * @public
+ * @docGroup Segmented Control
+ * @parent calcite-segmented-control
+ */
 export class SegmentedControlItem extends LitElement {
   // #region Static Members
 
@@ -51,38 +64,49 @@ export class SegmentedControlItem extends LitElement {
 
   /**
    * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `solid`.
-   *
-   * @private
    */
   @property() appearance: Extract<"outline" | "outline-fill" | "solid", Appearance> = "solid";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) checked = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Defines the layout of the component inherited from parent `calcite-segmented-control`, defaults to `horizontal`.
-   *
-   * @private
    */
   @property() layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "horizontal";
 
   /**
    * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
-   *
-   * @private
    */
   @property() scale: Scale = "m";
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any | null;
 
   // #endregion
@@ -91,8 +115,6 @@ export class SegmentedControlItem extends LitElement {
 
   /**
    * Fires when the item has been selected.
-   *
-   * @private
    */
   calciteInternalSegmentedControlItemChange = createEvent({ cancelable: false });
 

@@ -221,6 +221,20 @@ export interface SetFocusable extends LitElement {
   setFocus: (options?: FocusOptions) => Promise<void>;
 }
 
+/** Checks whether an element is an HTML or SVG element in the current window. */
+export function isFocusableElement(element: Element): element is HTMLElement | SVGElement {
+  return element instanceof HTMLElement || element instanceof SVGElement;
+}
+
+/** Returns unique focusable elements, including the container and its shadow trees. */
+export function getFocusableElements(container: Element | undefined): (HTMLElement | SVGElement)[] {
+  if (!container) {
+    return [];
+  }
+
+  return focusable(container, { ...tabbableOptions, includeContainer: true }).filter(isFocusableElement);
+}
+
 /**
  * This helper returns true when an element has a setFocus method.
  *
@@ -298,10 +312,7 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
  *
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
- *
  * @returns the first focusable element.
- *
- * @internal
  */
 function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
@@ -316,8 +327,6 @@ function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HT
  *
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
- *
- * @internal
  */
 function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstFocusable(element, includeContainer)?.focus(options);
@@ -705,8 +714,6 @@ export function getStylePixelValue(value: string): number {
 
 /**
  * Exported for testing purposes only.
- *
- * @private
  */
 export function viewportUnitToPixel(value: number, viewportSize: number): number {
   // intentionally dividing last to avoid rounding errors
