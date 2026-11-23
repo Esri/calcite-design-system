@@ -8,6 +8,7 @@ import {
   FocusElementInGroupDestination,
   getSlotAssignedElements,
 } from "../../utils/dom";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode, TableRowFocusEvent } from "../table/types";
 import { isActivationKey } from "../../utils/key";
 import { getIconScale } from "../../utils/component";
@@ -29,41 +30,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-table-row-background-color": "*";
     /**
      * When `striped` is `true` on `calcite-table`, specifies the background color of the component's `striped` rows.
+     *
+     * @public
      */
     "--calcite-table-row-background-color-striped": "*";
     /**
      * When `selected`, specifies the background color of the component's `selected` rows.
+     *
+     * @public
      */
     "--calcite-table-row-background-color-selected": "*";
     /**
      * Specifies the component's selected accent color.
+     *
+     * @public
      */
     "--calcite-table-row-accent-color-selected": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-row-border-color": "*";
   }
 }
 
+/** @public */
 interface TableRowSlots {
   /**
    * A slot for adding `calcite-table-cell` or `calcite-table-header` elements.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Table
  * @parent calcite-table
  */
 export class TableRow extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TableRowSlots;
 
   //#endregion
@@ -117,56 +133,54 @@ export class TableRow extends LitElement {
    * - `"start"` positions content at the top of a `calcite-table-cell`.
    * - `"center"` positions content in the middle of a `calcite-table-cell`.
    * - `"end"` positions content at the bottom of a `calcite-table-cell`.
+   *
+   * @public
    */
   @property({ reflect: true }) alignment!: Alignment;
 
   /**
    * When `true`, the item will be hidden
-   *
-   * @private
-   *  */
+   */
   @property({ reflect: true }) itemHidden = false;
 
-  /** @private */
   @property() bodyRowCount!: number;
 
-  /** @private */
   @property() cellCount!: number;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @private */
   @property() lastVisibleRow = false;
 
-  /** @private */
+  @property() messages!: Table["messages"]["_overrides"];
+
   @property() numbered = false;
 
-  /** @private */
   @property() positionAll!: number;
 
-  /** @private */
   @property() positionSection!: number;
 
-  /** @private */
   @property() positionSectionLocalized!: string;
 
-  /** @private */
   @property() readCellContentsToAT!: boolean;
 
-  /** @private */
   @property() rowType!: RowType;
 
-  /** @private */
   @property() scale!: Scale;
 
-  /** @private */
   @property() stickyHeaderEnabled = false;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get selected(): boolean {
     return this._selected;
@@ -179,26 +193,27 @@ export class TableRow extends LitElement {
     }
   }
 
-  /** @private */
   @property() selectedRowCount!: number;
 
-  /** @private */
   @property() selectedRowCountLocalized!: string;
 
-  /** @private */
   @property() selectionMode: Extract<"multiple" | "single" | "none", SelectionMode> = "none";
 
   //#endregion
 
   //#region Events
 
-  /** @private */
-  calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({ cancelable: false });
+  calciteInternalTableRowFocusRequest = createEvent<TableRowFocusEvent>({
+    cancelable: false,
+  });
 
-  /** @private */
   calciteInternalTableRowSelect = createEvent({ cancelable: false });
 
-  /** Fires when the selected state of the component changes. */
+  /**
+   * Fires when the selected state of the component changes.
+   *
+   * @public
+   */
   calciteTableRowSelect = createEvent({ cancelable: false });
 
   //#endregion
@@ -225,6 +240,7 @@ export class TableRow extends LitElement {
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
       changes.has("bodyRowCount") ||
+      changes.has("messages") ||
       changes.has("scale") ||
       changes.has("selectedRowCount") ||
       (changes.has("interactionMode") &&
@@ -394,6 +410,7 @@ export class TableRow extends LitElement {
       cells?.forEach((cell, index) => {
         cell.interactionMode = this.interactionMode;
         cell.lastCell = index === cells.length - 1;
+        cell.messages = this.messages;
         cell.parentRowAlignment = alignment;
         cell.parentRowIsSelected = this.selected;
         cell.parentRowType = this.rowType;
@@ -450,6 +467,7 @@ export class TableRow extends LitElement {
         alignment="center"
         bodyRowCount={this.bodyRowCount}
         key="selection-head"
+        messages={this.messages}
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
@@ -463,6 +481,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="selection-body"
+        messages={this.messages}
         onClick={this.clickHandler}
         onKeyDown={this.handleKeyboardSelection}
         parentRowAlignment={this.alignment}
@@ -477,6 +496,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="selection-foot"
+        messages={this.messages}
         parentRowAlignment={this.alignment}
         ref={this.selectionCellRef}
         selectionCell={true}
@@ -489,6 +509,7 @@ export class TableRow extends LitElement {
       <calcite-table-header
         alignment="center"
         key="numbered-head"
+        messages={this.messages}
         numberCell={true}
         parentRowAlignment={this.alignment}
         ref={this.numberedHeaderRef}
@@ -497,6 +518,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="numbered-body"
+        messages={this.messages}
         numberCell={true}
         parentRowAlignment={this.alignment}
         ref={this.numberedCellRef}
@@ -507,6 +529,7 @@ export class TableRow extends LitElement {
       <calcite-table-cell
         alignment="center"
         key="numbered-foot"
+        messages={this.messages}
         numberCell={true}
         parentRowAlignment={this.alignment}
         ref={this.numberedCellRef}

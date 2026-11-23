@@ -3,13 +3,12 @@ import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { Alignment, Scale } from "../types";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode } from "../table/types";
 import { CSS_UTILITY } from "../../utils/resources";
-import { useT9n } from "../../controllers/useT9n";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS } from "./resources";
-import T9nStrings from "./assets/t9n/messages.en.json";
 import { styles } from "./table-cell.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
@@ -23,33 +22,44 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-table-cell-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-cell-border-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-table-cell-text-color": "*";
   }
 }
 
+/** @public */
 interface TableCellSlots {
   /**
    * A slot for adding content, usually text content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Table
  * @parent calcite-table
  */
 export class TableCell extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TableCellSlots;
 
   //#endregion
@@ -65,13 +75,6 @@ export class TableCell extends LitElement {
   private containerRef = createRef<HTMLTableCellElement>();
 
   private direction = useDirection();
-
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useFocusable<this>()(this).setFocus;
 
@@ -97,55 +100,51 @@ export class TableCell extends LitElement {
    * - `"start"` positions content at the start of the component.
    * - `"center"` positions content in the middle of the component.
    * - `"end"` positions content at the end of the component.
+   *
+   * @public
    */
   @property({ reflect: true }) alignment: Alignment = "start";
 
-  /** Specifies the number of columns the component should span. */
+  /**
+   * Specifies the number of columns the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) colSpan?: number;
 
-  /** @private */
   @property() disabled = false;
 
-  /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @private */
   @property() lastCell = false;
 
-  /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messages!: Table["messages"]["_overrides"];
 
-  /** @private */
   @property() numberCell = false;
 
-  /** @private */
   @property({ reflect: true }) reachesBodyEnd = false;
 
-  /** @private */
   @property() parentRowAlignment: Alignment = "start";
 
-  /** @private */
   @property() parentRowIsSelected = false;
 
-  /** @private */
   @property() parentRowPositionLocalized?: string;
 
-  /** @private */
   @property() parentRowType!: RowType;
 
-  /** @private */
   @property() positionInRow!: number;
 
-  /** @private */
   @property() readCellContentsToAT = false;
 
-  /** Specifies the number of rows the component should span. */
+  /**
+   * Specifies the number of rows the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) rowSpan?: number;
 
-  /** @private */
   @property() scale: Scale = "m";
 
-  /** @private */
   @property() selectionCell = false;
 
   //#endregion
@@ -155,8 +154,8 @@ export class TableCell extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -174,7 +173,7 @@ export class TableCell extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("parentRowIsSelected")) {
+    if (changes.has("messages") || changes.has("parentRowIsSelected")) {
       this.updateScreenReaderSelectionText();
     }
   }
@@ -184,8 +183,8 @@ export class TableCell extends LitElement {
   //#region Private Methods
 
   private updateScreenReaderSelectionText(): void {
-    const selectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.selected} ${this.messages?.keyboardDeselect}`;
-    const unselectedText = `${this.messages?.row} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
+    const selectedText = `${this.messages?.selectionRow} ${this.parentRowPositionLocalized} ${this.messages?.selectionSelected} ${this.messages?.keyboardDeselect}`;
+    const unselectedText = `${this.messages?.selectionRow} ${this.parentRowPositionLocalized} ${this.messages?.unselected} ${this.messages?.keyboardSelect}`;
     this.selectionText = this.parentRowIsSelected ? selectedText : unselectedText;
   }
 
