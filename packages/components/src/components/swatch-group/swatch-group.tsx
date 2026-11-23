@@ -20,23 +20,30 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the space between slotted elements.
+     *
+     * @public
      */
     "--calcite-swatch-group-space": "*";
   }
 }
 
+/** @public */
 interface SwatchGroupSlots {
   /**
    * A slot for adding one or more `calcite-swatch`s.
+   *
+   * @public
    */
   "": Node[];
 }
 /**
+ * @public
  * @docGroup Swatch
  */
 export class SwatchGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SwatchGroupSlots;
 
   //#endregion
@@ -61,21 +68,31 @@ export class SwatchGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Specifies the component's size. Child `calcite-swatch`s inherit the component's value. */
+  /**
+   * Specifies the component's size. Child `calcite-swatch`s inherit the component's value.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() selectedItems: Swatch["el"][] = [];
@@ -87,6 +104,8 @@ export class SwatchGroup extends LitElement {
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"none"` does not allow any selections.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
@@ -100,6 +119,7 @@ export class SwatchGroup extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options
    */
   @method()
@@ -111,7 +131,11 @@ export class SwatchGroup extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's selection changes. */
+  /**
+   * Fires when the component's selection changes.
+   *
+   * @public
+   */
   calciteSwatchGroupSelect = createEvent({ cancelable: false });
 
   //#endregion
