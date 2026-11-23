@@ -21,35 +21,50 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the background color of the component.
+     *
+     * @public
      */
     "--calcite-meter-background-color": "*";
     /**
      * Specifies the border color of the component and displayed step lines.
+     *
+     * @public
      */
     "--calcite-meter-border-color": "*";
     /**
      * Specifies the box shadow of the component.
+     *
+     * @public
      */
     "--calcite-meter-shadow": "*";
     /**
      * Specifies the corner radius of the component.
+     *
+     * @public
      */
     "--calcite-meter-corner-radius": "*";
     /**
      * Specifies the color of the component's fill.
+     *
+     * @public
      */
     "--calcite-meter-fill-color": "*";
     /**
      * Specifies the color of the component's range labels.
+     *
+     * @public
      */
     "--calcite-meter-range-text-color": "*";
     /**
      * Specifies the color of the component's value label.
+     *
+     * @public
      */
     "--calcite-meter-value-text-color": "*";
   }
 }
 
+/** @public */
 export class Meter extends LitElement {
   // #region Static Members
 
@@ -108,13 +123,21 @@ export class Meter extends LitElement {
 
   // #region Public Properties
 
-  /** Specifies the appearance of the component. */
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) appearance: Extract<
     "outline" | "outline-fill" | "solid",
     Appearance
   > = "outline-fill";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -122,66 +145,121 @@ export class Meter extends LitElement {
    *
    * - `"single"` displays a single color.
    * - `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
+   *
+   * @public
    */
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) form?: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupSeparator = false;
 
-  /** Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
+  /**
+   * Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
+   *
+   * @public
+   */
   @property({ reflect: true }) high?: number;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold. */
+  /**
+   * Specifies a low value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
+   *
+   * @public
+   */
   @property({ reflect: true }) low?: number;
 
-  /** Specifies the component's highest allowed value. */
+  /**
+   * Specifies the component's highest allowed value.
+   *
+   * @public
+   */
   @property({ reflect: true }) max = 100;
 
-  /** Specifies the component's lowest allowed value. */
+  /**
+   * Specifies the component's lowest allowed value.
+   *
+   * @public
+   */
   @property({ reflect: true }) min = 0;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
    */
   @property({ reflect: true }) name?: string;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property() numberingSystem?: NumberingSystem;
 
-  /** When `rangeLabels` is `true`, specifies the format of displayed labels. */
+  /**
+   * When `rangeLabels` is `true`, specifies the format of displayed labels.
+   *
+   * @public
+   */
   @property({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
 
-  /** When `true`, displays the values of `high`, `low`, `min`, and `max`. */
+  /**
+   * When `true`, displays the values of `high`, `low`, `min`, and `max`.
+   *
+   * @public
+   */
   @property({ reflect: true }) rangeLabels = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values. */
+  /**
+   * When `rangeLabelType` is `"units"` and either `valueLabel` or `rangeLabels` are `true`, displays beside the `value` and/or  `min` values.
+   *
+   * @public
+   */
   @property() unitLabel = "";
 
-  /** Specifies the component's value. */
+  /**
+   * Specifies the component's value.
+   *
+   * @public
+   */
   @property() value?: number;
 
-  /** When `true`, displays the `value`. */
+  /**
+   * When `true`, displays the `value`.
+   *
+   * @public
+   */
   @property({ reflect: true }) valueLabel = false;
 
-  /** When `valueLabel` is `true`, specifies the format of displayed label. */
+  /**
+   * When `valueLabel` is `true`, specifies the format of displayed label.
+   *
+   * @public
+   */
   @property({ reflect: true }) valueLabelType: MeterLabelType = "percent";
 
   // #endregion

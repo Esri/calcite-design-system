@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.45...@esri/calcite-components@6.0.0-next.46) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- removes the `ancestors` properties from Combobox Item
+  and Combobox Group's public API surface, as they were not intended to be
+  public.
+
+### Code Refactoring
+
+- migrate to API Extractor strict mode ([#15596](https://github.com/Esri/calcite-design-system/issues/15596)), closes [#15352](https://github.com/Esri/calcite-design-system/issues/15352) [#15636](https://github.com/Esri/calcite-design-system/issues/15636)
+
+## [6.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.44...@esri/calcite-components@6.0.0-next.45) (2026-11-21)
+
+### ⚠ BREAKING CHANGES
+
+- **dialog:** Removes deprecated `widthScale` property in `dialog`.
+
+- Replace it with `width` property.
+
+### Code Refactoring
+
+- **dialog:** remove deprecated widthScale property ([#15660](https://github.com/Esri/calcite-design-system/issues/15660)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
+## [6.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.43...@esri/calcite-components@6.0.0-next.44) (2026-11-21)
+
+### ⚠ BREAKING CHANGES
+
+- **input-number:** Remove the deprecated `maxLength` and `minLength`
+  properties in `input-number`.
+
+- These properties had no effect on the component and do not require
+  replacements.
+
+### Code Refactoring
+
+- **input-number:** remove deprecated length properties ([#15672](https://github.com/Esri/calcite-design-system/issues/15672)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.42...@esri/calcite-components@6.0.0-next.43) (2026-11-20)
 
 ### Bug Fixes
