@@ -37,22 +37,28 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the space between actions in the menu.
+     *
+     * @internal
      */
     "--calcite-action-menu-items-space": "*";
   }
 }
 
+/** @internal */
 interface ActionMenuSlots {
   /**
    * A slot for adding `calcite-action`s.
+   * @internal
    */
   "": Node[];
   /**
    * A slot for adding a `calcite-action` to trigger opening the menu.
+   * @internal
    */
   trigger: Node[];
   /**
    * A slot for adding a tooltip for the menu.
+   * @internal
    */
   tooltip: Node[];
 }
@@ -64,9 +70,11 @@ const MENU_OPEN_KEYS = [...HORIZONTAL_MENU_OPEN_KEYS, ...VERTICAL_MENU_OPEN_KEYS
 const HORIZONTAL_PLACEMENT_PREFIXES = ["left", "right", "leading", "trailing"];
 const VERTICAL_PLACEMENT_PREFIXES = ["top", "bottom"];
 
+/** @internal */
 export class ActionMenu extends LitElement {
   //#region Type-only metadata members
 
+  /** @internal */
   override ["@slots"]!: ActionMenuSlots;
 
   //#endregion
@@ -269,22 +277,38 @@ export class ActionMenu extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the appearance of the component. */
+  /**
+   * Specifies the appearance of the component.
+   *
+   * @internal
+   */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> = "solid";
 
-  /** When `true`, expands the component and its contents. */
+  /**
+   * When `true`, expands the component and its contents.
+   *
+   * @internal
+   */
   @property({ reflect: true }) expanded = false;
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
   /**
+   * @internal
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** When `true`, the component is open. */
+  /**
+   * When `true`, the component is open.
+   *
+   * @internal
+   */
   @property({ reflect: true })
   get open(): boolean {
     return this._open;
@@ -297,20 +321,31 @@ export class ActionMenu extends LitElement {
     }
   }
 
-  /** @copyDoc */
+  /**
+   * @internal
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  /**
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
+   * @internal
+   */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
+   * @internal
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the size of the component's trigger `calcite-action`. */
+  /**
+   * Specifies the size of the component's trigger `calcite-action`.
+   *
+   * @internal
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
@@ -329,8 +364,8 @@ export class ActionMenu extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @internal
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -355,16 +390,32 @@ export class ActionMenu extends LitElement {
 
   //#region Events
 
-  /** Fires when the component's content area is collapsed. */
+  /**
+   * Fires when the component's content area is collapsed.
+   *
+   * @internal
+   */
   calciteActionMenuCollapse = createEvent({ cancelable: false });
 
-  /** Fires when the component's content area is expanded. */
+  /**
+   * Fires when the component's content area is expanded.
+   *
+   * @internal
+   */
   calciteActionMenuExpand = createEvent({ cancelable: false });
 
-  /** Fires when the `open` property is toggled. */
+  /**
+   * Fires when the `open` property is toggled.
+   *
+   * @internal
+   */
   calciteActionMenuOpen = createEvent({ cancelable: false });
 
-  /** Fires after the component's slotted `calcite-action`s change. */
+  /**
+   * Fires after the component's slotted `calcite-action`s change.
+   *
+   * @internal
+   */
   calciteInternalActionMenuActionsChange = createEvent({ cancelable: false });
 
   //#endregion
