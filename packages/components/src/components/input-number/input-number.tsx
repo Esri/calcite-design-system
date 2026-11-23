@@ -1073,6 +1073,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     }
 
     const value = this.valueForEditing;
+    const inputValue = this.childNumberRef.value;
 
     if (value === "Infinity" || value === "-Infinity") {
       event.preventDefault();
@@ -1134,38 +1135,34 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && inputValue?.value.indexOf(numberStringFormatter.decimal) === -1) {
         return;
       }
       if (
         value &&
-        this.childNumberRef.value?.selectionStart == 0 &&
-        this.childNumberRef.value?.selectionEnd == this.childNumberRef.value?.value.length
+        inputValue?.selectionStart == 0 &&
+        inputValue?.selectionEnd == inputValue?.value.length
       ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (value && this.childNumberRef.value && !/[eE]/.test(this.childNumberRef.value.value)) {
+      if (value && inputValue && !/[eE]/.test(inputValue.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (
-        value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (value && inputValue && inputValue.value.split("-").length <= 2) {
         return;
       }
     }
