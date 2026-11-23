@@ -187,7 +187,7 @@
   :host(:active:not([disabled])) {
     .container {
       outline-offset: -1px;
-      outline: var(--calcite-border-width-sm, 1px) solid CanvasText;
+      outline: var(--calcite-border-width-sm) solid CanvasText;
     }
   }
 
