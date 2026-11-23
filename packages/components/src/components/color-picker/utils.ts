@@ -163,8 +163,10 @@ export const ObjectColorMode = enumify({
 /** @public */
 type ObjectColorMode = ValueOf<typeof ObjectColorMode>;
 
+/** @public */
 export type SupportedMode = CSSColorMode | ObjectColorMode;
 
+/** @public */
 export type Format = "auto" | SupportedMode;
 
 export function parseMode(colorValue: ColorValue | undefined): SupportedMode | undefined {

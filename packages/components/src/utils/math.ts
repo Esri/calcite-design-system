@@ -5,7 +5,7 @@ const decimalNumberRegex = new RegExp(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
 /**
  * Returns the quantity of real decimal places for a number, which excludes trailing zeros.
  *
- * Adapted from {@link https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number}.
+ * Adapted from https://stackoverflow.com/questions/10454518/javascript-how-to-retrieve-the-number-of-decimals-of-a-string-number.
  *
  * @param decimal - decimal value
  * @param value
