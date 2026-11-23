@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.46...@esri/calcite-components@6.0.0-next.47) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- **shell-panel:** Remove the deprecated `heightScale` and `widthScale`
+  properties in `shell-panel`.
+
+- Replace them with `height` and `width` properties.
+
+### Code Refactoring
+
+- **shell-panel:** remove deprecated size scale properties ([#15678](https://github.com/Esri/calcite-design-system/issues/15678)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.45...@esri/calcite-components@6.0.0-next.46) (2026-11-23)
 
 ### ⚠ BREAKING CHANGES
