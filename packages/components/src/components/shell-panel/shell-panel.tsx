@@ -261,7 +261,7 @@ export class ShellPanel extends LitElement {
    */
   @property({ reflect: true }) resizable = false;
 
-  @property({ attribute: false }) shellSizingDataProvider?: ShellSizingDataProvider;
+  @property() shellSizingDataProvider?: ShellSizingDataProvider;
 
   /**
    * @public
