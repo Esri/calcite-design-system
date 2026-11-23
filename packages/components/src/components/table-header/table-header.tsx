@@ -21,24 +21,33 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-table-header-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-header-border-color": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-table-header-heading-text-color": "*";
     /**
      * Specifies the component's `description` text color.
+     *
+     * @public
      */
     "--calcite-table-header-description-text-color": "*";
   }
 }
 
 /**
+ * @public
  * @docGroup Table
  * @parent calcite-table
  */
@@ -67,61 +76,65 @@ export class TableHeader extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component. */
+  /**
+   * Specifies the alignment of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Alignment = "start";
 
-  /** @private */
   @property() bodyRowCount!: number;
 
-  /** Specifies the number of columns the component should span. */
+  /**
+   * Specifies the number of columns the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) colSpan?: number;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) description?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) heading?: string;
 
-  /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @private */
   @property() lastCell = false;
 
-  /** @private */
   @property() messages!: Table["messages"]["_overrides"];
 
-  /** @private */
   @property() numberCell = false;
 
-  /** @private */
   @property() parentRowAlignment: Alignment = "start";
 
-  /** @private */
   @property() parentRowIsSelected = false;
 
-  /** @private */
   @property() parentRowType!: RowType;
 
-  /** @private */
   @property() positionInRow!: number;
 
-  /** Specifies the number of rows the component should span. */
+  /**
+   * Specifies the number of rows the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) rowSpan?: number;
 
-  /** @private */
   @property() scale!: Scale;
 
-  /** @private */
   @property() selectedRowCount!: number;
 
-  /** @private */
   @property() selectedRowCountLocalized!: string;
 
-  /** @private */
   @property() selectionCell = false;
 
-  /** @private */
   @property() selectionMode!: SelectionMode;
 
   //#endregion
@@ -131,8 +144,8 @@ export class TableHeader extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

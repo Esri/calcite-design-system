@@ -16,9 +16,11 @@ declare global {
   }
 }
 
+/** @public */
 type Layout = "horizontal" | "vertical";
 
 /**
+ * @public
  * @docGroup Menu
  */
 export class Menu extends LitElement {
@@ -38,8 +40,6 @@ export class Menu extends LitElement {
 
   /**
    * Made into a prop for testing purposes only.
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -50,18 +50,30 @@ export class Menu extends LitElement {
   //#region Public Properties
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Specifies the layout of the component. */
+  /**
+   * Specifies the layout of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: Layout = "horizontal";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   //#endregion
@@ -71,8 +83,8 @@ export class Menu extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()

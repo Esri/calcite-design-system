@@ -11,8 +11,10 @@ import { isValidNumber } from "./number";
 
 export type FractionalSecondDigits = 1 | 2 | 3;
 
+/** @public */
 export type EffectiveHourFormat = "12" | "24";
 
+/** @public */
 export type HourFormat = "user" | EffectiveHourFormat;
 
 export const hourFormats: EffectiveHourFormat[] = ["12", "24"];

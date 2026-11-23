@@ -46,39 +46,54 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-popover-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-popover-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-popover-corner-radius": "*";
     /**
      * Specifies the component's maximum width.
+     *
+     * @public
      */
     "--calcite-popover-max-size-x": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-popover-text-color": "*";
   }
 }
 
+/** @public */
 interface PopoverSlots {
   /**
    * A slot for adding custom content.
+   *
+   * @public
    */
   "": Node[];
 }
 
 const manager = referenceElementManager({ click: true });
 
+/** @public */
 export class Popover extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: PopoverSlots;
 
   //#endregion
@@ -128,8 +143,6 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -152,19 +165,37 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   //#region Public Properties
 
-  /** When `true`, clicking outside of the component automatically closes open `calcite-popover`s. */
+  /**
+   * When `true`, clicking outside of the component automatically closes open `calcite-popover`s.
+   *
+   * @public
+   */
   @property({ reflect: true }) autoClose = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** When `true`, prevents flipping the component's placement when overlapping its `referenceElement`. */
+  /**
+   * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) flipDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
-  /** When `true`, prevents focus trapping. */
+  /**
+   * When `true`, prevents focus trapping.
+   *
+   * @public
+   */
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
@@ -175,57 +206,94 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    * - `"returnFocusOnDeactivate"` returns focus when not active.
    * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
    * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   *
+   * @public
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() heading?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
+   *
+   * @public
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  /** Specifies the distance to position the component along the `referenceElement`. */
+  /**
+   * Specifies the distance to position the component along the `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  /**
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
 
-  /** When `true`, removes the caret pointer. */
+  /**
+   * When `true`, removes the caret pointer.
+   *
+   * @public
+   */
   @property({ reflect: true }) pointerDisabled = false;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @required
    */
   @property() referenceElement!: ReferenceElement | string;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -234,6 +302,8 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    * When `true`, disables automatically toggling the component when its `referenceElement` has been triggered.
    *
    * This property can be set to `true` to manage when the component is open.
+   *
+   * @public
    */
   @property({ reflect: true }) triggerDisabled = false;
 
@@ -244,6 +314,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   /**
    * Updates the position of the component.
    *
+   * @public
    * @param delayed
    */
   @method()
@@ -281,8 +352,8 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -293,6 +364,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   /**
    * Updates the element(s) that are included in the component's focus-trap.
    *
+   * @public
    * @param extraContainers - Additional elements to include in the focus trap. This is useful for including elements that may have related parts rendered outside the main focus trapping element.
    */
   @method()
@@ -307,16 +379,32 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calcitePopoverBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calcitePopoverBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calcitePopoverClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calcitePopoverOpen = createEvent({ cancelable: false });
 
   //#endregion
