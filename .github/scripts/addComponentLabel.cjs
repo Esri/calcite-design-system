@@ -1,5 +1,5 @@
 // @ts-check
-const { createLabelIfMissing } = require("./support/utils.cjs");
+const { createLabelIfMissing, getIssueFormResponse } = require("./support/utils.cjs");
 
 /** @param {import('github-script').AsyncFunctionArguments} AsyncFunctionArguments */
 module.exports = async ({ github, context, core }) => {
@@ -18,9 +18,7 @@ module.exports = async ({ github, context, core }) => {
 
   const OPTION_NA = "N/A";
   const OPTION_UNKNOWN = "Unknown / Not Sure";
-  const whichComponentRegex = /(### Which Component(?:\r|\n)+)(.+)$/m;
-  const whichComponentRegexMatch = body.match(whichComponentRegex);
-  const componentsString = (whichComponentRegexMatch?.[2] || "").trim();
+  const componentsString = getIssueFormResponse(body, "Which Component");
 
   if (componentsString === "") {
     core.notice(`No components listed on issue #${issue_number}`, logParams);
@@ -38,7 +36,10 @@ module.exports = async ({ github, context, core }) => {
           issue_number,
           owner,
           repo,
-          body: body.replace(whichComponentRegex, (_match, heading) => `${heading}${updatedComponents}`),
+          body: body.replace(
+            /(### Which Component(?:\r|\n)+)(.+)$/m,
+            (_match, heading) => `${heading}${updatedComponents}`,
+          ),
         });
       }
 

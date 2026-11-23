@@ -14,7 +14,7 @@ const { fontSize, fontWeight } = ATTRIBUTES;
 
 interface LinkStoryArgs extends Pick<
   Link,
-  "disabled" | "download" | "href" | "iconEnd" | "iconFlipRtl" | "iconStart" | "rel" | "target"
+  "disabled" | "download" | "href" | "iconEnd" | "iconFlipRtl" | "iconStart" | "label" | "rel" | "target"
 > {
   containingFontSize: string;
   containingFontWeight: string;
@@ -33,6 +33,7 @@ export default {
     iconEnd: "",
     iconFlipRtl: false,
     iconStart: "",
+    label: "",
     rel: "",
     target: "",
     text: "link text here",
@@ -68,6 +69,7 @@ export const simple = (args: LinkStoryArgs): string => html`
       ${optionalAttribute("icon-start", args.iconStart)}
       ${optionalAttribute("icon-end", args.iconEnd)}
       ${boolean("icon-flip-rtl", !!args.iconFlipRtl)}
+      ${optionalAttribute("label", args.label)}
       rel="${args.rel}"
       target="${args.target}"
       >${args.text}</calcite-link

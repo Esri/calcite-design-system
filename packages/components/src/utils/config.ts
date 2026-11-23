@@ -8,22 +8,29 @@ type CalciteGlobalThis = GlobalThis & {
   calciteConfig?: Partial<CalciteConfig>;
 };
 
+/** @public */
 export interface CalciteConfig {
   /**
    * Defines the global trap stack to use for focus-trapping components.
    *
    * This is useful if your application uses its own instance of `focus-trap` and both need to be aware of each other.
    *
+   * @public
    * @see [focus-trap createOptions](https://github.com/focus-trap/focus-trap#createoptions).
    */
   focusTrapStack: FocusTrap[];
 
-  /** Defines the global log level to use when logging messages. */
+  /**
+   * Defines the global log level to use when logging messages.
+   *
+   * @public
+   */
   logLevel: LogLevel;
 
   /**
    * Contains the version of the Calcite components.
    *
+   * @public
    * @readonly
    */
   version?: string;
