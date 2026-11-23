@@ -71,7 +71,7 @@ export class Icon extends LitElement {
   flipRtl = false;
 
   /**
-   * Specifies an icon to display.
+   * Specifies a kebab-case icon name to display.
    *
    * @public
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).

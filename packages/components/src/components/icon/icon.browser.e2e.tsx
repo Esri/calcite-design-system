@@ -1,11 +1,17 @@
 import { h } from "@arcgis/lumina";
 import { defaults, reflects, hidden, renders, accessible, themed } from "../../tests/common";
-import { describe, expect, it } from "vitest";
+import { describe, expect, expectTypeOf, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS } from "./resources";
 import type { Icon } from "./icon";
+import type { IconName } from "./types";
 import { scaleToPx } from "./utils";
+
+it("supports kebab-case icon names in its type and excludes camelCase names", () => {
+  expectTypeOf<"a-z">().toExtend<IconName>();
+  expectTypeOf<"aZ">().not.toExtend<IconName>();
+});
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-icon icon="a-z" text-label="sort options" />));
@@ -79,21 +85,14 @@ describe("rendering", () => {
   });
 
   it.for([
-    ["letter-only", "a-z", "aZ"],
-    ["numeric", "number-circle-1", "numberCircle1"],
-  ] as const)(
-    "supports %s icon names in both camelCase and kebab-case",
-    async ([, kebabCaseIcon, camelCaseIcon]) => {
-      const { el, reRender } = await mount<Icon>(<calcite-icon icon={kebabCaseIcon} />);
-      const path = page.getBySelector(`calcite-icon path`);
-      const iconPathData = path.element().getAttribute("d");
+    ["letter-only", "a-z"],
+    ["numeric", "number-circle-1"],
+  ] as const)("loads %s kebab-case icon names", async ([, iconName]) => {
+    await mount<Icon>(<calcite-icon icon={iconName} />);
+    const path = page.getBySelector(`calcite-icon path`);
 
-      el.icon = camelCaseIcon;
-      await reRender();
-
-      await expect.element(path).toHaveAttribute("d", iconPathData);
-    },
-  );
+    await expect.element(path).not.toHaveAttribute("d", "");
+  });
 
   describe("icon-loading when it's close to viewport", () => {
     it("default (no preload)", async () => {
