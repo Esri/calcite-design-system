@@ -56,7 +56,7 @@ describe("defaults", () => {
         defaultValue: "dock",
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
     ],
@@ -67,10 +67,6 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-shell-panel"),
     [
-      {
-        propertyName: "widthScale",
-        value: "m",
-      },
       {
         propertyName: "width",
         value: "m",

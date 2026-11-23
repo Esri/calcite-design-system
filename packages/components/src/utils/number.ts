@@ -113,7 +113,8 @@ export class BigDecimal {
  *
  * When `includeDirectionalMarks` is true, the sign is included in the value formatted by `Intl.NumberFormat` so any
  * directional marks emitted by the browser are preserved. Otherwise, the integer is formatted without a sign and the
- * localized minus sign is prepended manually.
+ * localized minus sign is prepended manually. Group parts use the formatter's normalized separator before decimal
+ * parts are added.
  *
  * @param formatter - number formatter instance to localize the integer value.
  * @param integers - absolute integer string to format.
@@ -131,6 +132,12 @@ function getLocalizedIntegerParts(
       ? -0
       : BigInt(`${includeDirectionalMarks && isNegative ? "-" : ""}${integers}`),
   );
+
+  for (const part of parts) {
+    if (part.type === "group") {
+      part.value = formatter.group;
+    }
+  }
 
   if (isNegative && !includeDirectionalMarks) {
     parts.unshift({ type: "minusSign", value: formatter.minusSign });
