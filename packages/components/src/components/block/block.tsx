@@ -170,11 +170,19 @@ interface BlockSlots {
    */
   "content-start": Node[];
   /**
+   * A slot for adding a description element.
+   */
+  description: Node[];
+  /**
    * A slot for adding an overflow menu with `calcite-action`s inside a dropdown menu.
    *
    * @public
    */
   "header-menu-actions": Node[];
+  /**
+   * A slot for adding a heading element.
+   */
+  heading: Node[];
   /**
    * A slot for adding `calcite-block` & `calcite-block-group` elements.
    *
@@ -215,6 +223,10 @@ export class Block extends LitElement {
   messages = useT9n<typeof T9nStrings>();
 
   private focusSetter = useFocusable<this>()(this).setFocus;
+
+  private hasSlottedDescription = false;
+
+  private hasSlottedHeading = false;
 
   private interactiveContainer = useInteractive(this);
 
@@ -648,6 +660,14 @@ export class Block extends LitElement {
     this.parentBlockGroupElement = this.el.parentElement?.closest("calcite-block-group");
   }
 
+  private handleDescriptionSlotChange(event: Event): void {
+    this.hasSlottedDescription = slotChangeHasAssignedElement(event);
+  }
+
+  private handleHeadingSlotChange(event: Event): void {
+    this.hasSlottedHeading = slotChangeHasAssignedElement(event);
+  }
+
   //#endregion
 
   //#region Rendering
@@ -705,14 +725,20 @@ export class Block extends LitElement {
 
   private renderTitle(): JsxNode {
     const { heading, headingLevel, description } = this;
-    return heading || description ? (
-      <div class={CSS.title}>
-        <Heading class={CSS.heading} level={headingLevel}>
-          {heading}
+    const hasHeading = this.hasSlottedHeading || heading;
+    const hasDescription = this.hasSlottedDescription || description;
+    return (
+      <div class={CSS.title} hidden={!(hasHeading || hasDescription)}>
+        <Heading class={CSS.heading} hidden={!hasHeading} level={headingLevel}>
+          {heading ?? <slot name={SLOTS.heading} onSlotChange={this.handleHeadingSlotChange} />}
         </Heading>
-        {description ? <div class={CSS.description}>{description}</div> : null}
+        <div class={CSS.description} hidden={!hasDescription}>
+          {description ?? (
+            <slot name={SLOTS.description} onSlotChange={this.handleDescriptionSlotChange} />
+          )}
+        </div>
       </div>
-    ) : null;
+    );
   }
 
   private renderIcon(position: Extract<"start" | "end", Position>): JsxNode {

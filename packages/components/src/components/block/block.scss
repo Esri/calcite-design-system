@@ -135,6 +135,7 @@
 .header,
 .toggle {
   grid-area: header;
+  min-inline-size: 0;
 }
 
 .header-container {
@@ -175,7 +176,7 @@
   font-family: inherit;
   text-align: initial;
   background-color: var(--calcite-block-header-background-color, transparent);
-
+  font-size: inherit;
   &:hover {
     background-color: var(
       --calcite-block-header-background-color-hover,
@@ -207,6 +208,7 @@ calcite-sort-handle {
 .title {
   display: flex;
   flex-direction: column;
+  min-inline-size: 0;
 }
 
 .header .title .heading {

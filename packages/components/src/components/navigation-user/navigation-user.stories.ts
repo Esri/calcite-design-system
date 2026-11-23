@@ -64,3 +64,44 @@ export const slottedInNav = (): string => html`
     />
   </calcite-navigation>
 `;
+
+export const slottedUsernameAndFullName = (): string => html`
+  <style>
+    div.container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 400px;
+    }
+  </style>
+  <div class="container">
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo" heading="ArcGIS Online "> </calcite-navigation-logo>
+      <calcite-navigation-user slot="user">
+        <calcite-text slot="full-name">Catherine Zeta-Jones</calcite-text>
+        <calcite-text slot="username">catherine_zetajones</calcite-text>
+      </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo" heading="ArcGIS Online "> </calcite-navigation-logo>
+      <calcite-navigation-user slot="user">
+        <calcite-text slot="full-name" truncate-position="end">Catherine Zeta-Jones</calcite-text>
+        <calcite-text slot="username" truncate-position="end">catherine_zetajones</calcite-text>
+      </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo" heading="ArcGIS Online "> </calcite-navigation-logo>
+      <calcite-navigation-user slot="user">
+        <calcite-text slot="full-name" truncate-position="middle">Catherine Zeta-Jones</calcite-text>
+        <calcite-text slot="username" truncate-position="middle">catherine_zetajones</calcite-text>
+      </calcite-navigation-user>
+    </calcite-navigation>
+    <calcite-navigation>
+      <calcite-navigation-logo icon="education" slot="logo" heading="ArcGIS Online "> </calcite-navigation-logo>
+      <calcite-navigation-user slot="user">
+        <calcite-text slot="full-name" max-lines="1">Catherine Zeta-Jones</calcite-text>
+        <calcite-text slot="username" max-lines="1">catherine_zetajones</calcite-text>
+      </calcite-navigation-user>
+    </calcite-navigation>
+  </div>
+`;
