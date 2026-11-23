@@ -85,9 +85,7 @@ describe("accessible", () => {
     accessible(() =>
       mount(
         <>
-          <calcite-tooltip label="hello world" referenceElement="ref">
-            Hello World!
-          </calcite-tooltip>
+          <calcite-tooltip referenceElement="ref">Hello World!</calcite-tooltip>
           <div id="ref">Tooltip Reference</div>
         </>,
       ),
@@ -98,7 +96,7 @@ describe("accessible", () => {
     accessible(() =>
       mount(
         <>
-          <calcite-tooltip label="hello world" open referenceElement="ref">
+          <calcite-tooltip open referenceElement="ref">
             Hello World!
           </calcite-tooltip>
           <div id="ref">Tooltip Reference</div>

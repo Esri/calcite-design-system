@@ -137,13 +137,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * @public
-   * @copyDoc
-   * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
-   */
-  @property() label?: string;
-
-  /**
    * Specifies the distance to position the component away from the `referenceElement`.
    *
    * @public
@@ -356,7 +349,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   //#region Rendering
 
   override render(): JsxNode {
-    const { referenceEl, label, open, pointerDisabled, floatingLayout } = this;
+    const { referenceEl, open, pointerDisabled, floatingLayout } = this;
     const displayed = referenceEl && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
@@ -364,8 +357,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     ) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 
