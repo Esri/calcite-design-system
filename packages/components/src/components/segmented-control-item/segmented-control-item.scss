@@ -51,21 +51,21 @@
   @include shared.text-n2h();
 
   padding-inline: var(--calcite-space-sm);
-  padding-block: 0.125rem;
+  padding-block: calc(0.125rem + var(--calcite-space-px));
 }
 
 .label--scale-m {
   @include shared.text-n1h();
 
   padding-inline: var(--calcite-space-md);
-  padding-block: 0.375rem;
+  padding-block: calc(0.375rem + var(--calcite-space-px));
 }
 
 .label--scale-l {
   @include shared.text-0h();
 
   padding-inline: var(--calcite-space-lg);
-  padding-block: var(--calcite-space-sm-plus);
+  padding-block: calc(var(--calcite-space-sm-plus) + var(--calcite-space-px));
 }
 
 :host(:hover) .label {

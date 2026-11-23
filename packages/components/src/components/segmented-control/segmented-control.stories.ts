@@ -99,6 +99,30 @@ export const simple = (args: SegmentedControlStoryArgs): string => html`
   </calcite-segmented-control>
 `;
 
+export const allScales = (): string => html`
+  <style>
+    .all-scales-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+  </style>
+  <div class="all-scales-container">
+    <calcite-segmented-control scale="s">
+      <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+      <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+    </calcite-segmented-control>
+    <calcite-segmented-control scale="m">
+      <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+      <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+    </calcite-segmented-control>
+    <calcite-segmented-control scale="l">
+      <calcite-segmented-control-item value="react" checked>React</calcite-segmented-control-item>
+      <calcite-segmented-control-item value="ember">Ember</calcite-segmented-control-item>
+    </calcite-segmented-control>
+  </div>
+`;
+
 export const fullWidthWithIcons = (): string => html`
   <div style="width:33vw;">
     <calcite-label scale="m">
