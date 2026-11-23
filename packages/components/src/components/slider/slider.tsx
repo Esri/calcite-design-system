@@ -815,11 +815,11 @@ export class Slider extends LitElement implements LabelableComponent {
     }
 
     const dragging = this.dragProp;
+    this.calciteSliderInput.emit();
+
     if (!dragging) {
       this.emitChange();
     }
-
-    this.calciteSliderInput.emit();
   }
 
   /**
