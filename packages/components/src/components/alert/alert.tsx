@@ -80,8 +80,12 @@ interface AlertSlots {
 const manager = new AlertManager();
 
 /**
- * Alerts are meant to provide a way to communicate urgent or important information to users, frequently as a result of an action they took in your app. Alerts are positioned
- * at the bottom of the page. Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
+ * @privateRemarks
+ *
+ * Alerts are meant to provide a way to communicate urgent or important information to users,
+ * frequently as a result of an action they took in your app. Alerts are positioned at the bottom of the page.
+ *
+ * Multiple opened alerts will be added to a queue, allowing users to dismiss them in the order they are provided.
  */
 export class Alert extends LitElement {
   //#region Type-only metadata members
@@ -121,7 +125,7 @@ export class Alert extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private topLayer = useTopLayer<this>({
     disabledOverride: () => this.embedded,

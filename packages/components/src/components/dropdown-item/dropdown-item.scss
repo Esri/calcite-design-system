@@ -108,8 +108,7 @@
 }
 
 //focus
-:host(:focus),
-:host([active-descendant]) {
+:host(:focus) {
   .container {
     @include shared.focus-inset();
 

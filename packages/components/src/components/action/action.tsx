@@ -40,39 +40,9 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-action-background-color-press": "*";
     /**
-     * Specifies the component's background color when active.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead.
-     */
-    "--calcite-action-background-color-pressed": "*";
-    /**
      * Specifies the component's background color.
      */
     "--calcite-action-background-color": "*";
-    /**
-     * Specifies the component's corner radius end end.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-end-end": "*";
-    /**
-     * Specifies the component's corner radius end start.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-end-start": "*";
-    /**
-     * Specifies the component's corner radius start end.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-start-end": "*";
-    /**
-     * Specifies the component's corner radius start start.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-start-start": "*";
     /**
      * Specifies the component's corner radius.
      */
@@ -85,12 +55,6 @@ declare module "@arcgis/lumina" {
      * Specifies the component's text color when pressed or hovered.
      */
     "--calcite-action-text-color-press": "*";
-    /**
-     * Specifies the component's text color when hovered.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead.
-     */
-    "--calcite-action-text-color-pressed": "*";
     /**
      * Specifies the component's text color.
      */
@@ -144,7 +108,7 @@ export class Action extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private indicatorRef = createRef<HTMLDivElement>();
 
@@ -166,6 +130,7 @@ export class Action extends LitElement {
       | "describedByElements"
       | "expanded"
       | "hasPopup"
+      | "label"
       | "labelledByElements"
       | "ownsElements"
       | "pressed"
@@ -177,12 +142,6 @@ export class Action extends LitElement {
   /** When `true`, the component is highlighted. */
   @property({ reflect: true }) active = false;
 
-  /**
-   * When `true`, the component appears as if it is focused.
-   * @private
-   */
-  @property({ reflect: true }) activeDescendant = false;
-
   /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment?: Alignment;
 
@@ -191,13 +150,6 @@ export class Action extends LitElement {
    */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
-
-  /**
-   * When `true`, the side padding of the component is reduced.
-   *
-   * @deprecated in v2.11.0, removal target v5.0.0 - No longer necessary.
-   */
-  @property({ reflect: true }) compact = false;
 
   /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
@@ -409,14 +361,12 @@ export class Action extends LitElement {
   }
 
   private renderButton(): JsxNode {
-    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
-      this;
+    const { disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } = this;
     const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact,
     };
 
     const buttonContent = (
@@ -444,6 +394,7 @@ export class Action extends LitElement {
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
+          ariaLabel={this.aria?.label}
           ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
@@ -451,7 +402,7 @@ export class Action extends LitElement {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? undefined : 0}
+          tabIndex={disabled ? undefined : 0}
         >
           {buttonContent}
         </span>
@@ -466,6 +417,7 @@ export class Action extends LitElement {
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
+        ariaLabel={this.aria?.label}
         ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}

@@ -1,7 +1,18 @@
 {
+  "all": "όλα",
   "clear": "Απαλοιφή",
   "hiddenSelected": "Σειρές που επιλέχθηκαν αλλά έχουν αποκρυφθεί",
+  "keyboardDeselect": "Πατήστε Enter ή Space για να αποεπιλέξετε τη σειρά",
+  "keyboardDeselectAll": "Πατήστε Enter ή Space για να αποεπιλέξετε όλες τις σειρές",
+  "keyboardSelect": "Πατήστε Enter ή Space για να επιλέξετε τη σειρά",
+  "keyboardSelectAll": "Πατήστε Enter ή Space για να επιλέξετε όλες τις σειρές",
   "page": "Σελίδα",
   "row": "Σειρά",
-  "selected": "Επιλεγμένα"
+  "rowNumber": "Αριθμός σειράς",
+  "selected": "Επιλεγμένα",
+  "selectedRows": "επιλεγμένες σειρές",
+  "selectionColumn": "Στήλη επιλογής",
+  "selectionRow": "σειρά",
+  "selectionSelected": "επιλέχθηκε",
+  "unselected": "αποεπιλέχθηκε"
 }

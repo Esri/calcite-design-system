@@ -90,8 +90,6 @@ interface ListSlots {
 const parentSelector = `${listItemGroupSelector}, ${listItemSelector}`;
 
 /**
- * A general purpose list that enables users to construct list items that conform to Calcite styling.
- *
  * @docGroup List
  */
 export class List extends LitElement {
@@ -153,7 +151,7 @@ export class List extends LitElement {
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   get hasActiveFilter(): boolean {
     return !!(
