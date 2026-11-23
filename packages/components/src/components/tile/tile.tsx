@@ -130,14 +130,6 @@ export class Tile extends LitElement implements SelectableComponent {
   //#region Public Properties
 
   /**
-   * When `true`, the component is active.
-   *
-   * @public
-   * @deprecated in v2.8.0, removal target v6.0.0 - No longer necessary.
-   */
-  @property({ reflect: true }) active = false;
-
-  /**
    * Specifies alignment of the component's content.
    *
    * @public
@@ -158,16 +150,6 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ reflect: true }) disabled = false;
 
   /**
-   * Specifies the component's embed mode.
-   *
-   * When `true`, renders without a border and padding for use by other components.
-   *
-   * @public
-   * @deprecated in v2.6.0, removal target v6.0.0 - No longer necessary.
-   */
-  @property({ reflect: true }) embed = false;
-
-  /**
    * @public
    * @copyDoc
    */
@@ -180,7 +162,7 @@ export class Tile extends LitElement implements SelectableComponent {
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
   /**
-   * When embed is `false`, specifies the URL for the component.
+   * Specifies the URL for the component.
    *
    * @public
    */
