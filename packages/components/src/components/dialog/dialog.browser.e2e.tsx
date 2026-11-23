@@ -539,46 +539,47 @@ describe("themed", () => {
     );
   };
 
-describe("theme sizing", () => {
-  themed(
-    () =>
-      mount(
-        <calcite-dialog fullscreen-disabled icon="banana" modal open width="s">
-          <p>Hello world!</p>
-        </calcite-dialog>,
-      ),
-    {
-      "--calcite-dialog-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-dialog-min-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "minInlineSize",
-      },
-      "--calcite-dialog-max-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "maxInlineSize",
-      },
-      "--calcite-dialog-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "blockSize",
-      },
-      "--calcite-dialog-min-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "minBlockSize",
-      },
-      "--calcite-dialog-max-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "maxBlockSize",
-      },
-      "--calcite-dialog-offset-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "insetInlineStart",
-      },
-      "--calcite-dialog-offset-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "insetBlockStart",
+  describe("theme sizing", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-dialog fullscreen-disabled icon="banana" modal open width="s">
+            <p>Hello world!</p>
+          </calcite-dialog>,
+        ),
+      {
+        "--calcite-dialog-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-dialog-min-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "minInlineSize",
+        },
+        "--calcite-dialog-max-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-dialog-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-dialog-min-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "minBlockSize",
+        },
+        "--calcite-dialog-max-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "maxBlockSize",
+        },
+        "--calcite-dialog-offset-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "insetInlineStart",
+        },
+        "--calcite-dialog-offset-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "insetBlockStart",
+        },
       },
     );
   });
