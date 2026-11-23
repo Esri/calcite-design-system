@@ -530,6 +530,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ reflect: true }) min?: number;
 
   /**
+   * @public
    * @copyDoc
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
