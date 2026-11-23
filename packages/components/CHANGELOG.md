@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.47...@esri/calcite-components@6.0.0-next.48) (2026-11-23)
+
+### Bug Fixes
+
+- **slider:** ensure `calciteSliderInput` is emitted before `calciteSliderChange` ([#15691](https://github.com/Esri/calcite-design-system/issues/15691)), closes [#15456](https://github.com/Esri/calcite-design-system/issues/15456)
+
 ## [6.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.46...@esri/calcite-components@6.0.0-next.47) (2026-11-23)
 
 ### ⚠ BREAKING CHANGES
