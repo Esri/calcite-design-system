@@ -33,32 +33,43 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the space between slotted components in the component.
+     *
+     * @public
      */
     "--calcite-radio-button-group-gap": "*";
     /**
      * Specifies the margin spacing at the top of the `calcite-input-message`.
+     *
+     * @public
      */
     "--calcite-radio-button-input-message-spacing": "*";
   }
 }
 
+/** @public */
 interface RadioButtonGroupSlots {
   /**
    * A slot for adding `calcite-radio-button`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Radio Button
  */
 export class RadioButtonGroup extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: RadioButtonGroupSlots;
 
   //#endregion
@@ -73,8 +84,6 @@ export class RadioButtonGroup extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -96,7 +105,11 @@ export class RadioButtonGroup extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get disabled(): boolean {
     return this._disabled;
@@ -106,18 +119,28 @@ export class RadioButtonGroup extends LitElement {
     this.disabledWasSet = true;
   }
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** Specifies the layout of the component. */
+  /**
+   * Specifies the layout of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @required
    */
   @property({ reflect: true }) name!: string;
@@ -125,26 +148,45 @@ export class RadioButtonGroup extends LitElement {
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * Specifies the component's selected item.
    *
+   * @public
    * @readonly
    */
   @property() selectedItem: RadioButton["el"] | null = null;
 
-  /** Specifies the status of the validation message. */
+  /**
+   * Specifies the status of the validation message.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   //#endregion
@@ -154,8 +196,8 @@ export class RadioButtonGroup extends LitElement {
   /**
    * Sets focus on the fist focusable `calcite-radio-button` element in the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -171,7 +213,11 @@ export class RadioButtonGroup extends LitElement {
 
   //#region Events
 
-  /** Fires when the component has changed. */
+  /**
+   * Fires when the component has changed.
+   *
+   * @public
+   */
   calciteRadioButtonGroupChange = createEvent({ cancelable: false });
 
   //#endregion

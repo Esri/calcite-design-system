@@ -1,6 +1,7 @@
 import { LuminaJsx, LitElement } from "@arcgis/lumina";
 import { getConfig } from "./config";
 
+/** @public */
 export type LogLevel = "debug" | "info" | "warn" | "error" | "trace" | "off";
 
 type Message = string;
