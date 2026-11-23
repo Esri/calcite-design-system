@@ -442,8 +442,6 @@ export class List extends LitElement {
 
   /**
    * Emits the `calciteListOrderChange` event.
-   *
-   * @param detail
    */
   @method()
   emitOrderChangeEvent(detail: ListDragDetail): void {

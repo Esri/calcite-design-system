@@ -350,8 +350,6 @@ export const FloatingCSS = {
 
 /**
  * Exported for testing purposes only
- *
- * @param options
  */
 export function getMiddleware({
   placement,

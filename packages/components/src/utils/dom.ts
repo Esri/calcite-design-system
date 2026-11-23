@@ -327,7 +327,6 @@ function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HT
  *
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
- * @param options - When specified, customizes the element's focusing process.
  */
 function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstFocusable(element, includeContainer)?.focus(options);
@@ -715,9 +714,6 @@ export function getStylePixelValue(value: string): number {
 
 /**
  * Exported for testing purposes only.
- *
- * @param value
- * @param viewportSize
  */
 export function viewportUnitToPixel(value: number, viewportSize: number): number {
   // intentionally dividing last to avoid rounding errors

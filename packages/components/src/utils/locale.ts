@@ -255,9 +255,6 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * Returns an instance of Intl.DateTimeFormat and reuses it if requested with the same locale and options.
  *
  * **Note**: the cache will be cleared if a different locale is provided
- *
- * @param locale
- * @param options
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   if (!dateTimeFormatCache) {
