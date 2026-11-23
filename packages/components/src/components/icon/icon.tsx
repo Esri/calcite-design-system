@@ -22,15 +22,19 @@ declare module "@arcgis/lumina" {
      * Specifies the component's color. Defaults to current color.
      *
      * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
+     * @public
      */
     "--calcite-ui-icon-color": "*";
     /**
      * Specifies the component's color. Defaults to current color.
+     *
+     * @public
      */
     "--calcite-icon-color": "*";
   }
 }
 
+/** @public */
 export class Icon extends LitElement {
   // #region Static Members
 
@@ -56,7 +60,11 @@ export class Icon extends LitElement {
 
   // #region Public Properties
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`.
+   *
+   * @public
+   */
   @property({
     reflect: true,
   })
@@ -65,14 +73,23 @@ export class Icon extends LitElement {
   /**
    * Specifies an icon to display.
    *
+   * @public
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, preloads the `icon` data. */
+  /**
+   * When `true`, preloads the `icon` data.
+   *
+   * @public
+   */
   @property({ reflect: true }) preload = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({
     reflect: true,
   })
@@ -82,6 +99,8 @@ export class Icon extends LitElement {
    * Specifies the component's accessible name.
    *
    * It is recommended to set this value if your icon is semantic.
+   *
+   * @public
    */
   @property() textLabel?: string;
 
