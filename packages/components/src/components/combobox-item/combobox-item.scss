@@ -13,27 +13,27 @@
 .scale--s {
   @include shared.text-n2h();
 
-  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing.1");
-  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.2");
-  --calcite-combobox-item-selector-icon-size: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-unit-s: var(--calcite-space-2xs);
+  --calcite-internal-combobox-item-spacing-unit-l: var(--calcite-space-sm);
+  --calcite-combobox-item-selector-icon-size: var(--calcite-size-xs);
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-xs);
 }
 
 .scale--m {
   @include shared.text-n1h();
 
-  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[1.5]");
-  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.3");
-  --calcite-combobox-item-selector-icon-size: theme("spacing.4");
+  --calcite-internal-combobox-item-spacing-unit-s: var(--calcite-space-xs);
+  --calcite-internal-combobox-item-spacing-unit-l: var(--calcite-space-md);
+  --calcite-combobox-item-selector-icon-size: var(--calcite-size-xs);
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size-sm);
 }
 
 .scale--l {
   @include shared.text-0h();
 
-  --calcite-internal-combobox-item-spacing-unit-s: theme("spacing[2.5]");
-  --calcite-internal-combobox-item-spacing-unit-l: theme("spacing.4");
-  --calcite-combobox-item-selector-icon-size: theme("spacing.6");
+  --calcite-internal-combobox-item-spacing-unit-s: var(--calcite-space-sm-plus);
+  --calcite-internal-combobox-item-spacing-unit-l: var(--calcite-space-lg);
+  --calcite-combobox-item-selector-icon-size: var(--calcite-size-sm);
   --calcite-internal-combobox-item-description-font-size: var(--calcite-font-size);
 }
 

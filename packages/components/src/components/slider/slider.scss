@@ -1,7 +1,7 @@
 @use "../../styles/shared";
 
 .scale--s {
-  --calcite-slider-handle-size: theme("spacing[2.5]");
+  --calcite-slider-handle-size: var(--calcite-size-4xs);
   --calcite-slider-handle-extension-height: 0.4rem;
   --calcite-slider-container-font-size: var(--calcite-font-size--3);
   .handle__label,
@@ -11,7 +11,7 @@
 }
 
 .scale--m {
-  --calcite-slider-handle-size: theme("spacing[3.5]");
+  --calcite-slider-handle-size: var(--calcite-size-2xs);
   --calcite-slider-handle-extension-height: 0.5rem;
   --calcite-slider-container-font-size: var(--calcite-font-size--2);
   .handle__label,
@@ -314,7 +314,12 @@
   );
   inset-block-start: -2px;
   pointer-events: none;
-  margin-inline-start: calc(-1 * theme("margin[0.5]"));
+  margin-inline-start: calc(var(--calcite-space-2xs) * -0.5);
+}
+
+.tick--end-aligned {
+  margin-inline-start: var(--calcite-space-none);
+  margin-inline-end: calc(var(--calcite-space-2xs) * -0.5);
 }
 
 .tick--active {
@@ -326,10 +331,41 @@
   margin-block-start: var(--calcite-space-md-plus);
   display: flex;
   justify-content: center;
+  visibility: hidden;
+}
+
+.tick__label--visible {
+  visibility: visible;
+}
+
+.tick__label--covered {
+  opacity: 0;
 }
 
 .tick__label--min {
   transition: opacity var(--calcite-animation-timing);
+}
+
+.tick__label--min,
+.tick__label--max {
+  position: absolute;
+  inset-block-start: calc(var(--calcite-space-px) * -1);
+  inline-size: max-content;
+}
+
+// Nudge endpoint text outward to reduce the visible gap at the track edges.
+// 1ch is the width of "0" in the label's font; 0.25ch is a small visual adjustment
+// that scales with font size while keeping labels anchored to their track edges.
+.tick__label--left {
+  transform: translateX(-0.25ch);
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  left: 0;
+}
+
+.tick__label--right {
+  transform: translateX(0.25ch);
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  right: 0;
 }
 
 .tick__label--max {
@@ -354,7 +390,7 @@
 :host([label-ticks][ticks]) {
   .container {
     // match tick__label top margin + font-size
-    padding-block-end: calc(theme("margin[3.5]") + var(--calcite-slider-container-font-size));
+    padding-block-end: calc(var(--calcite-space-md-plus) + var(--calcite-slider-container-font-size));
   }
 }
 :host([has-histogram]) {

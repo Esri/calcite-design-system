@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page, userEvent } from "vitest/browser";
 
 import {
   defaults,
@@ -174,6 +175,43 @@ describe("top layer placement", () => {
     },
   );
 });
+
+it.each(["click", "Enter"])(
+  "honors defaultPrevented on %s from slotted content",
+  async (interaction) => {
+    const eventSpy = vi.fn();
+    const { el, component } = await mount<ListItem>(
+      <calcite-list-item
+        description="world"
+        label="hello"
+        oncalciteListItemSelect={eventSpy}
+        selection-mode="single"
+      >
+        <div
+          data-testid="content"
+          onClick={(event) => event.preventDefault()}
+          onKeyDown={(event) => event.preventDefault()}
+          slot="content"
+          tabIndex={0}
+        >
+          Hi
+        </div>
+      </calcite-list-item>,
+    );
+    const content = page.getByTestId("content");
+
+    await userEvent.click(content);
+    await expect.element(content).toHaveFocus();
+
+    if (interaction === "Enter") {
+      await userEvent.keyboard("{Enter}");
+    }
+    await component.updateComplete;
+
+    expect(eventSpy).not.toHaveBeenCalled();
+    await expect.element(el).toHaveProperty("selected", false);
+  },
+);
 
 it("emits calciteInternalListItemChange only when metadata values change", async () => {
   const { el, component } = await mount<ListItem>(<calcite-list-item />);

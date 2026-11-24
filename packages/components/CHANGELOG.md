@@ -3,6 +3,59 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.50...@esri/calcite-components@6.0.0-next.51) (2026-11-24)
+
+### Bug Fixes
+
+- **dropdown:** remove visual noise in forced-colors mode ([#15671](https://github.com/Esri/calcite-design-system/issues/15671)), closes [#15334](https://github.com/Esri/calcite-design-system/issues/15334)
+
+## [6.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.49...@esri/calcite-components@6.0.0-next.50) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **slider:** Slider endpoint tick labels now align with the
+  component edges instead of being centered. Overlapping tick labels are
+  now hidden. To migrate, update layouts that depend on centered endpoint
+  labels or require all tick labels to remain visible. Increase the slider
+  width to accommodate more labels, or use `labelFormatter` to shorten or
+  omit labels.
+
+### Features
+
+- **slider:** align tick labels component bounds ([#15635](https://github.com/Esri/calcite-design-system/issues/15635)), closes [#12129](https://github.com/Esri/calcite-design-system/issues/12129)
+
+## [6.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.48...@esri/calcite-components@6.0.0-next.49) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **components:** CamelCase icon names will no longer work. CamelCase
+  icon names were never publicly documented, and this behavior has been
+  removed to align with the documentation. To migrate, replace camelCase
+  icon names with their kebab-case equivalents.
+
+### Code Refactoring
+
+- **components:** remove camelCase icon names ([#15694](https://github.com/Esri/calcite-design-system/issues/15694)), closes [#14967](https://github.com/Esri/calcite-design-system/issues/14967)
+
+## [6.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.47...@esri/calcite-components@6.0.0-next.48) (2026-11-23)
+
+### Bug Fixes
+
+- **slider:** ensure `calciteSliderInput` is emitted before `calciteSliderChange` ([#15691](https://github.com/Esri/calcite-design-system/issues/15691)), closes [#15456](https://github.com/Esri/calcite-design-system/issues/15456)
+
+## [6.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.46...@esri/calcite-components@6.0.0-next.47) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- **shell-panel:** Remove the deprecated `heightScale` and `widthScale`
+  properties in `shell-panel`.
+
+- Replace them with `height` and `width` properties.
+
+### Code Refactoring
+
+- **shell-panel:** remove deprecated size scale properties ([#15678](https://github.com/Esri/calcite-design-system/issues/15678)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.45...@esri/calcite-components@6.0.0-next.46) (2026-11-23)
 
 ### ⚠ BREAKING CHANGES
