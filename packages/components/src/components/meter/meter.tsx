@@ -240,9 +240,8 @@ export class Meter extends LitElement {
   @property() unitLabel = "";
 
   /**
-   * Specifies the component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value?: number;
 

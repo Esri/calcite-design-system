@@ -102,9 +102,8 @@ export class SegmentedControlItem extends LitElement {
   @property() scale: Scale = "m";
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value: any | null;
 

@@ -409,9 +409,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) unavailable = false;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value: any;
 

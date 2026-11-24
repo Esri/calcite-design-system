@@ -188,9 +188,8 @@ export class Checkbox extends LitElement implements LabelableComponent {
   @property({ readOnly: true }) validity!: ValidityState;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value: any;
 
