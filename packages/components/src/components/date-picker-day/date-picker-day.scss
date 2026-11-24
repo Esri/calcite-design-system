@@ -43,7 +43,7 @@
 
 .text {
   margin-block: var(--calcite-space-px) var(--calcite-space-none);
-  margin-inline-start: theme("spacing.0");
+  margin-inline-start: var(--calcite-space-none);
 }
 
 :host([scale="s"]) {
