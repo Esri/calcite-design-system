@@ -338,9 +338,13 @@ describe("interactions", () => {
 
         await commands.mouseMove(trackX + pixelsPerValue * 50, trackY);
         await commands.mouseDown();
-        await commands.mouseUp();
 
         await expect.element(el).toHaveValue(50);
+        expect(inputEvent).toHaveBeenCalledTimes(1);
+        expect(changeEvent).not.toHaveBeenCalled();
+
+        await commands.mouseUp();
+
         expect(inputEvent).toHaveBeenCalledTimes(1);
         expect(changeEvent).toHaveBeenCalledTimes(1);
       });
@@ -368,9 +372,13 @@ describe("interactions", () => {
         await commands.mouseMove(trackX + pixelsPerValue * 3, trackY);
         await commands.mouseMove(trackX + pixelsPerValue * 4, trackY);
         await commands.mouseMove(trackX + pixelsPerValue * 5, trackY);
-        await commands.mouseUp();
 
         await expect.element(el).toHaveValue(5);
+        expect(inputEvent).toHaveBeenCalledTimes(5);
+        expect(changeEvent).not.toHaveBeenCalled();
+
+        await commands.mouseUp();
+
         expect(inputEvent).toHaveBeenCalledTimes(5);
         expect(changeEvent).toHaveBeenCalledTimes(1);
       });
@@ -560,26 +568,106 @@ describe("interactions", () => {
   });
 
   describe("keyboard interaction", () => {
-    it("range: arrow keys increment and decrement min and max values by step", async () => {
-      const inputHandler = vi.fn(() => assertSliderValues(el));
-      const changeHandler = vi.fn(() => assertSliderValues(el));
+    it.each([
+      { key: "ArrowRight", value: 24 },
+      { key: "ArrowLeft", value: 22 },
+      { key: "ArrowUp", value: 24 },
+      { key: "ArrowDown", value: 22 },
+      { key: "Home", value: 0 },
+      { key: "End", value: 100 },
+      { key: "PageUp", value: 33 },
+      { key: "PageDown", value: 13 },
+    ])("emits input before change with the updated value on $key", async ({ key, value }) => {
+      const events: [string, Slider["value"]][] = [];
+      const eventSpy = vi.fn((event: Event) => events.push([event.type, el.value]));
       const { el } = await mount<Slider>(
         <calcite-slider
-          max-value="75"
-          min-value="50"
-          oncalciteSliderChange={changeHandler}
-          oncalciteSliderInput={inputHandler}
+          oncalciteSliderChange={eventSpy}
+          oncalciteSliderInput={eventSpy}
+          pageStep={10}
+          ticks={10}
+          value={23}
+        />,
+      );
+
+      expect(eventSpy).not.toHaveBeenCalled();
+
+      await userEvent.tab();
+      await userEvent.keyboard(`{${key}}`);
+
+      await expect.element(el).toHaveProperty("value", value);
+      expect(events).toEqual([
+        ["calciteSliderInput", value],
+        ["calciteSliderChange", value],
+      ]);
+    });
+
+    it.each(["value", "minValue/maxValue"])(
+      "emits input before change for each repeated arrow key on both range thumbs (%s)",
+      async (valueProperty) => {
+        const events: [string, Slider["value"]][] = [];
+        const eventSpy = vi.fn((event: Event) => {
+          assertSliderValues(el);
+          events.push([event.type, el.value]);
+        });
+        const { el } = await mount<Slider>(
+          valueProperty === "value" ? (
+            <calcite-slider
+              oncalciteSliderChange={eventSpy}
+              oncalciteSliderInput={eventSpy}
+              value={[50, 75]}
+            />
+          ) : (
+            <calcite-slider
+              maxValue={75}
+              minValue={50}
+              oncalciteSliderChange={eventSpy}
+              oncalciteSliderInput={eventSpy}
+            />
+          ),
+        );
+
+        await userEvent.tab();
+        await userEvent.keyboard("{ArrowLeft>3}");
+
+        await expect.element(el).toHaveProperty("value", [47, 75]);
+        expect(eventSpy).toHaveBeenCalledTimes(6);
+
+        await userEvent.tab();
+        await userEvent.keyboard("{ArrowRight>3}");
+
+        await expect.element(el).toHaveProperty("value", [47, 78]);
+        expect(events).toEqual(
+          [
+            [49, 75],
+            [48, 75],
+            [47, 75],
+            [47, 76],
+            [47, 77],
+            [47, 78],
+          ].flatMap((value) => [
+            ["calciteSliderInput", value],
+            ["calciteSliderChange", value],
+          ]),
+        );
+      },
+    );
+
+    it("does not emit input or change when an arrow key cannot change the value", async () => {
+      const eventSpy = vi.fn();
+      const { el } = await mount<Slider>(
+        <calcite-slider
+          oncalciteSliderChange={eventSpy}
+          oncalciteSliderInput={eventSpy}
+          value={100}
         />,
       );
 
       await userEvent.tab();
-      await userEvent.keyboard("{ArrowLeft>3}");
-      expect(inputHandler).toHaveBeenCalledTimes(3);
-      expect(changeHandler).toHaveBeenCalledTimes(3);
-      await userEvent.tab();
-      await userEvent.keyboard("{ArrowRight>3}");
-      expect(inputHandler).toHaveBeenCalledTimes(6);
-      expect(changeHandler).toHaveBeenCalledTimes(6);
+      await userEvent.keyboard("{ArrowRight}");
+
+      await expect.element(el).toHaveProperty("value", 100);
+      expect(eventSpy).not.toHaveBeenCalled();
     });
   });
 });
