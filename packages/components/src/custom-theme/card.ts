@@ -1,5 +1,6 @@
 import "../components/button/button";
 import "../components/card/card";
+import "../components/card-group/card-group";
 import "../components/link/link";
 import { placeholderImage } from "../../.storybook/placeholder-image";
 import { html } from "../../support/formatting";
@@ -24,12 +25,14 @@ const thumbnailHtml = html`<img
   style="width: 380px;"
 /> `;
 
-export const card = html`<calcite-card selected selectable>
-  <img alt="thumbnail" slot="thumbnail" style="width:260px" src="${placeholderImage({ width: 260, height: 160 })}" />
-  <h3 slot="heading">Selectable card</h3>
-  <calcite-link slot="footer-start">Lead füt</calcite-link>
-  <calcite-link slot="footer-end">Trail füt</calcite-link>
-</calcite-card>`;
+export const card = html`<calcite-card-group selection-mode="multiple">
+  <calcite-card selected>
+    <img alt="thumbnail" slot="thumbnail" style="width:260px" src="${placeholderImage({ width: 260, height: 160 })}" />
+    <h3 slot="heading">Selectable card</h3>
+    <calcite-link slot="footer-start">Lead füt</calcite-link>
+    <calcite-link slot="footer-end">Trail füt</calcite-link>
+  </calcite-card>
+</calcite-card-group>`;
 
 export const cardThumbnail = html`<div id="card-container" style="width:260px;">
   <calcite-card>

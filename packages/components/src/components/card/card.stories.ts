@@ -14,7 +14,7 @@ import "../chip/chip"; // Force Vite to statically trace the file for Chromatic'
 
 const { scale, logicalFlowPosition } = ATTRIBUTES;
 
-type CardStoryArgs = Pick<Card, "disabled" | "loading" | "scale" | "selectable" | "selected" | "thumbnailPosition">;
+type CardStoryArgs = Pick<Card, "disabled" | "loading" | "scale" | "selected" | "thumbnailPosition">;
 
 export default {
   title: "Components/Card",
@@ -22,7 +22,6 @@ export default {
     disabled: false,
     loading: false,
     scale: scale.defaultValue,
-    selectable: false,
     selected: false,
     thumbnailPosition: logicalFlowPosition.defaultValue,
   },
@@ -79,7 +78,6 @@ export const simple = (args: CardStoryArgs): string => html`
       ${boolean("disabled", args.disabled)}
       ${boolean("loading", args.loading)}
       scale="${args.scale}"
-      ${boolean("selectable", args.selectable)}
       ${boolean("selected", args.selected)}
       thumbnail-position="${args.thumbnailPosition}"
     >
@@ -165,21 +163,6 @@ export const thumbnail = (): string => html`
     <calcite-tooltip placement="top-end" reference-element="card-icon-test-3">More... </calcite-tooltip>
     <calcite-tooltip placement="top-start" reference-element="card-icon-test-5">More options </calcite-tooltip>
   </div>
-`;
-
-export const headerDoesNotOverlapWithCheckboxDeprecated = (): string => html`
-  <calcite-card selectable style="width:260px">
-    <h3 slot="heading">Lorem ipsum dolor sit amet, consectetur adipiscing</h3>
-    <span slot="description"
-      >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt</span
-    >
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-  </calcite-card>
 `;
 
 export const slottedFooterItems = (): string => html`

@@ -84,14 +84,12 @@
   pointer-events: auto;
 }
 
-:host(:not([selectable])) {
-  .content-wrapper {
-    &:not(.non-interactive) {
-      outline-color: transparent;
-    }
-    &:not(.non-interactive):focus {
-      @include shared.focus-outset();
-    }
+.content-wrapper {
+  &:not(.non-interactive) {
+    outline-color: transparent;
+  }
+  &:not(.non-interactive):focus {
+    @include shared.focus-outset();
   }
 }
 
@@ -158,10 +156,6 @@
   border: 1px solid var(--calcite-card-accent-color-selected, var(--calcite-color-brand));
 }
 
-:host([selectable]) .header {
-  padding-inline-end: var(--calcite-theme-space-3xl, var(--calcite-spacing-xxxl));
-}
-
 @include shared.slotted("heading", "*") {
   color: var(--calcite-color-text-1);
   margin: 0;
@@ -196,31 +190,6 @@
   align-self: center;
 }
 
-// deprecated
-.checkbox-wrapper-deprecated {
-  position: absolute;
-  pointer-events: auto;
-  inset-block-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
-  inset-inline-end: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
-  margin: 0;
-  padding: 0;
-  color: var(--calcite-card-selection-color, var(--calcite-color-text-3));
-
-  &:hover {
-    background-color: var(
-      --calcite-card-selection-background-color-hover,
-      var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
-    );
-    color: var(
-      --calcite-card-selection-color-hover,
-      var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
-    );
-  }
-  &:active {
-    background-color: var(--calcite-card-selection-background-color-press, var(--calcite-color-transparent-press));
-  }
-}
-
 .checkbox-wrapper {
   outline-color: transparent;
   cursor: pointer;
@@ -251,7 +220,6 @@
 }
 
 :host([selected]) {
-  .checkbox-wrapper-deprecated,
   .checkbox-wrapper {
     color: var(
       --calcite-card-accent-color-selected,
@@ -260,8 +228,7 @@
   }
 }
 
-:host(:not([selectable])) .content-wrapper:not(.non-interactive):focus {
-  .checkbox-wrapper-deprecated,
+.content-wrapper:not(.non-interactive):focus {
   .checkbox-wrapper {
     background-color: var(
       --calcite-card-selection-background-color-hover,
@@ -274,8 +241,7 @@
   }
 }
 
-:host([selected]:not([selectable])) .content-wrapper:not(.non-interactive):focus {
-  .checkbox-wrapper-deprecated,
+:host([selected]) .content-wrapper:not(.non-interactive):focus {
   .checkbox-wrapper {
     background-color: var(--calcite-card-selection-background-color-press, var(--calcite-color-transparent-press));
     color: var(
@@ -284,7 +250,6 @@
     );
   }
 }
-/* end deprecated */
 
 .thumbnail-wrapper {
   display: flex;
