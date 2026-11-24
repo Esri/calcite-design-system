@@ -30,21 +30,21 @@
 }
 
 .scale-s {
-  --calcite-internal-tab-content-space-y: theme("spacing.1");
+  --calcite-internal-tab-content-space-y: var(--calcite-space-2xs);
 
   font-size: var(--calcite-font-size-sm);
   line-height: 1rem;
 }
 
 .scale-m {
-  --calcite-internal-tab-content-space-y: theme("spacing.2");
+  --calcite-internal-tab-content-space-y: var(--calcite-space-sm);
 
   font-size: var(--calcite-font-size);
   line-height: 1rem;
 }
 
 .scale-l {
-  --calcite-internal-tab-content-space-y: theme("spacing.[2.5]");
+  --calcite-internal-tab-content-space-y: var(--calcite-space-sm-plus);
 
   font-size: var(--calcite-font-size-md);
   line-height: 1.25rem;

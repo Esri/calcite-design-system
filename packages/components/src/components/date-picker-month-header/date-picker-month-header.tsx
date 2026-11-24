@@ -79,9 +79,7 @@ export class DatePickerMonthHeader extends LitElement {
    */
   @property({ type: Number }) headingLevel!: HeadingLevel;
 
-  /**
-   * CLDR locale data for translated calendar info.
-   */
+  /** Locale data for translated calendar info. */
   @property() localeData!: DateLocaleData;
 
   /**
