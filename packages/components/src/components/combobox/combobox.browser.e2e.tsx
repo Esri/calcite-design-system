@@ -30,7 +30,7 @@ import { waitForEvent } from "../../tests/common/utils";
 import type { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/common/defaults";
-import { CSS } from "./resources";
+import { CSS, SLOTS } from "./resources";
 import type { Combobox } from "./combobox";
 
 mockConsole();
@@ -1397,6 +1397,65 @@ describe("keyboard interaction", () => {
   });
 });
 
+describe("content-bottom slot", () => {
+  it("allows keyboard and pointer interaction without redirecting focus to the input", async () => {
+    const clickSpy = vi.fn();
+    const { el } = await mount<Combobox>(
+      <calcite-combobox open>
+        <button onClick={clickSpy} slot="content-bottom" type="button">
+          Create new
+        </button>
+        <calcite-combobox-item heading="Oak" value="oak" />
+      </calcite-combobox>,
+    );
+
+    const button = page.getByRole("button", { name: "Create new" });
+    await expect.element(button).toBeVisible();
+    await el.setFocus();
+    await userEvent.tab();
+    await expect.element(button).toHaveFocus();
+    await userEvent.keyboard("{Enter}");
+    expect(clickSpy).toHaveBeenCalledOnce();
+
+    await el.setFocus();
+    await userEvent.click(button);
+    await expect.element(button).toHaveFocus();
+    expect(clickSpy).toHaveBeenCalledTimes(2);
+    await expect.element(el).toHaveProperty("open", true);
+  });
+
+  it("keeps keyboard-active items above the sticky bottom content while scrolling", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox max-items="5" open>
+        {Array.from({ length: 20 }, (_, index) => (
+          <calcite-combobox-item heading={`Item ${index}`} value={`${index}`} />
+        ))}
+        <button slot="content-bottom" type="button">
+          Create new
+        </button>
+      </calcite-combobox>,
+    );
+
+    const footer = page.getBySelector(`.${CSS.contentBottom}`);
+    const listContainer = page.getBySelector(`.${CSS.listContainer}`);
+    await expect.element(footer).toBeVisible();
+    await el.setFocus();
+    await userEvent.keyboard("{ArrowDown>10}");
+
+    await vi.waitFor(() => {
+      expect(listContainer.element().scrollTop).toBeGreaterThan(0);
+      const activeItem = page.getBySelector("calcite-combobox-item[active]").element();
+      expect(activeItem.getBoundingClientRect().bottom).toBeLessThanOrEqual(
+        footer.element().getBoundingClientRect().top,
+      );
+      expect(footer.element().getBoundingClientRect().bottom).toBeCloseTo(
+        listContainer.element().getBoundingClientRect().bottom,
+        0,
+      );
+    });
+  });
+});
+
 describe("filtering", () => {
   type FilterUpdate = {
     type: "keyboard" | "property";
@@ -1572,24 +1631,32 @@ describe("filtering", () => {
       .toBeVisible();
   });
 
-  it("hides top slot content when filtering yields no matches", async () => {
-    const { el } = await mount<Combobox>(
-      <calcite-combobox>
-        <button slot="content-top" type="button">
-          Create new
-        </button>
-        <calcite-combobox-item heading="Oak" value="oak" />
-      </calcite-combobox>,
-    );
+  it.each([SLOTS.contentTop, SLOTS.contentBottom])(
+    "hides %s content only when filtering yields no matches",
+    async (slot) => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox open>
+          <button slot={slot} type="button">
+            Create new
+          </button>
+          <calcite-combobox-item heading="Oak" value="oak" />
+        </calcite-combobox>,
+      );
 
-    const button = page.getByRole("button", { name: "Create new" });
-    await expect.element(button).toBeVisible();
+      const button = page.getByRole("button", { name: "Create new" });
+      await expect.element(button).toBeVisible();
 
-    await el.setFocus();
-    await updateFilter(el, { type: "keyboard", value: "no-match" });
+      await el.setFocus();
+      await updateFilter(el, { type: "keyboard", value: "Oak" });
+      await expect.element(button).toBeVisible();
+      await userEvent.clear(page.getByRole("combobox"));
+      await updateFilter(el, { type: "keyboard", value: "no-match" });
 
-    await expect.element(button).not.toBeVisible();
-  });
+      await expect.element(button).not.toBeVisible();
+      await updateFilter(el, { type: "property", value: "" });
+      await expect.element(button).toBeVisible();
+    },
+  );
 
   it("filtering does not match property with value of undefined", async () => {
     const { el } = await mount<Combobox>(

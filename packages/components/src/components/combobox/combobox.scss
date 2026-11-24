@@ -250,9 +250,9 @@
   );
 }
 
-.sticky-header {
+.sticky-header,
+.content-bottom {
   position: sticky;
-  inset-block-start: 0;
   z-index: var(--calcite-z-index-sticky);
   background-color: var(
     --calcite-combobox-background-color,
@@ -260,12 +260,23 @@
   );
 }
 
+.sticky-header {
+  inset-block-start: 0;
+}
+
 .content-top {
   display: flex;
   border-block-end: 1px solid var(--calcite-color-border-3);
 }
 
-.content-top--hidden {
+.content-bottom {
+  display: flex;
+  inset-block-end: 0;
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
+.content-top--hidden,
+.content-bottom--hidden {
   display: none;
 }
 

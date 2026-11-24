@@ -171,6 +171,12 @@ interface ComboboxSlots {
    * @public
    */
   "content-top": Node[];
+  /**
+   * A slot for adding content below the combobox items.
+   *
+   * @public
+   */
+  "content-bottom": Node[];
 }
 
 /**
@@ -206,6 +212,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   private stickyHeaderRef = createRef<HTMLDivElement>();
 
   private contentTopSlotRef = createRef<HTMLDivElement>();
+
+  private contentBottomSlotRef = createRef<HTMLDivElement>();
 
   private allSelectedIndicatorChipRef = createRef<Chip["el"]>();
 
@@ -449,6 +457,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @state() noMatchesFound = false;
 
   @state() hasContentTop = false;
+
+  @state() hasContentBottom = false;
 
   //#endregion
 
@@ -2026,6 +2036,13 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     if (itemRect.top < containerRect.top + stickyHeight) {
       listContainer.scrollTop -= containerRect.top + stickyHeight - itemRect.top;
+    } else {
+      const stickyFooterHeight = this.contentBottomSlotRef.value?.offsetHeight || 0;
+      const visibleBottom = containerRect.bottom - stickyFooterHeight;
+
+      if (itemRect.bottom > visibleBottom) {
+        listContainer.scrollTop += itemRect.bottom - visibleBottom;
+      }
     }
   }
 
@@ -2060,8 +2077,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private comboboxFocusHandler(event: Event): void {
     const contentTopSlot = this.contentTopSlotRef.value;
+    const contentBottomSlot = this.contentBottomSlotRef.value;
+    const path = event.composedPath();
 
-    if (this.disabled || (contentTopSlot && event.composedPath().includes(contentTopSlot))) {
+    if (
+      this.disabled ||
+      (contentTopSlot && path.includes(contentTopSlot)) ||
+      (contentBottomSlot && path.includes(contentBottomSlot))
+    ) {
       return;
     }
 
@@ -2074,6 +2097,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private handleContentTopSlotChange(event: Event): void {
     this.hasContentTop = slotChangeHasAssignedElement(event);
+  }
+
+  private handleContentBottomSlotChange(event: Event): void {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
   private createScreenReaderItem({
@@ -2572,6 +2599,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
                 </li>
               ))}
           </ul>
+          <div
+            class={{
+              [CSS.contentBottom]: true,
+              [CSS.contentBottomHidden]: !this.hasContentBottom || this.noMatchesFound,
+            }}
+            ref={this.contentBottomSlotRef}
+          >
+            <slot name={SLOTS.contentBottom} onSlotChange={this.handleContentBottomSlotChange} />
+          </div>
         </div>
       </div>
     );
