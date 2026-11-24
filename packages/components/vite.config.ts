@@ -10,6 +10,7 @@ import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-br
 import customElementDependenciesPlugin from "./build/plugins/custom-element-dependencies";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
+import { timeZoneBrowserTestMatch } from "./src/tests/time-zone";
 
 const nonEsmDependencies = ["interactjs"];
 const runBrowserTests = process.env.BROWSER_TESTS === "true";
@@ -18,9 +19,6 @@ const allDirsAndFiles = "**/*";
 const specAndE2EFileExtensions = `{e2e,spec}.?(c|m)[jt]s?(x)`;
 const browserTestMatch = `${allDirsAndFiles}.browser.${specAndE2EFileExtensions}`;
 const allSpecAndE2ETestMatch = `${allDirsAndFiles}.${specAndE2EFileExtensions}`;
-
-// input-time-zone tests run separate from main tests due to Vitest not supporting dynamic time zone changes
-const timeZoneBrowserTestMatch = `${allDirsAndFiles}.time-zone.browser.${specAndE2EFileExtensions}`;
 
 type ComponentsViteConfigOptions = {
   puppeteerTestingEnabled?: boolean;

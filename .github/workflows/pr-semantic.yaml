@@ -1,7 +1,10 @@
 name: Semantic PR
 on:
   pull_request:
-    types: [edited, opened, synchronize]
+    types: [edited, opened, synchronize, reopened]
+permissions:
+  contents: read
+  pull-requests: read
 jobs:
   semantic:
     runs-on: ubuntu-latest
@@ -26,3 +29,16 @@ jobs:
 
             # custom
             deprecate
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: pnpm/setup@v3
+        with:
+          install: false
+      - name: Install CLI dependencies
+        run: pnpm install --frozen-lockfile --filter @esri/monorepo-cli --ignore-scripts
+      - name: Validate breaking-change markers
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: node cli validate-breaking-change-pr

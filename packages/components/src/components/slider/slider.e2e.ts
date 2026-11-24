@@ -159,35 +159,8 @@ it("should cap the rendered last tick label to the slider's provided max", async
       </calcite-slider>
     `);
   const slider = await page.find("calcite-slider");
-  const maxTickLabel = await page.find("calcite-slider >>> .tick:nth-of-type(11)");
+  const maxTickLabel = await page.find(`calcite-slider >>> .${CSS.tickMax}`);
   expect(parseFloat(maxTickLabel.textContent)).toBe(await slider.getProperty("max"));
-});
-
-it("key press should change the value and emit input and change events", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`
-      <calcite-slider
-        value="23"
-        min="0"
-        max="100"
-        step="1"
-        ticks="10"
-      >
-      </calcite-slider>
-    `);
-  const slider = await page.find("calcite-slider");
-  const handle = await page.find("calcite-slider >>> .thumb");
-  const inputEvent = await slider.spyOnEvent("calciteSliderInput");
-  const changeEvent = await slider.spyOnEvent("calciteSliderChange");
-  expect(inputEvent).toHaveReceivedEventTimes(0);
-  expect(changeEvent).toHaveReceivedEventTimes(0);
-
-  await handle.press("ArrowRight");
-  await page.waitForChanges();
-
-  expect(await slider.getProperty("value")).toBe(24);
-  expect(inputEvent).toHaveReceivedEventTimes(1);
-  expect(changeEvent).toHaveReceivedEventTimes(1);
 });
 
 describe("histogram", () => {

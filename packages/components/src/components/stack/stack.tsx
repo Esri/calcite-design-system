@@ -13,41 +13,53 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the inline padding of the component's content.
+     *
+     * @internal
      */
     "--calcite-stack-padding-inline": "*";
     /**
      * Specifies the block padding of the component's content.
+     *
+     * @internal
      */
     "--calcite-stack-padding-block": "*";
   }
 }
 
+/** @internal */
 interface StackSlots {
   /**
    * A slot for adding content.
+   * @internal
    */
   "": Node[];
   /**
    * A slot for adding actionable `calcite-action` elements before the content of the component.
+   * @internal
    */
   "actions-start": Node[];
   /**
    * A slot for adding non-actionable elements before content of the component.
+   * @internal
    */
   "content-start": Node[];
   /**
    * A slot for adding non-actionable elements after content of the component.
+   * @internal
    */
   "content-end": Node[];
   /**
    * A slot for adding actionable `calcite-action` elements after the content of the component.
+   * @internal
    */
   "actions-end": Node[];
 }
 
+/** @internal */
 export class Stack extends LitElement {
   //#region Type-only metadata members
 
+  /** @internal */
   override ["@slots"]!: StackSlots;
 
   //#endregion
@@ -72,7 +84,11 @@ export class Stack extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, content interaction is prevented and displayed with lower opacity. */
+  /**
+   * When `true`, content interaction is prevented and displayed with lower opacity.
+   *
+   * @internal
+   */
   @property({ reflect: true }) disabled = false;
 
   //#endregion

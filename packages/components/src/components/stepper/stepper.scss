@@ -2,6 +2,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-action-padding-inline
 // --calcite-internal-step-bar-gap
 // --calcite-internal-stepper-action-block-size
 // --calcite-internal-stepper-action-inline-size
@@ -10,23 +11,23 @@
 @use "../../styles/shared";
 
 :host([scale="s"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
-  --calcite-internal-stepper-action-block-size: theme("spacing.11");
-  --calcite-internal-stepper-action-inline-size: theme("spacing.8");
-  --calcite-internal-step-bar-gap: theme("spacing.1");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-space-2xs);
+  --calcite-internal-stepper-action-block-size: var(--calcite-size-lg);
+  --calcite-internal-stepper-action-inline-size: var(--calcite-size-md);
+  --calcite-internal-step-bar-gap: var(--calcite-space-2xs);
 }
 
 :host([scale="m"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
-  --calcite-internal-stepper-action-block-size: theme("spacing.13");
-  --calcite-internal-stepper-action-inline-size: theme("spacing.10");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-space-sm);
+  --calcite-internal-stepper-action-block-size: 3.25rem;
+  --calcite-internal-stepper-action-inline-size: 2.5rem;
 }
 
 :host([scale="l"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
-  --calcite-internal-stepper-action-block-size: theme("spacing.16");
-  --calcite-internal-stepper-action-inline-size: theme("spacing.12");
-  --calcite-internal-step-bar-gap: theme("spacing.3");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-space-md);
+  --calcite-internal-stepper-action-block-size: var(--calcite-size-2xl);
+  --calcite-internal-stepper-action-inline-size: var(--calcite-size-xl);
+  --calcite-internal-step-bar-gap: var(--calcite-space-md);
 }
 
 :host {
@@ -58,7 +59,7 @@
     grid-template-areas:
       "items"
       "content";
-    gap: theme("spacing.2") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    gap: var(--calcite-space-sm) var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
     grid-template-rows: auto 1fr;
   }
 }
@@ -66,14 +67,14 @@
 :host([layout="horizontal"][scale="s"]),
 :host([layout="horizontal-single"][scale="s"]) {
   .container {
-    gap: theme("spacing.1") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    gap: var(--calcite-space-2xs) var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
   }
 }
 
 :host([layout="horizontal"][scale="l"]),
 :host([layout="horizontal-single"][scale="l"]) {
   .container {
-    gap: theme("spacing.3") var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
+    gap: var(--calcite-space-md) var(--calcite-stepper-bar-gap, var(--calcite-internal-stepper-item-spacing-unit-s));
   }
 }
 
@@ -88,6 +89,7 @@
   flex-grow: 0;
   block-size: var(--calcite-internal-stepper-action-block-size);
   inline-size: var(--calcite-internal-stepper-action-inline-size);
+  --calcite-internal-action-padding-inline: var(--calcite-theme-space-none, var(--calcite-spacing-none));
 }
 
 .action-container {
@@ -116,13 +118,13 @@
   }
 
   .step-bar--inactive {
-    fill: var(--calcite-stepper-bar-inactive-fill-color, var(--calcite-color-border-3, #dfdfdf));
+    fill: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-3, #dfdfdf));
     fill-opacity: 1;
     block-size: 100%;
   }
 
   .step-bar--active {
-    fill: var(--calcite-stepper-bar-active-fill-color, var(--calcite-color-brand));
+    fill: var(--calcite-stepper-bar-selected-fill-color, var(--calcite-color-brand));
   }
 
   .step-bar--complete {
