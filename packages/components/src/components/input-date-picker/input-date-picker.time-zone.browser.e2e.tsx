@@ -37,20 +37,18 @@ describe("date constraints", () => {
   });
 
   it("updates Date bounds to local midnight and clears them when attributes change", async () => {
-    const { el, component } = await mount<InputDatePicker>(
+    const { el } = await mount<InputDatePicker>(
       <calcite-input-date-picker max="2024-11-15" min="2022-11-15" value="2022-11-27" />,
     );
 
     el.min = "2021-11-15";
     el.max = "2023-11-15";
-    await component.updateComplete;
 
     await expect.element(el).toHaveProperty("minAsDate", new Date(2021, 10, 15));
     await expect.element(el).toHaveProperty("maxAsDate", new Date(2023, 10, 15));
 
     el.min = undefined;
     el.max = undefined;
-    await component.updateComplete;
 
     await expect.element(el).toHaveProperty("minAsDate", undefined);
     await expect.element(el).toHaveProperty("maxAsDate", undefined);

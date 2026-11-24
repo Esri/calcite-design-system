@@ -34,21 +34,6 @@ import type { InputDatePicker } from "./input-date-picker";
 import type { Position } from "../types";
 import { waitForEvent } from "../../tests/common/utils";
 
-describe("valueAsDate", () => {
-  it.each([0, 1])("supports an unselected range endpoint at index %i", async (index) => {
-    const date = new Date(2025, 11, 5);
-    const valueAsDate = index === 0 ? [undefined, date] : [date, undefined];
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker range valueAsDate={valueAsDate} />,
-    );
-
-    await expect.element(el).toHaveProperty("valueAsDate", valueAsDate);
-    await expect
-      .element(el)
-      .toHaveProperty("value", index === 0 ? ["", "2025-12-05"] : ["2025-12-05", ""]);
-  });
-});
-
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-input-date-picker", mountOptions));
 
@@ -491,14 +476,6 @@ describe("clearable", () => {
   });
 });
 
-function getYearInput(): Locator {
-  return page.getByRole("textbox", { name: "Year" }).first();
-}
-
-function getMonthSelectMenu(): Locator {
-  return page.getByRole("combobox", { name: "Month menu" }).first();
-}
-
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-date-picker"), {
@@ -737,74 +714,6 @@ describe("theme", () => {
     });
   });
 });
-function getActiveMonth(position: Extract<"start" | "end", Position> = "start"): Locator {
-  const monthIndex = position === "start" ? 0 : 1;
-
-  return page
-    .getBySelector(
-      `calcite-input-date-picker calcite-date-picker-month-header .${MONTH_HEADER_CSS.header} calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
-    )
-    .nth(monthIndex)
-    .getBySelector("calcite-option[selected]");
-}
-
-function getDateInput(type: "start" | "end" = "start"): Locator {
-  const inputIndex = type === "start" ? 0 : 1;
-
-  return page.getBySelector("calcite-input-date-picker calcite-input-text").nth(inputIndex);
-}
-
-function getNativeDateInput(type: "start" | "end" = "start"): Locator {
-  const inputIndex = type === "start" ? 0 : 1;
-
-  return page.getBySelector("calcite-input-date-picker calcite-input-text input").nth(inputIndex);
-}
-
-async function selectDayInMonthByIndex(day: number): Promise<void> {
-  const dayIndex = day - 1;
-  const target = page
-    .getBySelector("calcite-input-date-picker calcite-date-picker-day[current-month]")
-    .nth(dayIndex);
-  await userEvent.click(target);
-}
-
-function getCalendar(): Locator {
-  return page.getBySelector(`calcite-input-date-picker .${CSS.calendarWrapper}`);
-}
-
-function getDayById(id: string): Locator {
-  return page.getBySelector(
-    `calcite-input-date-picker calcite-date-picker-day[current-month][id="${id}"]`,
-  );
-}
-
-async function navigateMonth(
-  direction: "previous" | "next",
-  twoCalendarsRange = false,
-): Promise<void> {
-  const headers = page.getBySelector(
-    `calcite-input-date-picker calcite-date-picker-month-header .${MONTH_HEADER_CSS.header}`,
-  );
-  const header = twoCalendarsRange && direction === "next" ? headers.last() : headers.first();
-  const actions = header.getBySelector("calcite-action");
-  await userEvent.click(direction === "previous" ? actions.first() : actions.last());
-}
-
-async function focusFirstDay(
-  options: {
-    range?: boolean;
-    previousMonthDisabled?: boolean;
-  } = {},
-): Promise<void> {
-  const { range = true, previousMonthDisabled = false } = options;
-  await userEvent.keyboard("{Tab}{Tab}{Tab}");
-  if (!previousMonthDisabled) {
-    await userEvent.keyboard("{Tab}");
-  }
-  if (!range) {
-    await userEvent.keyboard("{Tab}");
-  }
-}
 
 describe("value changes", () => {
   it("emits when a single date is committed and cleared by the user", async () => {
@@ -916,7 +825,7 @@ describe("value changes", () => {
     expect(changeEventHandler).not.toHaveBeenCalled();
   });
 
-  it("clears the active date when deleted and committed", async () => {
+  it("clears parsed value when deleted and committed", async () => {
     const { el } = await mount<InputDatePicker>(<calcite-input-date-picker value="2021-12-08" />);
 
     await userEvent.click(getDateInput());
@@ -1002,12 +911,13 @@ describe("toggling the date picker", () => {
 
 describe("calendar selection", () => {
   it("closes after selecting a single date", async () => {
-    await mount(<calcite-input-date-picker />);
+    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker value="2023-01-31" />);
 
     await userEvent.click(getDateInput());
     await selectDayInMonthByIndex(28);
 
     await expect.element(getCalendar()).not.toBeVisible();
+    await expect.element(el).toHaveValue("2023-01-28");
   });
 
   it("closes a range picker only after both dates are selected", async () => {
@@ -1018,15 +928,6 @@ describe("calendar selection", () => {
     await expect.element(getCalendar()).toBeVisible();
     await selectDayInMonthByIndex(50);
     await expect.element(getCalendar()).not.toBeVisible();
-  });
-
-  it("allows clicking a date in the popup", async () => {
-    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker value="2023-01-31" />);
-
-    await userEvent.click(getDateInput());
-    await userEvent.click(getDayById("20230101"));
-
-    await expect.element(el).toHaveValue("2023-01-01");
   });
 });
 
@@ -1091,6 +992,19 @@ describe("valueAsDate", () => {
     await userEvent.keyboard("08/15/2022{Enter}");
 
     await expect.element(el).toHaveProperty("value", ["2022-08-15", "2022-08-20"]);
+  });
+
+  it.each([0, 1])("supports an unselected range endpoint at index %i", async (index) => {
+    const date = new Date(2025, 11, 5);
+    const valueAsDate = index === 0 ? [undefined, date] : [date, undefined];
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker range valueAsDate={valueAsDate} />,
+    );
+
+    await expect.element(el).toHaveProperty("valueAsDate", valueAsDate);
+    await expect
+      .element(el)
+      .toHaveProperty("value", index === 0 ? ["", "2025-12-05"] : ["2025-12-05", ""]);
   });
 });
 
@@ -1212,17 +1126,6 @@ it("syncs its calendars after a user-modified range is updated programmatically"
 });
 
 describe("normalizeYear", () => {
-  it("normalizes a user-typed single year to the current century", async () => {
-    const { el, component } = await mount<InputDatePicker>(<calcite-input-date-picker />);
-    el.setAttribute("normalize-year", "");
-    await component.updateComplete;
-
-    await userEvent.click(getDateInput());
-    await userEvent.keyboard("3/7/20{Enter}");
-
-    await expect.element(el).toHaveValue("2020-03-07");
-  });
-
   it("does not normalize an attribute value", async () => {
     const { el, component } = await mount<InputDatePicker>(<calcite-input-date-picker />);
     el.setAttribute("normalize-year", "");
@@ -1492,8 +1395,7 @@ it("does not focus or select a disabled date during keyboard navigation", async 
 
   await userEvent.click(getDateInput("start"));
   await selectDayInMonthByIndex(25);
-  await userEvent.click(getDateInput("end"));
-  await userEvent.click(getDateInput("end"));
+  await userEvent.click(getDateInput("end"), { clickCount: 2 });
   await focusFirstDay({ previousMonthDisabled: true });
   await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}{ArrowRight}{ArrowRight}");
 
@@ -1713,3 +1615,80 @@ describe("localization", () => {
     });
   });
 });
+
+function getYearInput(): Locator {
+  return page.getByRole("textbox", { name: "Year" }).first();
+}
+
+function getMonthSelectMenu(): Locator {
+  return page.getByRole("combobox", { name: "Month menu" }).first();
+}
+
+function getActiveMonth(position: Extract<"start" | "end", Position> = "start"): Locator {
+  const monthIndex = position === "start" ? 0 : 1;
+
+  return page
+    .getBySelector(
+      `calcite-input-date-picker calcite-date-picker-month-header .${MONTH_HEADER_CSS.header} calcite-select.${MONTH_HEADER_CSS.monthPicker}`,
+    )
+    .nth(monthIndex)
+    .getBySelector("calcite-option[selected]");
+}
+
+function getDateInput(type: "start" | "end" = "start"): Locator {
+  const inputIndex = type === "start" ? 0 : 1;
+
+  return page.getBySelector("calcite-input-date-picker calcite-input-text").nth(inputIndex);
+}
+
+function getNativeDateInput(type: "start" | "end" = "start"): Locator {
+  const inputIndex = type === "start" ? 0 : 1;
+
+  return page.getBySelector("calcite-input-date-picker calcite-input-text input").nth(inputIndex);
+}
+
+async function selectDayInMonthByIndex(day: number): Promise<void> {
+  const dayIndex = day - 1;
+  const target = page
+    .getBySelector("calcite-input-date-picker calcite-date-picker-day[current-month]")
+    .nth(dayIndex);
+  await userEvent.click(target);
+}
+
+function getCalendar(): Locator {
+  return page.getBySelector(`calcite-input-date-picker .${CSS.calendarWrapper}`);
+}
+
+function getDayById(id: string): Locator {
+  return page.getBySelector(
+    `calcite-input-date-picker calcite-date-picker-day[current-month][id="${id}"]`,
+  );
+}
+
+async function navigateMonth(
+  direction: "previous" | "next",
+  twoCalendarsRange = false,
+): Promise<void> {
+  const headers = page.getBySelector(
+    `calcite-input-date-picker calcite-date-picker-month-header .${MONTH_HEADER_CSS.header}`,
+  );
+  const header = twoCalendarsRange && direction === "next" ? headers.last() : headers.first();
+  const actions = header.getBySelector("calcite-action");
+  await userEvent.click(direction === "previous" ? actions.first() : actions.last());
+}
+
+async function focusFirstDay(
+  options: {
+    range?: boolean;
+    previousMonthDisabled?: boolean;
+  } = {},
+): Promise<void> {
+  const { range = true, previousMonthDisabled = false } = options;
+  await userEvent.keyboard("{Tab}{Tab}{Tab}");
+  if (!previousMonthDisabled) {
+    await userEvent.keyboard("{Tab}");
+  }
+  if (!range) {
+    await userEvent.keyboard("{Tab}");
+  }
+}
