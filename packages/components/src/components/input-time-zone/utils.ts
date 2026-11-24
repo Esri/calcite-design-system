@@ -3,6 +3,11 @@ import { logger } from "../../utils/logger";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
 
+/**
+ * Exported for testing purposes only
+ */
+export const unsupportedFactoryTimeZoneWarningMessage = `The browser does not support the "Factory" time zone. Using a zero offset for compatibility; use a supported IANA time zone instead.`;
+
 const hourToMinutes = 60;
 
 function timeZoneOffsetToDecimal(shortOffsetTimeZoneName: string): string {
@@ -169,9 +174,8 @@ export async function createTimeZoneItems(
         }
 
         this.factoryTimeZone = "Etc/GMT";
-        logger.warn(
-          `[input-time-zone] The browser does not support the "Factory" time zone. Using a zero offset for compatibility; use a supported IANA time zone instead.`,
-        );
+        logger.warn(unsupportedFactoryTimeZoneWarningMessage);
+
         return super.isoToTimeZone(isoDate, this.factoryTimeZone);
       }
     }

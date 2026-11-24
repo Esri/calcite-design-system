@@ -22,7 +22,11 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
 import { logger } from "../../utils/logger";
-import { createTimeZoneItems, findTimeZoneItemByProp } from "./utils";
+import {
+  createTimeZoneItems,
+  findTimeZoneItemByProp,
+  unsupportedFactoryTimeZoneWarningMessage,
+} from "./utils";
 
 const DateTimeFormat = Intl.DateTimeFormat;
 
@@ -58,16 +62,10 @@ describe("Factory compatibility", () => {
       .toHaveAttribute("value", value);
 
     const compatibilityWarnings = warnSpy.mock.calls.filter(([message]) =>
-      message.startsWith("[input-time-zone]"),
+      message.includes(`"Factory"`),
     );
     expect(compatibilityWarnings).toEqual(
-      mode === "offset" && !supported
-        ? [
-            [
-              `[input-time-zone] The browser does not support the "Factory" time zone. Using a zero offset for compatibility; use a supported IANA time zone instead.`,
-            ],
-          ]
-        : [],
+      mode === "offset" && !supported ? [[unsupportedFactoryTimeZoneWarningMessage]] : [],
     );
   });
 });
