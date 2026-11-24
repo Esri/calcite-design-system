@@ -42,7 +42,7 @@ catalog:
   "autoprefixer": "10.6.2"
   "axe-core": "4.13.0"
   "browser-sync": "3.0.4"
-  "browserslist": "4.29.5"
+  "browserslist": "4.29.6"
   "change-case": "5.4.4"
   "chromatic": "16.6.3"
   "cli-progress": "3.12.0"
