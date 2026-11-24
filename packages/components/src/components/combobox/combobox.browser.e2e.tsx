@@ -1572,6 +1572,25 @@ describe("filtering", () => {
       .toBeVisible();
   });
 
+  it("hides top slot content when filtering yields no matches", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox>
+        <button slot="content-top" type="button">
+          Create new
+        </button>
+        <calcite-combobox-item heading="Oak" value="oak" />
+      </calcite-combobox>,
+    );
+
+    const button = page.getByRole("button", { name: "Create new" });
+    await expect.element(button).toBeVisible();
+
+    await el.setFocus();
+    await updateFilter(el, { type: "keyboard", value: "no-match" });
+
+    await expect.element(button).not.toBeVisible();
+  });
+
   it("filtering does not match property with value of undefined", async () => {
     const { el } = await mount<Combobox>(
       <calcite-combobox id="myCombobox">

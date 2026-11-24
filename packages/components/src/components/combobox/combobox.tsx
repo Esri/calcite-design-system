@@ -16,7 +16,12 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
-import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
+import {
+  focusElement,
+  getElementWidth,
+  getTextWidth,
+  slotChangeHasAssignedElement,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -59,7 +64,14 @@ import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./types";
-import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
+import {
+  ComboboxItemGroupSelector,
+  ComboboxItemSelector,
+  CSS,
+  IDS,
+  ICONS,
+  SLOTS,
+} from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -153,6 +165,12 @@ interface ComboboxSlots {
    * @public
    */
   "label-content": Node[];
+  /**
+   * A slot for adding content above the combobox items.
+   *
+   * @public
+   */
+  "content-top": Node[];
 }
 
 /**
@@ -184,6 +202,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   })(this);
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
+
+  private stickyHeaderRef = createRef<HTMLDivElement>();
+
+  private contentTopSlotRef = createRef<HTMLDivElement>();
 
   private allSelectedIndicatorChipRef = createRef<Chip["el"]>();
 
@@ -425,6 +447,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() noMatchesFound = false;
+
+  @state() hasContentTop = false;
 
   //#endregion
 
@@ -1995,8 +2019,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     item.scrollIntoView({ block: "nearest" });
 
-    const stickyElement = this.selectAllComboboxItemRef.value;
-    const stickyHeight = stickyElement?.offsetHeight || 0;
+    const stickyHeight = this.stickyHeaderRef.value?.offsetHeight || 0;
 
     const itemRect = item.getBoundingClientRect();
     const containerRect = listContainer.getBoundingClientRect();
@@ -2035,8 +2058,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     return !isSingleLike(this.selectionMode);
   }
 
-  private comboboxFocusHandler(): void {
-    if (this.disabled) {
+  private comboboxFocusHandler(event: Event): void {
+    const contentTopSlot = this.contentTopSlotRef.value;
+
+    if (this.disabled || (contentTopSlot && event.composedPath().includes(contentTopSlot))) {
       return;
     }
 
@@ -2045,6 +2070,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (this.open && this.selectionDisplay === "fit" && this.isMulti()) {
       void this.refreshSelectionDisplay();
     }
+  }
+
+  private handleContentTopSlotChange(event: Event): void {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
   }
 
   private createScreenReaderItem({
@@ -2485,13 +2514,23 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
-      <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
+      <div class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
         <div class={classes} ref={setContainerEl}>
-          <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
+          <div class={CSS.stickyHeader} ref={this.stickyHeaderRef}>
+            <div
+              class={{
+                [CSS.contentTop]: true,
+                [CSS.contentTopHidden]: !this.hasContentTop || this.noMatchesFound,
+              }}
+              ref={this.contentTopSlotRef}
+            >
+              <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
+            </div>
             {this.selectAllEnabled &&
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
+                  ariaHidden="true"
                   class={CSS.selectAll}
                   data-testid="select-all-item"
                   heading={messages.selectAll}
@@ -2505,6 +2544,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
                   value="select-all"
                 />
               )}
+          </div>
+          <ul ariaHidden="true" class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             <slot />
             {this.noMatchesFound &&
               (this.allowCustomValues ? (
