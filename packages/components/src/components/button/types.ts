@@ -1,3 +1,4 @@
+/** @public */
 export type ButtonAlignment =
   | "start"
   | "end"
@@ -6,4 +7,5 @@ export type ButtonAlignment =
   | "icon-start-space-between"
   | "icon-end-space-between";
 
+/** @public */
 export type DropdownIconType = "chevron" | "caret" | "ellipsis" | "overflow";

@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Απαλοιφή",
   "hiddenSelected": "Σειρές που επιλέχθηκαν αλλά έχουν αποκρυφθεί",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Σελίδα",
   "row": "Σειρά",
-  "selected": "Επιλεγμένα"
+  "rowNumber": "Row number",
+  "selected": "Επιλεγμένα",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

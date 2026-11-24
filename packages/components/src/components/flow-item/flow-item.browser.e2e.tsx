@@ -1,5 +1,5 @@
 import { h, Fragment } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
 import {
@@ -209,6 +209,59 @@ describe("propagates", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-flow-item"), SLOTS);
+
+  it("omits the leading separator for an Action Bar without header content", async () => {
+    await mount(
+      <calcite-flow-item selected style="--calcite-flow-content-top-space: 0;">
+        <calcite-action-bar layout="horizontal" slot={SLOTS.contentTop}>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-bar>
+      </calcite-flow-item>,
+    );
+    const panel = page.getBySelector("calcite-panel");
+    const actionBar = page.getBySelector("calcite-action-bar");
+
+    await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+    expect(actionBar.element().getBoundingClientRect().top).toBe(
+      panel.element().getBoundingClientRect().top,
+    );
+  });
+
+  it.each([
+    { slot: SLOTS.actionBar, space: 0 },
+    { slot: SLOTS.actionBar, space: 12 },
+    { slot: SLOTS.contentTop, space: 0 },
+    { slot: SLOTS.contentTop, space: 12 },
+  ])(
+    "renders an interactive horizontal Action Bar in $slot with $space px content-top padding",
+    async ({ slot, space }) => {
+      const onAction = vi.fn();
+      const { el } = await mount(
+        <calcite-flow-item
+          heading="Flow item"
+          selected
+          style={`inline-size: 320px; --calcite-flow-content-top-space: ${space}px;`}
+        >
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" onClick={onAction} text="Add" />
+          </calcite-action-bar>
+          <div>Content</div>
+        </calcite-flow-item>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      await expect.element(actionBar).toHaveAttribute("layout", "horizontal");
+      expect(actionBar.element().getBoundingClientRect().width).toBe(
+        el.getBoundingClientRect().width - (slot === SLOTS.contentTop ? space * 2 : 0),
+      );
+      await page.getByRole("button", { name: "Add" }).click();
+      expect(onAction).toHaveBeenCalledOnce();
+    },
+  );
 
   it("forwards header-top content to the internal panel", async () => {
     await mount(

@@ -1,4 +1,5 @@
 // @ts-check
+const { getIssueFormResponse, syncAddedLabelWithMonday } = require("./support/utils.cjs");
 const {
   labels: { bug },
 } = require("./support/resources.cjs");
@@ -24,9 +25,7 @@ module.exports = async ({ github, context, core }) => {
     return;
   }
 
-  const regressionRegex = /### Regression\?(?:\r|\n)+(.+)$/m;
-  const regressionRegexMatch = body.match(regressionRegex);
-  const regressionVersionResponse = (regressionRegexMatch?.[1] || "").trim();
+  const regressionVersionResponse = getIssueFormResponse(body, "Regression?");
 
   // If issue has "_No response_" under the regression section or regressionVersion is an empty string then log and exit, otherwise add regression label.
   if (regressionVersionResponse === "_No response_" || regressionVersionResponse === "") {
@@ -52,16 +51,10 @@ module.exports = async ({ github, context, core }) => {
     labels: [bug.regression],
   });
 
-  await github.rest.actions.createWorkflowDispatch({
-    owner,
-    repo,
-    workflow_id: "issue-monday-sync.yaml",
-    ref: "dev",
-    inputs: {
-      issue_number: issue_number.toString(),
-      event_type: "SyncActionChanges",
-      label_name: bug.regression,
-      label_action: "added",
-    },
+  await syncAddedLabelWithMonday({
+    github,
+    context,
+    issueNumber: issue_number,
+    label: bug.regression,
   });
 };

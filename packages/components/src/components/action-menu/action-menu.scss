@@ -30,10 +30,10 @@
 }
 
 :host {
-  @apply text-1
-  box-border
-  flex
-  flex-col;
+  font-size: var(--calcite-font-size-relative-lg);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
 ::slotted(calcite-action-group:not(:last-of-type)) {
@@ -42,28 +42,28 @@
 }
 
 .default-trigger {
-  @apply relative
-  h-full
-  flex-initial
-  self-stretch;
+  position: relative;
+  block-size: 100%;
+  flex: 0 1 auto;
+  align-self: stretch;
 }
 
 @include shared.slotted("trigger", "calcite-action") {
-  @apply relative
-  h-full
-  flex-initial
-  self-stretch;
+  position: relative;
+  block-size: 100%;
+  flex: 0 1 auto;
+  align-self: stretch;
 }
 
 .menu {
-  @apply flex
-  flex-col
-  flex-nowrap
-  outline-none
-  overflow-y-auto
-  overflow-x-hidden
-  max-h-menu;
+  @include shared.outline-none();
 
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-block-size: 45vh;
   gap: var(--calcite-internal-action-menu-gap);
   padding: var(--calcite-internal-action-menu-padding);
 }

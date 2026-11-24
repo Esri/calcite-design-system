@@ -77,18 +77,30 @@ describe("themed", () => {
   describe("size", () => {
     describe("loader size", () => {
       themed(() => mount(<calcite-loader label="loading" scale="l" />), {
-        "--calcite-loader-size": {
-          shadowSelector: `.${CSS.ring}`,
-          targetProp: "blockSize",
-        },
+        "--calcite-loader-size": [
+          {
+            shadowSelector: `.${CSS.ring}`,
+            targetProp: "blockSize",
+          },
+          {
+            shadowSelector: `.${CSS.ring}`,
+            targetProp: "inlineSize",
+          },
+        ],
       });
     });
     describe("inline loader size", () => {
       themed(() => mount(<calcite-loader inline label="loading" scale="l" />), {
-        "--calcite-loader-size-inline": {
-          shadowSelector: `.${CSS.ring}`,
-          targetProp: "inlineSize",
-        },
+        "--calcite-loader-size": [
+          {
+            shadowSelector: `.${CSS.ring}`,
+            targetProp: "inlineSize",
+          },
+          {
+            shadowSelector: `.${CSS.ring}`,
+            targetProp: "blockSize",
+          },
+        ],
       });
     });
   });

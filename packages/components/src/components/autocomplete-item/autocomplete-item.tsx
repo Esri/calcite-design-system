@@ -19,37 +19,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-autocomplete-background-color": "*";
     /**
      * Specifies the text color of the component's `description`.
+     *
+     * @public
      */
     "--calcite-autocomplete-description-text-color": "*";
     /**
      * Specifies the text color of the component's `heading`.
+     *
+     * @public
      */
     "--calcite-autocomplete-heading-text-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-autocomplete-text-color": "*";
   }
 }
 
+/** @public */
 interface AutocompleteItemSlots {
   /**
    * A slot for adding non-actionable elements after content of the component.
+   *
+   * @public
    */
   "content-end": Node[];
   /**
    * A slot for adding non-actionable elements before content of the component.
+   *
+   * @public
    */
   "content-start": Node[];
 }
 
+/**
+ * @public
+ * @docGroup Autocomplete
+ * @parent calcite-autocomplete
+ */
 export class AutocompleteItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AutocompleteItemSlots;
 
   //#endregion
@@ -70,60 +89,81 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * True when the item is highlighted from keyboard interaction.
-   *
-   * @private
    */
   @property() active = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() description?: string;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
    * The `id` attribute of the component
-   *
-   * @private
    */
   @property() guid = IDS.host(guid());
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() heading!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * Pattern for highlighting text matches.
-   *
-   * @private
    */
   @property({ reflect: true }) inputValueMatchPattern?: RegExp;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
-   *
-   * @private
    */
   @property() scale: Scale = "m";
 
-  /** When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its non-empty `value`; declarative selection is preserved when no initial value is provided, but is cleared when a controlled value is explicitly reset. */
+  /**
+   * When `true`, the component is selected. The parent `calcite-autocomplete` synchronizes this property with its non-empty `value`; declarative selection is preserved when no initial value is provided, but is cleared when a controlled value is explicitly reset.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
-  /** Specifies the component's value. */
+  /**
+   * Specifies the component's value.
+   *
+   * @public
+   */
   @property() value!: string;
 
   //#endregion
@@ -132,8 +172,6 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * Requests selection by emitting the `calciteAutocompleteItemSelect` event. Selection state is managed by the parent `calcite-autocomplete`.
-   *
-   * @private
    */
   @method()
   requestSelection(): void {
@@ -146,13 +184,13 @@ export class AutocompleteItem extends LitElement {
 
   /**
    * Fires when selection is requested.
+   *
+   * @public
    */
   calciteAutocompleteItemSelect = createEvent({ cancelable: false });
 
   /**
    * Fires whenever a property the parent autocomplete needs to know about is changed.
-   *
-   * @private
    */
   calciteInternalAutocompleteItemChange = createEvent({ cancelable: false });
 
