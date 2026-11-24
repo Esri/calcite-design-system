@@ -12,7 +12,7 @@
   cursor: pointer;
   align-self: stretch;
   font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
-  outline-color: var(--calcite-color-transparent);
+  outline: none;
   transition: background-color var(--calcite-internal-animation-timing-fast) ease-in-out;
 }
 
@@ -43,6 +43,7 @@
 
 :host(:focus) .label {
   @include shared.focus-inset();
+  outline-offset: -1px;
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
@@ -135,7 +136,8 @@
     color: highlightText;
   }
   :host(:focus) .label {
-    @apply focus-inset;
+    @include shared.focus-inset();
+    outline-offset: -1px;
   }
 }
 
