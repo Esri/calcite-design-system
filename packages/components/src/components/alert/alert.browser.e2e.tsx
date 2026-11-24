@@ -198,7 +198,7 @@ it("renders requested icons, including filled status icons", async () => {
 
   await expect.element(page.getBySelector(`#icon .${CSS.close}`)).toBeInTheDocument();
   await expect.element(page.getBySelector(`#icon .${CSS.icon}`)).toBeInTheDocument();
-  await expect.element(statusGlyph).toHaveAttribute("icon", "exclamationMarkTriangleF");
+  await expect.element(statusGlyph).toHaveAttribute("icon", "exclamation-mark-triangle-f");
 });
 
 it("closes after the configured auto-close duration", async () => {

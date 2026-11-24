@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "선택 해제",
   "hiddenSelected": "행이 선택되었지만 보이지 않음",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "페이지",
   "row": "행",
-  "selected": "선택됨"
+  "rowNumber": "Row number",
+  "selected": "선택됨",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }
