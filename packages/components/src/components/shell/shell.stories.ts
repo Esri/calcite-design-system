@@ -1,4 +1,5 @@
 import type { Decorator } from "@storybook/web-components-vite";
+import { userEvent } from "storybook/test";
 import { ShellPanel } from "../shell-panel/shell-panel";
 import { Shell } from "./shell";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
@@ -40,7 +41,7 @@ import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chro
 
 const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
 
-interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "heightScale" | "resizable"> {
+interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "height" | "resizable"> {
   centerPanelPosition: ShellPanel["position"];
   leadingPanelPosition: ShellPanel["position"];
   trailingPanelPosition: ShellPanel["position"];
@@ -65,7 +66,7 @@ export default {
     resizable: true,
     contentBehind: false,
     detached: false,
-    heightScale: scale.values[0],
+    height: scale.values[0],
   },
   argTypes: {
     centerPanelPosition: {
@@ -84,7 +85,7 @@ export default {
       options: position.values,
       control: { type: "select" },
     },
-    heightScale: {
+    height: {
       options: scale.values,
       control: { type: "select" },
     },
@@ -311,7 +312,7 @@ export const simple = (args: ShellStoryArgs): string => html`
     ${contentHTML}
     <calcite-shell-panel
       display-mode="${args.displayMode}"
-      height-scale="${args.heightScale}"
+      height="${args.height}"
       position="${args.centerPanelPosition}"
       slot="panel-bottom"
     >
@@ -594,7 +595,7 @@ export const darkModeRTL = (): string => html`
     ${headerHTML}
     <calcite-shell-panel slot="panel-start" display-mode="dock"> ${advancedLeadingPanelHTML} </calcite-shell-panel>
     ${contentHTML}
-    <calcite-shell-panel height-scale="s" slot="panel-bottom"> ${centerPanelHTML} </calcite-shell-panel>
+    <calcite-shell-panel height="s" slot="panel-bottom"> ${centerPanelHTML} </calcite-shell-panel>
     ${contentHTML}
     <calcite-shell-panel slot="panel-end" display-mode="dock"> ${advancedTrailingPanelHTMl} </calcite-shell-panel>
     ${footerHTML}
@@ -868,7 +869,7 @@ export const slottedSheetOverlay = (): string => html`
     "
   >
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -960,7 +961,7 @@ const slottedSheetHtml: string[] = [];
     "
     >
       <div class="global-nav" slot="header">Header Example</div>
-      <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
+      <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="${d}">
         <calcite-panel closable heading="Ultrices neque"
           ><p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
@@ -1170,10 +1171,10 @@ export const slottedPanelTopAndBottomAndSides = (): string => html`
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-panel slot="panel-start" display-mode="dock" width-scale="m">
+    <calcite-shell-panel slot="panel-start" display-mode="dock" width="m">
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end" display-mode="dock" width-scale="m">
+    <calcite-shell-panel slot="panel-end" display-mode="dock" width="m">
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>
     <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
@@ -1714,7 +1715,7 @@ overlayDisplayMode.parameters = {
 
 export const panelEndWithPositionStart = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-end" width-scale="l" resizable>
+    <calcite-shell-panel slot="panel-end" width="l" resizable>
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator></calcite-action>
         <calcite-action active icon="map" text="Map"></calcite-action>
@@ -1749,7 +1750,7 @@ export const panelEndWithPositionStart = (): string =>
 
 export const panelTopFloatHorizontal = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
+    <calcite-shell-panel slot="panel-top" display-mode="float-all" width="m">
       <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="horizontal" overlay-positioning="absolute">
         <calcite-action-group layout="horizontal" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
@@ -1795,7 +1796,7 @@ export const panelTopFloatHorizontal = (): string =>
 
 export const panelTopFloatVertical = (): string =>
   html`<calcite-shell>
-    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
+    <calcite-shell-panel slot="panel-top" display-mode="float-all" width="m">
       <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="vertical" overlay-positioning="absolute">
         <calcite-action-group layout="vertical" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
@@ -2192,14 +2193,14 @@ export const resizableShellPanelWithDropdown = (): string =>
       background-size: 20px 20px;
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
-    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s">
+    <calcite-shell-panel slot="panel-start" id="shell-panel-start" resizable width="s" focus-trap-disabled>
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator text-enabled></calcite-action>
         <calcite-action active icon="map" text="Map" text-enabled></calcite-action>
         <calcite-action icon="layer" text="Layer" text-enabled></calcite-action>
       </calcite-action-bar>
       <calcite-panel heading="Map" id="panel-start">
-        <calcite-dropdown open width="m" overlay-positioning="fixed">
+        <calcite-dropdown width="m" overlay-positioning="fixed">
           <calcite-button slot="trigger">Select landform</calcite-button>
           <calcite-dropdown-group group-title="Natural places">
             <calcite-dropdown-item>Mountain</calcite-dropdown-item>
@@ -2213,6 +2214,15 @@ export const resizableShellPanelWithDropdown = (): string =>
       </calcite-panel>
     </calcite-shell-panel>
   </calcite-shell>`;
+
+resizableShellPanelWithDropdown.play = async ({ canvasElement }: { canvasElement: HTMLElement }): Promise<void> => {
+  const shell = canvasElement.querySelector<Shell["el"]>("calcite-shell")!;
+  const trigger = canvasElement.querySelector("calcite-button[slot='trigger']")!;
+
+  await shell.componentOnReady();
+  await userEvent.click(trigger);
+};
+resizableShellPanelWithDropdown.parameters = { chromatic: { delay: 0 } };
 
 export const floatAllArrangementsStart = (): string =>
   html` <calcite-shell content-behind>
@@ -2686,7 +2696,7 @@ export const customPanelWithOverflowingContent = (): string =>
     --calcite-shell-panel-min-height: auto;
     --calcite-shell-panel-height: auto;"
     >
-      <calcite-shell-panel display-mode="float-content" width-scale="l" slot="panel-bottom" style="height: 100%;">
+      <calcite-shell-panel display-mode="float-content" width="l" slot="panel-bottom" style="height: 100%;">
         <calcite-panel heading="Panel">
           <div style="display: flex; flex-direction: row; height: 100%; width:100%">
             <calcite-action-bar
@@ -3038,7 +3048,7 @@ export const embeddedSlots = (): string => html`
     <calcite-alert open slot="alerts" placement="top-end"
       ><span slot="title">Alert slotted in Shell</span>
     </calcite-alert>
-    <calcite-sheet open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
+    <calcite-sheet modal open slot="sheets" label="libero nunc" position="inline-start" display-mode="overlay">
       <calcite-panel closable heading="Ultrices neque"
         ><p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
@@ -3182,10 +3192,10 @@ export const floatAllHeights = (): string => html`
     </calcite-shell>
   </div>
   <br />
-  <h3>layout="horizontal" & display-mode="float-all" & height-scale="m"</h3>
+  <h3>layout="horizontal" & display-mode="float-all" & height="m"</h3>
   <div style="position:relative; height: 280px">
     <calcite-shell>
-      <calcite-shell-panel layout="horizontal" display-mode="float-all" height-scale="m">
+      <calcite-shell-panel layout="horizontal" display-mode="float-all" height="m">
         <calcite-panel heading="Example" description="example" closable> </calcite-panel>
       </calcite-shell-panel>
     </calcite-shell>

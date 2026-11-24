@@ -21,7 +21,7 @@
     @include shared.text-n2h();
 
     gap: var(--calcite-space-2xs);
-    margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.2"));
+    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-space-sm));
   }
 }
 :host([scale="m"]) {
@@ -29,7 +29,7 @@
     @include shared.text-n1h();
 
     gap: var(--calcite-space-sm);
-    margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.3"));
+    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-space-md));
   }
 }
 :host([scale="l"]) {
@@ -37,7 +37,7 @@
     @include shared.text-0h();
 
     gap: var(--calcite-space-sm);
-    margin-block-end: var(--calcite-label-margin-bottom, theme("spacing.4"));
+    margin-block-end: var(--calcite-label-margin-bottom, var(--calcite-space-lg));
   }
 }
 :host .container {

@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "ชัดเจน",
   "hiddenSelected": "เลือกแถวแล้วแต่อยู่นอกมุมมอง",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "หน้า",
   "row": "แถว",
-  "selected": "ที่เลือก"
+  "rowNumber": "Row number",
+  "selected": "ที่เลือก",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

@@ -415,7 +415,7 @@ export const darkModeRTL = (): string =>
 darkModeRTL.parameters = { themes: modesDarkDefault };
 
 export const verticalComplexUseCase = (): string =>
-  html`<calcite-shell-panel width-scale="l">
+  html`<calcite-shell-panel width="l">
     <calcite-panel heading="Extreme nested vertical menu">
       <calcite-menu layout="vertical">
         <calcite-menu-item icon-start="layer" icon-end="layer" text="Home"></calcite-menu-item>

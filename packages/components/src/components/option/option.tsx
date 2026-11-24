@@ -12,6 +12,11 @@ declare global {
 const whitespaceCharsToTrim = [" ", "\n", "\t", "\r"];
 const whitespaceToReplaceRegexp = /[^\S\u00A0]+/g;
 
+/**
+ * @public
+ * @docGroup Select
+ * @parent calcite-select
+ */
 export class Option extends LitElement {
   // #endregion
 
@@ -30,29 +35,42 @@ export class Option extends LitElement {
 
   // #region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({
     reflect: true,
   })
   disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({
     reflect: true,
   })
   selected = false;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property() value: any;
 
   // #endregion
 
   // #region Events
-
-  /** @private */
 
   private calciteInternalOptionChange = createEvent({ cancelable: false });
 

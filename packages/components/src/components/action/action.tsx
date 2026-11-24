@@ -33,85 +33,73 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-action-background-color-hover": "*";
     /**
      * Specifies the component's background color when active.
+     *
+     * @public
      */
     "--calcite-action-background-color-press": "*";
     /**
-     * Specifies the component's background color when active.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-background-color-press` instead.
-     */
-    "--calcite-action-background-color-pressed": "*";
-    /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-action-background-color": "*";
     /**
-     * Specifies the component's corner radius end end.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-end-end": "*";
-    /**
-     * Specifies the component's corner radius end start.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-end-start": "*";
-    /**
-     * Specifies the component's corner radius start end.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-start-end": "*";
-    /**
-     * Specifies the component's corner radius start start.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-corner-radius` instead.
-     */
-    "--calcite-action-corner-radius-start-start": "*";
-    /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-action-corner-radius": "*";
     /**
      * Specifies the component's indicator color.
+     *
+     * @public
      */
     "--calcite-action-indicator-color": "*";
     /**
      * Specifies the component's text color when pressed or hovered.
+     *
+     * @public
      */
     "--calcite-action-text-color-press": "*";
     /**
-     * Specifies the component's text color when hovered.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-action-text-color-press` instead.
-     */
-    "--calcite-action-text-color-pressed": "*";
-    /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-action-text-color": "*";
     /**
      * Specifies the component's loader color.
+     *
+     * @public
      */
     "--calcite-action-loader-color": "*";
   }
 }
 
+/** @public */
 interface ActionSlots {
   /**
    * A slot for adding non-interactive content, such as a `calcite-icon`.
+   *
+   * @public
    */
   "": Node[];
 }
 
+/**
+ * @public
+ * @docGroup Actions
+ */
 export class Action extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ActionSlots;
 
   //#endregion
@@ -136,12 +124,10 @@ export class Action extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private indicatorRef = createRef<HTMLDivElement>();
 
@@ -155,6 +141,8 @@ export class Action extends LitElement {
 
   /**
    * When specified, overrides or extends ARIA properties and attributes on the component's button. Refer to the component's accessibility section for configuration considerations.
+   *
+   * @public
    */
   @property() aria?: Partial<
     Pick<
@@ -163,6 +151,7 @@ export class Action extends LitElement {
       | "describedByElements"
       | "expanded"
       | "hasPopup"
+      | "label"
       | "labelledByElements"
       | "ownsElements"
       | "pressed"
@@ -171,78 +160,110 @@ export class Action extends LitElement {
       Pick<LuminaJsx.HTMLAttributes, "role">
   >;
 
-  /** When `true`, the component is highlighted. */
+  /**
+   * When `true`, the component is highlighted.
+   *
+   * @public
+   */
   @property({ reflect: true }) active = false;
 
   /**
-   * When `true`, the component appears as if it is focused.
-   * @private
+   * Specifies the horizontal alignment of button elements with text content.
+   *
+   * @public
    */
-  @property({ reflect: true }) activeDescendant = false;
-
-  /** Specifies the horizontal alignment of button elements with text content. */
   @property({ reflect: true }) alignment?: Alignment;
 
   /**
    * Specifies the appearance of the component.
+   *
+   * @public
    */
   @property({ reflect: true }) appearance: Extract<"solid" | "transparent", Appearance> =
     "transparent";
 
   /**
-   * When `true`, the side padding of the component is reduced.
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
    *
-   * @deprecated in v2.11.0, removal target v5.0.0 - No longer necessary.
+   * @public
    */
-  @property({ reflect: true }) compact = false;
-
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
   @property({ reflect: true }) disabled = false;
 
   /**
    * When `true`, the component is draggable.
-   *
-   * @private
    */
   @property({ reflect: true }) dragHandle = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** Specifies an icon to display. */
+  /**
+   * Specifies an icon to display.
+   *
+   * @public
+   */
   @property({ reflect: true }) icon?: IconName;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, displays a visual indicator. */
+  /**
+   * When `true`, displays a visual indicator.
+   *
+   * @public
+   */
   @property({ reflect: true }) indicator = false;
 
-  /** Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop. */
+  /**
+   * Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop.
+   *
+   * @public
+   */
   @property() label?: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`. */
+  /**
+   * When `true`, the component is not automatically overflowed into a menu by a parent `calcite-action-bar`.
+   *
+   * @public
+   */
   @property({ reflect: true }) overflowDisabled = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
    * When `full`, the component's width spans all its parent's available space
-   *
-   * @private
    */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   /**
    * Specifies text that accompanies the icon.
    *
+   * @public
    * @required
    */
   @property() text!: string;
@@ -251,20 +272,21 @@ export class Action extends LitElement {
    * When `true`, displays `text` adjacent to the `icon`.
    *
    * When `true` and the component is used as a child of `calcite-action-bar`, the text will be shown initially regardless of the parent components `expanded` state.
+   *
+   * @public
    */
   @property({ reflect: true }) textEnabled = false;
 
   /**
    * Specifies the default behavior of the component.
    *
+   * @public
    * @see [MDN - type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attr-type)
    */
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   /**
    * Specifies the selection appearance of the component. Inherited from `calcite-action-bar`.
-   *
-   * @private
    */
   @property({ reflect: true }) selectionAppearance?: Extract<
     "neutral" | "highlight",
@@ -278,8 +300,8 @@ export class Action extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -406,14 +428,12 @@ export class Action extends LitElement {
   }
 
   private renderButton(): JsxNode {
-    const { compact, disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } =
-      this;
+    const { disabled, icon, loading, textEnabled, indicator, indicatorRef, buttonId } = this;
     const ariaLabelledByElements = this.getLabelledByElements();
 
     const buttonClasses = {
       [CSS.button]: true,
       [CSS.buttonTextVisible]: textEnabled,
-      [CSS.buttonCompact]: compact,
     };
 
     const buttonContent = (
@@ -441,6 +461,7 @@ export class Action extends LitElement {
           ariaDescribedByElements={this.aria?.describedByElements}
           ariaExpanded={this.aria?.expanded}
           ariaHasPopup={this.aria?.hasPopup}
+          ariaLabel={this.aria?.label}
           ariaLabelledByElements={ariaLabelledByElements}
           ariaOwnsElements={this.aria?.ownsElements}
           ariaPressed={this.aria?.pressed}
@@ -448,7 +469,7 @@ export class Action extends LitElement {
           id={buttonId}
           ref={this.buttonRef}
           role="button"
-          tabIndex={this.disabled ? undefined : 0}
+          tabIndex={disabled ? undefined : 0}
         >
           {buttonContent}
         </span>
@@ -463,6 +484,7 @@ export class Action extends LitElement {
         ariaDescribedByElements={this.aria?.describedByElements}
         ariaExpanded={this.aria?.expanded}
         ariaHasPopup={this.aria?.hasPopup}
+        ariaLabel={this.aria?.label}
         ariaLabelledByElements={ariaLabelledByElements}
         ariaOwnsElements={this.aria?.ownsElements}
         ariaPressed={this.aria?.pressed}

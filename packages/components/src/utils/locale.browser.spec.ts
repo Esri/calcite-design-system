@@ -1,10 +1,10 @@
 import { describe, expect, it, beforeEach, MockInstance } from "vitest";
-import { defaultLocale } from "@arcgis/toolkit/intl";
-import { supportedNlsLocales } from "../components/date-picker/utils";
+import { defaultLocale, supportedLocales } from "@arcgis/toolkit/intl";
 import {
   dateTimeFormatCache,
   defaultNumberingSystem,
   getDateFormatSupportedLocale,
+  getDateTextSupportedLocale,
   getDateTimeFormat,
   numberingSystems,
   numberStringFormatter,
@@ -38,14 +38,8 @@ describe("NumberStringFormat", () => {
     expect(numberStringFormatter.numberFormatOptions.locale).toBe(defaultLocale);
   });
 
-  describe.each(supportedNlsLocales)("locales", (locale) => {
-    const localesWithBrokenFormatting = ["bs", "mk"];
-    const shouldSkip = localesWithBrokenFormatting.includes(locale);
-    const skipMessage = `Skipped: Chromium does not format ${locale} correctly.`;
-
-    it(`integers localize and delocalize in "${locale}"`, ({ skip }) => {
-      skip(shouldSkip, skipMessage);
-
+  describe.each([...supportedLocales])("locales", (locale) => {
+    it(`integers localize and delocalize in "${locale}"`, () => {
       const numberString = "555";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -57,9 +51,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`negative numbers localize and delocalize in "${locale}"`, ({ skip }) => {
-      skip(shouldSkip, skipMessage);
-
+    it(`negative numbers localize and delocalize in "${locale}"`, () => {
       const numberString = "-123";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -71,9 +63,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`locale: floating point numbers localize and delocalize in "${locale}"`, ({ skip }) => {
-      skip(shouldSkip, skipMessage);
-
+    it(`locale: floating point numbers localize and delocalize in "${locale}"`, () => {
       const numberString = "4.321";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -85,9 +75,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`exponential numbers localize and delocalize in "${locale}"`, ({ skip }) => {
-      skip(shouldSkip, skipMessage);
-
+    it(`exponential numbers localize and delocalize in "${locale}"`, () => {
       const numberString = "2.5e-3";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -99,9 +87,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`numbers with group separators localize and delocalize in "${locale}"`, ({ skip }) => {
-      skip(shouldSkip, skipMessage);
-
+    it(`numbers with group separators localize and delocalize in "${locale}"`, () => {
       const numberString = "1234567890";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -114,9 +100,7 @@ describe("NumberStringFormat", () => {
       expect(delocalizedNumberString).toBe(numberString);
     });
 
-    it(`floating point numbers with group separators localize and delocalize in "${locale}"`, ({ skip }) => {
-      skip(shouldSkip, skipMessage);
-
+    it(`floating point numbers with group separators localize and delocalize in "${locale}"`, () => {
       const numberString = "12345678.0123456789";
       numberStringFormatter.numberFormatOptions = {
         locale,
@@ -127,6 +111,24 @@ describe("NumberStringFormat", () => {
       const localizedNumberString = numberStringFormatter.localize(numberString);
       const delocalizedNumberString = numberStringFormatter.delocalize(localizedNumberString);
       expect(delocalizedNumberString).toBe(numberString);
+    });
+  });
+
+  describe.each(["bs", "mk"])("separator workaround for %s", (locale) => {
+    it.each([
+      ["latn", "-1.234.567.890,125"],
+      ["arab", "-١٬٢٣٤٬٥٦٧٬٨٩٠,١٢٥"],
+      ["arabext", "-۱٬۲۳۴٬۵۶۷٬۸۹۰,۱۲۵"],
+    ] as const)("preserves grouping and decimal separators with %s digits", (numberingSystem, expected) => {
+      const numberString = "-1234567890.125";
+      numberStringFormatter.numberFormatOptions = {
+        locale,
+        numberingSystem,
+        useGrouping: true,
+      };
+
+      expect(numberStringFormatter.localize(numberString)).toBe(expected);
+      expect(numberStringFormatter.delocalize(expected)).toBe(numberString);
     });
   });
 
@@ -211,6 +213,16 @@ describe("getDateFormatSupportedLocale", () => {
   describe("locale mappings", () => {
     it("maps `it-CH` to `de-CH`", () => {
       assertLocaleMapping("it-CH", "de-CH");
+    });
+
+    describe("getDateTextSupportedLocale", () => {
+      it("maps `bs` to the Serbian Latin fallback", () => {
+        expect(getDateTextSupportedLocale("bs")).toBe("sr-Latn-CS");
+      });
+
+      it("preserves locales whose textual date formatting is supported", () => {
+        expect(getDateTextSupportedLocale("it-CH")).toBe("it-CH");
+      });
     });
 
     it("maps `bs` to `sr-Latn-CS`", () => {

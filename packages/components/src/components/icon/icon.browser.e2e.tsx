@@ -79,21 +79,14 @@ describe("rendering", () => {
   });
 
   it.for([
-    ["letter-only", "a-z", "aZ"],
-    ["numeric", "number-circle-1", "numberCircle1"],
-  ] as const)(
-    "supports %s icon names in both camelCase and kebab-case",
-    async ([, kebabCaseIcon, camelCaseIcon]) => {
-      const { el, reRender } = await mount<Icon>(<calcite-icon icon={kebabCaseIcon} />);
-      const path = page.getBySelector(`calcite-icon path`);
-      const iconPathData = path.element().getAttribute("d");
+    ["letter-only", "a-z"],
+    ["numeric", "number-circle-1"],
+  ] as const)("loads %s kebab-case icon names", async ([, iconName]) => {
+    await mount<Icon>(<calcite-icon icon={iconName} />);
+    const path = page.getBySelector(`calcite-icon path`);
 
-      el.icon = camelCaseIcon;
-      await reRender();
-
-      await expect.element(path).toHaveAttribute("d", iconPathData);
-    },
-  );
+    await expect.element(path).not.toHaveAttribute("d", "");
+  });
 
   describe("icon-loading when it's close to viewport", () => {
     it("default (no preload)", async () => {
