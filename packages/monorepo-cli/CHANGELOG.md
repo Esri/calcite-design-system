@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/monorepo-cli@0.3.0-next.1...@esri/monorepo-cli@0.3.0-next.2) (2026-11-19)
+
+### Features
+
+- **cli:** add `validate-breaking-change-pr` command and workflow ([#15620](https://github.com/Esri/calcite-design-system/issues/15620))
+
 ## [0.3.0-next.1](https://github.com/Esri/calcite-design-system/compare/@esri/monorepo-cli@0.1.0...@esri/monorepo-cli@0.3.0-next.1) (2026-11-04)
 
 ### Features

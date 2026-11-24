@@ -84,60 +84,85 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's divider color.
+     *
+     * @public
      */
     "--calcite-combobox-divider-color": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-combobox-icon-color": "*";
     /**
      * Specifies the component's icon color when hovered.
+     *
+     * @public
      */
     "--calcite-combobox-icon-color-hover": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-combobox-corner-radius": "*";
     /**
      * Specifies the background color of the component's listbox.
+     *
+     * @public
      */
     "--calcite-combobox-background-color": "*";
     /**
      * Specifies the border color of the component's input.
+     *
+     * @public
      */
     "--calcite-combobox-input-border-color": "*";
     /**
      * Specifies the background color of the component's input.
+     *
+     * @public
      */
     "--calcite-combobox-input-background-color": "*";
     /**
      * Specifies the height of the component's input.
+     *
+     * @public
      */
     "--calcite-combobox-input-height": "*";
     /**
      * When `selectionDisplay` is `"single"`, specifies the text color of the component's input.
+     *
+     * @public
      */
     "--calcite-combobox-input-text-color": "*";
   }
 }
 
+/** @public */
 interface ComboboxSlots {
   /**
    * A slot for adding `calcite-combobox-item`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Combobox
  */
 export class Combobox extends LitElement implements LabelableComponent, FloatingUIComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: ComboboxSlots;
 
   //#endregion
@@ -310,8 +335,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
@@ -407,16 +430,32 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   //#region Public Properties
 
-  /** When `true`, allows entry of custom values, which are not in the original set of items. */
+  /**
+   * When `true`, allows entry of custom values, which are not in the original set of items.
+   *
+   * @public
+   */
   @property({ reflect: true }) allowCustomValues?: boolean;
 
-  /** When `true`, disables value-clearing. */
+  /**
+   * When `true`, disables value-clearing.
+   *
+   * @public
+   */
   @property({ reflect: true }) clearDisabled = false;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** The component's filter input field text. */
+  /**
+   * The component's filter input field text.
+   *
+   * @public
+   */
   @property({ reflect: true })
   get filterText(): string {
     return this._filterText;
@@ -429,78 +468,141 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
   }
 
-  /** Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, `shortHeading`). */
+  /**
+   * Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, `shortHeading`).
+   *
+   * @public
+   */
   @property() filterProps?: string[];
 
   /**
    * The component's filtered items.
    *
+   * @public
    * @readonly
    */
   @property() get filteredItems(): HTMLCalciteComboboxItemElement["el"][] {
     return this.items.filter((item) => !isHidden(item));
   }
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar. */
+  /**
+   * Specifies the maximum number of `calcite-combobox-item-group`s & `calcite-combobox-item`s (including nested children) to display before displaying a scrollbar.
+   *
+   * @public
+   */
   @property({ reflect: true }) maxItems = 0;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the input's placeholder text. */
+  /**
+   * Specifies the input's placeholder text.
+   *
+   * @public
+   */
   @property() placeholder?: string;
 
-  /** Specifies the input's placeholder icon. */
+  /**
+   * Specifies the input's placeholder icon.
+   *
+   * @public
+   */
   @property({ reflect: true }) placeholderIcon?: IconName;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) placeholderIconFlipRtl = false;
 
-  /** Specifies the component's position relative to the `referenceElement`. */
+  /**
+   * Specifies the component's position relative to the `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
-  /** When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified. */
+  /**
+   * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
+   *
+   * @public
+   */
   @property({ reflect: true }) readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, displays a checkbox for selecting all `calcite-combobox-item`s. */
+  /**
+   * When `true` and `selectionMode` is `"multiple"` or `"ancestors"`, displays a checkbox for selecting all `calcite-combobox-item`s.
+   *
+   * @public
+   */
   @property({ reflect: true }) selectAllEnabled = false;
 
   /**
    * The component's selected items.
    *
+   * @public
    * @readonly
    */
   @property() get selectedItems(): HTMLCalciteComboboxItemElement["el"][] {
@@ -520,6 +622,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    * - `"all"` displays all selections with individual `calcite-chip`s.
    * - `"fit"` displays individual `calcite-chip`s that scale to the component's size, including a non-closable `calcite-chip`, which provides the number of additional `calcite-combobox-item` selections not visually displayed.
    * - `"single"` displays one `calcite-chip` with the total number of selections.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
@@ -528,6 +632,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays a background highlight.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionAppearance: Extract<
     "icon" | "highlight",
@@ -541,36 +647,54 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    * - `"single"` allows only one selection.
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
+   *
+   * @public
    */
   @property({ reflect: true }) selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /**
+   * Specifies the input field's status, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value(s) from the selected `calcite-combobox-item`(s). */
+  /**
+   * The component's value(s) from the selected `calcite-combobox-item`(s).
+   *
+   * @public
+   */
   @property()
   get value(): string | string[] {
     return this._value;
@@ -590,6 +714,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   /**
    * Updates the component's position.
    *
+   * @public
    * @param delayed Reposition the component after a delay
    * @returns Promise
    */
@@ -615,8 +740,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -632,25 +757,53 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   //#region Events
 
-  /** Fires when the component is requested to be closed, and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed, and before the closing transition begins.
+   *
+   * @public
+   */
   calciteComboboxBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteComboboxBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the selected item(s) changes. */
+  /**
+   * Fires when the selected item(s) changes.
+   *
+   * @public
+   */
   calciteComboboxChange = createEvent({ cancelable: false });
 
-  /** Fires when a selected item in the component is closed via its `calcite-chip`. */
+  /**
+   * Fires when a selected item in the component is closed via its `calcite-chip`.
+   *
+   * @public
+   */
   calciteComboboxChipClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteComboboxClose = createEvent({ cancelable: false });
 
-  /** Fires when text is added to filter the options list. */
+  /**
+   * Fires when text is added to filter the options list.
+   *
+   * @public
+   */
   calciteComboboxFilterChange = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteComboboxOpen = createEvent({ cancelable: false });
 
   //#endregion
@@ -680,7 +833,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   }
 
   async load(): Promise<void> {
-    this.listenOn(document, "pointerdown", this.documentPointerDownHandler, { capture: true });
+    this.listenOn(document, "pointerdown", this.documentPointerDownHandler, {
+      capture: true,
+    });
     this.listenOn(document, "click", this.documentClickHandler);
     this.handleSelectionModeWarning();
   }
@@ -1973,7 +2128,9 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
         label={label}
         messageOverrides={
           !disabled
-            ? { dismissLabel: messages.removeTag.replace("{value}", `${label}`) }
+            ? {
+                dismissLabel: messages.removeTag.replace("{value}", `${label}`),
+              }
             : undefined
         }
         oncalciteChipClose={!disabled ? () => this.calciteChipCloseHandler(item) : undefined}
@@ -2364,7 +2521,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
                   })}
                 </li>
               ) : (
-                <li class={{ [CSS.noMatchesPlaceholder]: true, [CSS.noMatches]: true }}>
+                <li
+                  class={{
+                    [CSS.noMatchesPlaceholder]: true,
+                    [CSS.noMatches]: true,
+                  }}
+                >
                   {messages.noMatches}
                 </li>
               ))}
