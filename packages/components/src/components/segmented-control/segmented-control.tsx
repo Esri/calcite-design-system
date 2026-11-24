@@ -14,7 +14,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import type { Layout, Scale, Status, Width } from "../types";
+import type { Layout, Scale, SelectionAppearance, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import type { IconName } from "../icon/types";
@@ -119,7 +119,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    * @public
    */
   @property({ reflect: true })
-  selectionAppearance: "brand" | "highlight" | "neutral" = "neutral";
+  selectionAppearance: Extract<"brand" | "highlight" | "neutral", SelectionAppearance> = "neutral";
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.

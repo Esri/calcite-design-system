@@ -2,7 +2,7 @@ import { PropertyValues } from "lit";
 import { LitElement, property, createEvent, h, state, JsxNode } from "@arcgis/lumina";
 import { slotChangeHasContent } from "../../utils/dom";
 import { toAriaBoolean } from "../../utils/aria";
-import { Layout, Scale } from "../types";
+import { Layout, Scale, SelectionAppearance } from "../types";
 import { IconName } from "../icon/types";
 import { CSS, SLOTS } from "./resources";
 import { styles } from "./segmented-control-item.scss";
@@ -71,7 +71,8 @@ export class SegmentedControlItem extends LitElement {
   /**
    * Specifies the appearance style of the component inherited from parent `calcite-segmented-control`, defaults to `neutral`.
    */
-  @property() appearance: "brand" | "highlight" | "neutral" = "neutral";
+  @property() appearance: Extract<"brand" | "highlight" | "neutral", SelectionAppearance> =
+    "neutral";
 
   /**
    * @public
