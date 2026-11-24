@@ -43,7 +43,6 @@
 
 :host(:focus) .label {
   @include shared.focus-inset();
-  outline-offset: -1px;
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
 }
 
@@ -137,7 +136,6 @@
   }
   :host(:focus) .label {
     @apply focus-inset;
-    outline-offset: -1px;
   }
 }
 
