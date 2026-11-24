@@ -141,9 +141,8 @@ export class TreeItem extends LitElement {
   }
 
   /**
-   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
