@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import {
@@ -504,3 +504,569 @@ describe("theme", () => {
     );
   });
 });
+
+describe("change events", () => {
+  it("does not emit change when the displayed year changes", async () => {
+    const changeHandler = vi.fn();
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
+    const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" });
+
+    await userEvent.click(yearInput);
+    await userEvent.keyboard("{ArrowUp}{ArrowDown}");
+    await component.updateComplete;
+
+    expect(changeHandler).not.toHaveBeenCalled();
+    await expect.element(el).toHaveProperty("value", "2000-11-27");
+  });
+
+  it("emits change when a day is selected", async () => {
+    const changeHandler = vi.fn();
+    const { component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
+
+    await selectDay("20001101", component);
+    await selectDay("20001102", component);
+
+    expect(changeHandler).toHaveBeenCalledTimes(2);
+  });
+
+  it.each([
+    { calendars: 2 as const, start: "20240101", end: "20240115" },
+    { calendars: 1 as const, start: "20240101", end: "20240115" },
+    { calendars: 2 as const, start: "20240201", end: "20240215" },
+  ])(
+    "emits range change and updates value for selections with $calendars calendar(s)",
+    async ({ calendars, start, end }) => {
+      const changeHandler = vi.fn();
+      const { el, component } = await mount<DatePicker>(
+        <calcite-date-picker
+          activeDate={new Date(2024, 0, 1)}
+          calendars={calendars}
+          oncalciteDatePickerRangeChange={changeHandler}
+          range
+        />,
+      );
+
+      await selectDay(start, component);
+      await expect.element(el).toHaveProperty("value", [dayIdToIso(start), ""]);
+
+      await selectDay(end, component);
+      await expect.element(el).toHaveProperty("value", [dayIdToIso(start), dayIdToIso(end)]);
+      expect(changeHandler).toHaveBeenCalledTimes(2);
+    },
+  );
+
+  it("does not emit change when the selected day is selected again", async () => {
+    const changeHandler = vi.fn();
+    const { component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
+
+    await selectDay("20001127", component);
+    await selectDay("20001127", component);
+    await selectDay("20001127", component);
+
+    expect(changeHandler).not.toHaveBeenCalled();
+  });
+
+  it("does not emit change when value is updated programmatically", async () => {
+    const changeHandler = vi.fn();
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerChange={changeHandler} value="2000-11-27" />,
+    );
+
+    el.value = "2001-10-28";
+    await component.updateComplete;
+
+    expect(changeHandler).not.toHaveBeenCalled();
+    await expect.element(el).toHaveProperty("value", "2001-10-28");
+  });
+
+  it("emits range change only after a user selection", async () => {
+    const changeHandler = vi.fn();
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker oncalciteDatePickerRangeChange={changeHandler} range />,
+    );
+
+    el.value = ["2020-09-08", "2020-09-23"];
+    el.activeDate = new Date(2020, 8, 1);
+    await component.updateComplete;
+
+    expect(changeHandler).not.toHaveBeenCalled();
+    await expect
+      .element(page.getByRole("combobox", { includeHidden: true, name: "Month menu" }).first())
+      .toHaveProperty("value", "September");
+
+    const selectedDay = getDay("20200908");
+    await (selectedDay.element() as DatePickerDay["el"]).setFocus();
+    await userEvent.keyboard("{ArrowRight} ");
+    await component.updateComplete;
+
+    expect(changeHandler).toHaveBeenCalledTimes(1);
+  });
+});
+
+it("starts the week on Monday for Slovak", async () => {
+  await mount(<calcite-date-picker lang="sk" value="2000-11-27" />);
+
+  await expect
+    .element(page.getByRole("columnheader", { includeHidden: true }).first())
+    .toHaveTextContent("po");
+});
+
+describe("min and max", () => {
+  it("clears minAsDate and maxAsDate when min and max are cleared", async () => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker max="2022-11-25" min="2022-11-15" value="2022-11-20" />,
+    );
+
+    el.min = undefined;
+    el.max = undefined;
+
+    await expect.element(el).toHaveProperty("minAsDate", undefined);
+    await expect.element(el).toHaveProperty("maxAsDate", undefined);
+
+    el.activeDate = new Date(2022, 10, 26);
+    await component.updateComplete;
+    expectDateParts(el.activeDate, 2022, 10, 26);
+
+    el.activeDate = new Date(2022, 10, 14);
+    await component.updateComplete;
+    expectDateParts(el.activeDate, 2022, 10, 14);
+  });
+
+  it("keeps the minimum and maximum months enabled", async () => {
+    const { el } = await mount<DatePicker>(<calcite-date-picker value="2025-03-20" />);
+
+    el.min = "2025-02-15";
+    el.max = "2025-04-15";
+
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "January" }))
+      .toBeDisabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "February" }))
+      .toBeEnabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "March" }))
+      .toBeEnabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "April" }))
+      .toBeEnabled();
+    await expect
+      .element(page.getByRole("option", { includeHidden: true, name: "May" }))
+      .toBeDisabled();
+  });
+
+  it("disables days outside minAsDate and maxAsDate", async () => {
+    const { el } = await mount<DatePicker>(
+      <calcite-date-picker activeDate={new Date(2025, 7, 18)} />,
+    );
+
+    el.minAsDate = new Date(2025, 7, 18);
+    el.maxAsDate = new Date(2025, 7, 20);
+
+    await expect.element(getDay("20250817")).toBeDisabled();
+    await expect.element(getDay("20250818")).toBeEnabled();
+    await expect.element(getDay("20250820")).toBeEnabled();
+    await expect.element(getDay("20250821")).toBeDisabled();
+  });
+});
+
+describe("arrow and page key navigation", () => {
+  it.each([
+    {
+      calendars: 2 as const,
+      initialValue: undefined,
+      range: false,
+      expectedValues: ["2023-12-25", "2023-11-25", "2024-01-25", "2024-02-01"],
+    },
+    {
+      calendars: 2 as const,
+      initialValue: "2024-01-01",
+      range: false,
+      expectedValues: ["2023-12-25", "2024-01-08", "2023-12-08", "2024-02-08"],
+    },
+    {
+      calendars: 2 as const,
+      initialValue: undefined,
+      range: true,
+      expectedValues: [
+        ["2023-12-25", ""],
+        ["2023-11-25", "2023-12-25"],
+        ["2023-11-25", "2024-01-25"],
+        ["2023-11-25", "2024-02-01"],
+      ],
+    },
+    {
+      calendars: 1 as const,
+      initialValue: undefined,
+      range: true,
+      expectedValues: [
+        ["2023-12-25", ""],
+        ["2023-11-25", "2023-12-25"],
+        ["2023-11-25", "2024-01-25"],
+        ["2023-11-25", "2024-02-01"],
+      ],
+    },
+    {
+      calendars: 2 as const,
+      initialValue: ["2024-01-01", "2024-02-10"],
+      range: true,
+      expectedValues: [
+        ["2023-12-25", "2024-02-10"],
+        ["2023-12-25", "2024-01-08"],
+        ["2023-12-08", "2024-01-08"],
+        ["2023-12-08", "2024-02-08"],
+      ],
+    },
+    {
+      calendars: 1 as const,
+      initialValue: ["2024-01-01", "2024-02-10"],
+      range: true,
+      expectedValues: [
+        ["2023-12-25", "2024-02-10"],
+        ["2023-12-25", "2024-01-08"],
+        ["2023-12-08", "2024-01-08"],
+        ["2023-12-08", "2024-02-08"],
+      ],
+    },
+  ])(
+    "selects dates across months with $calendars calendar(s), range=$range, value=$initialValue",
+    async ({ calendars, expectedValues, initialValue, range }) => {
+      const { el } = await mount<DatePicker>(
+        <calcite-date-picker
+          activeDate={new Date(2024, 0, 1)}
+          calendars={calendars}
+          range={range}
+          value={initialValue}
+        />,
+      );
+      const activeDay = page
+        .getBySelector("calcite-date-picker-day[current-month][tabindex='0']")
+        .first();
+      await (activeDay.element() as DatePickerDay["el"]).setFocus();
+
+      await userEvent.keyboard("{ArrowUp}{Enter}");
+      await expect.element(el).toHaveProperty("value", expectedValues[0]);
+
+      await userEvent.keyboard(initialValue ? "{ArrowDown}{ArrowDown}{Enter}" : "{PageUp}{Enter}");
+      await expect.element(el).toHaveProperty("value", expectedValues[1]);
+
+      await userEvent.keyboard(initialValue ? "{PageUp}{Enter}" : "{PageDown}{PageDown}{Enter}");
+      await expect.element(el).toHaveProperty("value", expectedValues[2]);
+
+      await userEvent.keyboard(initialValue ? "{PageDown}{PageDown}{Enter}" : "{ArrowDown}{Enter}");
+      await expect.element(el).toHaveProperty("value", expectedValues[3]);
+    },
+  );
+});
+
+describe("hover range", () => {
+  it("updates the hovered portion of an existing range", async () => {
+    await mount<DatePicker>(<calcite-date-picker range value={["2024-01-01", "2024-02-10"]} />);
+
+    await userEvent.hover(getDay("20240109"));
+    await expect.element(getDay("20240108")).toHaveProperty("rangeHover", true);
+    await expect.element(getDay("20240208")).toHaveProperty("rangeHover", false);
+
+    await userEvent.hover(getDay("20240205"));
+    await expect.element(getDay("20240108")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240208")).toHaveProperty("rangeHover", true);
+  });
+
+  it("updates hover state when extending a completed range", async () => {
+    await mount<DatePicker>(<calcite-date-picker range value={["2024-01-05", "2024-02-15"]} />);
+
+    await userEvent.hover(getDay("20240101"));
+    await expect.element(getDay("20240102")).toHaveProperty("rangeHover", true);
+    await expect.element(getDay("20240108")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240208")).toHaveProperty("rangeHover", false);
+
+    await userEvent.hover(getDay("20240225"));
+    await expect.element(getDay("20240102")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240224")).toHaveProperty("rangeHover", true);
+  });
+
+  it("limits hover state to dates between the start and prospective end dates", async () => {
+    const { component } = await mount<DatePicker>(
+      <calcite-date-picker activeDate={new Date(2024, 0, 1)} range />,
+    );
+
+    await selectDay("20240108", component);
+    await expect.element(getDay("20240107")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240209")).toHaveProperty("rangeHover", false);
+
+    await userEvent.hover(getDay("20240205"));
+    await expect.element(getDay("20240107")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240209")).toHaveProperty("rangeHover", false);
+    await expect.element(getDay("20240201")).toHaveProperty("rangeHover", true);
+
+    await selectDay("20240205", component);
+    await expect.element(getDay("20240201")).toHaveProperty("rangeHover", false);
+  });
+});
+
+describe("cross-century date values", () => {
+  it.each([2005, 1950, 1850, 1750])("selects a day in %i", async (year) => {
+    const { el, component } = await mount<DatePicker>(
+      <calcite-date-picker value={`${year}-03-12`} />,
+    );
+
+    await selectDay(`${year}0307`, component);
+
+    await expect.element(el).toHaveProperty("value", `${year}-03-07`);
+  });
+});
+
+describe("month and year selection", () => {
+  mockConsole();
+
+  it("selects the first and last valid months with one range calendar", async () => {
+    const { el } = await mount<DatePicker>(
+      <calcite-date-picker
+        activeDate={new Date(2024, 6, 1)}
+        calendars={1}
+        max="2024-10-21"
+        min="2024-01-21"
+        range
+      />,
+    );
+    const monthSelect = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" });
+
+    await userEvent.selectOptions(monthSelect, "January");
+    await expect.element(getDay("20240121")).toBeVisible();
+    await expect.element(monthSelect).toHaveProperty("value", "January");
+    await expect.element(yearInput).toHaveProperty("value", "2024");
+
+    await userEvent.selectOptions(monthSelect, "October");
+    await expect.element(getDay("20241021")).toBeVisible();
+    await expect.element(monthSelect).toHaveProperty("value", "October");
+    await expect.element(yearInput).toHaveProperty("value", "2024");
+    await expect.element(el).toHaveProperty("value", undefined);
+  });
+
+  it("selects the last valid month from the start calendar", async () => {
+    await mount(<calcite-date-picker activeDate={new Date(2024, 6, 1)} max="2024-10-21" range />);
+    const monthSelects = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    const yearInputs = page.getByRole("textbox", { includeHidden: true, name: "Year" });
+
+    await userEvent.selectOptions(monthSelects.first(), "October");
+    await expect.element(getDay("20241021")).toBeVisible();
+
+    await expect.element(monthSelects.first()).toHaveProperty("value", "October");
+    await expect.element(monthSelects.nth(1)).toHaveProperty("value", "November");
+    await expect.element(yearInputs.first()).toHaveProperty("value", "2024");
+    await expect.element(yearInputs.nth(1)).toHaveProperty("value", "2024");
+  });
+
+  it("selects the first valid month from the end calendar", async () => {
+    await mount(<calcite-date-picker activeDate={new Date(2024, 0, 1)} min="2024-01-21" range />);
+    const monthSelects = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    const yearInputs = page.getByRole("textbox", { includeHidden: true, name: "Year" });
+
+    await userEvent.selectOptions(monthSelects.nth(1), "January");
+    await expect.element(getDay("20240121")).toBeVisible();
+
+    await expect.element(monthSelects.first()).toHaveProperty("value", "December");
+    await expect.element(monthSelects.nth(1)).toHaveProperty("value", "January");
+    await expect.element(yearInputs.first()).toHaveProperty("value", "2023");
+    await expect.element(yearInputs.nth(1)).toHaveProperty("value", "2024");
+  });
+});
+
+it("marks only the current day as current while it is displayed", async () => {
+  await mount<DatePicker>(<calcite-date-picker range />);
+  const activeDay = page.getBySelector("calcite-date-picker-day[current-month][tabindex='0']");
+  await expect.element(getCurrentDays()).toHaveLength(1);
+
+  await (activeDay.element() as DatePickerDay["el"]).setFocus();
+  await userEvent.keyboard("{PageUp}");
+  await expect.element(getCurrentDays()).toHaveLength(1);
+
+  await userEvent.keyboard("{PageDown}{PageDown}");
+  await expect.element(getCurrentDays()).toHaveLength(0);
+});
+
+describe("navigating months", () => {
+  it("changes the displayed month with previous and next month actions", async () => {
+    await mount<DatePicker>(<calcite-date-picker value="2000-11-27" />);
+    const previousMonth = page
+      .getByRole("button", { includeHidden: true, name: "Previous month" })
+      .first();
+    const nextMonth = page.getByRole("button", { includeHidden: true, name: "Next month" }).first();
+    const monthSelect = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" });
+
+    await userEvent.click(previousMonth);
+    await userEvent.click(nextMonth, { clickCount: 3 });
+
+    await expect.element(monthSelect).toHaveProperty("value", "January");
+    await expect.element(yearInput).toHaveProperty("value", "2001");
+  });
+
+  it("returns to the previous month after selecting from the maximum month", async () => {
+    await mount<DatePicker>(<calcite-date-picker max="2025-11-11" value="2025-09-25" />);
+    const nextMonth = page.getByRole("button", { includeHidden: true, name: "Next month" }).first();
+    const monthSelect = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    await userEvent.click(nextMonth, { clickCount: 2 });
+    await expect.element(monthSelect).toHaveProperty("value", "November");
+
+    await userEvent.keyboard("{Enter}");
+    await expect.element(monthSelect).toHaveProperty("value", "October");
+  });
+
+  it("returns to the next month after selecting from the minimum month", async () => {
+    await mount<DatePicker>(<calcite-date-picker min="2024-11-11" value="2025-01-01" />);
+    const previousMonth = page
+      .getByRole("button", { includeHidden: true, name: "Previous month" })
+      .first();
+    const monthSelect = page.getByRole("combobox", { includeHidden: true, name: "Month menu" });
+    await userEvent.click(previousMonth, { clickCount: 2 });
+    await expect.element(monthSelect).toHaveProperty("value", "November");
+
+    await userEvent.keyboard("{Enter}");
+    await expect.element(monthSelect).toHaveProperty("value", "December");
+  });
+});
+
+describe("selection", () => {
+  it.each([
+    { expectedValue: ["2024-07-01", ""], range: true },
+    { expectedValue: "2024-08-01", range: false },
+  ])(
+    "selects the first available date when max is before today, range=$range",
+    async ({ expectedValue, range }) => {
+      const { el } = await mount<DatePicker>(
+        <calcite-date-picker max="2024-08-11" range={range} />,
+      );
+      await focusActiveDay();
+
+      await userEvent.keyboard("{Enter}");
+
+      await expect.element(el).toHaveProperty("value", expectedValue);
+    },
+  );
+
+  it.each([
+    { range: true, expectedRange: true },
+    { range: false, expectedRange: false },
+  ])("selects the first valid date when min is after today, range=$range", async ({ range }) => {
+    const minDate = new Date();
+    minDate.setMonth(minDate.getMonth() + 2, 12);
+    const min = toDateOnlyIso(minDate);
+    const { el } = await mount<DatePicker>(<calcite-date-picker min={min} range={range} />);
+    await focusActiveDay();
+
+    await userEvent.keyboard("{Enter}");
+
+    await expect.element(el).toHaveProperty("value", range ? [min, ""] : min);
+  });
+
+  it.each([{ range: true }, { range: false }])(
+    "selects today when min is earlier in the current month, range=$range",
+    async ({ range }) => {
+      const today = new Date();
+      const minDate = new Date(today);
+      if (minDate.getDate() > 2) {
+        minDate.setDate(1);
+      }
+      const { el } = await mount<DatePicker>(
+        <calcite-date-picker min={toDateOnlyIso(minDate)} range={range} />,
+      );
+      await focusActiveDay();
+
+      await userEvent.keyboard("{Enter}");
+
+      const todayIso = toDateOnlyIso(today);
+      await expect.element(el).toHaveProperty("value", range ? [todayIso, ""] : todayIso);
+    },
+  );
+});
+
+it("updates the calendar as a new year is typed without changing value", async () => {
+  const { el } = await mount<DatePicker>(<calcite-date-picker value="2015-02-28" />);
+  const yearInput = page.getByRole("textbox", { includeHidden: true, name: "Year" });
+  const initialActiveDate = el.activeDate?.getTime();
+
+  await userEvent.click(yearInput, { clickCount: 2 });
+  await userEvent.type(yearInput, "2016");
+
+  await expect.element(yearInput).toHaveProperty("value", "2016");
+  expect(el.activeDate?.getTime()).not.toBe(initialActiveDate);
+  await expect.element(el).toHaveProperty("value", "2015-02-28");
+});
+
+it("provides the default labels to the month header", async () => {
+  await mount(<calcite-date-picker value="2000-11-27" />);
+
+  await expect
+    .element(page.getByRole("combobox", { includeHidden: true, name: "Month menu" }))
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("button", { includeHidden: true, name: "Next month" }).first())
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("button", { includeHidden: true, name: "Previous month" }).first())
+    .toBeVisible();
+  await expect
+    .element(page.getByRole("textbox", { includeHidden: true, name: "Year" }))
+    .toBeVisible();
+});
+
+it("restarts a completed range when proximity selection is disabled", async () => {
+  const { el, component } = await mount<DatePicker>(
+    <calcite-date-picker proximitySelectionDisabled range value={["2020-09-01", "2020-09-01"]} />,
+  );
+
+  await selectDay("20200908", component);
+  await selectDay("20200923", component);
+  await expect.element(el).toHaveProperty("value", ["2020-09-08", "2020-09-23"]);
+
+  await selectDay("20200915", component);
+  await expect.element(el).toHaveProperty("value", ["2020-09-15", ""]);
+
+  await selectDay("20200930", component);
+  await expect.element(el).toHaveProperty("value", ["2020-09-15", "2020-09-30"]);
+});
+
+function getDay(id: string): Locator {
+  return page.getBySelector(`calcite-date-picker-day[current-month][id="${id}"]`);
+}
+
+async function selectDay(id: string, component: DatePicker): Promise<void> {
+  await userEvent.click(getDay(id));
+  await component.updateComplete;
+}
+
+function dayIdToIso(id: string): string {
+  return `${id.slice(0, 4)}-${id.slice(4, 6)}-${id.slice(6)}`;
+}
+
+function expectDateParts(date: Date | undefined, year: number, month: number, day: number): void {
+  expect(date).toBeInstanceOf(Date);
+  expect(date?.getFullYear()).toBe(year);
+  expect(date?.getMonth()).toBe(month);
+  expect(date?.getDate()).toBe(day);
+}
+
+function getCurrentDays(): Locator {
+  return page.getBySelector(
+    `calcite-date-picker-month calcite-date-picker-day.${MONTH_CSS.currentDay}`,
+  );
+}
+
+async function focusActiveDay(): Promise<void> {
+  const activeDay = page.getBySelector("calcite-date-picker-day[current-month][tabindex='0']");
+  await (activeDay.element() as DatePickerDay["el"]).setFocus();
+}
+
+function toDateOnlyIso(date: Date): string {
+  const localDate = new Date(date);
+  localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
+  return localDate.toISOString().split("T")[0];
+}
