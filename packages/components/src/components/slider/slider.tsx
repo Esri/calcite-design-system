@@ -1,4 +1,4 @@
-import { PropertyValues } from "lit";
+import { isServer, PropertyValues } from "lit";
 import {
   LitElement,
   property,
@@ -9,8 +9,9 @@ import {
   JsxNode,
   setAttribute,
   stringOrBoolean,
+  Fragment,
 } from "@arcgis/lumina";
-import { createRef } from "lit/directives/ref.js";
+import { createRef, Ref } from "lit/directives/ref.js";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { guid } from "../../utils/guid";
 import { intersects, isPrimaryPointerButton } from "../../utils/dom";
@@ -31,10 +32,18 @@ import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { useForm } from "../../controllers/useForm";
 import { CSS, IDS, maxTickElementThreshold } from "./resources";
-import { ActiveSliderProperty, SetValueProperty, SideOffset, ThumbType } from "./types";
+import {
+  ActiveSliderProperty,
+  SetValueProperty,
+  SideOffset,
+  ThumbType,
+  TickLabelLayout,
+} from "./types";
 import { styles } from "./slider.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { isEqual } from "es-toolkit";
+import { createObserver } from "../../utils/observers";
+import { getVisibleTickLabels } from "./utils";
 
 declare global {
   interface DeclareElements {
@@ -290,6 +299,23 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private previousEmittedValue?: Slider["value"];
 
+  private coveredTickLabels = new Set<number>();
+
+  private tickLabelLayout?: TickLabelLayout;
+
+  private tickLabelLayoutFrame?: number;
+
+  private tickLabelRefs = new Map<number, Ref<HTMLSpanElement>>();
+
+  private tickLabelText = new Map<number, string>();
+
+  private invalidateTickLabelLayout = (): void => {
+    this.tickLabelLayout = undefined;
+    this.scheduleTickLabelLayout();
+  };
+
+  private tickLabelResizeObserver = createObserver("resize", this.invalidateTickLabelLayout);
+
   private trackRef = createRef<HTMLDivElement>();
 
   private focusSetter = useFocusable<this>()(this).setFocus;
@@ -374,7 +400,15 @@ export class Slider extends LitElement implements LabelableComponent {
   @property() label?: string;
 
   /**
-   * When specified, allows users to customize handle labels.
+   * When specified, allows users to customize handle and tick labels.
+   *
+   * Return an empty string to omit a label. Tick labels are automatically hidden when they overlap;
+   * returning text does not guarantee that a tick label will be visible.
+   * Return `undefined` to use the default formatting.
+   *
+   * @example
+   * slider.labelFormatter = (value, type, defaultFormatter) =>
+   *   type === "tick" && value !== slider.min && value !== slider.max ? "" : defaultFormatter(value);
    *
    * @public
    */
@@ -393,6 +427,11 @@ export class Slider extends LitElement implements LabelableComponent {
 
   /**
    * When `true` and `ticks` is specified, displays label tick marks with their numeric value.
+   *
+   * The minimum and maximum tick labels align near the track edges with a small outward offset.
+   * Overlapping tick labels are automatically hidden, prioritizing the minimum and maximum labels.
+   * When the minimum and maximum labels overlap, only the minimum label is displayed.
+   * Use `labelFormatter` to customize text or omit additional labels.
    *
    * @public
    */
@@ -632,6 +671,7 @@ export class Slider extends LitElement implements LabelableComponent {
     this.setMinMaxFromValue();
     this.setValueFromMinMax();
     this.previousEmittedValue = this.value;
+    this.tickLabelResizeObserver?.observe(this.el);
   }
 
   load(): void {
@@ -647,8 +687,27 @@ export class Slider extends LitElement implements LabelableComponent {
       this.hasHistogram = !!this.histogram;
     }
 
-    if (changes.has("ticks")) {
+    if (changes.has("ticks") || changes.has("min") || changes.has("max")) {
       this.tickValues = this.generateTickValues();
+      this.tickLabelRefs.clear();
+    }
+
+    if (
+      changes.has("ticks") ||
+      changes.has("min") ||
+      changes.has("max") ||
+      changes.has("scale") ||
+      changes.has("mirrored") ||
+      changes.has("hasHistogram") ||
+      changes.has("labelTicks") ||
+      changes.has("labelHandles") ||
+      changes.has("precise") ||
+      changes.has("groupSeparator") ||
+      changes.has("numberingSystem") ||
+      (changes.has("value") && Array.isArray(changes.get("value")) !== isRange(this.value))
+    ) {
+      this.tickLabelText.clear();
+      this.invalidateTickLabelLayout();
     }
 
     if (changes.has("value") && (this.hasUpdated || this.value !== 0)) {
@@ -674,11 +733,25 @@ export class Slider extends LitElement implements LabelableComponent {
         }
       }
     }
-    this.hideObscuredBoundingTickLabels();
+    this.hideCoveredBoundingTickLabels();
+    if (this.tickLabelLayout && this.tickLabelLayout.direction !== this.direction) {
+      this.invalidateTickLabelLayout();
+    }
+    if (!this.tickLabelLayout?.visibleValues) {
+      this.scheduleTickLabelLayout();
+    }
   }
 
   override disconnectedCallback(): void {
     this.removeDragListeners();
+    this.tickLabelResizeObserver?.disconnect();
+    if (!isServer) {
+      if (this.tickLabelLayoutFrame !== undefined) {
+        cancelAnimationFrame(this.tickLabelLayoutFrame);
+        this.tickLabelLayoutFrame = undefined;
+      }
+    }
+    this.tickLabelLayout = undefined;
   }
 
   //#endregion
@@ -965,11 +1038,11 @@ export class Slider extends LitElement implements LabelableComponent {
     }
 
     const dragging = this.dragProp;
+    this.calciteSliderInput.emit();
+
     if (!dragging) {
       this.emitChange();
     }
-
-    this.calciteSliderInput.emit();
   }
 
   /**
@@ -1177,50 +1250,122 @@ export class Slider extends LitElement implements LabelableComponent {
     }
   }
 
-  /** Hides bounding tick labels that are obscured by either handle. */
-  private hideObscuredBoundingTickLabels(): void {
+  /** Hides bounding tick labels that are covered by either handle. */
+  private hideCoveredBoundingTickLabels(): void {
     const valueIsRange = isRange(this.value);
-    if (!this.hasHistogram && !valueIsRange && !this.labelHandles && !this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && !valueIsRange && this.labelHandles && !this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && !valueIsRange && !this.labelHandles && this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && !valueIsRange && this.labelHandles && this.precise) {
-      return;
-    }
-    if (!this.hasHistogram && valueIsRange && !this.precise) {
-      return;
-    }
-    if (this.hasHistogram && !this.precise && !this.labelHandles) {
-      return;
-    }
-
+    const canCover = this.hasHistogram
+      ? this.precise || this.labelHandles
+      : valueIsRange && this.precise;
     const minHandle = this.minHandleRef.value;
     const maxHandle = this.maxHandleRef.value;
     const minTickLabel = this.minTickLabelRef.value;
     const maxTickLabel = this.maxTickLabelRef.value;
+    const covered = new Set<number>();
 
-    if (!minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      minTickLabel.style.opacity = this.isMinTickLabelObscured(minTickLabel, maxHandle) ? "0" : "1";
-      maxTickLabel.style.opacity = this.isMaxTickLabelObscured(maxTickLabel, maxHandle) ? "0" : "1";
-    }
-
-    if (minHandle && maxHandle && minTickLabel && maxTickLabel) {
-      minTickLabel.style.opacity =
-        this.isMinTickLabelObscured(minTickLabel, minHandle) ||
+    if (canCover && maxHandle && minTickLabel && maxTickLabel) {
+      if (
+        (minHandle && this.isMinTickLabelObscured(minTickLabel, minHandle)) ||
         this.isMinTickLabelObscured(minTickLabel, maxHandle)
-          ? "0"
-          : "1";
-      maxTickLabel.style.opacity =
-        this.isMaxTickLabelObscured(maxTickLabel, minHandle) ||
-        (this.isMaxTickLabelObscured(maxTickLabel, maxHandle) && this.hasHistogram)
-          ? "0"
-          : "1";
+      ) {
+        covered.add(this.min);
+      }
+      if (
+        (minHandle && this.isMaxTickLabelObscured(maxTickLabel, minHandle)) ||
+        ((!minHandle || this.hasHistogram) && this.isMaxTickLabelObscured(maxTickLabel, maxHandle))
+      ) {
+        covered.add(this.max);
+      }
     }
+
+    if (minTickLabel && maxTickLabel) {
+      minTickLabel.classList.toggle(CSS.tickLabelCovered, covered.has(this.min));
+      maxTickLabel.classList.toggle(CSS.tickLabelCovered, covered.has(this.max));
+    }
+    if (!isEqual(this.coveredTickLabels, covered)) {
+      this.coveredTickLabels = covered;
+      if (this.tickLabelLayout) {
+        this.tickLabelLayout.visibleValues = undefined;
+      }
+    }
+  }
+
+  private scheduleTickLabelLayout(): void {
+    if (
+      isServer ||
+      !this.isConnected ||
+      !this.labelTicks ||
+      !this.ticks ||
+      this.tickLabelLayoutFrame !== undefined
+    ) {
+      return;
+    }
+
+    this.tickLabelLayoutFrame = requestAnimationFrame(() => {
+      this.tickLabelLayoutFrame = undefined;
+      this.updateTickLabelVisibility();
+    });
+  }
+
+  private updateTickLabelVisibility(): void {
+    const track = this.trackRef.value;
+    if (!this.isConnected || !this.labelTicks || !this.ticks || !track) {
+      return;
+    }
+
+    if (!this.tickLabelLayout) {
+      const trackBounds = track.getBoundingClientRect();
+      if (!trackBounds.width) {
+        return;
+      }
+
+      const range = document.createRange();
+      const labels: TickLabelLayout["labels"] = [];
+      const mirror = this.shouldMirror();
+      for (const [value, labelRef] of this.tickLabelRefs) {
+        const element = labelRef.value;
+        if (!element) {
+          continue;
+        }
+        if (!element.textContent?.trim()) {
+          labels.push({ element });
+          continue;
+        }
+
+        range.selectNodeContents(element);
+        const bounds = range.getBoundingClientRect();
+        labels.push({
+          element,
+          measurement: {
+            value,
+            position: this.max === this.min ? 0 : (value - this.min) / (this.max - this.min),
+            left: mirror ? trackBounds.right - bounds.right : bounds.left - trackBounds.left,
+            right: mirror ? trackBounds.right - bounds.left : bounds.right - trackBounds.left,
+            edge: value === this.min ? "min" : value === this.max ? "max" : undefined,
+          },
+        });
+      }
+      this.tickLabelLayout = { direction: this.direction, labels };
+    }
+
+    this.hideCoveredBoundingTickLabels();
+    if (this.tickLabelLayout.visibleValues) {
+      return;
+    }
+
+    const { labels } = this.tickLabelLayout;
+    const visibleValues = getVisibleTickLabels(
+      labels.flatMap(({ measurement }) =>
+        measurement && !this.coveredTickLabels.has(measurement.value) ? [measurement] : [],
+      ),
+    );
+
+    for (const { element, measurement } of labels) {
+      const visible = !!measurement && visibleValues.has(measurement.value);
+      if (element.classList.contains(CSS.tickLabelVisible) !== visible) {
+        element.classList.toggle(CSS.tickLabelVisible, visible);
+      }
+    }
+    this.tickLabelLayout.visibleValues = visibleValues;
   }
 
   /**
@@ -1392,6 +1537,7 @@ export class Slider extends LitElement implements LabelableComponent {
             <div class={CSS.ticks}>
               {this.tickValues.map((tick) => {
                 const tickOffset = `${this.getUnitInterval(tick) * 100}%`;
+                const isAtEdge = tick === this.min || tick === this.max;
 
                 let activeTicks: boolean = false;
 
@@ -1406,18 +1552,22 @@ export class Slider extends LitElement implements LabelableComponent {
                 }
 
                 return (
-                  <span
-                    class={{
-                      [CSS.tick]: true,
-                      [CSS.tickActive]: activeTicks,
-                    }}
-                    style={{
-                      left: mirror ? "" : tickOffset,
-                      right: mirror ? tickOffset : "",
-                    }}
-                  >
-                    {this.renderTickLabel(tick)}
-                  </span>
+                  <>
+                    <span
+                      class={{
+                        [CSS.tick]: true,
+                        [CSS.tickActive]: activeTicks,
+                        [CSS.tickEndAligned]: mirror !== (this.direction === "rtl"),
+                      }}
+                      style={{
+                        left: mirror ? "" : tickOffset,
+                        right: mirror ? tickOffset : "",
+                      }}
+                    >
+                      {!isAtEdge && this.renderTickLabel(tick)}
+                    </span>
+                    {isAtEdge && this.renderTickLabel(tick)}
+                  </>
                 );
               })}
             </div>
@@ -1567,6 +1717,7 @@ export class Slider extends LitElement implements LabelableComponent {
     const isMinTickLabel = tick === min;
     const isMaxTickLabel = tick === max;
     const isAtEdge = isMinTickLabel || isMaxTickLabel;
+    const isLeftEdge = isMinTickLabel !== this.shouldMirror();
 
     const shouldDisplayLabel =
       labelTicks &&
@@ -1581,26 +1732,32 @@ export class Slider extends LitElement implements LabelableComponent {
       [CSS.tickLabel]: true,
       [CSS.tickMin]: isMinTickLabel,
       [CSS.tickMax]: isMaxTickLabel,
+      [CSS.tickLabelCovered]: this.coveredTickLabels.has(tick),
+      [CSS.tickLabelLeft]: isAtEdge && isLeftEdge,
+      [CSS.tickLabelRight]: isAtEdge && !isLeftEdge,
     };
     const tickLabel = this.internalLabelFormatter(tick, "tick");
-
-    if (isMinTickLabel) {
-      return (
-        <span class={tickLabelClasses} ref={this.minTickLabelRef}>
-          {tickLabel}
-        </span>
-      );
+    // A formatter may use external data that changes between renders, even when
+    // the same function is reused. Compare its output so changed text is remeasured.
+    if (this.tickLabelText.get(tick) !== tickLabel) {
+      this.tickLabelText.set(tick, tickLabel);
+      this.tickLabelLayout = undefined;
+    }
+    let tickLabelRef = this.tickLabelRefs.get(tick);
+    if (!tickLabelRef) {
+      tickLabelRef = isMinTickLabel
+        ? this.minTickLabelRef
+        : isMaxTickLabel
+          ? this.maxTickLabelRef
+          : createRef<HTMLSpanElement>();
+      this.tickLabelRefs.set(tick, tickLabelRef);
     }
 
-    if (isMaxTickLabel) {
-      return (
-        <span class={tickLabelClasses} ref={this.maxTickLabelRef}>
-          {tickLabel}
-        </span>
-      );
-    }
-
-    return <span class={tickLabelClasses}>{tickLabel}</span>;
+    return (
+      <span class={tickLabelClasses} data-tick={tick} ref={tickLabelRef}>
+        {tickLabel}
+      </span>
+    );
   }
 
   //#endregion

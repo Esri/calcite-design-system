@@ -38,8 +38,8 @@ export const IDS = {
 };
 
 export const ICONS: Record<string, IconName> = {
-  chevronDown: "chevronDown",
-  caretDown: "caretDown",
+  chevronDown: "chevron-down",
+  caretDown: "caret-down",
   plus: "plus",
   minus: "minus",
 };
