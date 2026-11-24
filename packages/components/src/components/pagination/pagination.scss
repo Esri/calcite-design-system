@@ -31,7 +31,7 @@
 
     block-size: var(--calcite-space-2xl);
     padding-inline: var(--calcite-space-2xs);
-    min-inline-size: theme("width.6");
+    min-inline-size: var(--calcite-size-sm);
   }
 }
 
@@ -43,7 +43,7 @@
 
     block-size: var(--calcite-space-3xl);
     padding-inline: var(--calcite-space-sm);
-    min-inline-size: theme("width.8");
+    min-inline-size: var(--calcite-size-md);
   }
 }
 
@@ -54,7 +54,7 @@
     @include shared.text-0h();
 
     block-size: var(--calcite-space-4xl);
-    min-inline-size: theme("width.11");
+    min-inline-size: var(--calcite-size-lg);
   }
 
   & .chevron {

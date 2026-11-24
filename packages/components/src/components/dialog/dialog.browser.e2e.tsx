@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
@@ -126,7 +126,7 @@ describe("defaults", () => {
         defaultValue: "m",
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
       {
@@ -263,10 +263,6 @@ describe("reflects", () => {
         value: "s",
       },
       {
-        propertyName: "widthScale",
-        value: "s",
-      },
-      {
         propertyName: "width",
         value: "s",
       },
@@ -306,6 +302,61 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-dialog"), SLOTS);
+
+  it("omits the leading separator for an Action Bar without header content", async () => {
+    await mount(
+      <calcite-dialog closeDisabled open style="--calcite-dialog-content-top-space: 0;">
+        <calcite-action-bar layout="horizontal" slot={SLOTS.contentTop}>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-bar>
+      </calcite-dialog>,
+    );
+    const panel = page.getBySelector("calcite-panel");
+    const actionBar = page.getBySelector("calcite-action-bar");
+
+    await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+    expect(actionBar.element().getBoundingClientRect().top).toBe(
+      panel.element().getBoundingClientRect().top,
+    );
+  });
+
+  it.each([
+    { slot: SLOTS.actionBar, space: 0 },
+    { slot: SLOTS.actionBar, space: 12 },
+    { slot: SLOTS.contentTop, space: 0 },
+    { slot: SLOTS.contentTop, space: 12 },
+  ])(
+    "renders an interactive horizontal Action Bar in $slot with $space px content-top padding",
+    async ({ slot, space }) => {
+      const onAction = vi.fn();
+      await mount(
+        <calcite-dialog
+          heading="Dialog"
+          open
+          style={`--calcite-dialog-content-top-space: ${space}px; --calcite-dialog-space: 0;`}
+        >
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" onClick={onAction} text="Add" />
+          </calcite-action-bar>
+          <div>Content</div>
+        </calcite-dialog>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+      const content = page.getByText("Content");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      await expect.element(actionBar).toHaveAttribute("layout", "horizontal");
+      expect(actionBar.element().getBoundingClientRect().width).toBe(
+        content.element().getBoundingClientRect().width -
+          (slot === SLOTS.contentTop ? space * 2 : 0),
+      );
+      await page.getByRole("button", { name: "Add" }).click();
+      expect(onAction).toHaveBeenCalledOnce();
+    },
+  );
 
   it("forwards header-top content to the internal panel", async () => {
     await mount(
@@ -462,7 +513,7 @@ describe("theme sizing", () => {
   themed(
     () =>
       mount(
-        <calcite-dialog fullscreen-disabled icon="banana" modal open width-scale="s">
+        <calcite-dialog fullscreen-disabled icon="banana" modal open width="s">
           <p>Hello world!</p>
         </calcite-dialog>,
       ),

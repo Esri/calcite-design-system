@@ -108,8 +108,7 @@
 }
 
 //focus
-:host(:focus),
-:host([active-descendant]) {
+:host(:focus) {
   .container {
     @include shared.focus-inset();
 
@@ -172,6 +171,27 @@
 
 :host([selected]) .icon {
   opacity: var(--calcite-opacity-full);
+}
+
+@media (forced-colors: active) {
+  :host {
+    outline-width: 0;
+  }
+
+  :host(:focus),
+  :host(:hover:not([disabled])),
+  :host(:active:not([disabled])) {
+    .container {
+      outline-offset: -1px;
+      outline: var(--calcite-border-width-sm) solid CanvasText;
+    }
+  }
+
+  :host(:focus) {
+    .container {
+      outline-color: Highlight;
+    }
+  }
 }
 
 @include shared.base-component();

@@ -32,7 +32,7 @@ type PublicProps = {
    * The reference element, either as a string id or HTMLElement.
    * Note that this prop should use the `@Prop` decorator.
    */
-  referenceElement: string | ReferenceElement | undefined;
+  referenceElement?: string | ReferenceElement;
   /**
    * If true, disables the trigger interaction for the component.
    * Note that this prop should use the `@Prop` decorator.
@@ -41,6 +41,9 @@ type PublicProps = {
 };
 
 type InternalProps = {
+  /** When `true`, suppresses hover activation while focus is restored to the reference element. */
+  isRestoringFocus?: boolean;
+
   /**
    * The resolved reference element used to trigger the component.
    */
@@ -66,6 +69,12 @@ type InternalProps = {
    * ```
    */
   onReferenceElementKeyDown?: (event: KeyboardEvent) => void;
+
+  /** Called when focus enters the reference of an already-open hover component. */
+  onReferenceElementFocusIn?: (event: FocusEvent) => void;
+
+  /** Called when the reference element opens the component through pointer hover. */
+  onReferenceElementPointerOpen?: () => void;
 };
 
 /**

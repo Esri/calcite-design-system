@@ -32,7 +32,7 @@ import { ClearButton } from "../functional/ClearButton";
 import { InternalLabel } from "../functional/InternalLabel";
 import { CSS as InlineEditControlsCSS, InlineEditControls } from "../functional/InlineEditControls";
 import { Validation } from "../functional/Validation";
-import { NumericInputComponent, TextualInputComponent } from "../input/common/input";
+import { NumericInputComponent } from "../input/common/input";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
 import {
@@ -61,136 +61,199 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the background color of the component's `clearable` and `number-button-type` elements.
+     *
+     * @public
      */
     "--calcite-input-actions-background-color": "*";
     /**
      * Specifies the background color of the component's `clearable` and `number-button-type` elements when hovered.
+     *
+     * @public
      */
     "--calcite-input-actions-background-color-hover": "*";
     /**
      * Specifies the background color of the component's `clearable` and `number-button-type` elements when pressed.
+     *
+     * @public
      */
     "--calcite-input-actions-background-color-press": "*";
     /**
      * Specifies the icon color of the component's `clearable` and `number-button-type` elements.
+     *
+     * @public
      */
     "--calcite-input-actions-icon-color": "*";
     /**
      * Specifies the icon color of the component's `clearable` and `number-button-type` elements when hovered.
+     *
+     * @public
      */
     "--calcite-input-actions-icon-color-hover": "*";
     /**
      * Specifies the icon color of the component's `clearable` and `number-button-type` elements when pressed.
+     *
+     * @public
      */
     "--calcite-input-actions-icon-color-press": "*";
     /**
      * When `loading`, specifies the background color of the component's `loading` element.
+     *
+     * @public
      */
     "--calcite-input-loading-background-color": "*";
     /**
      * When `loading`, specifies the fill color of the component's `loading` element.
+     *
+     * @public
      */
     "--calcite-input-loading-fill-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-input-number-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-input-number-border-color": "*";
     /**
      * Specifies the component's border radius.
+     *
+     * @public
      */
     "--calcite-input-number-corner-radius": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-input-number-icon-color": "*";
     /**
      * Specifies the component's height.
+     *
+     * @public
      */
     "--calcite-input-number-height": "*";
     /**
      * Specifies the text color of the component's placeholder.
+     *
+     * @public
      */
     "--calcite-input-number-placeholder-text-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-input-number-text-color": "*";
     /**
      * Specifies the component's text color when focused.
+     *
+     * @public
      */
     "--calcite-input-number-text-color-focus": "*";
     /**
      * When `prefixText` is provided, specifies the width of the component's prefix element.
+     *
+     * @public
      */
     "--calcite-input-prefix-size": "*";
     /**
      * When `prefixText` is provided, specifies the text color of the component's prefix element.
+     *
+     * @public
      */
     "--calcite-input-prefix-text-color": "*";
     /**
      * When `suffixText` is provided, specifies the width of the component's suffix element.
+     *
+     * @public
      */
     "--calcite-input-suffix-size": "*";
     /**
      * When `suffixText` is provided, specifies the text color of the component's suffix element.
+     *
+     * @public
      */
     "--calcite-input-suffix-text-color": "*";
     /**
      * When `inlineEdit` is defined and `inlineEditing` is not set, specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-background-color-hover": "*";
     /**
      * When `inlineEdit` is defined, specifies the background color of the component's editing controls.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-background-color": "*";
     /**
      * When `inlineEdit` is defined, specifies the background color of the component's editing controls when hovered.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-background-color-hover": "*";
     /**
      * When `inlineEdit` is defined, specifies the background color of the component's editing controls when pressed.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-background-color-press": "*";
     /**
      * When `inlineEdit` is defined, specifies the corner radius of the component's editing controls.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-corner-radius": "*";
     /**
      * When `inlineEdit` is `true`, specifies the loader color of the component's confirm control.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-loader-color": "*";
     /**
      * When `inlineEdit` is defined, specifies the text color of the component's editing controls.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-text-color": "*";
     /**
      * When `inlineEdit` is defined, specifies the text color of the component's editing controls when pressed or hovered.
+     *
+     * @public
      */
     "--calcite-input-number-inline-edit-control-text-color-press": "*";
   }
 }
 
+/** @public */
 interface InputNumberSlots {
   /**
    * A slot for positioning a `calcite-action` or other interactive content adjacent to the component.
+   *
+   * @public
    */
   action: Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
-export class InputNumber
-  extends LitElement
-  implements LabelableComponent, NumericInputComponent, TextualInputComponent
-{
+/**
+ * @public
+ * @docGroup Inputs
+ */
+export class InputNumber extends LitElement implements LabelableComponent, NumericInputComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: InputNumberSlots;
 
   //#endregion
@@ -253,12 +316,10 @@ export class InputNumber
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -334,70 +395,113 @@ export class InputNumber
 
   //#region Public Properties
 
-  /** Specifies the text alignment of the component's `value`. */
+  /**
+   * Specifies the text alignment of the component's `value`.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
+   * @public
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete?: AutoFill;
 
-  /** When `true` and the component has a `value`, a clear button is displayed. */
+  /**
+   * When `true` and the component has a `value`, a clear button is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) clearable = false;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
    *
+   * @public
    * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
    */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc  */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) inlineEditing = false;
 
-  /** @copyDoc  */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true, converter: inlineEditConverter }) inlineEdit:
     | boolean
     | "controls-disabled" = false;
 
-  /** @copyDoc  */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() inlineEditingBeforeConfirm?: () => Promise<void>;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** When `true`, number values are displayed with a group separator corresponding to the language and country format. */
+  /**
+   * When `true`, number values are displayed with a group separator corresponding to the language and country format.
+   *
+   * @public
+   */
   @property({ reflect: true }) groupSeparator = false;
 
   /**
    * Specifies an icon to display.
    *
+   * @public
    * @futureBreaking Remove boolean type as it is not supported.
    */
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`. */
+  /**
+   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** When `true`, restricts the component to integer numbers only and disables exponential notation. */
+  /**
+   * When `true`, restricts the component to integer numbers only and disables exponential notation.
+   *
+   * @public
+   */
   @property() integer = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** When `true`, displays a busy indicator. */
+  /**
+   * When `true`, displays a busy indicator.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
   /**
    * Toggles locale formatting for numbers.
-   *
-   * @private
    */
   @property() localeFormat = false;
 
@@ -405,65 +509,66 @@ export class InputNumber
    * When the component resides in a form,
    * specifies the maximum `value`.
    *
+   * @public
    * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
   @property({ reflect: true }) max?: number;
 
   /**
-   * When the component resides in a form,
-   * specifies the maximum length of text for the component's `value`.
-   *
-   * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
-   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
+   * @public
+   * @copyDoc
    */
-  @property({ reflect: true }) maxLength?: number;
-
-  /** @copyDoc */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the minimum `value`.
    *
+   * @public
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
   @property({ reflect: true }) min?: number;
 
   /**
-   * When the component resides in a form,
-   * specifies the minimum length of text for the component's `value`.
-   *
-   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
-   * @deprecated in v3.0.0, removal target v6.0.0 - This property has no effect on the component.
-   */
-  @property({ reflect: true }) minLength?: number;
-
-  /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @property({ reflect: true }) name?: string;
 
-  /** Specifies the placement of the buttons. */
+  /**
+   * Specifies the placement of the buttons.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberButtonType: InputPlacement = "vertical";
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the component's placeholder text.
    *
+   * @public
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder?: string;
 
-  /** Specifies text to display at the start of the component. */
+  /**
+   * Specifies text to display at the start of the component.
+   *
+   * @public
+   */
   @property() prefixText?: string;
 
   /**
    * When `true`, the component's `value` can be read, but cannot be modified.
    *
+   * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
@@ -471,39 +576,66 @@ export class InputNumber
   /**
    * When `true` and the component resides in a form,
    * the component must have a `value` in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /**
+   * Specifies the input field's status, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
   /**
    * Specifies the granularity that the component's `value` must adhere to.
    *
+   * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
   @property({ reflect: true }) step?: number | "any";
 
-  /** Specifies text to display at the end of the component. */
+  /**
+   * Specifies text to display at the end of the component.
+   *
+   * @public
+   */
   @property() suffixText?: string;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's value. */
+  /**
+   * The component's value.
+   *
+   * @public
+   */
   @property()
   get value(): string {
     return this._value;
@@ -526,7 +658,11 @@ export class InputNumber
 
   //#region Public Methods
 
-  /** Selects the text of the component's `value`. */
+  /**
+   * Selects the text of the component's `value`.
+   *
+   * @public
+   */
   @method()
   async selectText(): Promise<void> {
     this.childNumberRef.value?.select();
@@ -535,8 +671,8 @@ export class InputNumber
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -548,25 +684,43 @@ export class InputNumber
 
   //#region Events
 
-  /** Fires each time a new `value` is committed. */
+  /**
+   * Fires each time a new `value` is committed.
+   *
+   * @public
+   */
   calciteInputNumberChange = createEvent({ cancelable: false });
 
-  /** When `inlineEdit` is defined, fires when editing is cancelled. */
+  /**
+   * When `inlineEdit` is defined, fires when editing is cancelled.
+   *
+   * @public
+   */
   calciteInputNumberInlineEditingCancel = createEvent({ cancelable: false });
 
-  /** When `inlineEdit` is defined, fires when `inlineEditing` is enabled or disabled. */
+  /**
+   * When `inlineEdit` is defined, fires when `inlineEditing` is enabled or disabled.
+   *
+   * @public
+   */
   calciteInputNumberInlineEditingChange = createEvent({ cancelable: false });
 
-  /** When `inlineEdit` is `true`, fires after editing is confirmed. */
+  /**
+   * When `inlineEdit` is `true`, fires after editing is confirmed.
+   *
+   * @public
+   */
   calciteInputNumberInlineEditingConfirm = createEvent({ cancelable: false });
 
-  /** When `inlineEdit` is `false`, fires each time a new `value` is typed. */
+  /**
+   * When `inlineEdit` is `false`, fires each time a new `value` is typed.
+   *
+   * @public
+   */
   calciteInputNumberInput = createEvent();
 
-  /** @private */
   calciteInternalInputNumberBlur = createEvent({ cancelable: false });
 
-  /** @private */
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
 
   //#endregion
@@ -919,6 +1073,7 @@ export class InputNumber
     }
 
     const value = this.valueForEditing;
+    const inputValue = this.childNumberRef.value;
 
     if (value === "Infinity" || value === "-Infinity") {
       event.preventDefault();
@@ -980,31 +1135,42 @@ export class InputNumber
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      const decimalIndex = inputValue?.value.indexOf(numberStringFormatter.decimal);
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && decimalIndex === -1) {
+        return;
+      }
+      if (
+        value &&
+        inputValue?.selectionStart == 0 &&
+        inputValue?.selectionEnd == inputValue?.value.length
+      ) {
+        return;
+      }
+      if (
+        value &&
+        Number(decimalIndex) >= Number(inputValue?.selectionStart) &&
+        Number(decimalIndex) < Number(inputValue?.selectionEnd)
+      ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (value && this.childNumberRef.value && !/[eE]/.test(this.childNumberRef.value.value)) {
+      if (value && inputValue && !/[eE]/.test(inputValue.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (
-        value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (value && inputValue && inputValue.value.split("-").length <= 2) {
         return;
       }
     }
@@ -1107,21 +1273,15 @@ export class InputNumber
 
     const previousDraftValue = this.valueForEditing;
     const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
-    const isValueDeleted =
-      this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
-    const hasTrailingDecimalSeparator =
-      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+    const hasTrailingDecimalSeparator = value.length > 1 && value.endsWith(".");
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -1130,7 +1290,8 @@ export class InputNumber
           : ""
         : sanitizedValue;
 
-    let newLocalizedValue = numberStringFormatter.localize(newValue);
+    let newLocalizedValue =
+      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(newValue);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1140,8 +1301,8 @@ export class InputNumber
       );
     }
 
-    // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
+    // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
+    if (hasTrailingDecimalSeparator) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
@@ -1330,8 +1491,6 @@ export class InputNumber
           (this.el.inputMode as LuminaJsx.HTMLElementTags["input"]["inputMode"]) || "decimal"
         }
         key="localized-input"
-        maxLength={this.maxLength}
-        minLength={this.minLength}
         onBlur={this.inputNumberBlurHandler}
         onFocus={this.inputNumberFocusHandler}
         onInput={this.inputNumberInputHandler}

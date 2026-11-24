@@ -10,14 +10,13 @@ export const CSS = {
   stepperItemHeaderText: "stepper-item-header-text",
   stepperItemIcon: "stepper-item-icon",
   stepperItemNumber: "stepper-item-number",
-  visuallyHidden: "visually-hidden",
 };
 
 export const ICONS: Record<string, IconName> = {
   circle: "circle",
-  circleF: "circleF",
-  exclamationMarkCircleF: "exclamationMarkCircleF",
-  checkCircleF: "checkCircleF",
+  circleF: "circle-f",
+  exclamationMarkCircleF: "exclamation-mark-circle-f",
+  checkCircleF: "check-circle-f",
 };
 
 /**

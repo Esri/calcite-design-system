@@ -3,6 +3,7 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/utils/commands";
+import { afterNextFrame } from "../../tests/utils/timing";
 
 import {
   accessible,
@@ -177,6 +178,477 @@ describe("renders", () => {
   renders(() => mount("calcite-slider"), { display: "block" });
 });
 
+describe("tick label alignment", () => {
+  describe.each(["s", "m", "l"] as const)("scale=%s", (scale) => {
+    it.each([
+      ["ltr", false, false],
+      ["rtl", false, false],
+      ["ltr", true, false],
+      ["rtl", true, false],
+      ["ltr", true, true],
+      ["rtl", true, true],
+    ] as const)(
+      "nudges endpoint labels outward from the track edges (dir=%s, mirrored=%s, hasHistogram=%s)",
+      async (dir, mirrored, hasHistogram) => {
+        const { el } = await mount<Slider>(
+          <calcite-slider
+            dir={dir}
+            hasHistogram={hasHistogram}
+            labelTicks
+            mirrored={mirrored}
+            scale={scale}
+            style={{ inlineSize: "400px" }}
+            ticks={50}
+            value={[25, 75]}
+          />,
+        );
+
+        const min = page.getBySelector(`.${CSS.tickMin}`);
+        const max = page.getBySelector(`.${CSS.tickMax}`);
+        await expect.element(min).toBeVisible();
+        await expect.element(max).toBeVisible();
+        const minLabel = min.element().getBoundingClientRect();
+        const maxLabel = max.element().getBoundingClientRect();
+        const middleLabel = page
+          .getBySelector(`.${CSS.tickLabel}`)
+          .nth(1)
+          .element()
+          .getBoundingClientRect();
+        const middleTick = page
+          .getBySelector(`.${CSS.tick}`)
+          .nth(1)
+          .element()
+          .getBoundingClientRect();
+        const bounds = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+        const mirror = mirrored && !hasHistogram;
+
+        for (const [index, tick] of page.getBySelector(`.${CSS.tick}`).all().entries()) {
+          const tickBounds = tick.element().getBoundingClientRect();
+          expect(tickBounds.left + tickBounds.width / 2).toBeCloseTo(
+            bounds.left + bounds.width * (mirror ? 1 - index / 2 : index / 2),
+            1,
+          );
+        }
+        const minOutwardOffset = mirror
+          ? minLabel.right - bounds.right
+          : bounds.left - minLabel.left;
+        const outwardOffset = mirror ? bounds.left - maxLabel.left : maxLabel.right - bounds.right;
+        expect(outwardOffset).toBeGreaterThan(0);
+        expect(outwardOffset).toBeLessThan(3);
+        expect(minOutwardOffset).toBeCloseTo(outwardOffset, 1);
+        const hostBounds = el.getBoundingClientRect();
+        expect(minLabel.left).toBeGreaterThanOrEqual(hostBounds.left);
+        expect(maxLabel.right).toBeLessThanOrEqual(hostBounds.right);
+        expect(middleLabel.left + middleLabel.width / 2).toBeCloseTo(
+          middleTick.left + middleTick.width / 2,
+        );
+        expect(minLabel.top).toBeCloseTo(middleLabel.top);
+        expect(maxLabel.top).toBeCloseTo(middleLabel.top);
+      },
+    );
+  });
+
+  it.each([
+    ["percent", (value: number) => `${value}%`],
+    ["custom", (value: number) => (value === 0 ? "Minimum" : "Maximum")],
+  ] as const)("nudges %s labels outward consistently", async (_format, labelFormatter) => {
+    await mount(
+      <calcite-slider
+        labelFormatter={labelFormatter}
+        labelTicks
+        style={{ inlineSize: "400px" }}
+        ticks={100}
+        value={50}
+      />,
+    );
+    const min = page.getBySelector(`.${CSS.tickMin}`);
+    const max = page.getBySelector(`.${CSS.tickMax}`);
+    await expect.element(min).toBeVisible();
+    await expect.element(max).toBeVisible();
+    const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+    const leftOffset = track.left - min.element().getBoundingClientRect().left;
+    const rightOffset = max.element().getBoundingClientRect().right - track.right;
+
+    expect(leftOffset).toBeGreaterThan(0);
+    expect(leftOffset).toBeLessThan(3);
+    expect(rightOffset).toBeCloseTo(leftOffset, 1);
+  });
+
+  it("preserves edge alignment when scale and formatted width change", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider
+        labelFormatter={() => "-5"}
+        labelTicks
+        scale="s"
+        style={{ inlineSize: "400px" }}
+        ticks={100}
+        value={50}
+      />,
+    );
+    const min = page.getBySelector(`.${CSS.tickMin}`);
+    const track = page.getBySelector(`.${CSS.track}`);
+    const outwardOffset = () =>
+      track.element().getBoundingClientRect().left - min.element().getBoundingClientRect().left;
+    await expect.element(min).toBeVisible();
+    const smallOffset = outwardOffset();
+    expect(smallOffset).toBeGreaterThan(0);
+    expect(smallOffset).toBeLessThan(3);
+
+    el.scale = "l";
+    await expect.poll(outwardOffset).toBeGreaterThan(smallOffset);
+    const largeOffset = outwardOffset();
+    expect(largeOffset).toBeLessThan(3);
+
+    el.labelFormatter = () => "Long formatted endpoint";
+    await expect.element(min).toHaveTextContent("Long formatted endpoint");
+    await expect.poll(outwardOffset).toBeCloseTo(largeOffset, 1);
+
+    el.labelFormatter = () => "";
+    await expect.element(min).toBeEmptyDOMElement();
+    await expect.element(min).not.toBeVisible();
+
+    el.labelFormatter = undefined;
+    await expect.element(min).toHaveTextContent("0");
+    await expect.element(min).toBeVisible();
+    await expect.poll(outwardOffset).toBeCloseTo(largeOffset, 1);
+  });
+
+  it("preserves physical tick anchors when direction and mirroring change", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider labelTicks style={{ inlineSize: "400px" }} ticks={50} value={50} />,
+    );
+    const track = page.getBySelector(`.${CSS.track}`);
+    const largestTickOffset = () => {
+      const bounds = track.element().getBoundingClientRect();
+      const mirrored = el.mirrored && !el.hasHistogram;
+      return Math.max(
+        ...page
+          .getBySelector(`.${CSS.tick}`)
+          .all()
+          .map((tick, index) => {
+            const tickBounds = tick.element().getBoundingClientRect();
+            const expected = bounds.left + bounds.width * (mirrored ? 1 - index / 2 : index / 2);
+            return Math.abs(tickBounds.left + tickBounds.width / 2 - expected);
+          }),
+      );
+    };
+
+    for (const [dir, mirrored, hasHistogram] of [
+      ["ltr", false, false],
+      ["rtl", false, false],
+      ["rtl", true, false],
+      ["ltr", true, false],
+      ["ltr", true, true],
+      ["rtl", true, true],
+    ] as const) {
+      el.dir = dir;
+      el.mirrored = mirrored;
+      el.hasHistogram = hasHistogram;
+      await expect.poll(largestTickOffset).toBeLessThan(0.02);
+    }
+  });
+
+  it("allows omitting neighboring tick labels without changing default formatting", async () => {
+    await mount(
+      <calcite-slider
+        labelFormatter={(value, type) =>
+          type === "tick" && (value === 25 || value === 75) ? "" : undefined
+        }
+        labelHandles
+        labelTicks
+        ticks={25}
+        value={50}
+      />,
+    );
+
+    const labels = page.getBySelector(`.${CSS.tickLabel}`);
+    await expect.element(labels.nth(0)).toHaveTextContent("0");
+    await expect.element(labels.nth(1)).toBeEmptyDOMElement();
+    await expect.element(labels.nth(2)).toHaveTextContent("50");
+    await expect.element(labels.nth(3)).toBeEmptyDOMElement();
+    await expect.element(labels.nth(4)).toHaveTextContent("100");
+    await expect
+      .element(
+        page.getBySelector(`.${CSS.handleLabelValue}:not(.${CSS.static}):not(.${CSS.transformed})`),
+      )
+      .toHaveTextContent("50");
+  });
+});
+
+describe("overlapping tick labels", () => {
+  function visibleValues(): number[] {
+    return page
+      .getBySelector(`.${CSS.tickLabelVisible}`)
+      .all()
+      .map((label) => Number(label.element().getAttribute("data-tick")));
+  }
+
+  function textBounds(element: Element): DOMRect {
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    return range.getBoundingClientRect();
+  }
+
+  function expectNoOverlappingText(): void {
+    const bounds = page
+      .getBySelector(`.${CSS.tickLabelVisible}`)
+      .all()
+      .map((label) => textBounds(label.element()))
+      .sort((first, second) => first.left - second.left);
+
+    for (let index = 1; index < bounds.length; index++) {
+      expect(bounds[index].left).toBeGreaterThan(bounds[index - 1].right);
+    }
+  }
+
+  it.each([
+    ["ltr", false],
+    ["rtl", false],
+    ["ltr", true],
+    ["rtl", true],
+  ] as const)("prioritizes long endpoint labels (dir=%s, mirrored=%s)", async (dir, mirrored) => {
+    await mount(
+      <calcite-slider
+        dir={dir}
+        labelFormatter={(value, type, defaultFormatter) =>
+          type === "tick" && (value === 0 || value === 100)
+            ? `Selectable value ${value}`
+            : defaultFormatter(value)
+        }
+        labelTicks
+        mirrored={mirrored}
+        style={{ inlineSize: "320px" }}
+        ticks={10}
+        value={50}
+      />,
+    );
+
+    const minLabel = page.getBySelector(`.${CSS.tickMin}`);
+    const maxLabel = page.getBySelector(`.${CSS.tickMax}`);
+    await expect.element(minLabel).toBeVisible();
+    await expect.element(maxLabel).toBeVisible();
+    expect(visibleValues().length).toBeLessThan(11);
+    expectNoOverlappingText();
+
+    const suppressed = page
+      .getBySelector(`.${CSS.tickLabel}:not(.${CSS.tickLabelVisible})`)
+      .first();
+    await expect.element(suppressed).not.toBeVisible();
+    expect(textBounds(suppressed.element()).width).toBeGreaterThan(0);
+  });
+
+  it("keeps min when the endpoint labels themselves overlap", async () => {
+    await mount(
+      <calcite-slider
+        labelFormatter={(value) => `Long endpoint label ${value}`}
+        labelTicks
+        style={{ inlineSize: "100px" }}
+        ticks={100}
+      />,
+    );
+
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).not.toBeVisible();
+    expect(visibleValues()).toEqual([0]);
+  });
+
+  it("restores labels when more space becomes available, including after reconnecting", async () => {
+    const { el, container } = await mount(
+      <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} value={50} />,
+    );
+
+    await expect.poll(() => visibleValues().length).toBe(11);
+    el.remove();
+    container.append(el);
+    el.style.inlineSize = "90px";
+
+    await expect.poll(() => visibleValues().length).toBeLessThan(11);
+    expect(visibleValues()).toContain(0);
+    expect(visibleValues()).toContain(100);
+    expectNoOverlappingText();
+
+    el.style.inlineSize = "600px";
+    await expect.poll(() => visibleValues().length).toBe(11);
+    expectNoOverlappingText();
+  });
+
+  it("recovers after starting in a hidden container", async () => {
+    const { el } = await mount(
+      <calcite-slider hidden labelTicks style={{ inlineSize: "90px" }} ticks={10} />,
+    );
+
+    el.hidden = false;
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    expectNoOverlappingText();
+  });
+
+  it("remeasures changed formatter text and preserves explicit omissions", async () => {
+    let longLabels = false;
+    const formatter: Slider["labelFormatter"] = (value, _type, defaultFormatter) =>
+      longLabels ? (value === 50 ? "" : `Long tick label ${value}`) : defaultFormatter(value);
+    const { el } = await mount<Slider>(
+      <calcite-slider
+        labelFormatter={formatter}
+        labelTicks
+        style={{ inlineSize: "320px" }}
+        ticks={10}
+        value={50}
+      />,
+    );
+    await expect.poll(() => visibleValues().length).toBe(11);
+
+    longLabels = true;
+    el.value = 60;
+
+    await expect.poll(() => visibleValues().length).toBeLessThan(11);
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toBeVisible();
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    expect(visibleValues()).not.toContain(50);
+    expectNoOverlappingText();
+
+    el.labelFormatter = undefined;
+    await expect.poll(() => visibleValues().length).toBe(11);
+  });
+
+  it("remeasures after scale and locale changes", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider
+        labelTicks
+        max={10000}
+        min={1000}
+        scale="s"
+        style={{ inlineSize: "320px" }}
+        ticks={1000}
+      />,
+    );
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
+
+    el.scale = "l";
+    await expect.poll(() => measurements.mock.calls.length).toBeGreaterThan(0);
+    expectNoOverlappingText();
+    measurements.mockClear();
+
+    el.numberingSystem = "arab";
+    await expect.poll(() => measurements.mock.calls.length).toBeGreaterThan(0);
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toHaveTextContent("١٠٠٠٠");
+    expectNoOverlappingText();
+
+    el.min = 2000;
+    el.max = 11000;
+    await expect.element(page.getBySelector(`.${CSS.tickMin}`)).toHaveTextContent("٢٠٠٠");
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toHaveTextContent("١١٠٠٠");
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    expectNoOverlappingText();
+  });
+
+  it("keeps tick labels hidden behind handles when variants and values change", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider
+        labelHandles
+        labelTicks
+        precise
+        style={{ inlineSize: "400px" }}
+        ticks={10}
+        value={[0, 75]}
+      />,
+    );
+    const minLabel = page.getBySelector(`.${CSS.tickMin}`);
+    const maxLabel = page.getBySelector(`.${CSS.tickMax}`);
+    await expect.element(minLabel).not.toBeVisible();
+    await expect.element(maxLabel).toBeVisible();
+    await expect.element(minLabel).toHaveStyle({ opacity: "0" });
+
+    el.value = [25, 75];
+    await expect.element(minLabel).toBeVisible();
+    expect(visibleValues()).toEqual([0, 100]);
+
+    el.precise = false;
+    await expect.poll(() => visibleValues().length).toBeGreaterThan(2);
+    expectNoOverlappingText();
+  });
+
+  it.each(["precise range", "labeled histogram"] as const)(
+    "refreshes tick label coverage when a %s shrinks and expands",
+    async (variant) => {
+      const { el } = await mount<Slider>(
+        <calcite-slider
+          histogram={
+            variant === "labeled histogram"
+              ? [
+                  [0, 0],
+                  [50, 1],
+                  [100, 0],
+                ]
+              : undefined
+          }
+          labelHandles
+          labelTicks
+          precise={variant === "precise range"}
+          style={{ inlineSize: "600px" }}
+          ticks={10}
+          value={[5, 95]}
+        />,
+      );
+      const minLabel = page.getBySelector(`.${CSS.tickMin}`);
+      await expect.element(minLabel).toBeVisible();
+      await expect.element(minLabel).toHaveStyle({ opacity: "1" });
+
+      el.style.inlineSize = "80px";
+      await expect.element(minLabel).toHaveStyle({ opacity: "0" });
+      await expect.element(minLabel).not.toBeVisible();
+
+      el.style.inlineSize = "600px";
+      await expect.element(minLabel).toHaveStyle({ opacity: "1" });
+      await expect.element(minLabel).toBeVisible();
+    },
+  );
+
+  it("restores tick labels when labeling is re-enabled", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider labelTicks style={{ inlineSize: "600px" }} ticks={10} />,
+    );
+    await expect.poll(() => visibleValues().length).toBe(11);
+
+    el.labelTicks = false;
+    await expect.element(page.getBySelector(`.${CSS.tickLabel}`)).not.toBeInTheDocument();
+
+    el.ticks = 25;
+    el.labelTicks = true;
+    await expect.poll(visibleValues).toEqual([0, 25, 50, 75, 100]);
+    expectNoOverlappingText();
+  });
+
+  it("does not remeasure during dragging and coalesces layout measurements", async () => {
+    const { el } = await mount<Slider>(
+      <calcite-slider labelTicks max={250} style={{ inlineSize: "800px" }} ticks={1} value={125} />,
+    );
+    await expect.element(page.getBySelector(`.${CSS.tickMax}`)).toBeVisible();
+    await document.fonts.ready;
+    await afterNextFrame();
+    const measurements = vi.spyOn(Range.prototype, "getBoundingClientRect");
+    const track = page.getBySelector(`.${CSS.track}`).element().getBoundingClientRect();
+
+    await commands.mouseMove(track.left + track.width / 2, track.top);
+    await commands.mouseDown();
+    await commands.mouseMove(track.left + track.width * 0.6, track.top);
+    await commands.mouseMove(track.left + track.width * 0.7, track.top);
+    await commands.mouseUp();
+    await afterNextFrame();
+
+    await expect.poll(() => el.value).toBeGreaterThan(125);
+    expect(measurements).not.toHaveBeenCalled();
+
+    el.style.inlineSize = "700px";
+    el.style.inlineSize = "600px";
+    el.style.inlineSize = "500px";
+    await expect.poll(() => measurements.mock.calls.length).toBe(251);
+    await afterNextFrame();
+    expect(measurements).toHaveBeenCalledTimes(251);
+  });
+});
+
 describe("translation support", () => {
   t9n(() => mount("calcite-slider"));
 });
@@ -338,9 +810,13 @@ describe("interactions", () => {
 
         await commands.mouseMove(trackX + pixelsPerValue * 50, trackY);
         await commands.mouseDown();
-        await commands.mouseUp();
 
         await expect.element(el).toHaveValue(50);
+        expect(inputEvent).toHaveBeenCalledTimes(1);
+        expect(changeEvent).not.toHaveBeenCalled();
+
+        await commands.mouseUp();
+
         expect(inputEvent).toHaveBeenCalledTimes(1);
         expect(changeEvent).toHaveBeenCalledTimes(1);
       });
@@ -368,9 +844,13 @@ describe("interactions", () => {
         await commands.mouseMove(trackX + pixelsPerValue * 3, trackY);
         await commands.mouseMove(trackX + pixelsPerValue * 4, trackY);
         await commands.mouseMove(trackX + pixelsPerValue * 5, trackY);
-        await commands.mouseUp();
 
         await expect.element(el).toHaveValue(5);
+        expect(inputEvent).toHaveBeenCalledTimes(5);
+        expect(changeEvent).not.toHaveBeenCalled();
+
+        await commands.mouseUp();
+
         expect(inputEvent).toHaveBeenCalledTimes(5);
         expect(changeEvent).toHaveBeenCalledTimes(1);
       });
@@ -560,26 +1040,106 @@ describe("interactions", () => {
   });
 
   describe("keyboard interaction", () => {
-    it("range: arrow keys increment and decrement min and max values by step", async () => {
-      const inputHandler = vi.fn(() => assertSliderValues(el));
-      const changeHandler = vi.fn(() => assertSliderValues(el));
+    it.each([
+      { key: "ArrowRight", value: 24 },
+      { key: "ArrowLeft", value: 22 },
+      { key: "ArrowUp", value: 24 },
+      { key: "ArrowDown", value: 22 },
+      { key: "Home", value: 0 },
+      { key: "End", value: 100 },
+      { key: "PageUp", value: 33 },
+      { key: "PageDown", value: 13 },
+    ])("emits input before change with the updated value on $key", async ({ key, value }) => {
+      const events: [string, Slider["value"]][] = [];
+      const eventSpy = vi.fn((event: Event) => events.push([event.type, el.value]));
       const { el } = await mount<Slider>(
         <calcite-slider
-          max-value="75"
-          min-value="50"
-          oncalciteSliderChange={changeHandler}
-          oncalciteSliderInput={inputHandler}
+          oncalciteSliderChange={eventSpy}
+          oncalciteSliderInput={eventSpy}
+          pageStep={10}
+          ticks={10}
+          value={23}
+        />,
+      );
+
+      expect(eventSpy).not.toHaveBeenCalled();
+
+      await userEvent.tab();
+      await userEvent.keyboard(`{${key}}`);
+
+      await expect.element(el).toHaveProperty("value", value);
+      expect(events).toEqual([
+        ["calciteSliderInput", value],
+        ["calciteSliderChange", value],
+      ]);
+    });
+
+    it.each(["value", "minValue/maxValue"])(
+      "emits input before change for each repeated arrow key on both range thumbs (%s)",
+      async (valueProperty) => {
+        const events: [string, Slider["value"]][] = [];
+        const eventSpy = vi.fn((event: Event) => {
+          assertSliderValues(el);
+          events.push([event.type, el.value]);
+        });
+        const { el } = await mount<Slider>(
+          valueProperty === "value" ? (
+            <calcite-slider
+              oncalciteSliderChange={eventSpy}
+              oncalciteSliderInput={eventSpy}
+              value={[50, 75]}
+            />
+          ) : (
+            <calcite-slider
+              maxValue={75}
+              minValue={50}
+              oncalciteSliderChange={eventSpy}
+              oncalciteSliderInput={eventSpy}
+            />
+          ),
+        );
+
+        await userEvent.tab();
+        await userEvent.keyboard("{ArrowLeft>3}");
+
+        await expect.element(el).toHaveProperty("value", [47, 75]);
+        expect(eventSpy).toHaveBeenCalledTimes(6);
+
+        await userEvent.tab();
+        await userEvent.keyboard("{ArrowRight>3}");
+
+        await expect.element(el).toHaveProperty("value", [47, 78]);
+        expect(events).toEqual(
+          [
+            [49, 75],
+            [48, 75],
+            [47, 75],
+            [47, 76],
+            [47, 77],
+            [47, 78],
+          ].flatMap((value) => [
+            ["calciteSliderInput", value],
+            ["calciteSliderChange", value],
+          ]),
+        );
+      },
+    );
+
+    it("does not emit input or change when an arrow key cannot change the value", async () => {
+      const eventSpy = vi.fn();
+      const { el } = await mount<Slider>(
+        <calcite-slider
+          oncalciteSliderChange={eventSpy}
+          oncalciteSliderInput={eventSpy}
+          value={100}
         />,
       );
 
       await userEvent.tab();
-      await userEvent.keyboard("{ArrowLeft>3}");
-      expect(inputHandler).toHaveBeenCalledTimes(3);
-      expect(changeHandler).toHaveBeenCalledTimes(3);
-      await userEvent.tab();
-      await userEvent.keyboard("{ArrowRight>3}");
-      expect(inputHandler).toHaveBeenCalledTimes(6);
-      expect(changeHandler).toHaveBeenCalledTimes(6);
+      await userEvent.keyboard("{ArrowRight}");
+
+      await expect.element(el).toHaveProperty("value", 100);
+      expect(eventSpy).not.toHaveBeenCalled();
     });
   });
 });

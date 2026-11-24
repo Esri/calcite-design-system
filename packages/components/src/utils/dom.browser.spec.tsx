@@ -11,14 +11,17 @@ import {
   focusElementInGroup,
   focusFirstTabbable,
   getAssignedTextNodesFromSlotEl,
+  getFocusableElements,
   getModeName,
   getShadowRootNode,
   getSlotAssignedElements,
   getStylePixelValue,
   hasVisibleContent,
   isBefore,
+  isFocusableElement,
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
+  intersectsHorizontally,
   nextFrame,
   queryElementRoots,
   setRequestedIcon,
@@ -41,6 +44,18 @@ const myButtonClass = "my-class";
 const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
 const insideShadow = "Inside Shadow";
+
+describe(intersectsHorizontally, () => {
+  it.each([
+    [{ left: 0, right: 10 }, { left: 5, right: 15 }, true],
+    [{ left: 0, right: 10 }, { left: 10, right: 20 }, true],
+    [{ left: 0, right: 10 }, { left: 11, right: 20 }, false],
+    [{ left: 0, right: 20 }, { left: 5, right: 10 }, true],
+  ])("detects horizontal intersections between %o and %o", (first, second, expected) => {
+    expect(intersectsHorizontally(first, second)).toBe(expected);
+    expect(intersectsHorizontally(second, first)).toBe(expected);
+  });
+});
 
 describe(setRequestedIcon, () => {
   const iconObject: Record<string, IconName> = { exampleValue: "3d-glasses" };
@@ -79,6 +94,89 @@ describe(ensureId, () => {
 
   it("returns empty string if invoked without element", () => {
     expect(ensureId(undefined)).toBe("");
+  });
+});
+
+describe(isFocusableElement, () => {
+  it("accepts HTML elements with native focus APIs", () => {
+    expect(isFocusableElement(document.createElement("div"))).toBe(true);
+  });
+
+  it("accepts SVG elements with native focus APIs", () => {
+    const element = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+
+    expect(isFocusableElement(element)).toBe(true);
+  });
+});
+
+describe(getFocusableElements, () => {
+  it("returns no elements without a container", () => {
+    expect(getFocusableElements(undefined)).toEqual([]);
+  });
+
+  it("includes a focusable container only once", async () => {
+    await mount(html`<button type="button">Container</button>`);
+    const container = page.getByRole("button", { name: "Container" }).element();
+
+    expect(getFocusableElements(container)).toEqual([container]);
+  });
+
+  it("includes a focusable shadow host and its programmatically focusable descendant", async () => {
+    class FocusableShadowHost extends LitElement {
+      static tagName = "focusable-shadow-host";
+
+      override render(): JsxNode {
+        return (
+          <button tabIndex={-1} type="button">
+            Nested
+          </button>
+        );
+      }
+    }
+
+    const { el } = await mount(html`<focusable-shadow-host tabindex="0"></focusable-shadow-host>`, {
+      dynamicComponents: [FocusableShadowHost],
+    });
+    const button = page.elementLocator(el).getByRole("button", { name: "Nested" }).element();
+
+    const elements = getFocusableElements(el);
+
+    expect(elements).toHaveLength(2);
+    expect(elements).toEqual(expect.arrayContaining([el, button]));
+  });
+
+  it("excludes a disabled container", async () => {
+    await mount(html`<button data-testid="container" disabled type="button">Container</button>`);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
+  });
+
+  it("excludes a hidden container", async () => {
+    await mount(html`<button data-testid="container" hidden type="button">Container</button>`);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
+  });
+
+  it("excludes an inert container", async () => {
+    await mount(html`<button data-testid="container" inert type="button">Container</button>`);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
+  });
+
+  it("excludes disabled, hidden, and inert descendants", async () => {
+    await mount(html`
+      <div data-testid="container">
+        <button disabled type="button">Disabled</button>
+        <button hidden type="button">Hidden</button>
+        <button inert type="button">Inert</button>
+      </div>
+    `);
+    const container = page.getByTestId("container").element();
+
+    expect(getFocusableElements(container)).toEqual([]);
   });
 });
 
