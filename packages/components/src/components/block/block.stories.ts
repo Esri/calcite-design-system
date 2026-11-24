@@ -352,7 +352,6 @@ export const icons = (): string => html`
       icon-end="pen"
       icon-start="pen"
       toggle-display="switch"
-      status="valid"
     >
       <p>Block section content</p>
     </calcite-block-section>
@@ -363,7 +362,6 @@ export const icons = (): string => html`
       icon-end="pen"
       icon-start="pen"
       toggle-display="button"
-      status="valid"
     >
       <p>Block section content</p>
     </calcite-block-section>

@@ -157,17 +157,4 @@ calcite-switch {
   }
 }
 
-.status-icon {
-  display: flex;
-  align-items: center;
-}
-
-.status-icon.valid {
-  color: theme("colors.success");
-}
-
-.status-icon.invalid {
-  color: theme("colors.danger");
-}
-
 @include shared.base-component();

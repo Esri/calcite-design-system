@@ -11,7 +11,7 @@ export const blockSectionTokens = {
 };
 
 export const blockSection = html`
-  <calcite-block-section text="Planes" open icon-end="pen" icon-start="pen" text="a block-section">
+  <calcite-block-section text="Planes" expanded icon-end="pen" icon-start="pen" text="a block-section">
     <p>Block section content</p>
   </calcite-block-section>
 `;

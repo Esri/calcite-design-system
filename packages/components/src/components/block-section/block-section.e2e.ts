@@ -40,45 +40,6 @@ describe("toggle-display = 'button' (default)", () => {
   });
 });
 
-// Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
-it("should map deprecated 'open' prop to 'expanded' prop", async () => {
-  const page = await newE2EPage({
-    html: html`<calcite-block-section></calcite-block-section>`,
-  });
-  const blockSection = await page.find("calcite-block-section");
-
-  expect(await blockSection.getProperty("expanded")).toBe(false);
-
-  blockSection.setProperty("open", true);
-  await page.waitForChanges();
-  expect(await blockSection.getProperty("expanded")).toBe(true);
-
-  blockSection.setProperty("open", false);
-  await page.waitForChanges();
-  expect(await blockSection.getProperty("expanded")).toBe(false);
-});
-
-describe("status = 'invalid'", () => {
-  it("displays a status indicator when `status` is an accepted value", async () => {
-    const page = await newE2EPage({
-      html: `<calcite-block-section status="invalid"><div>content</div></calcite-block-section>`,
-    });
-    const statusIconEl = await page.find(`calcite-block-section >>> .${CSS.statusIcon}`);
-    expect(statusIconEl).not.toBeNull();
-  });
-});
-
-describe("status = 'foo'", () => {
-  it("does not display a status indicator when `status` is not an accepted value", async () => {
-    const page2 = await newE2EPage({
-      html: `<calcite-block-section status="foo"><div>content</div></calcite-block-section>`,
-    });
-    const statusIconEl2 = await page2.find(`calcite-block-section >>> .${CSS.statusIcon}`);
-    await page2.waitForChanges();
-    expect(statusIconEl2).toBeNull();
-  });
-});
-
 async function assertContentIsDisplayedAndHidden(page: E2EPage): Promise<void> {
   let element = await page.find("calcite-block-section");
   let content = await page.find(`calcite-block-section >>> .${CSS.content}`);
