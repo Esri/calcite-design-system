@@ -133,9 +133,8 @@ export class DropdownItem extends LitElement {
   @property({ reflect: true }) iconEnd?: IconName;
 
   /**
-   * When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 

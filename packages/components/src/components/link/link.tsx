@@ -120,9 +120,8 @@ export class Link extends LitElement {
   @property({ reflect: true }) iconEnd?: IconName;
 
   /**
-   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 

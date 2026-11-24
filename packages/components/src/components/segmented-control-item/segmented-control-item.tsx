@@ -80,9 +80,8 @@ export class SegmentedControlItem extends LitElement {
   @property({ reflect: true }) iconEnd?: IconName;
 
   /**
-   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) iconFlipRtl = false;
 

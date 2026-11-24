@@ -536,9 +536,8 @@ export class Input
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
-   * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) iconFlipRtl = false;
 
