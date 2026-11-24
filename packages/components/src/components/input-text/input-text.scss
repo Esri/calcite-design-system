@@ -409,7 +409,7 @@ input[type="text"]::-ms-reveal {
 
 .prefix {
   order: 0;
-  border-inline-end-width: theme("borderWidth.0");
+  border-inline-end-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-internal-input-affix-prefix-width, var(--calcite-input-prefix-size-x, auto));
   background-color: var(
     --calcite-input-text-background-color,
@@ -419,7 +419,7 @@ input[type="text"]::-ms-reveal {
 }
 .suffix {
   order: 5;
-  border-inline-start-width: theme("borderWidth.0");
+  border-inline-start-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-internal-input-affix-suffix-width, var(--calcite-input-suffix-size-x, auto));
   background-color: var(
     --calcite-input-text-background-color,

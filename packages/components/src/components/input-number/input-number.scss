@@ -434,7 +434,7 @@ input[readonly]:focus {
 
 .prefix {
   order: 0;
-  border-inline-end-width: theme("borderWidth.0");
+  border-inline-end-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-internal-input-affix-prefix-width, var(--calcite-input-prefix-size, auto));
   background-color: var(
     --calcite-input-number-background-color,
@@ -444,7 +444,7 @@ input[readonly]:focus {
 }
 .suffix {
   order: 5;
-  border-inline-start-width: theme("borderWidth.0");
+  border-inline-start-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-internal-input-affix-suffix-width, var(--calcite-input-suffix-size, auto));
   background-color: var(
     --calcite-input-number-background-color,
@@ -522,7 +522,7 @@ input[readonly]:focus {
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
   border-inline-start-width: var(--calcite-border-width-sm);
-  border-inline-end-width: theme("borderWidth.0");
+  border-inline-end-width: var(--calcite-border-width-none);
   order: 0;
   padding-inline-start: var(--calcite-internal-input-number-number-button-item-horizontal-padding);
 }

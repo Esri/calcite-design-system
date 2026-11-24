@@ -12,45 +12,45 @@
 @use "@esri/calcite-design-tokens/dist/scss/core";
 
 :host([scale="s"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.1");
-  --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.3");
-  --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.4");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-space-2xs);
+  --calcite-internal-stepper-item-spacing-unit-m: var(--calcite-space-md);
+  --calcite-internal-stepper-item-spacing-unit-l: var(--calcite-space-lg);
   --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-md, var(--calcite-spacing-md));
-  --calcite-internal-stepper-action-inline-size: theme("spacing.8");
+  --calcite-internal-stepper-action-inline-size: var(--calcite-size-md);
 
   @include shared.text-n1h();
 
-  margin-inline-end: theme("margin.1");
+  margin-inline-end: var(--calcite-space-2xs);
   .stepper-item-description {
     font-size: var(--calcite-font-size-relative-sm);
   }
 }
 
 :host([scale="m"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.2");
-  --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.4");
-  --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.5");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-space-sm);
+  --calcite-internal-stepper-item-spacing-unit-m: var(--calcite-space-lg);
+  --calcite-internal-stepper-item-spacing-unit-l: var(--calcite-space-xl);
   --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-lg, var(--calcite-spacing-lg));
-  --calcite-internal-stepper-action-inline-size: theme("spacing.10");
+  --calcite-internal-stepper-action-inline-size: 2.5rem;
 
   @include shared.text-0h();
 
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-space-sm);
   .stepper-item-description {
     font-size: var(--calcite-font-size-relative-base);
   }
 }
 
 :host([scale="l"]) {
-  --calcite-internal-stepper-item-spacing-unit-s: theme("spacing.3");
-  --calcite-internal-stepper-item-spacing-unit-m: theme("spacing.5");
-  --calcite-internal-stepper-item-spacing-unit-l: theme("spacing.6");
+  --calcite-internal-stepper-item-spacing-unit-s: var(--calcite-space-md);
+  --calcite-internal-stepper-item-spacing-unit-m: var(--calcite-space-xl);
+  --calcite-internal-stepper-item-spacing-unit-l: var(--calcite-space-2xl);
   --calcite-internal-stepper-item-header-padding: var(--calcite-theme-space-xl, var(--calcite-spacing-xl));
-  --calcite-internal-stepper-action-inline-size: theme("spacing.12");
+  --calcite-internal-stepper-action-inline-size: var(--calcite-size-xl);
 
   @include shared.text-1h();
 
-  margin-inline-end: theme("margin.3");
+  margin-inline-end: var(--calcite-space-md);
   .stepper-item-description {
     font-size: var(--calcite-font-size-relative-md);
   }
@@ -187,18 +187,18 @@
   // todo dark mode
   border-color: rgba(core.$calcite-color-high-saturation-blue-h-bb-060, 0.5);
   & .stepper-item-icon {
-    color: var(--calcite-stepper-item-complete-icon-color, theme("backgroundColor.brand"));
+    color: var(--calcite-stepper-item-complete-icon-color, var(--calcite-color-brand));
   }
 }
 
 :host([error]) .container {
   border-block-start-color: var(--calcite-color-status-danger);
   & .stepper-item-number {
-    color: var(--calcite-stepper-item-error-icon-color, theme("backgroundColor.danger"));
+    color: var(--calcite-stepper-item-error-icon-color, var(--calcite-color-status-danger));
   }
   & .stepper-item-icon {
     opacity: var(--calcite-opacity-full);
-    color: var(--calcite-stepper-item-error-icon-color, theme("backgroundColor.danger"));
+    color: var(--calcite-stepper-item-error-icon-color, var(--calcite-color-status-danger));
   }
 }
 
@@ -220,7 +220,7 @@
 }
 
 :host([selected]) .container {
-  border-block-start-color: theme("backgroundColor.brand");
+  border-block-start-color: var(--calcite-color-brand);
   & .stepper-item-heading {
     color: var(--calcite-stepper-item-selected-header-text-color, var(--calcite-color-text-1));
     font-weight: var(--calcite-font-weight-medium);
@@ -229,12 +229,12 @@
     color: var(--calcite-stepper-item-description-text-color-hover, var(--calcite-color-text-2));
   }
   & .stepper-item-number {
-    color: var(--calcite-stepper-item-selected-icon-color, theme("backgroundColor.brand"));
+    color: var(--calcite-stepper-item-selected-icon-color, var(--calcite-color-brand));
     font-weight: var(--calcite-font-weight-medium);
   }
 
   & .stepper-item-icon {
-    color: var(--calcite-stepper-item-selected-icon-color, theme("backgroundColor.brand"));
+    color: var(--calcite-stepper-item-selected-icon-color, var(--calcite-color-brand));
     opacity: var(--calcite-opacity-full);
   }
 }
@@ -256,7 +256,7 @@
   border-block-start-width: var(--calcite-border-width-none);
   border-style: solid;
   padding-block: var(--calcite-space-none);
-  border-inline-start-width: theme("borderWidth.2");
+  border-inline-start-width: var(--calcite-border-width-md);
   padding-inline-start: var(--calcite-internal-stepper-item-spacing-unit-l);
   border-color: var(--calcite-stepper-bar-fill-color, var(--calcite-color-border-2));
 
@@ -264,10 +264,10 @@
     order: 3;
     margin-block: var(--calcite-space-px) var(--calcite-space-none);
     padding-inline-start: var(--calcite-internal-stepper-item-spacing-unit-s);
-    margin-inline-start: theme("margin.auto");
+    margin-inline-start: auto;
   }
   & .stepper-item-header {
-    padding-inline-end: theme("padding.0");
+    padding-inline-end: var(--calcite-space-none);
   }
   & .stepper-item-content {
     padding: var(--calcite-space-none);
@@ -439,11 +439,11 @@
 
 :host([layout="horizontal-single"][error]) .container {
   & .stepper-item-number {
-    color: var(--calcite-stepper-item-error-icon-color, theme("backgroundColor.danger"));
+    color: var(--calcite-stepper-item-error-icon-color, var(--calcite-color-status-danger));
   }
   & .stepper-item-icon {
     opacity: var(--calcite-opacity-full);
-    color: var(--calcite-stepper-item-error-icon-color, theme("backgroundColor.danger"));
+    color: var(--calcite-stepper-item-error-icon-color, var(--calcite-color-status-danger));
   }
 }
 

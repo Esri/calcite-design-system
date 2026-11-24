@@ -147,7 +147,6 @@
     "stylelint": "catalog:",
     "stylelint-config-recommended-scss": "catalog:",
     "stylelint-use-logical-spec": "catalog:",
-    "tailwindcss": "catalog:",
     "type-fest": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",

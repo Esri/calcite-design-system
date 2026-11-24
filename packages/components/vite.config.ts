@@ -1,5 +1,4 @@
 import { execSync } from "child_process";
-import tailwindcss from "tailwindcss";
 import autoprefixer from "autoprefixer";
 import stylelint from "stylelint";
 // TODO: [MIGRATION] evaluate the usages of the key={} props - most of the time key is not necessary in Lit. See https://webgis.esri.com/arcgis-components/?path=/docs/lumina-jsx--docs#key-prop
@@ -11,7 +10,6 @@ import { playwrightCommands as customBrowserModeCommandsPlugin } from "vitest-br
 import customElementDependenciesPlugin from "./build/plugins/custom-element-dependencies";
 import removeTestDataAttr from "./build/transforms/remove-test-data-attributes";
 import { version } from "./package.json";
-import tailwindConfig from "./tailwind.config";
 import { timeZoneBrowserTestMatch } from "./src/tests/time-zone";
 
 const nonEsmDependencies = ["interactjs"];
@@ -67,7 +65,6 @@ export function createConfig({
     css: {
       postcss: {
         plugins: [
-          tailwindcss(tailwindConfig),
           autoprefixer(),
           stylelint({
             configFile: ".stylelintrc-postcss.json",
