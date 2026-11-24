@@ -47,112 +47,163 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-border-color": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-icon-color": "*";
     /**
      * Specifies the component's icon color when hovered.
+     *
+     * @public
      */
     "--calcite-input-time-picker-icon-color-hover": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-input-time-picker-shadow": "*";
     /**
      * Specifies the component's border radius.
+     *
+     * @public
      */
     "--calcite-input-time-picker-corner-radius": "*";
     /**
      * Specifies the component's input background color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-background-color": "*";
     /**
      * Specifies the component's input text color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-text-color": "*";
     /**
      * Specifies the component's input shadow.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-shadow": "*";
     /**
      * Specifies the component's input border radius.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-corner-radius": "*";
     /**
      * Specifies the component's input border color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-border-color": "*";
     /**
      * Specifies the component's digit text color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-digit-text-color": "*";
     /**
      * Specifies the component's digit icon color.
+     *
+     * @public
      */
     "--calcite-input-time-picker-digit-icon-color": "*";
     /**
      * Specifies the component's digit border color when pressed.
+     *
+     * @public
      */
     "--calcite-input-time-picker-digit-border-color-press": "*";
     /**
      * Specifies the component's digit border color when hovered.
+     *
+     * @public
      */
     "--calcite-input-time-picker-digit-border-color-hover": "*";
     /**
      * Specifies the background color of the component's actions when hovered.
+     *
+     * @public
      */
     "--calcite-input-time-picker-action-background-color-hover": "*";
     /**
      * Specifies the background color of the component's actions when active.
+     *
+     * @public
      */
     "--calcite-input-time-picker-action-background-color-press": "*";
     /**
      * Specifies the background color of the input's `clearable` element.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-action-background-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-action-background-color-hover": "*";
     /**
      * Specifies the background color of the input's `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-action-background-color-press": "*";
     /**
      * Specifies the icon color of the input's `clearable` and toggle elements.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-action-icon-color": "*";
     /**
      * Specifies the icon color of the input's `clearable` and toggle elements when hovered.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-action-icon-color-hover": "*";
     /**
      * Specifies the icon color of the input's `clearable` and toggle elements when pressed.
+     *
+     * @public
      */
     "--calcite-input-time-picker-input-action-icon-color-press": "*";
   }
 }
 
+/** @public */
 interface InputTimePickerSlots {
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Inputs
  */
 export class InputTimePicker extends LitElement implements LabelableComponent, TimeComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: InputTimePickerSlots;
 
   //#endregion
@@ -161,7 +212,10 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   static formAssociated = true;
 
-  static override shadowRootOptions = { mode: "open" as const, delegatesFocus: true };
+  static override shadowRootOptions = {
+    mode: "open" as const,
+    delegatesFocus: true,
+  };
 
   static override styles = styles;
 
@@ -171,8 +225,6 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -226,16 +278,31 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   //#region Public Properties
 
-  /** When `true`, displays a clear button when the component has a value. */
+  /**
+   * When `true`, displays a clear button when the component has a value.
+   *
+   * @public
+   */
   @property({ reflect: true }) clearable = false;
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** When `true`, prevents focus trapping. */
+  /**
+   * When `true`, prevents focus trapping.
+   *
+   * @public
+   */
   @property({ reflect: true }) focusTrapDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
@@ -244,55 +311,91 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * - `"user"` displays the user's locale format.
    * - `"12"` displays a 12-hour format.
    * - `"24"` displays a 24-hour format.
+   *
+   * @public
    */
   @property({ reflect: true }) hourFormat: HourFormat = "user";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
   /**
    * When the component resides in a form,
    * specifies the maximum `value`.
    *
+   * @public
    * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
   @property({ reflect: true }) max?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides & TimePicker["messageOverrides"];
 
   /**
    * When the component resides in a form,
    * specifies the minimum `value`.
    *
+   * @public
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
   @property({ reflect: true }) min?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() name?: string;
 
-  /** Specifies the Unicode numeral system used by the component for localization. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem!: NumberingSystem;
 
-  /** When `true`, displays the `calcite-time-picker` component. */
+  /**
+   * When `true`, displays the `calcite-time-picker` component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Specifies the component's placeholder text. */
+  /**
+   * Specifies the component's placeholder text.
+   *
+   * @public
+   */
   @property() placeholder?: string;
 
-  /** Determines the `calcite-time-picker`'s position relative to the input. */
+  /**
+   * Determines the `calcite-time-picker`'s position relative to the input.
+   *
+   * @public
+   */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
    *
+   * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
@@ -300,32 +403,58 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /**
    * When `true` and the component resides in a form,
    * the component must have a `value` in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the input field's status, which determines message and icons. */
+  /**
+   * Specifies the input field's status, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the granularity the component's `value` must adhere to (in seconds). */
+  /**
+   * Specifies the granularity the component's `value` must adhere to (in seconds).
+   *
+   * @public
+   */
   @property({ reflect: true }) step: number = 60;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The time value in ISO (24-hour) format. */
+  /**
+   * The time value in ISO (24-hour) format.
+   *
+   * @public
+   */
   @property() value!: string;
 
   //#endregion
@@ -335,6 +464,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /**
    * Updates the component's position.
    *
+   * @public
    * @param delayed If true, delay the repositioning.
    */
   @method()
@@ -345,8 +475,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -358,19 +488,39 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteInputTimePickerBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteInputTimePickerBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component's `value` is modified by the user. */
+  /**
+   * Fires when the component's `value` is modified by the user.
+   *
+   * @public
+   */
   calciteInputTimePickerChange = createEvent();
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteInputTimePickerClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is opened and animation is complete. */
+  /**
+   * Fires when the component is opened and animation is complete.
+   *
+   * @public
+   */
   calciteInputTimePickerOpen = createEvent({ cancelable: false });
 
   //#endregion
