@@ -476,6 +476,14 @@ describe("clearable", () => {
   });
 });
 
+function getYearInput(): Locator {
+  return page.getByRole("textbox", { name: "Year" }).first();
+}
+
+function getMonthSelectMenu(): Locator {
+  return page.getByRole("combobox", { name: "Month menu" }).first();
+}
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-date-picker"), {
@@ -1615,14 +1623,6 @@ describe("localization", () => {
     });
   });
 });
-
-function getYearInput(): Locator {
-  return page.getByRole("textbox", { name: "Year" }).first();
-}
-
-function getMonthSelectMenu(): Locator {
-  return page.getByRole("combobox", { name: "Month menu" }).first();
-}
 
 function getActiveMonth(position: Extract<"start" | "end", Position> = "start"): Locator {
   const monthIndex = position === "start" ? 0 : 1;

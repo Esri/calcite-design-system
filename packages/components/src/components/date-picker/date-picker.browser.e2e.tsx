@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import {
@@ -87,9 +87,11 @@ describe("translation support", () => {
 
 describe("activeDate", () => {
   it("should update calendar when activeDate changes", async () => {
-    const { el } = await mount<DatePicker>(<calcite-date-picker value="2025-09-01" />);
+    const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2025-09-01" />);
+    await component.updateComplete;
 
     el.activeDate = new Date("2021-01-15");
+    await component.updateComplete;
 
     const yearInput = getYearInput();
     await expect.element(yearInput).toHaveProperty("value", "2021");
@@ -104,6 +106,7 @@ describe("activeDate", () => {
     await component.updateComplete;
 
     el.activeDate = new Date("2021-01-15");
+    await component.updateComplete;
 
     const yearInput = getYearInput();
     await expect.element(yearInput).toHaveProperty("value", "2021");
@@ -118,6 +121,7 @@ describe("activeDate", () => {
     await component.updateComplete;
 
     el.activeDate = new Date("2021-01-15");
+    await component.updateComplete;
 
     const yearInput = getYearInput();
     await expect.element(yearInput).toHaveProperty("value", "2021");
@@ -148,8 +152,9 @@ describe("value", () => {
     "clears valueAsDate and activates the current date when value is set to $label",
     async ({ value }) => {
       const { el, component } = await mount<DatePicker>(<calcite-date-picker value="2025-12-05" />);
+      await component.updateComplete;
 
-      await expect.element(el).toHaveProperty("valueAsDate", expect.any(Date));
+      expect(el.valueAsDate).toBeInstanceOf(Date);
 
       el.value = value;
       await waitForCalendarUpdate(el, component);
@@ -165,6 +170,7 @@ describe("value", () => {
     const { el, component } = await mount<DatePicker>(
       <calcite-date-picker valueAsDate={new Date(2025, 11, 5)} />,
     );
+    await component.updateComplete;
 
     expect(el.valueAsDate).toBeInstanceOf(Date);
 
@@ -183,8 +189,9 @@ describe("value", () => {
       const { el, component } = await mount<DatePicker>(
         <calcite-date-picker range value={["2025-12-05", "2026-01-10"]} />,
       );
+      await component.updateComplete;
 
-      await expect.element(el).toHaveProperty("valueAsDate.length", 2);
+      expect(el.valueAsDate).toHaveLength(2);
 
       el.value = value;
       await waitForCalendarUpdate(el, component);
@@ -200,8 +207,9 @@ describe("value", () => {
     const { el, component } = await mount<DatePicker>(
       <calcite-date-picker range value={["2025-12-05", "2026-01-10"]} />,
     );
+    await component.updateComplete;
 
-    await expect.element(el).toHaveProperty("valueAsDate.length", 2);
+    expect(el.valueAsDate).toHaveLength(2);
 
     el.value = ["", ""];
     await waitForCalendarUpdate(el, component);
