@@ -3,6 +3,173 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.50...@esri/calcite-components@6.0.0-next.51) (2026-11-24)
+
+### Bug Fixes
+
+- **dropdown:** remove visual noise in forced-colors mode ([#15671](https://github.com/Esri/calcite-design-system/issues/15671)), closes [#15334](https://github.com/Esri/calcite-design-system/issues/15334)
+
+## [6.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.49...@esri/calcite-components@6.0.0-next.50) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **slider:** Slider endpoint tick labels now align with the
+  component edges instead of being centered. Overlapping tick labels are
+  now hidden. To migrate, update layouts that depend on centered endpoint
+  labels or require all tick labels to remain visible. Increase the slider
+  width to accommodate more labels, or use `labelFormatter` to shorten or
+  omit labels.
+
+### Features
+
+- **slider:** align tick labels component bounds ([#15635](https://github.com/Esri/calcite-design-system/issues/15635)), closes [#12129](https://github.com/Esri/calcite-design-system/issues/12129)
+
+## [6.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.48...@esri/calcite-components@6.0.0-next.49) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **components:** CamelCase icon names will no longer work. CamelCase
+  icon names were never publicly documented, and this behavior has been
+  removed to align with the documentation. To migrate, replace camelCase
+  icon names with their kebab-case equivalents.
+
+### Code Refactoring
+
+- **components:** remove camelCase icon names ([#15694](https://github.com/Esri/calcite-design-system/issues/15694)), closes [#14967](https://github.com/Esri/calcite-design-system/issues/14967)
+
+## [6.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.47...@esri/calcite-components@6.0.0-next.48) (2026-11-23)
+
+### Bug Fixes
+
+- **slider:** ensure `calciteSliderInput` is emitted before `calciteSliderChange` ([#15691](https://github.com/Esri/calcite-design-system/issues/15691)), closes [#15456](https://github.com/Esri/calcite-design-system/issues/15456)
+
+## [6.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.46...@esri/calcite-components@6.0.0-next.47) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- **shell-panel:** Remove the deprecated `heightScale` and `widthScale`
+  properties in `shell-panel`.
+
+- Replace them with `height` and `width` properties.
+
+### Code Refactoring
+
+- **shell-panel:** remove deprecated size scale properties ([#15678](https://github.com/Esri/calcite-design-system/issues/15678)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
+## [6.0.0-next.46](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.45...@esri/calcite-components@6.0.0-next.46) (2026-11-23)
+
+### ⚠ BREAKING CHANGES
+
+- removes the `ancestors` properties from Combobox Item
+  and Combobox Group's public API surface, as they were not intended to be
+  public.
+
+### Code Refactoring
+
+- migrate to API Extractor strict mode ([#15596](https://github.com/Esri/calcite-design-system/issues/15596)), closes [#15352](https://github.com/Esri/calcite-design-system/issues/15352) [#15636](https://github.com/Esri/calcite-design-system/issues/15636)
+
+## [6.0.0-next.45](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.44...@esri/calcite-components@6.0.0-next.45) (2026-11-21)
+
+### ⚠ BREAKING CHANGES
+
+- **dialog:** Removes deprecated `widthScale` property in `dialog`.
+
+- Replace it with `width` property.
+
+### Code Refactoring
+
+- **dialog:** remove deprecated widthScale property ([#15660](https://github.com/Esri/calcite-design-system/issues/15660)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
+## [6.0.0-next.44](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.43...@esri/calcite-components@6.0.0-next.44) (2026-11-21)
+
+### ⚠ BREAKING CHANGES
+
+- **input-number:** Remove the deprecated `maxLength` and `minLength`
+  properties in `input-number`.
+
+- These properties had no effect on the component and do not require
+  replacements.
+
+### Code Refactoring
+
+- **input-number:** remove deprecated length properties ([#15672](https://github.com/Esri/calcite-design-system/issues/15672)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
+## [6.0.0-next.43](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.42...@esri/calcite-components@6.0.0-next.43) (2026-11-20)
+
+### Bug Fixes
+
+- **autocomplete:** Preserve autocomplete state across clear and focus changes ([#15612](https://github.com/Esri/calcite-design-system/issues/15612)), closes [#15601](https://github.com/Esri/calcite-design-system/issues/15601)
+
+## [6.0.0-next.42](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.41...@esri/calcite-components@6.0.0-next.42) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **date-picker, dropdown, input-date-picker, input-time-zone, popover, segmented-control, select, tooltip:** Improves strictness of public API. The codebase was
+  refactored to be strict to better reflect the component runtime
+  behavior. Developers will need to update code to match updated types.
+
+### Code Refactoring
+
+- **date-picker, dropdown, input-date-picker, input-time-zone, popover, segmented-control, select, tooltip:** make public API strict ([#15540](https://github.com/Esri/calcite-design-system/issues/15540)), closes [#14582](https://github.com/Esri/calcite-design-system/issues/14582)
+
+## [6.0.0-next.41](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.40...@esri/calcite-components@6.0.0-next.41) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **table, table-cell, table-header, table-row:** `messageOverrides` is no longer available on
+  `calcite-table-header` or `calcite-table-cell`. Move overrides to the
+  owning `calcite-table`. All keys are unchanged except for the following:
+
+**`calcite-table-row`**
+
+- `row` → `selectionRow`
+- `selected` → `selectionSelected`
+
+**`calcite-table-header`**
+
+- `selected` → `selectedRows`
+
+### Code Refactoring
+
+- **table, table-cell, table-header, table-row:** move `messageOverrides` to parent ([#15215](https://github.com/Esri/calcite-design-system/issues/15215)), closes [#15216](https://github.com/Esri/calcite-design-system/issues/15216) [#15326](https://github.com/Esri/calcite-design-system/issues/15326)
+
+## [6.0.0-next.40](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.39...@esri/calcite-components@6.0.0-next.40) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **input-time-zone:** `input-time-zone` no longer supports `Factory` or its
+  message override because it represents an unknown time zone and is
+  inconsistently supported by browsers. Replace persisted
+  `value="Factory"` with a supported IANA time zone, or omit `value` to
+  use the user's time zone; an initial `Factory` value now falls back to
+  the user's time zone. Remove any `Factory` entry from
+  `messageOverrides`.
+
+### Bug Fixes
+
+- **input-time-zone:** drop `Factory` time zone support ([#15649](https://github.com/Esri/calcite-design-system/issues/15649)), closes [#15643](https://github.com/Esri/calcite-design-system/issues/15643) [1930466#c1](https://github.com/Esri/1930466/issues/c1)
+
+## [6.0.0-next.39](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.38...@esri/calcite-components@6.0.0-next.39) (2026-11-20)
+
+### ⚠ BREAKING CHANGES
+
+- **stepper:** The following deprecated tokens are removed in
+  `stepper`.
+
+- `--calcite-stepper-bar-active-fill-color`
+- `--calcite-stepper-bar-inactive-fill-color`
+
+To migrate, replace
+
+- `--calcite-stepper-bar-active-fill-color` with
+  `--calcite-stepper-bar-selected-fill-color`.
+- `--calcite-stepper-bar-inactive-fill-color` with
+  `--calcite-stepper-bar-fill-color`.
+
+### Code Refactoring
+
+- **stepper:** drop deprecated tokens ([#15552](https://github.com/Esri/calcite-design-system/issues/15552)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.38](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.37...@esri/calcite-components@6.0.0-next.38) (2026-11-20)
 
 ### Bug Fixes
