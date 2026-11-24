@@ -71,7 +71,7 @@ export class Tab extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies the component's size. Inherited from the parent `calcite-tabs`, defaults to `m`.
+   * @copyDoc
    */
   @property() scale: Scale = "m";
 

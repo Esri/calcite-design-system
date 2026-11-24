@@ -141,9 +141,8 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @property({ reflect: true }) required = false;
 
   /**
-   * Specifies the size of the component inherited from the `calcite-radio-button-group`.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

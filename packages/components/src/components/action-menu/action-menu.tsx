@@ -342,9 +342,8 @@ export class ActionMenu extends LitElement {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /**
-   * Specifies the size of the component's trigger `calcite-action`.
-   *
    * @internal
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

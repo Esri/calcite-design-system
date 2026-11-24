@@ -118,9 +118,8 @@ export class Tabs extends LitElement {
   @property({ reflect: true }) position: TabPosition = "top";
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

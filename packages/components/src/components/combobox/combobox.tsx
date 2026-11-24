@@ -586,9 +586,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) required = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

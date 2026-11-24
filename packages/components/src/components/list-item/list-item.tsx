@@ -347,9 +347,8 @@ export class ListItem extends LitElement implements SortableComponentItem {
   }
 
   /**
-   * Specifies the size of the component.
-   *
    * @internal
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

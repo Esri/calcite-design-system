@@ -89,9 +89,8 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
-   * Specifies the component's size.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

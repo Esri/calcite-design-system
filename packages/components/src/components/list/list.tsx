@@ -386,9 +386,8 @@ export class List extends LitElement {
   @property() numberingSystem?: NumberingSystem;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -98,9 +98,8 @@ export class ColorPickerHexInput extends LitElement {
   @property() numberingSystem?: NumberingSystem;
 
   /**
-   * Specifies the size of the component.
-   *
    * @internal
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -228,9 +228,8 @@ export class Meter extends LitElement {
   @property({ reflect: true }) rangeLabels = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

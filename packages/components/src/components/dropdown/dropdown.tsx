@@ -279,9 +279,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   @property() referenceElement?: ReferenceElement | string;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

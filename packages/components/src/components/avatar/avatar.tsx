@@ -64,9 +64,8 @@ export class Avatar extends LitElement {
   @property() label?: string;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

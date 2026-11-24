@@ -285,9 +285,8 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
   @property() referenceElement!: ReferenceElement | string;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -107,9 +107,8 @@ export class Accordion extends LitElement {
     "chevron";
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

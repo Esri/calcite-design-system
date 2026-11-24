@@ -294,9 +294,8 @@ export class SplitButton extends LitElement {
   @property({ reflect: true }) primaryText?: string;
 
   /**
-   * Specifies the component's size.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -70,9 +70,8 @@ export class Menu extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

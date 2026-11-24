@@ -280,7 +280,7 @@ export class StepperItem extends LitElement {
   @property() numberingSystem?: NumberingSystem;
 
   /**
-   * Specifies the size of the component inherited from the `calcite-stepper`, defaults to `m`.
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

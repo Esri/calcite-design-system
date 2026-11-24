@@ -398,9 +398,8 @@ export class TextArea
   @property({ reflect: true }) rows?: number;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: "l" | "m" | "s" = "m";
 
