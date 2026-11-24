@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.51...@esri/calcite-components@6.0.0-next.52) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **input-number:** The input-number’s value property no longer includes
+  trailing decimal separators, aligning with native input behavior. The
+  trailing decimal remains visible in the input while editing. To migrate,
+  update any code or test assertions that rely on the value property
+  containing a trailing decimal separator.
+
+### Bug Fixes
+
+- **input-number:** replace integer and decimal selections correctly in the input with localized decimal character ([#15539](https://github.com/Esri/calcite-design-system/issues/15539)), closes [#15538](https://github.com/Esri/calcite-design-system/issues/15538)
+
 ## [6.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.50...@esri/calcite-components@6.0.0-next.51) (2026-11-24)
 
 ### Bug Fixes
