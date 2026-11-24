@@ -111,7 +111,7 @@ export class DatePickerMonthHeader extends LitElement {
   @property() position?: Extract<"start" | "end", Position>;
 
   /**
-   * Specifies the size of the component.
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -158,9 +158,8 @@ export class BlockGroup extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -409,9 +409,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) required = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

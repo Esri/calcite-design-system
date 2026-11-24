@@ -86,9 +86,8 @@ export class Icon extends LitElement {
   @property({ reflect: true }) preload = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({
     reflect: true,

@@ -152,9 +152,8 @@ export class Stepper extends LitElement {
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
   /**
-   * Specifies the component's size.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

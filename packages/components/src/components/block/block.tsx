@@ -403,9 +403,8 @@ export class Block extends LitElement {
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

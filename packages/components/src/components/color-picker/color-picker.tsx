@@ -476,9 +476,8 @@ export class ColorPicker extends LitElement {
   @property({ reflect: true }) savedDisabled = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

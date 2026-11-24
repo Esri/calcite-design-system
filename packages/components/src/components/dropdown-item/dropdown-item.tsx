@@ -167,7 +167,7 @@ export class DropdownItem extends LitElement {
   @property({ reflect: true }) rel?: string;
 
   /**
-   * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

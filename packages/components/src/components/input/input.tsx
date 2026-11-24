@@ -658,9 +658,8 @@ export class Input
   @property({ reflect: true }) required = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

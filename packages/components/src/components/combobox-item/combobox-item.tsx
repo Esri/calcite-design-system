@@ -225,7 +225,7 @@ export class ComboboxItem extends LitElement {
   @property() metadata?: Record<string, unknown>;
 
   /**
-   * Specifies the size of the component inherited from the `calcite-combobox`, defaults to `m`.
+   * @copyDoc
    */
   @property() scale: Scale = "m";
 

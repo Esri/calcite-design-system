@@ -182,9 +182,8 @@ export class SortHandle extends LitElement {
   @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
 
   /**
-   * Specifies the size of the component.
-   *
    * @internal
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

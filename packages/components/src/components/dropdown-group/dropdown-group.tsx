@@ -100,7 +100,7 @@ export class DropdownGroup extends LitElement {
   @property() position: number = -1;
 
   /**
-   * Specifies the size of the component inherited from the parent `calcite-dropdown`, defaults to `m`.
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

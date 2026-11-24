@@ -98,7 +98,7 @@ export class SegmentedControlItem extends LitElement {
   @property() layout: Extract<"horizontal" | "vertical" | "grid", Layout> = "horizontal";
 
   /**
-   * Specifies the size of the component inherited from the `calcite-segmented-control`, defaults to `m`.
+   * @copyDoc
    */
   @property() scale: Scale = "m";
 

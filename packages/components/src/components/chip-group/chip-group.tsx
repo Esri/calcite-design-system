@@ -76,9 +76,8 @@ export class ChipGroup extends LitElement {
   @property() label!: string;
 
   /**
-   * Specifies the size of the component. Child `calcite-chip`s inherit the component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

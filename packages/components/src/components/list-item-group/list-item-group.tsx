@@ -84,9 +84,8 @@ export class ListItemGroup extends LitElement {
   @property({ reflect: true }) heading?: string;
 
   /**
-   * Specifies the size of the component.
-   *
    * @internal
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -444,9 +444,8 @@ export class Table extends LitElement {
   @property({ reflect: true }) pageSize = 0;
 
   /**
-   * Specifies the component's size.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

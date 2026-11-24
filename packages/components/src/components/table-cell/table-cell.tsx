@@ -143,6 +143,9 @@ export class TableCell extends LitElement {
    */
   @property({ reflect: true }) rowSpan?: number;
 
+  /**
+   * @copyDoc
+   */
   @property() scale: Scale = "m";
 
   @property() selectionCell = false;

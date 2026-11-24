@@ -103,7 +103,7 @@ export class AutocompleteItemGroup extends LitElement {
   @property() position: number = 0;
 
   /**
-   * Specifies the size of the component inherited from the `calcite-autocomplete`, defaults to `m`.
+   * @copyDoc
    */
   @property() scale: Scale = "m";
 

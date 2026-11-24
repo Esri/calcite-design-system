@@ -145,9 +145,8 @@ export class Pagination extends LitElement {
   @property({ reflect: true }) pageSize = 20;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

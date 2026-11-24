@@ -157,9 +157,8 @@ export class TimePicker extends LitElement implements TimeComponent {
   @property() numberingSystem!: NumberingSystem;
 
   /**
-   * Specifies the component's size.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

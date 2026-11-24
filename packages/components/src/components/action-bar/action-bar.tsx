@@ -488,9 +488,8 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
 
   /**
-   * Specifies the size of the expand `calcite-action`.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 
