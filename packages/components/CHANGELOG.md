@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.2.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.1...@esri/calcite-components@5.2.2) (2026-11-24)
+
+
+### Bug Fixes
+
+* **input-time-zone:** Handle unsupported `Factory` time zone ([#15711](https://github.com/Esri/calcite-design-system/issues/15711)) ([a1f1f33](https://github.com/Esri/calcite-design-system/commit/a1f1f33c651acc18e586250809b776d6944d958a))
+
 ## [5.2.1](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@5.2.0...@esri/calcite-components@5.2.1) (2026-11-04)
 
 
