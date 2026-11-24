@@ -15,15 +15,14 @@ import { afterNextFrame } from "../../tests/utils/timing";
 /*
  * These tests cover time-zone-sensitive behavior migrated from the legacy Puppeteer E2E suite.
  *
- * Unlike most browser-mode tests, this file must not run as part of the main browser suite because
- * Vitest browser mode does not support changing the browser time zone dynamically per test. Instead,
- * vite.time-zone.config.ts starts the Playwright browser context with BROWSER_TIME_ZONE before the
+ * This file runs separately from the main browser suite. Each registered instance in
+ * vite.time-zone.config.ts starts a timezone-specific Playwright context before the
  * component initializes. The tests then inspect Intl.DateTimeFormat().resolvedOptions().timeZone at
  * runtime, match it to one of the stable fixtures below, and run expectations for that configured zone.
  *
- * Run this file once per required time zone by setting BROWSER_TIME_ZONE. If the browser context uses a
- * time zone not listed in testTimeZones, this suite fails immediately so a missing or unsupported
- * config is visible.
+ * The separate test:browser:time-zone command runs the registered instances. Use --project or
+ * BROWSER_TIME_ZONE to select one zone. If the browser context uses a time zone not listed in
+ * testTimeZones, this suite fails immediately so a missing or unsupported config is visible.
  */
 
 mockConsole();
