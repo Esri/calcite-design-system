@@ -40,46 +40,67 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the font size of `calcite-option`s in the component.
+     *
+     * @public
      */
     "--calcite-select-font-size": "*";
     /**
      * Specifies the text color of `calcite-option`s in the component.
+     *
+     * @public
      */
     "--calcite-select-text-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-select-border-color": "*";
     /**
      * Specifies the component's icon color.
+     *
+     * @public
      */
     "--calcite-select-icon-color": "*";
     /**
      * Specifies the component's icon color when hovered or active.
+     *
+     * @public
      */
     "--calcite-select-icon-color-hover": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-select-background-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-select-corner-radius": "*";
     /**
      * Specifies the component's shadow.
+     *
+     * @public
      */
     "--calcite-select-shadow": "*";
   }
 }
 
+/** @public */
 interface SelectSlots {
   /**
    * A slot for adding `calcite-option`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
@@ -87,9 +108,14 @@ interface SelectSlots {
 type OptionOrGroup = Option["el"] | OptionGroup["el"];
 type NativeOptionOrGroup = HTMLOptionElement | HTMLOptGroupElement;
 
+/**
+ * @public
+ * @docGroup Select
+ */
 export class Select extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SelectSlots;
 
   //#endregion
@@ -118,12 +144,10 @@ export class Select extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -131,64 +155,107 @@ export class Select extends LitElement implements LabelableComponent {
 
   //#region Public Properties
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's selected option `HTMLElement`.
+   * The component's selected option `HTMLElement`, or `undefined` when no option is selected.
    *
+   * @public
    * @readonly
    */
-  @property() selectedOption!: Option["el"];
+  @property() selectedOption?: Option["el"];
 
-  /** Specifies the status of the input field, which determines the message and icons. */
+  /**
+   * Specifies the status of the input field, which determines the message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's `selectedOption` value. */
-  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
-  @property() value: string = null;
+  /**
+   * The component's `selectedOption` value, or `undefined` when no option is selected.
+   *
+   * @public
+   */
+  @property() value: string | undefined;
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) width: Extract<Width, "auto" | "full"> = "auto";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   //#endregion
@@ -198,8 +265,8 @@ export class Select extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -211,7 +278,11 @@ export class Select extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the `selectedOption` changes. */
+  /**
+   * Fires when the `selectedOption` changes.
+   *
+   * @public
+   */
   calciteSelectChange = createEvent({ cancelable: false });
 
   //#endregion
@@ -237,7 +308,7 @@ export class Select extends LitElement implements LabelableComponent {
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
-    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+    if (changes.has("value") && (this.hasUpdated || this.value !== undefined)) {
       this.updateItemsFromValue(this.value);
     }
 
@@ -294,7 +365,7 @@ export class Select extends LitElement implements LabelableComponent {
     this.setFocus();
   }
 
-  private updateItemsFromValue(value: string): void {
+  private updateItemsFromValue(value: string | undefined): void {
     this.el
       .querySelectorAll("calcite-option")
       .forEach((item) => (item.selected = item.value === value));

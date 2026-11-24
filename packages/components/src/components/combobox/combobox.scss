@@ -22,36 +22,36 @@
 :host([scale="s"]) {
   font-size: var(--calcite-font-size-relative-sm);
 
-  --calcite-internal-combobox-spacing-unit-l: theme("spacing.2");
-  --calcite-internal-combobox-spacing-unit-s: theme("spacing.1");
+  --calcite-internal-combobox-spacing-unit-l: var(--calcite-space-sm);
+  --calcite-internal-combobox-spacing-unit-s: var(--calcite-space-2xs);
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-2xs);
-  --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing.1");
-  --calcite-combobox-input-height: theme("spacing.4");
-  --calcite-internal-combobox-input-margin-block: calc(theme("spacing.1") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-combobox-no-matches-spacing-unit-s: var(--calcite-space-2xs);
+  --calcite-combobox-input-height: var(--calcite-size-xs);
+  --calcite-internal-combobox-input-margin-block: calc(var(--calcite-space-2xs) - var(--calcite-space-px));
   --calcite-internal-close-size: 1rem;
 }
 
 :host([scale="m"]) {
   font-size: var(--calcite-font-size-relative-base);
 
-  --calcite-internal-combobox-spacing-unit-l: theme("spacing.3");
-  --calcite-internal-combobox-spacing-unit-s: theme("spacing.2");
+  --calcite-internal-combobox-spacing-unit-l: var(--calcite-space-md);
+  --calcite-internal-combobox-spacing-unit-s: var(--calcite-space-sm);
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm);
-  --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing[1.5]");
-  --calcite-combobox-input-height: theme("spacing.4");
-  --calcite-internal-combobox-input-margin-block: calc(theme("spacing.2") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-combobox-no-matches-spacing-unit-s: var(--calcite-space-xs);
+  --calcite-combobox-input-height: var(--calcite-size-xs);
+  --calcite-internal-combobox-input-margin-block: calc(var(--calcite-space-sm) - var(--calcite-space-px));
   --calcite-internal-close-size: 1.5rem;
 }
 
 :host([scale="l"]) {
   font-size: var(--calcite-font-size-relative-md);
 
-  --calcite-internal-combobox-spacing-unit-l: theme("spacing.4");
-  --calcite-internal-combobox-spacing-unit-s: theme("spacing.3");
+  --calcite-internal-combobox-spacing-unit-l: var(--calcite-space-lg);
+  --calcite-internal-combobox-spacing-unit-s: var(--calcite-space-md);
   --calcite-internal-combobox-padding-inline-end: var(--calcite-space-sm-plus);
-  --calcite-internal-combobox-no-matches-spacing-unit-s: theme("spacing[2.5]");
-  --calcite-combobox-input-height: theme("spacing.6");
-  --calcite-internal-combobox-input-margin-block: calc(theme("spacing[2.5]") - theme("borderWidth.DEFAULT"));
+  --calcite-internal-combobox-no-matches-spacing-unit-s: var(--calcite-space-sm-plus);
+  --calcite-combobox-input-height: var(--calcite-size-sm);
+  --calcite-internal-combobox-input-margin-block: calc(var(--calcite-space-sm-plus) - var(--calcite-space-px));
   --calcite-internal-close-size: 2rem;
 }
 

@@ -80,7 +80,7 @@ describe("beforeClose", () => {
 
   beforeEach(async () => {
     page = await newE2EPage();
-    await page.setContent(html`<calcite-sheet></calcite-sheet>`);
+    await page.setContent(html`<calcite-sheet modal></calcite-sheet>`);
     await skipAnimations(page);
     sheet = await page.find("calcite-sheet");
     const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
@@ -182,7 +182,7 @@ it("has correct aria role/attribute", async () => {
   await page.setContent(`<calcite-sheet></calcite-sheet>`);
   const sheet = await page.find("calcite-sheet");
   expect(sheet).toEqualAttribute("role", "dialog");
-  expect(sheet).toEqualAttribute("aria-modal", "true");
+  expect(sheet).toEqualAttribute("aria-modal", "false");
 });
 
 it("closes and allows re-opening when Escape key is pressed", async () => {
@@ -242,7 +242,7 @@ it("closes when Escape key is pressed and focusTrapDisabled=true", async () => {
 
 it("should close when the scrim is clicked", async () => {
   const page = await newE2EPage();
-  await page.setContent(`<calcite-sheet embedded></calcite-sheet>`);
+  await page.setContent(`<calcite-sheet embedded modal></calcite-sheet>`);
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
@@ -254,7 +254,7 @@ it("should close when the scrim is clicked", async () => {
 
 it("should not close when the scrim is clicked", async () => {
   const page = await newE2EPage();
-  await page.setContent(`<calcite-sheet embedded outside-close-disabled ></calcite-sheet>`);
+  await page.setContent(`<calcite-sheet embedded modal outside-close-disabled></calcite-sheet>`);
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
@@ -278,7 +278,7 @@ it("does not close when Escape is pressed and escape-disabled is set", async () 
 
 it("correctly adds overflow class on document when open", async () => {
   const page = await newE2EPage();
-  await page.setContent(`<calcite-sheet></calcite-sheet>`);
+  await page.setContent(`<calcite-sheet modal></calcite-sheet>`);
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
@@ -290,16 +290,16 @@ it("correctly adds overflow class on document when open", async () => {
 
 it("correctly removes overflow class on document once closed", async () => {
   const page = await newE2EPage();
-  await page.setContent(`<calcite-sheet></calcite-sheet>`);
+  await page.setContent(`<calcite-sheet modal></calcite-sheet>`);
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
   sheet.setProperty("open", false);
   await page.waitForChanges();
-  const documentClass = await page.evaluate(() => {
-    return document.documentElement.classList.contains("overflow-hidden");
+  const isOverflowHidden = await page.evaluate(() => {
+    return document.documentElement.style.overflow === "hidden";
   });
-  expect(documentClass).toEqual(false);
+  expect(isOverflowHidden).toEqual(false);
 });
 
 describe("keyboard resize", () => {

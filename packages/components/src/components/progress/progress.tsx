@@ -14,19 +14,26 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-progress-background-color": "*";
     /**
      * Specifies the component's fill color.
+     *
+     * @public
      */
     "--calcite-progress-fill-color": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-progress-text-color": "*";
   }
 }
 
+/** @public */
 export class Progress extends LitElement {
   //#region Static Members
 
@@ -42,23 +49,40 @@ export class Progress extends LitElement {
 
   //#region Public Properties
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** When `true` and type is `"indeterminate"`, reverses the animation direction. */
+  /**
+   * When `true` and type is `"indeterminate"`, reverses the animation direction.
+   *
+   * @public
+   */
   @property({ reflect: true }) reversed = false;
 
-  /** Text that displays under the component's indicator. */
+  /**
+   * Text that displays under the component's indicator.
+   *
+   * @public
+   */
   @property() text?: string;
 
   /**
    * Specifies the component type.
    *
    * Use `"indeterminate"` if finding actual progress value is impossible.
+   *
+   * @public
    */
   @property({ reflect: true }) type: "indeterminate" | "determinate" = "determinate";
 
-  /** When `type` is `"determinate"`, specifies the component's value with a range of 0 to 100. */
+  /**
+   * When `type` is `"determinate"`, specifies the component's value with a range of 0 to 100.
+   *
+   * @public
+   */
   @property() value = 0;
 
   //#endregion

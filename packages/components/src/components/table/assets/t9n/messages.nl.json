@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Wissen",
   "hiddenSelected": "Er zijn rijen geselecteerd maar deze zijn buiten beeld",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Pagina",
   "row": "Rij",
-  "selected": "Geselecteerd"
+  "rowNumber": "Row number",
+  "selected": "Geselecteerd",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

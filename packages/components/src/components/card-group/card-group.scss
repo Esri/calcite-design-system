@@ -8,8 +8,8 @@
   display: flex;
   flex-wrap: wrap;
   gap: var(
-    --calcite-card-group-space,
-    var(--calcite-card-group-gap, var(--calcite-theme-space-md, var(--calcite-spacing-md)))
+    --calcite-card-group-gap,
+    var(--calcite-card-group-space, var(--calcite-theme-space-md, var(--calcite-spacing-md)))
   );
 }
 
