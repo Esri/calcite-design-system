@@ -232,11 +232,11 @@ calcite-sort-handle {
 }
 
 .status-icon.valid {
-  color: theme("colors.success");
+  color: var(--calcite-color-status-success);
 }
 
 .status-icon.invalid {
-  color: theme("colors.danger");
+  color: var(--calcite-color-status-danger);
 }
 
 @keyframes spin {
