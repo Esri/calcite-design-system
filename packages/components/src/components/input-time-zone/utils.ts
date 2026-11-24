@@ -1,6 +1,12 @@
 import { getDateTimeFormat, Locale } from "../../utils/locale";
+import { logger } from "../../utils/logger";
 import type { InputTimeZone } from "./input-time-zone";
 import { OffsetStyle, TimeZone, TimeZoneItem, TimeZoneItemGroup, TimeZoneMode } from "./types";
+
+/**
+ * Exported for testing purposes only
+ */
+export const unsupportedFactoryTimeZoneWarningMessage = `The browser does not support the "Factory" time zone. Using a zero offset for compatibility; use a supported IANA time zone instead.`;
 
 const hourToMinutes = 60;
 
@@ -154,8 +160,29 @@ export async function createTimeZoneItems(
     import("timezone-groups/groupByOffset/strategy/native"),
   ]);
 
+  // Grouping formats every zone before the block list below can remove Factory.
+  // Keep its existing zero-offset behavior when the browser no longer supports it.
+  class CompatibleDateEngine extends DateEngine {
+    private factoryTimeZone = "Factory";
+
+    override isoToTimeZone(isoDate: string, timeZone: string): Date {
+      try {
+        return super.isoToTimeZone(isoDate, timeZone === "Factory" ? this.factoryTimeZone : timeZone);
+      } catch (error) {
+        if (timeZone !== "Factory" || !(error instanceof RangeError) || this.factoryTimeZone !== "Factory") {
+          throw error;
+        }
+
+        this.factoryTimeZone = "Etc/GMT";
+        logger.warn(unsupportedFactoryTimeZoneWarningMessage);
+
+        return super.isoToTimeZone(isoDate, this.factoryTimeZone);
+      }
+    }
+  }
+
   const groups = await groupByOffset({
-    dateEngine: new DateEngine(),
+    dateEngine: new CompatibleDateEngine(),
     groupDateRange: 1,
     startDate: new Date(referenceDateInMs).toISOString(),
   });
