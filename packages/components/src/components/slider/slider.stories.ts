@@ -883,7 +883,7 @@ export const tickLabelsWithinBounds = (): string => html`
     .bounded-tick-labels {
       inline-size: 400px;
       max-inline-size: 100%;
-      outline: 1px solid var(--calcite-color-border-1);
+      outline: var(--calcite-border-width-sm) solid var(--calcite-color-border-1);
     }
   </style>
   <div class="tick-label-examples">

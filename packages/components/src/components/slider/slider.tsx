@@ -1754,12 +1754,7 @@ export class Slider extends LitElement implements LabelableComponent {
     }
 
     return (
-      <span
-        class={tickLabelClasses}
-        data-tick={tick}
-        ref={tickLabelRef}
-        style={isAtEdge ? { [isLeftEdge ? "left" : "right"]: "0" } : undefined}
-      >
+      <span class={tickLabelClasses} data-tick={tick} ref={tickLabelRef}>
         {tickLabel}
       </span>
     );

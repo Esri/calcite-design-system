@@ -318,7 +318,7 @@
 }
 
 .tick--end-aligned {
-  margin-inline-start: 0;
+  margin-inline-start: var(--calcite-space-none);
   margin-inline-end: calc(var(--calcite-space-2xs) * -0.5);
 }
 
@@ -349,7 +349,7 @@
 .tick__label--min,
 .tick__label--max {
   position: absolute;
-  inset-block-start: -1px;
+  inset-block-start: calc(var(--calcite-space-px) * -1);
   inline-size: max-content;
 }
 
@@ -358,10 +358,14 @@
 // that scales with font size while keeping labels anchored to their track edges.
 .tick__label--left {
   transform: translateX(-0.25ch);
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  left: 0;
 }
 
 .tick__label--right {
   transform: translateX(0.25ch);
+  /* stylelint-disable-next-line liberty/use-logical-spec -- explicit position */
+  right: 0;
 }
 
 .tick__label--max {
