@@ -146,6 +146,69 @@ Setting the value to an \`HTMLElement\` is preferred so the component does not n
 The component should not be placed within its own \`referenceElement\` to avoid unintended behavior.`,
           };
         },
+        scale(_apiProperty, apiClass) {
+          const baseDescription = "Specifies the component's size.";
+          const cardOverrideDescription = (componentName: string): string =>
+            componentName === "Card" ? " The value can be overridden on the component if needed." : "";
+          const descriptionOverrides: Record<string, string> = {
+            ActionBar: "Specifies the size of the expand `calcite-action`.",
+            ActionGroup: "Specifies the size of the `calcite-action-menu`.",
+            ActionMenu: "Specifies the size of the component's trigger `calcite-action`.",
+          };
+          const childComponents: Record<string, string> = {
+            CardGroup: "calcite-card",
+            ChipGroup: "calcite-chip",
+            SwatchGroup: "calcite-swatch",
+          };
+          const parentOverrides: Record<string, string> = {
+            Card: "calcite-card-group",
+            Chip: "calcite-chip-group",
+            RadioButton: "calcite-radio-button-group",
+            Swatch: "calcite-swatch-group",
+          };
+          const inheritedComponents = new Set([
+            "AutocompleteItem",
+            "AutocompleteItemGroup",
+            "ComboboxItem",
+            "ComboboxItemGroup",
+            "DropdownGroup",
+            "DropdownItem",
+            "NavigationLogo",
+            "NavigationUser",
+            "SegmentedControlItem",
+            "StepperItem",
+            "Tab",
+            "TabNav",
+            "TabTitle",
+          ]);
+
+          const descriptionOverride = descriptionOverrides[apiClass.name];
+          if (descriptionOverride) {
+            return { description: descriptionOverride };
+          }
+
+          const child = childComponents[apiClass.name];
+          if (child) {
+            return {
+              description: `${baseDescription} Child \`${child}\`s inherit the component's \`scale\` value.`,
+            };
+          }
+
+          const inheritsScale = inheritedComponents.has(apiClass.name);
+          const parent =
+            parentOverrides[apiClass.name] ??
+            (inheritsScale ? apiClass.docsTags?.find((tag) => tag.name === "parent")?.text : undefined);
+
+          if (inheritsScale && !parent) {
+            throw new Error(`Expected @parent for ${apiClass.name} scale inheritance documentation.`);
+          }
+
+          return {
+            description: parent
+              ? `${baseDescription} When contained in a parent \`${parent}\`, the component inherits the parent's \`scale\` value.${cardOverrideDescription(apiClass.name)}`
+              : baseDescription,
+          };
+        },
         topLayerDisabled: {
           description:
             "When `true` and the component is `open`, disables top layer placement. Only set this if you need complex z-index control or if top layer placement causes conflicts with third-party components.",
