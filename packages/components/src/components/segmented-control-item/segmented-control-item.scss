@@ -51,14 +51,14 @@
   @include shared.text-n2h();
 
   padding-inline: var(--calcite-space-sm);
-  padding-block: calc(0.125rem + var(--calcite-space-px));
+  padding-block: calc(var(--calcite-space-base) + var(--calcite-space-px));
 }
 
 .label--scale-m {
   @include shared.text-n1h();
 
   padding-inline: var(--calcite-space-md);
-  padding-block: calc(0.375rem + var(--calcite-space-px));
+  padding-block: calc(var(--calcite-space-xs) + var(--calcite-space-px));
 }
 
 .label--scale-l {
