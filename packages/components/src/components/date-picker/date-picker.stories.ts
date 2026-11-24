@@ -226,6 +226,10 @@ export const localized = (): string => {
           `,
         )
         .join("")}
+      <div class="localized-calendar">
+        <strong>Arabic (ar) + Arabic numbering system:</strong>
+        <calcite-date-picker lang="ar" numbering-system="arab" value="2020-02-28"></calcite-date-picker>
+      </div>
     </div>
   `;
 };
