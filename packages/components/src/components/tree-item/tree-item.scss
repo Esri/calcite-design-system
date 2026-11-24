@@ -265,4 +265,28 @@
   }
 }
 
+@media (forced-colors: active) {
+  :host {
+    outline-width: 0;
+    &:focus,
+    &:active {
+      .node-container {
+        outline-width: 0;
+      }
+    }
+  }
+  :host(:focus:not([disabled])) {
+    .node-container {
+      outline-width: var(--calcite-border-width-sm);
+      outline-color: Highlight;
+      outline-offset: -1px;
+    }
+  }
+  :host([lines]) {
+    .children-container::after {
+      border-inline-start: var(--calcite-border-width-sm) solid CanvasText;
+    }
+  }
+}
+
 @include shared.base-component();

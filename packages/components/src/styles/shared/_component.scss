@@ -9,11 +9,11 @@
 @mixin base-component() {
   /* stylelint-disable selector-attribute-name-disallowed-list -- base component mixin needs to use [hidden] */
   :host([hidden]) {
-    @apply hidden;
+    display: none;
   }
 
   [hidden] {
-    @apply hidden;
+    display: none;
   }
   /* stylelint-enable selector-attribute-name-disallowed-list */
 }
@@ -135,6 +135,6 @@
 
 @mixin item-hidden() {
   :host([item-hidden]) {
-    @apply hidden;
+    display: none;
   }
 }

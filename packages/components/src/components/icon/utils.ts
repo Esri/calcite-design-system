@@ -12,16 +12,12 @@ export interface FetchIconProps {
 /**
  * Icon data cache.
  * Exported for testing purposes.
- *
- * @private
  */
 export const iconCache: Record<string, CalciteIconPath> = {};
 
 /**
  * Icon request cache.
  * Exported for testing purposes.
- *
- * @private
  */
 export const requestCache: Record<string, Promise<CalciteIconPath>> = {};
 
@@ -80,31 +76,21 @@ function getCachedIconDataByKey(id: string): CalciteIconPath {
  * Normalize the icon name to match the path data module exports.
  * Exported for testing purposes.
  *
- * @param name – an icon name that can be either kebab or camel-cased
- * @private
+ * @param name – the icon name to normalize
  */
-export function normalizeIconName(name: string): string {
+export function normalizeIconName(name: IconName): string {
   const numberLeadingName = !isNaN(Number(name.charAt(0)));
-  const parts = name.split("-");
-  const kebabCased = parts.length > 0;
+  const firstNonDigitInPartPattern = /[a-z]/i;
+  const normalizedName = name
+    .split("-")
+    .map((part, partIndex) =>
+      part.replace(firstNonDigitInPartPattern, (match, offset) => {
+        const isFirstCharInName = partIndex === 0 && offset === 0;
 
-  if (kebabCased) {
-    const firstNonDigitInPartPattern = /[a-z]/i;
+        return isFirstCharInName ? match : match.toUpperCase();
+      }),
+    )
+    .join("");
 
-    name = parts
-      .map((part, partIndex) => {
-        return part.replace(firstNonDigitInPartPattern, function replacer(match, offset) {
-          const isFirstCharInName = partIndex === 0 && offset === 0;
-
-          if (isFirstCharInName) {
-            return match;
-          }
-
-          return match.toUpperCase();
-        });
-      })
-      .join("");
-  }
-
-  return numberLeadingName ? `i${name}` : name;
+  return numberLeadingName ? `i${normalizedName}` : normalizedName;
 }

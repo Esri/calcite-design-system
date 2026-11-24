@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "נקה",
   "hiddenSelected": "שורות נבחרו אך הן מחוץ לתצוגה",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "עמוד",
   "row": "שורה",
-  "selected": "נבחר"
+  "rowNumber": "Row number",
+  "selected": "נבחר",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }
