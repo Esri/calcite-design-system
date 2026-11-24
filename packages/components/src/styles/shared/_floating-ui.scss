@@ -123,6 +123,6 @@ $floating-ui-transition-offset: 5px;
   }
 
   .calcite-floating-ui-arrow__stroke {
-    stroke: theme("borderColor.color.3");
+    stroke: var(--calcite-color-border-3);
   }
 }

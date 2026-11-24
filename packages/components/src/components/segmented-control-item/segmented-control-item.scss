@@ -129,27 +129,27 @@
 }
 
 :host([icon-start]) .label--scale-s {
-  --calcite-internal-segmented-control-icon-margin-end: theme("margin.2");
+  --calcite-internal-segmented-control-icon-margin-end: var(--calcite-space-sm);
 }
 
 :host([icon-end]) .label--scale-s {
-  --calcite-internal-segmented-control-icon-margin-start: theme("margin.2");
+  --calcite-internal-segmented-control-icon-margin-start: var(--calcite-space-sm);
 }
 
 :host([icon-start]) .label--scale-m {
-  --calcite-internal-segmented-control-icon-margin-end: theme("margin.3");
+  --calcite-internal-segmented-control-icon-margin-end: var(--calcite-space-md);
 }
 
 :host([icon-end]) .label--scale-m {
-  --calcite-internal-segmented-control-icon-margin-start: theme("margin.3");
+  --calcite-internal-segmented-control-icon-margin-start: var(--calcite-space-md);
 }
 
 :host([icon-start]) .label--scale-l {
-  --calcite-internal-segmented-control-icon-margin-end: theme("margin.4");
+  --calcite-internal-segmented-control-icon-margin-end: var(--calcite-space-lg);
 }
 
 :host([icon-end]) .label--scale-l {
-  --calcite-internal-segmented-control-icon-margin-start: theme("margin.4");
+  --calcite-internal-segmented-control-icon-margin-start: var(--calcite-space-lg);
 }
 
 .label .icon--solo {

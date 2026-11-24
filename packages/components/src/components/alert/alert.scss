@@ -51,7 +51,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
     border-block-start: 0 solid transparent;
     border-inline: $border-style;
     border-block-end: $border-style;
-    max-inline-size: calc(100% - (var(--calcite-alert-offset-size, theme("spacing.8")) * 2));
+    max-inline-size: calc(100% - (var(--calcite-alert-offset-size, var(--calcite-size-md)) * 2));
     transition:
       opacity var(--calcite-internal-animation-timing-slow) shared.$easing-function,
       all var(--calcite-animation-timing) ease-in-out;
@@ -66,19 +66,19 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inset-inline-start: 0;
   }
   &[class*="bottom"] {
-    transform: translate3d(0, var(--calcite-alert-offset-size, theme("spacing.8")), 0);
-    inset-block-end: var(--calcite-alert-offset-size, theme("spacing.8"));
+    transform: translate3d(0, var(--calcite-alert-offset-size, var(--calcite-space-3xl)), 0);
+    inset-block-end: var(--calcite-alert-offset-size, var(--calcite-space-3xl));
   }
   &[class*="top"] {
-    transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, theme("spacing.8"))), 0);
-    inset-block-start: var(--calcite-alert-offset-size, theme("spacing.8"));
+    transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, var(--calcite-space-3xl))), 0);
+    inset-block-start: var(--calcite-alert-offset-size, var(--calcite-space-3xl));
   }
   &[class*="start"] {
-    inset-inline-start: var(--calcite-alert-offset-size, theme("spacing.8"));
+    inset-inline-start: var(--calcite-alert-offset-size, var(--calcite-space-3xl));
     inset-inline-end: auto;
   }
   &[class*="end"] {
-    inset-inline-end: var(--calcite-alert-offset-size, theme("spacing.8"));
+    inset-inline-end: var(--calcite-alert-offset-size, var(--calcite-space-3xl));
     inset-inline-start: auto;
   }
 }
@@ -186,11 +186,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inline-size: var(--calcite-alert-width, 40em);
   }
   .icon {
-    padding-inline-start: theme("spacing.3");
+    padding-inline-start: var(--calcite-space-md);
   }
   .text-container {
-    padding-block: theme("spacing.2");
-    padding-inline: theme("spacing.3") theme("spacing.2");
+    padding-block: var(--calcite-space-sm);
+    padding-inline: var(--calcite-space-md) var(--calcite-space-sm);
   }
 }
 
@@ -212,11 +212,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inline-size: var(--calcite-alert-width, 50em);
   }
   .icon {
-    padding-inline-start: theme("spacing.4");
+    padding-inline-start: var(--calcite-space-lg);
   }
   .text-container {
-    padding-block: theme("spacing.3");
-    padding-inline: theme("spacing.4") theme("spacing.3");
+    padding-block: var(--calcite-space-md);
+    padding-inline: var(--calcite-space-lg) var(--calcite-space-md);
   }
 }
 
@@ -238,11 +238,11 @@ $border-style: 1px solid var(--calcite-color-border-3);
     inline-size: var(--calcite-alert-width, 60em);
   }
   .icon {
-    padding-inline-start: theme("spacing.5");
+    padding-inline-start: var(--calcite-space-xl);
   }
   .text-container {
-    padding-block: theme("spacing.4");
-    padding-inline: theme("spacing.5") theme("spacing.4");
+    padding-block: var(--calcite-space-lg);
+    padding-inline: var(--calcite-space-xl) var(--calcite-space-lg);
   }
 }
 
@@ -252,10 +252,10 @@ $border-style: 1px solid var(--calcite-color-border-3);
     opacity: var(--calcite-opacity-full);
     pointer-events: initial;
     &[class*="bottom"] {
-      transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, theme("spacing.8"))), inherit);
+      transform: translate3d(0, calc(-1 * var(--calcite-alert-offset-size, var(--calcite-space-3xl))), inherit);
     }
     &[class*="top"] {
-      transform: translate3d(0, var(--calcite-alert-offset-size, theme("spacing.8")), inherit);
+      transform: translate3d(0, var(--calcite-alert-offset-size, var(--calcite-space-3xl)), inherit);
     }
   }
 }
@@ -277,7 +277,7 @@ $border-style: 1px solid var(--calcite-color-border-3);
   margin: var(--calcite-space-none);
   display: inline;
   font-weight: var(--calcite-theme-font-weight-regular, var(--calcite-font-weight-normal));
-  margin-inline-end: theme("margin.2");
+  margin-inline-end: var(--calcite-space-sm);
   color: var(--calcite-color-text-2);
 }
 

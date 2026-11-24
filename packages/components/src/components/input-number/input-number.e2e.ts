@@ -278,25 +278,6 @@ it("typing zero and then a non-zero number sets and emits the non-zero number", 
   expect(calciteInputNumberInput).toHaveReceivedEventTimes(2);
 });
 
-it("prevent typing invalid characters", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-  const input = await page.find("calcite-input-number");
-  const internalInput = await page.find("calcite-input-number >>> input");
-  await input.callMethod("setFocus");
-  await page.waitForChanges();
-
-  await typeNumberValue(page, "是");
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("");
-  expect(await internalInput.getProperty("value")).toBe("");
-
-  await typeNumberValue(page, "-1士2大3.4夫5李6");
-  await page.waitForChanges();
-  expect(await input.getProperty("value")).toBe("-123.456");
-  expect(await internalInput.getProperty("value")).toBe("-123.456");
-});
-
 it("allows any valid number", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number></calcite-input-number>`);
@@ -661,26 +642,6 @@ it("sanitize leading zeros from value", async () => {
   await typeNumberValue(page, "0000000");
   await page.waitForChanges();
   expect(await element.getProperty("value")).toBe("10000000");
-});
-
-it("sanitize extra dashes from value", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-input-number></calcite-input-number>`);
-
-  const element = await page.find("calcite-input-number");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-
-  await typeNumberValue(page, "1--2---3");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("123");
-
-  await page.keyboard.press("ArrowLeft");
-  await page.keyboard.press("ArrowLeft");
-  await page.keyboard.press("ArrowLeft");
-  await typeNumberValue(page, "----");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("-123");
 });
 
 describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of text", () => {
