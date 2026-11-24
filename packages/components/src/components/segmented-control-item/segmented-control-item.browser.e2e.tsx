@@ -51,10 +51,12 @@ describe("theme", () => {
       },
     },
   );
-  themed(() => mount(<calcite-segmented-control-item checked />), {
-    "--calcite-segmented-control-item-border-color": {
-      shadowSelector: `.${CSS.label}`,
-      targetProp: "borderColor",
-    },
+  describe("checked", () => {
+    themed(() => mount(<calcite-segmented-control-item checked />), {
+      "--calcite-segmented-control-item-border-color": {
+        shadowSelector: `.${CSS.label}`,
+        targetProp: "borderColor",
+      },
+    });
   });
 });
