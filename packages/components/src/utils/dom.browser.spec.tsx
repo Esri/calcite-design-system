@@ -21,6 +21,7 @@ import {
   isFocusableElement,
   isKeyboardTriggeredClick,
   isPrimaryPointerButton,
+  intersectsHorizontally,
   nextFrame,
   queryElementRoots,
   setRequestedIcon,
@@ -43,6 +44,18 @@ const myButtonClass = "my-class";
 const insideHost = "Inside Host";
 const outsideHost = "Outside Host";
 const insideShadow = "Inside Shadow";
+
+describe(intersectsHorizontally, () => {
+  it.each([
+    [{ left: 0, right: 10 }, { left: 5, right: 15 }, true],
+    [{ left: 0, right: 10 }, { left: 10, right: 20 }, true],
+    [{ left: 0, right: 10 }, { left: 11, right: 20 }, false],
+    [{ left: 0, right: 20 }, { left: 5, right: 10 }, true],
+  ])("detects horizontal intersections between %o and %o", (first, second, expected) => {
+    expect(intersectsHorizontally(first, second)).toBe(expected);
+    expect(intersectsHorizontally(second, first)).toBe(expected);
+  });
+});
 
 describe(setRequestedIcon, () => {
   const iconObject: Record<string, IconName> = { exampleValue: "3d-glasses" };

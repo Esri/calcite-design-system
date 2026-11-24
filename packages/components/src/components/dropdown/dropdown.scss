@@ -45,15 +45,15 @@
 }
 
 .width-s {
-  --calcite-internal-dropdown-width: theme("spacing.48");
+  --calcite-internal-dropdown-width: 12rem;
 }
 
 .width-m {
-  --calcite-internal-dropdown-width: theme("spacing.56");
+  --calcite-internal-dropdown-width: 14rem;
 }
 
 .width-l {
-  --calcite-internal-dropdown-width: theme("spacing.64");
+  --calcite-internal-dropdown-width: 16rem;
 }
 
 @media (forced-colors: active) {
