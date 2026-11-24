@@ -1447,6 +1447,13 @@ describe("number locale support", () => {
 
         expect(el).toHaveProperty("value", value);
         expect(input).toHaveDisplayValue(localizedValue);
+
+        await userEvent.keyboard(
+          `{ArrowRight}{ArrowRight}{Shift>}{ArrowRight}{Shift/}${decimalSeparator}`,
+        );
+
+        expect(el).toHaveProperty("value", value);
+        expect(input).toHaveDisplayValue(localizedValue);
       });
     });
 

@@ -1135,10 +1135,11 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
+      const decimalIndex = inputValue?.value.indexOf(numberStringFormatter.decimal);
       if (!value && !inputValue?.value) {
         return;
       }
-      if (value && inputValue?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && decimalIndex === -1) {
         return;
       }
       if (
@@ -1150,10 +1151,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
       }
       if (
         value &&
-        Number(inputValue?.value.indexOf(numberStringFormatter.decimal)) >=
-          Number(inputValue?.selectionStart) &&
-        Number(inputValue?.value.indexOf(numberStringFormatter.decimal)) <=
-          Number(inputValue?.selectionEnd)
+        Number(decimalIndex) >= Number(inputValue?.selectionStart) &&
+        Number(decimalIndex) < Number(inputValue?.selectionEnd)
       ) {
         return;
       }
