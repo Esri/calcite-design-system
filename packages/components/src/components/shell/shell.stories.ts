@@ -371,7 +371,7 @@ export const simplePositionAbsolute = (args: ShellStoryArgs): string => html`
     ${contentHTML}
     <calcite-shell-panel
       display-mode="${args.displayMode}"
-      height-scale="${args.heightScale}"
+      height="${args.height}"
       position="${args.centerPanelPosition}"
       slot="panel-bottom"
     >
@@ -400,7 +400,7 @@ const fullResizeArgs: ShellStoryArgs = {
   resizable: true,
   contentBehind: false,
   position: "not set",
-  heightScale: scale.values[0],
+  height: scale.values[0],
 };
 
 export const fullResize = (): string => html`
