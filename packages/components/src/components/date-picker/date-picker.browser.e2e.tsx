@@ -735,13 +735,13 @@ describe("arrow and page key navigation", () => {
       await userEvent.keyboard("{ArrowUp}{Enter}");
       await expect.element(el).toHaveProperty("value", expectedValues[0]);
 
-      await userEvent.keyboard(initialValue ? "{ArrowDown}{ArrowDown}{Enter}" : "{PageUp}{Enter}");
+      await userEvent.keyboard(initialValue ? "{ArrowDown>2/}{Enter}" : "{PageUp}{Enter}");
       await expect.element(el).toHaveProperty("value", expectedValues[1]);
 
-      await userEvent.keyboard(initialValue ? "{PageUp}{Enter}" : "{PageDown}{PageDown}{Enter}");
+      await userEvent.keyboard(initialValue ? "{PageUp}{Enter}" : "{PageDown>2/}{Enter}");
       await expect.element(el).toHaveProperty("value", expectedValues[2]);
 
-      await userEvent.keyboard(initialValue ? "{PageDown}{PageDown}{Enter}" : "{ArrowDown}{Enter}");
+      await userEvent.keyboard(initialValue ? "{PageDown>2/}{Enter}" : "{ArrowDown}{Enter}");
       await expect.element(el).toHaveProperty("value", expectedValues[3]);
     },
   );
@@ -869,7 +869,7 @@ it("marks only the current day as current while it is displayed", async () => {
   await userEvent.keyboard("{PageUp}");
   await expect.element(getCurrentDays()).toHaveLength(1);
 
-  await userEvent.keyboard("{PageDown}{PageDown}");
+  await userEvent.keyboard("{PageDown>2/}");
   await expect.element(getCurrentDays()).toHaveLength(0);
 });
 

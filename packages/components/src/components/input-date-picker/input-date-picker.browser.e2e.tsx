@@ -1018,10 +1018,10 @@ describe("focus trapping", () => {
     const next = page.getByRole("button", { name: "Next sibling" });
     const calendar = page.getBySelector("calcite-input-date-picker calcite-date-picker");
 
-    await userEvent.keyboard(range ? "{Tab}{Tab}{Tab}" : "{Tab}{Tab}");
+    await userEvent.keyboard(`{Tab>${range ? 3 : 2}/}`);
     await expect.element(next).toHaveFocus();
 
-    await userEvent.keyboard(range ? "{Shift>}{Tab}{Tab}{/Shift}" : "{Shift>}{Tab}{/Shift}");
+    await userEvent.keyboard(`{Shift>}{Tab>${range ? 2 : 1}/}{/Shift}`);
     await userEvent.keyboard("{ArrowDown}");
     await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
     await expect.element(getCalendar()).toBeVisible();
@@ -1237,7 +1237,7 @@ describe("range calendar behavior", () => {
 
       await userEvent.click(getDateInput("start"));
       await expect.element(getCalendar()).toBeVisible();
-      await userEvent.keyboard(calendars === 1 ? "{Tab}{Tab}{Tab}" : "{Tab}");
+      await userEvent.keyboard(`{Tab>${calendars === 1 ? 3 : 1}/}`);
 
       const focusedPreviousMonth = page.getBySelector(
         "calcite-input-date-picker calcite-action[aria-label='Previous month']:focus-within",
@@ -1251,7 +1251,7 @@ describe("range calendar behavior", () => {
         await expect.element(focusedPreviousMonth).toBeInTheDocument();
       }
 
-      await userEvent.keyboard(calendars === 1 ? "{Tab}{Tab}{Enter}" : "{Tab}{Tab}{Tab}{Enter}");
+      await userEvent.keyboard(`{Tab>${calendars === 1 ? 2 : 3}/}{Enter}`);
 
       await expect.element(el).toHaveProperty("value", ["2024-03-01", "2024-06-20"]);
       await expect.element(getCalendar()).toBeVisible();
@@ -1273,7 +1273,7 @@ describe("range hover", () => {
   it("highlights dates relative to the end value", async () => {
     await mount(<calcite-input-date-picker range value={["2024-01-10", "2024-02-10"]} />);
 
-    await userEvent.keyboard("{Tab}{Tab}{ArrowDown}");
+    await userEvent.keyboard("{Tab>2/}{ArrowDown}");
     await userEvent.hover(getDayById("20240201"));
     await expect.element(getDayById("20240209")).toHaveAttribute("range-hover");
     await userEvent.hover(getDayById("20240215"));
@@ -1290,7 +1290,7 @@ describe("keyboard month navigation", () => {
 
     await userEvent.click(getDateInput("start"));
     await focusFirstDay({ range: false });
-    await userEvent.keyboard("{ArrowUp}{PageUp}{ArrowDown}{PageDown}{PageDown}{Enter}");
+    await userEvent.keyboard("{ArrowUp}{PageUp}{ArrowDown}{PageDown>2/}{Enter}");
 
     await expect.element(getCalendar()).not.toBeVisible();
     await expect.element(getActiveMonth()).toHaveTextContent("February");
@@ -1374,14 +1374,14 @@ it("updates the active month after selecting a date from another month with the 
 
   await userEvent.click(getDateInput("start"));
   await focusFirstDay();
-  await userEvent.keyboard("{ArrowRight}{Enter}{ArrowDown}{ArrowDown}");
+  await userEvent.keyboard("{ArrowRight}{Enter}{ArrowDown>2/}");
   await expect.element(getActiveMonth()).toHaveTextContent("September");
   await userEvent.keyboard("{Escape}");
   await userEvent.click(getDateInput("start"));
   await focusFirstDay();
-  await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}{ArrowDown}");
+  await userEvent.keyboard("{ArrowDown>2/}{Enter}{ArrowDown}");
   await expect.element(getActiveMonth()).toHaveTextContent("September");
-  await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}");
+  await userEvent.keyboard("{ArrowDown>5/}");
   await expect.element(getActiveMonth()).toHaveTextContent("October");
 });
 
@@ -1392,7 +1392,7 @@ it("does not focus or select a disabled date during keyboard navigation", async 
   await selectDayInMonthByIndex(25);
   await userEvent.click(getDateInput("end"), { clickCount: 2 });
   await focusFirstDay({ previousMonthDisabled: true });
-  await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}{ArrowRight}{ArrowRight}");
+  await userEvent.keyboard("{ArrowDown>3/}{ArrowRight>2/}");
 
   await expect.element(getDayById("20240703")).not.toHaveAttribute("range-hover");
   await userEvent.keyboard("{Enter}");
@@ -1679,11 +1679,6 @@ async function focusFirstDay(
   } = {},
 ): Promise<void> {
   const { range = true, previousMonthDisabled = false } = options;
-  await userEvent.keyboard("{Tab}{Tab}{Tab}");
-  if (!previousMonthDisabled) {
-    await userEvent.keyboard("{Tab}");
-  }
-  if (!range) {
-    await userEvent.keyboard("{Tab}");
-  }
+  const tabCount = (previousMonthDisabled ? 3 : 4) + (range ? 0 : 1);
+  await userEvent.keyboard(`{Tab>${tabCount}/}`);
 }
