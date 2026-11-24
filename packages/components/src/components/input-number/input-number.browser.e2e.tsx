@@ -1135,7 +1135,7 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1");
+  await expect.element(el).toHaveProperty("value", "1");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
@@ -1277,22 +1277,22 @@ describe("number locale support", () => {
 
       await userEvent.keyboard(`{Tab}0${decimalSeparator}01`);
 
-      await expect(el).toHaveProperty("value", "0.01");
+      await expect.element(el).toHaveProperty("value", "0.01");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}01`);
 
       await userEvent.keyboard("{Backspace}");
 
-      await expect(el).toHaveProperty("value", "0.0");
+      await expect.element(el).toHaveProperty("value", "0.0");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}0`);
 
       await userEvent.keyboard("{Backspace}");
 
-      await expect(el).toHaveProperty("value", "0");
+      await expect.element(el).toHaveProperty("value", "0");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}`);
 
       await userEvent.keyboard("01");
 
-      await expect(el).toHaveProperty("value", "0.01");
+      await expect.element(el).toHaveProperty("value", "0.01");
       await expect.element(input).toHaveProperty("value", `0${decimalSeparator}01`);
     });
 
@@ -1362,18 +1362,20 @@ describe("number locale support", () => {
         );
         const input = page.getByRole("textbox");
 
-        expect(input).toHaveDisplayValue(`12${groupSeparator}345`);
+        await expect.element(input).toHaveDisplayValue(`12${groupSeparator}345`);
 
         await userEvent.keyboard(`{Tab}{ArrowRight}{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
 
-        expect(el).toHaveProperty("value", "1234");
-        expect(input).toHaveDisplayValue(`1${groupSeparator}234${decimalSeparator}`);
+        await expect.element(el).toHaveProperty("value", "1234");
+        await expect.element(input).toHaveDisplayValue(`1${groupSeparator}234${decimalSeparator}`);
 
         await userEvent.fill(input, localizedNegativeInteger);
         await userEvent.keyboard(`{Shift>}{ArrowLeft}{Shift/}${decimalSeparator}`);
 
-        expect(el).toHaveProperty("value", "-1234");
-        expect(input).toHaveDisplayValue(`${minusSign}1${groupSeparator}234${decimalSeparator}`);
+        await expect.element(el).toHaveProperty("value", "-1234");
+        await expect
+          .element(input)
+          .toHaveDisplayValue(`${minusSign}1${groupSeparator}234${decimalSeparator}`);
       });
 
       it(`replaces a decimal-including partial selection of a decimal with localized decimal for ${locale} locale with group-separator=${useGrouping}`, async () => {
@@ -1394,8 +1396,8 @@ describe("number locale support", () => {
           `{Tab}{End}{ArrowLeft}{Shift>}{ArrowLeft}{ArrowLeft}{ArrowLeft}{Shift/}${decimalSeparator}`,
         );
 
-        expect(el).toHaveProperty("value", "1234.7");
-        expect(input).toHaveDisplayValue(`1${groupSeparator}234${decimalSeparator}7`);
+        await expect.element(el).toHaveProperty("value", "1234.7");
+        await expect.element(input).toHaveDisplayValue(`1${groupSeparator}234${decimalSeparator}7`);
       });
 
       it(`replaces a decimal-including partial selection of a negative decimal with localized decimal for ${locale} locale with group-separator=${useGrouping}`, async () => {
@@ -1417,8 +1419,10 @@ describe("number locale support", () => {
           `{Tab}{End}{ArrowLeft}{Shift>}{ArrowLeft}{ArrowLeft}{ArrowLeft}{Shift/}${decimalSeparator}`,
         );
 
-        expect(el).toHaveProperty("value", "-1234.7");
-        expect(input).toHaveDisplayValue(`${minusSign}1${groupSeparator}234${decimalSeparator}7`);
+        await expect.element(el).toHaveProperty("value", "-1234.7");
+        await expect
+          .element(input)
+          .toHaveDisplayValue(`${minusSign}1${groupSeparator}234${decimalSeparator}7`);
       });
 
       it(`does not replace selection if a decimal resides outside the selection for ${locale} locale with group-separator=${useGrouping}`, async () => {
@@ -1438,27 +1442,27 @@ describe("number locale support", () => {
         );
         const input = page.getByRole("textbox");
 
-        expect(el).toHaveProperty("value", value);
-        expect(input).toHaveDisplayValue(localizedValue);
+        await expect.element(el).toHaveProperty("value", value);
+        await expect.element(input).toHaveDisplayValue(localizedValue);
 
         await userEvent.keyboard(
           `{Tab}{Home}{ArrowRight}{Shift>}{ArrowRight}{ArrowRight}{ArrowRight}{Shift/}${decimalSeparator}`,
         );
 
-        expect(el).toHaveProperty("value", value);
-        expect(input).toHaveDisplayValue(localizedValue);
+        await expect.element(el).toHaveProperty("value", value);
+        await expect.element(input).toHaveDisplayValue(localizedValue);
 
         await userEvent.keyboard(
           `{ArrowRight}{ArrowRight}{Shift>}{ArrowRight}{Shift/}${decimalSeparator}`,
         );
 
-        expect(el).toHaveProperty("value", value);
-        expect(input).toHaveDisplayValue(localizedValue);
+        await expect.element(el).toHaveProperty("value", value);
+        await expect.element(input).toHaveDisplayValue(localizedValue);
 
         await userEvent.keyboard(`{ArrowRight}${decimalSeparator}`);
 
-        expect(el).toHaveProperty("value", value);
-        expect(input).toHaveDisplayValue(localizedValue);
+        await expect.element(el).toHaveProperty("value", value);
+        await expect.element(input).toHaveDisplayValue(localizedValue);
       });
     });
 
@@ -1499,8 +1503,8 @@ describe("number locale support", () => {
 
         await userEvent.keyboard(`{Tab}abcdfghijklmnopqrstuvwxyz~!@#$%^&*()_+=|"':;?`);
 
-        expect(el).toHaveProperty("value", value);
-        expect(input).toHaveDisplayValue(expectedDisplayValue);
+        await expect.element(el).toHaveProperty("value", value);
+        await expect.element(input).toHaveDisplayValue(expectedDisplayValue);
       },
     );
   });
@@ -1919,13 +1923,13 @@ it("prevent typing invalid characters", async () => {
 
   await userEvent.keyboard(`{Tab}是`);
 
-  expect(el).toHaveProperty("value", "");
-  expect(input).toHaveDisplayValue("");
+  await expect.element(el).toHaveProperty("value", "");
+  await expect.element(input).toHaveDisplayValue("");
 
   await userEvent.keyboard("-1士2大3.4夫5李6");
 
-  expect(el).toHaveProperty("value", "-123.456");
-  expect(input).toHaveDisplayValue("-123.456");
+  await expect.element(el).toHaveProperty("value", "-123.456");
+  await expect.element(input).toHaveDisplayValue("-123.456");
 });
 
 it("sanitize extra dashes from value", async () => {
@@ -1933,10 +1937,10 @@ it("sanitize extra dashes from value", async () => {
 
   await userEvent.keyboard("{Tab}1--2---3");
 
-  expect(el).toHaveProperty("value", "123");
+  await expect.element(el).toHaveProperty("value", "123");
 
   await userEvent.keyboard("{Home}");
   await userEvent.keyboard("----");
 
-  expect(el).toHaveProperty("value", "-123");
+  await expect.element(el).toHaveProperty("value", "-123");
 });
