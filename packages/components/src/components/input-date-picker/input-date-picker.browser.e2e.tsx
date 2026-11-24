@@ -198,10 +198,9 @@ describe("focus-trap behavior", () => {
     // focus-trap delays focus handling by default -- https://github.com/focus-trap/focus-trap/#delayinitialfocus
     await afterNextTask();
 
-    expect(document).toHaveProperty(
-      "activeElement.shadowRoot.activeElement.dataset.testid",
-      pickerTestId,
-    );
+    await expect
+      .poll(() => document)
+      .toHaveProperty("activeElement.shadowRoot.activeElement.dataset.testid", pickerTestId);
   });
 });
 
@@ -216,12 +215,12 @@ describe("minAsDate and maxAsDate properties", () => {
     el.maxAsDate = new Date(`2020-12-31${offsetTime}`);
     await component.updateComplete;
 
-    expect(el.value).toBe("2020-12-31");
+    await expect.element(el).toHaveProperty("value", "2020-12-31");
 
     const input = el.shadowRoot
       .querySelector<HTMLElement>("calcite-input-text")!
       .shadowRoot!.querySelector<HTMLInputElement>("input")!;
-    expect(input.value).toBe("12/31/2020");
+    await expect.element(input).toHaveValue("12/31/2020");
   });
 });
 
@@ -314,7 +313,7 @@ it.each([
     await userEvent.click(
       page.getBySelector(`calcite-date-picker-day[current-month][id='${endId}']`),
     );
-    expect(el.value).toEqual([startValue, endValue]);
+    await expect.element(el).toHaveProperty("value", [startValue, endValue]);
   },
 );
 
@@ -353,11 +352,14 @@ describe("clearable", () => {
   });
 
   it("emits change when single value is cleared via clear button", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker clearable value="2024-05-05" />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        oncalciteInputDatePickerChange={changeEventHandler}
+        value="2024-05-05"
+      />,
+    );
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
 
@@ -371,12 +373,12 @@ describe("clearable", () => {
     );
 
     expect(getClearButtons()).toHaveLength(1);
-    expect(el.validity.valueMissing).toBe(false);
+    await expect.element(el).toHaveProperty("validity.valueMissing", false);
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
     await expect.element(el).toHaveProperty("value", "");
 
-    expect(el.validity.valueMissing).toBe(true);
+    await expect.element(el).toHaveProperty("validity.valueMissing", true);
   });
 
   it("clears single value when Escape is pressed", async () => {
@@ -450,11 +452,15 @@ describe("clearable", () => {
   });
 
   it("emits change when range values are cleared via Escape", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker clearable range value={["2024-05-01", "2024-05-08"]} />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputDatePickerChange", changeEventHandler);
+    const { el } = await mount<InputDatePicker>(
+      <calcite-input-date-picker
+        clearable
+        oncalciteInputDatePickerChange={changeEventHandler}
+        range
+        value={["2024-05-01", "2024-05-08"]}
+      />,
+    );
 
     await userEvent.click(page.getByRole("combobox").first());
     await userEvent.keyboard("{Escape}");
@@ -475,14 +481,6 @@ describe("clearable", () => {
     await expect.element(el).toHaveProperty("value", "");
   });
 });
-
-function getYearInput(): Locator {
-  return page.getByRole("textbox", { name: "Year" }).first();
-}
-
-function getMonthSelectMenu(): Locator {
-  return page.getByRole("combobox", { name: "Month menu" }).first();
-}
 
 describe("theme", () => {
   describe("default", () => {
@@ -848,16 +846,13 @@ describe("toggling the date picker", () => {
   it.each(["mouse", "ArrowDown", "ArrowUp"] as const)(
     "toggles a single date picker with %s",
     async (interaction) => {
-      const { el } = await mount<InputDatePicker>(<calcite-input-date-picker value="2000-11-27" />);
+      await mount(<calcite-input-date-picker value="2000-11-27" />);
       const calendar = getCalendar();
 
       await expect.element(calendar).not.toBeVisible();
-      if (interaction === "mouse") {
-        await userEvent.click(getDateInput());
-      } else {
-        await el.setFocus();
-        await userEvent.keyboard(`{${interaction}}`);
-      }
+      await (interaction === "mouse"
+        ? userEvent.click(getDateInput())
+        : userEvent.keyboard(`{Tab}{${interaction}}`));
       await expect.element(calendar).toBeVisible();
 
       await (interaction === "mouse"
@@ -893,10 +888,9 @@ describe("toggling the date picker", () => {
   );
 
   it("opens each range input with ArrowDown and closes with Escape", async () => {
-    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker range />);
+    await mount(<calcite-input-date-picker range />);
 
-    await el.setFocus();
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{Tab}{ArrowDown}");
     await expect.element(getCalendar()).toBeVisible();
     await userEvent.keyboard("{Escape}{Tab}{ArrowDown}");
     await expect.element(getCalendar()).toBeVisible();
@@ -905,12 +899,9 @@ describe("toggling the date picker", () => {
   });
 
   it("closes with Escape when focusTrapDisabled is true", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker focusTrapDisabled value="2000-11-27" />,
-    );
+    await mount(<calcite-input-date-picker focusTrapDisabled value="2000-11-27" />);
 
-    await el.setFocus();
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{Tab}{ArrowDown}");
     await expect.element(getCalendar()).toBeVisible();
     await userEvent.keyboard("{Escape}");
     await expect.element(getCalendar()).not.toBeVisible();
@@ -1027,11 +1018,10 @@ describe("focus trapping", () => {
     const next = page.getByRole("button", { name: "Next sibling" });
     const calendar = page.getBySelector("calcite-input-date-picker calcite-date-picker");
 
-    await el.setFocus();
-    await userEvent.keyboard(range ? "{Tab}{Tab}" : "{Tab}");
+    await userEvent.keyboard(`{Tab>${range ? 3 : 2}/}`);
     await expect.element(next).toHaveFocus();
 
-    await userEvent.keyboard(range ? "{Shift>}{Tab}{Tab}{/Shift}" : "{Shift>}{Tab}{/Shift}");
+    await userEvent.keyboard(`{Shift>}{Tab>${range ? 2 : 1}/}{/Shift}`);
     await userEvent.keyboard("{ArrowDown}");
     await expect.poll(() => calendar.element().matches(":focus-within")).toBe(true);
     await expect.element(getCalendar()).toBeVisible();
@@ -1247,7 +1237,7 @@ describe("range calendar behavior", () => {
 
       await userEvent.click(getDateInput("start"));
       await expect.element(getCalendar()).toBeVisible();
-      await userEvent.keyboard(calendars === 1 ? "{Tab}{Tab}{Tab}" : "{Tab}");
+      await userEvent.keyboard(`{Tab>${calendars === 1 ? 3 : 1}/}`);
 
       const focusedPreviousMonth = page.getBySelector(
         "calcite-input-date-picker calcite-action[aria-label='Previous month']:focus-within",
@@ -1261,7 +1251,7 @@ describe("range calendar behavior", () => {
         await expect.element(focusedPreviousMonth).toBeInTheDocument();
       }
 
-      await userEvent.keyboard(calendars === 1 ? "{Tab}{Tab}{Enter}" : "{Tab}{Tab}{Tab}{Enter}");
+      await userEvent.keyboard(`{Tab>${calendars === 1 ? 2 : 3}/}{Enter}`);
 
       await expect.element(el).toHaveProperty("value", ["2024-03-01", "2024-06-20"]);
       await expect.element(getCalendar()).toBeVisible();
@@ -1281,12 +1271,9 @@ describe("range hover", () => {
   });
 
   it("highlights dates relative to the end value", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker range value={["2024-01-10", "2024-02-10"]} />,
-    );
+    await mount(<calcite-input-date-picker range value={["2024-01-10", "2024-02-10"]} />);
 
-    await el.setFocus();
-    await userEvent.keyboard("{Tab}{ArrowDown}");
+    await userEvent.keyboard("{Tab>2/}{ArrowDown}");
     await userEvent.hover(getDayById("20240201"));
     await expect.element(getDayById("20240209")).toHaveAttribute("range-hover");
     await userEvent.hover(getDayById("20240215"));
@@ -1303,7 +1290,7 @@ describe("keyboard month navigation", () => {
 
     await userEvent.click(getDateInput("start"));
     await focusFirstDay({ range: false });
-    await userEvent.keyboard("{ArrowUp}{PageUp}{ArrowDown}{PageDown}{PageDown}{Enter}");
+    await userEvent.keyboard("{ArrowUp}{PageUp}{ArrowDown}{PageDown>2/}{Enter}");
 
     await expect.element(getCalendar()).not.toBeVisible();
     await expect.element(getActiveMonth()).toHaveTextContent("February");
@@ -1387,14 +1374,14 @@ it("updates the active month after selecting a date from another month with the 
 
   await userEvent.click(getDateInput("start"));
   await focusFirstDay();
-  await userEvent.keyboard("{ArrowRight}{Enter}{ArrowDown}{ArrowDown}");
+  await userEvent.keyboard("{ArrowRight}{Enter}{ArrowDown>2/}");
   await expect.element(getActiveMonth()).toHaveTextContent("September");
   await userEvent.keyboard("{Escape}");
   await userEvent.click(getDateInput("start"));
   await focusFirstDay();
-  await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}{ArrowDown}");
+  await userEvent.keyboard("{ArrowDown>2/}{Enter}{ArrowDown}");
   await expect.element(getActiveMonth()).toHaveTextContent("September");
-  await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}");
+  await userEvent.keyboard("{ArrowDown>5/}");
   await expect.element(getActiveMonth()).toHaveTextContent("October");
 });
 
@@ -1405,7 +1392,7 @@ it("does not focus or select a disabled date during keyboard navigation", async 
   await selectDayInMonthByIndex(25);
   await userEvent.click(getDateInput("end"), { clickCount: 2 });
   await focusFirstDay({ previousMonthDisabled: true });
-  await userEvent.keyboard("{ArrowDown}{ArrowDown}{ArrowDown}{ArrowRight}{ArrowRight}");
+  await userEvent.keyboard("{ArrowDown>3/}{ArrowRight>2/}");
 
   await expect.element(getDayById("20240703")).not.toHaveAttribute("range-hover");
   await userEvent.keyboard("{Enter}");
@@ -1624,6 +1611,14 @@ describe("localization", () => {
   });
 });
 
+function getYearInput(): Locator {
+  return page.getByRole("textbox", { name: "Year" }).first();
+}
+
+function getMonthSelectMenu(): Locator {
+  return page.getByRole("combobox", { name: "Month menu" }).first();
+}
+
 function getActiveMonth(position: Extract<"start" | "end", Position> = "start"): Locator {
   const monthIndex = position === "start" ? 0 : 1;
 
@@ -1684,11 +1679,6 @@ async function focusFirstDay(
   } = {},
 ): Promise<void> {
   const { range = true, previousMonthDisabled = false } = options;
-  await userEvent.keyboard("{Tab}{Tab}{Tab}");
-  if (!previousMonthDisabled) {
-    await userEvent.keyboard("{Tab}");
-  }
-  if (!range) {
-    await userEvent.keyboard("{Tab}");
-  }
+  const tabCount = (previousMonthDisabled ? 3 : 4) + (range ? 0 : 1);
+  await userEvent.keyboard(`{Tab>${tabCount}/}`);
 }
