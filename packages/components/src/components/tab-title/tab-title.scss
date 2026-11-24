@@ -14,7 +14,7 @@
   @include shared.outline-none();
 
   display: block;
-  margin-inline-start: theme("margin.0");
+  margin-inline-start: var(--calcite-space-none);
 }
 
 :host([layout="inline"]) {

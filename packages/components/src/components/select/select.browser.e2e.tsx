@@ -45,6 +45,8 @@ describe("defaults", () => {
       { propertyName: "status", defaultValue: "idle" },
       { propertyName: "validationIcon", defaultValue: undefined },
       { propertyName: "validationMessage", defaultValue: undefined },
+      { propertyName: "value", defaultValue: undefined },
+      { propertyName: "selectedOption", defaultValue: undefined },
       {
         propertyName: "validity",
         defaultValue: defaultValidity,

@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Počisti",
   "hiddenSelected": "Vrstice, ki so izbrane, a izven pogleda",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Stran",
   "row": "Vrstica",
-  "selected": "Izbrano"
+  "rowNumber": "Row number",
+  "selected": "Izbrano",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

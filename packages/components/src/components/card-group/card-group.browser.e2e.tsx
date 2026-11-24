@@ -153,15 +153,11 @@ describe("propagates", () => {
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-card-group"), {
-      "--calcite-card-group-space": {
+      "--calcite-card-group-gap": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "gap",
       },
-    });
-  });
-  describe("deprecated", () => {
-    themed(() => mount("calcite-card-group"), {
-      "--calcite-card-group-gap": {
+      "--calcite-card-group-space": {
         shadowSelector: `.${CSS.container}`,
         targetProp: "gap",
       },

@@ -18,10 +18,10 @@
 
 %icon-position {
   /* icon rotation variables */
-  --calcite-internal-accordion-item-icon-rotation: calc(theme("rotate.90") * -1);
-  --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.0");
-  --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.90");
-  --calcite-internal-accordion-item-active-icon-rotation-rtl: theme("rotate.0");
+  --calcite-internal-accordion-item-icon-rotation: calc(90deg * -1);
+  --calcite-internal-accordion-item-active-icon-rotation: 0deg;
+  --calcite-internal-accordion-item-icon-rotation-rtl: 90deg;
+  --calcite-internal-accordion-item-active-icon-rotation-rtl: 0deg;
 }
 
 :host([scale="s"]) {
@@ -98,10 +98,10 @@
 }
 
 .icon-position--end:not(.icon-type--plus-minus) {
-  --calcite-internal-accordion-item-icon-rotation: theme("rotate.0");
-  --calcite-internal-accordion-item-active-icon-rotation: theme("rotate.180");
-  --calcite-internal-accordion-item-icon-rotation-rtl: theme("rotate.0");
-  --calcite-internal-accordion-item-active-icon-rotation-rtl: calc(theme("rotate.180") * -1);
+  --calcite-internal-accordion-item-icon-rotation: 0deg;
+  --calcite-internal-accordion-item-active-icon-rotation: 180deg;
+  --calcite-internal-accordion-item-icon-rotation-rtl: 0deg;
+  --calcite-internal-accordion-item-active-icon-rotation-rtl: calc(180deg * -1);
 }
 
 // .header / content
@@ -111,14 +111,14 @@
   border-block-end-style: solid;
   border-color: var(
     --calcite-accordion-border-color,
-    var(--calcite-accordion-item-border-color, theme("borderColor.color.2"))
+    var(--calcite-accordion-item-border-color, var(--calcite-color-border-2))
   );
 }
 
 .header-content {
   padding: var(
     --calcite-internal-accordion-item-padding,
-    var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
+    var(--calcite-internal-accordion-item-spacing-unit, var(--calcite-space-sm) 0.75rem)
   );
 
   background: none;
@@ -135,7 +135,7 @@
     --calcite-accordion-item-content-space,
     var(
       --calcite-internal-accordion-item-padding,
-      var(--calcite-internal-accordion-item-spacing-unit, theme("spacing.2") 0.75rem)
+      var(--calcite-internal-accordion-item-spacing-unit, var(--calcite-space-sm) 0.75rem)
     )
   );
 }
@@ -208,7 +208,7 @@
   flex-direction: column;
   padding-block: var(--calcite-space-none);
   text-align: initial;
-  margin-inline-end: theme("margin.auto");
+  margin-inline-end: auto;
 }
 
 .heading,
