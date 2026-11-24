@@ -63,7 +63,7 @@
   overflow-y: auto;
   inline-size: 100%;
   box-shadow: var(--calcite-shadow-md);
-  max-block-size: var(--calcite-autocomplete-menu-max-size-y, theme("maxHeight.menu"));
+  max-block-size: var(--calcite-autocomplete-menu-max-size-y, 45vh);
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
   background-color: var(
     --calcite-autocomplete-background-color,

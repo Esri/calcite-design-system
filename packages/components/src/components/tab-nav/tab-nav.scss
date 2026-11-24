@@ -34,17 +34,17 @@
 
 .scale-s {
   --calcite-internal-tab-nav-button-width: #{core.$calcite-size-24};
-  min-block-size: theme("spacing.6");
+  min-block-size: var(--calcite-size-sm);
 }
 
 .scale-m {
   --calcite-internal-tab-nav-button-width: #{core.$calcite-size-32};
-  min-block-size: theme("spacing.8");
+  min-block-size: var(--calcite-size-md);
 }
 
 .scale-l {
   --calcite-internal-tab-nav-button-width: #{core.$calcite-size-44};
-  min-block-size: theme("spacing.11");
+  min-block-size: var(--calcite-size-lg);
 }
 
 .container::-webkit-scrollbar {

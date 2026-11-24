@@ -41,7 +41,7 @@ import "../tooltip/tooltip"; // Force Vite to statically trace the file for Chro
 
 const { dialogPlacement, shellDisplayMode, position, scale } = ATTRIBUTES;
 
-interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "heightScale" | "resizable"> {
+interface ShellPanelArgs extends Pick<ShellPanel, "collapsed" | "displayMode" | "height" | "resizable"> {
   centerPanelPosition: ShellPanel["position"];
   leadingPanelPosition: ShellPanel["position"];
   trailingPanelPosition: ShellPanel["position"];
@@ -81,7 +81,7 @@ export default {
     contentBehind: false,
     position: shellStoryPositions[0],
     detached: false,
-    heightScale: scale.values[0],
+    height: scale.values[0],
   },
   argTypes: {
     centerPanelPosition: {
@@ -100,7 +100,7 @@ export default {
       options: position.values,
       control: { type: "select" },
     },
-    heightScale: {
+    height: {
       options: scale.values,
       control: { type: "select" },
     },
@@ -334,7 +334,7 @@ export const simple = (args: ShellStoryArgs): string => html`
     ${contentHTML}
     <calcite-shell-panel
       display-mode="${args.displayMode}"
-      height-scale="${args.heightScale}"
+      height="${args.height}"
       position="${args.centerPanelPosition}"
       slot="panel-bottom"
     >
@@ -698,7 +698,7 @@ export const darkModeRTL = (args: ShellStoryArgs): string => html`
     ${headerHTML}
     <calcite-shell-panel slot="panel-start" display-mode="dock"> ${advancedLeadingPanelHTML} </calcite-shell-panel>
     ${contentHTML}
-    <calcite-shell-panel height-scale="s" slot="panel-bottom"> ${centerPanelHTML} </calcite-shell-panel>
+    <calcite-shell-panel height="s" slot="panel-bottom"> ${centerPanelHTML} </calcite-shell-panel>
     ${contentHTML}
     <calcite-shell-panel slot="panel-end" display-mode="dock"> ${advancedTrailingPanelHTMl} </calcite-shell-panel>
     ${footerHTML}
@@ -1263,10 +1263,10 @@ const slottedPanelTopAndBottomAndSides = (args: ShellStoryArgs): string => html`
       background-position: 0 0, 0 10px, 10px -10px, -10px 0;"
     ></div>
     <div class="global-nav" slot="header">Header Example</div>
-    <calcite-shell-panel slot="panel-start" display-mode="dock" width-scale="m">
+    <calcite-shell-panel slot="panel-start" display-mode="dock" width="m">
       ${advancedLeadingPanelHTML}
     </calcite-shell-panel>
-    <calcite-shell-panel slot="panel-end" display-mode="dock" width-scale="m">
+    <calcite-shell-panel slot="panel-end" display-mode="dock" width="m">
       ${advancedTrailingPanelHTMl}
     </calcite-shell-panel>
     <calcite-shell-panel slot="panel-top">${centerPanelHTML}</calcite-shell-panel>
@@ -1855,7 +1855,7 @@ overlayDisplayMode.args = { position: "not set" };
 
 export const panelEndWithPositionStart = (args: ShellStoryArgs): string =>
   html`<calcite-shell ${optionalAttribute("style", shellPositionStyle(args))}>
-    <calcite-shell-panel slot="panel-end" width-scale="l" resizable>
+    <calcite-shell-panel slot="panel-end" width="l" resizable>
       <calcite-action-bar slot="action-bar">
         <calcite-action text="Save" icon="save" indicator></calcite-action>
         <calcite-action active icon="map" text="Map"></calcite-action>
@@ -1894,7 +1894,7 @@ panelEndWithPositionStartPositionAbsolute.args = { position: "absolute" };
 
 export const panelTopFloatHorizontal = (args: ShellStoryArgs): string =>
   html`<calcite-shell ${optionalAttribute("style", shellPositionStyle(args))}>
-    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
+    <calcite-shell-panel slot="panel-top" display-mode="float-all" width="m">
       <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="horizontal" overlay-positioning="absolute">
         <calcite-action-group layout="horizontal" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
@@ -1944,7 +1944,7 @@ panelTopFloatHorizontalPositionAbsolute.args = { position: "absolute" };
 
 export const panelTopFloatVertical = (args: ShellStoryArgs): string =>
   html`<calcite-shell ${optionalAttribute("style", shellPositionStyle(args))}>
-    <calcite-shell-panel slot="panel-top" display-mode="float-all" width-scale="m">
+    <calcite-shell-panel slot="panel-top" display-mode="float-all" width="m">
       <calcite-action-bar slot="action-bar" expand-toggle-disabled layout="vertical" overlay-positioning="absolute">
         <calcite-action-group layout="vertical" overlay-positioning="absolute">
           <calcite-action text="Save" icon="save" indicator appearance="solid" scale="m"> </calcite-action>
@@ -2889,7 +2889,7 @@ export const customPanelWithOverflowingContent = (args: ShellStoryArgs): string 
     --calcite-shell-panel-min-height: auto;
     --calcite-shell-panel-height: auto;"
     >
-      <calcite-shell-panel display-mode="float-content" width-scale="l" slot="panel-bottom" style="height: 100%;">
+      <calcite-shell-panel display-mode="float-content" width="l" slot="panel-bottom" style="height: 100%;">
         <calcite-panel heading="Panel">
           <div style="display: flex; flex-direction: row; height: 100%; width:100%">
             <calcite-action-bar
@@ -3390,10 +3390,10 @@ export const floatAllHeights = (args: ShellStoryArgs): string => html`
     </calcite-shell>
   </div>
   <br />
-  <h3>layout="horizontal" & display-mode="float-all" & height-scale="m"</h3>
+  <h3>layout="horizontal" & display-mode="float-all" & height="m"</h3>
   <div style="position:relative; height: 280px">
     <calcite-shell ${optionalAttribute("style", shellPositionStyle(args))}>
-      <calcite-shell-panel layout="horizontal" display-mode="float-all" height-scale="m">
+      <calcite-shell-panel layout="horizontal" display-mode="float-all" height="m">
         <calcite-panel heading="Example" description="example" closable> </calcite-panel>
       </calcite-shell-panel>
     </calcite-shell>

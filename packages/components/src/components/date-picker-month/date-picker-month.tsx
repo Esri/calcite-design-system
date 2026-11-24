@@ -100,7 +100,7 @@ export class DatePickerMonth extends LitElement {
   @property({ reflect: true }) layout!: "horizontal" | "vertical";
 
   /**
-   * CLDR locale data for current locale.
+   * Locale data for the current locale.
    */
   @property() localeData!: DateLocaleData;
 
