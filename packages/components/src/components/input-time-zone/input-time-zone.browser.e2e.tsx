@@ -1,5 +1,6 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS as ComboboxCSS } from "../combobox/resources";
 import {
@@ -20,8 +21,93 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
+import { logger } from "../../utils/logger";
+import { createTimeZoneItems, findTimeZoneItemByProp } from "./utils";
+
+const DateTimeFormat = Intl.DateTimeFormat;
 
 mockConsole();
+
+describe("Factory compatibility", () => {
+  it.each([
+    ["name", true],
+    ["region", true],
+    ["offset", true],
+    ["name", false],
+    ["region", false],
+    ["offset", false],
+  ] as const)("preserves values in %s mode when native support is %s", async (mode, supported) => {
+    vi.spyOn(Intl, "DateTimeFormat").mockImplementation(function (locale, options) {
+      if (options?.timeZone === "Factory") {
+        if (!supported) {
+          throw new RangeError("Unsupported time zone: Factory");
+        }
+
+        return new DateTimeFormat(locale, { ...options, timeZone: "Etc/GMT" });
+      }
+
+      return new DateTimeFormat(locale, options);
+    });
+    const warnSpy = vi.spyOn(logger, "warn");
+    const value = mode === "offset" ? "0" : "Factory";
+    const { el } = await mount(<calcite-input-time-zone mode={mode} value={value} />);
+
+    await expect.element(el).toHaveProperty("value", value);
+    await expect
+      .element(page.getBySelector("calcite-combobox-item[selected]"))
+      .toHaveAttribute("value", value);
+
+    const compatibilityWarnings = warnSpy.mock.calls.filter(([message]) =>
+      message.startsWith("[input-time-zone]"),
+    );
+    expect(compatibilityWarnings).toEqual(
+      mode === "offset" && !supported
+        ? [
+            [
+              `[input-time-zone] The browser does not support the "Factory" time zone. Using a zero offset for compatibility; use a supported IANA time zone instead.`,
+            ],
+          ]
+        : [],
+    );
+  });
+});
+
+describe(createTimeZoneItems, () => {
+  it("preserves the Factory message override in region mode", async () => {
+    const { component } = await mount<"calcite-input-time-zone">(
+      <calcite-input-time-zone mode="name" />,
+    );
+    const items = await createTimeZoneItems(
+      "en",
+      { ...component.messages, Factory: "Custom Factory label" },
+      "region",
+      new Date("2026-01-01"),
+      "gmt",
+    );
+
+    expect(findTimeZoneItemByProp(items, "value", "Factory")?.label).toBe("Custom Factory label");
+  });
+
+  it.each([
+    ["Factory", new TypeError("Unexpected formatter error")],
+    ["Africa/Abidjan", new RangeError("Unsupported time zone")],
+  ])("does not suppress unrelated formatting errors for %s", async (timeZone, error) => {
+    const { component } = await mount<"calcite-input-time-zone">(
+      <calcite-input-time-zone mode="name" />,
+    );
+    vi.spyOn(Intl, "DateTimeFormat").mockImplementation(function (locale, options) {
+      if (options?.timeZone === timeZone) {
+        throw error;
+      }
+
+      return new DateTimeFormat(locale, options);
+    });
+
+    await expect(
+      createTimeZoneItems("en", component.messages, "offset", new Date("2026-01-01"), "gmt"),
+    ).rejects.toBe(error);
+  });
+});
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-input-time-zone", mountOptions));
