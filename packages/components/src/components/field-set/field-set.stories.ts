@@ -1,7 +1,12 @@
 import "./field-set";
+import "../button/button";
 import "../field-group/field-group";
 import "../input/input";
+import "../input-number/input-number";
+import "../input-text/input-text";
 import "../label/label";
+import "../option/option";
+import "../select/select";
 import "../text-area/text-area";
 import { optionalAttribute } from "../../../.storybook/utils";
 import { html } from "../../../support/formatting";
@@ -146,6 +151,90 @@ export const complex = (args: FieldSetStoryArgs): string => html`
   ${renderComplexUsingLabel({ ...args, legend: "calcite-label" })}
 `;
 complex.parameters = { controls: { disable: true } };
+
+const renderUnitSelect = (label?: string): string => html`
+  <calcite-select ${optionalAttribute("label-text", label)}>
+    <calcite-option>Meters</calcite-option>
+    <calcite-option>Kilometers</calcite-option>
+    <calcite-option>Miles</calcite-option>
+  </calcite-select>
+`;
+
+const renderClassRow = (labels: { min?: string; max?: string; unit?: string } = {}): string => html`
+  <calcite-field-group layout="columns" columns="3">
+    <calcite-input-number ${optionalAttribute("label-text", labels.min)} placeholder="Min"></calcite-input-number>
+    <calcite-input-number ${optionalAttribute("label-text", labels.max)} placeholder="Max"></calcite-input-number>
+    ${renderUnitSelect(labels.unit)}
+  </calcite-field-group>
+`;
+
+export const custom = (): string => html`
+  <style>
+    .span-2-columns {
+      grid-column: span 2;
+    }
+  </style>
+  <div style="padding: 1rem;border: 2px solid blue;">
+    <calcite-field-set>
+      <calcite-field-set legend="Buffer radius">
+        <calcite-input-number placeholder="123"></calcite-input-number>
+      </calcite-field-set>
+      <calcite-field-set legend="Buffer radius">
+        <calcite-field-group layout="columns" columns="3">
+          <calcite-input-number
+            class="span-2-columns"
+            label-text="Buffer radius"
+            placeholder="123"
+          ></calcite-input-number>
+          ${renderUnitSelect("Buffer radius unit")}
+        </calcite-field-group>
+      </calcite-field-set>
+      <calcite-field-set legend="Classes (min-max)">
+        ${[1, 2, 3]
+          .map((row) =>
+            renderClassRow({ min: `Class ${row} minimum`, max: `Class ${row} maximum`, unit: `Class ${row} unit` }),
+          )
+          .join("")}
+        <calcite-field-group layout="columns" columns="3">
+          <calcite-button appearance="outline-fill" icon-start="plus" kind="neutral">Add class</calcite-button>
+        </calcite-field-group>
+      </calcite-field-set>
+      <calcite-field-set legend="Buffer radius">
+        <calcite-input-text value="Input Text value"></calcite-input-text>
+      </calcite-field-set>
+    </calcite-field-set>
+  </div>
+  <br /><br />
+  <div style="padding: 1rem;border: 2px solid red;">
+    <calcite-field-set>
+      <calcite-field-group>
+        <calcite-input-number label-text="Buffer radius" placeholder="123"></calcite-input-number>
+      </calcite-field-group>
+      <calcite-field-set>
+        <calcite-field-group layout="columns" columns="3">
+          <calcite-input-number
+            class="span-2-columns"
+            label-text="Buffer radius"
+            placeholder="123"
+          ></calcite-input-number>
+          ${renderUnitSelect("Buffer radius unit")}
+        </calcite-field-group>
+      </calcite-field-set>
+      <calcite-field-set>
+        ${renderClassRow({ min: "Classes (min-max)" })} ${renderClassRow()} ${renderClassRow()}
+        <calcite-field-group layout="columns" columns="3">
+          <div>
+            <calcite-button appearance="outline-fill" icon-start="plus" kind="neutral">Add class</calcite-button>
+          </div>
+        </calcite-field-group>
+      </calcite-field-set>
+      <calcite-field-group>
+        <calcite-input-text label-text="Buffer radius" value="Input Text value"></calcite-input-text>
+      </calcite-field-group>
+    </calcite-field-set>
+  </div>
+`;
+custom.parameters = { controls: { disable: true } };
 
 export const customGap = (args: FieldSetStoryArgs): string => complex(args);
 customGap.args = { gap: "40px" };
