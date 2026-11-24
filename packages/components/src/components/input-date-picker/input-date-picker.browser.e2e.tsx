@@ -786,18 +786,22 @@ describe("value changes", () => {
     expect(changeEventHandler).toHaveBeenCalledTimes(3);
   });
 
-  it("preserves invalid free-form input without emitting", async () => {
-    const changeEventHandler = vi.fn();
-    await mount<InputDatePicker>(
-      <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
-    );
+  it.each(["3/7/", "not a date 3/7/2020"])(
+    "preserves invalid free-form input without emitting (%s)",
+    async (input) => {
+      const changeEventHandler = vi.fn();
+      const { el } = await mount<InputDatePicker>(
+        <calcite-input-date-picker oncalciteInputDatePickerChange={changeEventHandler} />,
+      );
 
-    await userEvent.click(getDateInput());
-    await userEvent.keyboard("3/7/{Enter}");
+      await userEvent.click(getDateInput());
+      await userEvent.keyboard(`${input}{Enter}`);
 
-    expect(changeEventHandler).not.toHaveBeenCalled();
-    await expect.element(getDateInput()).toHaveValue("3/7/");
-  });
+      await expect.element(el).toHaveValue("");
+      expect(changeEventHandler).not.toHaveBeenCalled();
+      await expect.element(getDateInput()).toHaveValue(input);
+    },
+  );
 
   it("emits once when a programmatic valueAsDate is changed by the user", async () => {
     const changeEventHandler = vi.fn();
@@ -1562,6 +1566,28 @@ describe("localization", () => {
   });
 
   describe("regional date handling", () => {
+    it.each(["da", "de", "lv", "mk", "ro", "tr"])(
+      "preserves the localized selection on blur (%s)",
+      async (locale) => {
+        const { el } = await mount(
+          <>
+            <calcite-input-date-picker lang={locale} value="2023-05-31" />
+            <button type="button">Move focus</button>
+          </>,
+        );
+        const input = page.getByRole("combobox");
+        const next = page.getByRole("button", { name: "Move focus" });
+
+        await userEvent.click(input);
+        await userEvent.keyboard("{Escape}");
+        await expect.element(el).toHaveProperty("open", false);
+        await userEvent.click(next);
+        await expect.element(next).toHaveFocus();
+
+        await expect.element(el).toHaveValue("2023-05-31");
+      },
+    );
+
     const testLocaleDateSelection = async (locale: string, expectedFormattedValue?: string) => {
       const { el, reRender } = await mount(
         <calcite-input-date-picker lang={locale} value="2023-05-31" />,
