@@ -225,9 +225,8 @@ export class StepperItem extends LitElement {
   @property() description?: string;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

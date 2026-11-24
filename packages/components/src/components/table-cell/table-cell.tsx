@@ -112,6 +112,9 @@ export class TableCell extends LitElement {
    */
   @property({ reflect: true }) colSpan?: number;
 
+  /**
+   * @copyDoc
+   */
   @property() disabled = false;
 
   @property() interactionMode: TableInteractionMode = "interactive";

@@ -85,9 +85,8 @@ export class Stack extends LitElement {
   //#region Public Properties
 
   /**
-   * When `true`, content interaction is prevented and displayed with lower opacity.
-   *
    * @internal
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

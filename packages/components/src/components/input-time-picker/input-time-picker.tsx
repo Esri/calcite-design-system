@@ -286,9 +286,8 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

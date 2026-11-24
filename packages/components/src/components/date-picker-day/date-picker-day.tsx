@@ -67,7 +67,7 @@ export class DatePickerDay extends LitElement {
   @property() day!: number;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -470,9 +470,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 
