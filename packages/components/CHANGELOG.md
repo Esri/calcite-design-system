@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.50...@esri/calcite-components@6.0.0-next.51) (2026-11-24)
+
+### Bug Fixes
+
+- **dropdown:** remove visual noise in forced-colors mode ([#15671](https://github.com/Esri/calcite-design-system/issues/15671)), closes [#15334](https://github.com/Esri/calcite-design-system/issues/15334)
+
 ## [6.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.49...@esri/calcite-components@6.0.0-next.50) (2026-11-24)
 
 ### ⚠ BREAKING CHANGES
