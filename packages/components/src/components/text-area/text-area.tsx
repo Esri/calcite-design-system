@@ -273,10 +273,8 @@ export class TextArea
   @property({ reflect: true }) columns?: number;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   *
    * @public
-   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -173,9 +173,8 @@ export class InlineEditable extends LitElement implements LabelableComponent {
   @property({ reflect: true }) controls = false;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -419,10 +419,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
-   * @see [MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -209,9 +209,8 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
   @property({ reflect: true }) closeOnSelectDisabled = false;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 
