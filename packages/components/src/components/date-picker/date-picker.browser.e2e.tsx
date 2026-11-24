@@ -61,12 +61,6 @@ describe("focusable", () => {
     await mount(<calcite-date-picker value="2025-09-15" />);
 
     const grid = page.getByRole("grid", { includeHidden: true });
-    const activeDay = grid
-      .getByRole("gridcell", {
-        includeHidden: true,
-        name: "Monday, September 15, 2025",
-      })
-      .element() as DatePickerDay["el"];
     const nextDay = grid
       .getByRole("gridcell", {
         includeHidden: true,
@@ -74,7 +68,7 @@ describe("focusable", () => {
       })
       .element() as DatePickerDay["el"];
 
-    await activeDay.setFocus();
+    await focusActiveDay();
     await userEvent.keyboard("{ArrowRight}");
 
     await expect.poll(() => nextDay.getRootNode()).toHaveProperty("activeElement", nextDay);
@@ -592,8 +586,7 @@ describe("change events", () => {
       .element(page.getByRole("combobox", { includeHidden: true, name: "Month menu" }).first())
       .toHaveProperty("value", "September");
 
-    const selectedDay = getDay("20200908");
-    await (selectedDay.element() as DatePickerDay["el"]).setFocus();
+    await focusActiveDay();
     await userEvent.keyboard("{ArrowRight} ");
     await component.updateComplete;
 
@@ -737,10 +730,7 @@ describe("arrow and page key navigation", () => {
           value={initialValue}
         />,
       );
-      const activeDay = page
-        .getBySelector("calcite-date-picker-day[current-month][tabindex='0']")
-        .first();
-      await (activeDay.element() as DatePickerDay["el"]).setFocus();
+      await focusActiveDay();
 
       await userEvent.keyboard("{ArrowUp}{Enter}");
       await expect.element(el).toHaveProperty("value", expectedValues[0]);
@@ -873,10 +863,9 @@ describe("month and year selection", () => {
 
 it("marks only the current day as current while it is displayed", async () => {
   await mount<DatePicker>(<calcite-date-picker range />);
-  const activeDay = page.getBySelector("calcite-date-picker-day[current-month][tabindex='0']");
   await expect.element(getCurrentDays()).toHaveLength(1);
 
-  await (activeDay.element() as DatePickerDay["el"]).setFocus();
+  await focusActiveDay();
   await userEvent.keyboard("{PageUp}");
   await expect.element(getCurrentDays()).toHaveLength(1);
 
@@ -1053,8 +1042,10 @@ function getCurrentDays(): Locator {
 }
 
 async function focusActiveDay(): Promise<void> {
-  const activeDay = page.getBySelector("calcite-date-picker-day[current-month][tabindex='0']");
-  await (activeDay.element() as DatePickerDay["el"]).setFocus();
+  const header = page.getBySelector("calcite-date-picker-month-header").first();
+  const enabledMonthActions = header.getBySelector("calcite-action:not([disabled])");
+  // tab through the month menu, year input, and enabled month actions to reach the active day.
+  await userEvent.keyboard(`{Tab>${3 + enabledMonthActions.length}/}`);
 }
 
 function toDateOnlyIso(date: Date): string {

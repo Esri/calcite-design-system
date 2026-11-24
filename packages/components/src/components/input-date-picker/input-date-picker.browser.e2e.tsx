@@ -846,16 +846,13 @@ describe("toggling the date picker", () => {
   it.each(["mouse", "ArrowDown", "ArrowUp"] as const)(
     "toggles a single date picker with %s",
     async (interaction) => {
-      const { el } = await mount<InputDatePicker>(<calcite-input-date-picker value="2000-11-27" />);
+      await mount(<calcite-input-date-picker value="2000-11-27" />);
       const calendar = getCalendar();
 
       await expect.element(calendar).not.toBeVisible();
-      if (interaction === "mouse") {
-        await userEvent.click(getDateInput());
-      } else {
-        await el.setFocus();
-        await userEvent.keyboard(`{${interaction}}`);
-      }
+      await (interaction === "mouse"
+        ? userEvent.click(getDateInput())
+        : userEvent.keyboard(`{Tab}{${interaction}}`));
       await expect.element(calendar).toBeVisible();
 
       await (interaction === "mouse"
@@ -891,10 +888,9 @@ describe("toggling the date picker", () => {
   );
 
   it("opens each range input with ArrowDown and closes with Escape", async () => {
-    const { el } = await mount<InputDatePicker>(<calcite-input-date-picker range />);
+    await mount(<calcite-input-date-picker range />);
 
-    await el.setFocus();
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{Tab}{ArrowDown}");
     await expect.element(getCalendar()).toBeVisible();
     await userEvent.keyboard("{Escape}{Tab}{ArrowDown}");
     await expect.element(getCalendar()).toBeVisible();
@@ -903,12 +899,9 @@ describe("toggling the date picker", () => {
   });
 
   it("closes with Escape when focusTrapDisabled is true", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker focusTrapDisabled value="2000-11-27" />,
-    );
+    await mount(<calcite-input-date-picker focusTrapDisabled value="2000-11-27" />);
 
-    await el.setFocus();
-    await userEvent.keyboard("{ArrowDown}");
+    await userEvent.keyboard("{Tab}{ArrowDown}");
     await expect.element(getCalendar()).toBeVisible();
     await userEvent.keyboard("{Escape}");
     await expect.element(getCalendar()).not.toBeVisible();
@@ -1025,8 +1018,7 @@ describe("focus trapping", () => {
     const next = page.getByRole("button", { name: "Next sibling" });
     const calendar = page.getBySelector("calcite-input-date-picker calcite-date-picker");
 
-    await el.setFocus();
-    await userEvent.keyboard(range ? "{Tab}{Tab}" : "{Tab}");
+    await userEvent.keyboard(range ? "{Tab}{Tab}{Tab}" : "{Tab}{Tab}");
     await expect.element(next).toHaveFocus();
 
     await userEvent.keyboard(range ? "{Shift>}{Tab}{Tab}{/Shift}" : "{Shift>}{Tab}{/Shift}");
@@ -1279,12 +1271,9 @@ describe("range hover", () => {
   });
 
   it("highlights dates relative to the end value", async () => {
-    const { el } = await mount<InputDatePicker>(
-      <calcite-input-date-picker range value={["2024-01-10", "2024-02-10"]} />,
-    );
+    await mount(<calcite-input-date-picker range value={["2024-01-10", "2024-02-10"]} />);
 
-    await el.setFocus();
-    await userEvent.keyboard("{Tab}{ArrowDown}");
+    await userEvent.keyboard("{Tab}{Tab}{ArrowDown}");
     await userEvent.hover(getDayById("20240201"));
     await expect.element(getDayById("20240209")).toHaveAttribute("range-hover");
     await userEvent.hover(getDayById("20240215"));
