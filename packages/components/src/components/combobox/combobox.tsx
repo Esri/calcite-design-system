@@ -3,6 +3,7 @@ import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
+import { tabbable } from "tabbable";
 import {
   createEvent,
   h,
@@ -21,6 +22,7 @@ import {
   getElementWidth,
   getTextWidth,
   slotChangeHasAssignedElement,
+  tabbableOptions,
 } from "../../utils/dom";
 import {
   connectFloatingUI,
@@ -856,6 +858,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.calciteInternalComboboxItemChangeHandler,
     );
     this.listen("click", this.comboboxFocusHandler);
+    this.listen("focusout", this.handleFocusOut);
   }
 
   override connectedCallback(): void {
@@ -1183,6 +1186,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
+        if (
+          this.open &&
+          !this.noMatchesFound &&
+          !event.shiftKey &&
+          this.floatingEl &&
+          (this.hasContentTop || this.hasContentBottom) &&
+          tabbable(this.floatingEl, tabbableOptions).length > 0
+        ) {
+          break;
+        }
         if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
           event.preventDefault();
@@ -2037,11 +2050,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (itemRect.top < containerRect.top + stickyHeight) {
       listContainer.scrollTop -= containerRect.top + stickyHeight - itemRect.top;
     } else {
-      const stickyFooterHeight = this.contentBottomSlotRef.value?.offsetHeight || 0;
+      const stickyFooterHeight =
+        this.contentBottomSlotRef.value?.getBoundingClientRect().height || 0;
       const visibleBottom = containerRect.bottom - stickyFooterHeight;
 
       if (itemRect.bottom > visibleBottom) {
-        listContainer.scrollTop += itemRect.bottom - visibleBottom;
+        listContainer.scrollTop += Math.ceil(itemRect.bottom - visibleBottom);
       }
     }
   }
@@ -2097,6 +2111,17 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private handleContentTopSlotChange(event: Event): void {
     this.hasContentTop = slotChangeHasAssignedElement(event);
+  }
+
+  private handleFocusOut(event: FocusEvent): void {
+    if (
+      (!this.hasContentTop && !this.hasContentBottom) ||
+      (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget))
+    ) {
+      return;
+    }
+
+    this.open = false;
   }
 
   private handleContentBottomSlotChange(event: Event): void {

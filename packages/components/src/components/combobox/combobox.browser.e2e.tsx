@@ -1400,15 +1400,19 @@ describe("keyboard interaction", () => {
 describe("content-bottom slot", () => {
   it("allows keyboard and pointer interaction without redirecting focus to the input", async () => {
     const clickSpy = vi.fn();
-    const { el } = await mount<Combobox>(
-      <calcite-combobox open>
-        <button onClick={clickSpy} slot="content-bottom" type="button">
-          Create new
-        </button>
-        <calcite-combobox-item heading="Oak" value="oak" />
-      </calcite-combobox>,
+    await mount(
+      <div>
+        <calcite-combobox open>
+          <button onClick={clickSpy} slot="content-bottom" type="button">
+            Create new
+          </button>
+          <calcite-combobox-item heading="Oak" value="oak" />
+        </calcite-combobox>
+        <button type="button">Outside</button>
+      </div>,
     );
 
+    const el = page.getBySelector("calcite-combobox").element() as Combobox["el"];
     const button = page.getByRole("button", { name: "Create new" });
     await expect.element(button).toBeVisible();
     await el.setFocus();
@@ -1422,6 +1426,16 @@ describe("content-bottom slot", () => {
     await expect.element(button).toHaveFocus();
     expect(clickSpy).toHaveBeenCalledTimes(2);
     await expect.element(el).toHaveProperty("open", true);
+
+    await userEvent.tab({ shift: true });
+    await expect.element(el).toHaveFocus();
+    expect(el).toHaveProperty("shadowRoot.activeElement", page.getByRole("combobox").element());
+    await expect.element(el).toHaveProperty("open", true);
+    await userEvent.tab();
+    await expect.element(button).toHaveFocus();
+    await userEvent.tab();
+    await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("keeps keyboard-active items above the sticky bottom content while scrolling", async () => {
@@ -1643,7 +1657,7 @@ describe("filtering", () => {
         </calcite-combobox>,
       );
 
-      const button = page.getByRole("button", { name: "Create new" });
+      const button = page.getByRole("button", { name: "Create new", includeHidden: true });
       await expect.element(button).toBeVisible();
 
       await el.setFocus();
