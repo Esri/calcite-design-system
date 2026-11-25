@@ -445,9 +445,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) clearDisabled = false;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

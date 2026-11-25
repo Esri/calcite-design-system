@@ -138,9 +138,8 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
   @property({ reflect: true }) clearable = false;
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

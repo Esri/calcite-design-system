@@ -183,9 +183,8 @@ export class Action extends LitElement {
     "transparent";
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -121,9 +121,8 @@ export class BlockGroup extends LitElement {
   @property() canPut?: (detail: BlockDragDetail) => boolean;
 
   /**
-   * When `true`, interaction is prevented and the component is displayed with lower opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -92,9 +92,8 @@ export class Link extends LitElement {
   //#region Public Properties
 
   /**
-   * When `true`, prevents interaction and decreases the component's opacity.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) disabled = false;
 

@@ -42,6 +42,23 @@ export const config: ApiExtractorConfig = {
             description: descriptionOverrides[apiClass.name] ?? "Specifies a description for the component.",
           };
         },
+        disabled(_apiProperty, apiClass) {
+          const descriptionOverrides: Record<string, string> = {
+            Stack: "When `true`, content interaction is prevented and displayed with lower opacity.",
+          };
+
+          return {
+            description:
+              descriptionOverrides[apiClass.name] ??
+              "When `true`, prevents interaction and decreases the component's opacity.",
+            docsTags: [
+              {
+                name: "see",
+                text: "[MDN - disabled](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled)",
+              },
+            ],
+          };
+        },
         flipPlacements(_apiProperty, apiClass) {
           const description =
             "Specifies the component's fallback `placement` for slotted {{content}} when its initial or specified `placement` has insufficient space available.";
