@@ -16,6 +16,9 @@ export const config: ApiExtractorConfig = {
             },
           ],
         },
+        beforeClose: {
+          description: "Specifies a function to run before the component closes.",
+        },
         checked: {
           description: "When `true`, the component is checked.",
         },

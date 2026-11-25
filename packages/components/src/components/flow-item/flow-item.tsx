@@ -331,9 +331,8 @@ export class FlowItem extends LitElement {
   @property() beforeBack?: () => Promise<void>;
 
   /**
-   * Specifies a function to run before the component closes.
-   *
    * @public
+   * @copyDoc
    */
   @property() beforeClose?: () => Promise<void>;
 

@@ -241,9 +241,8 @@ export class Sheet extends LitElement {
   //#region Public Properties
 
   /**
-   * Passes a function to run before the component closes.
-   *
    * @public
+   * @copyDoc
    */
   @property() beforeClose?: (el: Sheet["el"]) => Promise<void>;
 

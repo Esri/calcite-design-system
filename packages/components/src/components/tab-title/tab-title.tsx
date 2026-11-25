@@ -207,9 +207,8 @@ export class TabTitle extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies a function to run before the component closes.
-   *
    * @public
+   * @copyDoc
    */
   @property() beforeClose?: () => Promise<void>;
 
