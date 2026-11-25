@@ -29,6 +29,10 @@ declare module "@arcgis/lumina" {
      * @public
      */
     "--calcite-tab-border-color": "*";
+    /**
+     * Specifies the gap between `calcite-tab-title`s when not `bordered`.
+     */
+    "--calcite-tabs-gap": "*";
   }
 }
 
