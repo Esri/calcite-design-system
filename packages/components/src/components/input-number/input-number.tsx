@@ -613,7 +613,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity that the component's `value` must adhere to.
+   * Specifies the granularity the component's `value` must adhere to.
    *
    * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)

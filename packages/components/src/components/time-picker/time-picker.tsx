@@ -163,7 +163,7 @@ export class TimePicker extends LitElement implements TimeComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the granularity the `value` must adhere to (in seconds).
+   * Specifies the granularity the component's `value` must adhere to (in seconds).
    *
    * @public
    */
