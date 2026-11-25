@@ -140,6 +140,32 @@ describe("action bar", () => {
     },
   );
 
+  it.for([
+    { actionBarPosition: undefined, actionBarPositionLabel: "default" },
+    { actionBarPosition: "top", actionBarPositionLabel: "top" },
+  ] as const)(
+    "updates the action bar position when the panel moves to panel-end with $actionBarPositionLabel action-bar-position",
+    async ({ actionBarPosition }) => {
+      const { el } = await mount(
+        <calcite-shell>
+          <calcite-shell-panel actionBarPosition={actionBarPosition} slot="panel-start">
+            <calcite-action-bar slot="action-bar" />
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const shellPanel = getByCssElement<ShellPanel["el"]>(el, ":scope > calcite-shell-panel");
+      const actionBar = page.elementLocator(
+        getByCssElement<ActionBar["el"]>(shellPanel, ":scope > calcite-action-bar"),
+      );
+
+      await expect.element(actionBar).toHaveAttribute("position", "start");
+
+      shellPanel.slot = "panel-end";
+
+      await expect.element(actionBar).toHaveAttribute("position", "end");
+    },
+  );
+
   it("uses the slotted action bar height for its internal height", async () => {
     const { el } = await mount(
       <calcite-shell>

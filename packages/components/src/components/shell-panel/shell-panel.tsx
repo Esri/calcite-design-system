@@ -405,7 +405,7 @@ export class ShellPanel extends LitElement {
     if (shouldRefreshResize) {
       this.refreshResize();
     }
-    if (changes.has("actionBarPosition") && this.hasUpdated) {
+    if ((changes.has("actionBarPosition") || changes.has("position")) && this.hasUpdated) {
       this.setActionBarLayout(this.actionBar);
     }
     if (changes.has("resizable") && this.hasUpdated) {
