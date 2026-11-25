@@ -142,8 +142,8 @@ catalogs:
       specifier: 6.0.0
       version: 6.0.0
     csstype:
-      specifier: 3.2.3
-      version: 3.2.3
+      specifier: 3.2.4
+      version: 3.2.4
     dedent:
       specifier: 1.7.2
       version: 1.7.2
@@ -602,7 +602,7 @@ importers:
         version: 6.0.0
       csstype:
         specifier: 'catalog:'
-        version: 3.2.3
+        version: 3.2.4
       dedent:
         specifier: 'catalog:'
         version: 1.7.2
@@ -4837,8 +4837,8 @@ packages:
     resolution: {integrity: sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0, npm: '>=7.0.0'}
 
-  csstype@3.2.3:
-    resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+  csstype@3.2.4:
+    resolution: {integrity: sha512-PoKaoPzQapnEoqUSnHx1u6W6ku8CVEgKsnpmmzU3m1nwkidpPBQ8V/Zq2+bWNrsOKoKLwTGdbx6xF7BXP1zLVQ==}
 
   cubic2quad@1.2.1:
     resolution: {integrity: sha512-wT5Y7mO8abrV16gnssKdmIhIbA9wSkeMzhh27jAguKrV82i24wER0vL5TGhUJ9dbJNDcigoRZ0IAHFEEEI4THQ==}
@@ -9567,7 +9567,7 @@ snapshots:
   '@arcgis/lumina@6.0.0-next.16(lit@3.3.3)':
     dependencies:
       '@arcgis/toolkit': 6.0.0-next.16
-      csstype: 3.2.3
+      csstype: 3.2.4
       lit: 3.3.3
       tslib: 2.8.1
 
@@ -11965,7 +11965,7 @@ snapshots:
   '@types/react@18.3.12':
     dependencies:
       '@types/prop-types': 15.7.15
-      csstype: 3.2.3
+      csstype: 3.2.4
 
   '@types/sax@1.2.7':
     dependencies:
@@ -13311,7 +13311,7 @@ snapshots:
     dependencies:
       css-tree: 2.2.1
 
-  csstype@3.2.3: {}
+  csstype@3.2.4: {}
 
   cubic2quad@1.2.1: {}
 
