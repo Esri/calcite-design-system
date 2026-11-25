@@ -101,6 +101,8 @@ const kitchenSink = () =>
       <div class="fallback-row">${filter}</div>
 
       <div class="fallback-row">
+        <calcite-color-picker></calcite-color-picker>
+        <calcite-color-picker dir="rtl"></calcite-color-picker>
         ${colorPicker} <calcite-color-picker alpha-channel dir="rtl"></calcite-color-picker> ${colorPickerFieldDisabled}
         ${datePicker} ${timePicker}
       </div>
