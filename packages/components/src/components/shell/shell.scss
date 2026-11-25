@@ -2,14 +2,9 @@
 
 :host {
   @extend %component-host;
-
-  position: absolute;
-  inset: var(--calcite-space-none);
+  position: relative;
   display: flex;
-  block-size: 100%;
-  inline-size: 100%;
   flex-direction: column;
-  overflow: hidden;
   border-radius: var(--calcite-shell-corner-radius);
   box-shadow: var(--calcite-shell-shadow);
 }
@@ -99,7 +94,6 @@ slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  block-size: 100%;
   inline-size: 100%;
   min-inline-size: 0;
 }

@@ -384,7 +384,7 @@ describe("resizing", () => {
     await page.setViewport({ width: 1600, height: 1200 });
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
-        <calcite-shell>
+        <calcite-shell style="block-size: 100vh;">
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
             <calcite-panel>
               Content test
@@ -487,7 +487,7 @@ describe("resizing", () => {
     await page.setViewport({ width: 1600, height: 1200 });
     await page.setContent(`
       <div style="width: 100%; height: 100%;">
-        <calcite-shell>
+        <calcite-shell style="block-size: 100vh;">
           <calcite-shell-panel slot="panel-top" resizable layout="horizontal">
             <calcite-panel>
               Content test

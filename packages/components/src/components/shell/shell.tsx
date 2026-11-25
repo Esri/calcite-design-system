@@ -173,7 +173,7 @@ export class Shell extends LitElement {
   /**
    * When `true`, positions the center content behind any `calcite-shell-panel`s.
    *
-   * @public
+   * The center content does not contribute to the component's height, so set a height or minimum height on the component, such as `block-size: 100%` within a container that has a height.
    */
   @property({ reflect: true }) contentBehind = false;
 
