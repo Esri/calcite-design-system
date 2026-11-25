@@ -17,10 +17,7 @@
   flex: 1 1 auto;
   overflow: hidden;
   box-sizing: border-box;
-  border-radius: var(
-    --calcite-panel-corner-radius,
-    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
-  );
+  border-radius: var(--calcite-panel-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)));
 }
 
 slot[name="alerts"]::slotted(calcite-alert) {
