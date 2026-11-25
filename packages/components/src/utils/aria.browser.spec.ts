@@ -1,5 +1,20 @@
 import { describe, it, expect } from "vitest";
-import { ariaValueFromSize, toAriaBoolean } from "./aria";
+import { ariaValueFromSize, resolveAriaLive, toAriaBoolean } from "./aria";
+
+describe("resolveAriaLive()", () => {
+  it("returns valid aria-live values", () => {
+    expect(resolveAriaLive("off")).toBe("off");
+    expect(resolveAriaLive("polite")).toBe("polite");
+    expect(resolveAriaLive("assertive")).toBe("assertive");
+  });
+
+  it("returns undefined for unsupported values", () => {
+    expect(resolveAriaLive("invalid")).toBeUndefined();
+    expect(resolveAriaLive("")).toBeUndefined();
+    expect(resolveAriaLive(null)).toBeUndefined();
+    expect(resolveAriaLive(undefined)).toBeUndefined();
+  });
+});
 
 describe("toAriaBoolean()", () => {
   it("stringifies values", () => {

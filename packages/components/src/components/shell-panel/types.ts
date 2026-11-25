@@ -1,1 +1,2 @@
-export type DisplayMode = "dock" | "float" | "overlay" | "float-content" | "float-all";
+/** @public */
+export type DisplayMode = "dock" | "overlay" | "float-content" | "float-all";

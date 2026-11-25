@@ -22,7 +22,7 @@ import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "./panel";
-import { CSS, SLOTS } from "./resources";
+import { CSS, IDS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
 
@@ -100,6 +100,20 @@ describe("accessible", () => {
       </calcite-panel>,
     ),
   );
+
+  it("labels a closable dialog with a slotted heading", async () => {
+    const { component } = await mount(
+      <calcite-panel closable>
+        <span slot={SLOTS.heading}>Slotted heading</span>
+      </calcite-panel>,
+    );
+
+    const dialog = component.el.shadowRoot!.querySelector<HTMLElement>(`.${CSS.container}`)!;
+
+    expect(dialog.getAttribute("aria-label")).toBeNull();
+    expect(dialog.getAttribute("aria-labelledby")).toBe(IDS.heading);
+    await expect.element(page.getByRole("dialog", { name: "Slotted heading" })).toBeVisible();
+  });
 });
 
 describe("defaults", () => {
@@ -151,7 +165,7 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "focusTrapEnabled",
+        propertyName: "focusTrapEnabledByParent",
         defaultValue: false,
       },
     ],
@@ -234,10 +248,6 @@ describe("reflects", () => {
         propertyName: "iconFlipRtl",
         value: "true",
       },
-      {
-        propertyName: "focusTrapEnabled",
-        value: true,
-      },
     ],
   );
 });
@@ -258,6 +268,41 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
+
+  it.each([
+    { slot: SLOTS.actionBar, space: 0 },
+    { slot: SLOTS.actionBar, space: 12 },
+    { slot: SLOTS.contentTop, space: 0 },
+    { slot: SLOTS.contentTop, space: 12 },
+  ])(
+    "renders an interactive horizontal Action Bar in $slot with $space px content-top padding",
+    async ({ slot, space }) => {
+      const onAction = vi.fn();
+      const { el } = await mount(
+        <calcite-panel
+          heading="Panel"
+          style={`inline-size: 320px; --calcite-panel-content-top-space: ${space}px;`}
+        >
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" onClick={onAction} text="Add" />
+          </calcite-action-bar>
+          <div>Content</div>
+        </calcite-panel>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      await expect.element(actionBar).toHaveAttribute("layout", "horizontal");
+      expect(actionBar.element().getBoundingClientRect().width).toBe(
+        el.getBoundingClientRect().width - (slot === SLOTS.contentTop ? space * 2 : 0),
+      );
+      await page.getByRole("button", { name: "Add" }).click();
+      expect(onAction).toHaveBeenCalledOnce();
+    },
+  );
 });
 
 describe("a11y attributes", () => {
@@ -275,6 +320,56 @@ describe("a11y attributes", () => {
 });
 
 describe("header slots", () => {
+  it.each([SLOTS.actionBar, SLOTS.contentTop])(
+    "omits the leading separator when %s contains an Action Bar without other header content",
+    async (slot) => {
+      const { el } = await mount(
+        <calcite-panel style="--calcite-panel-content-top-space: 0;">
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-bar>
+        </calcite-panel>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      expect(actionBar.element().getBoundingClientRect().top).toBe(el.getBoundingClientRect().top);
+    },
+  );
+
+  it("updates the leading separator when content-top is replaced", async () => {
+    const { el } = await mount(
+      <calcite-panel style="--calcite-panel-content-top-space: 0;">
+        <calcite-action-bar layout="horizontal" slot={SLOTS.contentTop}>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-bar>
+      </calcite-panel>,
+    );
+
+    await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+    const contentTop = el.ownerDocument.createElement("div");
+    contentTop.slot = SLOTS.contentTop;
+    contentTop.textContent = "Content top";
+    page.getBySelector("calcite-action-bar").element().replaceWith(contentTop);
+
+    const contentTopLocator = page.getByText("Content top");
+    await expect
+      .poll(() => contentTopLocator.element().getBoundingClientRect().top)
+      .toBe(el.getBoundingClientRect().top + 1);
+
+    const actionBar = el.ownerDocument.createElement("calcite-action-bar");
+    actionBar.layout = "horizontal";
+    actionBar.slot = SLOTS.contentTop;
+    contentTopLocator.element().replaceWith(actionBar);
+
+    await expect
+      .poll(() => page.getBySelector("calcite-action-bar").element().getBoundingClientRect().top)
+      .toBe(el.getBoundingClientRect().top);
+  });
+
   it("renders one border when header-top is the only header content", async () => {
     const { component } = await mount(
       <calcite-panel>
@@ -760,15 +855,8 @@ describe("deprecated", () => {
 });
 
 describe("focus trap", () => {
-  it("applies dialog semantics only when focus trap is enabled", async () => {
-    const { component } = await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
-
-    await expect
-      .element(page.getByRole("dialog", { name: "Panel heading" }))
-      .not.toBeInTheDocument();
-
-    component.el.focusTrapEnabled = true;
-
+  it("applies dialog semantics when closable", async () => {
+    await mount<Panel>(<calcite-panel closable heading="Panel heading" />);
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
   });
 
@@ -800,10 +888,10 @@ describe("focus trap", () => {
     expect(closeEventCount).toBe(0);
   });
 
-  it("deactivates focus trap and dialog semantics when focusTrapEnabled is set to false", async () => {
+  it("deactivates focus trap and dialog semantics when closable is set to false", async () => {
     const { component } = await mount<Panel>(
       <>
-        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+        <calcite-panel closable heading="Panel heading">
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-panel>
@@ -816,7 +904,7 @@ describe("focus trap", () => {
 
     await expect.element(page.getByRole("dialog", { name: "Panel heading" })).toBeInTheDocument();
 
-    component.el.focusTrapEnabled = false;
+    component.el.closable = false;
 
     await expect
       .element(page.getByRole("dialog", { name: "Panel heading" }))
@@ -825,7 +913,6 @@ describe("focus trap", () => {
 
     await expect(component.el.setFocus()).resolves.toBeUndefined();
 
-    await userEvent.tab();
     await userEvent.tab();
     await expect.element(insideTwo).toHaveFocus();
 
@@ -836,7 +923,7 @@ describe("focus trap", () => {
   it("accepts focusTrapOptions.extraContainers when updateFocusTrapElements is called", async () => {
     const { component } = await mount<Panel>(
       <>
-        <calcite-panel closable focusTrapEnabled heading="Panel heading">
+        <calcite-panel closable heading="Panel heading">
           <button type="button">inside one</button>
           <button type="button">inside two</button>
         </calcite-panel>

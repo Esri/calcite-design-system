@@ -2,9 +2,10 @@ import { TemplateResult } from "lit";
 import { unsafeStatic, literal } from "lit/static-html.js";
 import { h, JsxNode, LuminaJsx } from "@arcgis/lumina";
 
+/** @public */
 export type HeadingLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
-type HeadingProps = Pick<LuminaJsx.HTMLAttributes, "class" | "hidden" | "key"> & {
+type HeadingProps = Pick<LuminaJsx.HTMLAttributes, "class" | "hidden" | "id" | "key"> & {
   level?: HeadingLevel;
 };
 
@@ -16,6 +17,7 @@ export const Heading = ({
   children,
   class: className,
   hidden = false,
+  id,
   key,
   level,
 }: HeadingProps & { children: JsxNode }): TemplateResult => {
@@ -24,7 +26,7 @@ export const Heading = ({
     : (literal`div` as unknown as "div");
 
   return (
-    <DynamicHtmlTag class={className} hidden={hidden} key={key}>
+    <DynamicHtmlTag class={className} hidden={hidden} id={id} key={key}>
       {children}
     </DynamicHtmlTag>
   );

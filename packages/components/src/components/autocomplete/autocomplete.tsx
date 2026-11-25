@@ -12,7 +12,8 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { escapeRegExp } from "es-toolkit/compat";
-import { createRef } from "lit/directives/ref.js";
+import { createRef, Ref } from "lit/directives/ref.js";
+import { isFocusable } from "tabbable";
 import {
   FlipPlacement,
   FloatingCSS,
@@ -29,7 +30,11 @@ import { Alignment, Scale, Status } from "../types";
 import { IconName } from "../icon/types";
 import { getLabelText } from "../../utils/label";
 import { TextualInputComponent } from "../input/common/input";
-import { getSlotAssignedElements, slotChangeHasAssignedElement } from "../../utils/dom";
+import {
+  getSlotAssignedElements,
+  slotChangeHasAssignedElement,
+  tabbableOptions,
+} from "../../utils/dom";
 import { guid } from "../../utils/guid";
 import { useT9n } from "../../controllers/useT9n";
 import type { Input } from "../input/input";
@@ -48,8 +53,10 @@ import { useTopLayer } from "../../controllers/useTopLayer";
 import { useForm } from "../../controllers/useForm";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
 import { styles } from "./autocomplete.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, IDS, SLOTS } from "./resources";
+import { CSS_UTILITY } from "../../utils/resources";
 
 const groupItemSelector = "calcite-autocomplete-item-group";
 const itemSelector = "calcite-autocomplete-item";
@@ -64,124 +71,184 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-autocomplete-background-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-autocomplete-corner-radius": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-autocomplete-text-color": "*";
     /**
      * Specifies the maximum height of the component's menu.
+     *
+     * @public
      */
     "--calcite-autocomplete-menu-max-size-y": "*";
     /**
      * Specifies the input's prefix width, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-prefix-size": "*";
     /**
      * Specifies the input's suffix width, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-suffix-size": "*";
     /**
      * Specifies the background color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-background-color": "*";
     /**
      * Specifies the border color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-border-color": "*";
     /**
      * Specifies the corner radius of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-corner-radius": "*";
     /**
      * Specifies the shadow of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-shadow": "*";
     /**
      * Specifies the icon color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-icon-color": "*";
     /**
      * Specifies the text color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-text-color": "*";
     /**
      * Specifies the placeholder text color of the component's input.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-placeholder-text-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-background-color": "*";
     /**
      * Specifies the background color of the input's `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-background-color-hover": "*";
     /**
      * Specifies the background color of the input's `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-background-color-press": "*";
     /**
      * Specifies the icon color of the input's `clearable` element.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-icon-color": "*";
     /**
      * Specifies the icon color of the input's `clearable` element when hovered.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-icon-color-hover": "*";
     /**
      * Specifies the icon color of the input's `clearable` element when pressed.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-actions-icon-color-press": "*";
     /**
      * Specifies the background color of the Input's `loading` element, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-loading-background-color": "*";
     /**
      * Specifies the fill color of the Input's `loading` element, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-loading-fill-color": "*";
     /**
      * Specifies the text color of the Input's prefix, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-prefix-text-color": "*";
     /**
      * Specifies the text color of the Input's suffix, when present.
+     *
+     * @public
      */
     "--calcite-autocomplete-input-suffix-text-color": "*";
   }
 }
 
+/** @public */
 interface AutocompleteSlots {
   /**
    * A slot for adding `calcite-autocomplete-item` elements.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for adding content below `calcite-autocomplete-item` elements.
+   *
+   * @public
    */
   "content-bottom": Node[];
   /**
    * A slot for adding content above `calcite-autocomplete-item` elements.
+   *
+   * @public
    */
   "content-top": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
+/**
+ * @public
+ * @docGroup Autocomplete
+ */
 export class Autocomplete
   extends LitElement
   implements FloatingUIComponent, LabelableComponent, TextualInputComponent
 {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: AutocompleteSlots;
 
   //#endregion
@@ -190,7 +257,7 @@ export class Autocomplete
 
   static formAssociated = true;
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -215,16 +282,12 @@ export class Autocomplete
     inputType: "text",
   })(this);
 
-  private inputId = IDS.input(this.guid);
-
   labelEl?: Label["el"];
 
   private listId = IDS.list(this.guid);
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -236,9 +299,13 @@ export class Autocomplete
 
   private defaultSlotRef = createRef<HTMLSlotElement>();
 
+  private listboxRef = createRef<HTMLUListElement>();
+
+  private listboxOptionRefs = new Map<string, Ref<HTMLLIElement>>();
+
   private inputValueMatchPattern?: RegExp;
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private resizeObserver = createObserver("resize", () => {
     this.setFloatingElSize();
@@ -262,7 +329,7 @@ export class Autocomplete
 
   //#region State Properties
 
-  @state() activeDescendant = "";
+  @state() activeDescendantElement?: HTMLElement;
 
   @state() activeIndex = -1;
 
@@ -278,78 +345,125 @@ export class Autocomplete
 
   //#region Public Properties
 
-  /** Specifies the text alignment of the component's value. */
+  /**
+   * Specifies the text alignment of the component's value.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
    * Specifies the type of content to autocomplete, for use in forms.
    * Read the native attribute's documentation on MDN for more info.
    *
+   * @public
    * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
    */
   @property() autocomplete?: AutoFill;
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() flipPlacements?: FlipPlacement[];
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
   /**
    * When `true` or not set, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    *
    * To hide the default icon, set the property to `false` using JavaScript.
+   *
+   * @public
    */
   @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
 
-  /** When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl = false;
 
-  /** Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s. */
+  /**
+   * Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s.
+   *
+   * @public
+   */
   @property() inputValue?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** When `true`, a busy indicator is displayed. */
+  /**
+   * When `true`, a busy indicator is displayed.
+   *
+   * @public
+   */
   @property({ reflect: true }) loading = false;
 
   /**
    * When the component resides in a form,
    * specifies the maximum length of text for the component's value.
    *
+   * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
   @property({ reflect: true }) maxLength?: number;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the minimum length of text for the component's value.
    *
+   * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
   @property({ reflect: true }) minLength?: number;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - name](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#name)
    */
   @property({ reflect: true }) name?: string;
 
-  /** When `true`, displays and positions the component. */
+  /**
+   * When `true`, displays and positions the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
   /**
@@ -357,6 +471,7 @@ export class Autocomplete
    * specifies a regular expression (regex) pattern the component's `value` must match for validation.
    * Read the native attribute's documentation on MDN for more info.
    *
+   * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/pattern)
    */
   @property() pattern?: string;
@@ -364,21 +479,29 @@ export class Autocomplete
   /**
    * Specifies placeholder text for the component.
    *
+   * @public
    * @see [MDN - placeholder](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#placeholder)
    */
   @property() placeholder?: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
+   *
+   * @public
    */
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
-  /** Specifies the component's prefix text. */
+  /**
+   * Specifies the component's prefix text.
+   *
+   * @public
+   */
   @property() prefixText?: string;
 
   /**
    * When `true`, the component's value can be read, but cannot be modified.
    *
+   * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
   @property({ reflect: true }) readOnly = false;
@@ -386,39 +509,65 @@ export class Autocomplete
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** Specifies the status of the input field, which determines message and icons. */
+  /**
+   * Specifies the status of the input field, which determines message and icons.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the component's suffix text. */
+  /**
+   * Specifies the component's suffix text.
+   *
+   * @public
+   */
   @property() suffixText?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form. */
+  /**
+   * Specifies the value of the selected `autocomplete-item`. When the component resides in a form, the `value` is submitted with the form.
+   *
+   * @public
+   */
   @property() value = "";
 
   //#endregion
@@ -428,6 +577,7 @@ export class Autocomplete
   /**
    * Updates the position of the component.
    *
+   * @public
    * @param delayed - `true` if the placement should be updated after the component is finished rendering.
    */
   @method()
@@ -452,6 +602,7 @@ export class Autocomplete
   /**
    * Scrolls the component's content to a specified set of coordinates.
    *
+   * @public
    * @example
    * myAutocomplete.scrollContentTo({
    *   left: 0, // Specifies the number of pixels along the X axis to scroll the window or element.
@@ -468,6 +619,8 @@ export class Autocomplete
 
   /**
    * Selects the text of the component's `value`.
+   *
+   * @public
    */
   @method()
   async selectText(): Promise<void> {
@@ -477,8 +630,8 @@ export class Autocomplete
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -490,25 +643,53 @@ export class Autocomplete
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteAutocompleteBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteAutocompleteBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires each time a new `value` is typed and committed. */
+  /**
+   * Fires each time a new `value` is typed and committed.
+   *
+   * @public
+   */
   calciteAutocompleteChange = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteAutocompleteClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteAutocompleteOpen = createEvent({ cancelable: false });
 
-  /** Fires each time a new `inputValue` is typed and committed. */
+  /**
+   * Fires each time a new `inputValue` is typed and committed.
+   *
+   * @public
+   */
   calciteAutocompleteTextChange = createEvent({ cancelable: false });
 
-  /** Fires each time a new `inputValue` is typed. */
+  /**
+   * Fires each time a new `inputValue` is typed.
+   *
+   * @public
+   */
   calciteAutocompleteTextInput = createEvent({ cancelable: false });
 
   //#endregion
@@ -518,6 +699,8 @@ export class Autocomplete
   constructor() {
     super();
     useLabel(this);
+    this.listen("focusout", this.handleFocusOut);
+    this.listen("calciteInternalInputClear", this.handleInputClear);
     this.listen("calciteAutocompleteItemSelect", this.handleAutocompleteItemSelect);
     this.listen("calciteInternalAutocompleteItemChange", this.handleAutocompleteItemChange);
     this.listen(
@@ -580,6 +763,10 @@ export class Autocomplete
     ) {
       this.updateItems();
     }
+  }
+
+  override updated(): void {
+    this.syncActiveDescendantElement();
   }
 
   loaded(): void {
@@ -706,8 +893,6 @@ export class Autocomplete
   }
 
   private updateItems(): void {
-    let activeDescendant = "";
-
     if (this.value) {
       this.selectedItemsHandler();
     }
@@ -720,18 +905,47 @@ export class Autocomplete
     this.enabledItems.forEach((item, index) => {
       const isActive = index === this.activeIndex;
 
-      if (isActive) {
-        activeDescendant = item.guid;
-      }
-
       item.active = isActive;
     });
 
-    this.activeDescendant = activeDescendant;
+    this.syncActiveDescendantElement();
+  }
+
+  private syncActiveDescendantElement(): void {
+    const activeItem = this.enabledItems[this.activeIndex];
+    this.activeDescendantElement = activeItem
+      ? this.listboxOptionRefs.get(activeItem.guid)?.value
+      : undefined;
   }
 
   private handleInputFocus(): void {
     this.open = true;
+  }
+
+  private handleInputClear(): void {
+    this.open = true;
+  }
+
+  private handleFocusOut(event: FocusEvent): void {
+    if (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget)) {
+      return;
+    }
+
+    this.open = false;
+  }
+
+  private handleContentMouseDown(event: MouseEvent): void {
+    for (const target of event.composedPath()) {
+      if (target === event.currentTarget) {
+        break;
+      }
+
+      if (target instanceof Element && isFocusable(target, tabbableOptions)) {
+        return;
+      }
+    }
+
+    event.preventDefault();
   }
 
   private handleContentTopSlotChange(event: Event): void {
@@ -770,8 +984,30 @@ export class Autocomplete
 
     this.groups = groups;
     this.items = items;
+    this.removeStaleListboxOptionRefs(items);
     this.updateItems();
     this.updateGroups();
+  }
+
+  private removeStaleListboxOptionRefs(items: AutocompleteItem["el"][]): void {
+    const itemIds = new Set(items.map((item) => item.guid));
+
+    this.listboxOptionRefs.forEach((_optionRef, itemGuid) => {
+      if (!itemIds.has(itemGuid)) {
+        this.listboxOptionRefs.delete(itemGuid);
+      }
+    });
+  }
+
+  private getListboxOptionRef(item: AutocompleteItem["el"]): Ref<HTMLLIElement> {
+    let optionRef = this.listboxOptionRefs.get(item.guid);
+
+    if (!optionRef) {
+      optionRef = createRef<HTMLLIElement>();
+      this.listboxOptionRefs.set(item.guid, optionRef);
+    }
+
+    return optionRef;
   }
 
   private setReferenceEl(el: Input["el"]): void {
@@ -883,7 +1119,7 @@ export class Autocomplete
   //#region Rendering
 
   override render(): JsxNode {
-    const { disabled, listId, inputId, isOpen } = this;
+    const { disabled, isOpen } = this;
 
     const autofocus = this.el.autofocus;
     const enterKeyHint = this.el.enterKeyHint as LuminaJsx.HTMLElementTags["input"]["enterKeyHint"];
@@ -902,13 +1138,14 @@ export class Autocomplete
         <div class={CSS.inputContainer}>
           <calcite-input
             alignment={this.alignment}
-            aria-activedescendant={this.activeDescendant}
-            aria-controls={listId}
-            aria-label={getLabelText(this)}
-            aria-owns={listId}
-            ariaAutoComplete="list"
-            ariaExpanded={isOpen}
-            ariaHasPopup="listbox"
+            aria={{
+              activeDescendantElement: this.activeDescendantElement,
+              autoComplete: "list",
+              controlsElements: this.listboxRef.value ? [this.listboxRef.value] : undefined,
+              expanded: isOpen,
+              hasPopup: "listbox",
+              label: getLabelText(this),
+            }}
             autocomplete={this.autocomplete}
             autofocus={autofocus}
             class={CSS.input}
@@ -918,8 +1155,8 @@ export class Autocomplete
             form={this.form}
             icon={this.icon ?? true}
             iconFlipRtl={this.iconFlipRtl}
-            id={inputId}
             inputMode={inputMode}
+            inputRole="combobox"
             label={this.label}
             loading={this.loading}
             maxLength={this.maxLength}
@@ -937,7 +1174,6 @@ export class Autocomplete
             readOnly={this.readOnly}
             ref={this.setReferenceEl}
             required={this.required}
-            role="combobox"
             scale={this.scale}
             status={this.status}
             suffixText={this.suffixText}
@@ -962,7 +1198,10 @@ export class Autocomplete
               }}
               ref={this.transitionRef}
             >
-              <div class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}>
+              <div
+                class={{ [CSS.content]: true, [CSS.contentHidden]: !isOpen }}
+                onMouseDown={this.handleContentMouseDown}
+              >
                 <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
                 <slot
                   ariaHidden="true"
@@ -993,10 +1232,11 @@ export class Autocomplete
   private renderListBox(): JsxNode {
     return (
       <ul
-        aria-labelledby={this.inputId}
+        ariaLabel={getLabelText(this)}
         ariaLive="polite"
-        class={CSS.screenReadersOnly}
+        class={CSS_UTILITY.screenReaderText}
         id={this.listId}
+        ref={this.listboxRef}
         role="listbox"
         tabIndex={-1}
       >
@@ -1013,8 +1253,8 @@ export class Autocomplete
           ariaDisabled={item.disabled}
           ariaLabel={item.label}
           ariaSelected={item.selected}
-          id={item.guid}
           key={item.guid}
+          ref={this.getListboxOptionRef(item)}
           role="option"
           tabIndex="-1"
         >

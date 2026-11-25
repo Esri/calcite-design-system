@@ -17,15 +17,21 @@ export interface MoveDetail<
   relatedEl: Related;
 }
 
+/** @public */
 export interface DragDetail<
   To extends HTMLElement = HTMLElement,
   From extends HTMLElement = HTMLElement,
   Drag extends HTMLElement = HTMLElement,
 > {
+  /** @public */
   toEl: To;
+  /** @public */
   fromEl: From;
+  /** @public */
   dragEl: Drag;
+  /** @public */
   newIndex: number | undefined;
+  /** @public */
   oldIndex: number | undefined;
 }
 
@@ -96,7 +102,7 @@ export interface SortableComponentItem {
    * Notes:
    *
    * This property should use the `@property` decorator and reflect.
-   * This property should be used to set the `calcite-handle` disabled property.
+   * This property should be used to set the configured handle element's disabled property.
    */
   dragDisabled: boolean;
 }

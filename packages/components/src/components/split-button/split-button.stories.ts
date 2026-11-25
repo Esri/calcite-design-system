@@ -8,7 +8,8 @@ import "../dropdown-group/dropdown-group"; // Force Vite to statically trace the
 import "../dropdown-item/dropdown-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "./split-button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
-const { appearance, kind, placement, scale, width, iconType } = ATTRIBUTES;
+const { appearance, kind, placement, scale, iconType } = ATTRIBUTES;
+const widthOptions: SplitButton["width"][] = ["auto", "full"];
 
 type SplitButtonStoryArgs = Pick<
   SplitButton,
@@ -35,7 +36,7 @@ export default {
     appearance: appearance.defaultValue,
     kind: kind.defaultValue,
     scale: scale.defaultValue,
-    width: width.defaultValue,
+    width: widthOptions[0],
     loading: false,
     disabled: false,
     placement: "bottom-end",
@@ -60,7 +61,7 @@ export default {
       control: { type: "select" },
     },
     width: {
-      options: width.values,
+      options: widthOptions,
       control: { type: "select" },
     },
     placement: {
@@ -112,16 +113,6 @@ export const simple = (args: SplitButtonStoryArgs): string => html`
 export const allWidths = (): string => html`
   <div style="width:70vw;">
     <calcite-split-button primary-text="auto" width="auto">
-      <calcite-dropdown-group selection-mode="none" group-title="Veggies">
-        <calcite-dropdown-item>Pea</calcite-dropdown-item>
-        <calcite-dropdown-item>Parsnip</calcite-dropdown-item>
-        <calcite-dropdown-item>Radish</calcite-dropdown-item>
-        <calcite-dropdown-item>Tomato</calcite-dropdown-item>
-        <calcite-dropdown-item>Rutabaga</calcite-dropdown-item>
-        <calcite-dropdown-item>Bean</calcite-dropdown-item>
-      </calcite-dropdown-group>
-    </calcite-split-button>
-    <calcite-split-button primary-text="half width" width="half">
       <calcite-dropdown-group selection-mode="none" group-title="Veggies">
         <calcite-dropdown-item>Pea</calcite-dropdown-item>
         <calcite-dropdown-item>Parsnip</calcite-dropdown-item>

@@ -6,7 +6,6 @@ export const CSS = {
   dividerContainer: "divider-container",
   divider: "divider",
   widthAuto: "width-auto",
-  widthHalf: "width-half",
   widthFull: "width-full",
 };
 
@@ -15,8 +14,8 @@ export const SLOTS = {
 };
 
 export const ICONS: Record<string, IconName> = {
-  chevronDown: "chevronDown",
-  caretDown: "caretDown",
+  chevronDown: "chevron-down",
+  caretDown: "caret-down",
   ellipsis: "ellipsis",
   handleVertical: "handle-vertical",
 };

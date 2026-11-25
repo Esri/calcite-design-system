@@ -56,7 +56,7 @@ describe("defaults", () => {
         defaultValue: "dock",
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
     ],
@@ -67,10 +67,6 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-shell-panel"),
     [
-      {
-        propertyName: "widthScale",
-        value: "m",
-      },
       {
         propertyName: "width",
         value: "m",
@@ -469,7 +465,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
         <calcite-panel>Main content</calcite-panel>
         <calcite-shell-panel
-          display-mode="float"
+          display-mode="float-content"
           resizable
           slot="panel-end"
           style="--calcite-shell-panel-max-width: 100%;"
@@ -600,7 +596,7 @@ describe("shell-panel updateSize public method", () => {
         </calcite-shell-panel>
         <calcite-panel>Main content</calcite-panel>
         <calcite-shell-panel
-          display-mode="float"
+          display-mode="float-content"
           resizable
           slot="panel-bottom"
           style="--calcite-shell-panel-max-height: 100%;"

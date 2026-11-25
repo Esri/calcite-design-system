@@ -16,49 +16,62 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * When `type` is not `"indeterminate"` or `inline`, specifies the font size of the loading percentage.
+     *
+     * @public
      */
     "--calcite-loader-font-size": "*";
     /**
      * Specifies the component's width and height.
+     *
+     * @public
      */
     "--calcite-loader-size": "*";
     /**
-     * Specifies the width and height of the component when set to inline.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-loader-size` instead.
-     */
-    "--calcite-loader-size-inline": "*";
-    /**
      * Specifies the the component's padding.
+     *
+     * @public
      */
     "--calcite-loader-spacing": "*";
     /**
      * When `inline`, specifies the component's progress ring color.
+     *
+     * @public
      */
     "--calcite-loader-progress-color-inline": "*";
     /**
      * When not `inline`, specifies the component's `text` margin.
+     *
+     * @public
      */
     "--calcite-loader-text-spacing": "*";
     /**
      * When not `inline` and `text` is provided, specifies the component's `text` font weight.
+     *
+     * @public
      */
     "--calcite-loader-text-weight": "*";
     /**
      * When not `inline` and `text` is provided, specifies the component's `text` color.
+     *
+     * @public
      */
     "--calcite-loader-text-color": "*";
     /**
      * When not `inline`, specifies the component's progress ring color.
+     *
+     * @public
      */
     "--calcite-loader-progress-color": "*";
     /**
      * Specifies the component's track color.
+     *
+     * @public
      */
     "--calcite-loader-track-color": "*";
   }
 }
 
+/** @public */
 export class Loader extends LitElement {
   // #region Static Members
 
@@ -78,35 +91,52 @@ export class Loader extends LitElement {
 
   /**
    * Indicates whether the component is in a loading state.
-   *
-   * @private
    */
   @property({ reflect: true }) complete = false;
 
-  /** When `true`, the component displays smaller. */
+  /**
+   * When `true`, the component displays smaller.
+   *
+   * @public
+   */
   @property({ reflect: true }) inline = false;
 
   /**
+   * @public
    * @copyDoc
    * @required
    */
   @property() label!: string;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When not `inline`, displays text under the component's indicator. */
+  /**
+   * When not `inline`, displays text under the component's indicator.
+   *
+   * @public
+   */
   @property() text = "";
 
   /**
    * Specifies the component type.
    *
    * Use `"indeterminate"` if finding actual progress value is impossible. Otherwise, use `"determinate"` to have the value indicate the progress or `"determinate-value"` to have the value label displayed along the progress.
+   *
+   * @public
    */
   @property({ reflect: true }) type: "indeterminate" | "determinate" | "determinate-value" =
     "indeterminate";
 
-  /** The component's value. Valid only for `"determinate"` indicators. Percent complete of 100. */
+  /**
+   * The component's value. Valid only for `"determinate"` indicators. Percent complete of 100.
+   *
+   * @public
+   */
   @property() value = 0;
 
   // #endregion
@@ -195,6 +225,7 @@ export class Loader extends LitElement {
 
     const id = el.id || guid();
     const isDeterminate = type !== "indeterminate";
+    const hasValueLabel = type === "determinate-value";
 
     const valueNow = Math.floor(value);
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
@@ -215,7 +246,7 @@ export class Loader extends LitElement {
         <div class={CSS.rings}>
           {this.renderRing("track")}
           {this.renderRing("progress")}
-          {!inline && isDeterminate && <div class={CSS.percentage}>{this.formatValue()}</div>}
+          {!inline && hasValueLabel && <div class={CSS.percentage}>{this.formatValue()}</div>}
         </div>
         {!inline && text && <div class={CSS.text}>{text}</div>}
       </>

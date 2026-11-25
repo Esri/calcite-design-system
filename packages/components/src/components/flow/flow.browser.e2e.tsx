@@ -64,9 +64,9 @@ describe("accessible", () => {
   accessible(() =>
     mount(
       <calcite-flow>
-        <calcite-flow-item />
-        <calcite-flow-item />
-        <calcite-flow-item />
+        <calcite-flow-item heading="one" />
+        <calcite-flow-item heading="two" />
+        <calcite-flow-item heading="three" />
       </calcite-flow>,
     ),
   );

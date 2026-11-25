@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "解除",
   "hiddenSelected": "行が選択されましたが、見えなくなっています",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "ページ",
   "row": "行",
-  "selected": "選択済み"
+  "rowNumber": "Row number",
+  "selected": "選択済み",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

@@ -421,7 +421,7 @@ export const fixedHeightNoVerticalScrollbar = (): string => html`
 
 export const noVerticalScrollbarInsideShellPanel = (): string => html`
   <calcite-shell content-behind>
-    <calcite-shell-panel slot="panel-end" width-scale="l" position="end" display-mode="float">
+    <calcite-shell-panel slot="panel-end" width="l" position="end" display-mode="float-content">
       <calcite-panel heading="Panel with Tabs >> vertical scrollbar">
         <calcite-tabs>
           <calcite-tab-nav slot="title-group">
@@ -551,7 +551,7 @@ export const responsiveTabs = (): string =>
 export const paddingPropOverrideAtRootLevel = (): string => html`
   <style>
     :root {
-      --calcite-tab-content-block-padding: 0;
+      --calcite-tab-content-space-y: 0;
     }
   </style>
   <calcite-tabs>
@@ -572,7 +572,7 @@ export const paddingPropOverrideAtElementLevel = (): string => html`
       <calcite-tab-nav slot="title-group">
         <calcite-tab-title selected>Tab 1 Title</calcite-tab-title>
       </calcite-tab-nav>
-      <calcite-tab style="--calcite-tab-content-block-padding: 0;">
+      <calcite-tab style="--calcite-tab-content-space-y: 0;">
         <div>Tab 1 Content</div>
       </calcite-tab>
     </calcite-tabs>

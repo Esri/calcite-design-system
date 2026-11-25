@@ -1,19 +1,19 @@
 @use "../../styles/shared";
 
 :host {
-  @apply relative
-    block;
+  position: relative;
+  display: block;
 }
 
 .input-container {
-  @apply relative
-    flex
-    flex-auto
-    flex-nowrap;
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: nowrap;
 }
 
 .input {
-  @apply w-full;
+  inline-size: 100%;
 
   --calcite-input-prefix-size: var(--calcite-autocomplete-input-prefix-size);
   --calcite-input-suffix-size: var(--calcite-autocomplete-input-suffix-size);
@@ -45,8 +45,8 @@
 @include shared.disabled();
 
 .content-container {
-  @apply w-full
-    box-border;
+  inline-size: 100%;
+  box-sizing: border-box;
 }
 
 .floating-ui-container {
@@ -60,8 +60,8 @@
 @include shared.floating-ui-elem-anim(".floating-ui-container");
 
 .content-container .calcite-floating-ui-anim {
-  @apply overflow-y-auto
-    w-full;
+  overflow-y: auto;
+  inline-size: 100%;
   box-shadow: var(--calcite-shadow-md);
   max-block-size: var(--calcite-autocomplete-menu-max-size-y, theme("maxHeight.menu"));
   color: var(--calcite-autocomplete-text-color, var(--calcite-color-text-1));
@@ -83,10 +83,6 @@
   .floating-ui-container--active {
     border: 1px solid canvasText;
   }
-}
-
-.screen-readers-only {
-  @apply sr-only;
 }
 
 @include shared.form-internal-label();

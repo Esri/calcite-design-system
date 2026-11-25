@@ -2,7 +2,6 @@ packages\components\src\components\accordion-item\assets\t9n
 packages\components\src\components\action\assets\t9n
 packages\components\src\components\action-bar\assets\t9n
 packages\components\src\components\action-group\assets\t9n
-packages\components\src\components\action-pad\assets\t9n
 packages\components\src\components\alert\assets\t9n
 packages\components\src\components\autocomplete\assets\t9n
 packages\components\src\components\block\assets\t9n
@@ -18,7 +17,6 @@ packages\components\src\components\date-picker\assets\t9n
 packages\components\src\components\dialog\assets\t9n
 packages\components\src\components\filter\assets\t9n
 packages\components\src\components\flow-item\assets\t9n
-packages\components\src\components\handle\assets\t9n
 packages\components\src\components\inline-editable\assets\t9n
 packages\components\src\components\input\assets\t9n
 packages\components\src\components\input-date-picker\assets\t9n
@@ -48,7 +46,5 @@ packages\components\src\components\stepper-item\assets\t9n
 packages\components\src\components\tab-nav\assets\t9n
 packages\components\src\components\tab-title\assets\t9n
 packages\components\src\components\table\assets\t9n
-packages\components\src\components\table-cell\assets\t9n
-packages\components\src\components\table-header\assets\t9n
 packages\components\src\components\text-area\assets\t9n
 packages\components\src\components\time-picker\assets\t9n
