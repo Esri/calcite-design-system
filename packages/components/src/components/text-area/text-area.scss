@@ -2,6 +2,7 @@
 //
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
+// --calcite-internal-text-area-block-size
 // --calcite-internal-text-area-border-block-end-color
 // --calcite-internal-text-area-border-color
 // --calcite-internal-text-area-corner-radius
@@ -31,6 +32,7 @@
     --calcite-text-area-footer-background-color,
     var(--calcite-text-area-background-color, var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1)))
   );
+  --calcite-internal-text-area-block-size: inherit;
 
   // avoids host to shrink beyond the textarea
   min-block-size: var(
@@ -189,7 +191,7 @@
 }
 
 .text-area.text-area--only {
-  block-size: 100%;
+  block-size: var(--calcite-internal-text-area-block-size, 100%);
   min-block-size: var(--calcite-text-area-min-height, 0);
 }
 

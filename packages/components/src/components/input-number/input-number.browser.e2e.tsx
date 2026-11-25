@@ -24,6 +24,7 @@ import {
 import { numberStringFormatter } from "../../utils/locale";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
+import { CSS as ActionCSS } from "../action/resources";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
 import type { InputNumber } from "./input-number";
@@ -1595,6 +1596,27 @@ it("emits events when value is modified", async () => {
   expect(calciteInputNumberChange).toHaveBeenCalledTimes(3);
 });
 
+describe("prefix and suffix", () => {
+  it("does not apply an inline affix width when used standalone", async () => {
+    const { el } = await mount<InputNumber>(
+      <calcite-input-number prefix-text="prefix" suffix-text="suffix" />,
+    );
+    const prefix = page.getBySelector(`.${CSS.prefix}`);
+    const suffix = page.getBySelector(`.${CSS.suffix}`);
+
+    await expect.element(prefix).toBeInTheDocument();
+    await expect.element(suffix).toBeInTheDocument();
+    await expect.element(prefix).toHaveProperty("style.width", "");
+    await expect.element(suffix).toHaveProperty("style.width", "");
+
+    el.prefixText = undefined;
+    el.suffixText = undefined;
+
+    await expect.element(prefix).not.toBeInTheDocument();
+    await expect.element(suffix).not.toBeInTheDocument();
+  });
+});
+
 describe("theme", () => {
   describe("default", () => {
     themed(() => mount("calcite-input-number"), {
@@ -1704,6 +1726,10 @@ describe("theme", () => {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "inlineSize",
       },
+      "--calcite-input-suffix-size": {
+        shadowSelector: `.${CSS.suffix}`,
+        targetProp: "inlineSize",
+      },
       "--calcite-input-prefix-text-color": {
         shadowSelector: `.${CSS.prefix}`,
         targetProp: "color",
@@ -1711,10 +1737,6 @@ describe("theme", () => {
       "--calcite-input-suffix-text-color": {
         shadowSelector: `.${CSS.suffix}`,
         targetProp: "color",
-      },
-      "--calcite-input-suffix-size": {
-        shadowSelector: `.${CSS.suffix}`,
-        targetProp: "inlineSize",
       },
     });
   });
@@ -1794,36 +1816,38 @@ describe("theme", () => {
     themed(() => mount(<calcite-input-number clearable value="2" />), {
       "--calcite-input-actions-background-color": [
         {
-          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+          shadowSelector: `.${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
           targetProp: "backgroundColor",
         },
         {
-          shadowSelector: `.${CSS.clearButton} >>> .button`,
+          shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
           targetProp: "backgroundColor",
         },
       ],
       "--calcite-input-actions-background-color-hover": [
         {
-          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+          shadowSelector: `.${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
           targetProp: "backgroundColor",
           state: "hover",
         },
         {
-          shadowSelector: `.${CSS.clearButton} >>> .button`,
+          shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
           targetProp: "backgroundColor",
           state: "hover",
         },
       ],
       "--calcite-input-actions-background-color-press": [
         {
-          shadowSelector: `.${CSS.numberButtonItem} >>> .button`,
+          shadowSelector: `.${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: `calcite-input-number >>> .${CSS.numberButtonItem} >>> .button` },
+          state: {
+            press: `calcite-input-number >>> .${CSS.numberButtonItem} >>> .${ActionCSS.button}`,
+          },
         },
         {
-          shadowSelector: `.${CSS.clearButton} >>> .button`,
+          shadowSelector: `.${CSS.clearButton} >>> .${ActionCSS.button}`,
           targetProp: "backgroundColor",
-          state: { press: `calcite-input-number >>> .${CSS.clearButton} >>> .button` },
+          state: { press: `calcite-input-number >>> .${CSS.clearButton} >>> .${ActionCSS.button}` },
         },
       ],
       "--calcite-input-actions-icon-color": [
