@@ -135,7 +135,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) clearable = false;
+  @property() clearable = false;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
@@ -167,7 +167,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) maxItems = 0;
+  @property() maxItems = 0;
 
   /**
    * @public
@@ -184,7 +184,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) mode: TimeZoneMode = "offset";
+  @property() mode: TimeZoneMode = "offset";
 
   /**
    * @public
@@ -201,20 +201,20 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) offsetStyle: OffsetStyle = "user";
+  @property() offsetStyle: OffsetStyle = "user";
 
   /**
    * When `true`, displays and positions the component.
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies placeholder text for the component.
@@ -229,7 +229,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) readOnly = false;
+  @property() readOnly = false;
 
   /**
    * This `date` will be used as a reference to Daylight Savings Time when creating time zone item groups.
@@ -245,7 +245,7 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * When `true` and the component resides in a form,
    * the component must have a `value` in order for the form to submit.
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -266,14 +266,14 @@ export class InputTimeZone extends LitElement implements LabelableComponent {
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   /**
    * Specifies the validation icon to display under the component.
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

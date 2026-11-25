@@ -91,14 +91,17 @@ describe("reflects", () => {
       {
         propertyName: "columns",
         value: "10",
+        reflect: false,
       },
       {
         propertyName: "limitText",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "rows",
         value: "50",
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -111,6 +114,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -255,5 +259,5 @@ it("does not grow textarea height on repeated key presses", async () => {
 
   const finalHeight = textArea.element().getBoundingClientRect().height;
   expect(Math.abs(finalHeight - initialHeight)).toBeLessThanOrEqual(1);
-  expect(el.value).toBe("aaaaaaaaaa");
+  await expect.element(el).toHaveProperty("value", "aaaaaaaaaa");
 });

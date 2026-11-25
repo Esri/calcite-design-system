@@ -274,14 +274,14 @@ describe("Escape key closing", () => {
     el,
     insideButton,
   }: Awaited<ReturnType<typeof setUpEscapeCloseTest>>) {
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.click(insideButton);
     await expect.element(insideButton).toHaveFocus();
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   }
 
   it.each(defaultCases)("closes from inside for $testName", async (testCase) => {
@@ -337,19 +337,19 @@ describe("modal", () => {
     await openEvent;
 
     expect(document.documentElement.style.overflow).toBe("hidden");
-    expect(el.ariaModal).toBe("true");
+    await expect.element(el).toHaveProperty("ariaModal", "true");
     expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
 
     el.modal = false;
 
     await expect.poll(() => document.documentElement.style.overflow).not.toBe("hidden");
-    expect(el.ariaModal).toBe("false");
+    await expect.element(el).toHaveProperty("ariaModal", "false");
     expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
 
     el.modal = true;
 
     await expect.poll(() => document.documentElement.style.overflow).toBe("hidden");
-    expect(el.ariaModal).toBe("true");
+    await expect.element(el).toHaveProperty("ariaModal", "true");
     expect(el.shadowRoot.querySelector("calcite-scrim")).not.toBeNull();
 
     el.open = false;
@@ -371,7 +371,7 @@ describe("modal", () => {
     );
     await openEvent;
 
-    expect(el.ariaModal).toBe("false");
+    await expect.element(el).toHaveProperty("ariaModal", "false");
     expect(el.shadowRoot.querySelector("calcite-scrim")).toBeNull();
     expect(document.documentElement.style.overflow).not.toBe("hidden");
     expect(getComputedStyle(el).pointerEvents).toBe("none");
@@ -382,7 +382,7 @@ describe("modal", () => {
     await userEvent.click(outsideButton);
 
     await expect.element(outsideButton).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("allows focus to leave when focusTrapDisabled is true", async () => {
@@ -418,7 +418,7 @@ describe("modal", () => {
     );
     await openEvent;
 
-    expect(el.ariaModal).toBe("true");
+    await expect.element(el).toHaveProperty("ariaModal", "true");
     const insideButton = page.getByRole("button", { name: "inside" });
     const outsideButton = page.getByRole("button", { name: "outside" });
     await userEvent.click(insideButton);
@@ -490,10 +490,12 @@ describe("reflects", () => {
       {
         propertyName: "height",
         value: "m",
+        reflect: false,
       },
       {
         propertyName: "heightScale",
         value: "m",
+        reflect: false,
       },
       {
         propertyName: "modal",
@@ -506,10 +508,12 @@ describe("reflects", () => {
       {
         propertyName: "width",
         value: "m",
+        reflect: false,
       },
       {
         propertyName: "widthScale",
         value: "m",
+        reflect: false,
       },
     ],
   );

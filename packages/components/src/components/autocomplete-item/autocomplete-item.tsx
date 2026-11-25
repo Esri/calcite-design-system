@@ -121,25 +121,25 @@ export class AutocompleteItem extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconEnd?: IconName;
+  @property() iconEnd?: IconName;
 
   /**
    * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   /**
    * Pattern for highlighting text matches.
    */
-  @property({ reflect: true }) inputValueMatchPattern?: RegExp;
+  @property() inputValueMatchPattern?: RegExp;
 
   /**
    * @public

@@ -175,7 +175,7 @@ export class Shell extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) contentBehind = false;
+  @property() contentBehind = false;
 
   // #endregion
 

@@ -79,7 +79,7 @@ export class Scrim extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * @public

@@ -5,6 +5,8 @@ import { camelToKebab as propToAttr } from "@arcgis/toolkit/string";
 type ReflectProps<E extends HTMLElement> = Array<{
   propertyName: Extract<keyof E, string>;
   value: E[Extract<keyof E, string>];
+  /** Whether property updates should also update the host attribute. */
+  reflect?: boolean;
 }>;
 
 type ShorthandReflectProps<E extends HTMLElement> = {
@@ -12,16 +14,17 @@ type ShorthandReflectProps<E extends HTMLElement> = {
 };
 
 /**
- * Helper for asserting that a component reflects
+ * Helper for asserting whether component properties reflect to host attributes.
  *
  * Note that this helper should be used within a describe block.
  *
  * @example
  * describe("reflects", () => {
- *   reflects("calcite-action-bar", [
+ *   reflects(() => mount("calcite-action-bar"), [
  *     {
  *       propertyName: "expandToggleDisabled",
- *       value: true
+ *       value: true,
+ *       reflect: false
  *     },
  *     {
  *       propertyName: "expanded",
@@ -32,8 +35,7 @@ type ShorthandReflectProps<E extends HTMLElement> = {
  *
  * @example <caption>using shorthand</caption>
  * describe("reflects", () => {
- *   reflects("calcite-action-bar", {
- *     expandToggleDisabled: true,
+ *   reflects(() => mount("calcite-action-bar"), {
  *     expanded: true
  *    });
  * });
@@ -47,35 +49,42 @@ export function reflects<
     : (Object.keys(propsToTest) as Extract<keyof ElementProps, string>[]).map((propertyName) => ({
         propertyName,
         value: propsToTest[propertyName],
+        reflect: true,
       }));
-  const cases = propValuePairs.map(({ propertyName, value }) => [propertyName, value] as const);
+  const cases = propValuePairs.map(
+    ({ propertyName, value, reflect = true }) => [propertyName, value, reflect] as const,
+  );
 
-  it.each(cases)("%s", async (propertyName, value) => {
+  it.each(cases.filter(([, , reflect]) => !reflect))("%s does not reflect", async (propertyName, value) => {
+    const { el, reRender } = await setUp();
+    Object.assign(el, { [propertyName]: value });
+    await reRender();
+    await expect.element(el).not.toHaveAttribute(propToAttr(propertyName));
+  });
+
+  it.each(cases.filter(([, , reflect]) => reflect))("%s", async (propertyName, value) => {
     const { el: setupEl, reRender } = await setUp();
     const el = setupEl as ElementProps;
     const attrName = propToAttr(propertyName);
 
     Object.assign(el, { [propertyName]: value });
     await reRender();
-
-    const matches = el.matches(`[${attrName}]`);
-    expect(matches).toBe(true);
-
-    if (typeof value === "boolean") {
-      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-      const negated = !value;
-
-      Object.assign(el, { [propertyName]: negated });
-      await reRender();
-
-      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
-      expect(el.getAttribute(attrName)).toBe(getExpectedValue(negated));
-
-      Object.assign(el, { [propertyName]: value });
-      await reRender();
-
-      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
-      expect(el.getAttribute(attrName)).toBe(getExpectedValue(value));
-    }
+    await expect.element(el).toHaveAttribute(attrName);
   });
+
+  it.each(cases.filter(([, value, reflect]) => reflect && typeof value === "boolean"))(
+    "%s reflects boolean changes",
+    async (propertyName) => {
+      const { el, reRender } = await setUp();
+      const attrName = propToAttr(propertyName);
+
+      Object.assign(el, { [propertyName]: false });
+      await reRender();
+      await expect.element(el).not.toHaveAttribute(attrName);
+
+      Object.assign(el, { [propertyName]: true });
+      await reRender();
+      await expect.element(el).toHaveAttribute(attrName, "");
+    },
+  );
 }

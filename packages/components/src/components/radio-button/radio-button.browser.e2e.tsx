@@ -97,7 +97,7 @@ describe("reflects", () => {
       { propertyName: "focused", value: true },
       { propertyName: "hidden", value: true },
       { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
+      { propertyName: "required", value: true, reflect: false },
       { propertyName: "scale", value: "m" },
     ],
   );

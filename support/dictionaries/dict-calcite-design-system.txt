@@ -27,6 +27,7 @@ createelement
 
 ## events
 formdata
+oncalcite
 
 ## frameworks/libs
 preact

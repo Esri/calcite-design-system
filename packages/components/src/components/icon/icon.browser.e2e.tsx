@@ -26,8 +26,8 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-icon"),
     [
-      { propertyName: "flipRtl", value: true },
-      { propertyName: "preload", value: true },
+      { propertyName: "flipRtl", value: true, reflect: false },
+      { propertyName: "preload", value: true, reflect: false },
       { propertyName: "scale", value: "m" },
     ],
   );

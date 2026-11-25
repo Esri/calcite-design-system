@@ -141,6 +141,7 @@ describe("reflects", () => {
       {
         propertyName: "expandToggleDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expanded",
@@ -153,14 +154,17 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+        reflect: false,
       },
       {
         propertyName: "selectionAppearance",
         value: "neutral",
+        reflect: false,
       },
       {
         propertyName: "expandPosition",
         value: "start",
+        reflect: false,
       },
       {
         propertyName: "overflowMode",
@@ -259,22 +263,22 @@ describe("selection-mode", () => {
       .elements() as Action["el"][];
 
     await userEvent.click(action1);
-    expect(document.activeElement).toBe(action1);
+    await expect.poll(() => document.activeElement).toBe(action1);
 
     await userEvent.keyboard("{ArrowRight}");
-    expect(document.activeElement).toBe(action2);
+    await expect.poll(() => document.activeElement).toBe(action2);
 
     await userEvent.keyboard("{ArrowLeft}");
-    expect(document.activeElement).toBe(action1);
+    await expect.poll(() => document.activeElement).toBe(action1);
 
     await userEvent.keyboard("{End}");
-    expect(document.activeElement).toBe(action3);
+    await expect.poll(() => document.activeElement).toBe(action3);
 
     await userEvent.keyboard("{Home}");
-    expect(document.activeElement).toBe(action1);
+    await expect.poll(() => document.activeElement).toBe(action1);
 
     await userEvent.keyboard("{Enter}");
-    expect(action1.active).toBe(true);
+    await expect.element(action1).toHaveProperty("active", true);
   });
 
   it("preserves four-arrow grid navigation for selection-mode none actions", async () => {
@@ -385,28 +389,28 @@ describe("selection-mode", () => {
       .elements() as Action["el"][];
 
     await userEvent.click(action1);
-    expect(action1.active).toBe(true);
-    expect(action2.active).toBe(false);
+    await expect.element(action1).toHaveProperty("active", true);
+    await expect.element(action2).toHaveProperty("active", false);
 
     await userEvent.click(action1);
-    expect(action1.active).toBe(true);
-    expect(action2.active).toBe(false);
+    await expect.element(action1).toHaveProperty("active", true);
+    await expect.element(action2).toHaveProperty("active", false);
 
     await userEvent.click(action2);
-    expect(action1.active).toBe(false);
-    expect(action2.active).toBe(true);
+    await expect.element(action1).toHaveProperty("active", false);
+    await expect.element(action2).toHaveProperty("active", true);
 
     await userEvent.click(action3);
-    expect(action3.active).toBe(true);
-    expect(action4.active).toBe(false);
+    await expect.element(action3).toHaveProperty("active", true);
+    await expect.element(action4).toHaveProperty("active", false);
 
     await userEvent.click(action4);
-    expect(action3.active).toBe(true);
-    expect(action4.active).toBe(true);
+    await expect.element(action3).toHaveProperty("active", true);
+    await expect.element(action4).toHaveProperty("active", true);
 
     await userEvent.click(action4);
-    expect(action3.active).toBe(true);
-    expect(action4.active).toBe(false);
+    await expect.element(action3).toHaveProperty("active", true);
+    await expect.element(action4).toHaveProperty("active", false);
   });
 });
 
@@ -841,7 +845,7 @@ describe("overflowing actions", () => {
     await userEvent.click(overflowAction);
 
     await expect.element(overflowAction).toHaveProperty("active", false);
-    expect(actionGroup.menuOpen).toBe(false);
+    await expect.element(actionGroup).toHaveProperty("menuOpen", false);
   });
 
   it("overflows actions from slotted actions-end groups", async () => {
@@ -1000,7 +1004,7 @@ describe("per-group overflow-actions-disabled", () => {
       .getBySelector("action-bar-test-wrapper > calcite-action")
       .elements() as Action["el"][];
 
-    expect(group.actions).toHaveLength(4);
+    await expect.element(group).toHaveProperty("actions.length", 4);
     expect(projectedActions.every((action) => action.parentElement === component)).toBe(true);
 
     overflowActions({ actionGroups: [group], expanded: false, overflowCount: 10 });
@@ -1223,20 +1227,20 @@ describe("per-group overflow-actions-disabled", () => {
       .getBySelector("calcite-action-group")
       .elements() as ActionGroup["el"][];
 
-    expect(group1.overflowActionsDisabled).toBe(true);
-    expect(group2.overflowActionsDisabled).toBe(false);
+    await expect.element(group1).toHaveProperty("overflowActionsDisabled", true);
+    await expect.element(group2).toHaveProperty("overflowActionsDisabled", false);
 
     // Enable bar-level disable — groups are never touched
     el.overflowActionsDisabled = true;
     await component.updateComplete;
-    expect(group1.overflowActionsDisabled).toBe(true);
-    expect(group2.overflowActionsDisabled).toBe(false);
+    await expect.element(group1).toHaveProperty("overflowActionsDisabled", true);
+    await expect.element(group2).toHaveProperty("overflowActionsDisabled", false);
 
     // Remove bar-level disable — group settings are preserved (restore semantic)
     el.overflowActionsDisabled = false;
     await component.updateComplete;
-    expect(group1.overflowActionsDisabled).toBe(true);
-    expect(group2.overflowActionsDisabled).toBe(false);
+    await expect.element(group1).toHaveProperty("overflowActionsDisabled", true);
+    await expect.element(group2).toHaveProperty("overflowActionsDisabled", false);
   });
   it("keeps actions tabbable when tabbing out", async () => {
     await mount(
@@ -1257,7 +1261,7 @@ describe("per-group overflow-actions-disabled", () => {
     await expect.element(actions.nth(2)).toHaveFocus();
 
     await userEvent.keyboard("{Tab}");
-    expect(document.body).toHaveFocus();
+    await expect.element(document.body).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
     await expect.element(actions.nth(2)).toHaveFocus();
@@ -1266,7 +1270,7 @@ describe("per-group overflow-actions-disabled", () => {
     await expect.element(actions.nth(0)).toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}{Shift/}");
-    expect(document.body).toHaveFocus();
+    await expect.element(document.body).toHaveFocus();
   });
 
   it("maintains a roving tab index across navigation items", async () => {
@@ -1443,7 +1447,7 @@ describe("per-group overflow-actions-disabled", () => {
     await expect.element(actionMenu).toHaveFocus();
 
     await userEvent.keyboard("{Enter}");
-    expect(actionMenu.open).toBe(true);
+    await expect.element(actionMenu).toHaveProperty("open", true);
   });
 
   it("reserves primary-axis arrows for navigation from a default-placement action menu", async () => {
@@ -1662,9 +1666,7 @@ describe("overflow-disabled actions", () => {
     overflowDisabledAction.overflowDisabled = true;
     overflowActions({ actionGroups: groups, expanded: false, overflowCount: 2 });
 
-    await expect
-      .element(page.getBySelector("calcite-action[overflow-disabled]"))
-      .not.toHaveAttribute("slot");
+    await expect.element(overflowDisabledAction).not.toHaveAttribute("slot");
   });
 });
 
@@ -1886,7 +1888,7 @@ describe("slot-change action tracking", () => {
       "calcite-action-bar > calcite-action-group > calcite-action",
     );
 
-    expect(group.actions).toEqual([]);
+    await expect.element(group).toHaveProperty("actions", []);
 
     group.innerHTML = `
       <calcite-action icon="plus" text="Add"></calcite-action>
@@ -1899,9 +1901,9 @@ describe("slot-change action tracking", () => {
     const action2 = actions.nth(1).element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(group.actions).toEqual([action1, action2]);
-    expect(action1.selectionAppearance).toBe("highlight");
-    expect(action2.selectionAppearance).toBe("highlight");
+    await expect.element(group).toHaveProperty("actions", [action1, action2]);
+    await expect.element(action1).toHaveProperty("selectionAppearance", "highlight");
+    await expect.element(action2).toHaveProperty("selectionAppearance", "highlight");
   });
 
   it("requests overflow recomputation when an action-group's actions change", async () => {
@@ -1948,7 +1950,7 @@ describe("slot-change action tracking", () => {
       .getBySelector("calcite-action-bar > calcite-action-menu")
       .element() as ActionMenu["el"];
 
-    expect(menu.actions).toEqual([]);
+    await expect.element(menu).toHaveProperty("actions", []);
 
     menu.innerHTML = `
       <calcite-action icon="ellipsis" slot="trigger" text="Open"></calcite-action>
@@ -1965,11 +1967,11 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(menu.actions).toHaveLength(2);
+    await expect.element(menu).toHaveProperty("actions.length", 2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(menu.actions[1]).toBe(menuAction);
-    expect(triggerAction.selectionAppearance).toBe("highlight");
-    expect(menuAction.selectionAppearance).toBe("highlight");
+    await expect.element(triggerAction).toHaveProperty("selectionAppearance", "highlight");
+    await expect.element(menuAction).toHaveProperty("selectionAppearance", "highlight");
   });
 
   it("updates slotted action state when an actions-start action-menu emits an actions change event", async () => {
@@ -1989,7 +1991,7 @@ describe("slot-change action tracking", () => {
       .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-start']")
       .element() as ActionMenu["el"];
 
-    expect(menu.actions).toEqual([]);
+    await expect.element(menu).toHaveProperty("actions", []);
 
     menu.innerHTML = `
       <calcite-action icon="ellipsis" slot="trigger" text="Open"></calcite-action>
@@ -2010,11 +2012,11 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(menu.actions).toHaveLength(2);
+    await expect.element(menu).toHaveProperty("actions.length", 2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(menu.actions[1]).toBe(menuAction);
-    expect(triggerAction.selectionAppearance).toBe("highlight");
-    expect(menuAction.selectionAppearance).toBe("highlight");
+    await expect.element(triggerAction).toHaveProperty("selectionAppearance", "highlight");
+    await expect.element(menuAction).toHaveProperty("selectionAppearance", "highlight");
   });
 
   it("updates slotted action state when an actions-end action-menu emits an actions change event", async () => {
@@ -2034,7 +2036,7 @@ describe("slot-change action tracking", () => {
       .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-end']")
       .element() as ActionMenu["el"];
 
-    expect(menu.actions).toEqual([]);
+    await expect.element(menu).toHaveProperty("actions", []);
 
     menu.innerHTML = `
       <calcite-action icon="ellipsis" slot="trigger" text="Open"></calcite-action>
@@ -2055,11 +2057,11 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     expect(actionsChange).toHaveBeenCalled();
-    expect(menu.actions).toHaveLength(2);
+    await expect.element(menu).toHaveProperty("actions.length", 2);
     expect(menu.actions[0]).toBe(triggerAction);
     expect(menu.actions[1]).toBe(menuAction);
-    expect(triggerAction.selectionAppearance).toBe("highlight");
-    expect(menuAction.selectionAppearance).toBe("highlight");
+    await expect.element(triggerAction).toHaveProperty("selectionAppearance", "highlight");
+    await expect.element(menuAction).toHaveProperty("selectionAppearance", "highlight");
   });
 
   it("closes default-slot group menu when a slotted actions-start group menu opens", async () => {
@@ -2162,11 +2164,11 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     await userEvent.click(triggerOne);
-    expect(menuOne.open).toBe(true);
+    await expect.element(menuOne).toHaveProperty("open", true);
 
     await userEvent.click(triggerTwo);
-    expect(menuTwo.open).toBe(true);
-    expect(menuOne.open).toBe(false);
+    await expect.element(menuTwo).toHaveProperty("open", true);
+    await expect.element(menuOne).toHaveProperty("open", false);
   });
 
   it("closes default-slot action-menu when an actions-start action-menu opens", async () => {
@@ -2201,11 +2203,11 @@ describe("slot-change action tracking", () => {
       .element() as Action["el"];
 
     await userEvent.click(defaultTrigger);
-    expect(defaultMenu.open).toBe(true);
+    await expect.element(defaultMenu).toHaveProperty("open", true);
 
     await userEvent.click(startTrigger);
-    expect(startMenu.open).toBe(true);
-    expect(defaultMenu.open).toBe(false);
+    await expect.element(startMenu).toHaveProperty("open", true);
+    await expect.element(defaultMenu).toHaveProperty("open", false);
   });
 
   it("updates actions when actions are slotted through a shadow wrapper", async () => {
@@ -2228,7 +2230,7 @@ describe("slot-change action tracking", () => {
     const action1 = actions.nth(0).element() as Action["el"];
     const action2 = actions.nth(1).element() as Action["el"];
 
-    expect(group.actions).toHaveLength(2);
+    await expect.element(group).toHaveProperty("actions.length", 2);
     expect(group.actions[0]).toBe(action1);
     expect(group.actions[1]).toBe(action2);
 
@@ -2238,7 +2240,7 @@ describe("slot-change action tracking", () => {
     await userEvent.keyboard("{ArrowRight}");
     await expect.element(actions.nth(1)).toHaveFocus();
 
-    expect(actionBar.expanded).toBe(false);
+    await expect.element(actionBar).toHaveProperty("expanded", false);
   });
 
   it("syncs layout to actions-start and actions-end groups", async () => {
@@ -2254,14 +2256,14 @@ describe("slot-change action tracking", () => {
     const getEndGroup = (): ActionGroup["el"] =>
       page.getBySelector("calcite-action-bar .action-group--end").element() as ActionGroup["el"];
 
-    expect(getStartGroup().layout).toBe("vertical");
-    expect(getEndGroup().layout).toBe("vertical");
+    await expect.element(getStartGroup()).toHaveProperty("layout", "vertical");
+    await expect.element(getEndGroup()).toHaveProperty("layout", "vertical");
 
     el.layout = "horizontal";
     await reRender();
 
-    expect(getStartGroup().layout).toBe("horizontal");
-    expect(getEndGroup().layout).toBe("horizontal");
+    await expect.element(getStartGroup()).toHaveProperty("layout", "horizontal");
+    await expect.element(getEndGroup()).toHaveProperty("layout", "horizontal");
   });
 
   it("syncs layout and scale to slotted groups in actions-start and actions-end", async () => {
@@ -2285,19 +2287,19 @@ describe("slot-change action tracking", () => {
         .getBySelector("calcite-action-bar > calcite-action-group[slot='actions-end']")
         .element() as ActionGroup["el"];
 
-    expect(getSlottedStartGroup().layout).toBe("vertical");
-    expect(getSlottedEndGroup().layout).toBe("vertical");
-    expect(getSlottedStartGroup().scale).toBe("m");
-    expect(getSlottedEndGroup().scale).toBe("m");
+    await expect.element(getSlottedStartGroup()).toHaveProperty("layout", "vertical");
+    await expect.element(getSlottedEndGroup()).toHaveProperty("layout", "vertical");
+    await expect.element(getSlottedStartGroup()).toHaveProperty("scale", "m");
+    await expect.element(getSlottedEndGroup()).toHaveProperty("scale", "m");
 
     el.layout = "horizontal";
     el.scale = "l";
     await reRender();
 
-    expect(getSlottedStartGroup().layout).toBe("horizontal");
-    expect(getSlottedEndGroup().layout).toBe("horizontal");
-    expect(getSlottedStartGroup().scale).toBe("l");
-    expect(getSlottedEndGroup().scale).toBe("l");
+    await expect.element(getSlottedStartGroup()).toHaveProperty("layout", "horizontal");
+    await expect.element(getSlottedEndGroup()).toHaveProperty("layout", "horizontal");
+    await expect.element(getSlottedStartGroup()).toHaveProperty("scale", "l");
+    await expect.element(getSlottedEndGroup()).toHaveProperty("scale", "l");
   });
 
   it("syncs expanded state to action-menus in actions-start and actions-end", async () => {
@@ -2323,20 +2325,20 @@ describe("slot-change action tracking", () => {
         .getBySelector("calcite-action-bar > calcite-action-menu[slot='actions-end']")
         .element() as ActionMenu["el"];
 
-    expect(getStartMenu().expanded).toBe(false);
-    expect(getEndMenu().expanded).toBe(false);
+    await expect.element(getStartMenu()).toHaveProperty("expanded", false);
+    await expect.element(getEndMenu()).toHaveProperty("expanded", false);
 
     el.expanded = true;
     await reRender();
 
-    expect(getStartMenu().expanded).toBe(true);
-    expect(getEndMenu().expanded).toBe(true);
+    await expect.element(getStartMenu()).toHaveProperty("expanded", true);
+    await expect.element(getEndMenu()).toHaveProperty("expanded", true);
 
     el.expanded = false;
     await reRender();
 
-    expect(getStartMenu().expanded).toBe(false);
-    expect(getEndMenu().expanded).toBe(false);
+    await expect.element(getStartMenu()).toHaveProperty("expanded", false);
+    await expect.element(getEndMenu()).toHaveProperty("expanded", false);
   });
 
   it("syncs expanded state when expand-toggle-disabled is true", async () => {
@@ -2358,19 +2360,19 @@ describe("slot-change action tracking", () => {
       .element() as ActionMenu["el"];
 
     expect(action?.textEnabled).toBe(false);
-    expect(startMenu.expanded).toBe(false);
+    await expect.element(startMenu).toHaveProperty("expanded", false);
 
     el.expanded = true;
     await reRender();
 
     expect(action?.textEnabled).toBe(true);
-    expect(startMenu.expanded).toBe(true);
+    await expect.element(startMenu).toHaveProperty("expanded", true);
 
     el.expanded = false;
     await reRender();
 
     expect(action?.textEnabled).toBe(false);
-    expect(startMenu.expanded).toBe(false);
+    await expect.element(startMenu).toHaveProperty("expanded", false);
   });
 
   it("applies expanded state to child actions when expanded is toggled", async () => {
@@ -2390,41 +2392,43 @@ describe("slot-change action tracking", () => {
     const actionBarAction = page.getBySelector("#my-action").element() as Action["el"];
     const menuAction = page.getBySelector("#menu-action").element() as Action["el"];
 
-    expect(el.expanded).toBe(false);
-    expect(actionBarAction.textEnabled).toBe(false);
-    expect(menuAction.textEnabled).toBe(true);
+    await expect.element(el).toHaveProperty("expanded", false);
+    await expect.element(actionBarAction).toHaveProperty("textEnabled", false);
+    await expect.element(menuAction).toHaveProperty("textEnabled", true);
 
     el.expanded = true;
     await reRender();
 
-    expect(actionBarAction.textEnabled).toBe(true);
-    expect(menuAction.textEnabled).toBe(true);
+    await expect.element(actionBarAction).toHaveProperty("textEnabled", true);
+    await expect.element(menuAction).toHaveProperty("textEnabled", true);
 
     el.expanded = false;
     await reRender();
 
-    expect(menuAction.textEnabled).toBe(true);
-    expect(actionBarAction.textEnabled).toBe(false);
+    await expect.element(menuAction).toHaveProperty("textEnabled", true);
+    await expect.element(actionBarAction).toHaveProperty("textEnabled", false);
   });
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
-  const { el, reRender } = await mount<ActionBar>(<calcite-action-bar />);
-  const expandSpy = vi.fn();
   const collapseSpy = vi.fn();
-
-  el.addEventListener("calciteActionBarExpand", expandSpy);
-  el.addEventListener("calciteActionBarCollapse", collapseSpy);
+  const expandSpy = vi.fn();
+  const { el, reRender } = await mount<ActionBar>(
+    <calcite-action-bar
+      oncalciteActionBarCollapse={collapseSpy}
+      oncalciteActionBarExpand={expandSpy}
+    />,
+  );
 
   el.expanded = true;
   await reRender();
-  expect(el.expanded).toBe(true);
+  await expect.element(el).toHaveProperty("expanded", true);
   expect(expandSpy).toHaveBeenCalledTimes(1);
   expect(collapseSpy).toHaveBeenCalledTimes(0);
 
   el.expanded = false;
   await reRender();
-  expect(el.expanded).toBe(false);
+  await expect.element(el).toHaveProperty("expanded", false);
   expect(expandSpy).toHaveBeenCalledTimes(1);
   expect(collapseSpy).toHaveBeenCalledTimes(1);
 });

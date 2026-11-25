@@ -528,21 +528,21 @@ export class Input
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * When `true`, displays a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * @public
@@ -561,7 +561,7 @@ export class Input
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When `true`, uses locale formatting for numbers.
@@ -575,7 +575,7 @@ export class Input
    * @public
    * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @property({ reflect: true }) max?: number;
+  @property() max?: number;
 
   /**
    * When the component resides in a form,
@@ -584,7 +584,7 @@ export class Input
    * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @property({ reflect: true }) maxLength?: number;
+  @property() maxLength?: number;
 
   /**
    * @public
@@ -599,7 +599,7 @@ export class Input
    * @public
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @property({ reflect: true }) min?: number;
+  @property() min?: number;
 
   /**
    * When the component resides in a form,
@@ -608,7 +608,7 @@ export class Input
    * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @property({ reflect: true }) minLength?: number;
+  @property() minLength?: number;
 
   /**
    * When `true` and `type` is `"email"` or `"file"`, the component can accept more than one value.
@@ -638,7 +638,7 @@ export class Input
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * When the component resides in a form,
@@ -679,7 +679,7 @@ export class Input
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -701,7 +701,7 @@ export class Input
    * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @property({ reflect: true }) step?: number | "any";
+  @property() step?: number | "any";
 
   /**
    * Specifies text to display at the end of the component.
@@ -739,7 +739,7 @@ export class Input
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

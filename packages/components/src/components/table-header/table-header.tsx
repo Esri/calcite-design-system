@@ -90,7 +90,7 @@ export class TableHeader extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) colSpan?: number;
+  @property() colSpan?: number;
 
   /**
    * @public
@@ -125,7 +125,7 @@ export class TableHeader extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) rowSpan?: number;
+  @property() rowSpan?: number;
 
   @property() scale!: Scale;
 

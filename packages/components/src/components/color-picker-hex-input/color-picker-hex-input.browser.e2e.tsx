@@ -176,6 +176,7 @@ describe("reflects", () => {
       {
         propertyName: "value",
         value: "#ffffff",
+        reflect: false,
       },
     ],
   );
@@ -339,9 +340,13 @@ describe("input validation", () => {
 });
 
 it("emits an event when the color changes via user interaction and not programmatically", async () => {
-  const mounted = await mountInput("#b33f33");
   const changeHandler = vi.fn();
-  mounted.el.addEventListener("calciteColorPickerHexInputChange", changeHandler);
+  const mounted = await mount<ColorPickerHexInput>(
+    <calcite-color-picker-hex-input
+      oncalciteColorPickerHexInputChange={changeHandler}
+      value="#b33f33"
+    />,
+  );
 
   await setValue(mounted, "#abcdef");
 

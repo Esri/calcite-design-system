@@ -85,13 +85,13 @@ describe("reflects", () => {
     () => mount("calcite-input-time-zone"),
     [
       { propertyName: "disabled", value: true },
-      { propertyName: "maxItems", value: 0 },
-      { propertyName: "mode", value: "offset" },
-      { propertyName: "open", value: true },
+      { propertyName: "maxItems", value: 0, reflect: false },
+      { propertyName: "mode", value: "offset", reflect: false },
+      { propertyName: "open", value: true, reflect: false },
       { propertyName: "scale", value: "m" },
-      { propertyName: "overlayPositioning", value: "absolute" },
+      { propertyName: "overlayPositioning", value: "absolute", reflect: false },
       { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
+      { propertyName: "validationIcon", value: true, reflect: false },
     ],
   );
 });

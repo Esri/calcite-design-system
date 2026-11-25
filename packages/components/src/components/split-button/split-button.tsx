@@ -193,21 +193,21 @@ export class SplitButton extends LitElement {
    * @public
    * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
-  @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
+  @property({ converter: stringOrBoolean }) download: string | boolean = false;
 
   /**
    * Specifies the icon used for the dropdown menu.
    *
    * @public
    */
-  @property({ reflect: true }) dropdownIconType: DropdownIconType = "chevron";
+  @property() dropdownIconType: DropdownIconType = "chevron";
 
   /**
    * Accessible name for the dropdown menu.
    *
    * @public
    */
-  @property({ reflect: true }) dropdownLabel?: string;
+  @property() dropdownLabel?: string;
 
   /**
    * @public
@@ -220,7 +220,7 @@ export class SplitButton extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) href?: string;
+  @property() href?: string;
 
   /**
    * Specifies the kind of the component, which will apply to border and background, if applicable.
@@ -235,13 +235,13 @@ export class SplitButton extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Defines the relationship between the `href` value and the current document.
@@ -249,49 +249,49 @@ export class SplitButton extends LitElement {
    * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel?: string;
+  @property() rel?: string;
 
   /**
    * Determines where the component will be positioned relative to the container element.
    *
    * @public
    */
-  @property({ reflect: true }) placement: LogicalPlacement = "bottom-end";
+  @property() placement: LogicalPlacement = "bottom-end";
 
   /**
    * Specifies an icon to display at the end of the primary button.
    *
    * @public
    */
-  @property({ reflect: true }) primaryIconEnd?: IconName;
+  @property() primaryIconEnd?: IconName;
 
   /**
    * Displays the `primaryIconStart` and/or `primaryIconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) primaryIconFlipRtl?: FlipContext;
+  @property() primaryIconFlipRtl?: FlipContext;
 
   /**
    * Specifies an icon to display at the start of the primary button.
    *
    * @public
    */
-  @property({ reflect: true }) primaryIconStart?: IconName;
+  @property() primaryIconStart?: IconName;
 
   /**
    * Specifies an accessible name for the primary button.
    *
    * @public
    */
-  @property({ reflect: true }) primaryLabel?: string;
+  @property() primaryLabel?: string;
 
   /**
    * Specifies the text displayed in the primary button.
    *
    * @public
    */
-  @property({ reflect: true }) primaryText?: string;
+  @property() primaryText?: string;
 
   /**
    * Specifies the component's size.
@@ -306,14 +306,14 @@ export class SplitButton extends LitElement {
    * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target?: string;
+  @property() target?: string;
 
   /**
    * @public
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   /**
    * Specifies the width of the component.

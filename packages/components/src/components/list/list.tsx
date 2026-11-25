@@ -262,14 +262,14 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) dragEnabled = false;
+  @property() dragEnabled = false;
 
   /**
    * When `true`, an input appears at the top of the component that can be used by end users to filter `calcite-list-item`s.
    *
    * @public
    */
-  @property({ reflect: true }) filterEnabled = false;
+  @property() filterEnabled = false;
 
   /**
    * Specifies a function to handle filtering.
@@ -288,14 +288,14 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) filterLabel?: string;
+  @property() filterLabel?: string;
 
   /**
    * Specifies placeholder text for the component's filter input field.
    *
    * @public
    */
-  @property({ reflect: true }) filterPlaceholder?: string;
+  @property() filterPlaceholder?: string;
 
   /**
    * Specifies the properties to match against when filtering. If not set, all properties will be matched (`description`, `label`, `metadata`, and the `calcite-list-item-group`'s `heading`).
@@ -309,7 +309,7 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) filterText: string = "";
+  @property() filterText: string = "";
 
   /**
    * The currently filtered `calcite-list-item` data.
@@ -344,7 +344,7 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) interactionMode: InteractionMode = "interactive";
+  @property() interactionMode: InteractionMode = "interactive";
 
   /**
    * @public
@@ -358,7 +358,7 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * @public
@@ -376,7 +376,7 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
+  @property() displayMode: ListDisplayMode = "flat";
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
@@ -409,10 +409,8 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "border" | "highlight",
-    SelectionAppearance
-  > = "icon";
+  @property() selectionAppearance: Extract<"icon" | "border" | "highlight", SelectionAppearance> =
+    "icon";
 
   /**
    * Specifies the selection mode of the component.
@@ -424,7 +422,7 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "none" | "multiple" | "single" | "single-persist",
     SelectionMode
   > = "none";
@@ -434,7 +432,7 @@ export class List extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) sortDisabled = false;
+  @property() sortDisabled = false;
 
   //#endregion
 

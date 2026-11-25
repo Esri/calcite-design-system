@@ -150,18 +150,22 @@ describe("reflects", () => {
       {
         propertyName: "closable",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "closed",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "collapsible",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "collapsed",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "disabled",
@@ -170,14 +174,17 @@ describe("reflects", () => {
       {
         propertyName: "loading",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "icon",
         value: "x",
+        reflect: false,
       },
       {
         propertyName: "iconFlipRtl",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "menuOpen",
@@ -186,6 +193,7 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+        reflect: false,
       },
     ],
   );
@@ -437,7 +445,7 @@ describe("focus trap", () => {
 
     const panel = el.shadowRoot.querySelector<Panel["el"]>("calcite-panel")!;
 
-    expect(panel.focusTrapDisabled).toBe(true);
+    await expect.element(panel).toHaveProperty("focusTrapDisabled", true);
     await expect
       .element(page.getByRole("dialog", { name: "Flow heading" }))
       .not.toBeInTheDocument();
@@ -550,6 +558,6 @@ describe("focus trap", () => {
 
     el.focusTrapOptions = { extraContainers: [outsideControlEl] };
     await expect(el.updateFocusTrapElements()).resolves.toBeUndefined();
-    await expect(outsideControl).toBeInTheDocument();
+    await expect.element(outsideControl).toBeInTheDocument();
   });
 });

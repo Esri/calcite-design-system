@@ -166,20 +166,20 @@ export class SortHandle extends LitElement {
    *
    * @internal
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @internal
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the container element.
    *
    * @internal
    */
-  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+  @property() placement: LogicalPlacement = defaultMenuPlacement;
 
   /**
    * Specifies the size of the component.
@@ -207,21 +207,21 @@ export class SortHandle extends LitElement {
    *
    * @internal
    */
-  @property({ reflect: true }) sortDisabled = false;
+  @property() sortDisabled = false;
 
   /**
    * @internal
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   /**
    * Specifies the width of the component.
    *
    * @internal
    */
-  @property({ reflect: true }) widthScale?: Scale;
+  @property() widthScale?: Scale;
 
   //#endregion
 

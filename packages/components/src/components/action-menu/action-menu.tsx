@@ -309,7 +309,7 @@ export class ActionMenu extends LitElement {
    *
    * @internal
    */
-  @property({ reflect: true })
+  @property()
   get open(): boolean {
     return this._open;
   }
@@ -325,21 +325,21 @@ export class ActionMenu extends LitElement {
    * @internal
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
    * @internal
    */
-  @property({ reflect: true }) placement: LogicalPlacement = "auto";
+  @property() placement: LogicalPlacement = "auto";
 
   /**
    * @internal
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   /**
    * Specifies the size of the component's trigger `calcite-action`.

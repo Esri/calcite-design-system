@@ -55,6 +55,7 @@ describe.skip("reflects", () => {
       {
         propertyName: "navigationAction",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -119,9 +120,15 @@ describe("propagates", () => {
 });
 
 it("should emit calciteNavigationActionSelect event when user interacts with navigation-action", async () => {
-  const { el } = await mount(<calcite-navigation label="Menu" navigation-action />);
   const actionSelectHandler = vi.fn();
-  el.addEventListener("calciteNavigationActionSelect", actionSelectHandler);
+  await mount(
+    <calcite-navigation
+      label="Menu"
+      navigation-action
+      oncalciteNavigationActionSelect={actionSelectHandler}
+    />,
+  );
+
   const hamburgerMenu = page.getByRole("button", { name: "Menu" });
 
   await userEvent.keyboard("{Tab}");

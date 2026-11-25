@@ -55,12 +55,15 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(() => mount("calcite-field-group"), {
-    columns: 2,
-    layout: "columns",
-    prefixAutoWidth: true,
-    suffixAutoWidth: true,
-  });
+  reflects(
+    () => mount("calcite-field-group"),
+    [
+      { propertyName: "columns", value: 2, reflect: false },
+      { propertyName: "layout", value: "columns" },
+      { propertyName: "prefixAutoWidth", value: true, reflect: false },
+      { propertyName: "suffixAutoWidth", value: true, reflect: false },
+    ],
+  );
 });
 
 describe("honors hidden attribute", () => {

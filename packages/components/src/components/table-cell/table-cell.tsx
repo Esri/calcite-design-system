@@ -110,7 +110,7 @@ export class TableCell extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) colSpan?: number;
+  @property() colSpan?: number;
 
   @property() disabled = false;
 
@@ -141,7 +141,7 @@ export class TableCell extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) rowSpan?: number;
+  @property() rowSpan?: number;
 
   @property() scale: Scale = "m";
 

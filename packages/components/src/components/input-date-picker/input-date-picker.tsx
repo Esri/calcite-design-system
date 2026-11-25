@@ -467,7 +467,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
+  @property({ type: Number }) calendars: 1 | 2 = 2;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
@@ -481,7 +481,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) clearable = false;
+  @property() clearable = false;
 
   /**
    * @public
@@ -494,7 +494,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  @property() focusTrapDisabled = false;
 
   /**
    * @public
@@ -506,7 +506,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * @public
@@ -533,7 +533,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) max?: string;
+  @property() max?: string;
 
   /**
    * Specifies the latest allowed date as a full date object.
@@ -554,7 +554,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) min?: string;
+  @property() min?: string;
 
   /**
    * Specifies the earliest allowed date as a full date object.
@@ -581,20 +581,20 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * When `true`, displays the `calcite-date-picker` component.
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies placeholder text for the component.
@@ -609,7 +609,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property() placement: MenuPlacement = defaultMenuPlacement;
 
   /**
    * When `true`, disables the default behavior on the third click of narrowing or extending the range.
@@ -640,7 +640,7 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -661,14 +661,14 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   /**
    * Specifies the validation icon to display under the component.
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

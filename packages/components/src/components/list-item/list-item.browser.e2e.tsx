@@ -116,14 +116,17 @@ describe("reflects", () => {
       {
         propertyName: "unavailable",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "sortHandleOpen",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "open",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expanded",
@@ -136,6 +139,7 @@ describe("reflects", () => {
       {
         propertyName: "closable",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -214,10 +218,10 @@ it.each(["click", "Enter"])(
 );
 
 it("emits calciteInternalListItemChange only when metadata values change", async () => {
-  const { el, component } = await mount<ListItem>(<calcite-list-item />);
   const eventSpy = vi.fn();
-
-  el.addEventListener("calciteInternalListItemChange", eventSpy);
+  const { el, component } = await mount<ListItem>(
+    <calcite-list-item oncalciteInternalListItemChange={eventSpy} />,
+  );
 
   el.metadata = { first: "same", second: "value" };
   await component.updateComplete;

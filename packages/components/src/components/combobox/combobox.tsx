@@ -435,14 +435,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) allowCustomValues?: boolean;
+  @property() allowCustomValues?: boolean;
 
   /**
    * When `true`, disables value-clearing.
    *
    * @public
    */
-  @property({ reflect: true }) clearDisabled = false;
+  @property() clearDisabled = false;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
@@ -456,7 +456,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true })
+  @property()
   get filterText(): string {
     return this._filterText;
   }
@@ -515,7 +515,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) maxItems = 0;
+  @property() maxItems = 0;
 
   /**
    * @public
@@ -534,13 +534,13 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies the input's placeholder text.
@@ -554,21 +554,21 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) placeholderIcon?: IconName;
+  @property() placeholderIcon?: IconName;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the input's `placeholderIcon`.
    *
    * @public
    */
-  @property({ reflect: true }) placeholderIconFlipRtl = false;
+  @property() placeholderIconFlipRtl = false;
 
   /**
    * Specifies the component's position relative to the `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+  @property() placement: LogicalPlacement = defaultMenuPlacement;
 
   /**
    * When `true`, the component's value can be read, but controls are not accessible and the value cannot be modified.
@@ -583,7 +583,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -597,7 +597,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) selectAllEnabled = false;
+  @property() selectAllEnabled = false;
 
   /**
    * The component's selected items.
@@ -625,7 +625,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
+  @property() selectionDisplay: SelectionDisplay = "all";
 
   /**
    * Specifies the selection appearance.
@@ -635,10 +635,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight",
-    SelectionAppearance
-  > = "icon";
+  @property() selectionAppearance: Extract<"icon" | "highlight", SelectionAppearance> = "icon";
 
   /**
    * Specifies the selection mode of the component.
@@ -650,7 +647,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
@@ -674,7 +671,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

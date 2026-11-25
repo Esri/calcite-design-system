@@ -56,22 +56,27 @@ describe("reflects", () => {
       {
         propertyName: "iconPosition",
         value: "start",
+        reflect: false,
       },
       {
         propertyName: "iconPosition",
         value: "end",
+        reflect: false,
       },
       {
         propertyName: "selectionMode",
         value: "single-persist",
+        reflect: false,
       },
       {
         propertyName: "selectionMode",
         value: "single",
+        reflect: false,
       },
       {
         propertyName: "selectionMode",
         value: "multiple",
+        reflect: false,
       },
     ],
   );

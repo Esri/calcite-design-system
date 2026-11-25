@@ -96,15 +96,14 @@ export class Accordion extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) iconPosition: Extract<"start" | "end", Position> = "end";
+  @property() iconPosition: Extract<"start" | "end", Position> = "end";
 
   /**
    * Specifies the type of the icon in the header.
    *
    * @public
    */
-  @property({ reflect: true }) iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> =
-    "chevron";
+  @property() iconType: Extract<"chevron" | "caret" | "plus-minus", IconType> = "chevron";
 
   /**
    * Specifies the size of the component.
@@ -122,10 +121,8 @@ export class Accordion extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
-    "single" | "single-persist" | "multiple",
-    SelectionMode
-  > = "multiple";
+  @property() selectionMode: Extract<"single" | "single-persist" | "multiple", SelectionMode> =
+    "multiple";
 
   //#endregion
 

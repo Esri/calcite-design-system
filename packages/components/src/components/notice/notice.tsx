@@ -194,21 +194,21 @@ export class Notice extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) closable = false;
+  @property() closable = false;
 
   /**
    * When `true`, shows a default recommended icon. Alternatively, pass a Calcite UI Icon name to display a specific icon.
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * Specifies the kind of the component, which will apply to the top border and icon.

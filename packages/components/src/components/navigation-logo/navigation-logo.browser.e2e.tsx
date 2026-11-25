@@ -67,6 +67,7 @@ describe("reflects", () => {
       {
         propertyName: "rel",
         value: "external",
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -75,10 +76,22 @@ describe("reflects", () => {
       {
         propertyName: "target",
         value: "_self",
+        reflect: false,
       },
       {
         propertyName: "headingLevel",
         value: 1,
+        reflect: false,
+      },
+      {
+        propertyName: "icon",
+        value: "layers",
+        reflect: false,
+      },
+      {
+        propertyName: "iconFlipRtl",
+        value: true,
+        reflect: false,
       },
     ],
   );
@@ -97,6 +110,51 @@ describe("is focusable", () => {
 });
 
 describe("heading", () => {
+  it("updates rendered content from properties without reflecting link, heading, or icon configuration", async () => {
+    const { el } = await mount<"calcite-navigation-logo">(
+      <calcite-navigation-logo heading="Logo" href="#logo" />,
+    );
+
+    el.headingLevel = 3;
+    el.icon = "layers";
+    el.iconFlipRtl = true;
+    el.rel = "external";
+    el.target = "_blank";
+
+    await expect.element(page.getByRole("heading", { name: "Logo", level: 3 })).toBeVisible();
+    const link = page.getByRole("link");
+    await expect.element(link).toHaveAttribute("rel", "external");
+    await expect.element(link).toHaveAttribute("target", "_blank");
+    const icon = page.getBySelector("calcite-navigation-logo calcite-icon");
+    await expect.element(icon).toHaveProperty("icon", "layers");
+    await expect.element(icon).toHaveProperty("flipRtl", true);
+    await expect.element(el).not.toHaveAttribute("heading-level");
+    await expect.element(el).not.toHaveAttribute("icon");
+    await expect.element(el).not.toHaveAttribute("icon-flip-rtl");
+    await expect.element(el).not.toHaveAttribute("rel");
+    await expect.element(el).not.toHaveAttribute("target");
+  });
+
+  it("preserves attribute input and converters without keeping authored attributes in sync with properties", async () => {
+    const { el, reRender } = await mount<"calcite-navigation-logo">("calcite-navigation-logo");
+    el.setAttribute("heading-level", "2");
+    el.setAttribute("icon-flip-rtl", "");
+    el.setAttribute("rel", "external");
+    await expect.element(el).toHaveProperty("headingLevel", 2);
+    await expect.element(el).toHaveProperty("iconFlipRtl", true);
+    await expect.element(el).toHaveProperty("rel", "external");
+
+    el.setAttribute("heading-level", "3");
+    el.removeAttribute("icon-flip-rtl");
+    await expect.element(el).toHaveProperty("headingLevel", 3);
+    await expect.element(el).toHaveProperty("iconFlipRtl", false);
+
+    el.rel = "author";
+    await reRender();
+    await expect.element(el).toHaveProperty("rel", "author");
+    await expect.element(el).toHaveAttribute("rel", "external");
+  });
+
   it("renders standalone heading when description is not provided", async () => {
     await mount(<calcite-navigation-logo heading="John Doe" />);
 

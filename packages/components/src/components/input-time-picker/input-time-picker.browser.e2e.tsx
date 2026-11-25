@@ -157,11 +157,11 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-input-time-picker"),
     [
-      { propertyName: "open", value: true },
+      { propertyName: "open", value: true, reflect: false },
       { propertyName: "disabled", value: true },
       { propertyName: "scale", value: "m" },
       { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
+      { propertyName: "validationIcon", value: true, reflect: false },
     ],
   );
 });
@@ -227,11 +227,14 @@ describe("clearable", () => {
   });
 
   it("clears value and emits change when clear button is clicked", async () => {
-    const { el } = await mount<InputTimePicker>(
-      <calcite-input-time-picker clearable value="10:37" />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        clearable
+        oncalciteInputTimePickerChange={changeEventHandler}
+        value="10:37"
+      />,
+    );
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
 
@@ -245,20 +248,23 @@ describe("clearable", () => {
     );
 
     expect(getClearButtons()).toHaveLength(1);
-    expect(el.validity.valueMissing).toBe(false);
+    await expect.element(el).toHaveProperty("validity.valueMissing", false);
 
     await userEvent.click(page.getBySelector(clearButtonSelector));
     await expect.element(el).toHaveProperty("value", "");
 
-    expect(el.validity.valueMissing).toBe(true);
+    await expect.element(el).toHaveProperty("validity.valueMissing", true);
   });
 
   it("clears value and emits change when Escape is pressed while closed", async () => {
-    const { el } = await mount<InputTimePicker>(
-      <calcite-input-time-picker clearable value="10:37" />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        clearable
+        oncalciteInputTimePickerChange={changeEventHandler}
+        value="10:37"
+      />,
+    );
 
     await userEvent.click(page.getByRole("spinbutton", { name: "Hour" }));
     await userEvent.keyboard("{Escape}");
@@ -268,11 +274,15 @@ describe("clearable", () => {
   });
 
   it("closes when Escape is pressed while open and clears on second Escape", async () => {
-    const { el } = await mount<InputTimePicker>(
-      <calcite-input-time-picker clearable open value="10:37" />,
-    );
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        clearable
+        oncalciteInputTimePickerChange={changeEventHandler}
+        open
+        value="10:37"
+      />,
+    );
 
     await userEvent.click(page.getByRole("combobox"));
     await userEvent.keyboard("{Escape}");
@@ -319,11 +329,16 @@ async function assertDisplayedTime(value: string | null): Promise<void> {
 describe("l10n", () => {
   describe("arabic", () => {
     it("localizes initial display value in arab numbering system", async () => {
-      const { el } = await mount(
-        <calcite-input-time-picker lang="ar" numbering-system="arab" step={1} value="14:02:30" />,
-      );
       const changeEventHandler = vi.fn();
-      el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+      const { el } = await mount(
+        <calcite-input-time-picker
+          lang="ar"
+          numbering-system="arab"
+          oncalciteInputTimePickerChange={changeEventHandler}
+          step={1}
+          value="14:02:30"
+        />,
+      );
 
       expect(changeEventHandler).toHaveBeenCalledTimes(0);
       await assertDisplayedTime("٠٢:٠٢:٣٠ م");
@@ -331,11 +346,15 @@ describe("l10n", () => {
     });
 
     it("committing typed value works as expected in arab numbering system", async () => {
-      const { el } = await mount<InputTimePicker>(
-        <calcite-input-time-picker lang="ar" numbering-system="arab" step={1} />,
-      );
       const changeEventHandler = vi.fn();
-      el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
+      const { el } = await mount<InputTimePicker>(
+        <calcite-input-time-picker
+          lang="ar"
+          numbering-system="arab"
+          oncalciteInputTimePickerChange={changeEventHandler}
+          step={1}
+        />,
+      );
 
       await userEvent.keyboard("{Tab}");
       await userEvent.keyboard("2");
@@ -439,12 +458,14 @@ describe("l10n", () => {
         it("supports display and editing in localized 12-hour format", async () => {
           const initialValue = "00:00:00.000";
 
+          const changeEventHandler = vi.fn();
           const { el } = await mount<InputTimePicker>(
             <>
               <calcite-input-time-picker
                 focus-trap-disabled
                 hour-format="12"
                 lang={locale}
+                oncalciteInputTimePickerChange={changeEventHandler}
                 step={step}
                 value={initialValue}
               />
@@ -460,8 +481,6 @@ describe("l10n", () => {
           );
           const meridiemInput = page.getBySelector(`calcite-input-time-picker .${meridiem}`);
           const blurTarget = page.getBySelector("#blurTarget");
-          const changeEventHandler = vi.fn();
-          el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
 
           expect(changeEventHandler).toHaveBeenCalledTimes(0);
 
@@ -481,7 +500,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{ArrowDown}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(0);
-          expect(el).toHaveProperty("value", "23:00:00.000");
+          await expect.element(el).toHaveProperty("value", "23:00:00.000");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -496,7 +515,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{ArrowDown}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(0);
-          expect(el).toHaveProperty("value", "23:59:00.000");
+          await expect.element(el).toHaveProperty("value", "23:59:00.000");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -511,7 +530,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{ArrowDown}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(0);
-          expect(el).toHaveProperty("value", "23:59:59.000");
+          await expect.element(el).toHaveProperty("value", "23:59:59.000");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -526,7 +545,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{ArrowDown}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(0);
-          expect(el).toHaveProperty("value", "23:59:59.999");
+          await expect.element(el).toHaveProperty("value", "23:59:59.999");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -541,7 +560,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{ArrowDown}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(0);
-          expect(el).toHaveProperty("value", "11:59:59.999");
+          await expect.element(el).toHaveProperty("value", "11:59:59.999");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -555,7 +574,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{Enter}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(1);
-          expect(el).toHaveProperty("value", "11:59:59.999");
+          await expect.element(el).toHaveProperty("value", "11:59:59.999");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -570,7 +589,7 @@ describe("l10n", () => {
           await userEvent.keyboard("{ArrowUp}");
 
           expect(changeEventHandler).toHaveBeenCalledTimes(1);
-          expect(el).toHaveProperty("value", "23:59:59.999");
+          await expect.element(el).toHaveProperty("value", "23:59:59.999");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -584,7 +603,7 @@ describe("l10n", () => {
           await userEvent.click(blurTarget);
 
           expect(changeEventHandler).toHaveBeenCalledTimes(2);
-          expect(el).toHaveProperty("value", "23:59:59.999");
+          await expect.element(el).toHaveProperty("value", "23:59:59.999");
           await assertDisplayedTime(
             localizeTimeString({
               hour12: true,
@@ -648,20 +667,20 @@ describe("l10n", () => {
           it("supports display and editing in localized 24-hour format", async () => {
             const initialValue = "00:00:00.000";
 
+            const changeEventHandler = vi.fn();
             const { el } = await mount<InputTimePicker>(
               <>
                 <calcite-input-time-picker
                   focus-trap-disabled
                   hour-format="24"
                   lang={locale}
+                  oncalciteInputTimePickerChange={changeEventHandler}
                   step={0.001}
                   value={initialValue}
                 />
                 <input id="blurTarget" placeholder={locale} />
               </>,
             );
-            const changeEventHandler = vi.fn();
-            el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
 
             const hourInput = page.getBySelector(`calcite-input-time-picker .${hour}`);
             const minuteInput = page.getBySelector(`calcite-input-time-picker .${minute}`);
@@ -689,7 +708,7 @@ describe("l10n", () => {
             await userEvent.keyboard("{ArrowDown}");
 
             expect(changeEventHandler).toHaveBeenCalledTimes(0);
-            expect(el).toHaveProperty("value", "23:00:00.000");
+            await expect.element(el).toHaveProperty("value", "23:00:00.000");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -704,7 +723,7 @@ describe("l10n", () => {
             await userEvent.keyboard("{ArrowDown}");
 
             expect(changeEventHandler).toHaveBeenCalledTimes(0);
-            expect(el).toHaveProperty("value", "23:59:00.000");
+            await expect.element(el).toHaveProperty("value", "23:59:00.000");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -719,7 +738,7 @@ describe("l10n", () => {
             await userEvent.keyboard("{ArrowDown}");
 
             expect(changeEventHandler).toHaveBeenCalledTimes(0);
-            expect(el).toHaveProperty("value", "23:59:59.000");
+            await expect.element(el).toHaveProperty("value", "23:59:59.000");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -734,7 +753,7 @@ describe("l10n", () => {
             await userEvent.keyboard("{ArrowDown}");
 
             expect(changeEventHandler).toHaveBeenCalledTimes(0);
-            expect(el).toHaveProperty("value", "23:59:59.999");
+            await expect.element(el).toHaveProperty("value", "23:59:59.999");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -748,7 +767,7 @@ describe("l10n", () => {
             await userEvent.keyboard("{Enter}");
 
             expect(changeEventHandler).toHaveBeenCalledTimes(1);
-            expect(el).toHaveProperty("value", "23:59:59.999");
+            await expect.element(el).toHaveProperty("value", "23:59:59.999");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -762,7 +781,7 @@ describe("l10n", () => {
             await userEvent.keyboard("{ArrowDown}");
 
             expect(changeEventHandler).toHaveBeenCalledTimes(1);
-            expect(el).toHaveProperty("value", "23:59:59.998");
+            await expect.element(el).toHaveProperty("value", "23:59:59.998");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -776,7 +795,7 @@ describe("l10n", () => {
             await userEvent.click(blurTarget);
 
             expect(changeEventHandler).toHaveBeenCalledTimes(2);
-            expect(el).toHaveProperty("value", "23:59:59.998");
+            await expect.element(el).toHaveProperty("value", "23:59:59.998");
             await assertDisplayedTime(
               localizeTimeString({
                 hour12: false,
@@ -834,15 +853,15 @@ describe("l10n", () => {
           const numberingSystem = "latn";
           const step = 1;
 
+          const changeEventHandler = vi.fn();
           const { el } = await mount<InputTimePicker>(
             <calcite-input-time-picker
               lang={locale}
               numbering-system={numberingSystem}
+              oncalciteInputTimePickerChange={changeEventHandler}
               step={step}
             />,
           );
-          const changeEventHandler = vi.fn();
-          el.addEventListener("calciteInputTimePickerChange", changeEventHandler);
 
           for (let second = 0; second < 10; second++) {
             const date = new Date(0);
@@ -1017,8 +1036,12 @@ describe("value and property behavior", () => {
   });
 
   it("resets to the previous value when a change event is prevented", async () => {
-    const { el } = await mount<InputTimePicker>(<calcite-input-time-picker value="14:59" />);
-    el.addEventListener("calciteInputTimePickerChange", (event) => event.preventDefault());
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        oncalciteInputTimePickerChange={(event) => event.preventDefault()}
+        value="14:59"
+      />,
+    );
 
     await el.setFocus();
     await userEvent.keyboard("5{Enter}");
@@ -1061,9 +1084,10 @@ describe("value and property behavior", () => {
   });
 
   it("responds to hourFormat changes without emitting change", async () => {
-    const { el } = await mount<InputTimePicker>(<calcite-input-time-picker value="14:30" />);
     const change = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", change);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker oncalciteInputTimePickerChange={change} value="14:30" />,
+    );
 
     for (const [hourFormat, displayed] of [
       ["24", "14:30"],
@@ -1079,11 +1103,14 @@ describe("value and property behavior", () => {
   });
 
   it("responds to lang and numberingSystem changes without emitting change", async () => {
-    const { el } = await mount<InputTimePicker>(
-      <calcite-input-time-picker step={1} value="14:30:25" />,
-    );
     const change = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", change);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        oncalciteInputTimePickerChange={change}
+        step={1}
+        value="14:30:25"
+      />,
+    );
 
     el.lang = "da";
     await vi.waitFor(() => assertDisplayedTime("14.30.25"));
@@ -1109,9 +1136,10 @@ describe("value and property behavior", () => {
   });
 
   it("direct value changes do not interfere with later user changes", async () => {
-    const { el } = await mount<InputTimePicker>(<calcite-input-time-picker value="14:30" />);
     const change = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", change);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker oncalciteInputTimePickerChange={change} value="14:30" />,
+    );
 
     el.value = "15:00";
     await el.setFocus();
@@ -1149,11 +1177,13 @@ describe("value and property behavior", () => {
   });
 
   it("a value set by a change listener does not interfere with later changes", async () => {
-    const { el } = await mount<InputTimePicker>(<calcite-input-time-picker value="14:30" />);
     const change = vi.fn(() => {
       el.value = "10:00";
     });
-    el.addEventListener("calciteInputTimePickerChange", change);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker oncalciteInputTimePickerChange={change} value="14:30" />,
+    );
+
     await el.setFocus();
 
     for (const key of ["{ArrowUp}", "{ArrowUp}", "{ArrowDown}", "{ArrowDown}{ArrowDown}"]) {
@@ -1330,11 +1360,16 @@ describe("time field behavior", () => {
   });
 
   it("increments, decrements, types and clears the meridiem", async () => {
-    const { el } = await mount<InputTimePicker>(
-      <calcite-input-time-picker open step={0.001} value="15:00:00.000" />,
-    );
     const change = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", change);
+    await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        oncalciteInputTimePickerChange={change}
+        open
+        step={0.001}
+        value="15:00:00.000"
+      />,
+    );
+
     const meridiem = inputField(CSS.meridiem);
 
     await meridiem.click();
@@ -1351,9 +1386,10 @@ describe("time field behavior", () => {
   });
 
   it("emits change when cleared immediately after the value is set programmatically (#12889)", async () => {
-    const { el } = await mount<InputTimePicker>(<calcite-input-time-picker open step={0.001} />);
     const change = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", change);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker oncalciteInputTimePickerChange={change} open step={0.001} />,
+    );
 
     el.value = "15:00:00";
     await expect.element(el).toHaveProperty("value", "15:00:00.000");
@@ -1475,11 +1511,15 @@ describe("time picker interactions", () => {
   });
 
   it("updates value and emits change on Enter after editing in the picker", async () => {
-    const { el } = await mount<InputTimePicker>(
-      <calcite-input-time-picker step={0.001} value="00:00:00" />,
-    );
     const change = vi.fn();
-    el.addEventListener("calciteInputTimePickerChange", change);
+    const { el } = await mount<InputTimePicker>(
+      <calcite-input-time-picker
+        oncalciteInputTimePickerChange={change}
+        step={0.001}
+        value="00:00:00"
+      />,
+    );
+
     await page.getBySelector(`calcite-input-time-picker .${CSS.toggleIcon}`).click();
 
     for (const className of [

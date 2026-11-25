@@ -394,6 +394,7 @@ describe("reflects", () => {
       {
         propertyName: "layout",
         value: "auto",
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -402,6 +403,7 @@ describe("reflects", () => {
       {
         propertyName: "selectionMode",
         value: "none",
+        reflect: false,
       },
     ],
   );
@@ -1149,7 +1151,7 @@ describe("sticky header", () => {
 
     firstSelectionCell.click();
     await afterNextFrame();
-    expect(firstBodyRow.selected).toBe(true);
+    await expect.element(firstBodyRow).toHaveProperty("selected", true);
   });
 });
 

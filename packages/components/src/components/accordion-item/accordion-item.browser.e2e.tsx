@@ -44,6 +44,7 @@ describe("reflects", () => {
       {
         propertyName: "headingLevel",
         value: 2,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -268,14 +269,17 @@ it("properly uses ARIA and types", async () => {
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
-  const { el, reRender } = await mount<AccordionItem>(<calcite-accordion-item heading="Test" />);
+  const collapseHandler = vi.fn();
+  const expandHandler = vi.fn();
+  const { el, reRender } = await mount<AccordionItem>(
+    <calcite-accordion-item
+      heading="Test"
+      oncalciteAccordionItemCollapse={collapseHandler}
+      oncalciteAccordionItemExpand={expandHandler}
+    />,
+  );
 
   const expandIcon = page.getBySelector(`calcite-accordion-item .${CSS.expandIcon}`);
-
-  const expandHandler = vi.fn();
-  const collapseHandler = vi.fn();
-  el.addEventListener("calciteAccordionItemExpand", expandHandler);
-  el.addEventListener("calciteAccordionItemCollapse", collapseHandler);
 
   el.expanded = true;
   await reRender();

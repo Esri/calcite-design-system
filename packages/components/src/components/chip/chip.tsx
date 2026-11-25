@@ -149,7 +149,7 @@ export class Chip extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) closable = false;
+  @property() closable = false;
 
   /**
    * @public
@@ -162,7 +162,7 @@ export class Chip extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) closeOnDelete = false;
+  @property() closeOnDelete = false;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -176,14 +176,14 @@ export class Chip extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When true, enables the chip to be focused, and allows the `calciteChipSelect` to emit.

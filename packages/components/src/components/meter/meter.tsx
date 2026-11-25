@@ -148,7 +148,7 @@ export class Meter extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) fillType: MeterFillType = "range";
+  @property() fillType: MeterFillType = "range";
 
   /**
    * @public
@@ -162,14 +162,14 @@ export class Meter extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * Specifies a high value.  When `fillType` is `"range"`, displays a different color when above the specified threshold.
    *
    * @public
    */
-  @property({ reflect: true }) high?: number;
+  @property() high?: number;
 
   /**
    * @public
@@ -183,21 +183,21 @@ export class Meter extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) low?: number;
+  @property() low?: number;
 
   /**
    * Specifies the component's highest allowed value.
    *
    * @public
    */
-  @property({ reflect: true }) max = 100;
+  @property() max = 100;
 
   /**
    * Specifies the component's lowest allowed value.
    *
    * @public
    */
-  @property({ reflect: true }) min = 0;
+  @property() min = 0;
 
   /**
    * @public
@@ -218,14 +218,14 @@ export class Meter extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
+  @property() rangeLabelType: MeterLabelType = "percent";
 
   /**
    * When `true`, displays the values of `high`, `low`, `min`, and `max`.
    *
    * @public
    */
-  @property({ reflect: true }) rangeLabels = false;
+  @property() rangeLabels = false;
 
   /**
    * Specifies the size of the component.
@@ -253,14 +253,14 @@ export class Meter extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) valueLabel = false;
+  @property() valueLabel = false;
 
   /**
    * When `valueLabel` is `true`, specifies the format of displayed label.
    *
    * @public
    */
-  @property({ reflect: true }) valueLabelType: MeterLabelType = "percent";
+  @property() valueLabelType: MeterLabelType = "percent";
 
   // #endregion
 

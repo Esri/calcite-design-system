@@ -86,7 +86,7 @@ export class NavigationLogo extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies the URL destination of the component, which can be set as an absolute or relative path.
@@ -100,14 +100,14 @@ export class NavigationLogo extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * @public
@@ -121,7 +121,7 @@ export class NavigationLogo extends LitElement {
    * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel?: string;
+  @property() rel?: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
@@ -129,7 +129,7 @@ export class NavigationLogo extends LitElement {
    * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target?: string;
+  @property() target?: string;
 
   /**
    * Specifies the `src` to an image.

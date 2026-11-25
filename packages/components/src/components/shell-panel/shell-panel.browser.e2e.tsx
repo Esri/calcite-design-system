@@ -70,6 +70,7 @@ describe("reflects", () => {
       {
         propertyName: "width",
         value: "m",
+        reflect: false,
       },
     ],
   );

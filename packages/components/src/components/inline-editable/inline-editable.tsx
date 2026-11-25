@@ -201,7 +201,7 @@ export class InlineEditable extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * @public

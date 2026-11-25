@@ -460,7 +460,7 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) closeDisabled = false;
+  @property() closeDisabled = false;
 
   /**
    * @public
@@ -480,7 +480,7 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) dragEnabled = false;
+  @property() dragEnabled = false;
 
   /**
    * This internal property, managed by a containing calcite-shell, is used
@@ -496,7 +496,7 @@ export class Dialog extends LitElement {
    * @public
    * @see [MDN - Dialog Accessibility](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog#accessibility).
    */
-  @property({ reflect: true }) escapeDisabled = false;
+  @property() escapeDisabled = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -528,7 +528,7 @@ export class Dialog extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies the component's kind, which determines the top border styling.
@@ -545,21 +545,21 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, a busy indicator is displayed.
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When `true`, the action menu items in the `header-menu-actions` slot are open.
@@ -586,7 +586,7 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  @property() focusTrapDisabled = false;
 
   /**
    * When `true`, displays and positions the component.
@@ -609,13 +609,13 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) outsideCloseDisabled = false;
+  @property() outsideCloseDisabled = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies the component's placement.
@@ -629,7 +629,7 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) resizable = false;
+  @property() resizable = false;
 
   /**
    * Specifies the size of the component.
@@ -650,7 +650,7 @@ export class Dialog extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) width: Extract<Width, Scale> = "m";
+  @property() width: Extract<Width, Scale> = "m";
 
   //#endregion
 

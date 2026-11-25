@@ -62,7 +62,7 @@ describe("reflects", () => {
     () => mount("calcite-tabs"),
     [
       { propertyName: "bordered", value: true },
-      { propertyName: "layout", value: "inline" },
+      { propertyName: "layout", value: "inline", reflect: false },
       { propertyName: "position", value: "top" },
       { propertyName: "scale", value: "m" },
     ],
@@ -140,11 +140,11 @@ describe("closing tabs", () => {
 
     expect(reopenedTab).not.toBeNull();
 
-    expect(reopenedTitle.closed).toBe(false);
-    expect(reopenedTitle.hidden).toBe(false);
-    expect(reopenedTab.hidden).toBe(false);
-    expect(reopenedTab.selected).toBe(true);
-    expect(reopenedTitle.tabIndex).toBe(0);
+    await expect.element(reopenedTitle).toHaveProperty("closed", false);
+    await expect.element(reopenedTitle).toHaveProperty("hidden", false);
+    await expect.element(reopenedTab).toHaveProperty("hidden", false);
+    await expect.element(reopenedTab).toHaveProperty("selected", true);
+    await expect.element(reopenedTitle).toHaveProperty("tabIndex", 0);
   });
 
   it("removes the close button again when lastTabClosable is set back to false", async () => {
@@ -153,7 +153,7 @@ describe("closing tabs", () => {
     tabsEl.lastTabClosable = true;
     await component.updateComplete;
     await afterNextFrame();
-    expect(tabsEl.lastTabClosable).toBe(true);
+    await expect.element(tabsEl).toHaveProperty("lastTabClosable", true);
 
     for (let i = 1; i <= 3; i++) {
       await closeTitleById(component);
@@ -163,14 +163,14 @@ describe("closing tabs", () => {
 
     expect(lastVisibleTitle).not.toBeNull();
 
-    expect(lastVisibleTitle.closable).toBe(true);
+    await expect.element(lastVisibleTitle).toHaveProperty("closable", true);
     expect(closeButtons).toHaveLength(1);
 
     tabsEl.lastTabClosable = false;
     await component.updateComplete;
     await afterNextFrame();
-    expect(tabsEl.lastTabClosable).toBe(false);
-    expect(lastVisibleTitle.closable).toBe(false);
+    await expect.element(tabsEl).toHaveProperty("lastTabClosable", false);
+    await expect.element(lastVisibleTitle).toHaveProperty("closable", false);
     expect(closeButtons).toHaveLength(0);
   });
 
@@ -187,13 +187,13 @@ describe("closing tabs", () => {
     const loneTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-4")!;
     const reopenedTitle = tabsEl.querySelector<TabTitle["el"]>("#tab-title-3")!;
 
-    expect(loneTitle.closable).toBe(false);
+    await expect.element(loneTitle).toHaveProperty("closable", false);
 
     reopenedTitle.closed = false;
     await component.updateComplete;
     await afterNextFrame();
 
-    expect(loneTitle.closable).toBe(true);
+    await expect.element(loneTitle).toHaveProperty("closable", true);
   });
 });
 

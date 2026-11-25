@@ -78,10 +78,12 @@ describe("reflects", () => {
       {
         propertyName: "sortDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "placement",
         value: "leading-start",
+        reflect: false,
       },
     ],
   );

@@ -184,7 +184,7 @@ export class ActionGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) menuPlacement?: LogicalPlacement;
+  @property() menuPlacement?: LogicalPlacement;
 
   /**
    * @public
@@ -196,14 +196,14 @@ export class ActionGroup extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * When `true`, the component's actions will not be overflowed into a menu by a parent `calcite-action-bar`.
    *
    * @public
    */
-  @property({ reflect: true })
+  @property()
   get overflowActionsDisabled(): boolean {
     const selectionMode = this.selectionMode || "none";
     return selectionMode === "none" ? this._overflowActionsDisabled : true;
@@ -229,7 +229,7 @@ export class ActionGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "single" | "single-persist" | "multiple" | "none",
     SelectionMode
   > = "none";
@@ -239,7 +239,7 @@ export class ActionGroup extends LitElement {
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   /**
    * Specifies the `calcite-action`s in the group.

@@ -410,7 +410,7 @@ export class ColorPicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) clearable = false;
+  @property() clearable = false;
 
   /**
    * Internal prop for advanced use-cases.
@@ -446,7 +446,7 @@ export class ColorPicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) format: Format = "auto";
+  @property() format: Format = "auto";
 
   /**
    * When `true`, hides the hex input.
@@ -466,14 +466,14 @@ export class ColorPicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * When `true`, hides the saved colors section.
    *
    * @public
    */
-  @property({ reflect: true }) savedDisabled = false;
+  @property() savedDisabled = false;
 
   /**
    * Specifies the size of the component.
@@ -487,7 +487,7 @@ export class ColorPicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) storageId?: string;
+  @property() storageId?: string;
 
   /**
    * The component's value, where the value can be a CSS color string, or a RGB, HSL or HSV object.

@@ -206,7 +206,7 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    *
    * @public
    */
-  @property({ reflect: true }) closeOnSelectDisabled = false;
+  @property() closeOnSelectDisabled = false;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
@@ -227,21 +227,21 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    *
    * @public
    */
-  @property({ reflect: true }) maxItems = 0;
+  @property() maxItems = 0;
 
   /**
    * Specifies the distance to position the component away from the `referenceElement`.
    *
    * @public
    */
-  @property({ type: Number, reflect: true }) offsetDistance = 0;
+  @property({ type: Number }) offsetDistance = 0;
 
   /**
    * Specifies the distance to position the component along the `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) offsetSkidding = 0;
+  @property() offsetSkidding = 0;
 
   /**
    * When `true`, displays and positions the component.
@@ -263,14 +263,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines the component's placement relative to the container element.
    *
    * @public
    */
-  @property({ reflect: true }) placement: LogicalPlacement = defaultMenuPlacement;
+  @property() placement: LogicalPlacement = defaultMenuPlacement;
 
   /**
    * @public
@@ -315,14 +315,14 @@ export class Dropdown extends LitElement implements FloatingUIComponent, Referen
    * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
-  @property({ reflect: true }) widthScale?: Scale;
+  @property() widthScale?: Scale;
 
   /**
    * Specifies the component's width.
    *
    * @public
    */
-  @property({ reflect: true }) width?: Extract<Width, Scale>;
+  @property() width?: Extract<Width, Scale>;
 
   //#endregion
 

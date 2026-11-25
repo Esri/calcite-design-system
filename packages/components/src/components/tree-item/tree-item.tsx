@@ -121,7 +121,7 @@ export class TreeItem extends LitElement {
 
   //#region Public Properties
 
-  @property({ reflect: true }) depth = -1;
+  @property() depth = -1;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -146,13 +146,13 @@ export class TreeItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   /**
    * In ancestor selection mode, show as indeterminate when only some children are selected.
@@ -178,7 +178,7 @@ export class TreeItem extends LitElement {
    */
   @property({ reflect: true }) selected = false;
 
-  @property({ reflect: true }) selectionMode?: SelectionMode;
+  @property() selectionMode?: SelectionMode;
 
   //#endregion
 

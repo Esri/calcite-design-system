@@ -111,10 +111,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * @public
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight",
-    SelectionAppearance
-  > = "icon";
+  @property() selectionAppearance: Extract<"icon" | "highlight", SelectionAppearance> = "icon";
 
   /**
    * Specifies the selection mode.
@@ -126,7 +123,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "multiple" | "none" | "single" | "single-persist",
     SelectionMode
   > = "none";

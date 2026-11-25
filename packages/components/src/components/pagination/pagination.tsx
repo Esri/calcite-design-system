@@ -122,7 +122,7 @@ export class Pagination extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * @public
@@ -142,7 +142,7 @@ export class Pagination extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) pageSize = 20;
+  @property() pageSize = 20;
 
   /**
    * Specifies the size of the component.
@@ -156,14 +156,14 @@ export class Pagination extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) startItem = 1;
+  @property() startItem = 1;
 
   /**
    * Specifies the total number of items.
    *
    * @public
    */
-  @property({ reflect: true }) totalItems = 0;
+  @property() totalItems = 0;
 
   //#endregion
 

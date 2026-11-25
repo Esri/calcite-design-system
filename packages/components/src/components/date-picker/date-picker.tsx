@@ -257,7 +257,7 @@ export class DatePicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) activeRange?: "start" | "end";
+  @property() activeRange?: "start" | "end";
 
   /**
    * When `range` is `true`, specifies the number of calendars displayed.
@@ -270,7 +270,7 @@ export class DatePicker extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * Defines the component's layout.
@@ -285,7 +285,7 @@ export class DatePicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) max?: string;
+  @property() max?: string;
 
   /**
    * Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
@@ -306,7 +306,7 @@ export class DatePicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) min?: string;
+  @property() min?: string;
 
   /**
    * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
@@ -327,14 +327,14 @@ export class DatePicker extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range.
    *
    * @public
    */
-  @property({ reflect: true }) proximitySelectionDisabled = false;
+  @property() proximitySelectionDisabled = false;
 
   /**
    * When `true`, activates the component's range mode to allow a start and end date.

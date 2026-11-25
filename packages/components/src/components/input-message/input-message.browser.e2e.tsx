@@ -109,7 +109,7 @@ describe("when icon prop is provided", () => {
         await mount(<calcite-input-message icon>Text</calcite-input-message>);
         const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
         await expect.element(icon).toBeInTheDocument();
-        await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.idle);
+        await expect.element(icon).toHaveProperty("icon", StatusIconDefaults.idle);
       });
 
       describe("when element status is changed", () => {
@@ -121,13 +121,13 @@ describe("when icon prop is provided", () => {
           );
           const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
           await expect.element(icon).toBeInTheDocument();
-          await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.invalid);
+          await expect.element(icon).toHaveProperty("icon", StatusIconDefaults.invalid);
 
           el.status = "valid";
           await reRender();
 
           await expect.element(icon).toBeInTheDocument();
-          await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.valid);
+          await expect.element(icon).toHaveProperty("icon", StatusIconDefaults.valid);
         });
       });
     });
@@ -146,7 +146,7 @@ describe("when icon prop is provided", () => {
       await mount(<calcite-input-message icon="banana">Nah</calcite-input-message>);
       const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
       await expect.element(icon).toBeInTheDocument();
-      await expect.element(icon).toHaveAttribute("icon", "banana");
+      await expect.element(icon).toHaveProperty("icon", "banana");
     });
 
     describe("when the icon is changed", () => {
@@ -156,19 +156,19 @@ describe("when icon prop is provided", () => {
         );
         const icon = page.getBySelector(`calcite-input-message .${CSS.inputMessageIcon}`);
         await expect.element(icon).toBeInTheDocument();
-        await expect.element(icon).toHaveAttribute("icon", StatusIconDefaults.idle);
+        await expect.element(icon).toHaveProperty("icon", StatusIconDefaults.idle);
 
         el.icon = "banana";
         await reRender();
 
         await expect.element(icon).toBeInTheDocument();
-        await expect.element(icon).toHaveAttribute("icon", "banana");
+        await expect.element(icon).toHaveProperty("icon", "banana");
 
         el.icon = "view-hide";
         await reRender();
 
         await expect.element(icon).toBeInTheDocument();
-        await expect.element(icon).toHaveAttribute("icon", "view-hide");
+        await expect.element(icon).toHaveProperty("icon", "view-hide");
       });
     });
   });

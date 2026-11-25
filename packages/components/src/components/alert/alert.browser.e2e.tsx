@@ -91,6 +91,7 @@ describe("reflects", () => {
       {
         propertyName: "queue",
         value: "last",
+        reflect: false,
       },
     ],
   );
@@ -139,7 +140,7 @@ it("retains close button during auto-close delay and closes when clicked", async
 
   vi.advanceTimersByTime(alertQueueTimeoutMs);
 
-  expect(alert.open).toBe(true);
+  await expect.element(alert).toHaveProperty("open", true);
 
   let closeButton = page.getBySelector(`#alert .${CSS.close}`);
   await expect.element(closeButton).toBeVisible();
@@ -155,7 +156,7 @@ it("retains close button during auto-close delay and closes when clicked", async
   await expect.element(closeButton).toBeVisible();
   await userEvent.click(closeButton);
 
-  expect(alert.open).toBe(false);
+  await expect.element(alert).toHaveProperty("open", false);
 });
 
 it("renders default and requested properties", async () => {
@@ -174,11 +175,11 @@ it("renders default and requested properties", async () => {
   const defaultIcon = page.getBySelector(`#default .${CSS.icon}`);
   const requestedIcon = page.getBySelector(`#requested .${CSS.icon}`);
 
-  expect(defaultAlert.kind).toBe("brand");
+  await expect.element(defaultAlert).toHaveProperty("kind", "brand");
   await expect.element(defaultClose).toBeInTheDocument();
   await expect.element(defaultIcon).not.toBeInTheDocument();
-  expect(requestedAlert.kind).toBe("warning");
-  expect(requestedAlert.autoCloseDuration).toBe("fast");
+  await expect.element(requestedAlert).toHaveProperty("kind", "warning");
+  await expect.element(requestedAlert).toHaveProperty("autoCloseDuration", "fast");
   await expect.element(requestedIcon).not.toBeInTheDocument();
 });
 
@@ -198,7 +199,7 @@ it("renders requested icons, including filled status icons", async () => {
 
   await expect.element(page.getBySelector(`#icon .${CSS.close}`)).toBeInTheDocument();
   await expect.element(page.getBySelector(`#icon .${CSS.icon}`)).toBeInTheDocument();
-  await expect.element(statusGlyph).toHaveAttribute("icon", "exclamation-mark-triangle-f");
+  await expect.element(statusGlyph).toHaveProperty("icon", "exclamation-mark-triangle-f");
 });
 
 it("closes after the configured auto-close duration", async () => {
@@ -213,11 +214,11 @@ it("closes after the configured auto-close duration", async () => {
   await reRender();
   vi.advanceTimersByTime(alertQueueTimeoutMs);
   await reRender();
-  expect(el.open).toBe(true);
+  await expect.element(el).toHaveProperty("open", true);
 
   vi.advanceTimersByTime(DURATIONS.fast + alertQueueTimeoutMs);
   await reRender();
-  expect(el.open).toBe(false);
+  await expect.element(el).toHaveProperty("open", false);
 });
 
 it("displays alerts according to their queue priority", async () => {
@@ -242,38 +243,38 @@ it("displays alerts according to their queue priority", async () => {
     alert3.manager.component.updateComplete,
   ]);
   vi.advanceTimersByTime(alertQueueTimeoutMs);
-  expect(alert1.active).toBe(false);
-  expect(alert2.active).toBe(false);
-  expect(alert3.active).toBe(true);
+  await expect.element(alert1).toHaveProperty("active", false);
+  await expect.element(alert2).toHaveProperty("active", false);
+  await expect.element(alert3).toHaveProperty("active", true);
 
   alert2.queue = "immediate";
   await alert2.manager.component.updateComplete;
   vi.advanceTimersByTime(alertQueueTimeoutMs);
-  expect(alert1.active).toBe(false);
-  expect(alert2.active).toBe(true);
-  expect(alert3.active).toBe(false);
+  await expect.element(alert1).toHaveProperty("active", false);
+  await expect.element(alert2).toHaveProperty("active", true);
+  await expect.element(alert3).toHaveProperty("active", false);
 
   alert1.queue = "next";
   await alert1.manager.component.updateComplete;
   alert2.open = false;
   await alert2.manager.component.updateComplete;
   vi.advanceTimersByTime(alertQueueTimeoutMs);
-  expect(alert1.active).toBe(true);
-  expect(alert2.active).toBe(false);
-  expect(alert3.active).toBe(false);
+  await expect.element(alert1).toHaveProperty("active", true);
+  await expect.element(alert2).toHaveProperty("active", false);
+  await expect.element(alert3).toHaveProperty("active", false);
 
   alert2.queue = "next";
   alert2.open = true;
   await alert2.manager.component.updateComplete;
-  expect(alert1.active).toBe(true);
-  expect(alert2.active).toBe(false);
+  await expect.element(alert1).toHaveProperty("active", true);
+  await expect.element(alert2).toHaveProperty("active", false);
 
   alert1.open = false;
   await alert1.manager.component.updateComplete;
   vi.advanceTimersByTime(alertQueueTimeoutMs);
-  expect(alert1.active).toBe(false);
-  expect(alert2.active).toBe(true);
-  expect(alert3.active).toBe(false);
+  await expect.element(alert1).toHaveProperty("active", false);
+  await expect.element(alert2).toHaveProperty("active", true);
+  await expect.element(alert3).toHaveProperty("active", false);
 });
 
 it("assigns placement classes", async () => {
@@ -382,15 +383,15 @@ it("auto-closes queued alerts in order", async () => {
     .toHaveTextContent("+1");
   vi.advanceTimersByTime(DURATIONS.medium);
   await first.manager.component.updateComplete;
-  expect(first.open).toBe(false);
+  await expect.element(first).toHaveProperty("open", false);
 
   vi.advanceTimersByTime(alertQueueTimeoutMs);
   await second.manager.component.updateComplete;
-  expect(second.active).toBe(true);
+  await expect.element(second).toHaveProperty("active", true);
 
   vi.advanceTimersByTime(DURATIONS.medium);
   await second.manager.component.updateComplete;
-  expect(second.open).toBe(false);
+  await expect.element(second).toHaveProperty("open", false);
 });
 
 describe("auto-close pause behavior", () => {
@@ -424,12 +425,12 @@ describe("auto-close pause behavior", () => {
 
     await userEvent.hover(container);
     vi.advanceTimersByTime(DURATIONS.medium);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.unhover(container);
     vi.advanceTimersByTime(DURATIONS.medium);
     await el.manager.component.updateComplete;
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("pauses while focused and resumes after blur", async () => {
@@ -437,12 +438,12 @@ describe("auto-close pause behavior", () => {
 
     await (closeButton.element() as Action["el"]).setFocus();
     vi.advanceTimersByTime(DURATIONS.medium);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.click(outsideButton);
     vi.advanceTimersByTime(DURATIONS.medium);
     await el.manager.component.updateComplete;
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 });
 

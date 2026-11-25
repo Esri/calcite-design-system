@@ -65,9 +65,7 @@ export class Icon extends LitElement {
    *
    * @public
    */
-  @property({
-    reflect: true,
-  })
+  @property()
   flipRtl = false;
 
   /**
@@ -76,14 +74,14 @@ export class Icon extends LitElement {
    * @public
    * @see [Calcite UI Icons](https://developers.arcgis.com/calcite-design-system/icons).
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true`, preloads the `icon` data.
    *
    * @public
    */
-  @property({ reflect: true }) preload = false;
+  @property() preload = false;
 
   /**
    * Specifies the size of the component.

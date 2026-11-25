@@ -55,7 +55,7 @@ export class Avatar extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) fullName?: string;
+  @property() fullName?: string;
 
   /**
    * @public
@@ -75,21 +75,21 @@ export class Avatar extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) thumbnail?: string;
+  @property() thumbnail?: string;
 
   /**
    * Specifies the unique id of the user.
    *
    * @public
    */
-  @property({ reflect: true }) userId?: string;
+  @property() userId?: string;
 
   /**
    * Specifies the username of the user.
    *
    * @public
    */
-  @property({ reflect: true }) username?: string;
+  @property() username?: string;
 
   // #endregion
 

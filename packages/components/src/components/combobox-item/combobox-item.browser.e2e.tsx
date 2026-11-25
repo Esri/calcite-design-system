@@ -31,9 +31,9 @@ describe("reflects", () => {
     [
       { propertyName: "active", value: true },
       { propertyName: "disabled", value: true },
-      { propertyName: "filterDisabled", value: true },
-      { propertyName: "icon", value: "banana" },
-      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "filterDisabled", value: true, reflect: false },
+      { propertyName: "icon", value: "banana", reflect: false },
+      { propertyName: "iconFlipRtl", value: true, reflect: false },
       { propertyName: "selected", value: true },
     ],
   );

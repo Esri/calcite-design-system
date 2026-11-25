@@ -205,21 +205,21 @@ export class Action extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, displays a visual indicator.
    *
    * @public
    */
-  @property({ reflect: true }) indicator = false;
+  @property() indicator = false;
 
   /**
    * Specifies an accessible label for the component. If no label is provided, the label inherits what's provided for the `text` prop.
@@ -246,7 +246,7 @@ export class Action extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) overflowDisabled = false;
+  @property() overflowDisabled = false;
 
   /**
    * Specifies the size of the component.
@@ -275,7 +275,7 @@ export class Action extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) textEnabled = false;
+  @property() textEnabled = false;
 
   /**
    * Specifies the default behavior of the component.

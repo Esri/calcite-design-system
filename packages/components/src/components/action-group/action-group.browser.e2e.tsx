@@ -94,10 +94,12 @@ describe("reflects", () => {
       {
         propertyName: "menuPlacement",
         value: "bottom",
+        reflect: false,
       },
       {
         propertyName: "overflowActionsDisabled",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -172,34 +174,35 @@ describe("actions have no ARIA attributes when selectionMode is 'none'", () => {
     const [action1, action2] = el.querySelectorAll("calcite-action");
 
     await userEvent.click(action1);
-    expect(action1.active).toBe(false);
-    expect(action2.active).toBe(false);
+    await expect.element(action1).toHaveProperty("active", false);
+    await expect.element(action2).toHaveProperty("active", false);
 
     await userEvent.click(action2);
-    expect(action1.active).toBe(false);
-    expect(action2.active).toBe(false);
+    await expect.element(action1).toHaveProperty("active", false);
+    await expect.element(action2).toHaveProperty("active", false);
 
-    expect(action1.getAttribute("aria-checked")).toBeNull();
-    expect(action1.getAttribute("role")).toBeNull();
+    await expect.element(action1).not.toHaveAttribute("aria-checked");
+    await expect.element(action1).not.toHaveAttribute("role");
 
-    expect(action2.getAttribute("aria-checked")).toBeNull();
-    expect(action2.getAttribute("role")).toBeNull();
+    await expect.element(action2).not.toHaveAttribute("aria-checked");
+    await expect.element(action2).not.toHaveAttribute("role");
   });
 });
 
 describe("selection change event and selectedActions state", () => {
   it("fires when selection changes", async () => {
+    let changeCount = 0;
     const { el } = await mount<"calcite-action-group">(
-      <calcite-action-group selection-mode="single">
+      <calcite-action-group
+        oncalciteActionGroupChange={() => {
+          changeCount += 1;
+        }}
+        selection-mode="single"
+      >
         <calcite-action icon="plus" text="Add" />
         <calcite-action icon="save" text="Save" />
       </calcite-action-group>,
     );
-
-    let changeCount = 0;
-    el.addEventListener("calciteActionGroupChange", () => {
-      changeCount += 1;
-    });
 
     const [action1, action2] = el.querySelectorAll("calcite-action");
 
@@ -221,15 +224,15 @@ describe("selection change event and selectedActions state", () => {
     const [action1, action2] = el.querySelectorAll("calcite-action");
 
     await userEvent.click(action1);
-    expect(el.selectedActions).toHaveLength(1);
-    expect(el.selectedActions[0]).toBe(action1);
+    await expect.element(el).toHaveProperty("selectedActions.length", 1);
+    await expect.poll(() => el.selectedActions[0]).toBe(action1);
 
     await userEvent.click(action2);
-    expect(el.selectedActions).toHaveLength(1);
-    expect(el.selectedActions[0]).toBe(action2);
+    await expect.element(el).toHaveProperty("selectedActions.length", 1);
+    await expect.poll(() => el.selectedActions[0]).toBe(action2);
 
     await userEvent.click(action2);
-    expect(el.selectedActions).toHaveLength(0);
+    await expect.element(el).toHaveProperty("selectedActions.length", 0);
   });
 });
 
@@ -298,11 +301,15 @@ it("preserves explicitly slotted menu actions when selection mode is enabled", a
 });
 
 it("should emit expanded/collapsed events when toggled", async () => {
-  const { el, reRender } = await mount<ActionGroup>(<calcite-action-group label="Test" />);
-  const expandEventHandler = vi.fn();
   const collapseEventHandler = vi.fn();
-  el.addEventListener("calciteActionGroupExpand", expandEventHandler);
-  el.addEventListener("calciteActionGroupCollapse", collapseEventHandler);
+  const expandEventHandler = vi.fn();
+  const { el, reRender } = await mount<ActionGroup>(
+    <calcite-action-group
+      label="Test"
+      oncalciteActionGroupCollapse={collapseEventHandler}
+      oncalciteActionGroupExpand={expandEventHandler}
+    />,
+  );
 
   el.expanded = true;
   await reRender();
@@ -324,7 +331,7 @@ it("stores slotted actions and emits an actions change event without detail", as
     <calcite-action-group label="Test" oncalciteInternalActionGroupActionsChange={actionsChange} />,
   );
 
-  expect(el.actions).toEqual([]);
+  await expect.element(el).toHaveProperty("actions", []);
 
   el.innerHTML = `
     <calcite-action icon="plus" text="Add"></calcite-action>
@@ -333,9 +340,9 @@ it("stores slotted actions and emits an actions change event without detail", as
 
   await component.updateComplete;
 
-  expect(el.actions).toHaveLength(2);
-  expect(el.actions[0].text).toBe("Add");
-  expect(el.actions[1].text).toBe("Save");
+  await expect.element(el).toHaveProperty("actions.length", 2);
+  await expect.element(el.actions[0]).toHaveProperty("text", "Add");
+  await expect.element(el.actions[1]).toHaveProperty("text", "Save");
   expect(actionsChange).toHaveBeenCalled();
 });
 
@@ -361,11 +368,11 @@ it("reapplies selection ARIA state and selectedActions when slotted actions chan
 
   expect(actionFromEvent.current).not.toBeNull();
   expect(actionFromEvent.current).toBe(action);
-  expect(action.aria).toEqual({
+  await expect.element(action).toHaveProperty("aria", {
     checked: "true",
     role: "radio",
   });
-  expect(el.selectedActions).toEqual([action]);
+  await expect.element(el).toHaveProperty("selectedActions", [action]);
 });
 
 describe("theme", () => {
@@ -404,12 +411,12 @@ describe("overflowActionsDisabled semantics", () => {
 
     el.overflowActionsDisabled = true;
     await reRender();
-    expect(el.overflowActionsDisabled).toBe(true);
+    await expect.element(el).toHaveProperty("overflowActionsDisabled", true);
     await expect.element(menu).toBeVisible();
 
     el.overflowActionsDisabled = false;
     await reRender();
-    expect(el.overflowActionsDisabled).toBe(false);
+    await expect.element(el).toHaveProperty("overflowActionsDisabled", false);
     await expect.element(menu).toBeVisible();
   });
 
@@ -427,7 +434,7 @@ describe("overflowActionsDisabled semantics", () => {
     el.overflowActionsDisabled = false;
     await reRender();
 
-    expect(el.overflowActionsDisabled).toBe(true);
+    await expect.element(el).toHaveProperty("overflowActionsDisabled", true);
     await expect.element(menu).toBeVisible();
   });
 });

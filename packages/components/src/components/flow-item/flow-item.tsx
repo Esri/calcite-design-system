@@ -341,13 +341,13 @@ export class FlowItem extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) closable = false;
+  @property() closable = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) closed = false;
+  @property() closed = false;
 
   /**
    * When `collapsible` is `true`, specifies the direction of the collapse icon.
@@ -361,14 +361,14 @@ export class FlowItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) collapsed = false;
+  @property() collapsed = false;
 
   /**
    * When `true`, the component is collapsible.
    *
    * @public
    */
-  @property({ reflect: true }) collapsible = false;
+  @property() collapsible = false;
 
   /**
    * @public
@@ -393,28 +393,28 @@ export class FlowItem extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies an icon to display.
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, a busy indicator is displayed.
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When `true`, disables focus trapping and dialog semantics.
@@ -452,7 +452,7 @@ export class FlowItem extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies the size of the component.
@@ -480,7 +480,7 @@ export class FlowItem extends LitElement {
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   //#endregion
 

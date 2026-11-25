@@ -356,7 +356,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) fillPlacement: "start" | "none" | "end" = "start";
+  @property() fillPlacement: "start" | "none" | "end" = "start";
 
   /**
    * @public
@@ -369,7 +369,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * When `true`, indicates a histogram is present.
@@ -442,7 +442,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) max = 100;
+  @property() max = 100;
 
   /**
    * When `minValue` and `maxValue` are specified for multiple values, specifies the accessible name for the `maxValue` handle, such as `"Temperature, upper bound"`.
@@ -463,7 +463,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) min = 0;
+  @property() min = 0;
 
   /**
    * Specifies the accessible name associated with the `value` handle (for single values) or `minValue` handle (for multiple values). For instance, `"Temperature, lower bound"`.
@@ -498,7 +498,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) mirrored = false;
+  @property() mirrored = false;
 
   /**
    * @public
@@ -518,7 +518,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) pageStep?: number;
+  @property() pageStep?: number;
 
   /**
    * When `true`, sets a finer point for handles.
@@ -533,7 +533,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the component's size.
@@ -547,7 +547,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) snap = false;
+  @property() snap = false;
 
   /**
    * Specifies the status of the input field, which determines message and icons.
@@ -561,7 +561,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) step = 1;
+  @property() step = 1;
 
   /**
    * Specifies the interval between tick marks on the number line.
@@ -575,7 +575,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.
@@ -596,7 +596,7 @@ export class Slider extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true })
+  @property()
   get value(): number | number[] {
     return this._value;
   }

@@ -90,7 +90,7 @@ export class DropdownGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) groupTitle?: string;
+  @property() groupTitle?: string;
 
   /**
    * The position of the group in the dropdown menu.
@@ -113,10 +113,7 @@ export class DropdownGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
-    "none" | "single" | "multiple",
-    SelectionMode
-  > = "single";
+  @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
   //#endregion
 

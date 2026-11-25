@@ -129,20 +129,20 @@ export class BlockSection extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconEnd?: IconName;
+  @property() iconEnd?: IconName;
 
   /**
    * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   /**
    * @public
@@ -156,7 +156,7 @@ export class BlockSection extends LitElement {
    * @public
    * @deprecated in v3.1.0, removal target v6.0.0 - Use `expanded` prop instead.
    */
-  @property({ reflect: true })
+  @property()
   get open(): boolean {
     return this.expanded;
   }
@@ -200,7 +200,7 @@ export class BlockSection extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) toggleDisplay: BlockSectionToggleDisplay = "button";
+  @property() toggleDisplay: BlockSectionToggleDisplay = "button";
 
   //#endregion
 

@@ -138,7 +138,7 @@ describe("pointer movement toggling", () => {
       </div>,
     );
 
-    expect(tooltip.open).toBe(false);
+    await expect.element(tooltip).toHaveProperty("open", false);
 
     const pointerMoves: PointerMoveOptions[] = [
       {
@@ -194,7 +194,7 @@ describe("pointer movement toggling", () => {
       </div>,
     );
 
-    expect(tooltip.open).toBe(false);
+    await expect.element(tooltip).toHaveProperty("open", false);
 
     const pointerMoves: PointerMoveOptions[] = [
       {
@@ -304,6 +304,7 @@ describe("reflects", () => {
       {
         propertyName: "pointerDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -452,9 +453,9 @@ describe("close-on-click", () => {
 
     await userEvent.click(referenceElement);
 
-    expect(tip1.open).toBe(false);
-    expect(tip2.open).toBe(true);
-    expect(tip3.open).toBe(true);
+    await expect.element(tip1).toHaveProperty("open", false);
+    await expect.element(tip2).toHaveProperty("open", true);
+    await expect.element(tip3).toHaveProperty("open", true);
   });
 });
 
@@ -530,18 +531,18 @@ describe("reference element", () => {
 
     reference.focus();
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     document.querySelector<HTMLButtonElement>("#other")!.focus();
     await reRender();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
 
     document.querySelector("#transfer")!.append(el);
     await reRender();
     await new Promise((resolve) => requestAnimationFrame(() => resolve(undefined)));
     reference.focus();
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 });
 
@@ -567,30 +568,39 @@ describe("interactions", () => {
     pointerMove(document.querySelector("#ref span")!);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("does not open when pointer movement is prevented", async () => {
     const { el } = await mount<Tooltip>(
       <>
         <calcite-tooltip reference-element="ref">content</calcite-tooltip>
-        <div id="ref">referenceElement</div>
+        <div id="ref" onPointerMove={(event) => event.preventDefault()}>
+          referenceElement
+        </div>
       </>,
     );
     const reference = document.querySelector("#ref")!;
-    reference.addEventListener("pointermove", (event) => event.preventDefault());
 
     pointerMove(reference);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("closes when pointer movement is prevented by an ancestor", async () => {
+    let preventPointerMove = false;
     const { el } = await mount<Tooltip>(
       <>
         <calcite-tooltip reference-element="ref">content</calcite-tooltip>
-        <div id="container">
+        <div
+          id="container"
+          onPointerMove={(event) => {
+            if (preventPointerMove) {
+              event.preventDefault();
+            }
+          }}
+        >
           <div id="ref">referenceElement</div>
         </div>
       </>,
@@ -598,15 +608,13 @@ describe("interactions", () => {
     const reference = document.querySelector("#ref")!;
     pointerMove(reference);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
-    document
-      .querySelector("#container")!
-      .addEventListener("pointermove", (event) => event.preventDefault());
+    preventPointerMove = true;
     pointerMove(reference);
     vi.advanceTimersByTime(HOVER_CLOSE_DELAY_MS);
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("opens on focus and closes on blur", async () => {
@@ -620,26 +628,27 @@ describe("interactions", () => {
 
     document.querySelector<HTMLButtonElement>("#ref")!.focus();
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     document.querySelector<HTMLButtonElement>("#other")!.focus();
     await reRender();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("does not open when focus is prevented", async () => {
     const { el } = await mount<Tooltip>(
       <>
         <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
+        <button id="ref" onFocusIn={(event) => event.preventDefault()}>
+          Button
+        </button>
       </>,
     );
     const reference = document.querySelector("#ref")!;
-    reference.addEventListener("focusin", (event) => event.preventDefault());
 
     dispatchEvent(reference, new FocusEvent("focusin", eventOptions));
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("handles click interactions", async () => {
@@ -656,30 +665,31 @@ describe("interactions", () => {
 
     click(reference);
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     click(reference);
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     click(document.querySelector("#other")!);
     await reRender();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("does not open when a click is prevented", async () => {
     const { el } = await mount<Tooltip>(
       <>
         <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
-        <button id="ref">Button</button>
+        <button id="ref" onClick={(event) => event.preventDefault()}>
+          Button
+        </button>
       </>,
     );
     const reference = document.querySelector("#ref")!;
-    reference.addEventListener("click", (event) => event.preventDefault());
 
     click(reference);
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("closes a focused tooltip with Escape and cancels the key event", async () => {
@@ -696,7 +706,7 @@ describe("interactions", () => {
     const event = keydown(reference, "Escape");
     await reRender();
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
     expect(event.defaultPrevented).toBe(true);
   });
 
@@ -709,12 +719,12 @@ describe("interactions", () => {
     );
     pointerMove(document.querySelector("#ref")!);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     const event = keydown(document, "Escape");
     await reRender();
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
     expect(event.defaultPrevented).toBe(false);
   });
 
@@ -733,7 +743,7 @@ describe("interactions", () => {
     const event = keydown(reference, "Escape");
     await reRender();
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
     expect(event.defaultPrevented).toBe(true);
   });
 
@@ -755,7 +765,7 @@ describe("interactions", () => {
     keydown(reference, "Escape");
     await reRender();
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("only opens the most recently interacted-with tooltip", async () => {
@@ -776,17 +786,17 @@ describe("interactions", () => {
 
     pointerMove(document.querySelector("#ref2")!);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(tip1.open).toBe(false);
-    expect(tip2.open).toBe(true);
+    await expect.element(tip1).toHaveProperty("open", false);
+    await expect.element(tip2).toHaveProperty("open", true);
 
     document.querySelector<HTMLButtonElement>("#ref1")!.focus();
-    expect(tip1.open).toBe(true);
-    expect(tip2.open).toBe(false);
+    await expect.element(tip1).toHaveProperty("open", true);
+    await expect.element(tip2).toHaveProperty("open", false);
 
     pointerMove(document.querySelector("#ref2")!);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(tip1.open).toBe(false);
-    expect(tip2.open).toBe(true);
+    await expect.element(tip1).toHaveProperty("open", false);
+    await expect.element(tip2).toHaveProperty("open", true);
   });
 
   it("opens the next tooltip with the quick delay", async () => {
@@ -807,12 +817,12 @@ describe("interactions", () => {
 
     pointerMove(document.querySelector("#ref1")!);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(tip1.open).toBe(true);
+    await expect.element(tip1).toHaveProperty("open", true);
 
     pointerMove(document.querySelector("#ref2")!);
     vi.advanceTimersByTime(HOVER_QUICK_OPEN_DELAY_MS);
-    expect(tip1.open).toBe(false);
-    expect(tip2.open).toBe(true);
+    await expect.element(tip1).toHaveProperty("open", false);
+    await expect.element(tip2).toHaveProperty("open", true);
   });
 
   it("supports closeOnClick and stays closed until the pointer moves away", async () => {
@@ -825,21 +835,21 @@ describe("interactions", () => {
     const reference = document.querySelector("#ref")!;
     pointerMove(reference);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     click(reference);
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     el.closeOnClick = true;
     await reRender();
     click(reference);
     await reRender();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
 
     pointerMove(reference);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("does not open when the reference is clicked before the hover delay", async () => {
@@ -857,7 +867,7 @@ describe("interactions", () => {
     click(reference);
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("closes when the pointer leaves the document", async () => {
@@ -869,30 +879,34 @@ describe("interactions", () => {
     );
     await userEvent.hover(page.getBySelector("#ref"));
     vi.advanceTimersByTime(HOVER_OPEN_DELAY_MS);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.hover(document.body, { position: { x: -1, y: -1 } });
     vi.advanceTimersByTime(HOVER_CLOSE_DELAY_MS);
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("emits lifecycle events for pointer interaction", async () => {
+    const close = vi.fn();
+    const beforeClose = vi.fn();
+    const open = vi.fn();
+    const beforeOpen = vi.fn();
     const { el } = await mount<Tooltip>(
       <>
         <button id="other">other</button>
-        <calcite-tooltip reference-element="ref">Content</calcite-tooltip>
+        <calcite-tooltip
+          oncalciteTooltipBeforeClose={beforeClose}
+          oncalciteTooltipBeforeOpen={beforeOpen}
+          oncalciteTooltipClose={close}
+          oncalciteTooltipOpen={open}
+          reference-element="ref"
+        >
+          Content
+        </calcite-tooltip>
         <button id="ref">Button</button>
       </>,
     );
-    const beforeOpen = vi.fn();
-    const open = vi.fn();
-    const beforeClose = vi.fn();
-    const close = vi.fn();
-    el.addEventListener("calciteTooltipBeforeOpen", beforeOpen);
-    el.addEventListener("calciteTooltipOpen", open);
-    el.addEventListener("calciteTooltipBeforeClose", beforeClose);
-    el.addEventListener("calciteTooltipClose", close);
 
     const openEvent = waitForEvent(el, "calciteTooltipOpen");
     await userEvent.hover(page.getBySelector("#ref"));
@@ -934,12 +948,12 @@ describe("within shadow roots", () => {
     const two = getElements("#shadow-two");
 
     dispatchEvent(one.button, new FocusEvent("focusin", eventOptions));
-    expect(one.tooltip.open).toBe(true);
-    expect(two.tooltip.open).toBe(false);
+    await expect.element(one.tooltip).toHaveProperty("open", true);
+    await expect.element(two.tooltip).toHaveProperty("open", false);
 
     dispatchEvent(two.button, new FocusEvent("focusin", eventOptions));
-    expect(one.tooltip.open).toBe(false);
-    expect(two.tooltip.open).toBe(true);
+    await expect.element(one.tooltip).toHaveProperty("open", false);
+    await expect.element(two.tooltip).toHaveProperty("open", true);
   });
 
   it("supports tabbing between nested shadow roots", async () => {
@@ -954,52 +968,54 @@ describe("within shadow roots", () => {
     const two = getElements("#shadow-two");
 
     await userEvent.tab();
-    expect(one.tooltip.open).toBe(true);
-    expect(two.tooltip.open).toBe(false);
+    await expect.element(one.tooltip).toHaveProperty("open", true);
+    await expect.element(two.tooltip).toHaveProperty("open", false);
 
     await userEvent.tab();
-    expect(one.tooltip.open).toBe(false);
-    expect(two.tooltip.open).toBe(true);
+    await expect.element(one.tooltip).toHaveProperty("open", false);
+    await expect.element(two.tooltip).toHaveProperty("open", true);
 
     await userEvent.tab();
-    expect(one.tooltip.open).toBe(false);
-    expect(two.tooltip.open).toBe(false);
+    await expect.element(one.tooltip).toHaveProperty("open", false);
+    await expect.element(two.tooltip).toHaveProperty("open", false);
   });
 });
 
 describe("lifecycle events", () => {
   it("emits events when controlled with the open property", async () => {
+    const close = vi.fn();
+    const beforeClose = vi.fn();
+    const open = vi.fn();
+    const beforeOpen = vi.fn();
     const { el, reRender } = await mount<Tooltip>(
       <>
-        <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+        <calcite-tooltip
+          oncalciteTooltipBeforeClose={beforeClose}
+          oncalciteTooltipBeforeOpen={beforeOpen}
+          oncalciteTooltipClose={close}
+          oncalciteTooltipOpen={open}
+          reference-element="ref"
+        >
+          content
+        </calcite-tooltip>
         <button id="ref">referenceElement</button>
       </>,
     );
-    const beforeOpen = vi.fn();
-    const open = vi.fn();
-    const beforeClose = vi.fn();
-    const close = vi.fn();
-    el.addEventListener("calciteTooltipBeforeOpen", beforeOpen);
-    el.addEventListener("calciteTooltipOpen", open);
-    el.addEventListener("calciteTooltipBeforeClose", beforeClose);
-    el.addEventListener("calciteTooltipClose", close);
 
+    const openEvent = waitForEvent(el, "calciteTooltipOpen");
     el.open = true;
     await reRender();
-    await new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipOpen", () => resolve(), { once: true }),
-    );
+    await openEvent;
 
     expect(beforeOpen).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenCalledTimes(1);
     expect(beforeClose).not.toHaveBeenCalled();
     expect(close).not.toHaveBeenCalled();
 
+    const closeEvent = waitForEvent(el, "calciteTooltipClose");
     el.open = false;
     await reRender();
-    await new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipClose", () => resolve(), { once: true }),
-    );
+    await closeEvent;
 
     expect(beforeOpen).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenCalledTimes(1);
@@ -1008,31 +1024,31 @@ describe("lifecycle events", () => {
   });
 
   it("emits events for keyboard interaction", async () => {
+    const close = vi.fn();
+    const beforeClose = vi.fn();
+    const open = vi.fn();
+    const beforeOpen = vi.fn();
     const { el, reRender } = await mount<Tooltip>(
       <>
-        <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+        <calcite-tooltip
+          oncalciteTooltipBeforeClose={beforeClose}
+          oncalciteTooltipBeforeOpen={beforeOpen}
+          oncalciteTooltipClose={close}
+          oncalciteTooltipOpen={open}
+          reference-element="ref"
+        >
+          content
+        </calcite-tooltip>
         <button id="ref">referenceElement</button>
         <button id="other">other</button>
       </>,
     );
-    const beforeOpen = vi.fn();
-    const open = vi.fn();
-    const beforeClose = vi.fn();
-    const close = vi.fn();
-    el.addEventListener("calciteTooltipBeforeOpen", beforeOpen);
-    el.addEventListener("calciteTooltipOpen", open);
-    el.addEventListener("calciteTooltipBeforeClose", beforeClose);
-    el.addEventListener("calciteTooltipClose", close);
 
-    const openEvent = new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipOpen", () => resolve(), { once: true }),
-    );
+    const openEvent = waitForEvent(el, "calciteTooltipOpen");
     document.querySelector<HTMLButtonElement>("#ref")!.focus();
     await reRender();
     await openEvent;
-    const closeEvent = new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipClose", () => resolve(), { once: true }),
-    );
+    const closeEvent = waitForEvent(el, "calciteTooltipClose");
     document.querySelector<HTMLButtonElement>("#other")!.focus();
     await reRender();
     await closeEvent;
@@ -1044,12 +1060,20 @@ describe("lifecycle events", () => {
   });
 
   it("emits close events when the open tooltip is no longer rendered", async () => {
+    const close = vi.fn();
+    const beforeClose = vi.fn();
     const { el } = await mount<Tooltip>(
       <>
         <div class="event-container">
           <div class="event-template">
             <button id="ref">referenceElement</button>
-            <calcite-tooltip reference-element="ref">content</calcite-tooltip>
+            <calcite-tooltip
+              oncalciteTooltipBeforeClose={beforeClose}
+              oncalciteTooltipClose={close}
+              reference-element="ref"
+            >
+              content
+            </calcite-tooltip>
           </div>
         </div>
         <button class="outside">outside</button>
@@ -1073,22 +1097,14 @@ describe("lifecycle events", () => {
         />
       </>,
     );
-    const beforeClose = vi.fn();
-    const close = vi.fn();
-    el.addEventListener("calciteTooltipBeforeClose", beforeClose);
-    el.addEventListener("calciteTooltipClose", close);
 
     await userEvent.hover(page.getBySelector(".event-container"));
-    const openEvent = new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipOpen", () => resolve(), { once: true }),
-    );
+    const openEvent = waitForEvent(el, "calciteTooltipOpen");
     await userEvent.hover(page.getBySelector("#ref"));
     await openEvent;
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
-    const closeEvent = new Promise<void>((resolve) =>
-      el.addEventListener("calciteTooltipClose", () => resolve(), { once: true }),
-    );
+    const closeEvent = waitForEvent(el, "calciteTooltipClose");
     await userEvent.hover(page.getBySelector(".outside"));
     await closeEvent;
 
@@ -1111,19 +1127,19 @@ describe("interacting with open content", () => {
 
     click(document.querySelector("#ref")!);
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     click(el.shadowRoot.querySelector(`.${CSS.positionContainer}`)!);
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     click(document.querySelector("#inside")!);
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     click(document.querySelector("#other")!);
     await reRender();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("stays open while focus moves into the tooltip", async () => {
@@ -1139,15 +1155,15 @@ describe("interacting with open content", () => {
 
     document.querySelector<HTMLButtonElement>("#ref")!.focus();
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     document.querySelector<HTMLButtonElement>("#inside")!.focus();
     await reRender();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     document.querySelector<HTMLButtonElement>("#other")!.focus();
     await reRender();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 });
 

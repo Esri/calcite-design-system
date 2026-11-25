@@ -141,18 +141,22 @@ describe("reflects", () => {
       {
         propertyName: "collapsible",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expandable",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "headingLevel",
         value: 2,
+        reflect: false,
       },
       {
         propertyName: "open",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expanded",
@@ -161,18 +165,22 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+        reflect: false,
       },
       {
         propertyName: "menuPlacement",
         value: "bottom",
+        reflect: false,
       },
       {
         propertyName: "dragDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "sortHandleOpen",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -366,10 +374,10 @@ describe("theme", () => {
           <div>content</div>
         </calcite-block>,
       );
-      expect(el).toHaveProperty("expanded", false);
+      await expect.element(el).toHaveProperty("expanded", false);
 
       await userEvent.click(el);
-      expect(el).toHaveProperty("expanded", true);
+      await expect.element(el).toHaveProperty("expanded", true);
       const slottedEl = page.getByText("content");
       await expect.element(slottedEl).toBeVisible();
     });

@@ -41,6 +41,7 @@ describe("reflects", () => {
       {
         propertyName: "target",
         value: "_blank",
+        reflect: false,
       },
     ],
   );

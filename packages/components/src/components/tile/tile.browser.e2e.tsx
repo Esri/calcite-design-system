@@ -119,13 +119,13 @@ describe("reflects", () => {
       { propertyName: "embed", value: true },
       { propertyName: "heading", value: "My test heading" },
       { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" },
-      { propertyName: "iconFlipRtl", value: true },
+      { propertyName: "icon", value: "layers", reflect: false },
+      { propertyName: "iconFlipRtl", value: true, reflect: false },
       { propertyName: "scale", value: "s" },
       { propertyName: "selected", value: true },
       { propertyName: "selectionAppearance", value: "highlight" },
       { propertyName: "selectionMode", value: "single-persist" },
-      { propertyName: "headingLevel", value: 2 },
+      { propertyName: "headingLevel", value: 2, reflect: false },
     ],
   );
 });
@@ -147,7 +147,7 @@ describe("renders", () => {
     const link = page.getBySelector("calcite-tile calcite-link");
     const anchor = page.getBySelector("calcite-tile calcite-link a");
 
-    await expect.element(link).toHaveAttribute("href", "http://www.esri.com");
+    await expect.element(link).toHaveProperty("href", "http://www.esri.com");
     await expect.element(anchor).toHaveAttribute("href", "http://www.esri.com");
   });
 

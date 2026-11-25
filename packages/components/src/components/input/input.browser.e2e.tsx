@@ -163,6 +163,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -234,7 +235,7 @@ describe("inline edit", () => {
       page.getBySelector(`calcite-input .${InlineEditControlsCSS.cancelEditing}`),
     );
 
-    expect(el.value).toBe("Starting value");
+    await expect.element(el).toHaveProperty("value", "Starting value");
     await expect.element(input).toHaveValue("Starting value");
   });
 
@@ -248,11 +249,11 @@ describe("inline edit", () => {
       await userEvent.keyboard("1.5");
 
       await expect.element(input).toHaveValue("1.5");
-      expect(el.value).toBe("");
+      await expect.element(el).toHaveProperty("value", "");
 
       await userEvent.keyboard("{Enter}");
 
-      expect(el.value).toBe("1.5");
+      await expect.element(el).toHaveProperty("value", "1.5");
     },
   );
 
@@ -267,19 +268,20 @@ describe("inline edit", () => {
     await userEvent.keyboard("{Escape}");
 
     await expect.element(input).toHaveValue("");
-    expect(el.value).toBe("John Doe");
-    expect(el.inlineEditing).toBe(true);
+    await expect.element(el).toHaveProperty("value", "John Doe");
+    await expect.element(el).toHaveProperty("inlineEditing", true);
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.inlineEditing).toBe(false);
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+    await expect.element(el).toHaveProperty("value", "John Doe");
   });
 
   it("cancels built-in inline editing on first Escape when clearable is not set", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit oncalciteInputInlineEditingChange={changeSpy} value="John Doe" />,
+    );
 
     const input = page.getBySelector("calcite-input input");
 
@@ -288,96 +290,104 @@ describe("inline edit", () => {
 
     await userEvent.keyboard("X");
     await expect.element(input).toHaveValue("John DoeX");
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.inlineEditing).toBe(false);
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+    await expect.element(el).toHaveProperty("value", "John Doe");
     expect(changeSpy).toHaveBeenCalledTimes(2);
   });
 
   it("emits a change only when inline editing is saved", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputChange", changeSpy);
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit oncalciteInputChange={changeSpy} value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
 
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     expect(changeSpy).not.toHaveBeenCalled();
 
     await userEvent.click(
       page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
     );
 
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     expect(changeSpy).toHaveBeenCalledTimes(1);
   });
 
   it("commits inline editing on Enter when controls are present", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputChange", changeSpy);
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit oncalciteInputChange={changeSpy} value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
     await userEvent.keyboard("{Enter}");
 
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     expect(changeSpy).toHaveBeenCalledTimes(1);
-    expect(el.inlineEditing).toBe(false);
+    await expect.element(el).toHaveProperty("inlineEditing", false);
     await expect.element(input).not.toHaveFocus();
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("commits inline editing on Enter when controls are not present", async () => {
+    const confirmSpy = vi.fn();
+    const changeSpy = vi.fn();
     const { el } = await mount<Input>(
-      <calcite-input inline-edit="controls-disabled" value="John Doe" />,
+      <calcite-input
+        inline-edit="controls-disabled"
+        oncalciteInputChange={changeSpy}
+        oncalciteInputInlineEditingConfirm={confirmSpy}
+        value="John Doe"
+      />,
     );
     const input = page.getBySelector("calcite-input input");
-    const changeSpy = vi.fn();
-    const confirmSpy = vi.fn();
+
     el.inlineEditingBeforeConfirm = vi.fn().mockResolvedValue(undefined);
-    el.addEventListener("calciteInputChange", changeSpy);
-    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
     await userEvent.keyboard("{Enter}");
 
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     expect(changeSpy).toHaveBeenCalledTimes(1);
     expect(confirmSpy).not.toHaveBeenCalled();
     expect(el.inlineEditingBeforeConfirm).not.toHaveBeenCalled();
-    expect(el.inlineEditing).toBe(false);
+    await expect.element(el).toHaveProperty("inlineEditing", false);
     await expect.element(input).not.toHaveFocus();
   });
 
   it("does not emit a change when inline editing is cancelled", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputChange", changeSpy);
+    const { el } = await mount<Input>(
+      <calcite-input inline-edit oncalciteInputChange={changeSpy} value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     expect(changeSpy).not.toHaveBeenCalled();
   });
 
   it("does not emit input while built-in inline editing is active", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const inputSpy = vi.fn();
-    el.addEventListener("calciteInputInput", inputSpy);
+    await mount<Input>(
+      <calcite-input inline-edit oncalciteInputInput={inputSpy} value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
@@ -396,7 +406,7 @@ describe("inline edit", () => {
     await userEvent.click(nudgeUpButton);
 
     await expect.element(input).toHaveValue("2");
-    expect(el.value).toBe("0");
+    await expect.element(el).toHaveProperty("value", "0");
 
     await userEvent.click(nudgeDownButton);
     await userEvent.click(nudgeDownButton);
@@ -404,65 +414,81 @@ describe("inline edit", () => {
     await userEvent.click(nudgeDownButton);
 
     await expect.element(input).toHaveValue("-2");
-    expect(el.value).toBe("0");
+    await expect.element(el).toHaveProperty("value", "0");
   });
 
   it("commits a number inline edit on Enter when controls are present", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit type="number" value="0" />);
-    const input = page.getBySelector("calcite-input input");
-    const changeSpy = vi.fn();
     const confirmSpy = vi.fn();
-    el.addEventListener("calciteInputChange", changeSpy);
-    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
+    const changeSpy = vi.fn();
+    const { el } = await mount<Input>(
+      <calcite-input
+        inline-edit
+        oncalciteInputChange={changeSpy}
+        oncalciteInputInlineEditingConfirm={confirmSpy}
+        type="number"
+        value="0"
+      />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
     await userEvent.keyboard("1");
     await userEvent.keyboard("{Enter}");
 
-    expect(el.value).toBe("1");
+    await expect.element(el).toHaveProperty("value", "1");
     expect(changeSpy).toHaveBeenCalledTimes(1);
     expect(confirmSpy).toHaveBeenCalledTimes(1);
-    expect(el.inlineEditing).toBe(false);
+    await expect.element(el).toHaveProperty("inlineEditing", false);
     await expect.element(input).not.toHaveFocus();
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("emits enable editing change when built-in inline edit is activated", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
     const enableEditingSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditingChange", enableEditingSpy);
+    const { el } = await mount<Input>(
+      <calcite-input
+        inline-edit
+        oncalciteInputInlineEditingChange={enableEditingSpy}
+        value="John Doe"
+      />,
+    );
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
 
     expect(enableEditingSpy).toHaveBeenCalledTimes(1);
-    expect(el.inlineEditing).toBe(true);
+    await expect.element(el).toHaveProperty("inlineEditing", true);
   });
 
   it("emits confirm when save is clicked without inlineEditingBeforeConfirm", async () => {
-    const { el } = await mount<Input>(<calcite-input inline-edit value="John Doe" />);
-    const confirmSpy = vi.fn();
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditingConfirm", confirmSpy);
-    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
+    const confirmSpy = vi.fn();
+    const { el } = await mount<Input>(
+      <calcite-input
+        inline-edit
+        oncalciteInputInlineEditingChange={changeSpy}
+        oncalciteInputInlineEditingConfirm={confirmSpy}
+        value="John Doe"
+      />,
+    );
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
     await userEvent.keyboard("X");
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     await userEvent.click(
       page.getBySelector(`calcite-input .${InlineEditControlsCSS.confirmChanges}`),
     );
 
     expect(confirmSpy).toHaveBeenCalledTimes(1);
     expect(changeSpy).toHaveBeenCalledTimes(2);
-    expect(el.value).toBe("John DoeX");
-    expect(el.inlineEditing).toBe(false);
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect.element(el).toHaveProperty("value", "John DoeX");
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("focuses enable editing action after cancel is clicked", async () => {
@@ -476,11 +502,11 @@ describe("inline edit", () => {
     await userEvent.keyboard("X");
     await userEvent.click(cancelButton);
 
-    expect(el.value).toBe("John Doe");
-    expect(el.inlineEditing).toBe(false);
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect.element(el).toHaveProperty("value", "John Doe");
+    await expect.element(el).toHaveProperty("inlineEditing", false);
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("disables editing when inlineEditingBeforeConfirm resolves successfully", async () => {
@@ -494,7 +520,7 @@ describe("inline edit", () => {
     );
 
     expect(el.inlineEditingBeforeConfirm).toHaveBeenCalledTimes(1);
-    expect(el.inlineEditing).toBe(false);
+    await expect.element(el).toHaveProperty("inlineEditing", false);
   });
 
   it("disables inline editing controls while inlineEditingBeforeConfirm is pending", async () => {
@@ -521,11 +547,14 @@ describe("inline edit", () => {
   });
 
   it("saves changes on blur and disables editing when inline edit controls are off", async () => {
-    const { el } = await mount<Input>(
-      <calcite-input inline-edit="controls-disabled" value="John Doe" />,
-    );
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputInlineEditingChange", changeSpy);
+    const { el } = await mount<Input>(
+      <calcite-input
+        inline-edit="controls-disabled"
+        oncalciteInputInlineEditingChange={changeSpy}
+        value="John Doe"
+      />,
+    );
 
     const input = page.getBySelector("calcite-input input");
     await userEvent.click(input);
@@ -535,8 +564,8 @@ describe("inline edit", () => {
     await userEvent.keyboard("X");
     await userEvent.tab();
 
-    expect(el.value).toBe("John DoeX");
-    expect(el.inlineEditing).toBe(false);
+    await expect.element(el).toHaveProperty("value", "John DoeX");
+    await expect.element(el).toHaveProperty("inlineEditing", false);
     expect(changeSpy).toHaveBeenCalledTimes(2);
   });
 });
@@ -618,7 +647,7 @@ it("updates files when a file is uploaded", async () => {
 
   await userEvent.upload(input, file);
 
-  expect(el.files).toHaveLength(1);
+  await expect.element(el).toHaveProperty("files.length", 1);
   expect(el.files![0]).toMatchObject({
     name: file.name,
     type: file.type,
@@ -657,7 +686,7 @@ describe("clearable", () => {
     await userEvent.click(input);
     await userEvent.click(clearButton);
 
-    expect(el.value).toBe("");
+    await expect.element(el).toHaveProperty("value", "");
   });
 
   it("clears value on escape key press", async () => {
@@ -667,27 +696,29 @@ describe("clearable", () => {
     await userEvent.click(input);
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("");
+    await expect.element(el).toHaveProperty("value", "");
   });
 
   it("receives event when clear button is clicked", async () => {
-    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input clearable oncalciteInputInput={inputEventHandler} value="John Doe" />,
+    );
 
     const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
     await userEvent.click(clearButton);
 
-    expect(el.value).toBe("");
+    await expect.element(el).toHaveProperty("value", "");
     expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when input is cleared via escape key", async () => {
-    const { el } = await mount<Input>(<calcite-input clearable value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input clearable oncalciteInputInput={inputEventHandler} value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
 
@@ -695,14 +726,15 @@ describe("clearable", () => {
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("");
+    await expect.element(el).toHaveProperty("value", "");
     expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when type is search and clear button is clicked", async () => {
-    const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="search" value="John Doe" />,
+    );
 
     const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
@@ -710,15 +742,16 @@ describe("clearable", () => {
 
     await userEvent.click(clearButton);
 
-    expect(el.value).toBe("");
+    await expect.element(el).toHaveProperty("value", "");
     expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("receives event when type is search and input is cleared via escape key", async () => {
-    const { el } = await mount<Input>(<calcite-input type="search" value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="search" value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
 
@@ -726,15 +759,16 @@ describe("clearable", () => {
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("");
+    await expect.element(el).toHaveProperty("value", "");
     expect(inputEventHandler).toHaveBeenCalledTimes(1);
   });
 
   it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
-    const { el } = await mount<Input>(<calcite-input value="John Doe" />);
-    const input = page.getBySelector("calcite-input input");
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} value="John Doe" />,
+    );
+    const input = page.getBySelector("calcite-input input");
 
     await userEvent.click(input);
 
@@ -742,7 +776,7 @@ describe("clearable", () => {
 
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     expect(inputEventHandler).toHaveBeenCalledTimes(0);
   });
 
@@ -788,7 +822,7 @@ describe("nudging", () => {
     await userEvent.click(nudgeUpButton);
     await nudgeUpReadOnlyToggle;
 
-    expect(el.value).toBe("1");
+    await expect.element(el).toHaveProperty("value", "1");
 
     const nudgeDownReadOnlyToggle = nudgeReadOnlyToggle(el);
 
@@ -796,7 +830,7 @@ describe("nudging", () => {
     await userEvent.click(nudgeDownButton);
     await nudgeDownReadOnlyToggle;
 
-    expect(el.value).toBe("0");
+    await expect.element(el).toHaveProperty("value", "0");
   });
 });
 
@@ -924,13 +958,17 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "100000000000000000000000000000000000000000000000010");
+    await expect
+      .element(el)
+      .toHaveProperty("value", "100000000000000000000000000000000000000000000000010");
 
     el.step = 0.1;
 
     await userEvent.click(numberHorizontalItemDown, { clickCount: 10 });
 
-    expect(el).toHaveProperty("value", "100000000000000000000000000000000000000000000000009");
+    await expect
+      .element(el)
+      .toHaveProperty("value", "100000000000000000000000000000000000000000000000009");
   });
 
   it("correctly increments/decrements exponential notation numbers without losing precision", async () => {
@@ -945,19 +983,17 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty(
-      "value",
-      "1.00000000000000000000000000000000000000000000000000000000000123",
-    );
+    await expect
+      .element(el)
+      .toHaveProperty("value", "1.00000000000000000000000000000000000000000000000000000000000123");
 
     el.step = 0.1;
 
     await userEvent.click(numberHorizontalItemDown, { clickCount: 5 });
 
-    expect(el).toHaveProperty(
-      "value",
-      "0.50000000000000000000000000000000000000000000000000000000000123",
-    );
+    await expect
+      .element(el)
+      .toHaveProperty("value", "0.50000000000000000000000000000000000000000000000000000000000123");
   });
 
   it("correctly increments and decrements decimal value when number buttons are clicked and the step precision matches the precision of the initial value", async () => {
@@ -972,18 +1008,18 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "3.122");
+    await expect.element(el).toHaveProperty("value", "3.122");
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "3.123");
+    await expect.element(el).toHaveProperty("value", "3.123");
 
     await userEvent.click(numberHorizontalItemUp);
-    expect(el).toHaveProperty("value", "3.124");
+    await expect.element(el).toHaveProperty("value", "3.124");
 
     await userEvent.click(numberHorizontalItemUp, { clickCount: 10 });
 
-    expect(el).toHaveProperty("value", "3.134");
+    await expect.element(el).toHaveProperty("value", "3.134");
   });
 
   it("correctly increments and decrements initial decimal value by 1 when number buttons are clicked and step is set to default of 1.", async () => {
@@ -998,18 +1034,18 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "2.123");
+    await expect.element(el).toHaveProperty("value", "2.123");
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "3.123");
+    await expect.element(el).toHaveProperty("value", "3.123");
 
     await userEvent.click(numberHorizontalItemUp);
-    expect(el).toHaveProperty("value", "4.123");
+    await expect.element(el).toHaveProperty("value", "4.123");
 
     await userEvent.click(numberHorizontalItemUp, { clickCount: 10 });
 
-    expect(el).toHaveProperty("value", "14.123");
+    await expect.element(el).toHaveProperty("value", "14.123");
   });
 
   it("correctly increments and decrements value when number buttons are clicked and step is set to an integer", async () => {
@@ -1024,23 +1060,25 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "5");
+    await expect.element(el).toHaveProperty("value", "5");
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "15");
+    await expect.element(el).toHaveProperty("value", "15");
 
     await userEvent.click(numberHorizontalItemUp);
-    expect(el).toHaveProperty("value", "25");
+    await expect.element(el).toHaveProperty("value", "25");
 
     await userEvent.click(numberHorizontalItemDown);
-    expect(el).toHaveProperty("value", "15");
+    await expect.element(el).toHaveProperty("value", "15");
   });
 
   it("correctly increments and decrements on long hold on mousedown and step is set to a decimal", async () => {
-    const { el } = await mount<Input>(<calcite-input step={0.01} type="number" value="0" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} step={0.01} type="number" value="0" />,
+    );
+
     const numberHorizontalItemDown = page.getBySelector(
       `calcite-input .${CSS.numberButtonItem}[data-adjustment='down']`,
     );
@@ -1054,7 +1092,7 @@ describe("input type number increment/decrement functionality", () => {
     await commands.mouseUp();
 
     const totalNudgesUp = inputEventHandler.mock.calls.length;
-    expect(el).toHaveProperty("value", `0.0${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `0.0${totalNudgesUp}`);
 
     await userEvent.hover(numberHorizontalItemDown);
     await commands.mouseDown();
@@ -1063,7 +1101,7 @@ describe("input type number increment/decrement functionality", () => {
 
     const totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
     const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-    expect(el).toHaveProperty("value", `${finalNudgedValue * 0.01}`);
+    await expect.element(el).toHaveProperty("value", `${finalNudgedValue * 0.01}`);
   });
 
   it("correctly increments and decrements value by one when any is set for step", async () => {
@@ -1078,17 +1116,17 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "4.5");
+    await expect.element(el).toHaveProperty("value", "4.5");
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "5.5");
+    await expect.element(el).toHaveProperty("value", "5.5");
 
     await userEvent.click(numberHorizontalItemUp);
-    expect(el).toHaveProperty("value", "6.5");
+    await expect.element(el).toHaveProperty("value", "6.5");
 
     await userEvent.click(numberHorizontalItemDown);
-    expect(el).toHaveProperty("value", "5.5");
+    await expect.element(el).toHaveProperty("value", "5.5");
   });
 
   it("correctly increments and decrements value by one when step is undefined", async () => {
@@ -1103,17 +1141,17 @@ describe("input type number increment/decrement functionality", () => {
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "4");
+    await expect.element(el).toHaveProperty("value", "4");
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "5");
+    await expect.element(el).toHaveProperty("value", "5");
 
     await userEvent.click(numberHorizontalItemUp);
-    expect(el).toHaveProperty("value", "6");
+    await expect.element(el).toHaveProperty("value", "6");
 
     await userEvent.click(numberHorizontalItemDown);
-    expect(el).toHaveProperty("value", "5");
+    await expect.element(el).toHaveProperty("value", "5");
   });
 
   it("decrements to max when value is higher", async () => {
@@ -1124,11 +1162,11 @@ describe("input type number increment/decrement functionality", () => {
     );
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "10");
+    await expect.element(el).toHaveProperty("value", "10");
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "9");
+    await expect.element(el).toHaveProperty("value", "9");
   });
 
   it("increments to min when value is lower", async () => {
@@ -1139,11 +1177,11 @@ describe("input type number increment/decrement functionality", () => {
     );
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "20");
+    await expect.element(el).toHaveProperty("value", "20");
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "20");
+    await expect.element(el).toHaveProperty("value", "20");
   });
 
   it("correctly stops decrementing value when min is set", async () => {
@@ -1154,11 +1192,11 @@ describe("input type number increment/decrement functionality", () => {
     );
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "10");
+    await expect.element(el).toHaveProperty("value", "10");
 
     await userEvent.click(numberHorizontalItemDown);
 
-    expect(el).toHaveProperty("value", "10");
+    await expect.element(el).toHaveProperty("value", "10");
   });
 
   it("correctly stops incrementing value when max is set", async () => {
@@ -1169,17 +1207,18 @@ describe("input type number increment/decrement functionality", () => {
     );
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "10");
+    await expect.element(el).toHaveProperty("value", "10");
 
     await userEvent.click(numberHorizontalItemUp);
 
-    expect(el).toHaveProperty("value", "10");
+    await expect.element(el).toHaveProperty("value", "10");
   });
 
   it("should emit event when up or down clicked on input", async () => {
-    const { el } = await mount<Input>(<calcite-input max={0} type="number" value="-2" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    await mount<Input>(
+      <calcite-input max={0} oncalciteInputInput={inputEventHandler} type="number" value="-2" />,
+    );
 
     const numberHorizontalItemUp = page.getBySelector(
       `calcite-input .${CSS.numberButtonItem}[data-adjustment='up']`,
@@ -1202,9 +1241,10 @@ describe("input type number increment/decrement functionality", () => {
   });
 
   it("on input type number, should emit an event on an interval when ArrowUp/ArrowDown keys are down and stop on key up", async () => {
-    const { el } = await mount<Input>(<calcite-input type="number" value="0" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="number" value="0" />,
+    );
 
     await el.setFocus();
     await userEvent.keyboard("{ArrowUp>10/}");
@@ -1212,7 +1252,7 @@ describe("input type number increment/decrement functionality", () => {
     await userEvent.keyboard("{/ArrowUp}");
 
     const totalNudgesUp = inputEventHandler.mock.calls.length;
-    expect(el).toHaveProperty("value", `${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `${totalNudgesUp}`);
 
     await userEvent.keyboard("{ArrowDown>}");
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
@@ -1220,13 +1260,15 @@ describe("input type number increment/decrement functionality", () => {
 
     const totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
     const finalNudgedValue = totalNudgesUp - totalNudgesDown;
-    expect(el).toHaveProperty("value", `${finalNudgedValue}`);
+    await expect.element(el).toHaveProperty("value", `${finalNudgedValue}`);
   });
 
   it("should emit an event on an interval when up/down buttons are down and stop on mouseup/mouseleave", async () => {
-    const { el } = await mount<Input>(<calcite-input type="number" value="0" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="number" value="0" />,
+    );
+
     const numberHorizontalItemDown = page.getBySelector(
       `calcite-input .${CSS.numberButtonItem}[data-adjustment='down']`,
     );
@@ -1243,18 +1285,18 @@ describe("input type number increment/decrement functionality", () => {
     await commands.mouseUp();
 
     let totalNudgesUp = inputEventHandler.mock.calls.length;
-    expect(el).toHaveProperty("value", `${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `${totalNudgesUp}`);
 
     await commands.mouseDown();
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
     await commands.mouseMove(buttonUpLocation.x - 1, buttonUpLocation.y - 1);
 
     totalNudgesUp = inputEventHandler.mock.calls.length;
-    expect(el).toHaveProperty("value", `${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `${totalNudgesUp}`);
 
     // assert changes no longer emitted after moving away from stepper
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
-    expect(el).toHaveProperty("value", `${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `${totalNudgesUp}`);
     await commands.mouseUp(); // mouseleave assertion done, we release
 
     await commands.mouseMove(buttonDownLocation.x, buttonDownLocation.y);
@@ -1264,7 +1306,7 @@ describe("input type number increment/decrement functionality", () => {
 
     let totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
     let finalNudgedValue = totalNudgesUp - totalNudgesDown;
-    expect(el).toHaveProperty("value", `${finalNudgedValue}`);
+    await expect.element(el).toHaveProperty("value", `${finalNudgedValue}`);
 
     await commands.mouseDown();
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
@@ -1272,11 +1314,11 @@ describe("input type number increment/decrement functionality", () => {
 
     totalNudgesDown = inputEventHandler.mock.calls.length - totalNudgesUp;
     finalNudgedValue = totalNudgesUp - totalNudgesDown;
-    expect(el).toHaveProperty("value", `${finalNudgedValue}`);
+    await expect.element(el).toHaveProperty("value", `${finalNudgedValue}`);
 
     // assert changes no longer emitted after moving away from stepper
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
-    expect(el).toHaveProperty("value", `${finalNudgedValue}`);
+    await expect.element(el).toHaveProperty("value", `${finalNudgedValue}`);
   });
 
   it("on input type number, when both 'ArrowUp' and 'ArrowDown' are pressed at the same time most recently pressed key takes over", async () => {
@@ -1286,13 +1328,15 @@ describe("input type number increment/decrement functionality", () => {
     await userEvent.keyboard("{ArrowUp}{ArrowDown}");
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
 
-    expect(el).toHaveProperty("value", "0");
+    await expect.element(el).toHaveProperty("value", "0");
   });
 
   it("on input type number, should emit event only twice when toggled fast between up/down arrows", async () => {
-    const { el } = await mount<Input>(<calcite-input type="number" value="0" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="number" value="0" />,
+    );
+
     const input = page.getBySelector("calcite-input input").element();
 
     // dispatching synthetic events best emulates the original use case from https://github.com/Esri/calcite-design-system/pull/3908
@@ -1319,19 +1363,19 @@ describe("input type number increment/decrement functionality", () => {
     await el.setFocus();
     await userEvent.keyboard("{ArrowUp}");
 
-    expect(el).toHaveProperty("value", "0.1");
+    await expect.element(el).toHaveProperty("value", "0.1");
 
     await userEvent.keyboard("{ArrowUp}");
 
-    expect(el).toHaveProperty("value", "0.2");
+    await expect.element(el).toHaveProperty("value", "0.2");
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(el).toHaveProperty("value", "0.1");
+    await expect.element(el).toHaveProperty("value", "0.1");
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(el).toHaveProperty("value", "0");
+    await expect.element(el).toHaveProperty("value", "0");
   });
 
   it("up/down arrow keys increments and decrements correctly when the step is an integer and the value is a decimal", async () => {
@@ -1340,19 +1384,19 @@ describe("input type number increment/decrement functionality", () => {
     await el.setFocus();
     await userEvent.keyboard("{ArrowUp}");
 
-    expect(el).toHaveProperty("value", "6.008");
+    await expect.element(el).toHaveProperty("value", "6.008");
 
     await userEvent.keyboard("{ArrowUp}");
 
-    expect(el).toHaveProperty("value", "11.008");
+    await expect.element(el).toHaveProperty("value", "11.008");
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(el).toHaveProperty("value", "6.008");
+    await expect.element(el).toHaveProperty("value", "6.008");
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(el).toHaveProperty("value", "1.008");
+    await expect.element(el).toHaveProperty("value", "1.008");
   });
 
   it("should stop increasing the value when pointer is moved away from the increment button", async () => {
@@ -1364,32 +1408,33 @@ describe("input type number increment/decrement functionality", () => {
     await commands.mouseDown();
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
 
-    expect(el).not.toHaveProperty("value", "");
+    await expect.element(el).not.toHaveProperty("value", "");
 
     const { value } = el;
     await commands.mouseMove(incrementButtonRect.x - 1, incrementButtonRect.y);
 
-    expect(el).toHaveProperty("value", value);
+    await expect.element(el).toHaveProperty("value", value);
 
     await commands.mouseUp();
 
-    expect(el).toHaveProperty("value", value);
+    await expect.element(el).toHaveProperty("value", value);
   });
 
   it("should not change the value when user Tab out of the input with ArrowUp/ArrowDown keys are down", async () => {
-    const { el } = await mount<Input>(<calcite-input type="number" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="number" />,
+    );
 
     await userEvent.keyboard("{Tab}{ArrowUp>}");
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
     await userEvent.keyboard("{Tab}");
 
     const totalNudgesUp = inputEventHandler.mock.calls.length;
-    expect(el).toHaveProperty("value", `${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `${totalNudgesUp}`);
 
     vi.advanceTimersByTime(delayFor2UpdatesInMs + 1);
-    expect(el).toHaveProperty("value", `${totalNudgesUp}`);
+    await expect.element(el).toHaveProperty("value", `${totalNudgesUp}`);
     await userEvent.keyboard("{/ArrowUp}");
   });
 });
@@ -1403,16 +1448,19 @@ describe("direct changes to the value", () => {
     el.blur();
     el.value = "2";
 
-    expect(el).toHaveProperty("value", "2");
+    await expect.element(el).toHaveProperty("value", "2");
     expect(input).toHaveDisplayValue("2");
   });
 
   it("does not fire any input or change events when a focused input is blurred after its value is set directly", async () => {
-    const { el } = await mount<Input>(<calcite-input />);
-    const inputEventHandler = vi.fn();
     const changeEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
-    el.addEventListener("calciteInputChange", changeEventHandler);
+    const inputEventHandler = vi.fn();
+    const { el } = await mount<Input>(
+      <calcite-input
+        oncalciteInputChange={changeEventHandler}
+        oncalciteInputInput={inputEventHandler}
+      />,
+    );
 
     expect(inputEventHandler).not.toHaveBeenCalled();
     expect(changeEventHandler).not.toHaveBeenCalled();
@@ -1431,34 +1479,39 @@ describe("direct changes to the value", () => {
     await el.setFocus();
     el.value = "Infinity";
 
-    expect(el).toHaveProperty("value", "Infinity");
+    await expect.element(el).toHaveProperty("value", "Infinity");
 
     await userEvent.keyboard("123");
 
-    expect(el).toHaveProperty("value", "Infinity");
+    await expect.element(el).toHaveProperty("value", "Infinity");
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(el).toHaveProperty("value", "");
+    await expect.element(el).toHaveProperty("value", "");
   });
 });
 
 it("number input value stays in sync when value property is controlled with javascript", async () => {
-  const { el } = await mount<Input>(<calcite-input type="number" value="1" />);
+  const { el } = await mount<Input>(
+    <calcite-input
+      oncalciteInputInput={() => {
+        el.value = "5";
+      }}
+      type="number"
+      value="1"
+    />,
+  );
   const input = page.getBySelector(`calcite-input input`);
-  el.addEventListener("calciteInputInput", () => {
-    el.value = "5";
-  });
 
   await userEvent.click(el);
   await userEvent.keyboard("1");
 
-  expect(el).toHaveProperty("value", "5");
+  await expect.element(el).toHaveProperty("value", "5");
   expect(input).toHaveDisplayValue("5");
 
   await userEvent.keyboard("2");
 
-  expect(el).toHaveProperty("value", "5");
+  await expect.element(el).toHaveProperty("value", "5");
   expect(input).toHaveDisplayValue("5");
 });
 
@@ -1467,7 +1520,7 @@ describe("number type", () => {
     const preciseNumber = "4.9999999999999999";
     const { el } = await mount<Input>(<calcite-input type="number" value={preciseNumber} />);
 
-    expect(el).toHaveProperty("value", preciseNumber);
+    await expect.element(el).toHaveProperty("value", preciseNumber);
   });
 
   it("allows typing negative decimal values", async () => {
@@ -1476,11 +1529,11 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("-");
 
-    expect(el).toHaveProperty("value", "");
+    await expect.element(el).toHaveProperty("value", "");
 
     await userEvent.keyboard("0.001");
 
-    expect(el).toHaveProperty("value", "-0.001");
+    await expect.element(el).toHaveProperty("value", "-0.001");
   });
 
   it("allows exponential number format", async () => {
@@ -1489,11 +1542,11 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("1.2e5");
 
-    expect(el).toHaveProperty("value", "1.2e5");
+    await expect.element(el).toHaveProperty("value", "1.2e5");
 
     await userEvent.keyboard("{ArrowLeft}-");
 
-    expect(el).toHaveProperty("value", "1.2e-5");
+    await expect.element(el).toHaveProperty("value", "1.2e-5");
   });
 
   it("sanitizes numbers when using exponential format", async () => {
@@ -1502,7 +1555,7 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("------000005eeee00005----eee");
 
-    expect(el).toHaveProperty("value", "-5e5");
+    await expect.element(el).toHaveProperty("value", "-5e5");
   });
 
   it("increments correctly with exponential numbers", async () => {
@@ -1511,11 +1564,11 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("2e-2");
 
-    expect(el).toHaveProperty("value", "2e-2");
+    await expect.element(el).toHaveProperty("value", "2e-2");
 
     await userEvent.keyboard("{ArrowUp}");
 
-    expect(el).toHaveProperty("value", "1.02");
+    await expect.element(el).toHaveProperty("value", "1.02");
   });
 
   it("decrements correctly with exponential numbers", async () => {
@@ -1524,11 +1577,11 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("2e2");
 
-    expect(el).toHaveProperty("value", "2e2");
+    await expect.element(el).toHaveProperty("value", "2e2");
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(el).toHaveProperty("value", "195");
+    await expect.element(el).toHaveProperty("value", "195");
   });
 
   it("allows deleting exponential number from decimal and adding trailing zeros", async () => {
@@ -1537,22 +1590,22 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("2.100e10");
 
-    expect(el).toHaveProperty("value", "2.1e10");
+    await expect.element(el).toHaveProperty("value", "2.1e10");
     expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1e10");
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(el).toHaveProperty("value", "2.1e1");
+    await expect.element(el).toHaveProperty("value", "2.1e1");
     expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1e1");
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(el).toHaveProperty("value", "2.1");
+    await expect.element(el).toHaveProperty("value", "2.1");
     expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1");
 
     await userEvent.keyboard("000");
 
-    expect(el).toHaveProperty("value", "2.1000");
+    await expect.element(el).toHaveProperty("value", "2.1000");
     expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1000");
   });
 
@@ -1565,7 +1618,7 @@ describe("number type", () => {
     for (let i = 0; i < nonELetterKeys.length; i++) {
       await userEvent.keyboard(`{Shift>}${nonELetterKeys[i]}{/Shift}`);
 
-      expect(el).toHaveProperty("value", "");
+      await expect.element(el).toHaveProperty("value", "");
       expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("");
     }
   });
@@ -1581,7 +1634,7 @@ describe("number type", () => {
       await userEvent.keyboard(`{Shift>}${numberKeysExcludingZero[i]}{/Shift}`);
       result += numberKeysExcludingZero[i];
 
-      expect(el).toHaveProperty("value", result);
+      await expect.element(el).toHaveProperty("value", result);
       expect(page.getBySelector("calcite-input input")).toHaveDisplayValue(result);
     }
   });
@@ -1606,19 +1659,20 @@ describe("number type", () => {
   });
 
   it("typing zero and then a non-zero number sets and emits the non-zero number", async () => {
-    const { el } = await mount<Input>(<calcite-input type="number" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputInput", inputEventHandler);
+    const { el } = await mount<Input>(
+      <calcite-input oncalciteInputInput={inputEventHandler} type="number" />,
+    );
 
     await el.setFocus();
     await userEvent.keyboard("0");
 
-    expect(el).toHaveProperty("value", "0");
+    await expect.element(el).toHaveProperty("value", "0");
     expect(inputEventHandler).toHaveBeenCalledTimes(1);
 
     await userEvent.keyboard("1");
 
-    expect(el).toHaveProperty("value", "1");
+    await expect.element(el).toHaveProperty("value", "1");
     expect(inputEventHandler).toHaveBeenCalledTimes(2);
   });
 
@@ -1628,7 +1682,7 @@ describe("number type", () => {
     await el.setFocus();
     await userEvent.keyboard("1.005");
 
-    expect(el).toHaveProperty("value", "1.005");
+    await expect.element(el).toHaveProperty("value", "1.005");
   });
 
   it("allows negative numbers after clearing value with an empty string", async () => {
@@ -1636,23 +1690,24 @@ describe("number type", () => {
 
     el.value = "";
 
-    expect(el).toHaveProperty("value", "");
+    await expect.element(el).toHaveProperty("value", "");
 
     await el.setFocus();
     await userEvent.keyboard("-123");
 
-    expect(el).toHaveProperty("value", "-123");
+    await expect.element(el).toHaveProperty("value", "-123");
   });
 });
 
 it("input event fires when number ends with a decimal", async () => {
-  const { el } = await mount<Input>(<calcite-input type="number" value="1.2" />);
   const inputEventHandler = vi.fn();
-  el.addEventListener("calciteInputInput", inputEventHandler);
+  const { el } = await mount<Input>(
+    <calcite-input oncalciteInputInput={inputEventHandler} type="number" value="1.2" />,
+  );
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1.");
+  await expect.element(el).toHaveProperty("value", "1.");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
@@ -1671,7 +1726,7 @@ describe("number locale support", () => {
       );
       const input = page.getBySelector("calcite-input input");
 
-      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
     });
 
@@ -1688,7 +1743,7 @@ describe("number locale support", () => {
       );
       const input = page.getBySelector("calcite-input input");
 
-      expect(el.value).toBe(expectedValue);
+      await expect.element(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
     });
 
@@ -1707,7 +1762,7 @@ describe("number locale support", () => {
       await userEvent.keyboard(`{Tab}`);
       await userEvent.keyboard(`1234${decimalSeparator}56`);
 
-      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
     });
 
@@ -1725,7 +1780,7 @@ describe("number locale support", () => {
 
       await userEvent.keyboard(`{Tab}1${decimalSeparator}5e-6`);
 
-      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(el).toHaveProperty("value", expectedValue);
       await expect.element(input).toHaveProperty("value", expectedFormattedValue);
     });
 
@@ -1737,28 +1792,28 @@ describe("number locale support", () => {
         useGrouping: false,
       };
       const expectedFormattedValue = numberStringFormatter.localize(expectedValue);
-      const { el } = await mount<Input>(
-        <div>
-          <calcite-input lang={locale} type="number" />
-          <input id="external" />
-        </div>,
-      );
-
-      const external = page.getBySelector("#external");
-      external.element().addEventListener("input", (event) => {
+      const handleExternalInput = (event: InputEvent): void => {
         const value = (event.target as HTMLInputElement).value;
         if (value.endsWith(".")) {
           return;
         }
         el.value = value;
-      });
+      };
+      const { el } = await mount<Input>(
+        <div>
+          <calcite-input lang={locale} type="number" />
+          <input id="external" onInput={handleExternalInput} />
+        </div>,
+      );
+
+      const external = page.getBySelector("#external");
 
       const internalInput = page.getBySelector("calcite-input input");
 
       await userEvent.click(external);
       await userEvent.keyboard(expectedValue);
 
-      expect(el).toHaveProperty("value", expectedValue);
+      await expect.element(el).toHaveProperty("value", expectedValue);
       await expect.element(internalInput).toHaveProperty("value", expectedFormattedValue);
     });
 
@@ -1828,7 +1883,7 @@ describe("number locale support", () => {
 
     await userEvent.keyboard(`{Tab}${value}{Tab}`);
 
-    expect(el).toHaveProperty("value", "-1.0001");
+    await expect.element(el).toHaveProperty("value", "-1.0001");
   });
 });
 

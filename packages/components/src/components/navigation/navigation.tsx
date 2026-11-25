@@ -174,7 +174,7 @@ export class Navigation extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) navigationAction = false;
+  @property() navigationAction = false;
 
   /**
    * Specifies the size of the component.

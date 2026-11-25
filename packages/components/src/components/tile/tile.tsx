@@ -177,7 +177,7 @@ export class Tile extends LitElement implements SelectableComponent {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * When embed is `false`, specifies the URL for the component.
@@ -191,14 +191,14 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, enables the tile to be focused, and allows the `calciteTileSelect` to emit.
@@ -217,7 +217,7 @@ export class Tile extends LitElement implements SelectableComponent {
    *
    * Use `"horizontal"` for rows, and `"vertical"` for a single column.
    */
-  @property({ reflect: true }) layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
+  @property() layout: Extract<Layout, "horizontal" | "vertical"> = "horizontal";
 
   /**
    * Specifies the component's size.

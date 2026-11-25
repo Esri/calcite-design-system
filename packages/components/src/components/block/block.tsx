@@ -254,7 +254,7 @@ export class Block extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) dragDisabled = false;
+  @property() dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
@@ -262,7 +262,7 @@ export class Block extends LitElement {
    * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - No longer necessary. Use Block Group for draggable functionality.
    */
-  @property({ reflect: true }) dragHandle = false;
+  @property() dragHandle = false;
 
   /**
    * When `true`, expands the component and its contents.
@@ -276,7 +276,7 @@ export class Block extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) expandable = false;
+  @property() expandable = false;
 
   /**
    * When `true`, the component can be expanded and collapsed.
@@ -284,7 +284,7 @@ export class Block extends LitElement {
    * @public
    * @deprecated in v5.2.0, removal target v7.0.0 - Use the `expandable` property instead.
    */
-  @property({ reflect: true })
+  @property()
   get collapsible(): boolean {
     return this.expandable;
   }
@@ -308,33 +308,33 @@ export class Block extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconEnd?: IconName;
+  @property() iconEnd?: IconName;
 
   /**
    * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   /**
    * When `true`, a busy indicator is displayed.
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * @public
@@ -353,7 +353,7 @@ export class Block extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+  @property() menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * @public
@@ -382,7 +382,7 @@ export class Block extends LitElement {
    * @public
    * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
-  @property({ reflect: true })
+  @property()
   get open(): boolean {
     return this.expanded;
   }
@@ -400,7 +400,7 @@ export class Block extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies the size of the component.
@@ -424,7 +424,7 @@ export class Block extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) sortHandleOpen = false;
+  @property() sortHandleOpen = false;
 
   /**
    * Displays a status-related indicator icon.
@@ -443,14 +443,14 @@ export class Block extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) toggleDisplay: BlockToggleDisplay = "button";
+  @property() toggleDisplay: BlockToggleDisplay = "button";
 
   /**
    * @public
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   //#endregion
 

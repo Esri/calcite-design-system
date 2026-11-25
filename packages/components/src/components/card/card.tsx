@@ -241,7 +241,7 @@ export class Card extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) thumbnailPosition: LogicalFlowPosition = "block-start";
+  @property() thumbnailPosition: LogicalFlowPosition = "block-start";
 
   //#endregion
 

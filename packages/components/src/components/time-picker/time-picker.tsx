@@ -141,7 +141,7 @@ export class TimePicker extends LitElement implements TimeComponent {
    *
    * @public
    */
-  @property({ reflect: true }) hourFormat: HourFormat = "user";
+  @property() hourFormat: HourFormat = "user";
 
   /**
    * @public
@@ -168,7 +168,7 @@ export class TimePicker extends LitElement implements TimeComponent {
    *
    * @public
    */
-  @property({ reflect: true }) step = 60;
+  @property() step = 60;
 
   /**
    * The component's value in UTC (always 24-hour format).

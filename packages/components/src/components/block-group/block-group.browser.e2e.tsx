@@ -86,10 +86,12 @@ describe("reflects", () => {
       {
         propertyName: "dragEnabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expandMode",
         value: "multiple",
+        reflect: false,
       },
       {
         propertyName: "group",
@@ -98,10 +100,12 @@ describe("reflects", () => {
       {
         propertyName: "loading",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "sortDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",

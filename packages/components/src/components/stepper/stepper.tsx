@@ -122,7 +122,7 @@ export class Stepper extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon = false;
+  @property() icon = false;
 
   /**
    * Defines the component's layout.
@@ -142,14 +142,14 @@ export class Stepper extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) numbered = false;
+  @property() numbered = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the component's size.

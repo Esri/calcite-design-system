@@ -134,7 +134,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * @public
    */
-  @property({ reflect: true }) closeOnClick = false;
+  @property() closeOnClick = false;
 
   /**
    * @public
@@ -148,41 +148,41 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
    *
    * @public
    */
-  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number }) offsetDistance = defaultOffsetDistance;
 
   /**
    * Specifies the distance to position the component along the `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) offsetSkidding = 0;
+  @property() offsetSkidding = 0;
 
   /**
    * When `true`, the component is open.
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) placement: LogicalPlacement = "auto";
+  @property() placement: LogicalPlacement = "auto";
 
   /**
    * When `true`, removes the caret pointer.
    *
    * @public
    */
-  @property({ reflect: true }) pointerDisabled = false;
+  @property() pointerDisabled = false;
 
   /**
    * @public

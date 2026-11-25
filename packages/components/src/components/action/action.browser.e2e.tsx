@@ -104,14 +104,17 @@ describe("reflects", () => {
       {
         propertyName: "icon",
         value: "hamburger",
+        reflect: false,
       },
       {
         propertyName: "iconFlipRtl",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "indicator",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "loading",
@@ -124,6 +127,7 @@ describe("reflects", () => {
       {
         propertyName: "textEnabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "width",
@@ -140,6 +144,7 @@ describe("reflects", () => {
       {
         propertyName: "overflowDisabled",
         value: true,
+        reflect: false,
       },
     ],
   );
