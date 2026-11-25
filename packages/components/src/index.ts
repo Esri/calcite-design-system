@@ -14,5 +14,6 @@ declare module "csstype" {
 
 /** @internal */
 export { assetPathChanged } from "./runtime";
-/** @public */
+
+// API Extractor supplies the public declarations and documentation from Lumina
 export { setAssetPath, getAssetPath } from "./runtime";

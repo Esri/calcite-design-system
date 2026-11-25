@@ -16,6 +16,7 @@
 
 :host {
   display: inline-block;
+  max-inline-size: 100%;
 }
 
 :host([width="auto"]) {
@@ -121,6 +122,10 @@
     block-size: 100%;
     vertical-align: top;
   }
+}
+
+.container > calcite-button {
+  min-inline-size: 0;
 }
 
 .divider-container {
