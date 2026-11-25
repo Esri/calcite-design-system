@@ -6,6 +6,22 @@ export const config: ApiExtractorConfig = {
     basePath: "/calcite-design-system/api/",
     copyDocDefinitions: {
       properties: {
+        autocomplete: {
+          description:
+            "Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.",
+          docsTags: [
+            {
+              name: "see",
+              text: "[MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)",
+            },
+          ],
+        },
+        beforeClose: {
+          description: "Specifies a function to run before the component closes.",
+        },
+        calendars: {
+          description: "When `range` is `true`, specifies the number of calendars displayed.",
+        },
         checked: {
           description: "When `true`, the component is checked.",
         },
@@ -22,6 +38,12 @@ export const config: ApiExtractorConfig = {
             description:
               descriptionOverrides[apiClass.name] ?? "When `true`, displays a close button in the component.",
           };
+        },
+        collapsed: {
+          description: "When `true`, hides the component's content area.",
+        },
+        collapsible: {
+          description: "When `true`, the component's content area is collapsible.",
         },
         description(_apiProperty, apiClass) {
           const descriptionWithPlacement = (placement: string): string =>
@@ -71,6 +93,15 @@ export const config: ApiExtractorConfig = {
           return {
             description: descriptionOverrides[apiClass.name] ?? descriptionWithContent("content"),
           };
+        },
+        focusTrapOptions: {
+          description: `Specifies custom focus trap configuration on the component.
+
+- \`"allowOutsideClick"\` allows outside clicks.
+- \`"initialFocus"\` enables initial focus.
+- \`"returnFocusOnDeactivate"\` returns focus when not active.
+- \`"extraContainers"\` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
+- \`"setReturnFocus"\` customizes the element to which focus is returned when the trap is deactivated. Return \`false\` to prevent focus return, or \`undefined\` to use the default behavior (returning focus to the element focused before activation).`,
         },
         form: {
           description:
@@ -144,8 +175,32 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
           description:
             "Specifies the component's fallback `menuPlacement` when its initial or specified `menuPlacement` has insufficient space available.",
         },
+        menuOpen(_apiProperty, apiClass) {
+          const descriptionOverrides: Record<string, string> = {
+            ActionGroup: "When `true`, the `calcite-action-menu` is open.",
+          };
+
+          return {
+            description:
+              descriptionOverrides[apiClass.name] ??
+              "When `true`, the action menu items in the `header-menu-actions` slot are open.",
+          };
+        },
         messageOverrides: {
           description: `Replace localized message strings with your own strings.\n\n_**Note**: Individual message keys may change between releases._`,
+        },
+        minLength: {
+          description:
+            "When the component resides in a form, specifies the minimum string length of the component's `value`.",
+          docsTags: [
+            {
+              name: "see",
+              text: `[MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/minlength)`,
+            },
+          ],
+        },
+        monthStyle: {
+          description: "Specifies the component's month style.",
         },
         name: {
           description:
@@ -154,6 +209,12 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
         overlayPositioning: {
           description:
             'Specifies the type of positioning to use for overlaid content.\n\n- `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout.\n\n- `"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
+        },
+        prefixText: {
+          description: "Specifies text to display at the start of the component.",
+        },
+        range: {
+          description: "When `true`, enables selecting a start and end date.",
         },
         referenceElement(_apiProperty, apiClass) {
           const interactivityOverrides: Record<string, string> = {
@@ -235,6 +296,12 @@ The component should not be placed within its own \`referenceElement\` to avoid 
               ? `${baseDescription} When contained in a parent \`${parent}\`, the component inherits the parent's \`scale\` value.${cardOverrideDescription(apiClass.name)}`
               : baseDescription,
           };
+        },
+        selectedItem: {
+          description: "Specifies the component's selected item.",
+        },
+        suffixText: {
+          description: "Specifies text to display at the end of the component.",
         },
         topLayerDisabled: {
           description:

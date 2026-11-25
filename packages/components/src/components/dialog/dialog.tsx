@@ -449,9 +449,8 @@ export class Dialog extends LitElement {
   //#region Public Properties
 
   /**
-   * Specifies a function to run before the component closes.
-   *
    * @public
+   * @copyDoc
    */
   @property() beforeClose?: () => Promise<void>;
 
@@ -499,15 +498,8 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) escapeDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component.
-   *
-   * - `"allowOutsideClick`" allows outside clicks.
-   * - `"initialFocus"` enables initial focus.
-   * - `"returnFocusOnDeactivate"` returns focus when not active.
-   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
-   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
-   *
    * @public
+   * @copyDoc
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
@@ -561,9 +553,8 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, the action menu items in the `header-menu-actions` slot are open.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) menuOpen = false;
 

@@ -102,7 +102,7 @@ export class TileGroup extends LitElement implements SelectableGroupComponent {
   @property() selectedItems: Tile["el"][] = [];
 
   /**
-   * Specifies the selection appearance.
+   * Specifies the component's selection appearance.
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` changes the background color.

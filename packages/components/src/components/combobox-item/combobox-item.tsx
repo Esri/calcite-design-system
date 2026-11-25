@@ -252,7 +252,7 @@ export class ComboboxItem extends LitElement {
   > = "multiple";
 
   /**
-   * Specifies the selection appearance.
+   * Specifies the component's selection appearance.
    *
    * - `"icon"` displays a radio or checkbox.
    * - `"highlight"` displays a background highlight.

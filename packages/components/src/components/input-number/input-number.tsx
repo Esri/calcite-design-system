@@ -424,11 +424,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ reflect: true }) alignment: Alignment = "start";
 
   /**
-   * Specifies the type of content to autocomplete, for use in forms.
-   * Read the native attribute's documentation on MDN for more info.
-   *
    * @public
-   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @copyDoc
    */
   @property() autocomplete?: AutoFill;
 
@@ -577,9 +574,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property() placeholder?: string;
 
   /**
-   * Specifies text to display at the start of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() prefixText?: string;
 
@@ -613,7 +609,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the granularity that the component's `value` must adhere to.
+   * Specifies the granularity the component's `value` must adhere to.
    *
    * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
@@ -621,9 +617,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ reflect: true }) step?: number | "any";
 
   /**
-   * Specifies text to display at the end of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() suffixText?: string;
 

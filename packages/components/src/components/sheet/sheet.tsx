@@ -241,15 +241,16 @@ export class Sheet extends LitElement {
   //#region Public Properties
 
   /**
-   * Passes a function to run before the component closes.
-   *
    * @public
+   * @copyDoc
    */
   @property() beforeClose?: (el: Sheet["el"]) => Promise<void>;
 
   /**
-   * Specifies the display mode - `"float"` separates content from main layout,
-   * and `"overlay"` displays on top of center content.
+   * Specifies the component's display mode.
+   *
+   * - `"float"` separates content from main layout.
+   * - `"overlay"` displays on top of center content.
    *
    * @public
    */
@@ -276,15 +277,8 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) focusTrapDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component.
-   *
-   * - `"allowOutsideClick"` allows outside clicks.
-   * - `"initialFocus"` enables initial focus.
-   * - `"returnFocusOnDeactivate"` returns focus when not active.
-   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
-   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
-   *
    * @public
+   * @copyDoc
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 

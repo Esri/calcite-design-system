@@ -377,9 +377,8 @@ export class Panel extends LitElement {
   //#region Public Properties
 
   /**
-   * Passes a function to run before the component closes.
-   *
    * @public
+   * @copyDoc
    */
   @property() beforeClose?: () => Promise<void>;
 
@@ -412,16 +411,14 @@ export class Panel extends LitElement {
   @property() collapseDirection: CollapseDirection = "down";
 
   /**
-   * When `true`, hides the component's content area.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * When `true`, the component is collapsible.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) collapsible = false;
 
@@ -485,13 +482,7 @@ export class Panel extends LitElement {
   @property() focusTrapDisabled = false;
 
   /**
-   * Specifies custom focus trap configuration on the component.
-   *
-   * - `"allowOutsideClick"` allows outside clicks.
-   * - `"initialFocus"` enables initial focus.
-   * - `"returnFocusOnDeactivate"` returns focus when not active.
-   * - `"extraContainers"` specifies additional focusable elements external to the trap, such as 3rd-party components appending elements to the document body.
-   * - `"setReturnFocus"` customizes the element to which focus is returned when the trap is deactivated. Return `false` to prevent focus return, or `undefined` to use the default behavior (returning focus to the element focused before activation).
+   * @copyDoc
    */
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
@@ -502,9 +493,8 @@ export class Panel extends LitElement {
   @property() menuFlipPlacements?: FlipPlacement[];
 
   /**
-   * When `true`, the action menu items in the `header-menu-actions` slot are open.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) menuOpen = false;
 

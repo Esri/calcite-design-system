@@ -461,11 +461,8 @@ export class Input
   >;
 
   /**
-   * Specifies the type of content to autocomplete, for use in forms.
-   * Read the native attribute's documentation on MDN for more info.
-   *
    * @public
-   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @copyDoc
    */
   @property() autocomplete?: AutoFill;
 
@@ -599,11 +596,8 @@ export class Input
   @property({ reflect: true }) min?: number;
 
   /**
-   * When the component resides in a form,
-   * specifies the minimum length of text for the component's `value`.
-   *
    * @public
-   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @copyDoc
    */
   @property({ reflect: true }) minLength?: number;
 
@@ -656,9 +650,8 @@ export class Input
   @property() placeholder?: string;
 
   /**
-   * Specifies text to display at the start of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() prefixText?: string;
 
@@ -700,9 +693,8 @@ export class Input
   @property({ reflect: true }) step?: number | "any";
 
   /**
-   * Specifies text to display at the end of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() suffixText?: string;
 

@@ -260,9 +260,8 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) activeRange?: "start" | "end";
 
   /**
-   * When `range` is `true`, specifies the number of calendars displayed.
-   *
    * @public
+   * @copyDoc
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
@@ -316,9 +315,8 @@ export class DatePicker extends LitElement {
   @property() minAsDate?: Date;
 
   /**
-   * Specifies the component's month style.
-   *
    * @public
+   * @copyDoc
    */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
@@ -337,9 +335,8 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
   /**
-   * When `true`, activates the component's range mode to allow a start and end date.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) range = false;
 

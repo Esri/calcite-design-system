@@ -283,7 +283,9 @@ export class Action extends LitElement {
   @property({ reflect: true }) type: HTMLButtonElement["type"] = "button";
 
   /**
-   * Specifies the selection appearance of the component. Inherited from `calcite-action-bar`.
+   * Specifies the component's selection appearance.
+   *
+   * Inherited from `calcite-action-bar`.
    */
   @property({ reflect: true }) selectionAppearance?: Extract<
     "neutral" | "highlight",

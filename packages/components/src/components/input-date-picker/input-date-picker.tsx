@@ -463,9 +463,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   //#region Public Properties
 
   /**
-   * When `range` is `true`, specifies the number of calendars displayed.
-   *
    * @public
+   * @copyDoc
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
@@ -563,9 +562,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property() minAsDate?: Date;
 
   /**
-   * Specifies the component's month style.
-   *
    * @public
+   * @copyDoc
    */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
@@ -619,9 +617,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property() proximitySelectionDisabled = false;
 
   /**
-   * When `true`, activates a range for the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) range = false;
 

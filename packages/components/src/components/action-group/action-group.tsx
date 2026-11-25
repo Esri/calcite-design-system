@@ -173,9 +173,8 @@ export class ActionGroup extends LitElement {
   @property() menuFlipPlacements?: FlipPlacement[];
 
   /**
-   * When `true`, the `calcite-action-menu` is open.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) menuOpen = false;
 

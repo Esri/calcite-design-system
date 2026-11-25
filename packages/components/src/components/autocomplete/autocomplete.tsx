@@ -359,11 +359,8 @@ export class Autocomplete
   @property({ reflect: true }) alignment: Extract<"start" | "end", Alignment> = "start";
 
   /**
-   * Specifies the type of content to autocomplete, for use in forms.
-   * Read the native attribute's documentation on MDN for more info.
-   *
    * @public
-   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @copyDoc
    */
   @property() autocomplete?: AutoFill;
 
@@ -442,11 +439,8 @@ export class Autocomplete
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When the component resides in a form,
-   * specifies the minimum length of text for the component's value.
-   *
    * @public
-   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @copyDoc
    */
   @property({ reflect: true }) minLength?: number;
 
@@ -496,9 +490,8 @@ export class Autocomplete
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /**
-   * Specifies the component's prefix text.
-   *
    * @public
+   * @copyDoc
    */
   @property() prefixText?: string;
 
@@ -532,9 +525,8 @@ export class Autocomplete
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the component's suffix text.
-   *
    * @public
+   * @copyDoc
    */
   @property() suffixText?: string;
 
