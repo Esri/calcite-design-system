@@ -169,19 +169,19 @@ export class ComboboxItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) filterDisabled = false;
+  @property() filterDisabled = false;
 
   /**
    * Pattern for highlighting filter text matches.
    */
-  @property({ reflect: true }) filterTextMatchPattern?: RegExp;
+  @property() filterTextMatchPattern?: RegExp;
 
   /**
    * The `id` attribute of the component. When omitted, a globally unique identifier is used.
    *
    * @public
    */
-  @property({ reflect: true }) guid = guid();
+  @property() guid = guid();
 
   /**
    * @public
@@ -195,14 +195,14 @@ export class ComboboxItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * @public
@@ -248,7 +248,7 @@ export class ComboboxItem extends LitElement {
    * - `"single-persist"` allows one selection and prevents de-selection.
    * - `"ancestors"` allows multiple selections, but shows ancestors of selected items as selected, with only deepest children shown in chips.
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "single" | "single-persist" | "ancestors" | "multiple",
     SelectionMode
   > = "multiple";
@@ -259,10 +259,7 @@ export class ComboboxItem extends LitElement {
    * - `"icon"` displays a radio or checkbox.
    * - `"highlight"` displays a background highlight.
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
-    "icon" | "highlight",
-    SelectionAppearance
-  > = "icon";
+  @property() selectionAppearance: Extract<"icon" | "highlight", SelectionAppearance> = "icon";
 
   /**
    * Specifies the component's short heading.
@@ -280,7 +277,7 @@ export class ComboboxItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true })
+  @property()
   get value(): any {
     return this._value ?? this.heading;
   }

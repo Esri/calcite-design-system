@@ -393,14 +393,14 @@ export class Autocomplete
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * Specifies the text typed into the component and is used to filter slotted `autocomplete-item`s.
@@ -426,7 +426,7 @@ export class Autocomplete
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When the component resides in a form,
@@ -435,7 +435,7 @@ export class Autocomplete
    * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @property({ reflect: true }) maxLength?: number;
+  @property() maxLength?: number;
 
   /**
    * @public
@@ -450,7 +450,7 @@ export class Autocomplete
    * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @property({ reflect: true }) minLength?: number;
+  @property() minLength?: number;
 
   /**
    * @public
@@ -464,13 +464,13 @@ export class Autocomplete
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * When the component resides in a form,
@@ -495,7 +495,7 @@ export class Autocomplete
    *
    * @public
    */
-  @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
+  @property() placement: MenuPlacement = defaultMenuPlacement;
 
   /**
    * Specifies the component's prefix text.
@@ -510,7 +510,7 @@ export class Autocomplete
    * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @property({ reflect: true }) readOnly = false;
+  @property() readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
@@ -518,7 +518,7 @@ export class Autocomplete
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -553,7 +553,7 @@ export class Autocomplete
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

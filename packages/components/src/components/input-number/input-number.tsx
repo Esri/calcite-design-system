@@ -437,7 +437,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    *
    * @public
    */
-  @property({ reflect: true }) clearable = false;
+  @property() clearable = false;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
@@ -478,7 +478,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * Specifies an icon to display.
@@ -486,14 +486,14 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    * @public
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, restricts the component to integer numbers only and disables exponential notation.
@@ -519,7 +519,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * Toggles locale formatting for numbers.
@@ -533,7 +533,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    * @public
    * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max)
    */
-  @property({ reflect: true }) max?: number;
+  @property() max?: number;
 
   /**
    * @public
@@ -548,7 +548,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    * @public
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min)
    */
-  @property({ reflect: true }) min?: number;
+  @property() min?: number;
 
   /**
    * @public
@@ -569,7 +569,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the component's placeholder text.
@@ -600,7 +600,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -622,7 +622,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    * @public
    * @see [MDN - step](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/step)
    */
-  @property({ reflect: true }) step?: number | "any";
+  @property() step?: number | "any";
 
   /**
    * Specifies text to display at the end of the component.
@@ -636,7 +636,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

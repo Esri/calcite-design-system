@@ -283,7 +283,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) clearable = false;
+  @property() clearable = false;
 
   /**
    * When `true`, prevents interaction and decreases the component's opacity.
@@ -297,7 +297,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  @property() focusTrapDisabled = false;
 
   /**
    * @public
@@ -314,7 +314,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) hourFormat: HourFormat = "user";
+  @property() hourFormat: HourFormat = "user";
 
   /**
    * @public
@@ -335,7 +335,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * @public
    * @see [MDN - max](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#max)
    */
-  @property({ reflect: true }) max?: string;
+  @property() max?: string;
 
   /**
    * @public
@@ -350,7 +350,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * @public
    * @see [MDN - min](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time#min)
    */
-  @property({ reflect: true }) min?: string;
+  @property() min?: string;
 
   /**
    * @public
@@ -363,14 +363,14 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem!: NumberingSystem;
+  @property() numberingSystem!: NumberingSystem;
 
   /**
    * When `true`, displays the `calcite-time-picker` component.
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
@@ -390,7 +390,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) placement: LogicalPlacement = "auto";
+  @property() placement: LogicalPlacement = "auto";
 
   /**
    * When `true`, the component's `value` can be read, but controls are not accessible and the `value` cannot be modified.
@@ -398,7 +398,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @property({ reflect: true }) readOnly = false;
+  @property() readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
@@ -406,7 +406,7 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -427,14 +427,14 @@ export class InputTimePicker extends LitElement implements LabelableComponent, T
    *
    * @public
    */
-  @property({ reflect: true }) step: number = 60;
+  @property() step: number = 60;
 
   /**
    * Specifies the validation icon to display under the component.
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

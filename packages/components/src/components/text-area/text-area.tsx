@@ -270,7 +270,7 @@ export class TextArea
    * @public
    * @see [MDN - cols](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-cols)
    */
-  @property({ reflect: true }) columns?: number;
+  @property() columns?: number;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -291,7 +291,7 @@ export class TextArea
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * @public
@@ -310,14 +310,14 @@ export class TextArea
    *
    * @public
    */
-  @property({ reflect: true }) limitText = false;
+  @property() limitText = false;
 
   /**
    * When `true`, a busy indicator is displayed.
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When the component resides in a form,
@@ -326,7 +326,7 @@ export class TextArea
    * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-maxlength)
    */
-  @property({ reflect: true }) maxLength?: number;
+  @property() maxLength?: number;
 
   /**
    * @public
@@ -341,7 +341,7 @@ export class TextArea
    * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-minlength)
    */
-  @property({ reflect: true }) minLength?: number;
+  @property() minLength?: number;
 
   /**
    * @public
@@ -371,7 +371,7 @@ export class TextArea
    * @public
    * @see [MDN - readOnly](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/readonly)
    */
-  @property({ reflect: true }) readOnly = false;
+  @property() readOnly = false;
 
   /**
    * When `true` and the component resides in a form,
@@ -380,7 +380,7 @@ export class TextArea
    * @public
    * @see [MDN - required](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required)
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies if the component is resizable.
@@ -395,7 +395,7 @@ export class TextArea
    * @public
    * @see [MDN - rows](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-rows)
    */
-  @property({ reflect: true }) rows?: number;
+  @property() rows?: number;
 
   /**
    * Specifies the size of the component.
@@ -416,7 +416,7 @@ export class TextArea
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.
@@ -445,7 +445,7 @@ export class TextArea
    * @public
    * @see [MDN - wrap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea#attr-wrap)
    */
-  @property({ reflect: true }) wrap: "soft" | "hard" = "soft";
+  @property() wrap: "soft" | "hard" = "soft";
 
   //#endregion
 

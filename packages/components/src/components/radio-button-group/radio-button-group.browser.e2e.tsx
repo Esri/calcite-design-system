@@ -53,10 +53,10 @@ describe("reflects", () => {
       { propertyName: "hidden", value: true },
       { propertyName: "layout", value: "horizontal" },
       { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
+      { propertyName: "required", value: true, reflect: false },
       { propertyName: "scale", value: "m" },
       { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
+      { propertyName: "validationIcon", value: true, reflect: false },
     ],
   );
 });

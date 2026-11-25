@@ -109,7 +109,7 @@ export class ColorPickerHexInput extends LitElement {
    *
    * @internal
    */
-  @property({ reflect: true }) value?: string = normalizeHex(
+  @property() value?: string = normalizeHex(
     hexify(DEFAULT_COLOR, this.alphaChannel),
     this.alphaChannel,
     true,

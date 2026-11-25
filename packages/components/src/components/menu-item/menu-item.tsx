@@ -146,20 +146,20 @@ export class MenuItem extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconEnd?: IconName;
+  @property() iconEnd?: IconName;
 
   /**
    * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   @property() isTopLevelItem = false;
 
@@ -183,7 +183,7 @@ export class MenuItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * Specifies the size of the component.
@@ -198,7 +198,7 @@ export class MenuItem extends LitElement {
    * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel?: string;
+  @property() rel?: string;
 
   /**
    * Specifies where to open the linked document defined in the `href` property.
@@ -206,7 +206,7 @@ export class MenuItem extends LitElement {
    * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target?: string;
+  @property() target?: string;
 
   /**
    * Specifies the text to display.

@@ -253,7 +253,7 @@ export class TabTitle extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
@@ -297,7 +297,7 @@ export class TabTitle extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) tab!: string;
+  @property() tab!: string;
 
   //#endregion
 

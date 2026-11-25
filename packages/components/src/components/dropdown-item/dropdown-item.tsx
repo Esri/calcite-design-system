@@ -125,26 +125,26 @@ export class DropdownItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) href?: string;
+  @property() href?: string;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconEnd?: IconName;
+  @property() iconEnd?: IconName;
 
   /**
    * When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   /**
    * @public
@@ -157,7 +157,7 @@ export class DropdownItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) rel?: string;
+  @property() rel?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
@@ -184,7 +184,7 @@ export class DropdownItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) target?: string;
+  @property() target?: string;
 
   //#endregion
 

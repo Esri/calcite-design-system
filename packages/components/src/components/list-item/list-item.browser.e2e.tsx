@@ -214,10 +214,10 @@ it.each(["click", "Enter"])(
 );
 
 it("emits calciteInternalListItemChange only when metadata values change", async () => {
-  const { el, component } = await mount<ListItem>(<calcite-list-item />);
   const eventSpy = vi.fn();
-
-  el.addEventListener("calciteInternalListItemChange", eventSpy);
+  const { el, component } = await mount<ListItem>(
+    <calcite-list-item oncalciteInternalListItemChange={eventSpy} />,
+  );
 
   el.metadata = { first: "same", second: "value" };
   await component.updateComplete;

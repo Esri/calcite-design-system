@@ -442,14 +442,14 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    * @public
    * @futureBreaking Remove boolean type as it is not supported.
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * @public
@@ -468,7 +468,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When the component resides in a form,
@@ -477,7 +477,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    * @public
    * @see [MDN - maxlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength)
    */
-  @property({ reflect: true }) maxLength?: number;
+  @property() maxLength?: number;
 
   /**
    * @public
@@ -492,7 +492,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    * @public
    * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
    */
-  @property({ reflect: true }) minLength?: number;
+  @property() minLength?: number;
 
   /**
    * @public
@@ -540,7 +540,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -568,7 +568,7 @@ export class InputText extends LitElement implements LabelableComponent, Textual
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.

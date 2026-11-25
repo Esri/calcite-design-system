@@ -217,6 +217,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );

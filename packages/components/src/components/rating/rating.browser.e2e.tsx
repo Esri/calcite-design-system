@@ -78,6 +78,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -228,11 +229,11 @@ describe("keyboard interaction", () => {
     await expect.poll(() => el.shadowRoot.activeElement).toBe(stars.first().element());
     await expect
       .element(stars.first().getBySelector("calcite-icon"))
-      .toHaveAttribute("icon", "star-f");
+      .toHaveProperty("icon", "star-f");
     for (let index = 1; index < 5; index++) {
       await expect
         .element(stars.nth(index).getBySelector("calcite-icon"))
-        .toHaveAttribute("icon", "star");
+        .toHaveProperty("icon", "star");
     }
     await expect.element(page.getBySelector(`.${CSS.selected}`)).not.toBeInTheDocument();
     await expect.element(page.getBySelector(`.${CSS.average}`)).not.toBeInTheDocument();
@@ -251,7 +252,7 @@ describe("keyboard interaction", () => {
       const star = stars.nth(index);
       await expect
         .element(star.getBySelector("calcite-icon"))
-        .toHaveAttribute("icon", index < 2 ? "star-f" : "star");
+        .toHaveProperty("icon", index < 2 ? "star-f" : "star");
     }
     for (const star of stars.elements().slice(0, 2)) {
       await expect.element(star).toHaveClass(CSS.hovered, CSS.selected);

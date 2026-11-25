@@ -84,7 +84,7 @@ export class SegmentedControlItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * @public

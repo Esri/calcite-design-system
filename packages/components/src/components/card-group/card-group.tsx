@@ -107,7 +107,7 @@ export class CardGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
+  @property() selectionMode: Extract<
     "multiple" | "single" | "single-persist" | "none",
     SelectionMode
   > = "none";

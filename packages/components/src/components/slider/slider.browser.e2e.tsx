@@ -108,6 +108,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -754,8 +755,8 @@ describe("interactions", () => {
         await clickTrackAtValue(el, 30, trackX, trackY, trackWidth);
 
         await expect.element(minThumb).toBe(el.shadowRoot.activeElement);
-        expect(el.minValue).toBe(0);
-        expect(el.maxValue).toBe(100);
+        await expect.element(el).toHaveProperty("minValue", 0);
+        await expect.element(el).toHaveProperty("maxValue", 100);
       });
 
       it("focuses the max thumb when clicking closer to maxValue", async () => {
@@ -769,8 +770,8 @@ describe("interactions", () => {
         await clickTrackAtValue(el, 60, trackX, trackY, trackWidth);
 
         await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
-        expect(el.minValue).toBe(0);
-        expect(el.maxValue).toBe(100);
+        await expect.element(el).toHaveProperty("minValue", 0);
+        await expect.element(el).toHaveProperty("maxValue", 100);
       });
 
       it("focuses the max thumb when clicking in the middle of the track", async () => {
@@ -784,8 +785,8 @@ describe("interactions", () => {
         await clickTrackAtValue(el, 50, trackX, trackY, trackWidth);
 
         await expect.element(maxThumb).toBe(el.shadowRoot.activeElement);
-        expect(el.minValue).toBe(0);
-        expect(el.maxValue).toBe(100);
+        await expect.element(el).toHaveProperty("minValue", 0);
+        await expect.element(el).toHaveProperty("maxValue", 100);
       });
     });
   });
@@ -875,8 +876,8 @@ describe("interactions", () => {
         await commands.mouseMove(trackX + pixelsPerValue * 25, trackY);
         await commands.mouseDown();
 
-        expect(el.minValue).toBe(25);
-        expect(el.maxValue).toBe(75);
+        await expect.element(el).toHaveProperty("minValue", 25);
+        await expect.element(el).toHaveProperty("maxValue", 75);
         expect(inputHandler).toHaveBeenCalledTimes(1);
         expect(changeHandler).toHaveBeenCalledTimes(0);
 
@@ -903,8 +904,8 @@ describe("interactions", () => {
         await commands.mouseMove(trackX + pixelsPerValue * 85, trackY);
         await commands.mouseDown();
 
-        expect(el.minValue).toBe(50);
-        expect(el.maxValue).toBe(85);
+        await expect.element(el).toHaveProperty("minValue", 50);
+        await expect.element(el).toHaveProperty("maxValue", 85);
         expect(inputHandler).toHaveBeenCalledTimes(1);
         expect(changeHandler).toHaveBeenCalledTimes(0);
 
@@ -940,8 +941,8 @@ describe("interactions", () => {
 
         await commands.mouseUp();
 
-        expect(el.minValue).toBe(50);
-        expect(el.maxValue).toBe(89);
+        await expect.element(el).toHaveProperty("minValue", 50);
+        await expect.element(el).toHaveProperty("maxValue", 89);
         expect(changeHandler).toHaveBeenCalledTimes(1);
       });
 
@@ -973,8 +974,8 @@ describe("interactions", () => {
 
         await commands.mouseUp();
 
-        expect(el.minValue).toBe(30);
-        expect(el.maxValue).toBe(75);
+        await expect.element(el).toHaveProperty("minValue", 30);
+        await expect.element(el).toHaveProperty("maxValue", 75);
         expect(changeHandler).toHaveBeenCalledTimes(1);
       });
 
@@ -1008,8 +1009,8 @@ describe("interactions", () => {
 
         await commands.mouseUp();
 
-        expect(el.minValue).toBe(5);
-        expect(el.maxValue).toBe(55);
+        await expect.element(el).toHaveProperty("minValue", 5);
+        await expect.element(el).toHaveProperty("maxValue", 55);
         expect(changeHandler).toHaveBeenCalledTimes(1);
       });
     });
@@ -1151,12 +1152,12 @@ describe("resetting value", () => {
 
     // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = undefined;
-    expect(el.value).toBe(initialValue);
+    await expect.element(el).toHaveProperty("value", initialValue);
 
     el.value = 0;
     // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = null;
-    expect(el.value).toBe(initialValue);
+    await expect.element(el).toHaveProperty("value", initialValue);
   });
 
   it("range", async () => {
@@ -1165,12 +1166,12 @@ describe("resetting value", () => {
 
     // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = undefined;
-    expect(el.value).toEqual(initialValue);
+    await expect.element(el).toHaveProperty("value", initialValue);
 
     el.value = [20, 80];
     // @ts-expect-error -- assigning unsupported type; will be fixed by https://github.com/Esri/calcite-design-system/issues/14582
     el.value = null;
-    expect(el.value).toEqual(initialValue);
+    await expect.element(el).toHaveProperty("value", initialValue);
   });
 });
 
@@ -1231,7 +1232,7 @@ describe("number locale support", () => {
     await reRender();
     const valueDisplayEls = await getValueDisplayElements();
 
-    expect(el).toHaveProperty("groupSeparator", false);
+    await expect.element(el).toHaveProperty("groupSeparator", false);
 
     await expect
       .element(valueDisplayEls.labelMinVal)

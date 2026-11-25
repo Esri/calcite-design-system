@@ -1,4 +1,4 @@
-import { h, JsxNode, LitElement } from "@arcgis/lumina";
+import { h, JsxNode, LitElement, LuminaJsx } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
@@ -220,22 +220,27 @@ describe("reflects", () => {
       {
         propertyName: "icon",
         value: "banana",
+        reflect: false,
       },
       {
         propertyName: "iconFlipRtl",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "loading",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "maxLength",
         value: 2,
+        reflect: false,
       },
       {
         propertyName: "minLength",
         value: 2,
+        reflect: false,
       },
       {
         propertyName: "name",
@@ -244,23 +249,28 @@ describe("reflects", () => {
       {
         propertyName: "open",
         value: true,
+        reflect: false,
       },
 
       {
         propertyName: "overlayPositioning",
         value: "absolute",
+        reflect: false,
       },
       {
         propertyName: "placement",
         value: "bottom",
+        reflect: false,
       },
       {
         propertyName: "readOnly",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "required",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -273,6 +283,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -313,14 +324,50 @@ describe("is focusable", () => {
   focusable(() => mount("calcite-autocomplete"));
 });
 
-function renderAutocomplete(): JsxNode {
+function renderAutocomplete(
+  props: LuminaJsx.IntrinsicElements["calcite-autocomplete"] &
+    Pick<
+      LuminaJsx.IntrinsicElements["calcite-autocomplete-item"],
+      "oncalciteAutocompleteItemSelect"
+    > = {},
+): JsxNode {
   return (
-    <calcite-autocomplete id="myAutocomplete" label="Item list">
-      <calcite-autocomplete-item heading="Item one" label="Item one" value="one" />
-      <calcite-autocomplete-item heading="Item two" label="Item two" value="two" />
-      <calcite-autocomplete-item heading="Item three" label="Item three" value="three" />
-      <calcite-autocomplete-item heading="Item four" label="Item four" value="four" />
-      <calcite-autocomplete-item disabled heading="Item five" label="Item five" value="five" />
+    <calcite-autocomplete
+      id="myAutocomplete"
+      label="Item list"
+      oncalciteAutocompleteChange={props.oncalciteAutocompleteChange}
+    >
+      <calcite-autocomplete-item
+        heading="Item one"
+        label="Item one"
+        oncalciteAutocompleteItemSelect={props.oncalciteAutocompleteItemSelect}
+        value="one"
+      />
+      <calcite-autocomplete-item
+        heading="Item two"
+        label="Item two"
+        oncalciteAutocompleteItemSelect={props.oncalciteAutocompleteItemSelect}
+        value="two"
+      />
+      <calcite-autocomplete-item
+        heading="Item three"
+        label="Item three"
+        oncalciteAutocompleteItemSelect={props.oncalciteAutocompleteItemSelect}
+        value="three"
+      />
+      <calcite-autocomplete-item
+        heading="Item four"
+        label="Item four"
+        oncalciteAutocompleteItemSelect={props.oncalciteAutocompleteItemSelect}
+        value="four"
+      />
+      <calcite-autocomplete-item
+        disabled
+        heading="Item five"
+        label="Item five"
+        oncalciteAutocompleteItemSelect={props.oncalciteAutocompleteItemSelect}
+        value="five"
+      />
     </calcite-autocomplete>
   );
 }
@@ -530,10 +577,12 @@ describe("opening and closing", () => {
     async (kind) => {
       const changeSpy = vi.fn();
       const mouseDownSpy = vi.fn();
+      const openDuringSelection = vi.fn(() => el.open);
       const suggestion = (
         <calcite-autocomplete-item
           heading="First suggestion"
           label="First suggestion"
+          oncalciteAutocompleteItemSelect={openDuringSelection}
           onMouseDown={mouseDownSpy}
           value="first"
         />
@@ -552,15 +601,13 @@ describe("opening and closing", () => {
 
       const input = page.getByRole("combobox", { name: "Start" });
       const item = page.getBySelector("calcite-autocomplete-item");
-      const openDuringSelection = vi.fn(() => el.open);
-      item.element().addEventListener("calciteAutocompleteItemSelect", openDuringSelection);
 
       await userEvent.click(input);
       await userEvent.click(item);
 
       expect(mouseDownSpy).toHaveBeenCalledOnce();
       expect(openDuringSelection).toHaveReturnedWith(true);
-      expect(el.value).toBe("first");
+      await expect.element(el).toHaveProperty("value", "first");
       expect(changeSpy).toHaveBeenCalledOnce();
       await expect.element(input).toHaveAttribute("aria-expanded", "false");
     },
@@ -599,26 +646,26 @@ describe("keyboard selection", () => {
   }
 
   it("selects active item on Enter and emits calciteAutocompleteItemSelect", async () => {
-    const { el, reRender } = await mount<Autocomplete>(renderAutocomplete);
-    const firstItem = el.querySelector("calcite-autocomplete-item")!;
     const itemSelectSpy = vi.fn();
+    const { el, reRender } = await mount<Autocomplete>(() =>
+      renderAutocomplete({ oncalciteAutocompleteItemSelect: itemSelectSpy }),
+    );
+    const firstItem = el.querySelector("calcite-autocomplete-item")!;
 
-    el.addEventListener("calciteAutocompleteItemSelect", itemSelectSpy);
-
-    expect(firstItem.selected).toBe(false);
+    await expect.element(firstItem).toHaveProperty("selected", false);
 
     await el.setFocus();
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await reRender();
 
-    expect(firstItem.selected).toBe(true);
+    await expect.element(firstItem).toHaveProperty("selected", true);
     expect(itemSelectSpy).toHaveBeenCalledTimes(1);
 
     await el.setFocus();
     await userEvent.keyboard("{ArrowDown}{Enter}");
     await reRender();
 
-    expect(firstItem.selected).toBe(true);
+    await expect.element(firstItem).toHaveProperty("selected", true);
     expect(itemSelectSpy).toHaveBeenCalledTimes(2);
   });
 
@@ -630,17 +677,19 @@ describe("keyboard selection", () => {
     component.value = secondItem.value;
     await reRender();
 
-    expect(firstItem.selected).toBe(false);
-    expect(secondItem.selected).toBe(true);
+    await expect.element(firstItem).toHaveProperty("selected", false);
+    await expect.element(secondItem).toHaveProperty("selected", true);
   });
 
   it("updates item selection before emitting change", async () => {
-    const { component, el, reRender } = await mount<Autocomplete>(renderAutocomplete);
     let selectedItemsAtChange: boolean[] | undefined;
-
-    el.addEventListener("calciteAutocompleteChange", () => {
-      selectedItemsAtChange = component.items.map((item) => item.selected);
-    });
+    const { component, reRender } = await mount<Autocomplete>(() =>
+      renderAutocomplete({
+        oncalciteAutocompleteChange: () => {
+          selectedItemsAtChange = component.items.map((item) => item.selected);
+        },
+      }),
+    );
 
     await component.setFocus();
     await userEvent.keyboard("{ArrowDown}{Enter}");
@@ -657,8 +706,8 @@ describe("keyboard selection", () => {
       </calcite-autocomplete>,
     );
 
-    expect(component.items[0].selected).toBe(false);
-    expect(component.items[1].selected).toBe(true);
+    await expect.element(component.items[0]).toHaveProperty("selected", false);
+    await expect.element(component.items[1]).toHaveProperty("selected", true);
     await expect
       .element(page.getByRole("listbox").getByRole("option").nth(1))
       .toHaveAttribute("aria-selected", "true");
@@ -672,7 +721,7 @@ describe("keyboard selection", () => {
       </calcite-autocomplete>,
     );
 
-    expect(component.items[0].selected).toBe(true);
+    await expect.element(component.items[0]).toHaveProperty("selected", true);
     await expect
       .element(page.getByRole("listbox").getByRole("option").nth(0))
       .toHaveAttribute("aria-selected", "true");
@@ -689,7 +738,7 @@ describe("keyboard selection", () => {
     component.value = "";
     await reRender();
 
-    expect(component.items[0].selected).toBe(false);
+    await expect.element(component.items[0]).toHaveProperty("selected", false);
     await expect
       .element(page.getByRole("listbox").getByRole("option").nth(0))
       .toHaveAttribute("aria-selected", "false");
@@ -709,7 +758,7 @@ describe("keyboard selection", () => {
     el.append(item);
     await reRender();
 
-    expect(component.items[1].selected).toBe(true);
+    await expect.element(component.items[1]).toHaveProperty("selected", true);
   });
 
   it("updates selection when an item value changes", async () => {
@@ -724,7 +773,7 @@ describe("keyboard selection", () => {
     selectedItem.value = "three";
     await reRender();
 
-    expect(selectedItem.selected).toBe(false);
+    await expect.element(selectedItem).toHaveProperty("selected", false);
   });
 
   it("updates listbox option aria-selected from programmatic item selection without emitting change", async () => {
@@ -838,7 +887,7 @@ describe("keyboard selection", () => {
     await expect
       .element(input)
       .toHaveProperty("ariaActiveDescendantElement", replacementOption.element());
-    expect(component.items[0].active).toBe(true);
+    await expect.element(component.items[0]).toHaveProperty("active", true);
   });
 
   it("updates the active descendant when the active item's text is cleared and restored", async () => {

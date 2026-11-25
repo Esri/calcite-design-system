@@ -16,6 +16,7 @@ import {
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
 import type { BlockGroup } from "./block-group";
+import type { Block } from "../block/block";
 
 mockConsole();
 
@@ -86,10 +87,12 @@ describe("reflects", () => {
       {
         propertyName: "dragEnabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expandMode",
         value: "multiple",
+        reflect: false,
       },
       {
         propertyName: "group",
@@ -98,10 +101,12 @@ describe("reflects", () => {
       {
         propertyName: "loading",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "sortDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -155,6 +160,48 @@ describe("disabled", () => {
     focusTarget: "child",
   });
 });
+
+it.each(["expandable", "collapsible"] as const)(
+  "preserves %s and current icon configuration when adding a copy to another group",
+  async (expandableProperty) => {
+    const { el, reRender } = await mount(
+      <div>
+        <calcite-block-group
+          canPull={() => "clone"}
+          dragEnabled
+          group="blocks"
+          id="source"
+          label="Source"
+        >
+          <calcite-block heading="Layer" heading-level="2" icon-start="banana" />
+        </calcite-block-group>
+        <calcite-block-group dragEnabled group="blocks" id="destination" label="Destination" />
+      </div>,
+    );
+    const configuration = {
+      [expandableProperty]: true,
+      headingLevel: 3,
+      iconStart: "layers",
+      iconEnd: "layer",
+      iconFlipRtl: "both",
+      toggleDisplay: "switch",
+    } satisfies Partial<Block["el"]>;
+
+    Object.assign(el.querySelector("calcite-block")!, configuration);
+    await reRender();
+
+    const source = page.getBySelector("#source > calcite-block");
+    await source.getByRole("button", { name: /^Reposition/ }).click();
+    await source.getByRole("menuitem", { name: "Destination", exact: true }).click();
+
+    const copy = page.getBySelector("#destination > calcite-block");
+    for (const [property, value] of Object.entries(configuration)) {
+      await expect.element(copy).toHaveProperty(property, value);
+    }
+    await expect.element(copy.getBySelector("calcite-switch")).toBeVisible();
+    await expect.element(source).toHaveProperty("expandable", true);
+  },
+);
 
 describe("a11y attributes", () => {
   it("should omit aria-busy when not loading and set it when loading", async () => {

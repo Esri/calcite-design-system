@@ -1442,7 +1442,7 @@ it("prevents toggling items when combobox is closed", async () => {
 
   const combobox = await page.find("calcite-combobox");
   await combobox.click();
-  expect(await page.find("calcite-combobox")).toHaveAttribute("open");
+  expect(await combobox.getProperty("open")).toBe(true);
 
   await (await combobox.find("calcite-combobox-item[value=Pikachu]")).click();
   await (await combobox.find("calcite-combobox-item[value=Charizard]")).click();

@@ -59,14 +59,14 @@ export class Tree extends LitElement {
 
   //#region Public Properties
 
-  @property({ reflect: true }) child = false;
+  @property() child = false;
 
   /**
    * When `true`, displays indentation guide lines.
    *
    * @public
    */
-  @property({ reflect: true }) lines = false;
+  @property() lines = false;
 
   @property() parentExpanded = false;
 
@@ -98,7 +98,7 @@ export class Tree extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: SelectionMode = "single";
+  @property() selectionMode: SelectionMode = "single";
 
   //#endregion
 

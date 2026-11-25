@@ -196,7 +196,7 @@ export class Button extends LitElement {
    * @public
    * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
-  @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
+  @property({ converter: stringOrBoolean }) download: string | boolean = false;
 
   /**
    * @public
@@ -209,7 +209,7 @@ export class Button extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) href?: string;
+  @property() href?: string;
 
   /**
    * @public
@@ -222,7 +222,7 @@ export class Button extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
@@ -269,7 +269,7 @@ export class Button extends LitElement {
    * @public
    * @see [MDN - rel](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/rel)
    */
-  @property({ reflect: true }) rel?: string;
+  @property() rel?: string;
 
   /**
    * When `true`, adds a round style to the component.
@@ -298,7 +298,7 @@ export class Button extends LitElement {
    * @public
    * @see [MDN - target](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#attr-target)
    */
-  @property({ reflect: true }) target?: string;
+  @property() target?: string;
 
   /**
    * Specifies the default behavior of the component.

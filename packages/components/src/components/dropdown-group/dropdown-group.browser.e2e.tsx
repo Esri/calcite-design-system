@@ -31,6 +31,7 @@ describe("reflects", () => {
       {
         propertyName: "selectionMode",
         value: "single",
+        reflect: false,
       },
     ],
   );
@@ -96,13 +97,13 @@ describe("accessibility wiring", () => {
     const itemEl = page.getBySelector("#move-me").element() as HTMLElement;
     const getGroupDescription = () => itemEl.ariaDescribedByElements!.find(isDropdownGroup);
 
-    expect(getGroupDescription()!.id).toBe(groupOneEl.id);
+    await expect.element(getGroupDescription()!).toHaveProperty("id", groupOneEl.id);
 
     groupTwoEl.append(itemEl);
 
     await vi.waitUntil(() => getGroupDescription()?.id === groupTwoEl.id);
 
-    expect(getGroupDescription()!.id).toBe(groupTwoEl.id);
+    await expect.element(getGroupDescription()!).toHaveProperty("id", groupTwoEl.id);
   });
 
   it("removes group description when group-title is cleared", async () => {
@@ -120,7 +121,7 @@ describe("accessibility wiring", () => {
     const itemEl = page.getBySelector("#item-one").element() as HTMLElement;
     const getGroupDescription = () => itemEl.ariaDescribedByElements!.find(isDropdownGroup);
 
-    expect(getGroupDescription()!.id).toBe(groupEl.id);
+    await expect.element(getGroupDescription()!).toHaveProperty("id", groupEl.id);
 
     groupEl.groupTitle = undefined;
 

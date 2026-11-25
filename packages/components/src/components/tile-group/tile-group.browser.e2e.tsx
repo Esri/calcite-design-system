@@ -90,8 +90,8 @@ describe("reflects", () => {
     [
       { propertyName: "layout", value: "horizontal" },
       { propertyName: "scale", value: "m" },
-      { propertyName: "selectionAppearance", value: "icon" },
-      { propertyName: "selectionMode", value: "none" },
+      { propertyName: "selectionAppearance", value: "icon", reflect: false },
+      { propertyName: "selectionMode", value: "none", reflect: false },
     ],
   );
 });

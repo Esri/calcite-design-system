@@ -104,7 +104,7 @@ it("renders multiple expanded items when in multiple selection mode", async () =
     ${accordionContent}
     </calcite-accordion>`);
   const element = await page.find("calcite-accordion");
-  expect(element).toEqualAttribute("selection-mode", "multiple");
+  expect(await element.getProperty("selectionMode")).toBe("multiple");
   const [item1, item2, item3] = await findAll(element, "calcite-accordion-item");
   const [item1Content, item2Content, item3Content] = await findAll(
     element,

@@ -47,6 +47,7 @@ describe("reflects", () => {
       {
         propertyName: "icon",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "layout",
@@ -55,6 +56,7 @@ describe("reflects", () => {
       {
         propertyName: "numbered",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -160,14 +162,14 @@ describe("inheritable props in shadow DOM", () => {
     await component.updateComplete;
 
     let items = page.getBySelector("calcite-stepper-item");
-    expect(items.length).toBe(2);
+    await expect.poll(() => items.length).toBe(2);
 
     for (const item of items.elements()) {
-      expect(item).toHaveProperty("icon", false);
-      expect(item).toHaveProperty("numbered", false);
-      expect(item).toHaveProperty("layout", "horizontal");
-      expect(item).toHaveProperty("scale", "m");
-      expect(item).toHaveProperty("numberingSystem", undefined);
+      await expect.element(item).toHaveProperty("icon", false);
+      await expect.element(item).toHaveProperty("numbered", false);
+      await expect.element(item).toHaveProperty("layout", "horizontal");
+      await expect.element(item).toHaveProperty("scale", "m");
+      await expect.element(item).toHaveProperty("numberingSystem", undefined);
     }
 
     const stepper = page.getBySelector("test-wrapper calcite-stepper").element() as Stepper["el"];
@@ -181,14 +183,14 @@ describe("inheritable props in shadow DOM", () => {
     await component.updateComplete;
 
     items = page.getBySelector("calcite-stepper-item");
-    expect(items.length).toBe(2);
+    await expect.poll(() => items.length).toBe(2);
 
     for (const item of items.elements()) {
-      expect(item).toHaveProperty("icon", true);
-      expect(item).toHaveProperty("numbered", true);
-      expect(item).toHaveProperty("layout", "vertical");
-      expect(item).toHaveProperty("scale", "l");
-      expect(item).toHaveProperty("numberingSystem", "arab");
+      await expect.element(item).toHaveProperty("icon", true);
+      await expect.element(item).toHaveProperty("numbered", true);
+      await expect.element(item).toHaveProperty("layout", "vertical");
+      await expect.element(item).toHaveProperty("scale", "l");
+      await expect.element(item).toHaveProperty("numberingSystem", "arab");
     }
   });
 });

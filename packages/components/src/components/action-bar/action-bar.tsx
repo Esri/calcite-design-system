@@ -402,7 +402,7 @@ export class ActionBar extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) expandToggleDisabled = false;
+  @property() expandToggleDisabled = false;
 
   /**
    * When `true`, expands the component.
@@ -419,7 +419,7 @@ export class ActionBar extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) expandPosition: Extract<"start" | "end", Position> = "end";
+  @property() expandPosition: Extract<"start" | "end", Position> = "end";
 
   /**
    * Specifies the layout direction of the actions.
@@ -473,7 +473,7 @@ export class ActionBar extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * When `expandToggleDisabled` is `false`, specifies the expand toggle's chevron direction.
@@ -485,7 +485,7 @@ export class ActionBar extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) position?: Extract<"start" | "end", Position>;
+  @property() position?: Extract<"start" | "end", Position>;
 
   /**
    * Specifies the size of the expand `calcite-action`.
@@ -499,10 +499,8 @@ export class ActionBar extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionAppearance: Extract<
-    "neutral" | "highlight",
-    SelectionAppearance
-  > = "neutral";
+  @property() selectionAppearance: Extract<"neutral" | "highlight", SelectionAppearance> =
+    "neutral";
 
   //#endregion
 

@@ -122,6 +122,7 @@ describe("reflects", () => {
       {
         propertyName: "open",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "expanded",

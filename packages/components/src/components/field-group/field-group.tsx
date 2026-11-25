@@ -62,16 +62,16 @@ export class FieldGroup extends LitElement {
   //#region Public Properties
 
   /** When `layout` is `"columns"`, specifies the number of columns in the component. */
-  @property({ type: Number, reflect: true }) columns?: Columns;
+  @property({ type: Number }) columns?: Columns;
 
   /** Defines the component's layout. */
   @property({ reflect: true }) layout: Layout = "vertical";
 
   /** When `true`, slotted `calcite-input` prefixes share the same width. */
-  @property({ reflect: true }) prefixAutoWidth = false;
+  @property() prefixAutoWidth = false;
 
   /** When `true`, slotted `calcite-input` suffixes share the same width. */
-  @property({ reflect: true }) suffixAutoWidth = false;
+  @property() suffixAutoWidth = false;
 
   //#endregion
 

@@ -1,7 +1,7 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, onTestFinished, vi } from "vitest";
-import { page, userEvent } from "vitest/browser";
+import { Locator, page, userEvent } from "vitest/browser";
 import { isDropdownGroup } from "../dropdown-group/resources";
 import {
   accessible,
@@ -82,10 +82,12 @@ describe("reflects", () => {
       {
         propertyName: "offsetDistance",
         value: 10,
+        reflect: false,
       },
       {
         propertyName: "offsetSkidding",
         value: 10,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -94,14 +96,17 @@ describe("reflects", () => {
       {
         propertyName: "widthScale",
         value: "m",
+        reflect: false,
       },
       {
         propertyName: "width",
         value: "m",
+        reflect: false,
       },
       {
         propertyName: "placement",
         value: "bottom-start",
+        reflect: false,
       },
     ],
   );
@@ -327,12 +332,12 @@ describe("hover type", () => {
   it("opens on focusin", async () => {
     const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
 
     page.getByRole("button").element().focus();
     await expect.element(page.getBySelector("#item-1")).toHaveFocus();
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("does not move focus when opened or closed by pointer hover", async () => {
@@ -430,15 +435,15 @@ describe("hover type", () => {
     const { el } = await mount<Dropdown>(renderHoverDropdownHTML);
     const trigger = page.getByText("Open dropdown");
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
 
     await userEvent.click(trigger);
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.click(trigger);
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   async function mountShadowRootHoverReference() {
@@ -506,7 +511,7 @@ describe("hover type", () => {
     await waitForFocusUpdates();
 
     await expect.element(trigger).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("enters a hover-opened menu from an unrelated control in the menu's shadow root", async () => {
@@ -521,7 +526,7 @@ describe("hover type", () => {
     trigger.element().focus();
 
     await expect.element(host).toHaveProperty("shadowRoot.activeElement", item.element());
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("stays open when focus returns to a hover reference in another shadow root", async () => {
@@ -530,8 +535,8 @@ describe("hover type", () => {
     trigger.element().focus();
     await waitForFocusUpdates();
 
-    expect(getRootNode(trigger.element()).activeElement).toBe(trigger.element());
-    expect(el.open).toBe(true);
+    await expect.poll(() => getRootNode(trigger.element()).activeElement).toBe(trigger.element());
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("closes when focus moves to another control in the hover reference's shadow root", async () => {
@@ -540,7 +545,7 @@ describe("hover type", () => {
     outside.element().focus();
 
     await expect.element(el).toHaveProperty("open", false);
-    expect(getRootNode(outside.element()).activeElement).toBe(outside.element());
+    await expect.poll(() => getRootNode(outside.element()).activeElement).toBe(outside.element());
   });
 
   it("stays open when focus returns to an SVG hover reference", async () => {
@@ -566,7 +571,7 @@ describe("hover type", () => {
 
     await waitForFocusUpdates();
     await expect.element(trigger).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("does not reopen when programmatic close restores focus to an external hover reference", async () => {
@@ -591,7 +596,7 @@ describe("hover type", () => {
     el.open = false;
     await waitForFocusUpdates();
     await expect.element(trigger).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it.each(["Escape", "selection", "programmatic"])(
@@ -863,7 +868,7 @@ describe("hover type", () => {
 
     await waitForFocusUpdates();
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it.each([
@@ -905,7 +910,7 @@ describe("hover type", () => {
       await waitForFocusUpdates();
 
       await expect.element(outside).toHaveFocus();
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
     },
   );
 
@@ -944,7 +949,7 @@ describe("hover type", () => {
 
       await expect.element(host).toHaveFocus();
       await expect.element(host).toHaveProperty("shadowRoot.activeElement", null);
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
     });
 
     it("does not restore focus to the trigger when the last item is removed", async () => {
@@ -957,7 +962,7 @@ describe("hover type", () => {
 
       await expect.element(host).toHaveFocus();
       await expect.element(host).toHaveProperty("shadowRoot.activeElement", null);
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
     });
   });
 
@@ -987,7 +992,7 @@ describe("hover type", () => {
             : page.getBySelector('calcite-button[slot="trigger"]'),
         )
         .toHaveFocus();
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
     },
   );
 
@@ -1029,12 +1034,12 @@ describe("hover type", () => {
     const nextFocusTarget = page.getByRole("button", { name: "Next" });
 
     await userEvent.click(trigger);
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.tab();
 
     await expect.element(nextFocusTarget).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 });
 
@@ -1147,7 +1152,7 @@ describe("roving tabindex", () => {
     await waitForFocusUpdates();
 
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("focuses a replacement when a before-open listener removes the initial item", async () => {
@@ -1218,7 +1223,7 @@ describe("roving tabindex", () => {
     await waitForFocusUpdates();
 
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("preserves focus moved outside by a bubbling opening click listener", async () => {
@@ -1237,7 +1242,7 @@ describe("roving tabindex", () => {
     await waitForFocusUpdates();
 
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("preserves focus moved outside by a bubbling opening keydown listener", async () => {
@@ -1258,7 +1263,7 @@ describe("roving tabindex", () => {
     await waitForFocusUpdates();
 
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("opens with the first trigger click after an open request while disabled", async () => {
@@ -1280,7 +1285,7 @@ describe("roving tabindex", () => {
     await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
 
     await expect.element(page.getByRole("menuitemradio", { name: "First" })).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("sets focus on a slotted trigger while open", async () => {
@@ -1298,7 +1303,7 @@ describe("roving tabindex", () => {
     await el.setFocus();
 
     await expect.element(page.getBySelector('calcite-button[slot="trigger"]')).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("sets focus on a container reference's control while open", async () => {
@@ -1323,7 +1328,7 @@ describe("roving tabindex", () => {
     await el.setFocus();
 
     await expect.element(trigger).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   describe.each(["slotted", "reference"])("non-tabbable %s trigger", (mode) => {
@@ -1365,7 +1370,7 @@ describe("roving tabindex", () => {
         }
 
         await expect.element(trigger).toHaveFocus();
-        expect(el.open).toBe(false);
+        await expect.element(el).toHaveProperty("open", false);
         await expect.element(trigger).toHaveAttribute("tabindex", "-1");
         await expect.element(item).toHaveAttribute("tabindex", "-1");
       },
@@ -1395,7 +1400,7 @@ describe("roving tabindex", () => {
 
     await vi.waitFor(() => expect(closeSpy).toHaveBeenCalledTimes(1));
     expect(beforeCloseSpy).toHaveBeenCalledTimes(1);
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
     await vi.waitFor(() => expect(wrapper.element().matches(":popover-open")).toBe(false));
   });
 
@@ -1439,7 +1444,7 @@ describe("roving tabindex", () => {
 
       availableGroup[property] = true;
       await expect.element(trigger).toHaveFocus();
-      expect(trigger.element().tabIndex).toBe(0);
+      await expect.element(trigger.element()).toHaveProperty("tabIndex", 0);
     },
   );
 
@@ -1540,14 +1545,15 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{Enter}");
     expect(clickSpy).toHaveBeenCalledTimes(1);
     await expect.element(page.getByRole("button", { name: "Open dropdown" })).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("selects the menu item without activating its link when the host is clicked directly", async () => {
     const itemClickSpy = vi.fn();
     const selectSpy = vi.fn();
+    const dropdownClickSpy = vi.fn((event: MouseEvent) => event.preventDefault());
     const { el } = await mount<Dropdown>(
-      <calcite-dropdown oncalciteDropdownSelect={selectSpy}>
+      <calcite-dropdown oncalciteDropdownSelect={selectSpy} onClick={dropdownClickSpy}>
         <button slot="trigger" type="button">
           Open dropdown
         </button>
@@ -1560,12 +1566,12 @@ describe("roving tabindex", () => {
     );
     const item = page.getByRole("menuitem", { name: "Destination" });
     const clickSpy = vi.fn<(event: MouseEvent) => void>();
-    const dropdownClickSpy = vi.fn((event: MouseEvent) => event.preventDefault());
 
     await userEvent.click(page.getByRole("button", { name: "Open dropdown" }));
     await expect.element(item).toHaveFocus();
+    dropdownClickSpy.mockClear();
     (item.getBySelector("a").element() as HTMLAnchorElement).addEventListener("click", clickSpy);
-    el.addEventListener("click", dropdownClickSpy);
+
     (item.element() as DropdownItem["el"]).click();
 
     expect(clickSpy).not.toHaveBeenCalled();
@@ -1573,7 +1579,7 @@ describe("roving tabindex", () => {
     expect(dropdownClickSpy).toHaveBeenCalledTimes(1);
     expect(selectSpy).toHaveBeenCalledTimes(1);
     await expect.element(page.getByRole("button", { name: "Open dropdown" })).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it.each(["slotted", "reference"])(
@@ -1611,13 +1617,13 @@ describe("roving tabindex", () => {
       await expect.element(page.getBySelector("#item-1")).toHaveFocus();
       await userEvent.tab();
       await expect.element(page.getByRole("button", { name: "After" })).toHaveFocus();
-      expect(el.open).toBe(false);
+      await expect.element(el).toHaveProperty("open", false);
 
       await userEvent.click(trigger);
       await expect.element(page.getBySelector("#item-1")).toHaveFocus();
       await userEvent.tab({ shift: true });
       await expect.element(page.getByRole("button", { name: "Before" })).toHaveFocus();
-      expect(el.open).toBe(false);
+      await expect.element(el).toHaveProperty("open", false);
     },
   );
 
@@ -1636,7 +1642,7 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{Space}");
     await waitForFocusUpdates();
     await expect.element(item).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(1);
   });
 
@@ -1700,7 +1706,7 @@ describe("roving tabindex", () => {
       await userEvent.click(first);
       await waitForFocusUpdates();
 
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
       await expect.element(target).toHaveFocus();
     },
   );
@@ -1717,7 +1723,7 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{Enter}");
 
     await expect.element(page.getBySelector('calcite-button[slot="trigger"]')).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("preserves outside focus when a selection listener removes the focused item", async () => {
@@ -1745,7 +1751,7 @@ describe("roving tabindex", () => {
 
     await waitForFocusUpdates();
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 
   it("recovers focus when a selection listener disables the selected item while staying open", async () => {
@@ -1765,7 +1771,7 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{Enter}");
 
     await expect.element(page.getBySelector("#item-2")).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("recovers focus when a selection listener removes the selected item while staying open", async () => {
@@ -1781,7 +1787,7 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{Enter}");
 
     await expect.element(page.getBySelector("#item-2")).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("restores trigger focus when a selection listener hides the only item while staying open", async () => {
@@ -1810,7 +1816,7 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{Enter}");
 
     await expect.element(trigger).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("does not reclaim focus after a selection listener moves focus elsewhere", async () => {
@@ -1838,7 +1844,7 @@ describe("roving tabindex", () => {
     await userEvent.click(item);
     await waitForFocusUpdates();
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
     await expect.element(outside).toHaveFocus();
   });
 
@@ -1867,7 +1873,7 @@ describe("roving tabindex", () => {
     await userEvent.keyboard("{ArrowDown}");
     await waitForFocusUpdates();
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
     await expect.element(outside).toHaveFocus();
   });
 
@@ -1939,7 +1945,7 @@ describe("roving tabindex", () => {
     await waitForFocusUpdates();
 
     await expect.element(outside).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it("recovers focus when the focused item is removed during deferred navigation", async () => {
@@ -2059,7 +2065,7 @@ describe("roving tabindex", () => {
 
     await userEvent.click(trigger);
     await expect.element(firstItem).toHaveFocus();
-    expect(trigger.element().tabIndex).toBe(-1);
+    await expect.element(trigger.element()).toHaveProperty("tabIndex", -1);
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(1);
 
     await userEvent.keyboard("{ArrowDown}");
@@ -2069,7 +2075,7 @@ describe("roving tabindex", () => {
 
     await userEvent.keyboard("{Escape}");
     await expect.element(page.getBySelector('calcite-button[slot="trigger"]')).toHaveFocus();
-    expect(trigger.element().tabIndex).toBe(0);
+    await expect.element(trigger.element()).toHaveProperty("tabIndex", 0);
     expect(page.getBySelector('calcite-dropdown-item[tabindex="0"]').all()).toHaveLength(0);
   });
 });
@@ -2235,7 +2241,7 @@ describe("menu item focus", () => {
       }
 
       await expect.element(trigger).toHaveFocus();
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
     },
   );
 
@@ -2336,13 +2342,13 @@ describe("referenceElement keydown", () => {
     const { el } = await mount<Dropdown>(renderReferenceElementDropdownHTML);
     const trigger = page.getByRole("button", { name: "Open dropdown" });
 
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
 
     trigger.element().focus();
     await userEvent.keyboard("{Enter}");
     await expect.element(page.getByRole("menuitemradio")).toHaveFocus();
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
   });
 
   it.each(["ArrowDown", "ArrowUp"])(
@@ -2366,15 +2372,34 @@ describe("referenceElement keydown", () => {
       await userEvent.keyboard(`{${key}}`);
 
       await expect.element(page.getByRole("menuitemradio")).toHaveFocus();
-      expect(el.open).toBe(true);
+      await expect.element(el).toHaveProperty("open", true);
     },
   );
 });
 
 describe("autoClose", () => {
-  it.each([undefined, 0, 2])(
-    "restores a shared reference's original tabindex %s only after both dropdowns close",
-    async (tabIndex) => {
+  it.each([
+    {
+      tabIndex: undefined,
+      assertRestored: async (trigger: Locator) => {
+        await expect.element(trigger).not.toHaveAttribute("tabindex");
+      },
+    },
+    {
+      tabIndex: 0,
+      assertRestored: async (trigger: Locator) => {
+        await expect.element(trigger).toHaveAttribute("tabindex", "0");
+      },
+    },
+    {
+      tabIndex: 2,
+      assertRestored: async (trigger: Locator) => {
+        await expect.element(trigger).toHaveAttribute("tabindex", "2");
+      },
+    },
+  ])(
+    "restores a shared reference's original tabindex $tabIndex only after both dropdowns close",
+    async ({ tabIndex, assertRestored }) => {
       const dropdownOne = await mount<Dropdown>(
         <>
           <button id="shared-trigger" tabIndex={tabIndex} type="button">
@@ -2401,8 +2426,8 @@ describe("autoClose", () => {
         [dropdownTwo, dropdownOne],
       ]) {
         await userEvent.click(trigger);
-        expect(dropdownOne.el.open).toBe(true);
-        expect(dropdownTwo.el.open).toBe(true);
+        await expect.element(dropdownOne.el).toHaveProperty("open", true);
+        await expect.element(dropdownTwo.el).toHaveProperty("open", true);
         await expect.element(trigger).toHaveAttribute("tabindex", "-1");
 
         dropdowns[0].el.open = false;
@@ -2411,9 +2436,7 @@ describe("autoClose", () => {
 
         dropdowns[1].el.open = false;
         await dropdowns[1].component.updateComplete;
-        expect(trigger.element().getAttribute("tabindex")).toBe(
-          tabIndex === undefined ? null : String(tabIndex),
-        );
+        await assertRestored(trigger);
       }
     },
   );
@@ -2443,22 +2466,22 @@ describe("autoClose", () => {
     const triggerTwo = page.getByRole("button", { name: "Open dropdown 2" });
     const outside = page.getByRole("button", { name: "Outside" });
 
-    expect(dropdownOne.open).toBe(false);
-    expect(dropdownTwo.open).toBe(false);
+    await expect.element(dropdownOne).toHaveProperty("open", false);
+    await expect.element(dropdownTwo).toHaveProperty("open", false);
 
     await userEvent.click(triggerOne);
 
-    expect(dropdownOne.open).toBe(true);
-    expect(dropdownTwo.open).toBe(false);
+    await expect.element(dropdownOne).toHaveProperty("open", true);
+    await expect.element(dropdownTwo).toHaveProperty("open", false);
 
     await userEvent.click(triggerTwo);
 
-    expect(dropdownOne.open).toBe(false);
-    expect(dropdownTwo.open).toBe(true);
+    await expect.element(dropdownOne).toHaveProperty("open", false);
+    await expect.element(dropdownTwo).toHaveProperty("open", true);
 
     await userEvent.click(outside);
 
-    expect(dropdownTwo.open).toBe(false);
+    await expect.element(dropdownTwo).toHaveProperty("open", false);
   });
 });
 
@@ -2869,7 +2892,7 @@ describe("scrolling", () => {
 
       // no scroller should be present when max-items === items
       const scroller = page.getByRole("menu").element();
-      expect(scroller.scrollHeight).toBe(scroller.clientHeight);
+      await expect.element(scroller).toHaveProperty("scrollHeight", scroller.clientHeight);
     });
 
     it("does not display a scrollbar on subsequent opens when maxItems matches the number of items", async () => {

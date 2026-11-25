@@ -75,18 +75,22 @@ describe("reflects", () => {
       {
         propertyName: "fillType",
         value: "range",
+        reflect: false,
       },
       {
         propertyName: "max",
         value: 100,
+        reflect: false,
       },
       {
         propertyName: "min",
         value: 0,
+        reflect: false,
       },
       {
         propertyName: "rangeLabelType",
         value: "percent",
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -95,6 +99,7 @@ describe("reflects", () => {
       {
         propertyName: "valueLabelType",
         value: "percent",
+        reflect: false,
       },
     ],
   );

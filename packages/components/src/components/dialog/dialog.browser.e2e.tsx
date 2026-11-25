@@ -201,14 +201,17 @@ describe("reflects", () => {
       {
         propertyName: "closeDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "dragEnabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "escapeDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "placement",
@@ -217,6 +220,7 @@ describe("reflects", () => {
       {
         propertyName: "headingLevel",
         value: 1,
+        reflect: false,
       },
       {
         propertyName: "kind",
@@ -225,14 +229,17 @@ describe("reflects", () => {
       {
         propertyName: "icon",
         value: "x",
+        reflect: false,
       },
       {
         propertyName: "iconFlipRtl",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "loading",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "menuOpen",
@@ -249,14 +256,17 @@ describe("reflects", () => {
       {
         propertyName: "outsideCloseDisabled",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "overlayPositioning",
         value: "fixed",
+        reflect: false,
       },
       {
         propertyName: "resizable",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "scale",
@@ -265,6 +275,7 @@ describe("reflects", () => {
       {
         propertyName: "width",
         value: "s",
+        reflect: false,
       },
       {
         propertyName: "fullscreenDisabled",

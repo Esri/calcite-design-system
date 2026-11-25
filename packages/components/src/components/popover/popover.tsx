@@ -170,20 +170,20 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    *
    * @public
    */
-  @property({ reflect: true }) autoClose = false;
+  @property() autoClose = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) closable = false;
+  @property() closable = false;
 
   /**
    * When `true`, prevents flipping the component's placement when overlapping its `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) flipDisabled = false;
+  @property() flipDisabled = false;
 
   /**
    * @public
@@ -196,7 +196,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    *
    * @public
    */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  @property() focusTrapDisabled = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -221,7 +221,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * @public
@@ -241,41 +241,41 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    *
    * @public
    */
-  @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
+  @property({ type: Number }) offsetDistance = defaultOffsetDistance;
 
   /**
    * Specifies the distance to position the component along the `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) offsetSkidding = 0;
+  @property() offsetSkidding = 0;
 
   /**
    * When `true`, displays and positions the component.
    *
    * @public
    */
-  @property({ reflect: true }) open = false;
+  @property() open = false;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Determines where the component will be positioned relative to the `referenceElement`.
    *
    * @public
    */
-  @property({ reflect: true }) placement: LogicalPlacement = defaultPopoverPlacement;
+  @property() placement: LogicalPlacement = defaultPopoverPlacement;
 
   /**
    * When `true`, removes the caret pointer.
    *
    * @public
    */
-  @property({ reflect: true }) pointerDisabled = false;
+  @property() pointerDisabled = false;
 
   /**
    * @public
@@ -305,7 +305,7 @@ export class Popover extends LitElement implements FloatingUIComponent, Referenc
    *
    * @public
    */
-  @property({ reflect: true }) triggerDisabled = false;
+  @property() triggerDisabled = false;
 
   //#endregion
 

@@ -122,6 +122,7 @@ describe("reflects", () => {
       {
         propertyName: "validationIcon",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -189,7 +190,7 @@ describe("inline edit", () => {
       page.getBySelector(`calcite-input-text .${InlineEditControlsCSS.cancelEditing}`),
     );
 
-    expect(el.value).toBe("Starting value");
+    await expect.element(el).toHaveProperty("value", "Starting value");
     await expect.element(input).toHaveValue("Starting value");
   });
 
@@ -243,62 +244,71 @@ describe("inline edit", () => {
   });
 
   it("emits a change only when inline editing is saved", async () => {
+    const changeSpy = vi.fn();
     const { el } = await mount<InputText>(
-      <calcite-input-text clearable inline-edit value="John Doe" />,
+      <calcite-input-text
+        clearable
+        inline-edit
+        oncalciteInputTextChange={changeSpy}
+        value="John Doe"
+      />,
     );
     const input = page.getByRole("textbox");
-    const changeSpy = vi.fn();
-    el.addEventListener("calciteInputTextChange", changeSpy);
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
 
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     expect(changeSpy).not.toHaveBeenCalled();
 
     await userEvent.click(
       page.getBySelector(`calcite-input-text .${InlineEditControlsCSS.confirmChanges}`),
     );
 
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     expect(changeSpy).toHaveBeenCalledTimes(1);
   });
 
   it("commits inline editing on Enter when controls are present", async () => {
-    const { el } = await mount<InputText>(<calcite-input-text inline-edit value="John Doe" />);
-    const input = page.getByRole("textbox");
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputTextChange", changeSpy);
+    const { el } = await mount<InputText>(
+      <calcite-input-text inline-edit oncalciteInputTextChange={changeSpy} value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
     await userEvent.keyboard("{Enter}");
 
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     expect(changeSpy).toHaveBeenCalledTimes(1);
     await expect.element(el).toHaveProperty("inlineEditing", false);
     await expect.element(input).not.toHaveFocus();
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("commits inline editing on Enter when controls are not present", async () => {
+    const confirmSpy = vi.fn();
+    const changeSpy = vi.fn();
     const { el } = await mount<InputText>(
-      <calcite-input-text inline-edit="controls-disabled" value="John Doe" />,
+      <calcite-input-text
+        inline-edit="controls-disabled"
+        oncalciteInputTextChange={changeSpy}
+        oncalciteInputTextInlineEditingConfirm={confirmSpy}
+        value="John Doe"
+      />,
     );
     const input = page.getByRole("textbox");
-    const changeSpy = vi.fn();
-    const confirmSpy = vi.fn();
+
     el.inlineEditingBeforeConfirm = vi.fn().mockResolvedValue(undefined);
-    el.addEventListener("calciteInputTextChange", changeSpy);
-    el.addEventListener("calciteInputTextInlineEditingConfirm", confirmSpy);
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
     await userEvent.keyboard("{Enter}");
 
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     expect(changeSpy).toHaveBeenCalledTimes(1);
     expect(confirmSpy).not.toHaveBeenCalled();
     expect(el.inlineEditingBeforeConfirm).not.toHaveBeenCalled();
@@ -307,24 +317,26 @@ describe("inline edit", () => {
   });
 
   it("does not emit a change when inline editing is cancelled", async () => {
-    const { el } = await mount<InputText>(<calcite-input-text inline-edit value="John Doe" />);
-    const input = page.getByRole("textbox");
     const changeSpy = vi.fn();
-    el.addEventListener("calciteInputTextChange", changeSpy);
+    const { el } = await mount<InputText>(
+      <calcite-input-text inline-edit oncalciteInputTextChange={changeSpy} value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
     await userEvent.keyboard("{Escape}");
 
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     expect(changeSpy).not.toHaveBeenCalled();
   });
 
   it("does not emit input while built-in inline editing is active", async () => {
-    const { el } = await mount<InputText>(<calcite-input-text inline-edit value="John Doe" />);
-    const input = page.getByRole("textbox");
     const inputSpy = vi.fn();
-    el.addEventListener("calciteInputTextInput", inputSpy);
+    await mount<InputText>(
+      <calcite-input-text inline-edit oncalciteInputTextInput={inputSpy} value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
@@ -362,17 +374,17 @@ describe("inline edit", () => {
 
     await userEvent.click(input);
     await userEvent.keyboard("X");
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     await userEvent.click(
       page.getBySelector(`calcite-input-text .${InlineEditControlsCSS.confirmChanges}`),
     );
 
     expect(confirmSpy).toHaveBeenCalledTimes(1);
-    expect(el.value).toBe("John DoeX");
+    await expect.element(el).toHaveProperty("value", "John DoeX");
     await expect.element(el).toHaveProperty("inlineEditing", false);
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("focuses enable editing action after cancel is clicked", async () => {
@@ -386,11 +398,11 @@ describe("inline edit", () => {
     await userEvent.keyboard("X");
     await userEvent.click(cancelButton);
 
-    expect(el.value).toBe("John Doe");
+    await expect.element(el).toHaveProperty("value", "John Doe");
     await expect.element(el).toHaveProperty("inlineEditing", false);
-    expect(el.shadowRoot.activeElement).toBe(
-      el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`),
-    );
+    await expect
+      .poll(() => el.shadowRoot.activeElement)
+      .toBe(el.shadowRoot.querySelector(`.${InlineEditControlsCSS.enableEditing}`));
   });
 
   it("disables editing when inlineEditingBeforeConfirm resolves successfully", async () => {
@@ -497,9 +509,10 @@ describe("clearable", () => {
   });
 
   it("receives event when clear button is clicked", async () => {
-    const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputTextInput", inputEventHandler);
+    const { el } = await mount<InputText>(
+      <calcite-input-text clearable oncalciteInputTextInput={inputEventHandler} value="John Doe" />,
+    );
 
     const clearButton = page.getBySelector(`.${ClearButtonCSS.container} calcite-action`);
 
@@ -510,10 +523,11 @@ describe("clearable", () => {
   });
 
   it("receives event when input is cleared via escape key", async () => {
-    const { el } = await mount<InputText>(<calcite-input-text clearable value="John Doe" />);
-    const input = page.getByRole("textbox");
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputTextInput", inputEventHandler);
+    const { el } = await mount<InputText>(
+      <calcite-input-text clearable oncalciteInputTextInput={inputEventHandler} value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
     await userEvent.click(input);
 
@@ -526,10 +540,11 @@ describe("clearable", () => {
   });
 
   it("does not receive event when clearable is not requested and input is cleared via escape key", async () => {
-    const { el } = await mount<InputText>(<calcite-input-text value="John Doe" />);
-    const input = page.getByRole("textbox");
     const inputEventHandler = vi.fn();
-    el.addEventListener("calciteInputTextInput", inputEventHandler);
+    const { el } = await mount<InputText>(
+      <calcite-input-text oncalciteInputTextInput={inputEventHandler} value="John Doe" />,
+    );
+    const input = page.getByRole("textbox");
 
     await userEvent.click(input);
 

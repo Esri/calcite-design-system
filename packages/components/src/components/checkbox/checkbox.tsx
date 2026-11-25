@@ -166,7 +166,7 @@ export class Checkbox extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.

@@ -84,7 +84,7 @@ describe("beforeClose", () => {
     await skipAnimations(page);
     sheet = await page.find("calcite-sheet");
     const openEventSpy = await page.spyOnEvent("calciteSheetOpen");
-    sheet.setProperty("open", true);
+    sheet.setAttribute("open", "");
     await page.waitForChanges();
     await openEventSpy.next();
   });
@@ -173,7 +173,7 @@ describe("beforeClose", () => {
 
     expect(await sheet.getProperty("open")).toBe(true);
     expect(await sheet.getProperty("opened")).toBe(true);
-    expect(sheet.getAttribute("open")).toBe(""); // Makes sure attribute is added back
+    expect(sheet.getAttribute("open")).toBe("");
   });
 });
 
@@ -246,7 +246,7 @@ it("should close when the scrim is clicked", async () => {
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
-  expect(sheet).toHaveAttribute("open");
+  expect(await sheet.getProperty("open")).toBe(true);
   await page.$eval("calcite-sheet", (elm) => elm.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await sheet.getProperty("open")).toBe(false);
@@ -258,7 +258,7 @@ it("should not close when the scrim is clicked", async () => {
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
-  expect(sheet).toHaveAttribute("open");
+  expect(await sheet.getProperty("open")).toBe(true);
   await page.$eval("calcite-sheet", (elm) => elm.shadowRoot!.querySelector("calcite-scrim")!.click());
   await page.waitForChanges();
   expect(await sheet.getProperty("open")).toBe(true);
@@ -270,10 +270,10 @@ it("does not close when Escape is pressed and escape-disabled is set", async () 
   const sheet = await page.find("calcite-sheet");
   sheet.setProperty("open", true);
   await page.waitForChanges();
-  expect(sheet).toHaveAttribute("open");
+  expect(await sheet.getProperty("open")).toBe(true);
   await page.keyboard.press("Escape");
   await page.waitForChanges();
-  expect(sheet).toHaveAttribute("open");
+  expect(await sheet.getProperty("open")).toBe(true);
 });
 
 it("correctly adds overflow class on document when open", async () => {

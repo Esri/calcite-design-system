@@ -18,14 +18,14 @@ describe("rendering", () => {
     expect(hoveredElements.length).toBe(0);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(selectedElements.length).toBe(0);
-    expect(element).toEqualAttribute("value", "0");
+    expect(await element.getProperty("value")).toBe(0);
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
-    expect(icons[0]).toEqualAttribute("icon", "star");
-    expect(icons[1]).toEqualAttribute("icon", "star");
-    expect(icons[2]).toEqualAttribute("icon", "star");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star");
+    expect(await icons[1].getProperty("icon")).toBe("star");
+    expect(await icons[2].getProperty("icon")).toBe("star");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).not.toHaveClass("selected");
     expect(labels[1]).not.toHaveClass("selected");
     expect(labels[2]).not.toHaveClass("selected");
@@ -66,16 +66,16 @@ describe("rendering", () => {
     expect(hoveredElements.length).toBe(0);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(selectedElements.length).toBe(0);
-    expect(element).toEqualAttribute("value", "0");
+    expect(await element.getProperty("value")).toBe(0);
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     expect(await page.find("calcite-rating >>> .fraction")).not.toBeNull();
     expect(await page.find("calcite-rating >>> .partial")).not.toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).not.toHaveClass("selected");
     expect(labels[1]).not.toHaveClass("selected");
     expect(labels[2]).not.toHaveClass("selected");
@@ -113,15 +113,15 @@ describe("rendering", () => {
     expect(hoveredElements.length).toBe(0);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(selectedElements.length).toBe(4);
-    expect(element).toEqualAttribute("value", "4");
+    expect(await element.getProperty("value")).toBe(4);
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star-f");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star-f");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).toHaveClass("selected");
     expect(labels[1]).toHaveClass("selected");
     expect(labels[2]).toHaveClass("selected");
@@ -159,15 +159,15 @@ describe("rendering", () => {
     expect(hoveredElements.length).toBe(0);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(selectedElements.length).toBe(3);
-    expect(element).toEqualAttribute("value", "3");
+    expect(await element.getProperty("value")).toBe(3);
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).toHaveClass("selected");
     expect(labels[1]).toHaveClass("selected");
     expect(labels[2]).toHaveClass("selected");
@@ -238,17 +238,17 @@ describe("set props", () => {
     await element.setProperty("value", 3);
     await page.waitForChanges();
 
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).toHaveClass("selected");
     expect(labels[1]).toHaveClass("selected");
     expect(labels[2]).toHaveClass("selected");
     expect(labels[3]).not.toHaveClass("selected");
     expect(labels[4]).not.toHaveClass("selected");
-    expect(element).toEqualAttribute("value", "3");
+    expect(await element.getProperty("value")).toBe(3);
     expect(changeEvent).toHaveReceivedEventTimes(0);
   });
 
@@ -262,11 +262,11 @@ describe("set props", () => {
     await element.setProperty("value", 3);
     await page.waitForChanges();
 
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).toHaveClass("selected");
     expect(labels[1]).toHaveClass("selected");
     expect(labels[2]).toHaveClass("selected");
@@ -274,7 +274,7 @@ describe("set props", () => {
     expect(labels[4]).not.toHaveClass("selected");
     expect(labels[3]).not.toHaveClass("average");
     expect(labels[4]).not.toHaveClass("partial");
-    expect(element).toEqualAttribute("value", "3");
+    expect(await element.getProperty("value")).toBe(3);
   });
 
   it("should not reset the rating when rating is required", async () => {
@@ -310,15 +310,15 @@ describe("mouse interaction", () => {
     expect(hoveredElements.length).toBe(3);
     expect(await isElementFocused(page, `.star[data-value='${dataValue}']`, { shadowed: true })).toBe(true);
     expect(selectedElements.length).toBe(3);
-    expect(element).toEqualAttribute("value", "3");
+    expect(await element.getProperty("value")).toBe(3);
     expect(changeEvent).toHaveReceivedEventTimes(1);
 
     expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).toHaveClass("selected");
     expect(labels[1]).toHaveClass("selected");
     expect(labels[2]).toHaveClass("selected");
@@ -360,15 +360,15 @@ describe("mouse interaction", () => {
     expect(hoveredElements.length).toBe(3);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(selectedElements.length).toBe(0);
-    expect(element).toEqualAttribute("value", "0");
+    expect(await element.getProperty("value")).toBe(0);
     expect(changeEvent).toHaveReceivedEventTimes(0);
 
     expect(await page.find("calcite-rating >>> .fraction")).toBeNull();
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).not.toHaveClass("selected");
     expect(labels[1]).not.toHaveClass("selected");
     expect(labels[2]).not.toHaveClass("selected");
@@ -406,11 +406,11 @@ describe("mouse interaction", () => {
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(hoveredElements.length).toEqual(4);
     expect(selectedElements.length).toEqual(3);
-    expect(icons[0]).toEqualAttribute("icon", "star-f");
-    expect(icons[1]).toEqualAttribute("icon", "star-f");
-    expect(icons[2]).toEqualAttribute("icon", "star-f");
-    expect(icons[3]).toEqualAttribute("icon", "star-f");
-    expect(icons[4]).toEqualAttribute("icon", "star");
+    expect(await icons[0].getProperty("icon")).toBe("star-f");
+    expect(await icons[1].getProperty("icon")).toBe("star-f");
+    expect(await icons[2].getProperty("icon")).toBe("star-f");
+    expect(await icons[3].getProperty("icon")).toBe("star-f");
+    expect(await icons[4].getProperty("icon")).toBe("star");
     expect(labels[0]).toHaveClass("selected");
     expect(labels[1]).toHaveClass("selected");
     expect(labels[2]).toHaveClass("selected");
@@ -446,7 +446,7 @@ describe("mouse interaction", () => {
     const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
     const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
-    expect(element).toEqualAttribute("value", "4");
+    expect(await element.getProperty("value")).toBe(4);
     expect(changeEvent).toHaveReceivedEventTimes(0);
     expect(hoveredElements.length).toBe(0);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
@@ -508,7 +508,7 @@ describe("mouse interaction", () => {
     const hoveredElements = await findAll(page, "calcite-rating >>> .star.hovered", { allowEmpty: true });
     const selectedElements = await findAll(page, "calcite-rating >>> .star.selected");
 
-    expect(element).toEqualAttribute("value", "4");
+    expect(await element.getProperty("value")).toBe(4);
     expect(hoveredElements.length).toBe(0);
     expect(await isElementFocused(page, "calcite-rating")).toBe(false);
     expect(selectedElements.length).toBe(4);

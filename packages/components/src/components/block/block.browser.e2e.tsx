@@ -366,10 +366,10 @@ describe("theme", () => {
           <div>content</div>
         </calcite-block>,
       );
-      expect(el).toHaveProperty("expanded", false);
+      await expect.element(el).toHaveProperty("expanded", false);
 
       await userEvent.click(el);
-      expect(el).toHaveProperty("expanded", true);
+      await expect.element(el).toHaveProperty("expanded", true);
       const slottedEl = page.getByText("content");
       await expect.element(slottedEl).toBeVisible();
     });

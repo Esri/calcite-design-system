@@ -64,6 +64,7 @@ describe("reflects", () => {
       {
         propertyName: "required",
         value: true,
+        reflect: false,
       },
     ],
   );

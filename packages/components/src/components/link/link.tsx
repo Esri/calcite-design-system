@@ -105,33 +105,33 @@ export class Link extends LitElement {
    * @public
    * @see [MDN - Global download attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#download).
    */
-  @property({ reflect: true, converter: stringOrBoolean }) download: string | boolean = false;
+  @property({ converter: stringOrBoolean }) download: string | boolean = false;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    *
    * @public
    */
-  @property({ reflect: true }) href?: string;
+  @property() href?: string;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconEnd?: IconName;
+  @property() iconEnd?: IconName;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl?: FlipContext;
+  @property() iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) iconStart?: IconName;
+  @property() iconStart?: IconName;
 
   /**
    * Specifies an accessible label for the component.

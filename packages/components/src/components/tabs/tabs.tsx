@@ -101,14 +101,14 @@ export class Tabs extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) layout: TabLayout = "inline";
+  @property() layout: TabLayout = "inline";
 
   /**
    * When `true`, allows the last visible closable tab to keep its close button.
    *
    * @public
    */
-  @property({ reflect: true }) lastTabClosable = false;
+  @property() lastTabClosable = false;
 
   /**
    * Specifies the position of `calcite-tab-nav` and `calcite-tab-title` components in relation to the `calcite-tabs`.

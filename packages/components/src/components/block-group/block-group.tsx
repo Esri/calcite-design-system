@@ -132,7 +132,7 @@ export class BlockGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) dragEnabled = false;
+  @property() dragEnabled = false;
 
   /**
    * Specifies the component's group identifier.
@@ -155,7 +155,7 @@ export class BlockGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * Specifies the size of the component.
@@ -175,17 +175,15 @@ export class BlockGroup extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) expandMode: Extract<
-    "single" | "single-persist" | "multiple",
-    SelectionMode
-  > = "multiple";
+  @property() expandMode: Extract<"single" | "single-persist" | "multiple", SelectionMode> =
+    "multiple";
 
   /**
    * When `true`, and a `group` is defined, `calcite-block`s are no longer sortable.
    *
    * @public
    */
-  @property({ reflect: true }) sortDisabled = false;
+  @property() sortDisabled = false;
 
   //#endregion
 

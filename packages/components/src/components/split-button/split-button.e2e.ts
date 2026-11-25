@@ -17,7 +17,7 @@ it("renders default props when none are provided", async () => {
   const element = await page.find("calcite-split-button");
   expect(element).toEqualAttribute("scale", "m");
   expect(element).toEqualAttribute("kind", "brand");
-  expect(element).toEqualAttribute("dropdown-icon-type", "chevron");
+  expect(await element.getProperty("dropdownIconType")).toBe("chevron");
   expect(element).toEqualAttribute("width", "auto");
 });
 
@@ -128,7 +128,7 @@ it("changes the size and width of the dropdown + primary button based on scale",
     element.setProperty("scale", elementScale);
     await page.waitForChanges();
     const dropdownScale = elementScaleToDropdownScale[elementScale];
-    expect(dropdown).toEqualAttribute("width-scale", dropdownScale);
+    expect(await dropdown.getProperty("widthScale")).toBe(dropdownScale);
     expect(dropdown).toEqualAttribute("scale", dropdownScale);
     expect(primaryButton).toEqualAttribute("scale", elementScaleToButtonScale[elementScale]);
   }
@@ -176,6 +176,7 @@ it("sets download attribute", async () => {
   await page.setContent(`<calcite-split-button href="/">Continue</calcite-split-button>`);
 
   const elementAsButton = await page.find("calcite-split-button >>> calcite-button");
+  const anchor = await page.find("calcite-split-button >>> calcite-button >>> a");
 
   expect(elementAsButton).not.toBeNull();
   expect(await elementAsButton.getProperty("download")).toBe(false);
@@ -187,19 +188,21 @@ it("sets download attribute", async () => {
   await page.waitForChanges();
 
   expect(await elementAsButton.getProperty("download")).toEqual(true);
-  expect(elementAsButton).toHaveAttribute("download");
-  expect(elementAsButton.getAttribute("download")).toBe("");
+  expect(elementAsButton).not.toHaveAttribute("download");
+  expect(anchor).toEqualAttribute("download", "");
 
   const newFilename = "my-cool-file.jpg";
   element.setProperty("download", newFilename);
   await page.waitForChanges();
 
   expect(await elementAsButton.getProperty("download")).toBe(newFilename);
-  expect(elementAsButton.getAttribute("download")).toBe(newFilename);
+  expect(elementAsButton).not.toHaveAttribute("download");
+  expect(anchor).toEqualAttribute("download", newFilename);
 
   element.setProperty("download", false);
   await page.waitForChanges();
 
   expect(await elementAsButton.getProperty("download")).toBe(false);
   expect(elementAsButton).not.toHaveAttribute("download");
+  expect(anchor).not.toHaveAttribute("download");
 });

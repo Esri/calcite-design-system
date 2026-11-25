@@ -266,14 +266,14 @@ export class Sheet extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) escapeDisabled = false;
+  @property() escapeDisabled = false;
 
   /**
    * When `true` and `modal` is `false`, prevents focus trapping.
    *
    * @public
    */
-  @property({ reflect: true }) focusTrapDisabled = false;
+  @property() focusTrapDisabled = false;
 
   /**
    * Specifies custom focus trap configuration on the component.
@@ -294,13 +294,13 @@ export class Sheet extends LitElement {
    * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
    */
-  @property({ reflect: true }) heightScale: Scale = "m";
+  @property() heightScale: Scale = "m";
 
   /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) height?: Height;
+  @property() height?: Height;
 
   /**
    * @public
@@ -327,7 +327,7 @@ export class Sheet extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true })
+  @property()
   get open(): boolean {
     return this._open;
   }
@@ -348,7 +348,7 @@ export class Sheet extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) outsideCloseDisabled = false;
+  @property() outsideCloseDisabled = false;
 
   /**
    * Determines where the component will be positioned.
@@ -377,14 +377,14 @@ export class Sheet extends LitElement {
    * @public
    * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
    */
-  @property({ reflect: true }) widthScale: Scale = "m";
+  @property() widthScale: Scale = "m";
 
   /**
    * Specifies the component's width.
    *
    * @public
    */
-  @property({ reflect: true }) width?: Extract<Width, Scale>;
+  @property() width?: Extract<Width, Scale>;
 
   //#endregion
 

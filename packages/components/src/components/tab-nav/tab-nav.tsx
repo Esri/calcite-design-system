@@ -167,14 +167,14 @@ export class TabNav extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) storageId?: string;
+  @property() storageId?: string;
 
   /**
    * Specifies text to update multiple components to keep in sync if one changes.
    *
    * @public
    */
-  @property({ reflect: true }) syncId?: string;
+  @property() syncId?: string;
 
   //#endregion
 

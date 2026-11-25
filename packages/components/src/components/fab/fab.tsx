@@ -97,22 +97,21 @@ export class Fab extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) icon: IconName = ICONS.plus;
+  @property() icon: IconName = ICONS.plus;
 
   /**
    * When `true` and the element direction is right-to-left (`"rtl"`), flips the component`s `icon`.
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * Specifies the component's kind, which determines border and background styling.
    *
    * @public
    */
-  @property({ reflect: true }) kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> =
-    "brand";
+  @property() kind: Extract<"brand" | "danger" | "inverse" | "neutral", Kind> = "brand";
 
   /**
    * @public
@@ -125,7 +124,7 @@ export class Fab extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * Specifies the size of the component.
@@ -146,7 +145,7 @@ export class Fab extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) textEnabled = false;
+  @property() textEnabled = false;
 
   //#endregion
 

@@ -162,14 +162,14 @@ export class Rating extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) average?: number;
+  @property() average?: number;
 
   /**
    * Specifies the number of previous ratings to display.
    *
    * @public
    */
-  @property({ reflect: true }) count?: number;
+  @property() count?: number;
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -213,7 +213,7 @@ export class Rating extends LitElement implements LabelableComponent {
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
    */
-  @property({ reflect: true }) required = false;
+  @property() required = false;
 
   /**
    * Specifies the size of the component.
@@ -227,7 +227,7 @@ export class Rating extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true }) showChip = false;
+  @property() showChip = false;
 
   /**
    * Specifies the status of the input field, which determines message and icons.
@@ -241,7 +241,7 @@ export class Rating extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
   /**
    * Specifies the validation message to display under the component.
@@ -262,7 +262,7 @@ export class Rating extends LitElement implements LabelableComponent {
    *
    * @public
    */
-  @property({ reflect: true })
+  @property()
   get value(): number {
     return this._value;
   }

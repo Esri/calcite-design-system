@@ -49,6 +49,7 @@ describe("reflects", () => {
       {
         propertyName: "textDisabled",
         value: true,
+        reflect: false,
       },
     ],
   );

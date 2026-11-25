@@ -77,7 +77,7 @@ export class Graph extends LitElement {
    * @internal
    * @required
    */
-  @property({ reflect: true }) max!: number;
+  @property() max!: number;
 
   /**
    * Lowest point of the range.
@@ -85,7 +85,7 @@ export class Graph extends LitElement {
    * @internal
    * @required
    */
-  @property({ reflect: true }) min!: number;
+  @property() min!: number;
 
   // #endregion
 

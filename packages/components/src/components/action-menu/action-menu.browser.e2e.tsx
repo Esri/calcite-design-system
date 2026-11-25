@@ -104,7 +104,7 @@ it("stores slotted actions and emits an actions change event without detail", as
     <calcite-action-menu label="Test" oncalciteInternalActionMenuActionsChange={actionsChange} />,
   );
 
-  expect(el.actions).toEqual([]);
+  await expect.element(el).toHaveProperty("actions", []);
 
   el.innerHTML = `
     <calcite-action icon="plus" slot="trigger" text="Open"></calcite-action>
@@ -113,9 +113,9 @@ it("stores slotted actions and emits an actions change event without detail", as
 
   await component.updateComplete;
 
-  expect(el.actions).toHaveLength(2);
-  expect(el.actions[0].text).toBe("Open");
-  expect(el.actions[1].text).toBe("Save");
+  await expect.element(el).toHaveProperty("actions.length", 2);
+  await expect.element(el.actions[0]).toHaveProperty("text", "Open");
+  await expect.element(el.actions[1]).toHaveProperty("text", "Save");
   expect(actionsChange).toHaveBeenCalled();
 });
 
@@ -151,7 +151,7 @@ it("updates actions when nested action-group actions change", async () => {
 
   const group = page.getBySelector("calcite-action-menu > calcite-action-group").element();
 
-  expect(el.actions).toHaveLength(1);
+  await expect.element(el).toHaveProperty("actions.length", 1);
 
   group.innerHTML = `
     <calcite-action icon="plus" text="Add"></calcite-action>
@@ -161,9 +161,9 @@ it("updates actions when nested action-group actions change", async () => {
   await component.updateComplete;
 
   expect(actionsChange).toHaveBeenCalled();
-  expect(el.actions).toHaveLength(2);
-  expect(el.actions[0].text).toBe("Add");
-  expect(el.actions[1].text).toBe("Save");
+  await expect.element(el).toHaveProperty("actions.length", 2);
+  await expect.element(el.actions[0]).toHaveProperty("text", "Add");
+  await expect.element(el.actions[1]).toHaveProperty("text", "Save");
 });
 
 it("tracks trigger actions projected through an intermediate slot", async () => {
@@ -182,10 +182,10 @@ it("tracks trigger actions projected through an intermediate slot", async () => 
   const menuAction = actions[1];
 
   expect(actions).toHaveLength(2);
-  expect(actions[0].text).toBe("Open");
-  expect(actions[1].text).toBe("Save");
-  expect(triggerAction.getAttribute("role")).not.toBe("menuitem");
-  expect(menuAction.getAttribute("role")).not.toBe("menuitem");
+  await expect.element(actions[0]).toHaveProperty("text", "Open");
+  await expect.element(actions[1]).toHaveProperty("text", "Save");
+  await expect.element(triggerAction).not.toHaveAttribute("role", "menuitem");
+  await expect.element(menuAction).not.toHaveAttribute("role", "menuitem");
   await expect
     .element(page.getByRole("menuitem", { includeHidden: true, name: "Save" }))
     .toHaveAttribute("role", "menuitem");
@@ -218,10 +218,12 @@ describe("reflects", () => {
       {
         propertyName: "open",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "placement",
         value: "auto",
+        reflect: false,
       },
     ],
   );
@@ -359,31 +361,31 @@ describe("accessibility", () => {
     el.open = true;
     await component.updateComplete;
 
-    const undoAction = page.getByText("Undo").first().element().getRootNode() as ShadowRoot;
-    const redoAction = page.getByText("Redo").first().element().getRootNode() as ShadowRoot;
-    const saveAction = page.getByText("Save").first().element().getRootNode() as ShadowRoot;
+    const undoAction = el.querySelector<Action["el"]>("#undo-action")!;
+    const redoAction = el.querySelector<Action["el"]>("#redo-action")!;
+    const saveAction = el.querySelector<Action["el"]>("#save-action")!;
 
-    await (undoAction.host as Action["el"]).setFocus();
-    expect(undoAction.host).toHaveFocus();
-    expect(undoAction.host).toHaveAttribute("tabindex", "0");
-    expect(redoAction.host).toHaveAttribute("tabindex", "-1");
-    expect(saveAction.host).toHaveAttribute("tabindex", "-1");
-
-    await userEvent.keyboard("{ArrowDown}");
-    await component.updateComplete;
-
-    expect(undoAction.host).toHaveAttribute("tabindex", "-1");
-    expect(redoAction.host).toHaveFocus();
-    expect(redoAction.host).toHaveAttribute("tabindex", "0");
-    expect(saveAction.host).toHaveAttribute("tabindex", "-1");
+    await undoAction.setFocus();
+    await expect.element(undoAction).toHaveFocus();
+    await expect.element(undoAction).toHaveAttribute("tabindex", "0");
+    await expect.element(redoAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(saveAction).toHaveAttribute("tabindex", "-1");
 
     await userEvent.keyboard("{ArrowDown}");
     await component.updateComplete;
 
-    expect(undoAction.host).toHaveAttribute("tabindex", "-1");
-    expect(redoAction.host).toHaveAttribute("tabindex", "-1");
-    expect(saveAction.host).toHaveFocus();
-    expect(saveAction.host).toHaveAttribute("tabindex", "0");
+    await expect.element(undoAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(redoAction).toHaveFocus();
+    await expect.element(redoAction).toHaveAttribute("tabindex", "0");
+    await expect.element(saveAction).toHaveAttribute("tabindex", "-1");
+
+    await userEvent.keyboard("{ArrowDown}");
+    await component.updateComplete;
+
+    await expect.element(undoAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(redoAction).toHaveAttribute("tabindex", "-1");
+    await expect.element(saveAction).toHaveFocus();
+    await expect.element(saveAction).toHaveAttribute("tabindex", "0");
   });
 
   it.each([
@@ -402,7 +404,7 @@ describe("accessibility", () => {
     await userEvent.keyboard(key);
     await component.updateComplete;
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
     await expect.element(page.getBySelector(`#${elementId}`)).toHaveFocus();
     await expect.element(page.getBySelector(`#${elementId}`)).toHaveAttribute("tabindex", "0");
   });
@@ -423,7 +425,7 @@ describe("accessibility", () => {
     await userEvent.keyboard(key);
     await component.updateComplete;
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
     await expect.element(page.getBySelector(`#${expectedId}`)).toHaveFocus();
     await expect.element(page.getBySelector(`#${expectedId}`)).toHaveAttribute("tabindex", "0");
   });
@@ -448,7 +450,7 @@ describe("accessibility", () => {
 
     await userEvent.keyboard("{ArrowDown}");
 
-    expect(actionMenu.open).toBe(true);
+    await expect.element(actionMenu).toHaveProperty("open", true);
     expect(window.scrollY).toBe(scrollY);
   });
 
@@ -465,15 +467,15 @@ describe("accessibility", () => {
     const action = page.getByRole("menuitem", { includeHidden: true, name: "Add" });
     const actionEl = page.getByTestId("action").element() as Action["el"];
 
-    expect(actionEl.active).toBe(false);
+    await expect.element(actionEl).toHaveProperty("active", false);
     await expect.element(action).toHaveAttribute("role", "menuitem");
     await expect.element(action).not.toHaveAttribute("aria-checked");
 
     await userEvent.click(action);
     await component.updateComplete;
 
-    expect(actionEl.active).toBe(true);
-    expect(el.open).toBe(false);
+    await expect.element(actionEl).toHaveProperty("active", true);
+    await expect.element(el).toHaveProperty("open", false);
     await expect.element(action).toHaveAttribute("role", "menuitem");
     await expect.element(action).not.toHaveAttribute("aria-checked");
   });
@@ -495,8 +497,8 @@ describe("accessibility", () => {
     await userEvent.keyboard(key);
     await component.updateComplete;
 
-    expect(actionEl.active).toBe(true);
-    expect(el.open).toBe(false);
+    await expect.element(actionEl).toHaveProperty("active", true);
+    await expect.element(el).toHaveProperty("open", false);
     await expect.element(action).toHaveAttribute("role", "menuitem");
     await expect.element(action).not.toHaveAttribute("aria-checked");
   });
@@ -523,7 +525,7 @@ describe("accessibility", () => {
     await userEvent.keyboard("{Enter}");
     await component.updateComplete;
 
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
     await expect.element(menuAction).toHaveProperty("active", false);
     await expect.element(menuAction).toHaveFocus();
     await expect.element(menuAction).toHaveAttribute("tabindex", "0");
@@ -592,10 +594,10 @@ describe("accessibility", () => {
 
     await expect.poll(() => el.actions.length).toBe(2);
     await expect.element(secondAction).toHaveFocus();
-    expect(el.open).toBe(true);
+    await expect.element(el).toHaveProperty("open", true);
 
     await userEvent.keyboard("{Escape}");
     await expect.element(triggerAction).toHaveFocus();
-    expect(el.open).toBe(false);
+    await expect.element(el).toHaveProperty("open", false);
   });
 });

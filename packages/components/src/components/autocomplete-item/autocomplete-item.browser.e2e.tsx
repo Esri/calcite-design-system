@@ -29,9 +29,9 @@ describe("reflects", () => {
     () => mount("calcite-autocomplete-item"),
     [
       { propertyName: "disabled", value: true },
-      { propertyName: "iconEnd", value: "banana" },
-      { propertyName: "iconFlipRtl", value: "end" },
-      { propertyName: "iconStart", value: "banana" },
+      { propertyName: "iconEnd", value: "banana", reflect: false },
+      { propertyName: "iconFlipRtl", value: "end", reflect: false },
+      { propertyName: "iconStart", value: "banana", reflect: false },
       { propertyName: "selected", value: true },
     ],
   );
@@ -53,9 +53,10 @@ describe("disabled", () => {
   disabled(() => mount("calcite-autocomplete-item"), { focusTarget: "none" });
 
   it("does not emit or toggle selected when a disabled item is clicked", async () => {
-    const { el, reRender } = await mount("calcite-autocomplete-item");
     const selectSpy = vi.fn();
-    el.addEventListener("calciteAutocompleteItemSelect", selectSpy);
+    const { el, reRender } = await mount<"calcite-autocomplete-item">(
+      <calcite-autocomplete-item oncalciteAutocompleteItemSelect={selectSpy} />,
+    );
 
     el.disabled = true;
     await reRender();
@@ -63,30 +64,31 @@ describe("disabled", () => {
     await userEvent.click(el, { force: true });
     await reRender();
 
-    expect(el.selected).toBe(false);
+    await expect.element(el).toHaveProperty("selected", false);
     expect(selectSpy).toHaveBeenCalledTimes(0);
   });
 });
 
 describe("requestSelection", () => {
   it("emits calciteAutocompleteItemSelect without changing selected", async () => {
-    const { el, reRender } = await mount("calcite-autocomplete-item");
     const selectSpy = vi.fn();
-    el.addEventListener("calciteAutocompleteItemSelect", selectSpy);
+    const { el, reRender } = await mount<"calcite-autocomplete-item">(
+      <calcite-autocomplete-item oncalciteAutocompleteItemSelect={selectSpy} />,
+    );
 
-    expect(el.selected).toBe(false);
+    await expect.element(el).toHaveProperty("selected", false);
     expect(typeof (el as any).emitSelectEvent).toBe("undefined");
 
     (el as any).requestSelection();
     await reRender();
 
-    expect(el.selected).toBe(false);
+    await expect.element(el).toHaveProperty("selected", false);
     expect(selectSpy).toHaveBeenCalledTimes(1);
 
     (el as any).requestSelection();
     await reRender();
 
-    expect(el.selected).toBe(false);
+    await expect.element(el).toHaveProperty("selected", false);
     expect(selectSpy).toHaveBeenCalledTimes(2);
   });
 });

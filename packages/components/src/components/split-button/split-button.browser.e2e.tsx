@@ -134,22 +134,27 @@ describe("reflects", () => {
       {
         propertyName: "placement",
         value: "bottom-end",
+        reflect: false,
       },
       {
         propertyName: "download",
         value: true,
+        reflect: false,
       },
       {
         propertyName: "href",
         value: "/",
+        reflect: false,
       },
       {
         propertyName: "rel",
         value: "external",
+        reflect: false,
       },
       {
         propertyName: "target",
         value: "_blank",
+        reflect: false,
       },
     ],
   );

@@ -378,7 +378,7 @@ export class Table extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) bordered = false;
+  @property() bordered = false;
 
   /**
    * Specifies an accessible title for the component.
@@ -393,28 +393,28 @@ export class Table extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) currentPage = 0;
+  @property() currentPage = 0;
 
   /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    *
    * @public
    */
-  @property({ reflect: true }) groupSeparator = false;
+  @property() groupSeparator = false;
 
   /**
    * When `"interactive"`, allows focus and keyboard navigation of `table-header`s and `table-cell`s.  When `"static"`, prevents focus and keyboard navigation of `table-header`s and `table-cell`s when assistive technologies are not active. Selection affordances and slotted content within `table-cell`s remain focusable.
    *
    * @public
    */
-  @property({ reflect: true }) interactionMode: TableInteractionMode = "interactive";
+  @property() interactionMode: TableInteractionMode = "interactive";
 
   /**
    * Specifies the layout of the component.
    *
    * @public
    */
-  @property({ reflect: true }) layout: TableLayout = "auto";
+  @property() layout: TableLayout = "auto";
 
   /**
    * @public
@@ -427,21 +427,21 @@ export class Table extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) numbered = false;
+  @property() numbered = false;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * Specifies the page size of the component. When present, renders `calcite-pagination`.
    *
    * @public
    */
-  @property({ reflect: true }) pageSize = 0;
+  @property() pageSize = 0;
 
   /**
    * Specifies the component's size.
@@ -465,7 +465,7 @@ export class Table extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionDisplay: TableSelectionDisplay = "top";
+  @property() selectionDisplay: TableSelectionDisplay = "top";
 
   /**
    * Specifies the selection mode of the component.
@@ -476,17 +476,14 @@ export class Table extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) selectionMode: Extract<
-    "none" | "multiple" | "single",
-    SelectionMode
-  > = "none";
+  @property() selectionMode: Extract<"none" | "multiple" | "single", SelectionMode> = "none";
 
   /**
    * When `true`, displays striped styling on the component's `calcite-table-rows`.
    *
    * @public
    */
-  @property({ reflect: true }) striped = false;
+  @property() striped = false;
 
   /**
    * When `true`, displays the component's `table-header` slot as sticky while the component remains in view.

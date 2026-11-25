@@ -210,7 +210,7 @@ export class ShellPanel extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) collapsed = false;
+  @property() collapsed = false;
 
   /**
    * Specifies the component's display mode.
@@ -266,7 +266,7 @@ export class ShellPanel extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) width: Extract<Width, Scale> = "m";
+  @property() width: Extract<Width, Scale> = "m";
 
   //#endregion
 

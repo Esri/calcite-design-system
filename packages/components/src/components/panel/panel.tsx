@@ -387,7 +387,7 @@ export class Panel extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) closable = false;
+  @property() closable = false;
 
   /**
    * @public
@@ -416,14 +416,14 @@ export class Panel extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) collapsed = false;
+  @property() collapsed = false;
 
   /**
    * When `true`, the component is collapsible.
    *
    * @public
    */
-  @property({ reflect: true }) collapsible = false;
+  @property() collapsible = false;
 
   /**
    * @public
@@ -448,28 +448,28 @@ export class Panel extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
+  @property({ type: Number }) headingLevel?: HeadingLevel;
 
   /**
    * Specifies an icon to display.
    *
    * @public
    */
-  @property({ reflect: true }) icon?: IconName;
+  @property() icon?: IconName;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, a busy indicator is displayed.
    *
    * @public
    */
-  @property({ reflect: true }) loading = false;
+  @property() loading = false;
 
   /**
    * When `true`, enables focus trapping and dialog semantics on behalf of a parent component.
@@ -515,7 +515,7 @@ export class Panel extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
+  @property() menuPlacement: LogicalPlacement = defaultEndMenuPlacement;
 
   /**
    * @public
@@ -527,7 +527,7 @@ export class Panel extends LitElement {
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
+  @property() overlayPositioning: OverlayPositioning = "absolute";
 
   /**
    * Specifies the size of the component.
@@ -541,7 +541,7 @@ export class Panel extends LitElement {
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property({ reflect: true }) topLayerDisabled = false;
+  @property() topLayerDisabled = false;
 
   //#endregion
 

@@ -254,7 +254,7 @@ export class StepperItem extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * When `true`, the item will be hidden.

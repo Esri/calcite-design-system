@@ -87,7 +87,7 @@ export class DatePickerMonth extends LitElement {
   /**
    * @copyDoc
    */
-  @property({ type: Number, reflect: true }) headingLevel!: HeadingLevel;
+  @property({ type: Number }) headingLevel!: HeadingLevel;
 
   /**
    * The range of dates currently being hovered.

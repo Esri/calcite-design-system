@@ -189,7 +189,7 @@ export class Alert extends LitElement {
    * This internal property, managed by a containing calcite-shell, is used
    * to inform the component if special configuration or styles are needed
    */
-  @property({ reflect: true }) embedded = false;
+  @property() embedded = false;
 
   /**
    * When `true`, shows a default recommended icon. Alternatively,
@@ -197,14 +197,14 @@ export class Alert extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true, converter: stringOrBoolean }) icon?: IconName | boolean;
+  @property({ converter: stringOrBoolean }) icon?: IconName | boolean;
 
   /**
    * When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property({ reflect: true }) iconFlipRtl = false;
+  @property() iconFlipRtl = false;
 
   /**
    * Specifies the kind of the component, which will apply to top border and icon.
@@ -234,7 +234,7 @@ export class Alert extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) numberingSystem?: NumberingSystem;
+  @property() numberingSystem?: NumberingSystem;
 
   /**
    * When `true`, displays and positions the component.
@@ -254,14 +254,14 @@ export class Alert extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) placement: MenuPlacement = "bottom";
+  @property() placement: MenuPlacement = "bottom";
 
   /**
    * Specifies the ordering priority of the component when opened.
    *
    * @public
    */
-  @property({ reflect: true }) queue: AlertQueue = "last";
+  @property() queue: AlertQueue = "last";
 
   /**
    * Specifies the size of the component.

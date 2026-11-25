@@ -91,7 +91,7 @@ export class Tab extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) tab?: string;
+  @property() tab?: string;
 
   //#endregion
 

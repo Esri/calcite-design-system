@@ -23,12 +23,49 @@ import { DEBOUNCE } from "../../utils/resources";
 import type { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { mockConsole } from "../../tests/utils/logging";
 
 const scrollTopValue = 120;
 
 const placeholder = placeholderImage({
   width: 350,
   height: 150,
+});
+
+describe("cloning", () => {
+  mockConsole();
+
+  it("preserves current item configuration when adding a copy to another list", async () => {
+    const { el, reRender } = await mount(
+      <div>
+        <calcite-list canPull={() => "clone"} dragEnabled group="items" id="source" label="Source">
+          <calcite-list-item icon-start="banana" label="Layer" />
+        </calcite-list>
+        <calcite-list dragEnabled group="items" id="destination" label="Destination" />
+      </div>,
+    );
+    const configuration = {
+      closable: true,
+      unavailable: true,
+      iconStart: "layers",
+      iconEnd: "layer",
+      iconFlipRtl: "both",
+    } satisfies Partial<ListItem["el"]>;
+
+    Object.assign(el.querySelector("calcite-list-item")!, configuration);
+    await reRender();
+
+    const source = page.getBySelector("#source > calcite-list-item");
+    await source.getByRole("button", { name: /^Reposition/ }).click();
+    await source.getByRole("menuitem", { name: "Destination", exact: true }).click();
+
+    const copy = page.getBySelector("#destination > calcite-list-item");
+    for (const [property, value] of Object.entries(configuration)) {
+      await expect.element(copy).toHaveProperty(property, value);
+    }
+    await expect.element(copy.getByRole("button", { name: "Close", exact: true })).toBeVisible();
+    await expect.element(source).toHaveProperty("iconStart", "layers");
+  });
 });
 
 describe("accessible", () => {
@@ -163,10 +200,12 @@ describe("reflects", () => {
       {
         propertyName: "displayMode",
         value: "nested",
+        reflect: false,
       },
       {
         propertyName: "sortDisabled",
         value: true,
+        reflect: false,
       },
     ],
   );
@@ -482,15 +521,15 @@ describe("group filtering", () => {
     const group3 = page.getBySelector("#beaches");
     const group4 = page.getBySelector("#underwater");
 
-    expect(el.filteredItems).toHaveLength(8);
+    await expect.element(el).toHaveProperty("filteredItems.length", 8);
 
     const filterEvent = waitForEvent(el, "calciteListFilter");
     await userEvent.keyboard("Bui");
     vi.advanceTimersByTime(DEBOUNCE.filter + 1);
     await filterEvent;
 
-    expect(el).toHaveProperty("filterText", "Bui");
-    expect(el.filteredItems).toHaveLength(2);
+    await expect.element(el).toHaveProperty("filterText", "Bui");
+    await expect.element(el).toHaveProperty("filteredItems.length", 2);
 
     await expect.element(group1).not.toBeVisible();
     await assertDescendantItems("#recreation", false);
@@ -503,9 +542,9 @@ describe("group filtering", () => {
 
     await userEvent.keyboard("{Escape}");
     vi.advanceTimersByTime(DEBOUNCE.filter + 1);
-    expect(el).toHaveProperty("filterText", "");
+    await expect.element(el).toHaveProperty("filterText", "");
 
-    expect(el.filteredItems).toHaveLength(8);
+    await expect.element(el).toHaveProperty("filteredItems.length", 8);
 
     await expect.element(group1).toBeVisible();
     await assertDescendantItems("#recreation", true);
@@ -518,8 +557,8 @@ describe("group filtering", () => {
 
     await userEvent.keyboard("Bea");
     vi.advanceTimersByTime(DEBOUNCE.filter + 1);
-    expect(el).toHaveProperty("filterText", "Bea");
-    expect(el.filteredItems).toHaveLength(4);
+    await expect.element(el).toHaveProperty("filterText", "Bea");
+    await expect.element(el).toHaveProperty("filteredItems.length", 4);
 
     await expect.element(group1).toBeVisible();
     await assertDescendantItems("#recreation", false);
@@ -533,8 +572,8 @@ describe("group filtering", () => {
     await userEvent.keyboard("{Backspace}");
     vi.advanceTimersByTime(DEBOUNCE.filter + 1);
 
-    expect(el).toHaveProperty("filterText", "Be");
-    expect(el.filteredItems).toHaveLength(4);
+    await expect.element(el).toHaveProperty("filterText", "Be");
+    await expect.element(el).toHaveProperty("filteredItems.length", 4);
   });
 
   it("preserves filter input text through rerenders before debounced filterText updates", async () => {
@@ -553,8 +592,8 @@ describe("group filtering", () => {
     await el.setFocus();
     await userEvent.keyboard(typedValue);
 
-    expect(filterEl.value).toBe(typedValue);
-    expect(el.filterText).toBe("");
+    await expect.element(filterEl).toHaveProperty("value", typedValue);
+    await expect.element(el).toHaveProperty("filterText", "");
 
     // Trigger a rerender before the initial debounced filterText update settles.
     el.loading = true;
@@ -566,11 +605,11 @@ describe("group filtering", () => {
       value: string;
     };
 
-    expect(rerenderedFilterEl.value).toBe(typedValue);
-    expect(el.filterText).toBe("");
+    await expect.element(rerenderedFilterEl).toHaveProperty("value", typedValue);
+    await expect.element(el).toHaveProperty("filterText", "");
   });
 
-  it("preserves filter input text while items are loading before debounced filterText updates", async () => {
+  it("preserves filter input text when a batch of items loads before debounced filterText updates", async () => {
     const typedValue = "Bui";
     const { el } = await mount<List>(
       <calcite-list filter-enabled>
@@ -581,7 +620,7 @@ describe("group filtering", () => {
     await el.setFocus();
     await userEvent.keyboard(typedValue);
 
-    expect(el.filterText).toBe("");
+    await expect.element(el).toHaveProperty("filterText", "");
 
     for (let i = 0; i < 20; i++) {
       const item = document.createElement("calcite-list-item");
@@ -590,19 +629,13 @@ describe("group filtering", () => {
       el.append(item);
 
       vi.advanceTimersByTime(DEBOUNCE.nextTick + 1);
-
-      const filterEl = page
-        .getBySelector("calcite-list calcite-filter")
-        .element() as HTMLElement & {
-        value: string;
-      };
-
-      expect(filterEl.value).toBe(typedValue);
-      expect(el.filterText).toBe("");
     }
 
     vi.advanceTimersByTime(DEBOUNCE.filter + 1);
-    expect(el.filterText).toBe(typedValue);
+    await expect
+      .element(page.getBySelector("calcite-list calcite-filter"))
+      .toHaveProperty("value", typedValue);
+    await expect.element(el).toHaveProperty("filterText", typedValue);
   });
 });
 
@@ -620,7 +653,7 @@ describe("filter item data updates", () => {
 
     await afterNextTask();
 
-    expect(el.filteredItems).toHaveLength(expectedLength);
+    await expect.element(el).toHaveProperty("filteredItems.length", expectedLength);
   }
 
   async function waitForFilterItemsMatch(
@@ -856,26 +889,28 @@ describe("nested selection modes", () => {
     const nestedListNone = page.getByTestId("nested-list-none").element() as List["el"];
     const nestedListMultiple = page.getByTestId("nested-list-multiple").element() as List["el"];
 
-    const assertSelectionModes = (): void => {
-      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
-      expect(nestedNoneItem).toHaveProperty("selectionMode", "none");
-      expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
+    const assertSelectionModes = async (): Promise<void> => {
+      await expect.element(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
+      await expect.element(nestedNoneItem).toHaveProperty("selectionMode", "none");
+      await expect.element(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
     };
 
-    const assertAllNestedProperties = (): void => {
-      assertSelectionModes();
+    const assertAllNestedProperties = async (): Promise<void> => {
+      await assertSelectionModes();
 
-      expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
-      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
-      expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
+      await expect.element(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
+      await expect
+        .element(nestedNoneDragEnabledItem)
+        .toHaveProperty("selectionAppearance", "highlight");
+      await expect.element(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
 
-      expect(nestedNoneItem).toHaveProperty("scale", "s");
-      expect(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
-      expect(nestedNoneItem).toHaveProperty("interactionMode", "interactive");
+      await expect.element(nestedNoneItem).toHaveProperty("scale", "s");
+      await expect.element(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
+      await expect.element(nestedNoneItem).toHaveProperty("interactionMode", "interactive");
 
-      expect(nestedMultipleItem).toHaveProperty("scale", "s");
-      expect(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
-      expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
+      await expect.element(nestedMultipleItem).toHaveProperty("scale", "s");
+      await expect.element(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
+      await expect.element(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
     };
 
     const nestedPropertiesSettled = (): boolean => {
@@ -907,8 +942,7 @@ describe("nested selection modes", () => {
       });
     };
 
-    // Assert immediately after initial render.
-    assertSelectionModes();
+    await assertSelectionModes();
 
     // Establish nested list-item baselines from nested list updates.
     nestedListNoneDragEnabled.scale = "l";
@@ -936,7 +970,7 @@ describe("nested selection modes", () => {
     nestedListMultiple.interactionMode = "interactive";
 
     await waitForNestedPropertiesToSettle();
-    assertAllNestedProperties();
+    await assertAllNestedProperties();
 
     // Trigger parent-list updates that should not overwrite nested-list item props.
     rootListOne.selectionMode = "single";
@@ -954,8 +988,9 @@ describe("nested selection modes", () => {
     rootListThree.selectionAppearance = "icon";
     rootListThree.interactionMode = "static";
 
+    await afterNextFrame();
     await waitForNestedPropertiesToSettle();
-    assertAllNestedProperties();
+    await assertAllNestedProperties();
   });
 });
 

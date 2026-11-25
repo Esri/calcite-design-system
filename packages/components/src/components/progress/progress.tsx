@@ -60,7 +60,7 @@ export class Progress extends LitElement {
    *
    * @public
    */
-  @property({ reflect: true }) reversed = false;
+  @property() reversed = false;
 
   /**
    * Text that displays under the component's indicator.
