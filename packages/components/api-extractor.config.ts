@@ -204,6 +204,9 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
         prefixText: {
           description: "Specifies text to display at the start of the component.",
         },
+        range: {
+          description: "When `true`, enables selecting a start and end date.",
+        },
         referenceElement(_apiProperty, apiClass) {
           const interactivityOverrides: Record<string, string> = {
             Dropdown:

@@ -336,9 +336,8 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
   /**
-   * When `true`, activates the component's range mode to allow a start and end date.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) range = false;
 

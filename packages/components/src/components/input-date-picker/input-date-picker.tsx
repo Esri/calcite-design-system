@@ -618,9 +618,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property() proximitySelectionDisabled = false;
 
   /**
-   * When `true`, activates a range for the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) range = false;
 

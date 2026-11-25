@@ -82,7 +82,7 @@ export class DatePickerDay extends LitElement {
   @property({ reflect: true }) highlighted = false;
 
   /**
-   * When `true`, activates the component's range mode to allow a start and end date.
+   * @copyDoc
    */
   @property({ reflect: true }) range = false;
 
