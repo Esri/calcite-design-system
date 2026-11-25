@@ -3,7 +3,7 @@ import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
-import { tabbable } from "tabbable";
+import { isFocusable, tabbable } from "tabbable";
 import {
   createEvent,
   h,
@@ -2137,6 +2137,20 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
   }
 
+  private handleFloatingMouseDown(event: MouseEvent): void {
+    for (const target of event.composedPath()) {
+      if (target === event.currentTarget) {
+        break;
+      }
+
+      if (target instanceof Element && isFocusable(target, tabbableOptions)) {
+        return;
+      }
+    }
+
+    event.preventDefault();
+  }
+
   private handleFocusOut(event: FocusEvent): void {
     if (
       (!this.hasContentTop && !this.hasContentBottom) ||
@@ -2594,6 +2608,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       <div
         class={CSS.floatingUIContainer}
         onKeyDown={this.handleFloatingKeyDown}
+        onMouseDown={this.handleFloatingMouseDown}
         popover="manual"
         ref={setFloatingEl}
       >

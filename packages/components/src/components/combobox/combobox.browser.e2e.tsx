@@ -1,5 +1,5 @@
 import { Fragment, h, JsxNode } from "@arcgis/lumina";
-import { afterEach, beforeEach, describe, expect, it, test, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, onTestFinished, test, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/utils/commands";
@@ -1917,32 +1917,60 @@ describe("filtering", () => {
     },
   );
 
-  it("does not clear filter if pointer down/up on an item has a delay in between events", async () => {
-    const { el } = await mount<Combobox>(
-      <calcite-combobox clear-disabled placeholder="Select a field" selection-mode="single-persist">
-        <calcite-combobox-item heading="France/Germany" id="item-1" value="France/Germany" />
-        <calcite-combobox-item heading="Spain/Portugal" id="item-2" value="Spain/Portugal" />
-        <calcite-combobox-item
-          heading="Indonesia/Malaysia"
-          id="item-3"
-          value="Indonesia/Malaysia"
-        />
-        <calcite-combobox-item heading="Libya/Algeria" id="item-4" value="Libya/Algeria" />
-      </calcite-combobox>,
-    );
+  it.each([
+    { slot: undefined, allowCustomValues: false },
+    { slot: undefined, allowCustomValues: true },
+    { slot: SLOTS.contentTop, allowCustomValues: false },
+    { slot: SLOTS.contentTop, allowCustomValues: true },
+    { slot: SLOTS.contentBottom, allowCustomValues: false },
+    { slot: SLOTS.contentBottom, allowCustomValues: true },
+  ])(
+    "does not clear filter while holding an item with slot=$slot and allowCustomValues=$allowCustomValues",
+    async ({ slot, allowCustomValues }) => {
+      const changeSpy = vi.fn();
+      const { el } = await mount<Combobox>(
+        <calcite-combobox
+          allowCustomValues={allowCustomValues}
+          clear-disabled
+          oncalciteComboboxChange={changeSpy}
+          placeholder="Select a field"
+          selection-mode="single-persist"
+        >
+          {slot && (
+            <button slot={slot} type="button">
+              Manage folders
+            </button>
+          )}
+          <calcite-combobox-item heading="France/Germany" id="item-1" value="France/Germany" />
+          <calcite-combobox-item heading="Spain/Portugal" id="item-2" value="Spain/Portugal" />
+          <calcite-combobox-item
+            heading="Indonesia/Malaysia"
+            id="item-3"
+            value="Indonesia/Malaysia"
+          />
+          <calcite-combobox-item heading="Libya/Algeria" id="item-4" value="Libya/Algeria" />
+        </calcite-combobox>,
+      );
 
-    await userEvent.click(el);
-    await updateFilter(el, { type: "keyboard", value: "Algeria" });
+      await userEvent.click(el);
+      await updateFilter(el, { type: "keyboard", value: "Algeria" });
 
-    const item4 = page.getBySelector("#item-4");
-    const bounds = item4.element().getBoundingClientRect();
+      const item4 = page.getBySelector("#item-4");
+      const bounds = item4.element().getBoundingClientRect();
 
-    await commands.mouseMove(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
-    await commands.mouseDown();
-    await commands.mouseUp();
+      onTestFinished(() => commands.mouseUp());
+      await commands.mouseMove(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
+      await commands.mouseDown();
+      await expect.element(el).toHaveProperty("filterText", "Algeria");
+      await expect.element(el).toHaveProperty("open", true);
+      expect(changeSpy).not.toHaveBeenCalled();
+      await expect.element(el).toHaveFocus();
+      await commands.mouseUp();
 
-    expect(el).toHaveProperty("value", "Libya/Algeria");
-  });
+      await expect.element(el).toHaveProperty("value", "Libya/Algeria");
+      expect(changeSpy).toHaveBeenCalledOnce();
+    },
+  );
 
   it("respects the filterDisabled item property", async () => {
     const { el } = await mount<Combobox>(
