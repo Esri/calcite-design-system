@@ -190,6 +190,9 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
             },
           ],
         },
+        monthStyle: {
+          description: "Specifies the component's month style.",
+        },
         name: {
           description:
             "Specifies the name of the component.\n\nRequired to pass the component's `value` on form submission.",

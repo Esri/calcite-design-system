@@ -120,7 +120,7 @@ export class DatePickerMonth extends LitElement {
   @property() min?: Date;
 
   /**
-   * Specifies the monthStyle used by the component.
+   * @copyDoc
    */
   @property() monthStyle!: "abbreviated" | "wide";
 

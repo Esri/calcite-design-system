@@ -563,9 +563,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   @property() minAsDate?: Date;
 
   /**
-   * Specifies the component's month style.
-   *
    * @public
+   * @copyDoc
    */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
