@@ -11,70 +11,100 @@ import {
 } from "./number";
 
 describe("isValidNumber", () => {
-  it("returns false for string values that can't compute to a number", () => {
-    expect(isValidNumber("undefined")).toBe(false);
-    expect(isValidNumber(";lkj2323")).toBe(false);
-    expect(isValidNumber("")).toBe(false);
-    expect(isValidNumber(undefined)).toBe(false);
-    expect(isValidNumber(null)).toBe(false);
-    expect(isValidNumber("null")).toBe(false);
-    expect(isValidNumber("not a number")).toBe(false);
-    expect(isValidNumber("1 2345,67")).toBe(false);
-    expect(isValidNumber("e")).toBe(false);
-    expect(isValidNumber("E")).toBe(false);
-    expect(isValidNumber("-")).toBe(false);
-    expect(isValidNumber("+")).toBe(false);
-    expect(isValidNumber("-")).toBe(false);
-    expect(isValidNumber("+")).toBe(false);
-    expect(isValidNumber(".")).toBe(false);
-    expect(isValidNumber(",")).toBe(false);
-    expect(isValidNumber("1-")).toBe(false);
-    expect(isValidNumber("1+")).toBe(false);
-    expect(isValidNumber("1-e")).toBe(false);
-    expect(isValidNumber("1+e")).toBe(false);
-    expect(isValidNumber("1-E")).toBe(false);
-    expect(isValidNumber("1+E")).toBe(false);
-    expect(isValidNumber("-1-e")).toBe(false);
-    expect(isValidNumber("-1-e")).toBe(false);
-    expect(isValidNumber("+1+e")).toBe(false);
-    expect(isValidNumber("-1-E")).toBe(false);
-    expect(isValidNumber("-1-E")).toBe(false);
-    expect(isValidNumber("+1+E")).toBe(false);
-    expect(isValidNumber("5-1")).toBe(false);
-    expect(isValidNumber("5+1")).toBe(false);
-    expect(isValidNumber("5-e-1")).toBe(false);
-    expect(isValidNumber("5-e-1")).toBe(false);
-    expect(isValidNumber("5+e+1")).toBe(false);
-    expect(isValidNumber("5e1.")).toBe(false);
-    expect(isValidNumber("5-e1.")).toBe(false);
-    expect(isValidNumber("5+e1.")).toBe(false);
-    expect(isValidNumber("5e-1.")).toBe(false);
-    expect(isValidNumber("5e+1.")).toBe(false);
-    expect(isValidNumber("0.")).toBe(true);
-    expect(isValidNumber("1.")).toBe(true);
-    expect(isValidNumber("2.")).toBe(true);
-    expect(isValidNumber("3.")).toBe(true);
-    expect(isValidNumber("4.")).toBe(true);
-    expect(isValidNumber("5.")).toBe(true);
-    expect(isValidNumber("6.")).toBe(true);
-    expect(isValidNumber("7.")).toBe(true);
-    expect(isValidNumber("8.")).toBe(true);
-    expect(isValidNumber("9.")).toBe(true);
-    expect(isValidNumber("10.")).toBe(true);
+  const expectedInvalidValues = [
+    "undefined",
+    ";lkj2323",
+    "",
+    undefined,
+    null,
+    "null",
+    "not a number",
+    "1 2345,67",
+    "e",
+    "E",
+    "-",
+    "+",
+    ".",
+    ",",
+    "1-",
+    "1+",
+    "1-e",
+    "1+e",
+    "1-E",
+    "1+E",
+    "-1-e",
+    "-1-E",
+    "+1+e",
+    "5-1",
+    "5+1",
+    "5-e-1",
+    "5-E-1",
+    "5+e+1",
+    "5+E+1",
+    "5e1.",
+    "5-e1.",
+    "5+e1.",
+    "5e-1.",
+    "5e+1.",
+  ];
+  it.each(expectedInvalidValues)("returns false for string values that can't compute to a number", (value) => {
+    expect(isValidNumber(value)).toBe(false);
   });
 
-  it("returns true for string values that compute to a valid number", () => {
-    expect(isValidNumber("123345345")).toBe(true);
-    expect(isValidNumber("123123.234234")).toBe(true);
-    expect(isValidNumber("1.2e3")).toBe(true);
-    expect(isValidNumber("1.2e-3")).toBe(true);
-    expect(isValidNumber("-1.2e-3")).toBe(true);
-    expect(isValidNumber("+1.2e-3")).toBe(true);
-    expect(isValidNumber("-1.2e3")).toBe(true);
-    expect(isValidNumber("1234.23e4")).toBe(true);
-    expect(isValidNumber("1234.23e-4")).toBe(true);
-    expect(isValidNumber("-1234.23e-4")).toBe(true);
-    expect(isValidNumber("+1234.23e-4")).toBe(true);
+  const expectedValidValues = [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "0.",
+    "1.",
+    "2.",
+    "3.",
+    "4.",
+    "5.",
+    "6.",
+    "7.",
+    "8.",
+    "9.",
+    "10.",
+    ".0",
+    ".1",
+    ".2",
+    ".3",
+    ".4",
+    ".5",
+    ".6",
+    ".7",
+    ".8",
+    ".9",
+    ".10",
+    "123345345",
+    "123123.234234",
+    "1.2e3",
+    "+1.2e3",
+    "1.2e+3",
+    "+1.2e+3",
+    "-1.2e3",
+    "-1.2e3",
+    "1.2e-3",
+    "-1.2e-3",
+    "1234.23e4",
+    "+1234.23e4",
+    "1234.23e+4",
+    "+1234.23e+4",
+    "-1234.23e4",
+    "1234.23e-4",
+    "-1234.23e-4",
+  ];
+  it.each(expectedValidValues)("returns true for string values that compute to a valid number", (value) => {
+    expect(isValidNumber(value)).toBe(true);
   });
 });
 
