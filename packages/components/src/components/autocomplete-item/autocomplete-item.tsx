@@ -158,9 +158,8 @@ export class AutocompleteItem extends LitElement {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value!: string;
 

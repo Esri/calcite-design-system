@@ -649,9 +649,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   @property({ readOnly: true }) validity!: ValidityState;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property()
   get value(): string {

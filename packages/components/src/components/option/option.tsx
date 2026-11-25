@@ -61,9 +61,8 @@ export class Option extends LitElement {
   selected = false;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value: any;
 

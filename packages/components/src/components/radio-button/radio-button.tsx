@@ -167,10 +167,9 @@ export class RadioButton extends LitElement implements LabelableComponent {
   @property({ readOnly: true }) validity!: ValidityState;
 
   /**
-   * The component's value.
-   *
    * @public
    * @required
+   * @copyDoc
    */
   @property() value: any;
 

@@ -590,9 +590,8 @@ export class Slider extends LitElement implements LabelableComponent {
   @property({ readOnly: true }) validity!: ValidityState;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true })
   get value(): number | number[] {

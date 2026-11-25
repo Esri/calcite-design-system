@@ -204,9 +204,8 @@ export class Filter extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property()
   get value(): string {

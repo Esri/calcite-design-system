@@ -234,9 +234,8 @@ export class Chip extends LitElement {
   > = "none";
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value: any;
 

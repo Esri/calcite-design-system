@@ -243,6 +243,9 @@ The component should not be placed within its own \`referenceElement\` to avoid 
         validity: {
           description: "The component's current validation state.",
         },
+        value: {
+          description: "Specifies the component's value.",
+        },
       },
     },
   },

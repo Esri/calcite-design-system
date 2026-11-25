@@ -138,9 +138,8 @@ export class Swatch extends LitElement {
   > = "none";
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value: any;
 

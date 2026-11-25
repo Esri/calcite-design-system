@@ -430,9 +430,8 @@ export class TextArea
   @property({ readOnly: true }) validity!: ValidityState;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property() value = "";
 

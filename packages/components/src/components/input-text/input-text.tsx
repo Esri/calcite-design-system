@@ -581,9 +581,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ readOnly: true }) validity!: ValidityState;
 
   /**
-   * The component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property()
   get value(): string {
