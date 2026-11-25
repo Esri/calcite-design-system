@@ -399,7 +399,7 @@ export class List extends LitElement {
   @property() selectedItems: ListItem["el"][] = [];
 
   /**
-   * Specifies the selection appearance.
+   * Specifies the component's selection appearance.
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.

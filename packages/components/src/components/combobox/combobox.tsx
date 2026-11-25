@@ -626,7 +626,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @property({ reflect: true }) selectionDisplay: SelectionDisplay = "all";
 
   /**
-   * Specifies the selection appearance.
+   * Specifies the component's selection appearance.
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays a background highlight.

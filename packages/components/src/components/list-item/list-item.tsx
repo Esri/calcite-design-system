@@ -359,7 +359,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property({ reflect: true }) selected = false;
 
   /**
-   * Specifies the selection appearance.
+   * Specifies the component's selection appearance.
    *
    * - `"icon"` displays a checkmark or dot.
    * - `"highlight"` displays background highlight.

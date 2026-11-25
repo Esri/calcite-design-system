@@ -494,7 +494,7 @@ export class ActionBar extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the selection appearance of the component
+   * Specifies the component's selection appearance.
    *
    * @public
    */
