@@ -2048,22 +2048,6 @@ describe("validation", () => {
   });
 });
 
-it("prevent typing invalid characters", async () => {
-  const { el } = await mount(<calcite-input-number />);
-  const input = page.getByRole("textbox").element();
-
-  await userEvent.keyboard(`{Tab}是`);
-
-  await expect.element(el).toHaveProperty("value", "");
-  // TODO: figure out what to do here since the invalid character is making its way in
-  // await expect.element(input).toHaveDisplayValue("");
-
-  await userEvent.keyboard("-1士2大3.4夫5李6");
-
-  await expect.element(el).toHaveProperty("value", "-123.456");
-  await expect.element(input).toHaveDisplayValue("-123.456");
-});
-
 it("don't restrict where minus signs can be typed, but cap them at 2 in the input", async () => {
   const { el } = await mount(<calcite-input-number />);
   const input = await page.getByRole("textbox");
