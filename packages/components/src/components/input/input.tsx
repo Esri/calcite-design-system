@@ -1298,14 +1298,7 @@ export class Input
     }
 
     if (event.key === "-") {
-      if (!value && !this.childNumberRef.value?.value) {
-        return;
-      }
-      if (
-        value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (this.childNumberRef.value && this.childNumberRef.value.value.split("-").length <= 2) {
         return;
       }
     }
@@ -1407,10 +1400,7 @@ export class Input
         signDisplay: "never",
       };
 
-      const isValueLengthShortened =
-        this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
-      const hasTrailingDecimalSeparator = value.charAt(value.length - 1) === ".";
-
+      const hasTrailingDecimalSeparator = value.length > 1 && value.endsWith(".");
       const sanitizedValue = sanitizeNumberString(value);
 
       const newValue =
@@ -1418,9 +1408,11 @@ export class Input
           ? isValidNumber(this.previousValue)
             ? this.previousValue
             : ""
-          : sanitizedValue;
+          : isValidNumber(value)
+            ? sanitizedValue
+            : "";
 
-      let newLocalizedValue = numberStringFormatter.localize(newValue);
+      let newLocalizedValue = numberStringFormatter.localize(value);
 
       if (origin !== "connected" && !hasTrailingDecimalSeparator) {
         newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1430,23 +1422,27 @@ export class Input
         );
       }
 
-      // adds localized trailing decimal separator
-      if (hasTrailingDecimalSeparator && isValueLengthShortened) {
-        newLocalizedValue = `${newLocalizedValue.replace(".", "")}${numberStringFormatter.decimal}`;
+      // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
+      if (hasTrailingDecimalSeparator) {
+        newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
       }
 
       this.displayedValue = newLocalizedValue;
+      // don't sanitize the start of negative/decimal numbers, but
+      // don't set value to an invalid number
+      const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
 
-      const validNewValue = isValidNumber(newValue)
-        ? newValue
-        : newValue.endsWith(".") && !isNaN(Number(newValue))
-          ? String(Number(newValue))
-          : "";
+      const valid = isValidNumber(value);
+      if (value && !valid && origin !== "connected") {
+        this.formSupport.setCustomValidity("Please enter a number.");
+      } else {
+        this.formSupport.setCustomValidity("");
+      }
 
       if (shouldStageValue) {
         this.draftValue = validNewValue;
       } else {
-        this.userChangedValue = origin === "user" && this.value !== newValue;
+        this.userChangedValue = origin === "user" && this.value !== validNewValue;
         this.value = validNewValue;
       }
     } else {

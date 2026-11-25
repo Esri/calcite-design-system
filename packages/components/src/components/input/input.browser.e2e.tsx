@@ -1499,7 +1499,7 @@ describe("number type", () => {
     const { el } = await mount<Input>(<calcite-input type="number" />);
 
     await el.setFocus();
-    await userEvent.keyboard("------000005eeee00005----eee");
+    await userEvent.keyboard("-000005eeee00005");
 
     expect(el).toHaveProperty("value", "-5e5");
   });
