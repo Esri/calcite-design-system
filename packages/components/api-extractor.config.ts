@@ -6,6 +6,16 @@ export const config: ApiExtractorConfig = {
     basePath: "/calcite-design-system/api/",
     copyDocDefinitions: {
       properties: {
+        autocomplete: {
+          description:
+            "Specifies the type of content to autocomplete, for use in forms. Read the native attribute's documentation on MDN for more info.",
+          docsTags: [
+            {
+              name: "see",
+              text: "[MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)",
+            },
+          ],
+        },
         checked: {
           description: "When `true`, the component is checked.",
         },

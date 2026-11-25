@@ -461,11 +461,8 @@ export class Input
   >;
 
   /**
-   * Specifies the type of content to autocomplete, for use in forms.
-   * Read the native attribute's documentation on MDN for more info.
-   *
    * @public
-   * @see [MDN - autocomplete](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
+   * @copyDoc
    */
   @property() autocomplete?: AutoFill;
 
