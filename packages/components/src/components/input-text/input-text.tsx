@@ -511,9 +511,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property() placeholder?: string;
 
   /**
-   * Specifies text to display at the start of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() prefixText?: string;
 
@@ -547,9 +546,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies text to display at the end of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() suffixText?: string;
 

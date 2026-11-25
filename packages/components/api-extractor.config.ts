@@ -201,6 +201,9 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
           description:
             'Specifies the type of positioning to use for overlaid content.\n\n- `"absolute"` works for most cases - positioning the component inside of overflowing parent containers, which affects the container\'s layout.\n\n- `"fixed"` is used to escape an overflowing parent container, or when the reference element\'s `position` CSS property is `"fixed"`.',
         },
+        prefixText: {
+          description: "Specifies text to display at the start of the component.",
+        },
         referenceElement(_apiProperty, apiClass) {
           const interactivityOverrides: Record<string, string> = {
             Dropdown:
@@ -281,6 +284,9 @@ The component should not be placed within its own \`referenceElement\` to avoid 
               ? `${baseDescription} When contained in a parent \`${parent}\`, the component inherits the parent's \`scale\` value.${cardOverrideDescription(apiClass.name)}`
               : baseDescription,
           };
+        },
+        suffixText: {
+          description: "Specifies text to display at the end of the component.",
         },
         topLayerDisabled: {
           description:

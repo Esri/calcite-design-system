@@ -650,9 +650,8 @@ export class Input
   @property() placeholder?: string;
 
   /**
-   * Specifies text to display at the start of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() prefixText?: string;
 
@@ -694,9 +693,8 @@ export class Input
   @property({ reflect: true }) step?: number | "any";
 
   /**
-   * Specifies text to display at the end of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property() suffixText?: string;
 

@@ -490,9 +490,8 @@ export class Autocomplete
   @property({ reflect: true }) placement: MenuPlacement = defaultMenuPlacement;
 
   /**
-   * Specifies the component's prefix text.
-   *
    * @public
+   * @copyDoc
    */
   @property() prefixText?: string;
 
@@ -526,9 +525,8 @@ export class Autocomplete
   @property({ reflect: true }) status: Status = "idle";
 
   /**
-   * Specifies the component's suffix text.
-   *
    * @public
+   * @copyDoc
    */
   @property() suffixText?: string;
 
