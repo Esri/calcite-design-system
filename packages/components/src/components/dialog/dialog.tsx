@@ -553,9 +553,8 @@ export class Dialog extends LitElement {
   @property({ reflect: true }) loading = false;
 
   /**
-   * When `true`, the action menu items in the `header-menu-actions` slot are open.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) menuOpen = false;
 

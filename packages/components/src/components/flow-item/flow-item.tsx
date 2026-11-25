@@ -427,9 +427,8 @@ export class FlowItem extends LitElement {
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /**
-   * When `true`, the action menu items in the `header-menu-actions` slot are open.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) menuOpen = false;
 

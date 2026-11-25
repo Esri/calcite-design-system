@@ -166,6 +166,17 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
           description:
             "Specifies the component's fallback `menuPlacement` when its initial or specified `menuPlacement` has insufficient space available.",
         },
+        menuOpen(_apiProperty, apiClass) {
+          const descriptionOverrides: Record<string, string> = {
+            ActionGroup: "When `true`, the `calcite-action-menu` is open.",
+          };
+
+          return {
+            description:
+              descriptionOverrides[apiClass.name] ??
+              "When `true`, the action menu items in the `header-menu-actions` slot are open.",
+          };
+        },
         messageOverrides: {
           description: `Replace localized message strings with your own strings.\n\n_**Note**: Individual message keys may change between releases._`,
         },
