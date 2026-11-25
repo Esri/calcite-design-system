@@ -453,14 +453,19 @@
   }
 }
 
-// Overlay renders the resize handle inside .content so it animates with the panel.
 :host([position="start"][layout="horizontal"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
-  .container {
+  .content-container > .content {
     padding-block-end: var(--calcite-size-fixed-sm-plus);
   }
 
-  .content-container > .content {
-    padding-block-end: 0;
+  &:host([action-bar-position]) {
+    .container {
+      padding-block-end: var(--calcite-size-fixed-sm-plus);
+    }
+
+    .content-container > .content {
+      padding-block-end: 0;
+    }
   }
 
   .container > .resize-handle {
@@ -475,12 +480,18 @@
 }
 
 :host([position="end"][layout="horizontal"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
-  .container {
+  .content-container > .content {
     padding-block-start: var(--calcite-size-fixed-sm-plus);
   }
 
-  .content-container > .content {
-    padding-block-start: 0;
+  &:host([action-bar-position]) {
+    .container {
+      padding-block-start: var(--calcite-size-fixed-sm-plus);
+    }
+
+    .content-container > .content {
+      padding-block-start: 0;
+    }
   }
 
   .container > .resize-handle {
@@ -495,12 +506,18 @@
 }
 
 :host([position="start"][layout="vertical"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
-  .container {
+  .content-container > .content {
     padding-inline-end: var(--calcite-size-fixed-sm-plus);
   }
 
-  .content-container > .content {
-    padding-inline-end: 0;
+  &:host([action-bar-position]) {
+    .container {
+      padding-inline-end: var(--calcite-size-fixed-sm-plus);
+    }
+
+    .content-container > .content {
+      padding-inline-end: 0;
+    }
   }
 
   .container > .resize-handle {
@@ -515,12 +532,18 @@
 }
 
 :host([position="end"][layout="vertical"][resizable]:not([collapsed]):not([display-mode="overlay"])) {
-  .container {
+  .content-container > .content {
     padding-inline-start: var(--calcite-size-fixed-sm-plus);
   }
 
-  .content-container > .content {
-    padding-inline-start: 0;
+  &:host([action-bar-position]) {
+    .container {
+      padding-inline-start: var(--calcite-size-fixed-sm-plus);
+    }
+
+    .content-container > .content {
+      padding-inline-start: 0;
+    }
   }
 
   .container > .resize-handle {

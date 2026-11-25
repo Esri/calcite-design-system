@@ -875,6 +875,33 @@ describe("shell-panel updateSize public method", () => {
     );
   });
 
+  it.for([
+    { slot: "panel-start", sizeProp: "--calcite-shell-panel-width", dimension: "width", size: 300 },
+    { slot: "panel-end", sizeProp: "--calcite-shell-panel-width", dimension: "width", size: 300 },
+    { slot: "panel-top", sizeProp: "--calcite-shell-panel-height", dimension: "height", size: 200 },
+    {
+      slot: "panel-bottom",
+      sizeProp: "--calcite-shell-panel-height",
+      dimension: "height",
+      size: 200,
+    },
+  ] as const)(
+    "includes the resize handle gutter in the configured size of a resizable $slot panel",
+    async ({ slot, sizeProp, dimension, size }) => {
+      await mount<"calcite-shell">(
+        <calcite-shell style="inline-size: 1000px; block-size: 800px; position: relative;">
+          <calcite-panel>Main content</calcite-panel>
+          <calcite-shell-panel resizable slot={slot} style={`${sizeProp}: ${size}px;`}>
+            <calcite-panel>Panel content</calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const panel = getShellPanelBySlot(slot);
+
+      await expect.poll(() => Math.round(panel.getBoundingClientRect()[dimension])).toBe(size);
+    },
+  );
+
   it("applies touch-action:none to the resize handle to enable resizing on mobile/touch devices", async () => {
     const { el } = await mount<"calcite-shell-panel">(
       <calcite-shell-panel resizable>
