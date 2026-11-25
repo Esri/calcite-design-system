@@ -1,7 +1,7 @@
 import { h } from "@arcgis/lumina";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { commands } from "../../tests/utils/commands";
 import {
   defaults,
@@ -24,6 +24,28 @@ describe("accessible", () => {
     accessible(() => mount(<calcite-link href="/">link</calcite-link>));
   });
 
+  describe("with label", () => {
+    accessible(() =>
+      mount(
+        <calcite-link href="/" label="Read about maps">
+          link
+        </calcite-link>,
+      ),
+    );
+  });
+
+  it("uses label as the accessible name when provided", async () => {
+    await mount(
+      <calcite-link href="/" label="Read about maps">
+        link
+      </calcite-link>,
+    );
+
+    await expect
+      .element(page.getByRole("link", { name: "Read about maps" }))
+      .toHaveAttribute("aria-label", "Read about maps");
+  });
+
   describe("with icons", () => {
     accessible(() =>
       mount(
@@ -42,6 +64,10 @@ describe("defaults", () => {
       {
         propertyName: "download",
         defaultValue: false,
+      },
+      {
+        propertyName: "label",
+        defaultValue: undefined,
       },
     ],
   );

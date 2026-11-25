@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Valyti",
   "hiddenSelected": "Eilutės pažymėtos, bet nepatenka į rodinį",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Psl.",
   "row": "Eilutė",
-  "selected": "Pasirinkta"
+  "rowNumber": "Row number",
+  "selected": "Pasirinkta",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

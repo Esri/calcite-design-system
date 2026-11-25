@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.7.0-next.5](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.7.0-next.4...@esri/calcite-ui-icons@4.7.0-next.5) (2026-11-23)
+
+**Note:** Version bump only for package @esri/calcite-ui-icons
+
+## [4.7.0-next.4](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.7.0-next.3...@esri/calcite-ui-icons@4.7.0-next.4) (2026-11-18)
+
+### Features
+
+- add diamond gem ([#15642](https://github.com/Esri/calcite-design-system/issues/15642))
+
+## [4.7.0-next.3](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.7.0-next.2...@esri/calcite-ui-icons@4.7.0-next.3) (2026-11-13)
+
+### Features
+
+- add filter x ([#15610](https://github.com/Esri/calcite-design-system/issues/15610))
+
 ## [4.7.0-next.2](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-ui-icons@4.7.0-next.1...@esri/calcite-ui-icons@4.7.0-next.2) (2026-11-12)
 
 ### Bug Fixes

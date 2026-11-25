@@ -2,15 +2,14 @@ import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
 import { LitElement, property, h, method, state, JsxNode } from "@arcgis/lumina";
 import { Alignment, Scale, SelectionMode } from "../types";
+import type { Table } from "../table/table";
 import { RowType, TableInteractionMode } from "../table/types";
 import { getIconScale } from "../../utils/component";
-import { CSS_UTILITY } from "../../utils/resources";
-import { useT9n } from "../../controllers/useT9n";
 import { useFocusable } from "../../controllers/useFocusable";
-import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS } from "./resources";
 import { styles } from "./table-header.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
+import { CSS_UTILITY } from "../../utils/resources";
 
 declare global {
   interface DeclareElements {
@@ -23,29 +22,32 @@ declare module "@arcgis/lumina" {
     /**
      * Specifies the component's background color.
      *
-     * @deprecated in v3.3.0, removal target v6.0.0 - Use `--calcite-table-header-background-color` instead.
-     */
-    "--calcite-table-header-background": "*";
-    /**
-     * Specifies the component's background color.
+     * @public
      */
     "--calcite-table-header-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-table-header-border-color": "*";
     /**
      * Specifies the component's `heading` text color.
+     *
+     * @public
      */
     "--calcite-table-header-heading-text-color": "*";
     /**
      * Specifies the component's `description` text color.
+     *
+     * @public
      */
     "--calcite-table-header-description-text-color": "*";
   }
 }
 
 /**
+ * @public
  * @docGroup Table
  * @parent calcite-table
  */
@@ -60,14 +62,7 @@ export class TableHeader extends LitElement {
 
   private containerRef = createRef<HTMLTableCellElement>();
 
-  /**
-   * Made into a prop for testing purposes only
-   *
-   * @private
-   */
-  messages = useT9n<typeof T9nStrings>({ blocking: true });
-
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 
@@ -75,67 +70,71 @@ export class TableHeader extends LitElement {
 
   @state() focused = false;
 
-  @state() screenReaderText = "";
+  @state() screenReaderText?: string = "";
 
   //#endregion
 
   //#region Public Properties
 
-  /** Specifies the alignment of the component. */
+  /**
+   * Specifies the alignment of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) alignment: Alignment = "start";
 
-  /** @private */
   @property() bodyRowCount!: number;
 
-  /** Specifies the number of columns the component should span. */
+  /**
+   * Specifies the number of columns the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) colSpan?: number;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) description?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) heading?: string;
 
-  /** @private */
   @property() interactionMode: TableInteractionMode = "interactive";
 
-  /** @private */
   @property() lastCell = false;
 
-  /** @copyDoc */
-  @property() messageOverrides?: typeof this.messages._overrides;
+  @property() messages!: Table["messages"]["_overrides"];
 
-  /** @private */
   @property() numberCell = false;
 
-  /** @private */
   @property() parentRowAlignment: Alignment = "start";
 
-  /** @private */
   @property() parentRowIsSelected = false;
 
-  /** @private */
   @property() parentRowType!: RowType;
 
-  /** @private */
   @property() positionInRow!: number;
 
-  /** Specifies the number of rows the component should span. */
+  /**
+   * Specifies the number of rows the component should span.
+   *
+   * @public
+   */
   @property({ reflect: true }) rowSpan?: number;
 
-  /** @private */
   @property() scale!: Scale;
 
-  /** @private */
   @property() selectedRowCount!: number;
 
-  /** @private */
   @property() selectedRowCountLocalized!: string;
 
-  /** @private */
   @property() selectionCell = false;
 
-  /** @private */
   @property() selectionMode!: SelectionMode;
 
   //#endregion
@@ -145,8 +144,8 @@ export class TableHeader extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -163,7 +162,11 @@ export class TableHeader extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
-    if (changes.has("selectedRowCount") || changes.has("selectedRowCountLocalized")) {
+    if (
+      changes.has("messages") ||
+      changes.has("selectedRowCount") ||
+      changes.has("selectedRowCountLocalized")
+    ) {
       this.updateScreenReaderText();
     }
   }
@@ -173,8 +176,8 @@ export class TableHeader extends LitElement {
   //#region Private Methods
 
   private updateScreenReaderText(): void {
-    let text = "";
-    const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selected}`;
+    let text: string | undefined = "";
+    const sharedText = `${this.selectedRowCountLocalized} ${this.messages?.selectedRows}`;
     if (this.numberCell) {
       text = this.messages?.rowNumber;
     } else if (this.selectionMode === "single") {

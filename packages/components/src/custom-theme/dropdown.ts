@@ -19,7 +19,6 @@ export const DropdownItemTokens = {
   calciteDropdownItemTextColor: "",
   calciteDropdownItemBackgroundColorHover: "",
   calciteDropdownItemBackgroundColorPress: "",
-  calciteDropdownItemIconColorHover: "",
   calciteDropdownItemIconColorPress: "",
   calciteDropdownItemTextColorPress: "",
 };

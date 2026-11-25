@@ -1,9 +1,17 @@
 import { Dimensions } from "../types";
 
-/** x,y coordinate set */
+/**
+ * x,y coordinate set
+ *
+ * @public
+ */
 export type Point = [number, number];
 
-/** array of coordinates */
+/**
+ * array of coordinates
+ *
+ * @public
+ */
 export type DataSeries = Point[];
 
 /** Function that converts point from data space to pixels */
@@ -22,8 +30,12 @@ export interface Graph extends Extent {
 
 export interface TranslateOptions extends Dimensions, Extent {}
 
+/** @public */
 export interface ColorStop {
+  /** @public */
   offset: number;
+  /** @public */
   color: string;
+  /** @public */
   opacity?: number;
 }

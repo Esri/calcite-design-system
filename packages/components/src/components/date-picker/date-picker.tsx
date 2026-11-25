@@ -23,7 +23,12 @@ import {
   prevMonth,
   sameDate,
 } from "../../utils/date";
-import { getDateTimeFormat, NumberingSystem, numberStringFormatter } from "../../utils/locale";
+import {
+  getDateTextSupportedLocale,
+  getDateTimeFormat,
+  NumberingSystem,
+  numberStringFormatter,
+} from "../../utils/locale";
 import { HeadingLevel } from "../functional/Heading";
 import { useT9n } from "../../controllers/useT9n";
 import { useFocusable } from "../../controllers/useFocusable";
@@ -49,107 +54,158 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-date-picker-border-color": "*";
     /**
      * Specifies the component's border radius.
+     *
+     * @public
      */
     "--calcite-date-picker-corner-radius": "*";
     /**
      * When `range` is `true`, specifies the divider color between the component's calendars.
+     *
+     * @public
      */
     "--calcite-date-picker-range-calendar-divider-color": "*";
     /**
      * Specifies the text color of the component's week header.
+     *
+     * @public
      */
     "--calcite-date-picker-week-header-text-color": "*";
     /**
      * Specifies the background color of component`s header actions.
+     *
+     * @public
      */
     "--calcite-date-picker-header-action-background-color": "*";
     /**
      * Specifies the background color of component`s header actions when hovered.
+     *
+     * @public
      */
     "--calcite-date-picker-header-action-background-color-hover": "*";
     /**
      * Specifies the background color of component`s header actions when pressed.
+     *
+     * @public
      */
     "--calcite-date-picker-header-action-background-color-press": "*";
     /**
      * Specifies the text color of the component's header actions.
+     *
+     * @public
      */
     "--calcite-date-picker-header-action-text-color": "*";
     /**
      * Specifies the text color of the component's header actions when pressed.
+     *
+     * @public
      */
     "--calcite-date-picker-header-action-text-color-press": "*";
     /**
      * Specifies the text color of the component's year and suffix.
+     *
+     * @public
      */
     "--calcite-date-picker-year-text-color": "*";
     /**
      * Specifies the font size of the component's month selector.
+     *
+     * @public
      */
     "--calcite-date-picker-month-select-font-size": "*";
     /**
      * Specifies the text color of the component's month selector.
+     *
+     * @public
      */
     "--calcite-date-picker-month-select-text-color": "*";
     /**
      * Specifies the icon color of the component's month selector.
+     *
+     * @public
      */
     "--calcite-date-picker-month-select-icon-color": "*";
     /**
      * Specifies the icon color of the component's month selector when hovered.
+     *
+     * @public
      */
     "--calcite-date-picker-month-select-icon-color-hover": "*";
     /**
      * Specifies the background color of the component's day elements.
+     *
+     * @public
      */
     "--calcite-date-picker-day-background-color": "*";
     /**
      * Specifies the background color of the component's day elements when hovered.
+     *
+     * @public
      */
     "--calcite-date-picker-day-background-color-hover": "*";
     /**
      * Specifies the text color of the component's day elements.
+     *
+     * @public
      */
     "--calcite-date-picker-day-text-color": "*";
     /**
      * Specifies the text color of the component's day elements when hovered.
+     *
+     * @public
      */
     "--calcite-date-picker-day-text-color-hover": "*";
     /**
      * Specifies the text color of the component's current day.
+     *
+     * @public
      */
     "--calcite-date-picker-current-day-text-color": "*";
     /**
      * Specifies the background color of the component's selected day.
+     *
+     * @public
      */
     "--calcite-date-picker-day-background-color-selected": "*";
     /**
      * Specifies the text color of the component's selected day elements.
+     *
+     * @public
      */
     "--calcite-date-picker-day-text-color-selected": "*";
     /**
      * Specifies the text color of component's selected day range.
+     *
+     * @public
      */
     "--calcite-date-picker-day-range-text-color": "*";
     /**
      * Specifies the background color the component's selected day range.
+     *
+     * @public
      */
     "--calcite-date-picker-day-range-background-color": "*";
     /**
      * Specifies the background color of the component's day elements outside the current range when hovered.
+     *
+     * @public
      */
     "--calcite-date-picker-day-outside-range-background-color-hover": "*";
     /**
      * Specifies the text color of the component's day elements outside the current range when hovered.
+     *
+     * @public
      */
     "--calcite-date-picker-day-outside-range-text-color-hover": "*";
   }
 }
 
+/** @public */
 export class DatePicker extends LitElement {
   //#region Static Members
 
@@ -163,12 +219,10 @@ export class DatePicker extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>({ blocking: true });
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   //#endregion
 
@@ -180,11 +234,7 @@ export class DatePicker extends LitElement {
   /** Active start date. */
   @state() activeStartDate?: Date;
 
-  /**
-   * The DateTimeFormat used to provide screen reader labels.
-   *
-   * @private
-   */
+  /** The DateTimeFormat used to provide screen reader labels. */
   @state() dateTimeFormat!: Intl.DateTimeFormat;
 
   @state() private hoverRange?: HoverRange;
@@ -195,62 +245,124 @@ export class DatePicker extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies the component's active date. */
+  /**
+   * Specifies the component's active date.
+   *
+   * @public
+   */
   @property() activeDate?: Date;
 
-  /** When `range` is `true`, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date. */
+  /**
+   * When `range` is `true`, specifies the active `range`. Where `"start"` specifies the starting range date and `"end"` the ending range date.
+   *
+   * @public
+   */
   @property({ reflect: true }) activeRange?: "start" | "end";
 
-  /** When `range` is `true`, specifies the number of calendars displayed. */
+  /**
+   * When `range` is `true`, specifies the number of calendars displayed.
+   *
+   * @public
+   */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ type: Number, reflect: true }) headingLevel?: HeadingLevel;
 
-  /** Defines the component's layout. */
+  /**
+   * Defines the component's layout.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: "horizontal" | "vertical" = "horizontal";
 
   /**
    * When the component resides in a form,
    * specifies the latest allowed date (`"yyyy-mm-dd"`).
+   *
+   * @public
    */
   @property({ reflect: true }) max?: string;
 
-  /** Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
+  /**
+   * Specifies the latest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
+   *
+   * @public
+   */
   @property() maxAsDate?: Date;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
    * When the component resides in a form,
    * specifies the earliest allowed date (`"yyyy-mm-dd"`).
+   *
+   * @public
    */
   @property({ reflect: true }) min?: string;
 
-  /** Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`). */
+  /**
+   * Specifies the earliest allowed date as a full date object (`new Date("yyyy-mm-dd")`).
+   *
+   * @public
+   */
   @property() minAsDate?: Date;
 
-  /** Specifies the component's month style. */
+  /**
+   * Specifies the component's month style.
+   *
+   * @public
+   */
   @property() monthStyle: "abbreviated" | "wide" = "wide";
 
-  /** Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed. */
+  /**
+   * Specifies the Unicode numeral system used by the component for localization. This property cannot be dynamically changed.
+   *
+   * @public
+   */
   @property({ reflect: true }) numberingSystem?: NumberingSystem;
 
-  /** When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range. */
+  /**
+   * When `true`, disables the default behavior on the third click of narrowing or extending the range and instead starts a new range.
+   *
+   * @public
+   */
   @property({ reflect: true }) proximitySelectionDisabled = false;
 
-  /** When `true`, activates the component's range mode to allow a start and end date. */
+  /**
+   * When `true`, activates the component's range mode to allow a start and end date.
+   *
+   * @public
+   */
   @property({ reflect: true }) range = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 
-  /** Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). Set to `undefined` or an empty string (`""`) to clear the selection. */
+  /**
+   * Specifies the selected date as a string (`"yyyy-mm-dd"`), or an array of strings for `range` values (`["yyyy-mm-dd", "yyyy-mm-dd"]`). Set to `undefined` or an empty string (`""`) to clear the selection.
+   *
+   * @public
+   */
   @property() value?: string | string[];
 
-  /** Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). */
-  @property() valueAsDate?: Date | Date[];
+  /**
+   * Specifies the selected date as a full date object (`new Date("yyyy-mm-dd")`), or an array containing full date objects (`[new Date("yyyy-mm-dd"), new Date("yyyy-mm-dd")]`). Unselected range endpoints are `undefined`.
+   *
+   * @public
+   */
+  @property() valueAsDate?: Date | (Date | undefined)[];
 
   //#endregion
 
@@ -258,8 +370,6 @@ export class DatePicker extends LitElement {
 
   /**
    * Resets active date state.
-   *
-   * @private
    */
   @method()
   async reset(): Promise<void> {
@@ -270,8 +380,8 @@ export class DatePicker extends LitElement {
   /**
    * Sets focus on the component's first focusable element.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -283,10 +393,18 @@ export class DatePicker extends LitElement {
 
   //#region Events
 
-  /** Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`. */
+  /**
+   * Fires when a user changes the component's date. For `range` events, use `calciteDatePickerRangeChange`.
+   *
+   * @public
+   */
   calciteDatePickerChange = createEvent({ cancelable: false });
 
-  /** Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`. */
+  /**
+   * Fires when a user changes the component's date `range`. For components without `range` use `calciteDatePickerChange`.
+   *
+   * @public
+   */
   calciteDatePickerRangeChange = createEvent({ cancelable: false });
 
   //#endregion
@@ -378,7 +496,6 @@ export class DatePicker extends LitElement {
 
   private valueHandler(value: string | string[] | null | undefined): void {
     if (Array.isArray(value)) {
-      // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
       this.valueAsDate = value.every((rangeValue) => rangeValue === "")
         ? undefined
         : getValueAsDateRange(value);
@@ -425,7 +542,10 @@ export class DatePicker extends LitElement {
     };
 
     this.localeData = await getLocaleData(locale);
-    this.dateTimeFormat = getDateTimeFormat(locale, DATE_PICKER_FORMAT_OPTIONS);
+    this.dateTimeFormat = getDateTimeFormat(
+      getDateTextSupportedLocale(locale),
+      DATE_PICKER_FORMAT_OPTIONS,
+    );
   }
 
   private monthHeaderSelectChange(event: CustomEvent<{ date: Date; position: string }>): void {
@@ -594,7 +714,6 @@ export class DatePicker extends LitElement {
     const startDate = this.getStartDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(startDate), dateToISO(date)];
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [startDate, date];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
@@ -609,7 +728,6 @@ export class DatePicker extends LitElement {
     const endDate = this.getEndDate();
     this.rangeValueChangedByUser = true;
     this.value = [dateToISO(date), dateToISO(endDate)];
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.valueAsDate = [date, endDate];
     if (emit) {
       this.calciteDatePickerRangeChange.emit();
