@@ -171,9 +171,8 @@ export class BlockSection extends LitElement {
   }
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

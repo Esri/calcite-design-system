@@ -191,9 +191,8 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   @property() referenceElement: ReferenceElement | string | undefined;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -234,9 +234,8 @@ export class Notice extends LitElement {
   @property({ reflect: true }) open = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

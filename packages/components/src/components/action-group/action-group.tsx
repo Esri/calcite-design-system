@@ -213,9 +213,8 @@ export class ActionGroup extends LitElement {
   }
 
   /**
-   * Specifies the size of the `calcite-action-menu`.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

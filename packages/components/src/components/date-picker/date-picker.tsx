@@ -344,9 +344,8 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) range = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: "s" | "m" | "l" = "m";
 

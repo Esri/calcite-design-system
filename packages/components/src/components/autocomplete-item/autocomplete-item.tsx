@@ -148,7 +148,7 @@ export class AutocompleteItem extends LitElement {
   @property() label?: string;
 
   /**
-   * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
+   * @copyDoc
    */
   @property() scale: Scale = "m";
 

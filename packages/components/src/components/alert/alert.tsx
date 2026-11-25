@@ -264,9 +264,8 @@ export class Alert extends LitElement {
   @property({ reflect: true }) queue: AlertQueue = "last";
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

@@ -81,9 +81,8 @@ export class Label extends LitElement {
   @property({ reflect: true }) layout: "block" | "inline" | "inline-space-between" = "block";
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

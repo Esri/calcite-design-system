@@ -177,9 +177,8 @@ export class Navigation extends LitElement {
   @property({ reflect: true }) navigationAction = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

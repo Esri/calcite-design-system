@@ -277,7 +277,7 @@ export class TabTitle extends LitElement {
   @property() position: TabPosition = "top";
 
   /**
-   * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
+   * @copyDoc
    */
   @property() scale: Scale = "m";
 

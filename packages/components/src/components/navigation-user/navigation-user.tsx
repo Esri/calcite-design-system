@@ -101,7 +101,7 @@ export class NavigationUser extends LitElement {
   @property({ reflect: true }) textDisabled = false;
 
   /**
-   * Specifies the size of the component inherited from `calcite-navigation`, defaults to `m`.
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

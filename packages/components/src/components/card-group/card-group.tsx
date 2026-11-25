@@ -88,9 +88,8 @@ export class CardGroup extends LitElement {
   @property() label!: string;
 
   /**
-   * Specifies the size of the component. Child `calcite-card`s inherit the component's value.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

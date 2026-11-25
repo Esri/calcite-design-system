@@ -279,9 +279,8 @@ export class Button extends LitElement {
   @property({ reflect: true }) round = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

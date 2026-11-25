@@ -97,9 +97,8 @@ export class InputMessage extends LitElement {
   @property({ reflect: true }) iconFlipRtl = false;
 
   /**
-   * Specifies the size of the component.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

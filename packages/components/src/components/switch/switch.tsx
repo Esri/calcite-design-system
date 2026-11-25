@@ -133,9 +133,8 @@ export class Switch extends LitElement implements LabelableComponent {
   @property({ reflect: true }) required = false;
 
   /**
-   * Specifies the component's size.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 

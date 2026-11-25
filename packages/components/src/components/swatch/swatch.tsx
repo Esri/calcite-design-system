@@ -117,9 +117,8 @@ export class Swatch extends LitElement {
   @property() parentSwatchGroup?: SwatchGroup["el"];
 
   /**
-   * Specifies the component's size. When contained in a parent `calcite-swatch-group`, the component inherits the parent's `scale` value.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) scale: Scale = "m";
 
