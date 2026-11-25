@@ -288,6 +288,9 @@ The component should not be placed within its own \`referenceElement\` to avoid 
               : baseDescription,
           };
         },
+        selectedItem: {
+          description: "Specifies the component's selected item.",
+        },
         suffixText: {
           description: "Specifies text to display at the end of the component.",
         },

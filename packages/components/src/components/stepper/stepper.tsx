@@ -158,10 +158,9 @@ export class Stepper extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * Specifies the component's selected item.
-   *
    * @public
    * @readonly
+   * @copyDoc
    */
   @property() selectedItem: StepperItem["el"] | null = null;
 

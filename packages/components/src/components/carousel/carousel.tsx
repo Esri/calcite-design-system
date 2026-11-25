@@ -281,10 +281,9 @@ export class Carousel extends LitElement {
   @property() paused!: boolean;
 
   /**
-   * The component's selected `calcite-carousel-item`.
-   *
    * @public
    * @readonly
+   * @copyDoc
    */
   @property() selectedItem!: CarouselItem["el"];
 

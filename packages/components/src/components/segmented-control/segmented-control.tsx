@@ -176,10 +176,9 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's selected item `HTMLElement`, or `undefined` when no item is selected.
-   *
    * @public
    * @readonly
+   * @copyDoc
    */
   @property() selectedItem?: SegmentedControlItem["el"];
 
