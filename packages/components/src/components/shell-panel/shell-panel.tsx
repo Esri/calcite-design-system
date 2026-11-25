@@ -970,9 +970,7 @@ export class ShellPanel extends LitElement {
         class={{
           [CSS.container]: true,
           [CSS.floatAll]: displayMode === "float-all",
-          [getDimensionClass("height", this.height, this.heightScale)]: !!(
-            this.height || this.heightScale
-          ),
+          [getDimensionClass("height", this.height)]: !!this.height,
         }}
         ref={this.containerRef}
       >
