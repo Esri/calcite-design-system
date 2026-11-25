@@ -211,11 +211,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
 
-  private stickyHeaderRef = createRef<HTMLDivElement>();
+  private stickyHeaderEl?: HTMLDivElement;
 
   private contentTopSlotRef = createRef<HTMLDivElement>();
 
-  private contentBottomSlotRef = createRef<HTMLDivElement>();
+  private contentBottomSlotEl?: HTMLDivElement;
 
   private allSelectedIndicatorChipRef = createRef<Chip["el"]>();
 
@@ -1028,6 +1028,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     await this.componentOnReady();
 
+    this.commitOrClearFilter();
+    this.open = false;
+  }
+
+  private commitOrClearFilter(): void {
     if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();
       this.filterItems("");
@@ -1037,8 +1042,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (this.allowCustomValues && this.filterText.trim().length) {
       this.addCustomChip(this.filterText);
     }
-
-    this.open = false;
   }
 
   private handleSelectAll(isSelectAllTarget: boolean): void {
@@ -1368,7 +1371,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const stickyHeight =
+      (this.stickyHeaderEl?.getBoundingClientRect().height || 0) +
+      (this.contentBottomSlotEl?.getBoundingClientRect().height || 0);
+    listContainerEl.style.maxBlockSize =
+      maxScrollerHeight > 0 ? `${maxScrollerHeight + stickyHeight}px` : "";
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
   }
 
@@ -1717,6 +1724,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.transitionEl = el;
   }
 
+  private setStickyHeaderEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.stickyHeaderEl, el);
+    this.stickyHeaderEl = el;
+  }
+
+  private setContentBottomSlotEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.contentBottomSlotEl, el);
+    this.contentBottomSlotEl = el;
+  }
+
   private setChipContainerEl(el: HTMLDivElement): void {
     updateRefObserver(this.resizeObserver, this.chipContainerEl, el);
     this.chipContainerEl = el;
@@ -2042,7 +2059,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     item.scrollIntoView({ block: "nearest" });
 
-    const stickyHeight = this.stickyHeaderRef.value?.offsetHeight || 0;
+    const stickyHeight = this.stickyHeaderEl?.offsetHeight || 0;
 
     const itemRect = item.getBoundingClientRect();
     const containerRect = listContainer.getBoundingClientRect();
@@ -2050,8 +2067,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (itemRect.top < containerRect.top + stickyHeight) {
       listContainer.scrollTop -= containerRect.top + stickyHeight - itemRect.top;
     } else {
-      const stickyFooterHeight =
-        this.contentBottomSlotRef.value?.getBoundingClientRect().height || 0;
+      const stickyFooterHeight = this.contentBottomSlotEl?.getBoundingClientRect().height || 0;
       const visibleBottom = containerRect.bottom - stickyFooterHeight;
 
       if (itemRect.bottom > visibleBottom) {
@@ -2091,7 +2107,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
   private comboboxFocusHandler(event: Event): void {
     const contentTopSlot = this.contentTopSlotRef.value;
-    const contentBottomSlot = this.contentBottomSlotRef.value;
+    const contentBottomSlot = this.contentBottomSlotEl;
     const path = event.composedPath();
 
     if (
@@ -2113,6 +2129,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.hasContentTop = slotChangeHasAssignedElement(event);
   }
 
+  private handleFloatingKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Escape" && !event.defaultPrevented && this.open) {
+      this.open = false;
+      event.preventDefault();
+      void this.setFocus();
+    }
+  }
+
   private handleFocusOut(event: FocusEvent): void {
     if (
       (!this.hasContentTop && !this.hasContentBottom) ||
@@ -2121,6 +2145,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       return;
     }
 
+    this.commitOrClearFilter();
     this.open = false;
   }
 
@@ -2566,9 +2591,14 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
-      <div class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
+      <div
+        class={CSS.floatingUIContainer}
+        onKeyDown={this.handleFloatingKeyDown}
+        popover="manual"
+        ref={setFloatingEl}
+      >
         <div class={classes} ref={setContainerEl}>
-          <div class={CSS.stickyHeader} ref={this.stickyHeaderRef}>
+          <div class={CSS.stickyHeader} ref={this.setStickyHeaderEl}>
             <div
               class={{
                 [CSS.contentTop]: true,
@@ -2629,7 +2659,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
               [CSS.contentBottom]: true,
               [CSS.contentBottomHidden]: !this.hasContentBottom || this.noMatchesFound,
             }}
-            ref={this.contentBottomSlotRef}
+            ref={this.setContentBottomSlotEl}
           >
             <slot name={SLOTS.contentBottom} onSlotChange={this.handleContentBottomSlotChange} />
           </div>

@@ -1470,6 +1470,133 @@ describe("content-bottom slot", () => {
   });
 });
 
+describe("content slot sizing", () => {
+  it("reserves an item row with maxItems=1 and recalculates when slots resize or hide", async () => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox max-items="1" open>
+        <button slot="content-top" type="button">
+          Create new
+        </button>
+        <calcite-combobox-item heading="Oak" value="oak" />
+        <calcite-combobox-item heading="Pine" value="pine" />
+        <button slot="content-bottom" type="button">
+          Manage folders
+        </button>
+      </calcite-combobox>,
+    );
+
+    const top = page.getByRole("button", { name: "Create new" });
+    const bottom = page.getByRole("button", { name: "Manage folders" });
+    const container = page.getBySelector(`.${CSS.listContainer}`);
+    const firstItem = page.getBySelector('calcite-combobox-item[value="oak"]');
+    await expect.element(top).toBeVisible();
+    await expect.element(bottom).toBeVisible();
+
+    await vi.waitFor(() => {
+      expect(firstItem.element().getBoundingClientRect().top).toBeGreaterThanOrEqual(
+        top.element().getBoundingClientRect().bottom,
+      );
+      expect(firstItem.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+        bottom.element().getBoundingClientRect().top,
+      );
+    });
+
+    top.element().style.blockSize = "72px";
+    bottom.element().style.blockSize = "64px";
+    await vi.waitFor(() => {
+      const expectedHeight =
+        firstItem.element().getBoundingClientRect().height +
+        page.getBySelector(`.${CSS.stickyHeader}`).element().getBoundingClientRect().height +
+        page.getBySelector(`.${CSS.contentBottom}`).element().getBoundingClientRect().height;
+      expect(container.element().getBoundingClientRect().height).toBeCloseTo(expectedHeight, 0);
+    });
+
+    const filterEvent = waitForEvent(el, "calciteComboboxFilterChange");
+    el.filterText = "no-match";
+    await filterEvent;
+    await expect.element(page.getBySelector(`.${CSS.noMatchesPlaceholder}`)).toBeVisible();
+
+    const clearEvent = waitForEvent(el, "calciteComboboxFilterChange");
+    el.filterText = "";
+    await clearEvent;
+    el.open = true;
+    await expect.element(top).toBeVisible();
+    await expect.element(bottom).toBeVisible();
+    await vi.waitFor(() => {
+      expect(firstItem.element().getBoundingClientRect().bottom).toBeLessThanOrEqual(
+        bottom.element().getBoundingClientRect().top,
+      );
+    });
+
+    bottom.element().remove();
+    await vi.waitFor(() => {
+      const expectedHeight =
+        firstItem.element().getBoundingClientRect().height +
+        page.getBySelector(`.${CSS.stickyHeader}`).element().getBoundingClientRect().height;
+      expect(container.element().getBoundingClientRect().height).toBeCloseTo(expectedHeight, 0);
+    });
+  });
+});
+
+describe("content slot keyboard interaction", () => {
+  it.each([
+    { slot: SLOTS.contentTop, focus: "tab" },
+    { slot: SLOTS.contentTop, focus: "click" },
+    { slot: SLOTS.contentBottom, focus: "tab" },
+    { slot: SLOTS.contentBottom, focus: "click" },
+  ])("dismisses with Escape after focusing $slot by $focus", async ({ slot, focus }) => {
+    const { el } = await mount<Combobox>(
+      <calcite-combobox filter-text="Oa" open>
+        <button slot={slot} type="button">
+          Manage folders
+        </button>
+        <calcite-combobox-item heading="Oak" value="oak" />
+      </calcite-combobox>,
+    );
+
+    const button = page.getByRole("button", { name: "Manage folders" });
+    await expect.element(button).toBeVisible();
+    await el.setFocus();
+    await (focus === "tab" ? userEvent.tab() : userEvent.click(button));
+    await expect.element(button).toHaveFocus();
+    await userEvent.keyboard("{Escape}");
+
+    await expect.element(el).toHaveProperty("open", false);
+    await expect.element(el).toHaveFocus();
+    expect(el).toHaveProperty("shadowRoot.activeElement", page.getByRole("combobox").element());
+    await expect.element(page.getByRole("combobox")).toHaveValue("Oa");
+  });
+
+  it.each([SLOTS.contentTop, SLOTS.contentBottom])(
+    "leaves other keys and handled Escape events to controls in %s",
+    async (slot) => {
+      const { el } = await mount<Combobox>(
+        <calcite-combobox open>
+          <input
+            aria-label="Folder name"
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                event.preventDefault();
+              }
+            }}
+            slot={slot}
+          />
+          <calcite-combobox-item heading="Oak" value="oak" />
+        </calcite-combobox>,
+      );
+
+      const input = page.getByRole("textbox", { name: "Folder name" });
+      await userEvent.click(input);
+      await userEvent.keyboard("New folder{Escape}");
+
+      await expect.element(input).toHaveValue("New folder");
+      await expect.element(input).toHaveFocus();
+      await expect.element(el).toHaveProperty("open", true);
+      await expect.element(page.getByRole("combobox")).toHaveValue("");
+    },
+  );
+});
+
 describe("filtering", () => {
   type FilterUpdate = {
     type: "keyboard" | "property";
@@ -1690,6 +1817,53 @@ describe("filtering", () => {
     await expect.element(items.nth(2)).not.toBeVisible();
     await expect.element(items.nth(3)).not.toBeVisible();
   });
+
+  it.each([
+    { slot: SLOTS.contentTop, allowCustomValues: false },
+    { slot: SLOTS.contentTop, allowCustomValues: true },
+    { slot: SLOTS.contentBottom, allowCustomValues: false },
+    { slot: SLOTS.contentBottom, allowCustomValues: true },
+  ])(
+    "cleans up the filter after tabbing through $slot with allowCustomValues=$allowCustomValues",
+    async ({ slot, allowCustomValues }) => {
+      const changeSpy = vi.fn();
+      await mount(
+        <div>
+          <calcite-combobox
+            allowCustomValues={allowCustomValues}
+            oncalciteComboboxChange={changeSpy}
+          >
+            <button slot={slot} type="button">
+              Manage folders
+            </button>
+            <calcite-combobox-item heading="Oak" value="oak" />
+          </calcite-combobox>
+          <button type="button">Outside</button>
+        </div>,
+      );
+
+      const el = page.getBySelector("calcite-combobox").element() as Combobox["el"];
+      const input = page.getByRole("combobox");
+      await el.setFocus();
+      await updateFilter(el, { type: "keyboard", value: "Oa" });
+      await userEvent.tab();
+
+      await expect.element(page.getByRole("button", { name: "Manage folders" })).toHaveFocus();
+      await expect.element(input).toHaveValue("Oa");
+      await expect.element(el).toHaveProperty("filterText", "Oa");
+      await expect.element(el).toHaveProperty("open", true);
+      expect(changeSpy).not.toHaveBeenCalled();
+
+      await userEvent.tab();
+
+      await expect.element(page.getByRole("button", { name: "Outside" })).toHaveFocus();
+      await expect.element(input).toHaveValue("");
+      await expect.element(el).toHaveProperty("filterText", "");
+      await expect.element(el).toHaveProperty("open", false);
+      await expect.element(el).toHaveProperty("value", allowCustomValues ? "Oa" : "");
+      expect(changeSpy).toHaveBeenCalledTimes(allowCustomValues ? 1 : 0);
+    },
+  );
 
   it.each([false, true])(
     "preserves text selection when dragging outside with allowCustomValues=%s",

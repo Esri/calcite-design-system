@@ -223,6 +223,16 @@ export const contentSlotsNoMatches = (): string => html`
   </calcite-combobox>
 `;
 
+export const contentSlotsWithOneVisibleItem = (): string => html`
+  <calcite-combobox open max-items="1" selection-mode="multiple">
+    <calcite-button appearance="transparent" icon-start="plus" slot="content-top"> Create new folder </calcite-button>
+    <calcite-combobox-item heading="Documents" value="documents"></calcite-combobox-item>
+    <calcite-combobox-item heading="Images" value="images"></calcite-combobox-item>
+    <calcite-combobox-item heading="Projects" value="projects"></calcite-combobox-item>
+    <calcite-button appearance="transparent" slot="content-bottom"> Manage folders </calcite-button>
+  </calcite-combobox>
+`;
+
 export const smallViewport = (): string => html`
   <calcite-combobox
     selection-display="all"
