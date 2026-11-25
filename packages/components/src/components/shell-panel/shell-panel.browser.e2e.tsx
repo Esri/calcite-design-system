@@ -1072,6 +1072,100 @@ describe("shell-panel updateSize public method", () => {
     },
   );
 
+  describe("resizing horizontal panels with a side action bar", () => {
+    const minHeight = 100;
+    const maxHeight = 500;
+    const sideActionBarCases = [
+      { slot: "panel-top", actionBarPosition: "start" },
+      { slot: "panel-top", actionBarPosition: "end" },
+      { slot: "panel-bottom", actionBarPosition: "start" },
+      { slot: "panel-bottom", actionBarPosition: "end" },
+    ] as const;
+
+    async function mountSideActionBarPanel(
+      slot: "panel-top" | "panel-bottom",
+      actionBarPosition: "start" | "end",
+    ): Promise<{ handle: HTMLElement; panel: ShellPanel["el"] }> {
+      await mount<"calcite-shell">(
+        <calcite-shell style="inline-size: 700px; block-size: 800px; position: relative;">
+          <calcite-panel>Main content</calcite-panel>
+          <calcite-shell-panel
+            actionBarPosition={actionBarPosition}
+            resizable
+            slot={slot}
+            style={`--calcite-shell-panel-min-height: ${minHeight}px; --calcite-shell-panel-max-height: ${maxHeight}px;`}
+          >
+            <calcite-action-bar slot="action-bar">
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-bar>
+            <calcite-panel>Panel content</calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const panel = getShellPanelBySlot(slot);
+      const { handle } = getShellPanelElements(panel);
+
+      await expect.poll(() => Math.round(panel.getBoundingClientRect().height)).toBe(minHeight);
+
+      return { handle, panel };
+    }
+
+    function expectHandleOnResizeEdge(
+      slot: "panel-top" | "panel-bottom",
+      panel: ShellPanel["el"],
+      handle: HTMLElement,
+    ): void {
+      const panelRect = panel.getBoundingClientRect();
+      const handleRect = handle.getBoundingClientRect();
+      const resizeEdge = slot === "panel-top" ? panelRect.bottom : panelRect.top;
+
+      expect(handleRect.top).toBeLessThanOrEqual(resizeEdge);
+      expect(handleRect.bottom).toBeGreaterThanOrEqual(resizeEdge);
+    }
+
+    it.for(sideActionBarCases)(
+      "drags $slot with $actionBarPosition action-bar-position",
+      async ({ slot, actionBarPosition }) => {
+        const dragDistance = 100;
+        const { handle, panel } = await mountSideActionBarPanel(slot, actionBarPosition);
+        const handleRect = handle.getBoundingClientRect();
+
+        await userEvent.hover(handle);
+        await commands.mouseDown();
+        await commands.mouseMove(
+          handleRect.left + handleRect.width / 2,
+          handleRect.top +
+            handleRect.height / 2 +
+            (slot === "panel-top" ? dragDistance : -dragDistance),
+        );
+        await commands.mouseUp();
+
+        await expect
+          .poll(() => Math.round(panel.getBoundingClientRect().height))
+          .toBe(minHeight + dragDistance);
+        expectHandleOnResizeEdge(slot, panel, handle);
+      },
+    );
+
+    it.for(sideActionBarCases)(
+      "keyboard-resizes $slot with $actionBarPosition action-bar-position",
+      async ({ slot, actionBarPosition }) => {
+        const { handle, panel } = await mountSideActionBarPanel(slot, actionBarPosition);
+
+        await page.elementLocator(handle).click();
+        await userEvent.keyboard("{End}");
+
+        await expect.poll(() => Math.round(panel.getBoundingClientRect().height)).toBe(maxHeight);
+        expectHandleOnResizeEdge(slot, panel, handle);
+
+        await userEvent.keyboard("{Home}");
+
+        await expect.poll(() => Math.round(panel.getBoundingClientRect().height)).toBe(minHeight);
+        expectHandleOnResizeEdge(slot, panel, handle);
+      },
+    );
+  });
+
   it.for(["panel-start", "panel-bottom"] as const)(
     "does not clip $0 overlay content",
     async (slot) => {
