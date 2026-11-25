@@ -627,12 +627,6 @@
   min-inline-size: var(--calcite-internal-shell-panel-min-width);
 }
 
-:host([layout="horizontal"]) .content {
-  // block-size: var(--calcite-internal-shell-panel-height);
-  // max-block-size: var(--calcite-internal-shell-panel-max-height);
-  // min-block-size: var(--calcite-internal-shell-panel-min-height);
-}
-
 :host([resizable][layout="vertical"][position="start"][display-mode="overlay"]) {
   .content {
     padding-inline-end: var(
