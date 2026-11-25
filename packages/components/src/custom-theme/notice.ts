@@ -5,7 +5,6 @@ export const noticeTokens = {
   calciteNoticeBackgroundColor: "",
   calciteNoticeBorderColor: "",
   calciteNoticeCloseBackgroundColor: "",
-  calciteNoticeCloseBackgroundColorFocus: "",
   calciteNoticeCloseBackgroundColorHover: "",
   calciteNoticeCloseBackgroundColorPress: "",
   calciteNoticeCloseTextColorHover: "",
