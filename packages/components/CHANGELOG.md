@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.55...@esri/calcite-components@6.0.0-next.56) (2026-11-25)
+
+### Bug Fixes
+
+- **index:** ensure asset path function types are properly extracted ([#15716](https://github.com/Esri/calcite-design-system/issues/15716)), closes [#15352](https://github.com/Esri/calcite-design-system/issues/15352) [#15596](https://github.com/Esri/calcite-design-system/issues/15596)
+
 ## [6.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.54...@esri/calcite-components@6.0.0-next.55) (2026-11-25)
 
 ### ⚠ BREAKING CHANGES
