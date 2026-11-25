@@ -3434,7 +3434,11 @@ export const shellPanelWithActionBarPositionProp = (args: PanelWithActionBarPosi
   const panelPosition = args.shellPanelSlot === "panel-end" || args.shellPanelSlot === "panel-bottom" ? "end" : "start";
   const panelContent =
     args.panelContent === "image"
-      ? html`<img class="panel-image" alt="Bear" src="${new URL("./bears.jpg", import.meta.url).href}" />`
+      ? html`<img
+          class="panel-image"
+          alt="Bear"
+          src="${new URL("../../demos/_assets/images/bears.jpg", import.meta.url).href}"
+        />`
       : html`<div class="text">
           <div>ESRI</div>
           <div>ESRI</div>
