@@ -168,27 +168,6 @@ declare module "@arcgis/lumina" {
      * @public
      */
     "--calcite-popover-border-color": "*";
-    /**
-     * Specifies the padding of the component's content.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-space` instead.
-     * @public
-     */
-    "--calcite-panel-content-space": "*";
-    /**
-     * Specifies the padding of the component's footer.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-footer-space` instead.
-     * @public
-     */
-    "--calcite-panel-footer-padding": "*";
-    /**
-     * Specifies the component header's block end border.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0 - Use `--calcite-panel-border-color` instead.
-     * @public
-     */
-    "--calcite-panel-header-border-block-end": "*";
   }
 }
 
