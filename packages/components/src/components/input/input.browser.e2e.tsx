@@ -1643,6 +1643,22 @@ describe("number type", () => {
 
     expect(el).toHaveProperty("value", "-123");
   });
+
+  it("don't restrict where minus signs can be typed, but cap them at 2 in the input", async () => {
+    const { el } = await mount(<calcite-input type="number" />);
+    const input = await page.getByRole("textbox");
+
+    await userEvent.keyboard("{Tab}1--2---3");
+
+    await expect.element(el).toHaveProperty("value", "");
+    await expect.element(input).toHaveDisplayValue("1--23");
+
+    await userEvent.keyboard("{Home}");
+    await userEvent.keyboard("----");
+
+    await expect.element(el).toHaveProperty("value", "");
+    await expect.element(input).toHaveDisplayValue("1--23");
+  });
 });
 
 it("input event fires when number ends with a decimal", async () => {

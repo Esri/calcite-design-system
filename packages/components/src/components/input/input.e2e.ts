@@ -411,26 +411,6 @@ it("sanitize leading zeros from number input value", async () => {
   expect(await element.getProperty("value")).toBe("10000000");
 });
 
-it("sanitize extra dashes from number input value", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-input type="number"></calcite-input>`);
-
-  const element = await page.find("calcite-input");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-
-  await typeNumberValue(page, "1--2---3");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("123");
-
-  await page.keyboard.press("ArrowLeft");
-  await page.keyboard.press("ArrowLeft");
-  await page.keyboard.press("ArrowLeft");
-  await typeNumberValue(page, "----");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("-123");
-});
-
 describe("ArrowUp/ArrowDown function of moving caret to the beginning/end of text within calcite-input", () => {
   let page: E2EPage;
 

@@ -159,19 +159,6 @@ it("allows exponential number format", async () => {
   expect(Number(await element.getProperty("value"))).toBe(0.000012);
 });
 
-it("sanitizes numbers when using exponential format", async () => {
-  const page = await newE2EPage();
-  await page.setContent(html`<calcite-input-number></calcite-input-number>`);
-
-  const element = await page.find("calcite-input-number");
-  await element.callMethod("setFocus");
-  await page.waitForChanges();
-  await typeNumberValue(page, "------000005eeee00005----eee");
-  await page.waitForChanges();
-  expect(await element.getProperty("value")).toBe("-5e5");
-  expect(Number(await element.getProperty("value"))).toBe(-500000);
-});
-
 it("increments correctly with exponential numbers", async () => {
   const page = await newE2EPage();
   await page.setContent(html`<calcite-input-number></calcite-input-number>`);

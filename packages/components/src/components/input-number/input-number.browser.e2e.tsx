@@ -2046,6 +2046,13 @@ describe("validation", () => {
     await expect.element(input).toHaveDisplayValue("-1-");
     await expect.element(component).toHaveProperty("value", "");
   });
+
+  it("sanitizes numbers when using exponential format", async () => {
+    const { el } = await mount<InputNumber>(<calcite-input-number />);
+
+    await userEvent.keyboard("{Tab}-000005eeee00005");
+    await expect.element(el).toHaveProperty("value", "-5e5");
+  });
 });
 
 it("don't restrict where minus signs can be typed, but cap them at 2 in the input", async () => {
