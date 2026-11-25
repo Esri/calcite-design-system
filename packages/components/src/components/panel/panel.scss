@@ -35,11 +35,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .header-content {
     .heading {
-      font-size: var(--calcite-font-size--1);
+      font-size: var(--calcite-font-size-relative-base);
     }
 
     .description {
-      font-size: var(--calcite-font-size--2);
+      font-size: var(--calcite-font-size-relative-sm);
     }
 
     .icon {
@@ -54,11 +54,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .header-content {
     .heading {
-      font-size: var(--calcite-font-size-0);
+      font-size: var(--calcite-font-size-relative-md);
     }
 
     .description {
-      font-size: var(--calcite-font-size--1);
+      font-size: var(--calcite-font-size-relative-base);
     }
 
     .icon {
@@ -78,11 +78,11 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .header-content {
     .heading {
-      font-size: var(--calcite-font-size-1);
+      font-size: var(--calcite-font-size-relative-lg);
     }
 
     .description {
-      font-size: var(--calcite-font-size-0);
+      font-size: var(--calcite-font-size-relative-md);
     }
 
     .icon {
@@ -177,7 +177,8 @@ slot[name="alerts"]::slotted(calcite-alert) {
   inline-size: 100%;
 }
 
-.action-bar-container ::slotted(calcite-action-bar) {
+.action-bar-container ::slotted(calcite-action-bar),
+.content-top ::slotted(calcite-action-bar) {
   inline-size: 100%;
 }
 

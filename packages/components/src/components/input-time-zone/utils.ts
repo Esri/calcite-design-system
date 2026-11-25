@@ -56,6 +56,14 @@ export async function createTimeZoneItems(
   referenceDate: Date,
   standardTime: OffsetStyle,
 ): Promise<TimeZoneItem[] | TimeZoneItemGroup[]> {
+  const { timeZones } = await import("timezone-groups/utils/time-zones");
+  const factoryIndex = timeZones.indexOf("Factory");
+
+  // Filter the shared source before grouping so offset mode never tries to format Factory.
+  if (factoryIndex !== -1) {
+    timeZones.splice(factoryIndex, 1);
+  }
+
   if (mode === "name") {
     const { groupByName } = await import("timezone-groups/groupByName");
     const groups = await groupByName();
@@ -161,7 +169,7 @@ export async function createTimeZoneItems(
   });
 
   const listFormatter = new Intl.ListFormat(locale, { style: "long", type: "conjunction" });
-  const offsetTimeZoneNameBlockList = ["Factory", "Etc/UTC"];
+  const offsetTimeZoneNameBlockList = ["Etc/UTC"];
 
   // we remove blocked entries from tzs and adjust label indices accordingly
   groups.forEach((group) => {
@@ -228,8 +236,6 @@ function getMessage(messages: InputTimeZone["messages"], key: string): string | 
 
 /**
  * Exported for testing purposes only
- *
- * @private
  */
 export function getCity(timeZone: string): string {
   return timeZone.split("/").pop() ?? "";
@@ -237,8 +243,6 @@ export function getCity(timeZone: string): string {
 
 /**
  * Exported for testing purposes only
- *
- * @private
  */
 export function toUserFriendlyName(timeZoneName: string): string {
   return timeZoneName.replace(/_/g, " ");
@@ -253,12 +257,6 @@ function createTimeZoneOffsetLabel(
 }
 
 function getTimeZoneShortOffset(timeZone: TimeZone, locale: Locale, referenceDateInMs: number = Date.now()): string {
-  // workaround for https://issues.chromium.org/issues/381620359
-  // see https://github.com/Esri/calcite-design-system/issues/10895 for more info
-  if (timeZone === "Factory") {
-    timeZone = "Etc/GMT";
-  }
-
   const dateTimeFormat = getDateTimeFormat(locale, { timeZone, timeZoneName: "shortOffset" });
   const parts = dateTimeFormat.formatToParts(referenceDateInMs);
   return parts.find(({ type }) => type === "timeZoneName")!.value;

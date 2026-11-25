@@ -397,25 +397,6 @@ describe("theme", () => {
           shadowSelector: `.${CSS.toggle}`,
           targetProp: "backgroundColor",
         },
-        "--calcite-block-padding": [
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingBlock",
-          },
-          {
-            shadowSelector: `section.${CSS.content}`,
-            targetProp: "paddingInline",
-          },
-        ],
-        "--calcite-block-text-color": {
-          shadowSelector: `.${CSS.contentStart}`,
-          targetProp: "color",
-        },
-        "--calcite-block-heading-text-color-press": {
-          shadowSelector: `.${CSS.heading}`,
-          targetProp: "color",
-          state: { press: { attribute: "class", value: CSS.heading } },
-        },
         "--calcite-block-icon-color": [
           {
             shadowSelector: `.${CSS.iconStart}`,

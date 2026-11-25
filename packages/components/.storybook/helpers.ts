@@ -1,13 +1,8 @@
-import * as icons from "@esri/calcite-ui-icons";
+import iconMetadata from "@esri/calcite-ui-icons/docs/icons.json";
 import { IconName } from "../src/components/icon/types";
 
-// we can get all unique icon names from all size 16 non-filled icons.
-export const iconNames: IconName[] = Object.keys(icons)
-  .filter((iconName) => iconName.endsWith("16"))
-  .map((iconName) => iconName.replace("16", "") as IconName)
-  .sort((a, b) => {
-    const iPrefixedNumberIconNamePattern = /^i(\d)/;
-    return a
-      .replace(iPrefixedNumberIconNamePattern, "$1")
-      .localeCompare(b.replace(iPrefixedNumberIconNamePattern, "$1"));
-  });
+// Use documented kebab-case metadata keys instead of camelCase path-data export names.
+export const iconNames: IconName[] = Object.entries(iconMetadata.icons)
+  .filter(([, icon]) => icon["16"] !== undefined)
+  .map(([iconName]) => iconName as IconName)
+  .sort((a, b) => a.localeCompare(b));

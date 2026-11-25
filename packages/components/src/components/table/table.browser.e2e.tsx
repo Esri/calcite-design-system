@@ -2,7 +2,7 @@ import { h, JsxNode } from "@arcgis/lumina";
 import { describe, expect, it } from "vitest";
 import { CSS as HEADER_CSS } from "../table-header/resources";
 import { CSS as CELL_CSS } from "../table-cell/resources";
-import { userEvent } from "vitest/browser";
+import { page, userEvent } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import {
   defaults,
@@ -19,6 +19,8 @@ import type { TableHeader } from "../table-header/table-header";
 import type { TableRow } from "../table-row/table-row";
 import type { Table } from "./table";
 import { CSS, SLOTS } from "./resources";
+import englishMessages from "./assets/t9n/messages.en.json";
+import frenchMessages from "./assets/t9n/messages.fr.json";
 
 type SimpleTableRowConfig = {
   id?: string;
@@ -447,6 +449,68 @@ describe("propagates", () => {
   );
 });
 
+describe("messages", () => {
+  it.for(["messageOverrides", "lang"] as const)(
+    "updates existing selection header and cell text when %s changes",
+    async (property) => {
+      const { el } = await mount<Table>(
+        <calcite-table caption="Selection messages" lang="en" selectionMode="multiple">
+          <calcite-table-row slot={SLOTS.tableHeader}>
+            <calcite-table-header heading="Heading" />
+          </calcite-table-row>
+          <calcite-table-row selected>
+            <calcite-table-cell>Selected row</calcite-table-cell>
+          </calcite-table-row>
+          <calcite-table-row>
+            <calcite-table-cell>Unselected row</calcite-table-cell>
+          </calcite-table-row>
+        </calcite-table>,
+      );
+      const headerText = page.getByText(
+        `${englishMessages.selectionColumn}. 1 ${englishMessages.selectedRows} ${englishMessages.keyboardSelectAll}`,
+        { exact: true },
+      );
+      const selectedText = page.getByText(
+        `${englishMessages.selectionRow} 1 ${englishMessages.selectionSelected} ${englishMessages.keyboardDeselect}`,
+        { exact: true },
+      );
+      const unselectedText = page.getByText(
+        `${englishMessages.selectionRow} 2 ${englishMessages.unselected} ${englishMessages.keyboardSelect}`,
+        { exact: true },
+      );
+      await expect.element(headerText).toBeInTheDocument();
+      await expect.element(selectedText).toBeInTheDocument();
+      await expect.element(unselectedText).toBeInTheDocument();
+
+      const header = headerText.element();
+      const selectedCell = selectedText.element();
+      const unselectedCell = unselectedText.element();
+
+      if (property === "messageOverrides") {
+        el.messageOverrides = frenchMessages;
+      } else {
+        el.lang = "fr";
+      }
+
+      await expect
+        .element(header)
+        .toHaveTextContent(
+          `${frenchMessages.selectionColumn}. 1 ${frenchMessages.selectedRows} ${frenchMessages.keyboardSelectAll}`,
+        );
+      await expect
+        .element(selectedCell)
+        .toHaveTextContent(
+          `${frenchMessages.selectionRow} 1 ${frenchMessages.selectionSelected} ${frenchMessages.keyboardDeselect}`,
+        );
+      await expect
+        .element(unselectedCell)
+        .toHaveTextContent(
+          `${frenchMessages.selectionRow} 2 ${frenchMessages.unselected} ${frenchMessages.keyboardSelect}`,
+        );
+    },
+  );
+});
+
 describe("theme", () => {
   describe("themed table", () => {
     themed(
@@ -761,11 +825,6 @@ describe("theme", () => {
 
   describe("themed table cell", () => {
     themed(() => mount(<calcite-table-cell>cell</calcite-table-cell>), {
-      // `--calcite-table-cell-background` is deprecated
-      "--calcite-table-cell-background": {
-        shadowSelector: "td",
-        targetProp: "backgroundColor",
-      },
       "--calcite-table-cell-background-color": {
         shadowSelector: "td",
         targetProp: "backgroundColor",
@@ -783,11 +842,6 @@ describe("theme", () => {
 
   describe("themed table header", () => {
     themed(() => mount(<calcite-table-header description="Description" heading="Heading" />), {
-      // `--calcite-table-header-background` is deprecated
-      "--calcite-table-header-background": {
-        shadowSelector: "th",
-        targetProp: "backgroundColor",
-      },
       "--calcite-table-header-background-color": {
         shadowSelector: "th",
         targetProp: "backgroundColor",
@@ -836,12 +890,6 @@ describe("theme", () => {
           </calcite-table>,
         ),
       {
-        // `--calcite-table-row-background` is deprecated
-        "--calcite-table-row-background": {
-          selector: "#row-1",
-          shadowSelector: "tr",
-          targetProp: "backgroundColor",
-        },
         "--calcite-table-row-background-color": {
           selector: "#row-1",
           shadowSelector: "tr",

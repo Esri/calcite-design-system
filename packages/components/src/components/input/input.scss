@@ -57,7 +57,7 @@
     var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs))
   );
   & input[type="file"] {
-    min-block-size: theme("spacing.6");
+    min-block-size: var(--calcite-size-sm);
   }
   & .number-button-wrapper,
   & .action-wrapper {
@@ -100,7 +100,7 @@
     var(--calcite-theme-space-xs, var(--calcite-spacing-xs))
   );
   & input[type="file"] {
-    min-block-size: theme("spacing.8");
+    min-block-size: var(--calcite-size-md);
   }
   & .number-button-wrapper,
   & .action-wrapper {
@@ -134,7 +134,7 @@
     var(--calcite-theme-space-sm, var(--calcite-spacing-sm))
   );
   & input[type="file"] {
-    min-block-size: theme("spacing.11");
+    min-block-size: var(--calcite-size-lg);
   }
   & .number-button-wrapper,
   & .action-wrapper {
@@ -438,7 +438,7 @@ input[type="time"]::-webkit-clear-button {
 
 .prefix {
   order: 0;
-  border-inline-end-width: theme("borderWidth.0");
+  border-inline-end-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-input-prefix-size, auto);
   background-color: var(
     --calcite-input-background-color,
@@ -449,7 +449,7 @@ input[type="time"]::-webkit-clear-button {
 
 .suffix {
   order: 5;
-  border-inline-start-width: theme("borderWidth.0");
+  border-inline-start-width: var(--calcite-border-width-none);
   inline-size: var(--calcite-input-suffix-size, auto);
   background-color: var(
     --calcite-input-background-color,
@@ -541,13 +541,13 @@ input[type="number"] {
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="down"] {
-  border-inline-end-width: theme("borderWidth.0");
+  border-inline-end-width: var(--calcite-border-width-none);
   order: 0;
   padding-inline-start: var(--calcite-internal-input-number-button-item-horizontal-padding);
 }
 
 .number-button-item.number-button-item--horizontal[data-adjustment="up"] {
-  border-inline-start-width: theme("borderWidth.0");
+  border-inline-start-width: var(--calcite-border-width-none);
   order: 5;
   padding-inline-end: var(--calcite-internal-input-number-button-item-horizontal-padding);
 }
