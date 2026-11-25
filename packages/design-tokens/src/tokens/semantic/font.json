@@ -89,7 +89,7 @@
           "calcite.theme": true
         },
         "$type": "fontWeights",
-        "$value": "{core.font.weight.demi}"
+        "$value": "{core.font.weight.bold}"
       }
     },
     "size": {
