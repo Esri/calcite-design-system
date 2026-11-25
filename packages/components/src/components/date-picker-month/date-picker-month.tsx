@@ -70,7 +70,7 @@ export class DatePickerMonth extends LitElement {
   @property() activeDate: Date = new Date();
 
   /**
-   * Specifies the number of calendars displayed when `range` is `true`.
+   * @copyDoc
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 

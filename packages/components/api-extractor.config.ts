@@ -19,6 +19,9 @@ export const config: ApiExtractorConfig = {
         beforeClose: {
           description: "Specifies a function to run before the component closes.",
         },
+        calendars: {
+          description: "When `range` is `true`, specifies the number of calendars displayed.",
+        },
         checked: {
           description: "When `true`, the component is checked.",
         },

@@ -463,9 +463,8 @@ export class InputDatePicker extends LitElement implements FloatingUIComponent, 
   //#region Public Properties
 
   /**
-   * When `range` is `true`, specifies the number of calendars displayed.
-   *
    * @public
+   * @copyDoc
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 

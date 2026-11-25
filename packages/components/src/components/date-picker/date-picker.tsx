@@ -260,9 +260,8 @@ export class DatePicker extends LitElement {
   @property({ reflect: true }) activeRange?: "start" | "end";
 
   /**
-   * When `range` is `true`, specifies the number of calendars displayed.
-   *
    * @public
+   * @copyDoc
    */
   @property({ type: Number, reflect: true }) calendars: 1 | 2 = 2;
 
