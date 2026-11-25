@@ -109,7 +109,7 @@
 .header {
   border-block-end-width: var(--calcite-border-width-sm);
   border-block-end-style: solid;
-  border-color: var(--calcite-accordion-border-color, theme("borderColor.color.2"));
+  border-color: var(--calcite-accordion-border-color, var(--calcite-color-border-2));
 }
 
 .header-content {
