@@ -90,28 +90,32 @@ describe("action bar", () => {
   const cases = [
     ...positions.map((actionBarPosition) => ({
       actionBarPosition,
+      actionBarPositionLabel: actionBarPosition ?? "default",
       expectedIcon: "chevrons-right",
       slot: "panel-start",
     })),
     ...positions.map((actionBarPosition) => ({
       actionBarPosition,
+      actionBarPositionLabel: actionBarPosition ?? "default",
       expectedIcon: "chevrons-left",
       slot: "panel-end",
     })),
     ...positions.map((actionBarPosition) => ({
       actionBarPosition,
+      actionBarPositionLabel: actionBarPosition ?? "default",
       expectedIcon: actionBarPosition === "end" ? "chevrons-left" : "chevrons-right",
       slot: "panel-top",
     })),
     ...positions.map((actionBarPosition) => ({
       actionBarPosition,
+      actionBarPositionLabel: actionBarPosition ?? "default",
       expectedIcon: actionBarPosition === "end" ? "chevrons-left" : "chevrons-right",
       slot: "panel-bottom",
     })),
   ] as const;
 
   it.each(cases)(
-    "uses $expectedIcon for $slot with action-bar-position $actionBarPosition",
+    "uses $expectedIcon for $slot with $actionBarPositionLabel action-bar-position",
     async ({ actionBarPosition, expectedIcon, slot }) => {
       const { el } = await mount(
         <calcite-shell>
