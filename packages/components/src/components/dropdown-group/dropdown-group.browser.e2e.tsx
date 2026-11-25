@@ -5,6 +5,7 @@ import { page } from "vitest/browser";
 import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, isDropdownGroup } from "./resources";
+import { DropdownGroup } from "./dropdown-group";
 
 mockConsole();
 
@@ -25,15 +26,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-dropdown-group"),
-    [
-      {
-        propertyName: "selectionMode",
-        value: "single",
-      },
-    ],
-  );
+  reflects(DropdownGroup, ["selectionMode"]);
 });
 
 describe("honors hidden attribute", () => {

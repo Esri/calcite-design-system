@@ -15,7 +15,7 @@ import {
 } from "../../tests/common";
 import { CSS, IDS, SLOTS } from "./resources";
 import messages from "./assets/t9n/messages.json";
-import type { AccordionItem } from "./accordion-item";
+import { AccordionItem } from "./accordion-item";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-accordion-item heading="My Heading" />));
@@ -38,19 +38,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-accordion-item"),
-    [
-      {
-        propertyName: "headingLevel",
-        value: 2,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(AccordionItem, ["headingLevel", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

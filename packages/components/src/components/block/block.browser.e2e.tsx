@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { describe, it, expect } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page, userEvent } from "vitest/browser";
-import type { Block } from "./block";
+import { Block } from "./block";
 
 import {
   defaults,
@@ -135,51 +135,18 @@ describe("setFocus", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-block"),
-    [
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "expandable",
-        value: true,
-      },
-      {
-        propertyName: "headingLevel",
-        value: 2,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-      {
-        propertyName: "dragDisabled",
-        value: true,
-      },
-      {
-        propertyName: "sortHandleOpen",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(Block, [
+    "collapsible",
+    "expandable",
+    "headingLevel",
+    "open",
+    "expanded",
+    "overlayPositioning",
+    "menuPlacement",
+    "dragDisabled",
+    "sortHandleOpen",
+    "scale",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

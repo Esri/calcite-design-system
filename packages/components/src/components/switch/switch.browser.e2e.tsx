@@ -16,6 +16,7 @@ import {
   reflects,
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
+import { Switch } from "./switch";
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-switch", mountOptions), {
@@ -58,15 +59,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-switch"),
-    [
-      {
-        propertyName: "required",
-        value: true,
-      },
-    ],
-  );
+  reflects(Switch, ["required"]);
 });
 
 describe("honors hidden attribute", () => {

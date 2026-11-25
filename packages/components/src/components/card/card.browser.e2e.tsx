@@ -15,6 +15,7 @@ import {
 } from "../../tests/common";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CSS, SLOTS } from "./resources";
+import { Card } from "./card";
 
 const placeholder = placeholderImage({
   width: 350,
@@ -50,15 +51,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-card"),
-    [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(Card, ["scale"]);
 });
 
 describe("focusable", () => {

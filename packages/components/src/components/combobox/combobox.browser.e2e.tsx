@@ -31,7 +31,7 @@ import type { ComboboxItem } from "../combobox-item/combobox-item";
 import { CSS as ClearButtonCSS } from "../functional/ClearButton";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
-import type { Combobox } from "./combobox";
+import { Combobox } from "./combobox";
 
 mockConsole();
 
@@ -142,72 +142,23 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-combobox"),
-    [
-      {
-        propertyName: "allowCustomValues",
-        value: true,
-      },
-      {
-        propertyName: "clearDisabled",
-        value: true,
-      },
-      {
-        propertyName: "form",
-        value: "test-form",
-      },
-      {
-        propertyName: "maxItems",
-        value: 1,
-      },
-      {
-        propertyName: "name",
-        value: "test-name",
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        // needs to run after `open` since it resets `open` after it's asserted value
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "placeholderIcon",
-        value: "banana",
-      },
-      {
-        propertyName: "placement",
-        value: "auto",
-      },
-      {
-        propertyName: "placeholderIconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "required",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "single",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(Combobox, [
+    "allowCustomValues",
+    "clearDisabled",
+    "form",
+    "maxItems",
+    "name",
+    "open",
+    "disabled",
+    "placeholderIcon",
+    "placement",
+    "placeholderIconFlipRtl",
+    "required",
+    "scale",
+    "selectionMode",
+    "status",
+    "validationIcon",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

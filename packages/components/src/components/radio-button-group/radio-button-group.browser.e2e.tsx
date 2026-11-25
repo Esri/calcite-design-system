@@ -16,7 +16,7 @@ import {
   themed,
 } from "../../tests/common";
 import type { RadioButton } from "../radio-button/radio-button";
-import type { RadioButtonGroup } from "./radio-button-group";
+import { RadioButtonGroup } from "./radio-button-group";
 import { CSS } from "./resources";
 
 describe("accessible", () => {
@@ -46,19 +46,15 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-radio-button-group"),
-    [
-      { propertyName: "disabled", value: true },
-      { propertyName: "hidden", value: true },
-      { propertyName: "layout", value: "horizontal" },
-      { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ],
-  );
+  reflects(RadioButtonGroup, [
+    "disabled",
+    "layout",
+    "name",
+    "required",
+    "scale",
+    "status",
+    "validationIcon",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

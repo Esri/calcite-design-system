@@ -16,7 +16,7 @@ import {
 } from "../../tests/common";
 import { CSS, DURATIONS } from "./resources";
 import { alertQueueTimeoutMs } from "./AlertManager";
-import type { Alert } from "./alert";
+import { Alert } from "./alert";
 import { waitForEvent } from "../../tests/common/utils";
 import type { Action } from "../action/action";
 
@@ -85,15 +85,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-alert"),
-    [
-      {
-        propertyName: "queue",
-        value: "last",
-      },
-    ],
-  );
+  reflects(Alert, ["queue"]);
 });
 
 describe("honors hidden attribute", () => {

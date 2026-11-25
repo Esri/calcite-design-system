@@ -13,6 +13,7 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS } from "./resources";
+import { NavigationUser } from "./navigation-user";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-navigation-user label="user" />));
@@ -35,23 +36,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-navigation-user"),
-    [
-      {
-        propertyName: "active",
-        value: "true",
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "textDisabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(NavigationUser, ["active", "scale", "textDisabled"]);
 });
 
 describe("honors hidden attribute", () => {

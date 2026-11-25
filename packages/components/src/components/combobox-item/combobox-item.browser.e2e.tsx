@@ -4,6 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, disabled, hidden, reflects, renders, slots, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
+import { ComboboxItem } from "./combobox-item";
 
 describe("defaults", () => {
   defaults(
@@ -26,17 +27,14 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-combobox-item"),
-    [
-      { propertyName: "active", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "filterDisabled", value: true },
-      { propertyName: "icon", value: "banana" },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "selected", value: true },
-    ],
-  );
+  reflects(ComboboxItem, [
+    "active",
+    "disabled",
+    "filterDisabled",
+    "icon",
+    "iconFlipRtl",
+    "selected",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

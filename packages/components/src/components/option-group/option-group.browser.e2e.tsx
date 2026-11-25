@@ -3,6 +3,7 @@ import { page } from "vitest/browser";
 import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/common";
+import { OptionGroup } from "./option-group";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-option-group label="test-group-1" />));
@@ -21,15 +22,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-option-group"),
-    [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(OptionGroup, ["disabled"]);
 });
 
 describe("honors hidden attribute", () => {

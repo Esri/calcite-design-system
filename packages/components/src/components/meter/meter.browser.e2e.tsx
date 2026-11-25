@@ -3,6 +3,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { h } from "@arcgis/lumina";
 import { defaults, hidden, reflects, renders, accessible, themed } from "../../tests/common";
 import { CSS } from "./resources";
+import { Meter } from "./meter";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-meter label="A great meter" />));
@@ -65,39 +66,15 @@ describe("hidden", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-meter"),
-    [
-      {
-        propertyName: "appearance",
-        value: "outline-fill",
-      },
-      {
-        propertyName: "fillType",
-        value: "range",
-      },
-      {
-        propertyName: "max",
-        value: 100,
-      },
-      {
-        propertyName: "min",
-        value: 0,
-      },
-      {
-        propertyName: "rangeLabelType",
-        value: "percent",
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "valueLabelType",
-        value: "percent",
-      },
-    ],
-  );
+  reflects(Meter, [
+    "appearance",
+    "fillType",
+    "max",
+    "min",
+    "rangeLabelType",
+    "scale",
+    "valueLabelType",
+  ]);
 });
 
 describe("renders", () => {

@@ -10,6 +10,7 @@ import {
   disabled,
   accessible,
 } from "../../tests/common";
+import { TileGroup } from "./tile-group";
 
 describe("accessible", () => {
   describe("in selection-mode none", () => {
@@ -85,15 +86,7 @@ describe("hidden", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-tile-group"),
-    [
-      { propertyName: "layout", value: "horizontal" },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "selectionAppearance", value: "icon" },
-      { propertyName: "selectionMode", value: "none" },
-    ],
-  );
+  reflects(TileGroup, ["layout", "scale", "selectionAppearance", "selectionMode"]);
 });
 
 describe("renders", () => {

@@ -15,7 +15,7 @@ import {
   themed,
 } from "../../tests/common";
 import { page } from "vitest/browser";
-import type { Action } from "./action";
+import { Action } from "./action";
 
 describe("accessible", () => {
   accessible(() => mount(<calcite-action text="hello world" />));
@@ -82,67 +82,22 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-action"),
-    [
-      {
-        propertyName: "active",
-        value: true,
-      },
-      {
-        propertyName: "alignment",
-        value: "end",
-      },
-      {
-        propertyName: "appearance",
-        value: "solid",
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "icon",
-        value: "hamburger",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "indicator",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "textEnabled",
-        value: true,
-      },
-      {
-        propertyName: "width",
-        value: "full",
-      },
-      {
-        propertyName: "type",
-        value: "button",
-      },
-      {
-        propertyName: "selectionAppearance",
-        value: "neutral",
-      },
-      {
-        propertyName: "overflowDisabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(Action, [
+    "active",
+    "alignment",
+    "appearance",
+    "disabled",
+    "icon",
+    "iconFlipRtl",
+    "indicator",
+    "loading",
+    "scale",
+    "textEnabled",
+    "width",
+    "type",
+    "selectionAppearance",
+    "overflowDisabled",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

@@ -22,13 +22,7 @@ describe("hidden", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-text"),
-    [
-      { propertyName: "maxLines", value: 2 },
-      { propertyName: "truncatePosition", value: "middle" },
-    ],
-  );
+  reflects(Text, ["maxLines", "truncatePosition"]);
 });
 
 describe("renders", () => {

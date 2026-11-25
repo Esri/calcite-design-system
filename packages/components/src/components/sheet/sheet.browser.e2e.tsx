@@ -484,35 +484,7 @@ describe("modal", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-sheet"),
-    [
-      {
-        propertyName: "height",
-        value: "m",
-      },
-      {
-        propertyName: "heightScale",
-        value: "m",
-      },
-      {
-        propertyName: "modal",
-        value: true,
-      },
-      {
-        propertyName: "resizable",
-        value: true,
-      },
-      {
-        propertyName: "width",
-        value: "m",
-      },
-      {
-        propertyName: "widthScale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(Sheet, ["height", "heightScale", "modal", "resizable", "width", "widthScale"]);
 });
 
 describe("honors hidden attribute", () => {

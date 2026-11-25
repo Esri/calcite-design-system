@@ -87,27 +87,7 @@ function renderSelect(): TemplateResult {
 }
 
 describe("reflects", () => {
-  reflects(
-    () => mount<Select>(renderSelect()),
-    [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(Select, ["disabled", "scale", "status", "validationIcon"]);
 });
 
 describe("honors hidden attribute", () => {

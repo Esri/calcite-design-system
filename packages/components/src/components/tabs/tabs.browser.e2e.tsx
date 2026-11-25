@@ -8,7 +8,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { afterNextFrame } from "../../tests/utils/timing";
 import type { TabTitle } from "../tab-title/tab-title";
 import type { Tab } from "../tab/tab";
-import type { Tabs } from "./tabs";
+import { Tabs } from "./tabs";
 import { CSS } from "./resources";
 
 mockConsole("error");
@@ -58,15 +58,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-tabs"),
-    [
-      { propertyName: "bordered", value: true },
-      { propertyName: "layout", value: "inline" },
-      { propertyName: "position", value: "top" },
-      { propertyName: "scale", value: "m" },
-    ],
-  );
+  reflects(Tabs, ["bordered", "layout", "position", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

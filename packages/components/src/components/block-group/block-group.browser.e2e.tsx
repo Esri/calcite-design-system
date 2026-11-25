@@ -15,7 +15,7 @@ import {
 } from "../../tests/common";
 import { page, userEvent } from "vitest/browser";
 import { TemplateResult } from "lit";
-import type { BlockGroup } from "./block-group";
+import { BlockGroup } from "./block-group";
 
 mockConsole();
 
@@ -76,39 +76,15 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-block-group"),
-    [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "dragEnabled",
-        value: true,
-      },
-      {
-        propertyName: "expandMode",
-        value: "multiple",
-      },
-      {
-        propertyName: "group",
-        value: "test",
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(BlockGroup, [
+    "disabled",
+    "dragEnabled",
+    "expandMode",
+    "group",
+    "loading",
+    "sortDisabled",
+    "scale",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

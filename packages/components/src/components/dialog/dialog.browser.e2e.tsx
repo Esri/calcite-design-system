@@ -23,6 +23,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
 import { CSS_UTILITY } from "../../utils/resources";
+import { Dialog } from "./dialog";
 
 mockConsole();
 
@@ -195,83 +196,26 @@ describe("focus-trap", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-dialog"),
-    [
-      {
-        propertyName: "closeDisabled",
-        value: true,
-      },
-      {
-        propertyName: "dragEnabled",
-        value: true,
-      },
-      {
-        propertyName: "escapeDisabled",
-        value: true,
-      },
-      {
-        propertyName: "placement",
-        value: "center",
-      },
-      {
-        propertyName: "headingLevel",
-        value: 1,
-      },
-      {
-        propertyName: "kind",
-        value: "brand",
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "menuOpen",
-        value: true,
-      },
-      {
-        propertyName: "modal",
-        value: true,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "outsideCloseDisabled",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "resizable",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "width",
-        value: "s",
-      },
-      {
-        propertyName: "fullscreenDisabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(Dialog, [
+    "closeDisabled",
+    "dragEnabled",
+    "escapeDisabled",
+    "placement",
+    "headingLevel",
+    "kind",
+    "icon",
+    "iconFlipRtl",
+    "loading",
+    "menuOpen",
+    "modal",
+    "open",
+    "outsideCloseDisabled",
+    "overlayPositioning",
+    "resizable",
+    "scale",
+    "width",
+    "fullscreenDisabled",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

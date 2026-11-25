@@ -2,7 +2,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { describe, expect, it, vi } from "vitest";
 import { page, userEvent } from "vitest/browser";
-import { defaults, hidden, reflects, renders, themed } from "../../tests/common";
+import { defaults, hidden, renders, themed } from "../../tests/common";
 import type { Input } from "../input/input";
 import type { FieldSet } from "./field-set";
 import { CSS } from "./resources";
@@ -11,10 +11,6 @@ describe("defaults", () => {
   defaults(() => mount("calcite-field-set"), {
     legend: undefined,
   });
-});
-
-describe("reflects", () => {
-  reflects(() => mount("calcite-field-set"), {});
 });
 
 describe("honors hidden attribute", () => {

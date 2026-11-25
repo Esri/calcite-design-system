@@ -17,7 +17,7 @@ import { afterNextFrame } from "../../tests/utils/timing";
 import type { TableCell } from "../table-cell/table-cell";
 import type { TableHeader } from "../table-header/table-header";
 import type { TableRow } from "../table-row/table-row";
-import type { Table } from "./table";
+import { Table } from "./table";
 import { CSS, SLOTS } from "./resources";
 import englishMessages from "./assets/t9n/messages.en.json";
 import frenchMessages from "./assets/t9n/messages.fr.json";
@@ -388,23 +388,7 @@ describe("hidden", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-table"),
-    [
-      {
-        propertyName: "layout",
-        value: "auto",
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "none",
-      },
-    ],
-  );
+  reflects(Table, ["layout", "scale", "selectionMode"]);
 });
 
 describe("renders", () => {

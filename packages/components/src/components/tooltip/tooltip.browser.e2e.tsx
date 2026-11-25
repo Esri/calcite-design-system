@@ -298,19 +298,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-tooltip"),
-    [
-      {
-        propertyName: "pointerDisabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "l",
-      },
-    ],
-  );
+  reflects(Tooltip, ["pointerDisabled", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

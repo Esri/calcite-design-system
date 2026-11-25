@@ -18,7 +18,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
-import type { ActionMenu } from "./action-menu";
+import { ActionMenu } from "./action-menu";
 import type { Action } from "../action/action";
 
 mockConsole();
@@ -208,23 +208,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-action-menu"),
-    [
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-      {
-        propertyName: "placement",
-        value: "auto",
-      },
-    ],
-  );
+  reflects(ActionMenu, ["expanded", "open", "placement"]);
 });
 
 describe("honors hidden attribute", () => {

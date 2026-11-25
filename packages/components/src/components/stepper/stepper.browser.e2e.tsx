@@ -13,7 +13,7 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS as STEPPER_ITEM_CSS } from "../stepper-item/resources";
-import type { Stepper } from "./stepper";
+import { Stepper } from "./stepper";
 import { CSS } from "./resources";
 
 describe("defaults", () => {
@@ -41,27 +41,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-stepper"),
-    [
-      {
-        propertyName: "icon",
-        value: true,
-      },
-      {
-        propertyName: "layout",
-        value: "horizontal",
-      },
-      {
-        propertyName: "numbered",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(Stepper, ["icon", "layout", "numbered", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

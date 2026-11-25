@@ -16,6 +16,7 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
+import { Chip } from "./chip";
 
 describe("accessible with icon only", () => {
   accessible(() => mount(<calcite-chip icon="basemap" label="Gray basemap" />));
@@ -51,21 +52,18 @@ describe("disabled", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-chip"),
-    [
-      { propertyName: "appearance", value: "solid" },
-      { propertyName: "closable", value: true },
-      { propertyName: "closed", value: true },
-      { propertyName: "closeOnDelete", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "icon", value: "banana" },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "kind", value: "neutral" },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "selected", value: true },
-    ],
-  );
+  reflects(Chip, [
+    "appearance",
+    "closable",
+    "closed",
+    "closeOnDelete",
+    "disabled",
+    "icon",
+    "iconFlipRtl",
+    "kind",
+    "scale",
+    "selected",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

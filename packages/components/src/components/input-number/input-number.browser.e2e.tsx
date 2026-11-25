@@ -27,7 +27,7 @@ import { CSS as InlineEditControlsCSS } from "../functional/InlineEditControls";
 import { CSS as ActionCSS } from "../action/resources";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS, DIRECTION, NUDGE_DELAY_IN_MS } from "./resources";
-import type { InputNumber } from "./input-number";
+import { InputNumber } from "./input-number";
 
 describe("global props", () => {
   globalProps(
@@ -103,39 +103,15 @@ describe("propagates", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-input-number"),
-    [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "inlineEdit",
-        value: true,
-      },
-      {
-        propertyName: "inlineEditing",
-        value: true,
-      },
-      {
-        propertyName: "numberButtonType",
-        value: "horizontal",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(InputNumber, [
+    "status",
+    "alignment",
+    "inlineEdit",
+    "inlineEditing",
+    "numberButtonType",
+    "scale",
+    "validationIcon",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

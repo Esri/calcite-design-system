@@ -129,42 +129,38 @@ describe("propagates", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-input"),
-    [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "inlineEdit",
-        value: true,
-      },
-      {
-        propertyName: "inlineEditing",
-        value: true,
-      },
-      {
-        propertyName: "numberButtonType",
-        value: "horizontal",
-      },
-      {
-        propertyName: "type",
-        value: "color",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
+  reflects(Input, [
+    "status",
+    "alignment",
+    "inlineEdit",
+    "inlineEditing",
+    "numberButtonType",
+    "type",
+    "scale",
+    "validationIcon",
+  ]);
+
+  it.each([
+    { propertyName: "inlineEdit", stringValue: "controls-disabled" },
+    { propertyName: "validationIcon", stringValue: "check" },
+  ])(
+    "reflects boolean and string changes to $propertyName",
+    async ({ propertyName, stringValue }) => {
+      const { el } = await mount("calcite-input");
+      const attributeName = propertyName === "inlineEdit" ? "inline-edit" : "validation-icon";
+
+      Object.assign(el, { [propertyName]: true });
+      await expect.element(el).toHaveAttribute(attributeName, "");
+
+      Object.assign(el, { [propertyName]: stringValue });
+      await expect.element(el).toHaveAttribute(attributeName, stringValue);
+
+      Object.assign(el, { [propertyName]: false });
+      await expect.element(el).not.toHaveAttribute(attributeName);
+
+      Object.assign(el, { [propertyName]: true });
+      await expect.element(el).toHaveAttribute(attributeName, "");
+    },
   );
 });
 
