@@ -1323,7 +1323,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
 
     const valid = isValidNumber(value);
     if (value && !valid && origin !== "connected") {
-      this.formSupport.setCustomValidity("Please enter a number.");
+      this.formSupport.setCustomValidity(this.messages.invalidNumber);
     } else {
       this.formSupport.setCustomValidity("");
     }
