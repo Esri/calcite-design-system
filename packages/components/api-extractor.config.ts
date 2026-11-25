@@ -50,7 +50,7 @@ export const config: ApiExtractorConfig = {
           return {
             description:
               descriptionOverrides[apiClass.name] ??
-              "When true, prevents interaction and decreases the component's opacity.",
+              "When `true`, prevents interaction and decreases the component's opacity.",
             docsTags: [
               {
                 name: "see",
