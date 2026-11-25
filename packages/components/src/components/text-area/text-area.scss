@@ -37,7 +37,7 @@
     --calcite-text-area-min-height,
     calc(calc(2 * var(--calcite-internal-text-area-padding-block)) + calc(2 * var(--calcite-border-width-sm)))
   );
-  min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
+  min-inline-size: var(--calcite-text-area-min-width, 12rem);
 }
 
 .wrapper {
@@ -77,7 +77,7 @@
     var(--calcite-text-area-min-height, 0px) - var(--calcite-internal-text-area-footer-min-height, 0px)
   );
   max-inline-size: var(--calcite-text-area-max-width);
-  min-inline-size: var(--calcite-text-area-min-width, theme("spacing.48"));
+  min-inline-size: var(--calcite-text-area-min-width, 12rem);
   background-color: var(
     --calcite-text-area-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
@@ -104,7 +104,7 @@
   }
 
   &.footer--slotted {
-    min-inline-size: theme("spacing.72");
+    min-inline-size: 18rem;
   }
 
   &.text-area--only {

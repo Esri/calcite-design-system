@@ -24,33 +24,33 @@
   stroke-width: var(--calcite-internal-stroke-width);
   fill: none;
   transform: scale(1, 1);
-  padding-block: var(--calcite-loader-spacing, theme("spacing.16"));
+  padding-block: var(--calcite-loader-spacing, 4rem);
 }
 
 :host([scale="s"]) {
   --calcite-internal-stroke-width: 3;
   --calcite-internal-text-offset: var(--calcite-theme-space-2xs, var(--calcite-spacing-xxs));
   --calcite-internal-loader-font-size: var(--calcite-font-size-relative-xs);
-  --calcite-internal-loader-size: theme("spacing.8");
-  --calcite-internal-loader-size-inline: theme("spacing.3");
+  --calcite-internal-loader-size: var(--calcite-size-md);
+  --calcite-internal-loader-size-inline: var(--calcite-size-3xs);
   --calcite-internal-loader-value-line-height: 0.625rem; // 10px
 }
 
 :host([scale="m"]) {
   --calcite-internal-stroke-width: 6;
   --calcite-internal-text-offset: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
-  --calcite-internal-loader-font-size: var(--calcite-font-size-relative-xs);
-  --calcite-internal-loader-size: var(--calcite-size-md);
-  --calcite-internal-loader-size-inline: var(--calcite-size-3xs);
+  --calcite-internal-loader-font-size: var(--calcite-font-size-relative-md);
+  --calcite-internal-loader-size: var(--calcite-size-2xl);
+  --calcite-internal-loader-size-inline: var(--calcite-size-xs);
   --calcite-internal-loader-value-line-height: 1.375rem; // 22px
 }
 
 :host([scale="l"]) {
   --calcite-internal-stroke-width: 8;
   --calcite-internal-text-offset: var(--calcite-theme-space-md, var(--calcite-spacing-md));
-  --calcite-internal-loader-font-size: theme("fontSize.2");
-  --calcite-internal-loader-size: theme("spacing.24");
-  --calcite-internal-loader-size-inline: theme("spacing.6");
+  --calcite-internal-loader-font-size: var(--calcite-font-size-relative-xl);
+  --calcite-internal-loader-size: var(--calcite-size-3xl);
+  --calcite-internal-loader-size-inline: var(--calcite-size-sm);
   --calcite-internal-loader-value-line-height: 1.71875rem; // 27.5px
 }
 
@@ -161,7 +161,7 @@
   }
 
   .percentage {
-    color: theme("colors.brand");
+    color: var(--calcite-color-brand);
     transform: scale(1.05, 1.05);
     transform-origin: center;
     transition:
