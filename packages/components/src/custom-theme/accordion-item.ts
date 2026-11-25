@@ -7,8 +7,8 @@ export const accordionItemTokens = {
   calciteAccordionItemExpandIconColor: "",
   calciteAccordionItemHeaderBackgroundColor: "",
   calciteAccordionItemHeadingTextColor: "",
-  calciteAccordionItemIconColorEnd: "",
-  calciteAccordionItemIconColorStart: "",
+  calciteAccordionItemEndIconColor: "",
+  calciteAccordionItemStartIconColor: "",
 };
 
 export const accordionItem = (idx: number): string =>

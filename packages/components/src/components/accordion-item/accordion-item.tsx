@@ -54,27 +54,13 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-accordion-text-color-press": "*";
     /**
-     * Specifies the component's background color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-background-color` instead.
-     * @public
-     */
-    "--calcite-accordion-item-background-color": "*";
-    /**
-     * Specifies the component's border color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-border-color` instead.
-     * @public
-     */
-    "--calcite-accordion-item-border-color": "*";
-    /**
      * Specifies the component's padding.
      *
      * @public
      */
     "--calcite-accordion-item-content-space": "*";
     /**
-     * Specifies the component's `iconEnd` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
+     * Specifies the component's `iconEnd` color. Falls back to `--calcite-icon-color` or current color
      *
      * @public
      */
@@ -110,32 +96,12 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-accordion-item-heading-text-color": "*";
     /**
-     * Specifies the component's default icon color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-icon-color` instead.
-     * @public
-     */
-    "--calcite-accordion-item-icon-color": "*";
     /**
-     * Specifies the component's `iconStart` color. Falls back to `--calcite-accordion-item-icon-color` or current color.
-     *
+     * Specifies the component's `iconStart` color. Falls back to `--calcite-icon-color` or current color.
+     * 
      * @public
      */
     "--calcite-accordion-item-start-icon-color": "*";
-    /**
-     * Specifies the component's text color.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color` instead.
-     * @public
-     */
-    "--calcite-accordion-item-text-color": "*";
-    /**
-     * Specifies the component's text color on hover.
-     *
-     * @deprecated in v3.1.0, removal target v6.0.0 - Use `--calcite-accordion-text-color-hover` instead.
-     * @public
-     */
-    "--calcite-accordion-item-text-color-hover": "*";
   }
 }
 

@@ -14,7 +14,7 @@ export const accordionTokens = {
 
 export const accordion = html`<style>
     calcite-accordion-item:hover {
-      --calcite-accordion-item-background-color: white;
+      --calcite-accordion-background-color: white;
     }
     calcite-accordion-item[expanded] {
       --calcite-accordion-item-header-background-color: #ccc;

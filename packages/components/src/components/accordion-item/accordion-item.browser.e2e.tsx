@@ -81,7 +81,6 @@ describe("theme", () => {
           <calcite-accordion-item
             appearance="solid"
             description="Description"
-            expanded
             heading="Heading"
             icon-end="home"
             icon-start="home"
@@ -112,9 +111,20 @@ describe("theme", () => {
           shadowSelector: `.${CSS.headerContent}`,
           targetProp: "color",
         },
+        "--calcite-accordion-border-color": [
+          {
+            shadowSelector: `.${CSS.header}`,
+            targetProp: "borderColor",
+          },
+          {
+            shadowSelector: `.${CSS.content}`,
+            targetProp: "borderColor",
+          },
+        ],
       },
     );
   });
+
   describe("icons", () => {
     themed(
       () =>
@@ -145,6 +155,7 @@ describe("theme", () => {
       },
     );
   });
+
   describe("deprecated", () => {
     describe("default", async () => {
       themed(
@@ -160,44 +171,6 @@ describe("theme", () => {
             </calcite-accordion-item>,
           ),
         {
-          "--calcite-accordion-item-text-color": [
-            {
-              targetProp: "color",
-            },
-            {
-              targetProp: "color",
-              shadowSelector: `.${CSS.expandIcon}`,
-            },
-          ],
-          "--calcite-accordion-item-text-color-hover": [
-            {
-              targetProp: "color",
-              shadowSelector: `.${CSS.heading}`,
-            },
-          ],
-          "--calcite-accordion-item-background-color": {
-            targetProp: "backgroundColor",
-          },
-          "--calcite-accordion-border-color": [
-            {
-              shadowSelector: `.${CSS.header}`,
-              targetProp: "borderColor",
-            },
-            {
-              shadowSelector: `.${CSS.content}`,
-              targetProp: "borderColor",
-            },
-          ],
-          "--calcite-accordion-item-icon-color": [
-            {
-              shadowSelector: `.${CSS.iconStart}`,
-              targetProp: "color",
-            },
-            {
-              shadowSelector: `.${CSS.iconEnd}`,
-              targetProp: "color",
-            },
-          ],
           "--calcite-ui-icon-color": [
             {
               shadowSelector: `.${CSS.iconStart}`,
@@ -208,39 +181,6 @@ describe("theme", () => {
               targetProp: "color",
             },
           ],
-        },
-      );
-    });
-    describe("expanded", async () => {
-      themed(
-        () =>
-          mount(
-            <calcite-accordion-item
-              description="Description"
-              expanded
-              heading="Heading"
-              icon-end="home"
-              icon-start="home"
-            >
-              content
-            </calcite-accordion-item>,
-          ),
-        {
-          "--calcite-accordion-item-text-color-hover": [
-            {
-              targetProp: "color",
-              shadowSelector: `.${CSS.expandIcon}`,
-            },
-            {
-              targetProp: "color",
-              shadowSelector: `.${CSS.description}`,
-            },
-          ],
-          "--calcite-accordion-item-heading-text-color": {
-            selector: "calcite-accordion-item",
-            shadowSelector: `.${CSS.heading}`,
-            targetProp: "color",
-          },
         },
       );
     });
