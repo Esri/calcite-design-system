@@ -228,6 +228,7 @@ export function sanitizeExponentialNumberString(numberString: string, func: (s: 
     .map((section, i) => (i === 1 ? func(section.replace(/\./g, "")) : func(section)))
     .join("e");
 }
+
 /**
  * Converts an exponential notation numberString into decimal notation.
  * BigInt doesn't support exponential notation, so this is required to maintain precision

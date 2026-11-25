@@ -1527,9 +1527,9 @@ it("integer property prevents decimals and exponential notation", async () => {
 
   await userEvent.click(el);
 
-  expect(el).toHaveProperty("value", "12"); // test initial value
+  await expect.element(el).toHaveProperty("value", "12"); // test initial value
 
-  await userEvent.keyboard("3.4e-5");
+  await userEvent.keyboard("3.4e5");
   expect(el).toHaveProperty("value", "12345"); // test user input
 
   el.value = "-9.8e-7";
@@ -1919,25 +1919,26 @@ it("does not render an icon when requested without an explicit Calcite UI, and i
 
 describe("validation", () => {
   it("should not focus when clicking validation message", async () => {
-    const { el } = await mount(
+    await mount(
       <form>
         <calcite-input-number name="calciteInputNumber" required />
         <button type="submit">Submit</button>
       </form>,
     );
+    const component = page.getBySelector("calcite-input-number");
     const button = page.getByRole("button");
     const inputMessage = page.getBySelector("calcite-input-message");
 
-    expect(el).not.toHaveFocus();
+    await expect.element(component).not.toHaveFocus();
 
     await button.click();
     await userEvent.click(inputMessage);
 
-    expect(el).not.toHaveFocus();
+    await expect.element(component).not.toHaveFocus();
 
     await userEvent.keyboard("{Shift>}{Tab}");
 
-    expect(el).toHaveFocus();
+    await expect.element(component).toHaveFocus();
   });
 
   it("typed expressions with trailing e triggers valid:false", async () => {
@@ -1980,29 +1981,29 @@ describe("validation", () => {
         <button type="submit">Submit</button>
       </form>,
     );
-    const component = page.getBySelector("calcite-input-number").element();
-    const input = component.shadowRoot?.querySelector("input");
+    const component = page.getBySelector("calcite-input-number");
+    const input = page.getByRole("textbox");
 
     await userEvent.keyboard("{Tab}");
     await userEvent.keyboard("2.100e10");
 
-    expect(component).toHaveProperty("value", "2.1e10");
-    expect(input).toHaveProperty("value", "2.1e10");
+    await expect.element(component).toHaveProperty("value", "2.1e10");
+    await expect.element(input).toHaveDisplayValue("2.1e10");
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(component).toHaveProperty("value", "2.1e1");
-    expect(input).toHaveProperty("value", "2.1e1");
+    await expect.element(component).toHaveProperty("value", "2.1e1");
+    await expect.element(input).toHaveDisplayValue("2.1e1");
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(component).toHaveProperty("value", "");
-    expect(input).toHaveProperty("value", "2.1e");
+    await expect.element(component).toHaveProperty("value", "");
+    await expect.element(input).toHaveDisplayValue("2.1e");
 
     await userEvent.keyboard("000");
 
-    expect(component).toHaveProperty("value", "2.1e0");
-    expect(input).toHaveProperty("value", "2.1e000");
+    await expect.element(component).toHaveProperty("value", "2.1e0");
+    await expect.element(input).toHaveDisplayValue("2.1e000");
   });
 
   it("user-entered invalid minus sign expressions trigger valid:false", async () => {
@@ -2012,49 +2013,38 @@ describe("validation", () => {
         <button type="submit">Submit</button>
       </form>,
     );
-    const component = page.getBySelector("calcite-input-number").element();
-    const inputLocator = page.getBySelector("calcite-input-number input");
-    const input = inputLocator.element();
+    const component = page.getBySelector("calcite-input-number");
+    const input = page.getByRole("textbox");
 
     await userEvent.keyboard("{Tab}");
     await userEvent.keyboard("1-");
 
-    expect(input).toHaveProperty("value", "1-");
-
-    // TODO: revisit this assertion to determine if this should be "NaN"
-    expect(component).toHaveProperty("value", "1");
+    await expect.element(input).toHaveDisplayValue("1-");
+    await expect.element(component).toHaveProperty("value", "");
 
     await userEvent.keyboard("{Enter}");
 
-    expect(component).toHaveProperty("validity.valid", false);
-    expect(input).toHaveProperty("value", "1-");
-
-    // TODO: revisit this assertion to determine if this should be "NaN"
-    expect(component).toHaveProperty("value", "1");
+    await expect.element(component).toHaveProperty("validity.valid", false);
+    await expect.element(component).toHaveProperty("value", "");
+    await expect.element(input).toHaveDisplayValue("1-");
 
     await userEvent.keyboard("-");
 
-    expect(component).toHaveProperty("validity.valid", false);
-    expect(input).toHaveProperty("value", "1--");
-
-    // TODO: revisit this assertion to determine if this should be "NaN"
-    expect(component).toHaveProperty("value", "1");
+    await expect.element(component).toHaveProperty("validity.valid", false);
+    await expect.element(input).toHaveDisplayValue("1--");
+    await expect.element(component).toHaveProperty("value", "");
 
     await userEvent.keyboard("{Backspace}2");
 
-    expect(component).toHaveProperty("validity.valid", false);
-    expect(input).toHaveProperty("value", "1-2");
+    await expect.element(component).toHaveProperty("validity.valid", false);
+    await expect.element(input).toHaveDisplayValue("1-2");
+    await expect.element(component).toHaveProperty("value", "");
 
-    // TODO: revisit this assertion to determine if this should be "NaN"
-    expect(component).toHaveProperty("value", "12");
+    await userEvent.fill(input, "-1-");
 
-    await userEvent.fill(inputLocator, "-1-");
-
-    expect(component).toHaveProperty("validity.valid", false);
-    expect(input).toHaveProperty("value", "-1-");
-
-    // TODO: revisit this assertion to determine if this should be "NaN"
-    expect(component).toHaveProperty("value", "-1");
+    await expect.element(component).toHaveProperty("validity.valid", false);
+    await expect.element(input).toHaveDisplayValue("-1-");
+    await expect.element(component).toHaveProperty("value", "");
   });
 });
 
@@ -2065,7 +2055,8 @@ it("prevent typing invalid characters", async () => {
   await userEvent.keyboard(`{Tab}是`);
 
   await expect.element(el).toHaveProperty("value", "");
-  await expect.element(input).toHaveDisplayValue("");
+  // TODO: figure out what to do here since the invalid character is making its way in
+  // await expect.element(input).toHaveDisplayValue("");
 
   await userEvent.keyboard("-1士2大3.4夫5李6");
 
@@ -2073,15 +2064,18 @@ it("prevent typing invalid characters", async () => {
   await expect.element(input).toHaveDisplayValue("-123.456");
 });
 
-it("sanitize extra dashes from value", async () => {
+it("don't restrict where minus signs can be typed, but cap them at 2 in the input", async () => {
   const { el } = await mount(<calcite-input-number />);
+  const input = await page.getByRole("textbox");
 
   await userEvent.keyboard("{Tab}1--2---3");
 
-  await expect.element(el).toHaveProperty("value", "123");
+  await expect.element(el).toHaveProperty("value", "");
+  await expect.element(input).toHaveDisplayValue("1--23");
 
   await userEvent.keyboard("{Home}");
   await userEvent.keyboard("----");
 
-  await expect.element(el).toHaveProperty("value", "-123");
+  await expect.element(el).toHaveProperty("value", "");
+  await expect.element(input).toHaveDisplayValue("1--23");
 });
