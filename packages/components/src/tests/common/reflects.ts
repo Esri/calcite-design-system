@@ -78,6 +78,10 @@ export function reflects<
       const { el, reRender } = await setUp();
       const attrName = propToAttr(propertyName);
 
+      Object.assign(el, { [propertyName]: true });
+      await reRender();
+      await expect.element(el).toHaveAttribute(attrName, "");
+
       Object.assign(el, { [propertyName]: false });
       await reRender();
       await expect.element(el).not.toHaveAttribute(attrName);
