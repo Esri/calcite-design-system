@@ -452,7 +452,17 @@ export class ShellPanel extends LitElement {
     if (!this.contentRef.value) {
       return;
     }
-    this.sizeOverride.resize(size);
+    const { block } = this.sizeOverride.resize(size);
+
+    if (size.block === undefined) {
+      return;
+    }
+
+    if (typeof block === "number") {
+      this.el.style.setProperty("--calcite-internal-shell-panel-resized-block-size", `${block}px`);
+    } else {
+      this.el.style.removeProperty("--calcite-internal-shell-panel-resized-block-size");
+    }
   }
 
   private handleKeyDown(event: KeyboardEvent): void {
@@ -541,27 +551,36 @@ export class ShellPanel extends LitElement {
     const availableInlineSize = layout === "vertical" ? this.getAvailableInlineSize() : null;
     const availableBlockSize = layout === "horizontal" ? this.getAvailableBlockSize() : null;
 
-    const blockStyle =
-      layout === "horizontal" && this.containerRef.value
-        ? window.getComputedStyle(this.containerRef.value)
-        : computedStyle;
-    const blockSpacingSize = layout === "horizontal" ? this.getContainerSpacingSize("block") : 0;
-    const computedMaxBlockSize =
-      (getStylePixelValue(blockStyle.maxBlockSize) || window.innerHeight) - blockSpacingSize;
+    const blockBounds = this.getBlockBounds(contentRef.value);
 
     this.resizeValues = {
       inlineSize: getStylePixelValue(computedStyle.inlineSize),
       blockSize: getStylePixelValue(computedStyle.blockSize),
       minInlineSize: getStylePixelValue(computedStyle.minInlineSize),
-      minBlockSize: getStylePixelValue(blockStyle.minBlockSize),
+      minBlockSize: blockBounds.min,
       maxInlineSize:
         availableInlineSize === null
           ? computedMaxInlineSize
           : Math.min(computedMaxInlineSize, availableInlineSize),
       maxBlockSize:
         availableBlockSize === null
-          ? computedMaxBlockSize
-          : Math.min(computedMaxBlockSize, availableBlockSize),
+          ? blockBounds.max
+          : Math.min(blockBounds.max, availableBlockSize),
+    };
+  }
+
+  private getBlockBounds(content: HTMLElement): { min: number; max: number } {
+    const { actionBarPosition, containerRef, displayMode, layout } = this;
+    const boundsContainer =
+      layout === "horizontal" && actionBarPosition && displayMode !== "overlay"
+        ? containerRef.value
+        : undefined;
+    const computedStyle = window.getComputedStyle(boundsContainer ?? content);
+    const spacingSize = boundsContainer ? this.getContainerSpacingSize("block") : 0;
+
+    return {
+      min: getStylePixelValue(computedStyle.minBlockSize),
+      max: (getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight) - spacingSize,
     };
   }
 
@@ -675,20 +694,13 @@ export class ShellPanel extends LitElement {
   }
 
   private getMaxBlockSize(): number | null {
-    const { layout, containerRef } = this;
+    const { layout, contentRef } = this;
 
-    if (layout !== "horizontal") {
+    if (layout !== "horizontal" || !contentRef.value) {
       return this.resizeValues.maxBlockSize;
     }
 
-    if (!containerRef.value) {
-      return this.resizeValues.maxBlockSize;
-    }
-
-    const computedStyle = window.getComputedStyle(containerRef.value);
-    const cssMax =
-      (getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight) -
-      this.getContainerSpacingSize("block");
+    const cssMax = this.getBlockBounds(contentRef.value).max;
     const availableBlockSize = this.getAvailableBlockSize();
 
     return availableBlockSize === null ? cssMax : Math.min(cssMax, availableBlockSize);

@@ -890,6 +890,134 @@ describe("shell-panel updateSize public method", () => {
     expect(content.getBoundingClientRect().width).toBeGreaterThan(widthBefore);
   });
 
+  describe("horizontal height constraints without an action bar position", () => {
+    const maxHeight = 200;
+
+    async function mountTallBottomPanel(
+      displayMode: ShellPanel["displayMode"],
+      resizable = false,
+    ): Promise<{ content: HTMLElement; panel: ShellPanel["el"] }> {
+      await mount<"calcite-shell">(
+        <calcite-shell style="inline-size: 700px; block-size: 800px; position: relative;">
+          <calcite-panel>Main content</calcite-panel>
+          <calcite-shell-panel
+            display-mode={displayMode}
+            resizable={resizable}
+            slot="panel-bottom"
+            style={`--calcite-shell-panel-max-height: ${maxHeight}px;`}
+          >
+            <calcite-panel>
+              <div style="block-size: 1000px;">Tall content</div>
+            </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const panel = getShellPanelBySlot("panel-bottom");
+      const content = page
+        .elementLocator(panel)
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+        .element() as HTMLElement;
+
+      return { content, panel };
+    }
+
+    it.for(["dock", "overlay"] as const)(
+      "limits $0 content to the max height",
+      async (displayMode) => {
+        const { content } = await mountTallBottomPanel(displayMode);
+
+        await expect.poll(() => content.getBoundingClientRect().height).toBe(maxHeight);
+      },
+    );
+
+    it("does not reserve in-flow space for overlay content", async () => {
+      const { panel } = await mountTallBottomPanel("overlay");
+
+      await expect.poll(() => panel.getBoundingClientRect().height).toBe(0);
+    });
+
+    it("reports overlay resize handle values within the max height", async () => {
+      await mountTallBottomPanel("overlay", true);
+      const handle = page.getByRole("separator");
+
+      await expect.element(handle).toHaveAttribute("aria-valuemax", `${maxHeight}`);
+      await expect.element(handle).toHaveAttribute("aria-valuenow", `${maxHeight}`);
+    });
+  });
+
+  it.for([
+    { slot: "panel-top", actionBarPosition: "start" },
+    { slot: "panel-top", actionBarPosition: "end" },
+    { slot: "panel-bottom", actionBarPosition: "start" },
+    { slot: "panel-bottom", actionBarPosition: "end" },
+  ] as const)(
+    "scrolls the $actionBarPosition action bar when $slot is resized below the action bar height",
+    async ({ slot, actionBarPosition }) => {
+      await mount<"calcite-shell">(
+        <calcite-shell style="inline-size: 700px; block-size: 800px; position: relative;">
+          <calcite-panel>Main content</calcite-panel>
+          <calcite-shell-panel
+            actionBarPosition={actionBarPosition}
+            resizable
+            slot={slot}
+            style="--calcite-shell-panel-max-height: 500px;"
+          >
+            <calcite-action-bar slot="action-bar">
+              <calcite-action-group>
+                {["Add", "Save", "Layers", "Share", "Print", "Comment", "Notify", "Edit"].map(
+                  (text) => (
+                    <calcite-action icon="plus" text={text} />
+                  ),
+                )}
+              </calcite-action-group>
+            </calcite-action-bar>
+            <calcite-panel>Panel content</calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const panel = getShellPanelBySlot(slot);
+      const { actionBarContainer, content } = getShellPanelElements(panel);
+      const handle = page.getByRole("separator");
+
+      await handle.click();
+      await userEvent.keyboard("{Home}");
+
+      await expect
+        .poll(() => actionBarContainer.clientHeight)
+        .toBe(Math.round(content.getBoundingClientRect().height));
+      expect(actionBarContainer.scrollHeight).toBeGreaterThan(actionBarContainer.clientHeight);
+    },
+  );
+
+  it.for(["panel-start", "panel-bottom"] as const)(
+    "does not clip $0 overlay content",
+    async (slot) => {
+      await page.viewport(1000, 800);
+      await mount<"calcite-shell">(
+        <calcite-shell style="inline-size: 1000px; block-size: 800px; position: relative;">
+          <calcite-panel heading="Main">Main content</calcite-panel>
+          <calcite-shell-panel display-mode="overlay" slot={slot}>
+            <calcite-panel heading="Overlay" id="overlay-panel">
+              Overlay content
+            </calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const content = page
+        .elementLocator(getShellPanelBySlot(slot))
+        .getBySelector(`:scope > .${CSS.container} > .${CSS.contentContainer} > .${CSS.content}`)
+        .element();
+
+      await expect
+        .poll(() => {
+          const { left, top, width, height } = content.getBoundingClientRect();
+
+          return document.elementFromPoint(left + width / 2, top + height / 2)?.id;
+        })
+        .toBe("overlay-panel");
+    },
+  );
+
   it("does not render a container-level resize handle for overlay display mode", async () => {
     await mount<"calcite-shell">(
       <calcite-shell style="inline-size: 700px; block-size: 400px; position: relative;">
@@ -1242,17 +1370,30 @@ describe("themed", () => {
   describe("height", () => {
     themed(() => mount(<calcite-shell-panel layout="horizontal" />), {
       "--calcite-shell-panel-height": {
-        shadowSelector: `.${CSS.container}`,
+        shadowSelector: `.${CSS.content}`,
         targetProp: "blockSize",
       },
-      "--calcite-shell-panel-max-height": {
-        shadowSelector: `.${CSS.container}`,
-        targetProp: "maxBlockSize",
-      },
       "--calcite-shell-panel-min-height": {
-        shadowSelector: `.${CSS.container}`,
+        shadowSelector: `.${CSS.content}`,
         targetProp: "minBlockSize",
       },
+      "--calcite-shell-panel-max-height": {
+        shadowSelector: `.${CSS.content}`,
+        targetProp: "maxBlockSize",
+      },
+    });
+
+    describe("with action bar position", () => {
+      themed(() => mount(<calcite-shell-panel actionBarPosition="top" layout="horizontal" />), {
+        "--calcite-shell-panel-min-height": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "minBlockSize",
+        },
+        "--calcite-shell-panel-max-height": {
+          shadowSelector: `.${CSS.container}`,
+          targetProp: "maxBlockSize",
+        },
+      });
     });
   });
 

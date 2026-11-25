@@ -135,10 +135,6 @@
   --calcite-internal-shell-panel-height: var(--calcite-shell-panel-height);
   --calcite-internal-shell-panel-min-height: var(--calcite-shell-panel-min-height, 5vh);
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 30vh);
-
-  block-size: var(--calcite-internal-shell-panel-height);
-  max-block-size: var(--calcite-internal-shell-panel-max-height);
-  min-block-size: var(--calcite-internal-shell-panel-min-height);
 }
 
 :host([layout="horizontal"]) .height-s {
@@ -572,7 +568,10 @@
   box-sizing: border-box;
   inline-size: 100%;
   block-size: 100%;
-  overflow: auto;
+
+  :host(:not([display-mode="overlay"])) & {
+    overflow: auto;
+  }
 }
 
 :host([layout="horizontal"]) .action-bar-container,
@@ -625,6 +624,18 @@
 :host([layout="vertical"][display-mode="float-all"]) .content {
   inline-size: var(--calcite-internal-shell-panel-width);
   min-inline-size: var(--calcite-internal-shell-panel-min-width);
+}
+
+:host([layout="horizontal"]:not([action-bar-position])) .content,
+:host([layout="horizontal"][display-mode="overlay"]) .content {
+  block-size: var(--calcite-internal-shell-panel-height);
+}
+
+:host([layout="horizontal"]:not([action-bar-position])) .content,
+:host([layout="horizontal"][display-mode="overlay"]) .content,
+:host([layout="horizontal"][action-bar-position]:not([display-mode="overlay"])) .container {
+  min-block-size: var(--calcite-internal-shell-panel-min-height);
+  max-block-size: var(--calcite-internal-shell-panel-max-height);
 }
 
 :host([resizable][layout="vertical"][position="start"][display-mode="overlay"]) {
@@ -938,6 +949,16 @@ slot[name="action-bar"]::slotted(calcite-action-bar) {
     inline-size: 100%;
     min-inline-size: max-content;
     max-inline-size: 100%;
+  }
+}
+
+:host([action-bar-position="start"][slot="panel-top"]:not([display-mode="overlay"])),
+:host([action-bar-position="end"][slot="panel-top"]:not([display-mode="overlay"])),
+:host([action-bar-position="start"][slot="panel-bottom"]:not([display-mode="overlay"])),
+:host([action-bar-position="end"][slot="panel-bottom"]:not([display-mode="overlay"])) {
+  .action-bar-container {
+    max-block-size: var(--calcite-internal-shell-panel-resized-block-size, none);
+    overflow-y: auto;
   }
 }
 
