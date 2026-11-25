@@ -232,6 +232,9 @@ export class ShellPanel extends LitElement {
   /**
    * Specifies the placement of the `calcite-action-bar` (when slotted).
    *
+   * When set, the `calcite-action-bar`'s `layout` is derived from this value and overrides any `layout` set on it:
+   * `"top"` and `"bottom"` use `"horizontal"`, while `"start"` and `"end"` use `"vertical"`.
+   *
    * @public
    */
   @property({ reflect: true }) actionBarPosition?: Position;

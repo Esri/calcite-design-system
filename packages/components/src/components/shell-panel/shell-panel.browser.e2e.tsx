@@ -166,6 +166,27 @@ describe("action bar", () => {
     },
   );
 
+  it.for([
+    { actionBarPosition: "start", authoredLayout: "horizontal", expectedLayout: "vertical" },
+    { actionBarPosition: "top", authoredLayout: "vertical", expectedLayout: "horizontal" },
+  ] as const)(
+    "overrides a $authoredLayout action bar layout with $expectedLayout for $actionBarPosition action-bar-position",
+    async ({ actionBarPosition, authoredLayout, expectedLayout }) => {
+      const { el } = await mount(
+        <calcite-shell>
+          <calcite-shell-panel actionBarPosition={actionBarPosition} slot="panel-bottom">
+            <calcite-action-bar layout={authoredLayout} slot="action-bar" />
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const actionBar = page.elementLocator(
+        getByCssElement<ActionBar["el"]>(el, ":scope > calcite-shell-panel > calcite-action-bar"),
+      );
+
+      await expect.element(actionBar).toHaveAttribute("layout", expectedLayout);
+    },
+  );
+
   it("uses the slotted action bar height for its internal height", async () => {
     const { el } = await mount(
       <calcite-shell>
