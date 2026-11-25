@@ -1190,10 +1190,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     }
 
     if (event.key === "-") {
-      if (!value && !inputValue?.value) {
-        return;
-      }
-      if (value && inputValue && inputValue.value.split("-").length <= 2) {
+      if (inputValue && inputValue.value.split("-").length <= 2) {
         return;
       }
     }
@@ -1311,10 +1308,12 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
         ? isValidNumber(this.previousValue)
           ? this.previousValue
           : ""
-        : sanitizedValue;
+        : isValidNumber(value)
+          ? sanitizedValue
+          : "";
 
     let newLocalizedValue =
-      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(newValue);
+      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(value);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1344,6 +1343,13 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     // don't sanitize the start of negative/decimal numbers, but
     // don't set value to an invalid number
     const validNewValue = ["-", "."].includes(newValue) ? "" : newValue;
+
+    const valid = isValidNumber(value);
+    if (value && !valid && origin !== "connected") {
+      this.formSupport.setCustomValidity(this.messages.invalidNumber);
+    } else {
+      this.formSupport.setCustomValidity("");
+    }
 
     if (shouldStageValue) {
       this.draftValue = validNewValue;

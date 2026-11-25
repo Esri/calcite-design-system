@@ -1500,7 +1500,7 @@ describe("number type", () => {
     const { el } = await mount<Input>(<calcite-input type="number" />);
 
     await el.setFocus();
-    await userEvent.keyboard("------000005eeee00005----eee");
+    await userEvent.keyboard("-000005eeee00005");
 
     expect(el).toHaveProperty("value", "-5e5");
   });
@@ -1547,9 +1547,10 @@ describe("number type", () => {
 
     await userEvent.keyboard("{Backspace}");
 
-    expect(el).toHaveProperty("value", "2.1");
-    expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1");
+    expect(el).toHaveProperty("value", "");
+    expect(page.getBySelector("calcite-input input")).toHaveDisplayValue("2.1e");
 
+    await userEvent.keyboard("{Backspace}");
     await userEvent.keyboard("000");
 
     expect(el).toHaveProperty("value", "2.1000");
@@ -1643,6 +1644,22 @@ describe("number type", () => {
 
     expect(el).toHaveProperty("value", "-123");
   });
+
+  it("don't restrict where minus signs can be typed, but cap them at 2 in the input", async () => {
+    const { el } = await mount(<calcite-input type="number" />);
+    const input = await page.getByRole("textbox");
+
+    await userEvent.keyboard("{Tab}1--2---3");
+
+    await expect.element(el).toHaveProperty("value", "");
+    await expect.element(input).toHaveDisplayValue("1--23");
+
+    await userEvent.keyboard("{Home}");
+    await userEvent.keyboard("----");
+
+    await expect.element(el).toHaveProperty("value", "");
+    await expect.element(input).toHaveDisplayValue("1--23");
+  });
 });
 
 it("input event fires when number ends with a decimal", async () => {
@@ -1652,7 +1669,7 @@ it("input event fires when number ends with a decimal", async () => {
 
   await userEvent.keyboard("{Tab}{ArrowRight}{Backspace}");
 
-  expect(el).toHaveProperty("value", "1.");
+  expect(el).toHaveProperty("value", "1");
   expect(inputEventHandler).toHaveBeenCalledTimes(1);
 });
 
