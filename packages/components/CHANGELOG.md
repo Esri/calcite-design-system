@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.53...@esri/calcite-components@6.0.0-next.54) (2026-11-25)
+
+### Features
+
+- **components:** use `font.size.relative` tokens ([#15485](https://github.com/Esri/calcite-design-system/issues/15485)), closes [#15480](https://github.com/Esri/calcite-design-system/issues/15480)
+
 ## [6.0.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.52...@esri/calcite-components@6.0.0-next.53) (2026-11-25)
 
 ### ⚠ BREAKING CHANGES
