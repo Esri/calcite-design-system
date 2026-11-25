@@ -989,6 +989,42 @@ describe("shell-panel updateSize public method", () => {
     },
   );
 
+  it.for([
+    { key: "{Home}", boundProp: "--calcite-shell-panel-min-height", bound: 200 },
+    { key: "{End}", boundProp: "--calcite-shell-panel-max-height", bound: 400 },
+  ] as const)(
+    "applies $boundProp to the whole panel, including a stacked action bar, when pressing $key",
+    async ({ key, boundProp, bound }) => {
+      await mount<"calcite-shell">(
+        <calcite-shell style="inline-size: 700px; block-size: 800px; position: relative;">
+          <calcite-panel>Main content</calcite-panel>
+          <calcite-shell-panel
+            actionBarPosition="top"
+            resizable
+            slot="panel-top"
+            style={`${boundProp}: ${bound}px;`}
+          >
+            <calcite-action-bar slot="action-bar">
+              <calcite-action icon="plus" text="Add" />
+            </calcite-action-bar>
+            <calcite-panel>Panel content</calcite-panel>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const panel = getShellPanelBySlot("panel-top");
+      const { content } = getShellPanelElements(panel);
+      const handle = page.getByRole("separator");
+
+      await handle.click();
+      await userEvent.keyboard(key);
+
+      await expect.poll(() => Math.round(panel.getBoundingClientRect().height)).toBe(bound);
+      await expect
+        .element(handle)
+        .toHaveAttribute("aria-valuenow", `${Math.round(content.getBoundingClientRect().height)}`);
+    },
+  );
+
   it.for(["panel-start", "panel-bottom"] as const)(
     "does not clip $0 overlay content",
     async (slot) => {

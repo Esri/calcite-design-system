@@ -576,12 +576,27 @@ export class ShellPanel extends LitElement {
         ? containerRef.value
         : undefined;
     const computedStyle = window.getComputedStyle(boundsContainer ?? content);
-    const spacingSize = boundsContainer ? this.getContainerSpacingSize("block") : 0;
+    const nonContentSize = boundsContainer
+      ? this.getContainerSpacingSize("block") +
+        (computedStyle.flexDirection.startsWith("column")
+          ? this.getStackedActionBarSize("height")
+          : 0)
+      : 0;
 
     return {
-      min: getStylePixelValue(computedStyle.minBlockSize),
-      max: (getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight) - spacingSize,
+      min: Math.max(getStylePixelValue(computedStyle.minBlockSize) - nonContentSize, 0),
+      max: (getStylePixelValue(computedStyle.maxBlockSize) || window.innerHeight) - nonContentSize,
     };
+  }
+
+  private getStackedActionBarSize(dimension: "width" | "height"): number {
+    return Math.max(
+      this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0,
+      this.actionBars.reduce(
+        (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
+        0,
+      ),
+    );
   }
 
   private getAvailableBlockSize(): number | null {
@@ -605,16 +620,7 @@ export class ShellPanel extends LitElement {
       container && window.getComputedStyle(container).flexDirection.startsWith("column")
         ? "block"
         : "inline";
-    const actionBarSize =
-      stackAxis === axis
-        ? Math.max(
-            this.actionBarContainerEl?.getBoundingClientRect()[dimension] ?? 0,
-            this.actionBars.reduce(
-              (total, actionBar) => total + actionBar.getBoundingClientRect()[dimension],
-              0,
-            ),
-          )
-        : 0;
+    const actionBarSize = stackAxis === axis ? this.getStackedActionBarSize(dimension) : 0;
 
     const { availableSize } = shellSizingData;
     const containerSpacingSize = this.getContainerSpacingSize(axis);
