@@ -71,7 +71,7 @@ export interface FocusTrapComponent extends LitElement {
   focusTrapDisabledOverride?: () => boolean;
 
   /**
-   * Additional options to configure the focus trap.
+   * @copyDoc
    */
   focusTrapOptions?: Partial<FocusTrapOptions>;
 }
