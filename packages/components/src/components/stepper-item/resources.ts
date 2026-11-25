@@ -14,9 +14,9 @@ export const CSS = {
 
 export const ICONS: Record<string, IconName> = {
   circle: "circle",
-  circleF: "circleF",
-  exclamationMarkCircleF: "exclamationMarkCircleF",
-  checkCircleF: "checkCircleF",
+  circleF: "circle-f",
+  exclamationMarkCircleF: "exclamation-mark-circle-f",
+  checkCircleF: "check-circle-f",
 };
 
 /**

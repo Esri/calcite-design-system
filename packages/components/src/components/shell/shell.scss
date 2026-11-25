@@ -49,7 +49,7 @@
   position: absolute;
   inset: var(--calcite-space-none);
   border-width: var(--calcite-space-none);
-  z-index: calc(theme("zIndex.default") - 1);
+  z-index: calc(var(--calcite-z-index) - 1);
   display: initial;
 }
 
@@ -136,7 +136,7 @@ slot[name="panel-bottom"]::slotted(calcite-shell-panel:not([display-mode^="float
   box-sizing: border-box;
   border-radius: var(--calcite-corner-radius-sm);
   z-index: var(--calcite-z-index-toast);
-  inset-block-end: theme("spacing.2");
+  inset-block-end: var(--calcite-space-sm);
   inset-inline: var(--calcite-shell-tip-spacing, 26vw); // deprecated
 }
 

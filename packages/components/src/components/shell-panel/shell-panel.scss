@@ -57,7 +57,7 @@
   display: flex;
   flex: 0 1 auto;
   align-items: stretch;
-  z-index: var(--calcite-shell-panel-z-index, theme("zIndex.default"));
+  z-index: var(--calcite-shell-panel-z-index, var(--calcite-z-index));
   --calcite-shell-panel-max-height: unset;
   --calcite-internal-shell-panel-shadow-block-start:
     0 4px 8px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
@@ -87,11 +87,11 @@
 }
 
 :host([layout="vertical"]) {
-  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.default") + 1));
+  z-index: var(--calcite-shell-panel-z-index, calc(var(--calcite-z-index) + 1));
 }
 
 :host([layout="vertical"][display-mode="overlay"]) {
-  z-index: var(--calcite-shell-panel-z-index, calc(theme("zIndex.header") + 1));
+  z-index: var(--calcite-shell-panel-z-index, calc(var(--calcite-z-index-header) + 1));
 }
 
 :host([layout="vertical"][display-mode="float-all"]) .content {
@@ -153,18 +153,15 @@
   --calcite-internal-shell-panel-max-height: var(--calcite-shell-panel-max-height, 40vh);
 }
 
-:host([display-mode="float-all"][height="s"]),
-:host([display-mode="float-all"][height-scale="s"]) .content {
+:host([display-mode="float-all"][height="s"]) .content {
   min-block-size: var(--calcite-shell-panel-height, 20vh);
 }
 
-:host([display-mode="float-all"][height="m"]),
-:host([display-mode="float-all"][height-scale="m"]) .content {
+:host([display-mode="float-all"][height="m"]) .content {
   min-block-size: var(--calcite-shell-panel-height, 30vh);
 }
 
-:host([display-mode="float-all"][height="l"]),
-:host([display-mode="float-all"][height-scale="l"]) .content {
+:host([display-mode="float-all"][height="l"]) .content {
   min-block-size: var(--calcite-shell-panel-height, 40vh);
 }
 

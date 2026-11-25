@@ -13,6 +13,7 @@ import {
 } from "@arcgis/lumina";
 import { useDirection, useWatchAttributes } from "@arcgis/lumina/controllers";
 import { isPrimaryPointerButton, setRequestedIcon } from "../../utils/dom";
+import { type UseAffixWidth, useAffixWidth } from "../../controllers/useAffixWidth";
 import { Alignment, Scale, Status } from "../types";
 import { numberKeys } from "../../utils/key";
 import { getLabelText } from "../../utils/label";
@@ -277,6 +278,26 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
 
   /** number text input element for locale */
   private childNumberRef = createRef<HTMLInputElement>();
+  prefixRef = createRef<HTMLDivElement>();
+  suffixRef = createRef<HTMLDivElement>();
+  private _affixWidth = useAffixWidth<InputNumber>({
+    getTrailingWidth: (affix) =>
+      affix === "suffix"
+        ? Math.ceil(this.numberButtonWrapperRef.value?.getBoundingClientRect().width ?? 0)
+        : 0,
+    trailingWidthReady: async () => {
+      const actions = this.numberButtonWrapperRef.value?.querySelectorAll("calcite-action") ?? [];
+      await Promise.all(Array.from(actions, (action) => action.componentOnReady()));
+    },
+    trailingWidthProperties: ["numberButtonType", "readOnly"],
+  })(this);
+
+  private numberButtonWrapperRef = createRef<HTMLDivElement>();
+
+  /** @private */
+  @property({ attribute: false }) get affixWidth(): UseAffixWidth {
+    return this._affixWidth;
+  }
 
   private enableInlineEditingButtonRef = createRef<Action["el"]>();
 
@@ -722,6 +743,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
   calciteInternalInputNumberBlur = createEvent({ cancelable: false });
 
   calciteInternalInputNumberFocus = createEvent({ cancelable: false });
+  /** @private */
+  calciteInternalAffixChange = createEvent({ cancelable: false });
 
   //#endregion
 
@@ -1073,6 +1096,7 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     }
 
     const value = this.valueForEditing;
+    const inputValue = this.childNumberRef.value;
 
     if (value === "Infinity" || value === "-Infinity") {
       event.preventDefault();
@@ -1134,31 +1158,42 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     };
 
     if (event.key === numberStringFormatter.decimal && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      const decimalIndex = inputValue?.value.indexOf(numberStringFormatter.decimal);
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (value && this.childNumberRef.value?.value.indexOf(numberStringFormatter.decimal) === -1) {
+      if (value && decimalIndex === -1) {
+        return;
+      }
+      if (
+        value &&
+        inputValue?.selectionStart == 0 &&
+        inputValue?.selectionEnd == inputValue?.value.length
+      ) {
+        return;
+      }
+      if (
+        value &&
+        Number(decimalIndex) >= Number(inputValue?.selectionStart) &&
+        Number(decimalIndex) < Number(inputValue?.selectionEnd)
+      ) {
         return;
       }
     }
     if (/[eE]/.test(event.key) && !this.integer) {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (value && this.childNumberRef.value && !/[eE]/.test(this.childNumberRef.value.value)) {
+      if (value && inputValue && !/[eE]/.test(inputValue.value)) {
         return;
       }
     }
 
     if (event.key === "-") {
-      if (!value && !this.childNumberRef.value?.value) {
+      if (!value && !inputValue?.value) {
         return;
       }
-      if (
-        value &&
-        this.childNumberRef.value &&
-        this.childNumberRef.value.value.split("-").length <= 2
-      ) {
+      if (value && inputValue && inputValue.value.split("-").length <= 2) {
         return;
       }
     }
@@ -1261,21 +1296,15 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
 
     const previousDraftValue = this.valueForEditing;
     const shouldStageValue = origin === "user" && this.isStagingInlineEditingValue;
-    const isValueDeleted =
-      this.previousValue?.length > value.length || previousDraftValue?.length > value.length;
 
     const valueHandleInteger = this.integer ? value.replace(/[e.]/g, "") : value;
 
-    const hasTrailingDecimalSeparator =
-      valueHandleInteger.charAt(valueHandleInteger.length - 1) === ".";
+    const hasTrailingDecimalSeparator = value.length > 1 && value.endsWith(".");
 
     const hasLeadingMinusSign = valueHandleInteger.charAt(0) === "-";
     const hasLeadingZeros = valueHandleInteger.match(/^-?(0+)\d/);
 
-    const sanitizedValue =
-      hasTrailingDecimalSeparator && isValueDeleted
-        ? valueHandleInteger
-        : sanitizeNumberString(valueHandleInteger);
+    const sanitizedValue = sanitizeNumberString(valueHandleInteger);
 
     const newValue =
       value && !sanitizedValue
@@ -1284,7 +1313,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
           : ""
         : sanitizedValue;
 
-    let newLocalizedValue = numberStringFormatter.localize(newValue);
+    let newLocalizedValue =
+      value === "." ? numberStringFormatter.decimal : numberStringFormatter.localize(newValue);
 
     if (origin !== "connected" && !hasTrailingDecimalSeparator) {
       newLocalizedValue = addLocalizedTrailingDecimalZeros(
@@ -1294,8 +1324,8 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
       );
     }
 
-    // adds localized trailing decimal separator
-    if (hasTrailingDecimalSeparator && isValueDeleted) {
+    // adds back localized trailing decimal separator removed by numberStringFormatter.localize()
+    if (hasTrailingDecimalSeparator) {
       newLocalizedValue = `${newLocalizedValue}${numberStringFormatter.decimal}`;
     }
 
@@ -1456,14 +1486,22 @@ export class InputNumber extends LitElement implements LabelableComponent, Numer
     );
 
     const numberButtonsVertical = (
-      <div class={CSS.numberButtonWrapper}>
+      <div class={CSS.numberButtonWrapper} ref={this.numberButtonWrapperRef}>
         {numberButtonsHorizontalUp}
         {numberButtonsHorizontalDown}
       </div>
     );
 
-    const prefixText = <div class={CSS.prefix}>{this.prefixText}</div>;
-    const suffixText = <div class={CSS.suffix}>{this.suffixText}</div>;
+    const prefixText = (
+      <div class={CSS.prefix} ref={this.prefixRef}>
+        {this.prefixText}
+      </div>
+    );
+    const suffixText = (
+      <div class={CSS.suffix} ref={this.suffixRef}>
+        {this.suffixText}
+      </div>
+    );
 
     const childEl = (
       <input

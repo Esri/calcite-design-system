@@ -8,7 +8,7 @@
   display: flex;
   inline-size: 100%;
   flex-wrap: wrap;
-  gap: theme("spacing.2");
+  gap: var(--calcite-space-sm);
 }
 
 ::slotted(calcite-chip) {
@@ -16,11 +16,11 @@
 }
 
 :host([scale="s"]) .container {
-  gap: theme("spacing.1");
+  gap: var(--calcite-space-2xs);
 }
 
 :host([scale="l"]) .container {
-  gap: theme("spacing.3");
+  gap: var(--calcite-space-md);
 }
 
 @include shared.disabled();

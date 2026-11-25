@@ -68,13 +68,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-card-selection-background-color-press": "*";
     /**
-     * Specifies the component's selection element background color.
-     *
-     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-background-color` instead.
-     * @public
-     */
-    "--calcite-card-selection-background-color": "*";
-    /**
      * Specifies the component's selection element color when hovered or focused.
      *
      * @public
@@ -86,20 +79,6 @@ declare module "@arcgis/lumina" {
      * @public
      */
     "--calcite-card-selection-color": "*";
-    /**
-     * Specifies the component's selection element icon color when hovered.
-     *
-     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-selection-color-hover` instead.
-     * @public
-     */
-    "--calcite-card-selection-icon-color-hover": "*";
-    /**
-     * Specifies the component's selection element icon color when `selected`.
-     *
-     * @deprecated in v2.13.0, removal target v6.0.0 - Use `--calcite-card-accent-color-selected` instead.
-     * @public
-     */
-    "--calcite-card-selection-icon-color-selected": "*";
     /**
      * Specifies the component's shadow.
      *

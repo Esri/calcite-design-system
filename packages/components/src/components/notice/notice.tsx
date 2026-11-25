@@ -62,13 +62,6 @@ declare module "@arcgis/lumina" {
      */
     "--calcite-notice-close-background-color-hover": "*";
     /**
-     * Specifies the background color of the component's close element when hovered.
-     *
-     * @deprecated in v5.0.0, removal target v6.0.0 - Use `--calcite-notice-close-background-color-hover` instead.
-     * @public
-     */
-    "--calcite-notice-close-background-color-focus": "*";
-    /**
      * Specifies the background color of the component's close element when active.
      *
      * @public
@@ -98,13 +91,6 @@ declare module "@arcgis/lumina" {
      * @public
      */
     "--calcite-notice-content-text-color": "*";
-    /**
-     * Specifies the component's width.
-     *
-     * @deprecated in v3.0.0, removal target v6.0.0.
-     * @public
-     */
-    "--calcite-notice-width": "*";
     /**
      * Specifies the component's shadow.
      *
