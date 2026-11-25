@@ -247,8 +247,10 @@ export class Sheet extends LitElement {
   @property() beforeClose?: (el: Sheet["el"]) => Promise<void>;
 
   /**
-   * Specifies the display mode - `"float"` separates content from main layout,
-   * and `"overlay"` displays on top of center content.
+   * Specifies the component's display mode.
+   *
+   * - `"float"` separates content from main layout.
+   * - `"overlay"` displays on top of center content.
    *
    * @public
    */

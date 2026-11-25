@@ -311,7 +311,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
   @property() metadata?: Record<string, unknown>;
 
   /**
-   * Specifies the nesting behavior.
+   * Specifies the nesting behavior of `calcite-list-item`s.
    */
   @property({ reflect: true }) displayMode: ListDisplayMode = "flat";
 
