@@ -3,6 +3,64 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.52...@esri/calcite-components@6.0.0-next.53) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **notice:** Removes deprecated
+  `--calcite-notice-close-background-color-focus` &
+  `--calcite-notice-width` tokens in `notice`.
+
+- To migrate, replace `--calcite-notice-close-background-color-focus`
+  with `--calcite-notice-close-background-color-hover` token.
+- Use `notice` component's [width
+  property](https://developers.arcgis.com/calcite-design-system/components/notice/#api-reference-properties-width)
+  instead of `--calcite-notice-width` token for prefixed width in layout.
+  For more granular control, users can declare CSS `inline-size/width`
+  property at the `:host`.
+- **flow-item:** Removes deprecated tokens
+  `--calcite-flow-item-footer-padding` &
+  `--calcite-flow-item-header-border-block-end` in `flow-item`.
+
+To migrate, replace:
+
+- `--calcite-flow-item-footer-padding` with
+  `--calcite-flow-footer-space` token.
+- `--calcite-flow-item-header-border-block-end` with
+  `--calcite-flow-border-color` token.
+
+- **dropdown-item:** Removes deprecated
+  `--calcite-dropdown-item-icon-color-hover` token in `dropdown-item`, as
+  it is no longer necessary.
+- **card:** The following deprecated tokens are removed in `card`.
+
+- `--calcite-card-selection-background-color`
+- `--calcite-card-selection-icon-color-hover`
+- `--calcite-card-selection-icon-color-selected`
+
+To migrate, replace:
+
+- `--calcite-card-selection-background-color` with
+  `--calcite-card-background-color`.
+- `--calcite-card-selection-icon-color-hover` with
+  `--calcite-card-selection-color-hover`.
+- `--calcite-card-selection-icon-color-selected` with
+  `--calcite-card-accent-color-selected`.
+
+- **chip:** Removes deprecated
+  `--calcite-chip-select-icon-color-pressed` token in `chip`.
+
+- Replace it with `--calcite-chip-select-icon-color-press` token to
+  customize icon color on press.
+
+### Code Refactoring
+
+- **card:** drop deprecated tokens ([#15574](https://github.com/Esri/calcite-design-system/issues/15574)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **chip:** remove deprecated token ([#15571](https://github.com/Esri/calcite-design-system/issues/15571)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **dropdown-item:** drop deprecated token ([#15569](https://github.com/Esri/calcite-design-system/issues/15569)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **flow-item:** drop deprecated tokens ([#15567](https://github.com/Esri/calcite-design-system/issues/15567)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **notice:** remove deprecated tokens ([#15554](https://github.com/Esri/calcite-design-system/issues/15554)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.51...@esri/calcite-components@6.0.0-next.52) (2026-11-24)
 
 ### ⚠ BREAKING CHANGES
