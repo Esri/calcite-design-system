@@ -665,6 +665,14 @@ describe("disabled", () => {
 });
 
 describe("theme", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-panel"), {
+      "--calcite-corner-radius": {
+        targetProp: "borderRadius",
+      },
+    });
+  });
+
   themed(
     () =>
       mount(

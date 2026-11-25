@@ -575,6 +575,15 @@ describe("disabled", () => {
 });
 
 describe("theme", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-input-text"), {
+      "--calcite-corner-radius": {
+        shadowSelector: "input",
+        targetProp: "borderRadius",
+      },
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-input-text"), {
       "--calcite-input-text-corner-radius": {

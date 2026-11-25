@@ -1,5 +1,5 @@
 import { h, JsxNode } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 
@@ -299,4 +299,22 @@ describe("theme", () => {
       },
     },
   );
+
+  it("mirrors primary and secondary corner radii in right-to-left layout", async () => {
+    const { el } = await mount(
+      <calcite-split-button
+        dir="rtl"
+        primary-text="Run"
+        style="--calcite-split-button-corner-radius: 12px"
+      />,
+    );
+    const splitButton = page.elementLocator(el);
+
+    await expect
+      .element(splitButton.getBySelector('calcite-button[split-child="primary"]'))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(splitButton.getBySelector('calcite-button[split-child="secondary"]'))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+  });
 });

@@ -1832,6 +1832,21 @@ describe("number locale support", () => {
 });
 
 describe("theme", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-input"), {
+      "--calcite-corner-radius": [
+        {
+          shadowSelector: `.${CSS.wrapper}`,
+          targetProp: "borderRadius",
+        },
+        {
+          shadowSelector: "input",
+          targetProp: "borderRadius",
+        },
+      ],
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-input"), {
       "--calcite-input-background-color": {

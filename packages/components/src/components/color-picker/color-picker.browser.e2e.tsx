@@ -2572,6 +2572,127 @@ it("does not throw when initialized with different format value (format='auto')"
 });
 
 describe("themed", () => {
+  describe("default swatch corner radius", () => {
+    themed(() => mount(<calcite-color-picker />), {
+      "--calcite-corner-radius": {
+        shadowSelector: `.${CSS.container} >>> calcite-swatch`,
+        targetProp: "--calcite-swatch-corner-radius",
+      },
+    });
+  });
+
+  it("rounds only the outer corners of hex, opacity, RGB, and HSV inputs", async () => {
+    await mount(
+      <calcite-color-picker alpha-channel style="--calcite-color-picker-corner-radius: 12px" />,
+    );
+
+    const colorPicker = page.getBySelector("calcite-color-picker");
+    const hexInputWrapper = colorPicker
+      .getBySelector("calcite-color-picker-hex-input")
+      .getBySelector("calcite-input-text")
+      .getBySelector(".element-wrapper");
+    const opacityInputWrapper = colorPicker
+      .getBySelector("calcite-color-picker-hex-input")
+      .getBySelector("calcite-input-number")
+      .getBySelector(".element-wrapper");
+    const hexPrefix = colorPicker
+      .getBySelector("calcite-color-picker-hex-input")
+      .getBySelector("calcite-input-text")
+      .getBySelector(".prefix");
+    const opacitySuffix = colorPicker
+      .getBySelector("calcite-color-picker-hex-input")
+      .getBySelector("calcite-input-number")
+      .getBySelector(".suffix");
+    const channels = colorPicker.getBySelector(`.${CSS.channel}`);
+
+    await expect.element(hexInputWrapper).toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect.element(hexPrefix).toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect.element(opacityInputWrapper).toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect.element(opacitySuffix).toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(channels.nth(0).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect
+      .element(channels.nth(1).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px;");
+    await expect
+      .element(channels.nth(2).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px;");
+    await expect
+      .element(channels.nth(3).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(channels.nth(3).getBySelector(".suffix"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+
+    await userEvent.click(page.getByRole("tab", { name: "HSV" }));
+
+    await expect
+      .element(channels.nth(4).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect
+      .element(channels.nth(5).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px;");
+    await expect
+      .element(channels.nth(6).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px;");
+    await expect
+      .element(channels.nth(7).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(channels.nth(7).getBySelector(".suffix"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+  });
+
+  it("mirrors the hex and opacity input corners in right-to-left layout", async () => {
+    await mount(
+      <calcite-color-picker
+        alpha-channel
+        dir="rtl"
+        style="--calcite-color-picker-corner-radius: 12px"
+      />,
+    );
+
+    const colorPicker = page.getBySelector("calcite-color-picker");
+    const hexInput = colorPicker
+      .getBySelector("calcite-color-picker-hex-input")
+      .getBySelector("calcite-input-text");
+    const opacityInput = colorPicker
+      .getBySelector("calcite-color-picker-hex-input")
+      .getBySelector("calcite-input-number");
+    const channels = colorPicker.getBySelector(`.${CSS.channel}`);
+
+    await expect
+      .element(hexInput.getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(hexInput.getBySelector(".prefix"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(opacityInput.getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect
+      .element(opacityInput.getBySelector(".suffix"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect
+      .element(channels.nth(0).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect
+      .element(channels.nth(0).getBySelector("input"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+    await expect
+      .element(channels.nth(3).getBySelector(".element-wrapper"))
+      .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    await expect
+      .element(channels.nth(3).getBySelector(".suffix"))
+      .toHaveStyle("border-radius: 0px;");
+
+    await userEvent.click(page.getByRole("tab", { name: "HSV" }));
+    await expect
+      .element(channels.nth(4).getBySelector("input"))
+      .toHaveStyle("border-radius: 12px 0px 0px 12px;");
+  });
+
   describe("default", () => {
     themed(() => mount(<calcite-color-picker alpha-channel />), {
       "--calcite-color-picker-background-color": {

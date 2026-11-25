@@ -1596,6 +1596,25 @@ it("emits events when value is modified", async () => {
 });
 
 describe("theme", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-input-number"), {
+      "--calcite-corner-radius": [
+        {
+          shadowSelector: "input",
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-input-number"), {
       "--calcite-input-number-background-color": {
