@@ -254,7 +254,7 @@ export const withPaginationHeaderTop = (): string => html`
     <div class="header" slot="header-top">
       <calcite-action-bar
         class="pagination-action-bar"
-        expand-disabled
+        expand-toggle-disabled
         layout="horizontal"
         overflow-actions-disabled
         scale="s"
@@ -379,23 +379,44 @@ export const collapsedWithActions = (): string => html`
 `;
 
 export const withActionBar = (): string =>
-  html`<div style="width: 300px;">
-    <calcite-panel height-scale="s">
-      <calcite-action-bar slot="action-bar">
-        <calcite-action-group>
-          <calcite-action text="Add" icon="plus"> </calcite-action>
-          <calcite-action text="Save" icon="save"> </calcite-action>
-          <calcite-action text="Layers" icon="layers"> </calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
-      <div slot="header-content">Header!</div>
-      <p>Slotted content!</p>
-    </calcite-panel>
-  </div>`;
+  html`<style>
+      .action-bar-example {
+        inline-size: 300px;
+      }
+      .action-bar-example-panel {
+        --calcite-panel-content-top-space: 0;
+      }
+    </style>
+    ${["Header!", ""]
+      .map(
+        (heading) => html`
+          <div class="action-bar-example">
+            <calcite-panel class="action-bar-example-panel" height-scale="s">
+              <calcite-action-bar slot="content-top" layout="horizontal">
+                <calcite-action-group>
+                  <calcite-action text="Add" icon="plus"> </calcite-action>
+                  <calcite-action text="Save" icon="save"> </calcite-action>
+                  <calcite-action text="Layers" icon="layers"> </calcite-action>
+                </calcite-action-group>
+              </calcite-action-bar>
+              ${heading ? html`<div slot="header-content">${heading}</div>` : ""}
+              <p>Slotted content!</p>
+            </calcite-panel>
+          </div>
+        `,
+      )
+      .join("")}`;
+
+export const genericContentTopWithoutHeader = (): string => html`
+  <calcite-panel style="width: 300px; height: 200px; --calcite-panel-content-top-space: 0;">
+    <div slot="content-top">Content top</div>
+    <p>Panel content</p>
+  </calcite-panel>
+`;
 
 export const footerPadding = (): string =>
   html`<div style="width: 300px;">
-    <calcite-panel height-scale="s" style="--calcite-panel-footer-padding: 20px;">
+    <calcite-panel height-scale="s" style="--calcite-panel-footer-space: 20px;">
       <div slot="header-content">Header!</div>
       <p>Slotted content!</p>
       <calcite-button type="button" slot="footer">1</calcite-button>
@@ -488,7 +509,7 @@ export const footerWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
-    style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
+    style="width: 300px; height:auto; --calcite-panel-border-color:transparent;"
   >
     <p slot="footer">Footer!</p>
   </calcite-panel>`;
@@ -497,7 +518,7 @@ export const actionBarWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
-    style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
+    style="width: 300px; height:auto; --calcite-panel-border-color:transparent;"
   >
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
@@ -529,7 +550,7 @@ export const footerAndActionBarWithoutContent = (): string =>
   html`<calcite-panel
     height-scale="s"
     heading="Header!"
-    style="width: 300px; height:auto; --calcite-panel-header-border-block-end:none;"
+    style="width: 300px; height:auto; --calcite-panel-border-color:transparent;"
   >
     <calcite-action-bar slot="action-bar">
       <calcite-action-group>
@@ -605,7 +626,7 @@ export const withTextContentOnly = (): string =>
   html`<calcite-panel height-scale="s" heading="My Panel">Slotted content!</calcite-panel>`;
 
 export const withNoHeaderBorderBlockEnd = (): string =>
-  html`<calcite-panel style="--calcite-panel-header-border-block-end:none;" height-scale="s" heading="My Panel"
+  html`<calcite-panel style="--calcite-panel-border-color:transparent;" height-scale="s" heading="My Panel"
     >Slotted content!</calcite-panel
   >`;
 

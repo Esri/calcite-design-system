@@ -29,43 +29,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-dropdown-item-background-color-hover": "*";
     /**
      * Specifies the component's background color when `selected` or active.
+     *
+     * @public
      */
     "--calcite-dropdown-item-background-color-press": "*";
     /**
-     * Specifies the color of the component's selection icon when hovered.
-     *
-     * @deprecated in v5.0.0, removal target v6.0.0.
-     */
-    "--calcite-dropdown-item-icon-color-hover": "*";
-    /**
      * Specifies the color of the component's selection icon when `selected` or active.
+     *
+     * @public
      */
     "--calcite-dropdown-item-icon-color-press": "*";
     /**
      * Specifies the component's text color when `selected` or active.
+     *
+     * @public
      */
     "--calcite-dropdown-item-text-color-press": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-dropdown-item-text-color": "*";
   }
 }
 
+/** @public */
 interface DropdownItemSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
 
+/**
+ * @public
+ * @docGroup Dropdown
+ * @parent calcite-dropdown
+ */
 export class DropdownItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: DropdownItemSlots;
 
   //#endregion
@@ -89,7 +102,7 @@ export class DropdownItem extends LitElement {
   /** requested item */
   private requestedDropdownItem?: DropdownItem["el"];
 
-  private focusSetter = useFocusable<this>()(this);
+  private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
 
@@ -97,46 +110,65 @@ export class DropdownItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
-  @property({ reflect: true }) disabled = false;
-
   /**
-   * When `true`, the component appears as if it is focused.
+   * When `true`, prevents interaction and decreases the component's opacity.
    *
-   * @private
+   * @public
    */
-  @property({ reflect: true }) activeDescendant = false;
+  @property({ reflect: true }) disabled = false;
 
   /**
    * Specifies the URL of the linked resource, which can be set as an absolute or relative path.
    *
    * Determines if the component will render as an anchor.
+   * Calling `click()` on the component does not activate the link.
+   *
+   * @public
    */
   @property({ reflect: true }) href?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
+  /**
+   * When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** Specifies the relationship to the linked resource defined in `href`. */
+  /**
+   * Specifies the relationship to the linked resource defined in `href`.
+   *
+   * @public
+   */
   @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
-   *
-   * @private
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -144,12 +176,14 @@ export class DropdownItem extends LitElement {
    * - `multiple` allows any number of selected items,
    * - `single` allows only one selection (default),
    * - `none` doesn't allow for any selection.
-   *
-   * @private
    */
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
-  /** Specifies the frame or window to open the linked resource. */
+  /**
+   * Specifies the frame or window to open the linked resource.
+   *
+   * @public
+   */
   @property({ reflect: true }) target?: string;
 
   //#endregion
@@ -157,9 +191,7 @@ export class DropdownItem extends LitElement {
   //#region Public Methods
 
   /**
-   * Activates the component as if it were clicked.
-   *
-   * @private
+   * Activates the component's link or selects the component.
    */
   @method()
   async activateItem(): Promise<void> {
@@ -178,8 +210,8 @@ export class DropdownItem extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -191,11 +223,16 @@ export class DropdownItem extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is selected. */
+  /**
+   * Fires when the component is selected.
+   *
+   * @public
+   */
   calciteDropdownItemSelect = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalDropdownItemSelect = createEvent<RequestedItem>({ cancelable: false });
+  calciteInternalDropdownItemSelect = createEvent<RequestedItem>({
+    cancelable: false,
+  });
 
   //#endregion
 
@@ -223,7 +260,11 @@ export class DropdownItem extends LitElement {
 
   //#region Private Methods
 
-  private onClick(): void {
+  private onClick(event: MouseEvent): void {
+    if (this.href && event.defaultPrevented && event.composedPath()[0] === this.el) {
+      return;
+    }
+
     this.emitRequestedItem();
   }
 
@@ -331,24 +372,26 @@ export class DropdownItem extends LitElement {
     );
 
     const itemRole = href
-      ? null
+      ? "menuitem"
       : selectionMode === "single"
         ? "menuitemradio"
         : selectionMode === "multiple"
           ? "menuitemcheckbox"
           : "menuitem";
 
-    const isSelectable = selectionMode !== "none";
+    const isSelectable = !href && selectionMode !== "none";
     const itemAria = toAriaBoolean(isSelectable && this.selected, isSelectable ? "false" : null);
     const { disabled } = this;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.ariaChecked = itemAria;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = !href ? (label ?? null) : "";
+    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = itemRole;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, add a check for this.el.hasAttribute() before calling setAttribute() here */
-    setAttribute(this.el, "tabIndex", -1);
+    if (!this.el.hasAttribute("tabindex")) {
+      setAttribute(this.el, "tabIndex", -1);
+    }
 
     return (
       <this.interactiveContainer disabled={disabled}>

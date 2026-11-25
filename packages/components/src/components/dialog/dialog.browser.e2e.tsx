@@ -1,5 +1,5 @@
 import { h } from "@arcgis/lumina";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
 import { page, userEvent } from "vitest/browser";
@@ -126,7 +126,7 @@ describe("defaults", () => {
         defaultValue: "m",
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
       {
@@ -263,10 +263,6 @@ describe("reflects", () => {
         value: "s",
       },
       {
-        propertyName: "widthScale",
-        value: "s",
-      },
-      {
         propertyName: "width",
         value: "s",
       },
@@ -306,6 +302,61 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-dialog"), SLOTS);
+
+  it("omits the leading separator for an Action Bar without header content", async () => {
+    await mount(
+      <calcite-dialog closeDisabled open style="--calcite-dialog-content-top-space: 0;">
+        <calcite-action-bar layout="horizontal" slot={SLOTS.contentTop}>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-bar>
+      </calcite-dialog>,
+    );
+    const panel = page.getBySelector("calcite-panel");
+    const actionBar = page.getBySelector("calcite-action-bar");
+
+    await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+    expect(actionBar.element().getBoundingClientRect().top).toBe(
+      panel.element().getBoundingClientRect().top,
+    );
+  });
+
+  it.each([
+    { slot: SLOTS.actionBar, space: 0 },
+    { slot: SLOTS.actionBar, space: 12 },
+    { slot: SLOTS.contentTop, space: 0 },
+    { slot: SLOTS.contentTop, space: 12 },
+  ])(
+    "renders an interactive horizontal Action Bar in $slot with $space px content-top padding",
+    async ({ slot, space }) => {
+      const onAction = vi.fn();
+      await mount(
+        <calcite-dialog
+          heading="Dialog"
+          open
+          style={`--calcite-dialog-content-top-space: ${space}px; --calcite-dialog-space: 0;`}
+        >
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" onClick={onAction} text="Add" />
+          </calcite-action-bar>
+          <div>Content</div>
+        </calcite-dialog>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+      const content = page.getByText("Content");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      await expect.element(actionBar).toHaveAttribute("layout", "horizontal");
+      expect(actionBar.element().getBoundingClientRect().width).toBe(
+        content.element().getBoundingClientRect().width -
+          (slot === SLOTS.contentTop ? space * 2 : 0),
+      );
+      await page.getByRole("button", { name: "Add" }).click();
+      expect(onAction).toHaveBeenCalledOnce();
+    },
+  );
 
   it("forwards header-top content to the internal panel", async () => {
     await mount(
@@ -458,89 +509,86 @@ describe("a11y attributes", () => {
   });
 });
 
-describe("theme sizing", () => {
-  themed(
-    () =>
-      mount(
-        <calcite-dialog fullscreen-disabled icon="banana" modal open width-scale="s">
-          <p>Hello world!</p>
-        </calcite-dialog>,
-      ),
-    {
-      "--calcite-dialog-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "inlineSize",
-      },
-      "--calcite-dialog-min-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "minInlineSize",
-      },
-      "--calcite-dialog-max-size-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "maxInlineSize",
-      },
-      "--calcite-dialog-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "blockSize",
-      },
-      "--calcite-dialog-min-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "minBlockSize",
-      },
-      "--calcite-dialog-max-size-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "maxBlockSize",
-      },
-      "--calcite-dialog-offset-x": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "insetInlineStart",
-      },
-      "--calcite-dialog-offset-y": {
-        shadowSelector: `.${CSS.dialog}`,
-        targetProp: "insetBlockStart",
-      },
-    },
-  );
-});
+describe("themed", () => {
+  const dialogTemplate = async () => {
+    await page.viewport(1440, 1440);
 
-describe("theme appearance", () => {
-  themed(
-    async () => {
-      await page.viewport(1440, 1440);
+    return mount(
+      <calcite-dialog description="Themed" heading="Information" kind="info" modal open scale="s">
+        <calcite-action icon="banana" slot="header-menu-actions" text="banana" text-enabled />
+        <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
+        <calcite-action icon="question" slot="header-actions-end" text="Layers" />
+        <div slot="content-top">To continue, you must agree to the terms</div>
+        <calcite-label
+          layout="inline-space-between"
+          slot="content-bottom"
+          style="--calcite-label-margin-bottom: 0"
+        >
+          <calcite-checkbox />I agree to the terms
+        </calcite-label>
+        <p>
+          Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim leo
+          vitae quam fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a finibus
+          ante, eu dignissim eros. Aenean sodales sollicitudin dui in fermentum.
+        </p>
 
-      return mount(
-        <calcite-dialog description="Themed" heading="Information" kind="info" modal open scale="s">
-          <calcite-action icon="banana" slot="header-menu-actions" text="banana" text-enabled />
-          <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
-          <calcite-action icon="question" slot="header-actions-end" text="Layers" />
-          <div slot="content-top">To continue, you must agree to the terms</div>
-          <calcite-label
-            layout="inline-space-between"
-            slot="content-bottom"
-            style="--calcite-label-margin-bottom: 0"
-          >
-            <calcite-checkbox />I agree to the terms
-          </calcite-label>
-          <p>
-            Curabitur mauris quam, tempor sit amet massa sed, mattis blandit diam. Proin dignissim
-            leo vitae quam fringilla viverra. Ut eget gravida magna, et tincidunt dui. Nullam a
-            finibus ante, eu dignissim eros. Aenean sodales sollicitudin dui in fermentum.
-          </p>
+        <calcite-button scale="s" slot="footer-end" width="auto">
+          Add members now
+        </calcite-button>
+      </calcite-dialog>,
+    );
+  };
 
-          <calcite-button scale="s" slot="footer-end" width="auto">
-            Add members now
-          </calcite-button>
-        </calcite-dialog>,
-      );
-    },
-    {
+  describe("theme sizing", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-dialog fullscreen-disabled icon="banana" modal open width="s">
+            <p>Hello world!</p>
+          </calcite-dialog>,
+        ),
+      {
+        "--calcite-dialog-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "inlineSize",
+        },
+        "--calcite-dialog-min-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "minInlineSize",
+        },
+        "--calcite-dialog-max-size-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "maxInlineSize",
+        },
+        "--calcite-dialog-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "blockSize",
+        },
+        "--calcite-dialog-min-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "minBlockSize",
+        },
+        "--calcite-dialog-max-size-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "maxBlockSize",
+        },
+        "--calcite-dialog-offset-x": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "insetInlineStart",
+        },
+        "--calcite-dialog-offset-y": {
+          shadowSelector: `.${CSS.dialog}`,
+          targetProp: "insetBlockStart",
+        },
+      },
+    );
+  });
+
+  describe("appearance", async () => {
+    themed(dialogTemplate, {
       "--calcite-dialog-scrim-background-color": {
         shadowSelector: `.${CSS.scrim}`,
         targetProp: "--calcite-scrim-background",
-      },
-      "--calcite-dialog-content-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-content-space",
       },
       "--calcite-dialog-content-top-space": {
         shadowSelector: `.${CSS.panel}`,
@@ -620,6 +668,29 @@ describe("theme appearance", () => {
         shadowSelector: `.${CSS.panel}`,
         targetProp: "--calcite-panel-corner-radius",
       },
-    },
-  );
+    });
+  });
+
+  describe("fallback space", () => {
+    themed(dialogTemplate, {
+      "--calcite-dialog-content-space": [
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-space",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-header-content-space",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-content-top-space",
+        },
+        {
+          shadowSelector: `.${CSS.panel}`,
+          targetProp: "--calcite-panel-content-bottom-space",
+        },
+      ],
+    });
+  });
 });

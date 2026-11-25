@@ -1,16 +1,16 @@
 export const KindIcons = {
   brand: "lightbulb",
-  danger: "exclamationMarkTriangle",
+  danger: "exclamation-mark-triangle",
   info: "information",
-  success: "checkCircle",
-  warning: "exclamationMarkTriangle",
+  success: "check-circle",
+  warning: "exclamation-mark-triangle",
 } as const;
 
 export const KindIconsFilled = {
-  danger: "exclamationMarkTriangleF",
-  info: "informationF",
-  success: "checkCircleF",
-  warning: "exclamationMarkTriangleF",
+  danger: "exclamation-mark-triangle-f",
+  info: "information-f",
+  success: "check-circle-f",
+  warning: "exclamation-mark-triangle-f",
 } as const;
 
 /**

@@ -1,3 +1,4 @@
+import { supportedLocales, type SupportedLocale } from "@arcgis/toolkit/intl";
 import type {
   Alignment,
   Appearance,
@@ -29,7 +30,6 @@ import type { OverlayPositioning } from "../src/utils/floating-ui.ts";
 import type { AlertDuration, AlertQueue } from "../src/components/alert/types";
 import { defaultMenuPlacement, placements, menuPlacements } from "../src/utils/floating-ui";
 import { dialogPlacements } from "../src/components/dialog/resources";
-import { supportedNlsLocales } from "../src/components/date-picker/utils";
 import { hourFormats } from "../src/utils/time";
 
 interface AttributeMetadata<T> {
@@ -54,7 +54,7 @@ interface CommonAttributes {
   placement: AttributeMetadata<(typeof placements)[number]>;
   menuPlacement: AttributeMetadata<(typeof menuPlacements)[number]>;
   dialogPlacement: AttributeMetadata<(typeof dialogPlacements)[number]>;
-  supportedNlsLocale: AttributeMetadata<(typeof supportedNlsLocales)[number]>;
+  supportedNlsLocale: AttributeMetadata<SupportedLocale>;
   hourFormat: AttributeMetadata<(typeof hourFormats)[number]>;
   displayMode: AttributeMetadata<DisplayMode>;
   toggleDisplay: AttributeMetadata<BlockSectionToggleDisplay>;
@@ -79,6 +79,7 @@ interface CommonAttributes {
   fontWeight: AttributeMetadata<string>;
   headingLevel: AttributeMetadata<number>;
   headingLevelWithNone: AttributeMetadata<number | "">;
+  fieldLayout: AttributeMetadata<Extract<Layout, "horizontal" | "vertical"> | "columns">;
   horizontalVerticalLayout: AttributeMetadata<Extract<Layout, "horizontal" | "vertical">>;
   labelLayout: AttributeMetadata<string>;
   listDisplayMode: AttributeMetadata<string>;
@@ -173,6 +174,11 @@ const fontWeightOptions = ["300", "400", "500", "700"];
 const headingLevelOptions: number[] = [1, 2, 3, 4, 5, 6];
 const headingLevelWithNoneOptions: (number | "")[] = ["", ...headingLevelOptions];
 const horizontalVerticalLayoutOptions: Extract<Layout, "horizontal" | "vertical">[] = ["horizontal", "vertical"];
+const fieldLayoutOptions: (Extract<Layout, "horizontal" | "vertical"> | "columns")[] = [
+  horizontalVerticalLayoutOptions[1],
+  horizontalVerticalLayoutOptions[0],
+  "columns",
+];
 const labelLayoutOptions = ["block", "inline", "inline-space-between"];
 const listDisplayModeOptions = ["flat", "nested"];
 const monthStyleOptions = ["wide", "abbreviated"];
@@ -255,8 +261,8 @@ export const ATTRIBUTES: CommonAttributes = {
     defaultValue: dialogPlacements[7],
   },
   supportedNlsLocale: {
-    values: supportedNlsLocales,
-    defaultValue: supportedNlsLocales[0],
+    values: [...supportedLocales],
+    defaultValue: [...supportedLocales][0],
   },
   hourFormat: {
     values: hourFormats,
@@ -353,6 +359,10 @@ export const ATTRIBUTES: CommonAttributes = {
   headingLevelWithNone: {
     values: headingLevelWithNoneOptions,
     defaultValue: "",
+  },
+  fieldLayout: {
+    values: fieldLayoutOptions,
+    defaultValue: fieldLayoutOptions[0],
   },
   horizontalVerticalLayout: {
     values: horizontalVerticalLayoutOptions,

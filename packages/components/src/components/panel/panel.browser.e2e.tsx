@@ -268,6 +268,41 @@ describe("renders", () => {
 
 describe("slots", () => {
   slots(() => mount("calcite-panel"), SLOTS);
+
+  it.each([
+    { slot: SLOTS.actionBar, space: 0 },
+    { slot: SLOTS.actionBar, space: 12 },
+    { slot: SLOTS.contentTop, space: 0 },
+    { slot: SLOTS.contentTop, space: 12 },
+  ])(
+    "renders an interactive horizontal Action Bar in $slot with $space px content-top padding",
+    async ({ slot, space }) => {
+      const onAction = vi.fn();
+      const { el } = await mount(
+        <calcite-panel
+          heading="Panel"
+          style={`inline-size: 320px; --calcite-panel-content-top-space: ${space}px;`}
+        >
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" onClick={onAction} text="Add" />
+          </calcite-action-bar>
+          <div>Content</div>
+        </calcite-panel>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      await expect.element(actionBar).toHaveAttribute("layout", "horizontal");
+      expect(actionBar.element().getBoundingClientRect().width).toBe(
+        el.getBoundingClientRect().width - (slot === SLOTS.contentTop ? space * 2 : 0),
+      );
+      await page.getByRole("button", { name: "Add" }).click();
+      expect(onAction).toHaveBeenCalledOnce();
+    },
+  );
 });
 
 describe("a11y attributes", () => {
@@ -285,6 +320,56 @@ describe("a11y attributes", () => {
 });
 
 describe("header slots", () => {
+  it.each([SLOTS.actionBar, SLOTS.contentTop])(
+    "omits the leading separator when %s contains an Action Bar without other header content",
+    async (slot) => {
+      const { el } = await mount(
+        <calcite-panel style="--calcite-panel-content-top-space: 0;">
+          <calcite-action-bar
+            layout={slot === SLOTS.contentTop ? "horizontal" : undefined}
+            slot={slot}
+          >
+            <calcite-action icon="plus" text="Add" />
+          </calcite-action-bar>
+        </calcite-panel>,
+      );
+      const actionBar = page.getBySelector("calcite-action-bar");
+
+      await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+      expect(actionBar.element().getBoundingClientRect().top).toBe(el.getBoundingClientRect().top);
+    },
+  );
+
+  it("updates the leading separator when content-top is replaced", async () => {
+    const { el } = await mount(
+      <calcite-panel style="--calcite-panel-content-top-space: 0;">
+        <calcite-action-bar layout="horizontal" slot={SLOTS.contentTop}>
+          <calcite-action icon="plus" text="Add" />
+        </calcite-action-bar>
+      </calcite-panel>,
+    );
+
+    await expect.element(page.getByRole("button", { name: "Add" })).toBeVisible();
+    const contentTop = el.ownerDocument.createElement("div");
+    contentTop.slot = SLOTS.contentTop;
+    contentTop.textContent = "Content top";
+    page.getBySelector("calcite-action-bar").element().replaceWith(contentTop);
+
+    const contentTopLocator = page.getByText("Content top");
+    await expect
+      .poll(() => contentTopLocator.element().getBoundingClientRect().top)
+      .toBe(el.getBoundingClientRect().top + 1);
+
+    const actionBar = el.ownerDocument.createElement("calcite-action-bar");
+    actionBar.layout = "horizontal";
+    actionBar.slot = SLOTS.contentTop;
+    contentTopLocator.element().replaceWith(actionBar);
+
+    await expect
+      .poll(() => page.getBySelector("calcite-action-bar").element().getBoundingClientRect().top)
+      .toBe(el.getBoundingClientRect().top);
+  });
+
   it("renders one border when header-top is the only header content", async () => {
     const { component } = await mount(
       <calcite-panel>
@@ -709,10 +794,6 @@ describe("theme", () => {
       },
       "--calcite-panel-footer-space": {
         shadowSelector: `.${CSS.footer}`,
-        targetProp: "padding",
-      },
-      "--calcite-panel-content-space": {
-        shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "padding",
       },
       "--calcite-panel-content-top-space": {

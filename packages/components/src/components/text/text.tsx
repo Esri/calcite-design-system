@@ -7,9 +7,12 @@ import {
 } from "../../utils/dom";
 import { createObserver, updateRefObserver } from "../../utils/observers";
 import { styles } from "./text.scss";
+import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 import { ELLIPSIS_CHAR, CSS } from "./resources";
 import { PropertyValues } from "lit";
+import { CSS_UTILITY } from "../../utils/resources";
 
+/** @public */
 type TruncatePosition = "middle" | "end";
 
 declare global {
@@ -18,23 +21,28 @@ declare global {
   }
 }
 
+/** @public */
 interface TextSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
 
+/** @public */
 export class Text extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TextSlots;
 
   //#endregion
 
   //#region Static Members
 
-  static override styles = styles;
+  static override styles = [styles, screenReaderStyles];
 
   //#endregion
 
@@ -74,6 +82,7 @@ export class Text extends LitElement {
   /**
    * Specifies the maximum number of lines to display before truncating the text with an ellipsis.
    *
+   * @public
    * @mdn [maxLines](https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/line-clamp)
    */
   @property({ type: Number, reflect: true }) maxLines?: number;
@@ -81,6 +90,8 @@ export class Text extends LitElement {
   /**
    * Specifies the position of truncation ellipsis when text overflows.
    * `truncatePosition` is ignored when `maxLines` is configured, as multi-line truncation always occurs at the end.
+   *
+   * @public
    */
   @property({ reflect: true }) truncatePosition?: TruncatePosition;
 
@@ -280,7 +291,11 @@ export class Text extends LitElement {
           ref={this.middleTruncatedSpanRef}
         />
         {this.isTruncatePositionMiddle() && (
-          <span ariaLive="polite" class={CSS.assistiveText} ref={this.assistiveTextSpanRef} />
+          <span
+            ariaLive="polite"
+            class={CSS_UTILITY.screenReaderText}
+            ref={this.assistiveTextSpanRef}
+          />
         )}
       </div>
     );

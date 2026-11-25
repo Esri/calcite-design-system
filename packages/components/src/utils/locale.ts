@@ -5,6 +5,8 @@ import { BigDecimal, isValidNumber, sanitizeExponentialNumberString } from "./nu
  * Represents any BCP 47 locale code used for formatting and parsing numbers.
  *
  * For locales that are used for translations, please use the `SupportedLocale` type from `@arcgis/toolkit/intl`.
+ *
+ * @public
  */
 export type Locale = HTMLElement["lang"];
 
@@ -42,8 +44,10 @@ export const localizedTwentyFourHourMeridiems = new Map(
   }),
 );
 
+/** @public */
 export const numberingSystems = ["arab", "arabext", "latn"] as const;
 
+/** @public */
 export type NumberingSystem = (typeof numberingSystems)[number];
 
 const isNumberingSystemSupported = (numberingSystem?: string): numberingSystem is NumberingSystem =>
@@ -83,6 +87,17 @@ export function getDateFormatSupportedLocale(locale: string): string {
   }
 }
 
+/**
+ * Gets the locale that best matches the context for textual date formatting.
+ *
+ * Chromium recognizes Bosnian but returns placeholder month and weekday values, such as `"M05"` and `"Mon"`.
+ *
+ * @see [Related Issue](https://github.com/Esri/calcite-design-system/issues/9387)
+ */
+export function getDateTextSupportedLocale(locale: string): string {
+  return locale === "bs" ? getDateFormatSupportedLocale(locale) : locale;
+}
+
 export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
   numberingSystem?: NumberingSystem;
   locale?: string;
@@ -90,13 +105,6 @@ export interface NumberStringFormatOptions extends Intl.NumberFormatOptions {
 
 /** This util formats and parses numbers for localization */
 export class NumberStringFormat {
-  /**
-   * The actual group separator for the specified locale.
-   * White-space group separators are changed to the non-breaking space (nbsp) unicode character.
-   * so we replace them with a normal <SPACE>.
-   */
-  private _actualGroup!: string;
-
   /** the corrected group separator */
   private _group!: string;
 
@@ -173,12 +181,17 @@ export class NumberStringFormat {
       numberingSystem: this._numberFormatOptions.numberingSystem,
     }).formatToParts(-12345678.9);
 
-    this._actualGroup = parts.find((d) => d.type === "group")!.value;
-    // change whitespace group separators to the unicode non-breaking space (nbsp)
-    this._group = this._actualGroup.trim().length === 0 || this._actualGroup == " " ? "\u00A0" : this._actualGroup;
+    const actualGroup = parts.find((d) => d.type === "group")!.value;
     // @see https://issues.chromium.org/issues/40656070
-    this._decimal =
-      options.locale === "bs" || options.locale === "mk" ? "," : parts.find((d) => d.type === "decimal")!.value;
+    const needsDecimalWorkaround = options.locale === "bs" || options.locale === "mk";
+    // CLDR specifies period grouping and comma decimals for bs/mk Latin digits.
+    this._group =
+      needsDecimalWorkaround && options.numberingSystem === "latn"
+        ? "."
+        : actualGroup.trim().length === 0 || actualGroup === " "
+          ? "\u00A0"
+          : actualGroup;
+    this._decimal = needsDecimalWorkaround ? "," : parts.find((d) => d.type === "decimal")!.value;
     this._minusSign = parts.find((d) => d.type === "minusSign")!.value;
     this._getDigitIndex = (d: string) => `${index.get(d) ?? ""}`;
   }
@@ -206,9 +219,7 @@ export class NumberStringFormat {
     return this._numberFormatOptions
       ? sanitizeExponentialNumberString(numberString, (nonExpoNumString: string): string =>
           isValidNumber(nonExpoNumString.trim())
-            ? new BigDecimal(nonExpoNumString.trim())
-                .format(this, includeDirectionalMarks)
-                .replace(new RegExp(`[${this._actualGroup}]`, "g"), this._group)
+            ? new BigDecimal(nonExpoNumString.trim()).format(this, includeDirectionalMarks)
             : nonExpoNumString,
         )
       : numberString;
@@ -222,20 +233,7 @@ export class NumberStringFormat {
   }
 
   #normalizeSeparators(value: string): string {
-    if (this._group !== this._decimal) {
-      return value.replace(new RegExp(`[${this._group}]`, "g"), "").replace(new RegExp(`[${this._decimal}]`, "g"), ".");
-    }
-
-    const lastSeparatorIndex = value.lastIndexOf(this._decimal);
-
-    if (lastSeparatorIndex === -1) {
-      return value;
-    }
-
-    const wholePart = value.slice(0, lastSeparatorIndex).replace(new RegExp(`[${this._group}]`, "g"), "");
-    const fractionalPart = value.slice(lastSeparatorIndex + 1);
-
-    return `${wholePart}.${fractionalPart}`;
+    return value.replace(new RegExp(`[${this._group}]`, "g"), "").replace(new RegExp(`[${this._decimal}]`, "g"), ".");
   }
 }
 
@@ -245,22 +243,16 @@ export type LocaleDateTimeOptionKey = string;
 
 /**
  * Exported for testing purposes only.
- *
- * @private
  */
 export let dateTimeFormatCache: Map<LocaleDateTimeOptionKey, Intl.DateTimeFormat>;
 
 /**
  * Used to ensure all cached formats are for the same locale.
- *
- * @private
  */
 let previousLocaleUsedForCaching: string;
 
 /**
  * Generates a cache key for date time format lookups.
- *
- * @private
  */
 function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): string {
   return Object.entries(options)
@@ -274,8 +266,6 @@ function buildDateTimeFormatCacheKey(options: Intl.DateTimeFormatOptions = {}): 
  * Returns an instance of Intl.DateTimeFormat and reuses it if requested with the same locale and options.
  *
  * **Note**: the cache will be cleared if a different locale is provided
- *
- * @private
  */
 export function getDateTimeFormat(locale: string, options?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
   if (!dateTimeFormatCache) {

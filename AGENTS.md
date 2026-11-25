@@ -93,11 +93,17 @@ Tests should primarily verify observable behavior.
 
 Model how a user interacts with the component and minimize programmatic stepping through state or methods, unless the test specifically covers API or programmatic interaction.
 
+Use keyboard navigation to establish focus in interaction tests instead of calling `setFocus()`. Retain imperative focus calls when the test specifically covers the focus API.
+
+For repeated or complex keyboard interactions, prefer Vitest's supported user-event syntax and interaction options over duplicated key tokens, string repetition, or multiple calls. For example, use `userEvent.keyboard("{Tab>3/}")` for three Tab keydowns and `userEvent.keyboard("{Shift>}{Tab>2/}{/Shift}")` for two Shift+Tab keydowns. Release repeated keys with the trailing `/` and release held modifiers explicitly. Preserve meaningful assertion and rendering boundaries between interactions.
+
 Test internals or implementation details only when necessary coverage cannot be achieved through observable behavior or public APIs.
 
 Use browser-mode tests as the default for component testing. Add new component tests in browser mode.
 
 Prefer locators over direct DOM queries, especially over manually traversing shadow roots. Direct DOM access is acceptable when a test primarily verifies API updates and locators would add unnecessary overhead to that path.
+
+Before reporting unsupported Vitest locator or matcher behavior, verify it against the repository's installed Vitest version and the official [locator](https://vitest.dev/api/browser/locators) and [assertion](https://vitest.dev/api/browser/assertions) documentation. Collection locators expose `length`, and DOM assertions support locators with regular `expect`. Prefer `await expect.element(locator)` when retryability can improve stability; regular `expect(locator)` remains supported for immediate assertions.
 
 Add tests purposefully in the appropriate context. Cover visual changes such as layout with screenshot tests, and functionality with E2E or spec tests rather than stories.
 
