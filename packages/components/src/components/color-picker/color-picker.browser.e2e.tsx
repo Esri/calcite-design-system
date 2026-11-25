@@ -2572,6 +2572,67 @@ it("does not throw when initialized with different format value (format='auto')"
 });
 
 describe("themed", () => {
+  it.each(["ltr", "rtl"] as const)(
+    "rounds the exposed input corners without opacity in %s and when alpha changes",
+    async (direction) => {
+      const { el, reRender } = await mount<ColorPicker>(
+        <calcite-color-picker dir={direction} style="--calcite-color-picker-corner-radius: 12px" />,
+      );
+      const picker = page.elementLocator(el);
+      const hexInput = picker
+        .getBySelector("calcite-color-picker-hex-input")
+        .getBySelector("calcite-input-text");
+      const channels = picker.getBySelector(`.${CSS.channel}`);
+
+      await expect
+        .element(hexInput.getBySelector(".element-wrapper"))
+        .toHaveStyle("border-radius: 12px;");
+      await expect
+        .element(hexInput.getBySelector("input"))
+        .toHaveStyle(
+          direction === "rtl"
+            ? "border-radius: 12px 0px 0px 12px;"
+            : "border-radius: 0px 12px 12px 0px;",
+        );
+      await expect
+        .element(channels.nth(2).getBySelector(".element-wrapper"))
+        .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+      await expect
+        .element(channels.nth(2).getBySelector("input"))
+        .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+
+      await userEvent.click(page.getByRole("tab", { name: "HSV" }));
+      await expect
+        .element(channels.nth(5).getBySelector(".element-wrapper"))
+        .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+      await expect
+        .element(channels.nth(5).getBySelector("input"))
+        .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+
+      el.alphaChannel = true;
+      await reRender();
+      await expect
+        .element(hexInput.getBySelector(".element-wrapper"))
+        .toHaveStyle(
+          direction === "rtl"
+            ? "border-radius: 0px 12px 12px 0px;"
+            : "border-radius: 12px 0px 0px 12px;",
+        );
+      await expect
+        .element(channels.nth(2).getBySelector(".element-wrapper"))
+        .toHaveStyle("border-radius: 0px;");
+
+      el.alphaChannel = false;
+      await reRender();
+      await expect
+        .element(hexInput.getBySelector(".element-wrapper"))
+        .toHaveStyle("border-radius: 12px;");
+      await expect
+        .element(channels.nth(2).getBySelector(".element-wrapper"))
+        .toHaveStyle("border-radius: 0px 12px 12px 0px;");
+    },
+  );
+
   describe("default swatch corner radius", () => {
     themed(() => mount(<calcite-color-picker />), {
       "--calcite-corner-radius": {

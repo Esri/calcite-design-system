@@ -213,22 +213,17 @@ calcite-swatch {
 .channel {
   flex-grow: 1;
 
-  &[data-channel-index="0"] {
+  &:not(:last-child) {
     --calcite-internal-input-number-element-corner-radius-top-right: var(--calcite-corner-radius-none);
     --calcite-internal-input-number-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
   }
 
-  &[data-channel-index="1"],
-  &[data-channel-index="2"] {
+  &:not(:first-child) {
     --calcite-internal-input-number-element-corner-radius-top-left: var(--calcite-corner-radius-none);
-    --calcite-internal-input-number-element-corner-radius-top-right: var(--calcite-corner-radius-none);
-    --calcite-internal-input-number-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
     --calcite-internal-input-number-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
   }
 
   &[data-channel-index="3"] {
-    --calcite-internal-input-number-element-corner-radius-top-left: var(--calcite-corner-radius-none);
-    --calcite-internal-input-number-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
     --calcite-internal-input-number-corner-radius-start-end: var(--calcite-input-number-corner-radius);
     --calcite-internal-input-number-corner-radius-end-end: var(--calcite-input-number-corner-radius);
   }
@@ -237,6 +232,11 @@ calcite-swatch {
     margin-inline-start: -1px;
     min-inline-size: 81px;
   }
+}
+
+:host(:dir(ltr)) .channel[data-channel-index="2"]:last-child {
+  --calcite-internal-input-number-input-corner-radius-start-end: var(--calcite-input-number-corner-radius);
+  --calcite-internal-input-number-input-corner-radius-end-end: var(--calcite-input-number-corner-radius);
 }
 
 :host(:dir(rtl)) .channel[data-channel-index="0"] {

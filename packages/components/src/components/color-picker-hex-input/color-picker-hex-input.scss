@@ -28,8 +28,6 @@
 
 .hex-input {
   --calcite-input-text-corner-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
-  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
-  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
   --calcite-input-text-background-color: var(--calcite-color-picker-input-background-color);
   --calcite-input-text-border-color: var(--calcite-color-picker-input-border-color);
   --calcite-input-text-text-color: var(--calcite-color-picker-input-text-color);
@@ -58,7 +56,12 @@
   margin-inline-start: -1px;
 }
 
-:host(:dir(rtl)) .hex-input {
+.hex-input:not(:last-child) {
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+}
+
+:host(:dir(rtl)) .hex-input:not(:last-child) {
   --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-corner-radius-none);
   --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
   --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-input-text-corner-radius);
