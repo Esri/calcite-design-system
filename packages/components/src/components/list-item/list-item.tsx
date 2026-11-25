@@ -242,7 +242,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * @public
    * @copyDoc
    */
-  @property() closable = false;
+  @property({ reflect: true }) closable = false;
 
   /**
    * @public
@@ -268,7 +268,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @public
    */
-  @property() dragDisabled = false;
+  @property({ reflect: true }) dragDisabled = false;
 
   /**
    * When `true`, the component displays a draggable button.
@@ -332,7 +332,7 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * @public
    * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
    */
-  @property()
+  @property({ reflect: true })
   get open(): boolean {
     return this.expanded;
   }
@@ -401,14 +401,14 @@ export class ListItem extends LitElement implements SortableComponentItem {
    *
    * @public
    */
-  @property() sortHandleOpen = false;
+  @property({ reflect: true }) sortHandleOpen = false;
 
   /**
    * When `true`, the component's content displays as inactive.
    *
    * @public
    */
-  @property() unavailable = false;
+  @property({ reflect: true }) unavailable = false;
 
   /**
    * The component's value.
@@ -421,27 +421,27 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * @public
    * @copyDoc
    */
-  @property() iconStart?: IconName;
+  @property({ reflect: true }) iconStart?: IconName;
 
   /**
    * @public
    * @copyDoc
    */
-  @property() iconEnd?: IconName;
+  @property({ reflect: true }) iconEnd?: IconName;
 
   /**
    * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
    *
    * @public
    */
-  @property() iconFlipRtl?: FlipContext;
+  @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
   /**
    * @public
    * @copyDoc
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
-  @property() topLayerDisabled = false;
+  @property({ reflect: true }) topLayerDisabled = false;
 
   //#endregion
 

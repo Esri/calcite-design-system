@@ -116,17 +116,14 @@ describe("reflects", () => {
       {
         propertyName: "unavailable",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "sortHandleOpen",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "open",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "expanded",
@@ -139,7 +136,6 @@ describe("reflects", () => {
       {
         propertyName: "closable",
         value: true,
-        reflect: false,
       },
     ],
   );

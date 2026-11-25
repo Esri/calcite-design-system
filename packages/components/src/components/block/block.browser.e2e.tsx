@@ -141,22 +141,18 @@ describe("reflects", () => {
       {
         propertyName: "collapsible",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "expandable",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "headingLevel",
         value: 2,
-        reflect: false,
       },
       {
         propertyName: "open",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "expanded",
@@ -165,22 +161,18 @@ describe("reflects", () => {
       {
         propertyName: "overlayPositioning",
         value: "fixed",
-        reflect: false,
       },
       {
         propertyName: "menuPlacement",
         value: "bottom",
-        reflect: false,
       },
       {
         propertyName: "dragDisabled",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "sortHandleOpen",
         value: true,
-        reflect: false,
       },
       {
         propertyName: "scale",

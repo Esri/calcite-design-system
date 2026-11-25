@@ -23,12 +23,49 @@ import { DEBOUNCE } from "../../utils/resources";
 import type { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
+import { mockConsole } from "../../tests/utils/logging";
 
 const scrollTopValue = 120;
 
 const placeholder = placeholderImage({
   width: 350,
   height: 150,
+});
+
+describe("cloning", () => {
+  mockConsole();
+
+  it("preserves current item configuration when adding a copy to another list", async () => {
+    const { el, reRender } = await mount(
+      <div>
+        <calcite-list canPull={() => "clone"} dragEnabled group="items" id="source" label="Source">
+          <calcite-list-item icon-start="banana" label="Layer" />
+        </calcite-list>
+        <calcite-list dragEnabled group="items" id="destination" label="Destination" />
+      </div>,
+    );
+    const configuration = {
+      closable: true,
+      unavailable: true,
+      iconStart: "layers",
+      iconEnd: "layer",
+      iconFlipRtl: "both",
+    } satisfies Partial<ListItem["el"]>;
+
+    Object.assign(el.querySelector("calcite-list-item")!, configuration);
+    await reRender();
+
+    const source = page.getBySelector("#source > calcite-list-item");
+    await source.getByRole("button", { name: /^Reposition/ }).click();
+    await source.getByRole("menuitem", { name: "Destination", exact: true }).click();
+
+    const copy = page.getBySelector("#destination > calcite-list-item");
+    for (const [property, value] of Object.entries(configuration)) {
+      await expect.element(copy).toHaveProperty(property, value);
+    }
+    await expect.element(copy.getByRole("button", { name: "Close", exact: true })).toBeVisible();
+    await expect.element(source).toHaveProperty("iconStart", "layers");
+  });
 });
 
 describe("accessible", () => {
@@ -852,26 +889,28 @@ describe("nested selection modes", () => {
     const nestedListNone = page.getByTestId("nested-list-none").element() as List["el"];
     const nestedListMultiple = page.getByTestId("nested-list-multiple").element() as List["el"];
 
-    const assertSelectionModes = (): void => {
-      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
-      expect(nestedNoneItem).toHaveProperty("selectionMode", "none");
-      expect(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
+    const assertSelectionModes = async (): Promise<void> => {
+      await expect.element(nestedNoneDragEnabledItem).toHaveProperty("selectionMode", "none");
+      await expect.element(nestedNoneItem).toHaveProperty("selectionMode", "none");
+      await expect.element(nestedMultipleItem).toHaveProperty("selectionMode", "multiple");
     };
 
-    const assertAllNestedProperties = (): void => {
-      assertSelectionModes();
+    const assertAllNestedProperties = async (): Promise<void> => {
+      await assertSelectionModes();
 
-      expect(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
-      expect(nestedNoneDragEnabledItem).toHaveProperty("selectionAppearance", "highlight");
-      expect(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
+      await expect.element(nestedNoneDragEnabledItem).toHaveProperty("scale", "s");
+      await expect
+        .element(nestedNoneDragEnabledItem)
+        .toHaveProperty("selectionAppearance", "highlight");
+      await expect.element(nestedNoneDragEnabledItem).toHaveProperty("interactionMode", "static");
 
-      expect(nestedNoneItem).toHaveProperty("scale", "s");
-      expect(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
-      expect(nestedNoneItem).toHaveProperty("interactionMode", "interactive");
+      await expect.element(nestedNoneItem).toHaveProperty("scale", "s");
+      await expect.element(nestedNoneItem).toHaveProperty("selectionAppearance", "highlight");
+      await expect.element(nestedNoneItem).toHaveProperty("interactionMode", "interactive");
 
-      expect(nestedMultipleItem).toHaveProperty("scale", "s");
-      expect(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
-      expect(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
+      await expect.element(nestedMultipleItem).toHaveProperty("scale", "s");
+      await expect.element(nestedMultipleItem).toHaveProperty("selectionAppearance", "highlight");
+      await expect.element(nestedMultipleItem).toHaveProperty("interactionMode", "interactive");
     };
 
     const nestedPropertiesSettled = (): boolean => {
@@ -903,8 +942,7 @@ describe("nested selection modes", () => {
       });
     };
 
-    // Assert immediately after initial render.
-    assertSelectionModes();
+    await assertSelectionModes();
 
     // Establish nested list-item baselines from nested list updates.
     nestedListNoneDragEnabled.scale = "l";
@@ -932,7 +970,7 @@ describe("nested selection modes", () => {
     nestedListMultiple.interactionMode = "interactive";
 
     await waitForNestedPropertiesToSettle();
-    assertAllNestedProperties();
+    await assertAllNestedProperties();
 
     // Trigger parent-list updates that should not overwrite nested-list item props.
     rootListOne.selectionMode = "single";
@@ -950,8 +988,9 @@ describe("nested selection modes", () => {
     rootListThree.selectionAppearance = "icon";
     rootListThree.interactionMode = "static";
 
+    await afterNextFrame();
     await waitForNestedPropertiesToSettle();
-    assertAllNestedProperties();
+    await assertAllNestedProperties();
   });
 });
 
