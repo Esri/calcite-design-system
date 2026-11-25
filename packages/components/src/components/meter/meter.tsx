@@ -121,7 +121,7 @@ export class Meter extends LitElement {
    * Specifies the component's display.
    *
    * - `"single"` displays a single color.
-   * - `"range"` displays a range of colors based on provided `low`, `high`, `min` or `max` values.
+   * - `"range"` displays a range of colors based on provided `low`, `high`, `min`, `max`, or `optimum` values.
    */
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
@@ -162,6 +162,15 @@ export class Meter extends LitElement {
 
   /** Specifies the Unicode numeral system used by the component for localization. */
   @property() numberingSystem?: NumberingSystem;
+
+  /**
+   * Specifies the optimal value when `fillType` is `"range"`. Values outside `min` and `max` are treated as the nearest bound.
+   *
+   * Values below `low` make the lower range preferable, values above `high` make the upper range preferable,
+   * and values between `low` and `high`, inclusive, make the middle range preferable.
+   * When not specified, preserves the default color ramp where lower values are preferable.
+   */
+  @property({ reflect: true }) optimum?: number;
 
   /** When `rangeLabels` is `true`, specifies the format of displayed labels. */
   @property({ reflect: true }) rangeLabelType: MeterLabelType = "percent";
@@ -294,9 +303,31 @@ export class Meter extends LitElement {
   }
 
   private getMeterKindCssClass(): string {
-    const { low, high, min, max, value } = this;
+    const { low, high, min, max, value, optimum } = this;
     const lowest = low ? low : min;
     const highest = high ? high : max;
+
+    if (optimum !== undefined) {
+      const optimumValue = Math.min(max, Math.max(min, optimum));
+      const currentValue = Math.min(max, Math.max(min, value ?? min));
+
+      if (optimumValue < lowest) {
+        if (currentValue <= lowest) {
+          return CSS.success;
+        }
+        return currentValue <= highest ? CSS.warning : CSS.danger;
+      }
+
+      if (optimumValue > highest) {
+        if (currentValue >= highest) {
+          return CSS.success;
+        }
+        return currentValue >= lowest ? CSS.warning : CSS.danger;
+      }
+
+      return currentValue >= lowest && currentValue <= highest ? CSS.success : CSS.warning;
+    }
+
     const aboveLowest = value !== undefined && value >= lowest;
     const belowLowest = value !== undefined && value < lowest;
     const aboveHighest = value !== undefined && value >= highest;
