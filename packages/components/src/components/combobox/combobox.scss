@@ -250,6 +250,36 @@
   );
 }
 
+.sticky-header,
+.content-bottom {
+  position: sticky;
+  z-index: var(--calcite-z-index-sticky);
+  background-color: var(
+    --calcite-combobox-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+.sticky-header {
+  inset-block-start: 0;
+}
+
+.content-top {
+  display: flex;
+  border-block-end: 1px solid var(--calcite-color-border-3);
+}
+
+.content-bottom {
+  display: flex;
+  inset-block-end: 0;
+  border-block-start: 1px solid var(--calcite-color-border-3);
+}
+
+.content-top--hidden,
+.content-bottom--hidden {
+  display: none;
+}
+
 .list {
   margin: 0;
   display: block;
@@ -288,9 +318,6 @@ calcite-chip {
   border-block-end-color: var(--calcite-combobox-divider-color, var(--calcite-color-border-3));
   border-block-end-style: solid;
   border-block-end-width: var(--calcite-border-width-sm);
-  inset-block-start: 0;
-  position: sticky;
-  z-index: var(--calcite-z-index-sticky);
 }
 
 .no-matches {

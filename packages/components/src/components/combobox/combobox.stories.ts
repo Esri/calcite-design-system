@@ -6,6 +6,7 @@ import type { Scale } from "../types";
 import type { Combobox } from "./combobox";
 import { allModes } from "../../../.storybook/modes";
 import "./combobox"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../button/button"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../combobox-item/combobox-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../combobox-item-group/combobox-item-group"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../icon/icon"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -187,6 +188,49 @@ export const simple = (args: ComboboxStoryArgs): string => html`
       <calcite-combobox-item icon="clock" value="clock" heading="Clock"></calcite-combobox-item>
     </calcite-combobox>
   </div>
+`;
+
+export const contentTop = (): string => html`
+  <calcite-combobox open select-all-enabled selection-mode="multiple" max-items="5">
+    <calcite-button appearance="transparent" icon-start="plus" slot="content-top"> Create new folder </calcite-button>
+    <calcite-combobox-item heading="Documents" value="documents"></calcite-combobox-item>
+    <calcite-combobox-item heading="Images" value="images"></calcite-combobox-item>
+    <calcite-combobox-item heading="Projects" value="projects"></calcite-combobox-item>
+  </calcite-combobox>
+`;
+
+export const contentBottom = (): string => html`
+  <calcite-combobox open select-all-enabled selection-mode="multiple" max-items="5">
+    <calcite-combobox-item heading="Documents" value="documents"></calcite-combobox-item>
+    <calcite-combobox-item heading="Images" value="images"></calcite-combobox-item>
+    <calcite-combobox-item heading="Projects" value="projects"></calcite-combobox-item>
+    <calcite-combobox-item heading="Maps" value="maps"></calcite-combobox-item>
+    <calcite-combobox-item heading="Reports" value="reports"></calcite-combobox-item>
+    <calcite-combobox-item heading="Archives" value="archives"></calcite-combobox-item>
+    <calcite-button appearance="transparent" icon-start="plus" slot="content-bottom">
+      Create new folder
+    </calcite-button>
+  </calcite-combobox>
+`;
+
+export const contentSlotsNoMatches = (): string => html`
+  <calcite-combobox open filter-text="No matching folder" selection-mode="multiple">
+    <calcite-button appearance="transparent" icon-start="plus" slot="content-top"> Create new folder </calcite-button>
+    <calcite-combobox-item heading="Documents" value="documents"></calcite-combobox-item>
+    <calcite-combobox-item heading="Images" value="images"></calcite-combobox-item>
+    <calcite-combobox-item heading="Projects" value="projects"></calcite-combobox-item>
+    <calcite-button appearance="transparent" slot="content-bottom"> Manage folders </calcite-button>
+  </calcite-combobox>
+`;
+
+export const contentSlotsWithOneVisibleItem = (): string => html`
+  <calcite-combobox open max-items="1" selection-mode="multiple">
+    <calcite-button appearance="transparent" icon-start="plus" slot="content-top"> Create new folder </calcite-button>
+    <calcite-combobox-item heading="Documents" value="documents"></calcite-combobox-item>
+    <calcite-combobox-item heading="Images" value="images"></calcite-combobox-item>
+    <calcite-combobox-item heading="Projects" value="projects"></calcite-combobox-item>
+    <calcite-button appearance="transparent" slot="content-bottom"> Manage folders </calcite-button>
+  </calcite-combobox>
 `;
 
 export const smallViewport = (): string => html`

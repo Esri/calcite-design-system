@@ -23,6 +23,11 @@ export const CSS = {
   selectionDisplaySingle: "selection-display--single",
   selectedIcon: "selected-icon",
   floatingUIContainer: "floating-ui-container",
+  stickyHeader: "sticky-header",
+  contentTop: "content-top",
+  contentTopHidden: "content-top--hidden",
+  contentBottom: "content-bottom",
+  contentBottomHidden: "content-bottom--hidden",
   wrapper: "wrapper",
   wrapperSingle: "wrapper--single",
   wrapperActive: "wrapper--active",
@@ -55,6 +60,8 @@ export const ICONS: Record<string, IconName> = {
 };
 
 export const SLOTS = {
+  contentTop: "content-top",
+  contentBottom: "content-bottom",
   labelContent: "label-content",
 };
 

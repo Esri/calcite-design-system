@@ -3,6 +3,7 @@ import { escapeRegExp } from "es-toolkit/compat";
 import { calciteSize48 } from "@esri/calcite-design-tokens/dist/es6/core.js";
 import { PropertyValues } from "lit";
 import { createRef } from "lit/directives/ref.js";
+import { isFocusable, tabbable } from "tabbable";
 import {
   createEvent,
   h,
@@ -16,7 +17,13 @@ import {
 } from "@arcgis/lumina";
 import { useDirection } from "@arcgis/lumina/controllers";
 import { filter } from "../../utils/filter";
-import { focusElement, getElementWidth, getTextWidth } from "../../utils/dom";
+import {
+  focusElement,
+  getElementWidth,
+  getTextWidth,
+  slotChangeHasAssignedElement,
+  tabbableOptions,
+} from "../../utils/dom";
 import {
   connectFloatingUI,
   defaultMenuPlacement,
@@ -59,7 +66,14 @@ import { useForm } from "../../controllers/useForm";
 import { isChip } from "../chip/resources";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { ComboboxChildElement, GroupData, ItemData, SelectionDisplay } from "./types";
-import { ComboboxItemGroupSelector, ComboboxItemSelector, CSS, IDS, ICONS } from "./resources";
+import {
+  ComboboxItemGroupSelector,
+  ComboboxItemSelector,
+  CSS,
+  IDS,
+  ICONS,
+  SLOTS,
+} from "./resources";
 import {
   getItemAncestors,
   getItemChildren,
@@ -153,6 +167,18 @@ interface ComboboxSlots {
    * @public
    */
   "label-content": Node[];
+  /**
+   * A slot for adding content above the combobox items.
+   *
+   * @public
+   */
+  "content-top": Node[];
+  /**
+   * A slot for adding content below the combobox items.
+   *
+   * @public
+   */
+  "content-bottom": Node[];
 }
 
 /**
@@ -184,6 +210,12 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   })(this);
 
   private selectAllComboboxItemRef = createRef<HTMLCalciteComboboxItemElement>();
+
+  private stickyHeaderEl?: HTMLDivElement;
+
+  private contentTopSlotRef = createRef<HTMLDivElement>();
+
+  private contentBottomSlotEl?: HTMLDivElement;
 
   private allSelectedIndicatorChipRef = createRef<Chip["el"]>();
 
@@ -425,6 +457,10 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
   @state() items: HTMLCalciteComboboxItemElement["el"][] = [];
 
   @state() noMatchesFound = false;
+
+  @state() hasContentTop = false;
+
+  @state() hasContentBottom = false;
 
   //#endregion
 
@@ -822,6 +858,7 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       this.calciteInternalComboboxItemChangeHandler,
     );
     this.listen("click", this.comboboxFocusHandler);
+    this.listen("focusout", this.handleFocusOut);
   }
 
   override connectedCallback(): void {
@@ -991,6 +1028,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     await this.componentOnReady();
 
+    this.commitOrClearFilter();
+    this.open = false;
+  }
+
+  private commitOrClearFilter(): void {
     if (!this.allowCustomValues && this.filterText) {
       this.clearInputValue();
       this.filterItems("");
@@ -1000,8 +1042,6 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (this.allowCustomValues && this.filterText.trim().length) {
       this.addCustomChip(this.filterText);
     }
-
-    this.open = false;
   }
 
   private handleSelectAll(isSelectAllTarget: boolean): void {
@@ -1149,6 +1189,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
       case "Tab":
         this.activeChipIndex = -1;
         this.activeItemIndex = -1;
+        if (
+          this.open &&
+          !this.noMatchesFound &&
+          !event.shiftKey &&
+          this.floatingEl &&
+          (this.hasContentTop || this.hasContentBottom) &&
+          tabbable(this.floatingEl, tabbableOptions).length > 0
+        ) {
+          break;
+        }
         if (this.allowCustomValues && this.filterText) {
           this.addCustomChip(this.filterText, true);
           event.preventDefault();
@@ -1321,7 +1371,11 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     }
 
     const maxScrollerHeight = this.getMaxScrollerHeight();
-    listContainerEl.style.maxBlockSize = maxScrollerHeight > 0 ? `${maxScrollerHeight}px` : "";
+    const stickyHeight =
+      (this.stickyHeaderEl?.getBoundingClientRect().height || 0) +
+      (this.contentBottomSlotEl?.getBoundingClientRect().height || 0);
+    listContainerEl.style.maxBlockSize =
+      maxScrollerHeight > 0 ? `${maxScrollerHeight + stickyHeight}px` : "";
     listContainerEl.style.inlineSize = `${referenceEl.clientWidth}px`;
   }
 
@@ -1670,6 +1724,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     this.transitionEl = el;
   }
 
+  private setStickyHeaderEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.stickyHeaderEl, el);
+    this.stickyHeaderEl = el;
+  }
+
+  private setContentBottomSlotEl(el: HTMLDivElement): void {
+    updateRefObserver(this.resizeObserver, this.contentBottomSlotEl, el);
+    this.contentBottomSlotEl = el;
+  }
+
   private setChipContainerEl(el: HTMLDivElement): void {
     updateRefObserver(this.resizeObserver, this.chipContainerEl, el);
     this.chipContainerEl = el;
@@ -1995,14 +2059,20 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
 
     item.scrollIntoView({ block: "nearest" });
 
-    const stickyElement = this.selectAllComboboxItemRef.value;
-    const stickyHeight = stickyElement?.offsetHeight || 0;
+    const stickyHeight = this.stickyHeaderEl?.offsetHeight || 0;
 
     const itemRect = item.getBoundingClientRect();
     const containerRect = listContainer.getBoundingClientRect();
 
     if (itemRect.top < containerRect.top + stickyHeight) {
       listContainer.scrollTop -= containerRect.top + stickyHeight - itemRect.top;
+    } else {
+      const stickyFooterHeight = this.contentBottomSlotEl?.getBoundingClientRect().height || 0;
+      const visibleBottom = containerRect.bottom - stickyFooterHeight;
+
+      if (itemRect.bottom > visibleBottom) {
+        listContainer.scrollTop += Math.ceil(itemRect.bottom - visibleBottom);
+      }
     }
   }
 
@@ -2035,8 +2105,16 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     return !isSingleLike(this.selectionMode);
   }
 
-  private comboboxFocusHandler(): void {
-    if (this.disabled) {
+  private comboboxFocusHandler(event: Event): void {
+    const contentTopSlot = this.contentTopSlotRef.value;
+    const contentBottomSlot = this.contentBottomSlotEl;
+    const path = event.composedPath();
+
+    if (
+      this.disabled ||
+      (contentTopSlot && path.includes(contentTopSlot)) ||
+      (contentBottomSlot && path.includes(contentBottomSlot))
+    ) {
       return;
     }
 
@@ -2045,6 +2123,48 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     if (this.open && this.selectionDisplay === "fit" && this.isMulti()) {
       void this.refreshSelectionDisplay();
     }
+  }
+
+  private handleContentTopSlotChange(event: Event): void {
+    this.hasContentTop = slotChangeHasAssignedElement(event);
+  }
+
+  private handleFloatingKeyDown(event: KeyboardEvent): void {
+    if (event.key === "Escape" && !event.defaultPrevented && this.open) {
+      this.open = false;
+      event.preventDefault();
+      void this.setFocus();
+    }
+  }
+
+  private handleFloatingMouseDown(event: MouseEvent): void {
+    for (const target of event.composedPath()) {
+      if (target === event.currentTarget) {
+        break;
+      }
+
+      if (target instanceof Element && isFocusable(target, tabbableOptions)) {
+        return;
+      }
+    }
+
+    event.preventDefault();
+  }
+
+  private handleFocusOut(event: FocusEvent): void {
+    if (
+      (!this.hasContentTop && !this.hasContentBottom) ||
+      (event.relatedTarget instanceof Node && this.el.contains(event.relatedTarget))
+    ) {
+      return;
+    }
+
+    this.commitOrClearFilter();
+    this.open = false;
+  }
+
+  private handleContentBottomSlotChange(event: Event): void {
+    this.hasContentBottom = slotChangeHasAssignedElement(event);
   }
 
   private createScreenReaderItem({
@@ -2485,13 +2605,29 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
     const label = (this.filterText && messages.add.replace("{text}", `${this.filterText}`)) ?? "";
 
     return (
-      <div ariaHidden="true" class={CSS.floatingUIContainer} popover="manual" ref={setFloatingEl}>
+      <div
+        class={CSS.floatingUIContainer}
+        onKeyDown={this.handleFloatingKeyDown}
+        onMouseDown={this.handleFloatingMouseDown}
+        popover="manual"
+        ref={setFloatingEl}
+      >
         <div class={classes} ref={setContainerEl}>
-          <ul class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
+          <div class={CSS.stickyHeader} ref={this.setStickyHeaderEl}>
+            <div
+              class={{
+                [CSS.contentTop]: true,
+                [CSS.contentTopHidden]: !this.hasContentTop || this.noMatchesFound,
+              }}
+              ref={this.contentTopSlotRef}
+            >
+              <slot name={SLOTS.contentTop} onSlotChange={this.handleContentTopSlotChange} />
+            </div>
             {this.selectAllEnabled &&
               this.selectionMode !== "single" &&
               this.selectionMode !== "single-persist" && (
                 <calcite-combobox-item
+                  ariaHidden="true"
                   class={CSS.selectAll}
                   data-testid="select-all-item"
                   heading={messages.selectAll}
@@ -2505,6 +2641,8 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
                   value="select-all"
                 />
               )}
+          </div>
+          <ul ariaHidden="true" class={{ [CSS.list]: true, [CSS.listHide]: !open }}>
             <slot />
             {this.noMatchesFound &&
               (this.allowCustomValues ? (
@@ -2531,6 +2669,15 @@ export class Combobox extends LitElement implements LabelableComponent, Floating
                 </li>
               ))}
           </ul>
+          <div
+            class={{
+              [CSS.contentBottom]: true,
+              [CSS.contentBottomHidden]: !this.hasContentBottom || this.noMatchesFound,
+            }}
+            ref={this.setContentBottomSlotEl}
+          >
+            <slot name={SLOTS.contentBottom} onSlotChange={this.handleContentBottomSlotChange} />
+          </div>
         </div>
       </div>
     );
