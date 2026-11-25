@@ -118,6 +118,8 @@ describe("shell provides sizing context", () => {
           </div>,
         );
         const handle = page.getByRole("separator");
+        const isBlock = slot === SLOTS.panelTop || slot === SLOTS.panelBottom;
+
         await handle.click();
         await userEvent.keyboard("{End}");
         await expect.element(handle).toHaveAttribute("aria-valuenow", "1120");
@@ -128,7 +130,6 @@ describe("shell provides sizing context", () => {
         await expect.element(handle).toHaveAttribute("aria-valuenow", "420");
 
         const rect = handle.element().getBoundingClientRect();
-        const isBlock = slot === SLOTS.panelTop || slot === SLOTS.panelBottom;
         const shrinksRight = (slot === SLOTS.panelEnd) === (dir === "ltr");
         await userEvent.hover(handle);
         await commands.mouseDown();

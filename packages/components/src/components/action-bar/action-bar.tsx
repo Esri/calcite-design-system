@@ -707,15 +707,17 @@ export class ActionBar extends LitElement {
   }
 
   private getActionGroupItemCount(actionGroup: ActionGroup["el"]): number {
-    const directActionGroupActions = actionGroup.actions.filter(
-      (action) => action.parentElement === actionGroup,
-    );
+    // Reads the DOM so the count doesn't depend on the action group being upgraded when the debounced resize runs.
+    const directActionGroupActionsCount = filterDirectChildren<Action["el"]>(
+      actionGroup,
+      "calcite-action",
+    ).length;
     const directActionMenusCount = filterDirectChildren<ActionMenu["el"]>(
       actionGroup,
       "calcite-action-menu",
     ).length;
 
-    return directActionGroupActions.length + directActionMenusCount;
+    return directActionGroupActionsCount + directActionMenusCount;
   }
 
   private expandedHandler(): void {

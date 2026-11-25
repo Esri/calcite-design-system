@@ -21,6 +21,8 @@ type ShellPanelWithSizingProvider = ShellPanel["el"] & {
 
 type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
 
+type PanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
+
 declare global {
   interface DeclareElements {
     "calcite-shell": Shell;
@@ -130,7 +132,7 @@ export class Shell extends LitElement {
 
   static override styles = styles;
 
-  // #endregion
+  //#endregion
 
   //#region Private Properties
 
@@ -146,7 +148,16 @@ export class Shell extends LitElement {
 
   private panelTopSlotRef = createRef<HTMLSlotElement>();
 
-  // #region State Properties
+  private panelSlotState: Record<PanelSlot, { elements: ShellPanel["el"][] }> = {
+    "panel-start": { elements: [] },
+    "panel-end": { elements: [] },
+    "panel-top": { elements: [] },
+    "panel-bottom": { elements: [] },
+  };
+
+  //#endregion
+
+  //#region State Properties
 
   @state() hasAlerts = false;
 
@@ -155,6 +166,10 @@ export class Shell extends LitElement {
   @state() hasFooter = false;
 
   @state() hasHeader = false;
+
+  @state() hasActionBarPositionPanelBottom = false;
+
+  @state() hasActionBarPositionPanelTop = false;
 
   @state() hasOnlyPanelBottom = false;
 
@@ -166,9 +181,9 @@ export class Shell extends LitElement {
 
   @state() panelIsResizing = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Public Properties
+  //#region Public Properties
 
   /**
    * When `true`, positions the center content behind any `calcite-shell-panel`s.
@@ -177,9 +192,9 @@ export class Shell extends LitElement {
    */
   @property({ reflect: true }) contentBehind = false;
 
-  // #endregion
+  //#endregion
 
-  // #region Lifecycle
+  //#region Lifecycle
 
   constructor() {
     super();
@@ -190,6 +205,10 @@ export class Shell extends LitElement {
     this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelResizeEnd"]>(
       "calciteInternalShellPanelResizeEnd",
       this.handleCalciteInternalShellPanelResizeEnd,
+    );
+    this.listen<ToEvents<ShellPanel>["calciteInternalShellPanelActionBarPositionChange"]>(
+      "calciteInternalShellPanelActionBarPositionChange",
+      this.handleCalciteInternalShellPanelActionBarPositionChange,
     );
   }
 
@@ -206,9 +225,14 @@ export class Shell extends LitElement {
     }
   }
 
-  // #endregion
+  //#endregion
 
-  // #region Private Methods
+  //#region Private Methods
+
+  private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
+    this.syncActionBarPositionPanelState();
+    event.stopPropagation();
+  }
 
   private handleCalciteInternalShellPanelResizeStart(event: CustomEvent<void>): void {
     this.panelIsResizing = true;
@@ -360,6 +384,7 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "start";
     });
+    this.updatePanelSlotState("panel-top", panelElements);
   }
 
   private handlePanelBottomChange(event: Event): void {
@@ -371,6 +396,7 @@ export class Shell extends LitElement {
       el.layout = "horizontal";
       el.position = "end";
     });
+    this.updatePanelSlotState("panel-bottom", panelElements);
   }
 
   private handlePanelStartChange(event: Event): void {
@@ -381,6 +407,7 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "start";
     });
+    this.updatePanelSlotState("panel-start", panelElements);
   }
 
   private handlePanelEndChange(event: Event): void {
@@ -391,6 +418,7 @@ export class Shell extends LitElement {
       el.layout = "vertical";
       el.position = "end";
     });
+    this.updatePanelSlotState("panel-end", panelElements);
   }
 
   private handleDialogsSlotChange(event: Event): void {
@@ -402,9 +430,25 @@ export class Shell extends LitElement {
       });
   }
 
-  // #endregion
+  private updatePanelSlotState(slot: PanelSlot, panelElements: ShellPanel["el"][]): void {
+    this.panelSlotState[slot] = {
+      elements: panelElements,
+    };
+    this.syncActionBarPositionPanelState();
+  }
 
-  // #region Rendering
+  private syncActionBarPositionPanelState(): void {
+    this.hasActionBarPositionPanelBottom = this.panelSlotState["panel-bottom"].elements.some(
+      (panel) => !!panel.actionBarPosition,
+    );
+    this.hasActionBarPositionPanelTop = this.panelSlotState["panel-top"].elements.some(
+      (panel) => !!panel.actionBarPosition,
+    );
+  }
+
+  //#endregion
+
+  //#region Rendering
 
   private renderHeader(): JsxNode {
     return (
@@ -513,7 +557,13 @@ export class Shell extends LitElement {
 
   private renderMain(): JsxNode {
     return (
-      <div class={CSS.main}>
+      <div
+        class={{
+          [CSS.main]: true,
+          [CSS.hasActionBarPositionPanelBottom]: this.hasActionBarPositionPanelBottom,
+          [CSS.hasActionBarPositionPanelTop]: this.hasActionBarPositionPanelTop,
+        }}
+      >
         <slot
           name={SLOTS.panelStart}
           onSlotChange={this.handlePanelStartChange}
