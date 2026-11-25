@@ -96,12 +96,14 @@ export const config: ApiExtractorConfig = {
         iconEnd: {
           description: "Specifies an icon to display at the end of the component.",
         },
-        iconFlipRtl(apiProperty) {
+        iconFlipRtl(apiProperty, apiClass) {
+          const iconFlipScope = apiClass.name === "TreeItem" ? "`iconStart`" : "`iconStart` and/or `iconEnd`";
+
           return {
             description:
               apiProperty.type.text === "boolean"
                 ? 'When `true`, the icon will be flipped when the element direction is right-to-left (`"rtl"`)'
-                : 'Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).',
+                : `Displays the ${iconFlipScope} as flipped when the element direction is right-to-left (\`"rtl"\`).`,
           };
         },
         iconStart: {
