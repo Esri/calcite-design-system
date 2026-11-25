@@ -185,9 +185,21 @@ input {
 .element-wrapper,
 input {
   border-radius: var(
-    --calcite-input-number-corner-radius,
-    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
-  );
+      --calcite-internal-input-number-element-corner-radius-top-left,
+      var(--calcite-input-number-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    )
+    var(
+      --calcite-internal-input-number-element-corner-radius-top-right,
+      var(--calcite-input-number-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    )
+    var(
+      --calcite-internal-input-number-element-corner-radius-bottom-right,
+      var(--calcite-input-number-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    )
+    var(
+      --calcite-internal-input-number-element-corner-radius-bottom-left,
+      var(--calcite-input-number-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    );
 }
 
 .has-prefix,
@@ -218,10 +230,14 @@ input {
 .has-suffix input,
 .clearable input,
 :host(:not([read-only])) input,
-.suffix,
 .clear-button {
-  border-start-end-radius: 0;
-  border-end-end-radius: 0;
+  border-start-end-radius: var(--calcite-internal-input-number-input-corner-radius-start-end, 0);
+  border-end-end-radius: var(--calcite-internal-input-number-input-corner-radius-end-end, 0);
+}
+
+.suffix {
+  border-start-end-radius: var(--calcite-internal-input-number-corner-radius-start-end, 0);
+  border-end-end-radius: var(--calcite-internal-input-number-corner-radius-end-end, 0);
 }
 
 .has-prefix :is(.prefix:first-child, .loader + .prefix),

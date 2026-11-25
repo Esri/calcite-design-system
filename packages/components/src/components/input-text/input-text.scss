@@ -185,9 +185,21 @@ input {
 .element-wrapper,
 input {
   border-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
-  );
+      --calcite-internal-input-text-element-corner-radius-top-left,
+      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    )
+    var(
+      --calcite-internal-input-text-element-corner-radius-top-right,
+      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    )
+    var(
+      --calcite-internal-input-text-element-corner-radius-bottom-right,
+      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    )
+    var(
+      --calcite-internal-input-text-element-corner-radius-bottom-left,
+      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+    );
 }
 
 .has-prefix,
@@ -211,24 +223,24 @@ input {
 .has-prefix .prefix,
 .element-wrapper:not(:has(.prefix)):has(.icon) .icon {
   border-start-start-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
+    --calcite-internal-input-text-corner-radius-start-start,
+    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
   );
   border-end-start-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
+    --calcite-internal-input-text-corner-radius-end-start,
+    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
   );
 }
 
 .has-suffix .suffix,
 :host([clearable]) .clear-button {
   border-end-end-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
+    --calcite-internal-input-text-corner-radius-end-end,
+    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
   );
   border-start-end-radius: var(
-    --calcite-input-text-corner-radius,
-    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
+    --calcite-internal-input-text-corner-radius-start-end,
+    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
   );
 }
 

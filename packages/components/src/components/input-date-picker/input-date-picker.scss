@@ -3,6 +3,14 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-date-picker-toggle-spacing
+// --calcite-internal-input-text-corner-radius-end-end
+// --calcite-internal-input-text-corner-radius-end-start
+// --calcite-internal-input-text-corner-radius-start-end
+// --calcite-internal-input-text-corner-radius-start-start
+// --calcite-internal-input-text-element-corner-radius-bottom-left
+// --calcite-internal-input-text-element-corner-radius-bottom-right
+// --calcite-internal-input-text-element-corner-radius-top-left
+// --calcite-internal-input-text-element-corner-radius-top-right
 // --calcite-internal-input-text-focus-outline-color
 // --calcite-internal-input-text-icon-border-block-end-width
 // --calcite-internal-input-text-icon-border-block-start-width
@@ -141,6 +149,16 @@
     position: relative;
     inset: unset;
   }
+}
+
+:host([range][layout="vertical"]) .vertical-actions-container {
+  border-radius: 0 var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius))
+    var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius)) 0;
+}
+
+:host([range][layout="vertical"]:dir(rtl)) .vertical-actions-container {
+  border-radius: var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius)) 0 0
+    var(--calcite-input-date-picker-corner-radius, var(--calcite-corner-radius));
 }
 
 .vertical-actions-container .chevron-icon {
@@ -334,12 +352,93 @@
 }
 
 :host([layout="vertical"][range]) .input--start {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-start-start: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-corner-radius-start-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-end-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-end-start: var(--calcite-corner-radius-none);
   --calcite-internal-input-text-icon-border-block-end-width: var(--calcite-border-width-none);
   --calcite-internal-input-text-input-border-block-end-width: var(--calcite-border-width-none);
 }
 
-:host([layout="horizontal"]) .input--end {
+:host([range][layout="horizontal"]) .input--start {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-corner-radius-start-start: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-corner-radius-start-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-end-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-end-start: var(--calcite-input-text-corner-radius);
+}
+
+:host([range][layout="horizontal"]) .input--end {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-start-start: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-start-end: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-corner-radius-end-end: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-corner-radius-end-start: var(--calcite-corner-radius-none);
   --calcite-internal-input-text-icon-border-inline-start-width: var(--calcite-border-width-none);
+}
+
+:host([layout="vertical"][range]) .input--end {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-corner-radius-start-start: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-start-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-end-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-corner-radius-end-start: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-input-border-block-start-width: var(--calcite-border-width-none);
+  --calcite-internal-input-text-icon-border-block-start-width: var(--calcite-border-width-none);
+}
+
+:host([range][layout="horizontal"]:dir(rtl)) .input--start {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
+}
+
+:host([range][layout="horizontal"]:dir(rtl)) .input--end {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-input-text-corner-radius);
+}
+
+:host([range][layout="vertical"]:dir(rtl)) .input--start {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-input-text-corner-radius);
+}
+
+:host([range][layout="vertical"]:dir(rtl)) .input--end {
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-input-text-corner-radius);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
+}
+
+:host([range][layout="vertical"][read-only]) .input--start {
+  --calcite-internal-input-text-corner-radius-start-end: var(--calcite-input-text-corner-radius);
+}
+
+:host([range][layout="vertical"][read-only]) .input--end {
+  --calcite-internal-input-text-corner-radius-end-end: var(--calcite-input-text-corner-radius);
+}
+
+:host([range][layout="vertical"][read-only]:dir(rtl)) .input--start {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-input-text-corner-radius);
+}
+
+:host([range][layout="vertical"][read-only]:dir(rtl)) .input--end {
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-input-text-corner-radius);
 }
 
 :host([range][layout="horizontal"])
@@ -363,12 +462,6 @@
   --calcite-input-date-picker-border-color: var(--calcite-color-status-danger);
 
   @include shared.focus-inset-danger();
-}
-
-:host([layout="vertical"]) .input--end {
-  --calcite-internal-input-text-input-border-inline-end-width: var(--calcite-border-width-none);
-  --calcite-internal-input-text-input-border-block-start-width: var(--calcite-border-width-none);
-  --calcite-internal-input-text-icon-border-block-start-width: var(--calcite-border-width-none);
 }
 
 :host([range][layout="vertical"][read-only]) {

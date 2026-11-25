@@ -41,7 +41,7 @@
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
   min-inline-size: var(--calcite-internal-swatch-size, auto);
-  border-radius: var(--calcite-swatch-corner-radius, 0);
+  border-radius: var(--calcite-swatch-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)));
 
   &:not(.non-interactive):hover {
     cursor: pointer;
@@ -65,7 +65,7 @@
   block-size: var(--calcite-internal-swatch-size, auto);
   inline-size: var(--calcite-internal-swatch-size, auto);
   min-inline-size: var(--calcite-internal-swatch-size, auto);
-  border-radius: var(--calcite-swatch-corner-radius, 0);
+  border-radius: var(--calcite-swatch-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)));
 }
 
 :host([selected]) .swatch {
@@ -94,7 +94,7 @@
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  border-radius: var(--calcite-swatch-corner-radius, 0);
+  border-radius: var(--calcite-swatch-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)));
 }
 
 .internal-svg-container {
@@ -130,7 +130,7 @@
   stroke: var(--calcite-color-text-1);
   stroke-width: var(--calcite-border-width-md);
   stroke-opacity: 0.3;
-  rx: var(--calcite-swatch-corner-radius);
+  rx: var(--calcite-swatch-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)));
 }
 
 .internal-svg-disabled {
