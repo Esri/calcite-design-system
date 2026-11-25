@@ -163,6 +163,54 @@ describe("action bar", () => {
     actionBar.style.height = "84px";
     await expect.poll(getActionBarHeight).toBe(actionBar.getBoundingClientRect().height);
   });
+
+  it.for([
+    {
+      slot: "panel-top",
+      className: SHELL_CSS.hasActionBarPositionPanelTop,
+      otherSlot: "panel-bottom",
+      otherClassName: SHELL_CSS.hasActionBarPositionPanelBottom,
+    },
+    {
+      slot: "panel-bottom",
+      className: SHELL_CSS.hasActionBarPositionPanelBottom,
+      otherSlot: "panel-top",
+      otherClassName: SHELL_CSS.hasActionBarPositionPanelTop,
+    },
+  ] as const)(
+    "reflects action bar position on the shell independently for $slot",
+    async ({ slot, className, otherSlot, otherClassName }) => {
+      const { el } = await mount(
+        <calcite-shell>
+          <calcite-panel heading="Content" />
+          <calcite-shell-panel actionBarPosition="bottom" slot={slot}>
+            <p>Content</p>
+          </calcite-shell-panel>
+          <calcite-shell-panel actionBarPosition="top" slot={otherSlot}>
+            <p>Other content</p>
+          </calcite-shell-panel>
+        </calcite-shell>,
+      );
+      const shellPanel = getByCssElement<ShellPanel["el"]>(
+        el,
+        `:scope > calcite-shell-panel[slot="${slot}"]`,
+      );
+      const shellMain = page.elementLocator(el).getBySelector(`:scope > .${SHELL_CSS.main}`);
+
+      await expect.element(shellMain).toHaveClass(className, otherClassName);
+
+      shellPanel.actionBarPosition = undefined;
+      await expect.element(shellMain).not.toHaveClass(className);
+      await expect.element(shellMain).toHaveClass(otherClassName);
+
+      shellPanel.actionBarPosition = "top";
+      await expect.element(shellMain).toHaveClass(className);
+
+      shellPanel.slot = "panel-start";
+      await expect.element(shellMain).not.toHaveClass(className);
+      await expect.element(shellMain).toHaveClass(otherClassName);
+    },
+  );
 });
 
 describe("renders", () => {
