@@ -248,9 +248,8 @@ export class AccordionItem extends LitElement {
   @property({ reflect: true }) iconEnd?: IconName;
 
   /**
-   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
