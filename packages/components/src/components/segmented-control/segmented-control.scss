@@ -6,12 +6,10 @@
 }
 
 .item-wrapper {
-  background-color: var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1));
+  background-color: var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2));
   display: flex;
   inline-size: fit-content;
   border-radius: var(--calcite-segmented-control-corner-radius, var(--calcite-corner-radius));
-  outline: 1px solid var(--calcite-segmented-control-border-color, var(--calcite-color-border-input));
-  outline-offset: -1px;
 }
 
 :host([appearance="outline"]) > .item-wrapper {
