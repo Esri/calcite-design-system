@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.54...@esri/calcite-components@6.0.0-next.55) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **combobox-item:** Removes deprecated
+  `--calcite-combobox-item-border-color` token in `combobox-item`.
+
+- Use CSS `border-color` property to customize border color of
+  combobox-item.
+- **split-button:** `split-button` will avoid overflowing its parent
+  container.
+- **panel:** The following deprecated tokens are removed in `panel`.
+- `--calcite-panel-content-space`
+- `--calcite-panel-footer-padding`
+- `--calcite-panel-header-border-block-end`
+
+To migrate, replace:
+
+- `--calcite-panel-content-space` with `--calcite-panel-space`.
+- `--calcite-panel-footer-padding` with `--calcite-panel-footer-space`.
+- `--calcite-panel-header-border-block-end` with
+  `--calcite-panel-border-color`.
+- **switch:** The following deprecated tokens are removed and are no
+  longer necessary in `switch`.
+
+- `--calcite-switch-border-color`
+- `--calcite-switch-handle-border-color`
+- `--calcite-switch-handle-shadow`
+
+### Bug Fixes
+
+- **split-button:** avoid overflowing parent container ([#15611](https://github.com/Esri/calcite-design-system/issues/15611)), closes [#12910](https://github.com/Esri/calcite-design-system/issues/12910)
+
+### Code Refactoring
+
+- **combobox-item:** drop deprecated token ([#15570](https://github.com/Esri/calcite-design-system/issues/15570)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **panel:** drop deprecated tokens ([#15553](https://github.com/Esri/calcite-design-system/issues/15553)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **switch:** drop deprecated tokens ([#15551](https://github.com/Esri/calcite-design-system/issues/15551)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
 ## [6.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.53...@esri/calcite-components@6.0.0-next.54) (2026-11-25)
 
 ### Features
