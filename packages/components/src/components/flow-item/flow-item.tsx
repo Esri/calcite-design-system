@@ -356,16 +356,14 @@ export class FlowItem extends LitElement {
   @property() collapseDirection: CollapseDirection = "down";
 
   /**
-   * When `true`, hides the component's content area.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) collapsed = false;
 
   /**
-   * When `true`, the component is collapsible.
-   *
    * @public
+   * @copyDoc
    */
   @property({ reflect: true }) collapsible = false;
 

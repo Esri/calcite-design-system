@@ -39,6 +39,12 @@ export const config: ApiExtractorConfig = {
               descriptionOverrides[apiClass.name] ?? "When `true`, displays a close button in the component.",
           };
         },
+        collapsed: {
+          description: "When `true`, hides the component's content area.",
+        },
+        collapsible: {
+          description: "When `true`, the component's content area is collapsible.",
+        },
         description(_apiProperty, apiClass) {
           const descriptionWithPlacement = (placement: string): string =>
             `Specifies a description for the component. Displays ${placement}.`;
