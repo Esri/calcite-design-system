@@ -708,6 +708,14 @@ describe("theme", () => {
             targetProp: "borderBottomLeftRadius",
           },
           {
+            shadowSelector: `.${CSS.startInput} >>> input`,
+            targetProp: "borderTopRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> input`,
+            targetProp: "borderBottomRightRadius",
+          },
+          {
             shadowSelector: `.${CSS.startInput} >>> .icon`,
             targetProp: "borderStartStartRadius",
           },
@@ -822,6 +830,12 @@ describe("theme", () => {
           border-bottom-right-radius: 12px;
           border-bottom-left-radius: 12px;
         `);
+        await expect
+          .element(picker.getBySelector(`.${CSS.startInput}`).getBySelector("input"))
+          .toHaveStyle("border-top-left-radius: 12px;");
+        await expect
+          .element(picker.getBySelector(`.${CSS.endInput}`).getBySelector("input"))
+          .toHaveStyle("border-bottom-left-radius: 12px;");
       });
     });
   });

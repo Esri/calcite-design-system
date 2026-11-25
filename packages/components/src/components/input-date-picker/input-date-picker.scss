@@ -426,10 +426,12 @@
 }
 
 :host([range][layout="vertical"][read-only]) .input--start {
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-input-text-corner-radius);
   --calcite-internal-input-text-corner-radius-start-end: var(--calcite-input-text-corner-radius);
 }
 
 :host([range][layout="vertical"][read-only]) .input--end {
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-input-text-corner-radius);
   --calcite-internal-input-text-corner-radius-end-end: var(--calcite-input-text-corner-radius);
 }
 

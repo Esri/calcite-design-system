@@ -90,6 +90,21 @@ const kitchenSink = () =>
           layout="vertical"
           range
         ></calcite-input-date-picker>
+        <calcite-input-date-picker
+          class="fallback-range-picker"
+          label-text="Read-only vertical range"
+          layout="vertical"
+          range
+          read-only
+        ></calcite-input-date-picker>
+        <calcite-input-date-picker
+          class="fallback-range-picker"
+          dir="rtl"
+          label-text="Read-only vertical range RTL"
+          layout="vertical"
+          range
+          read-only
+        ></calcite-input-date-picker>
       </div>
 
       <div class="fallback-row">${inputText} ${inputNumber} ${inputTimeZone}</div>
