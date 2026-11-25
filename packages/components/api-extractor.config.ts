@@ -147,6 +147,16 @@ When \`"controls-disabled"\` is specified, edits are saved on blur.`,
         messageOverrides: {
           description: `Replace localized message strings with your own strings.\n\n_**Note**: Individual message keys may change between releases._`,
         },
+        minLength: {
+          description:
+            "When the component resides in a form, specifies the minimum string length of the component's `value`.",
+          docsTags: [
+            {
+              name: "see",
+              text: `[MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/minlength)`,
+            },
+          ],
+        },
         name: {
           description:
             "Specifies the name of the component.\n\nRequired to pass the component's `value` on form submission.",

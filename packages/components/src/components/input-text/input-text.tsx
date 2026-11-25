@@ -483,11 +483,8 @@ export class InputText extends LitElement implements LabelableComponent, Textual
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When the component resides in a form,
-   * specifies the minimum length of text for the component's value.
-   *
    * @public
-   * @see [MDN - minlength](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength)
+   * @copyDoc
    */
   @property({ reflect: true }) minLength?: number;
 
