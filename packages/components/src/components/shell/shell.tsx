@@ -21,9 +21,7 @@ type ShellPanelWithSizingProvider = ShellPanel["el"] & {
 
 type Bounds = Pick<DOMRectReadOnly, "bottom" | "left" | "right" | "top">;
 
-const panelSlots = ["panel-start", "panel-end", "panel-top", "panel-bottom"] as const;
-
-type PanelSlot = (typeof panelSlots)[number];
+type PanelSlot = "panel-start" | "panel-end" | "panel-top" | "panel-bottom";
 
 declare global {
   interface DeclareElements {
@@ -232,12 +230,7 @@ export class Shell extends LitElement {
   //#region Private Methods
 
   private handleCalciteInternalShellPanelActionBarPositionChange(event: CustomEvent<void>): void {
-    const panel = event.composedPath().find(isShellPanel);
-
-    if (panel?.slot && panelSlots.includes(panel.slot as PanelSlot)) {
-      this.updatePanelSlotState(panel.slot as PanelSlot);
-    }
-
+    this.syncActionBarPositionPanelState();
     event.stopPropagation();
   }
 
@@ -437,10 +430,7 @@ export class Shell extends LitElement {
       });
   }
 
-  private updatePanelSlotState(
-    slot: PanelSlot,
-    panelElements = this.panelSlotState[slot].elements,
-  ): void {
+  private updatePanelSlotState(slot: PanelSlot, panelElements: ShellPanel["el"][]): void {
     this.panelSlotState[slot] = {
       elements: panelElements,
     };
