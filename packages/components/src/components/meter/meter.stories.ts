@@ -1,5 +1,5 @@
 import { html } from "../../../support/formatting";
-import { boolean, modesDarkDefault } from "../../../.storybook/utils";
+import { boolean, modesDarkDefault, optionalAttribute } from "../../../.storybook/utils";
 import { ATTRIBUTES } from "../../../.storybook/resources";
 import { Meter } from "./meter";
 import "./meter"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
@@ -12,6 +12,7 @@ type MeterStoryArgs = Pick<
   | "max"
   | "low"
   | "high"
+  | "optimum"
   | "value"
   | "fillType"
   | "appearance"
@@ -33,6 +34,7 @@ export default {
     max: 100,
     low: 0,
     high: 0,
+    optimum: undefined,
     value: 0,
     fillType: fillType.defaultValue,
     appearance: appearance.values[2],
@@ -47,6 +49,9 @@ export default {
     valueLabel: false,
   },
   argTypes: {
+    optimum: {
+      control: { type: "number" },
+    },
     fillType: {
       options: fillType.values,
       control: { type: "select" },
@@ -78,6 +83,7 @@ export const simple = (args: MeterStoryArgs): string =>
     max="${args.max}"
     low="${args.low}"
     high="${args.high}"
+    ${optionalAttribute("optimum", args.optimum)}
     value="${args.value}"
     fill-type="${args.fillType}"
     appearance="${args.appearance}"
@@ -89,6 +95,48 @@ export const simple = (args: MeterStoryArgs): string =>
     ${boolean("range-labels", args.rangeLabels)}
     ${boolean("value-label", args.valueLabel)}
   ></calcite-meter>`;
+
+export const optimumRanges = (): string => html`
+  <style>
+    .optimum-ranges {
+      display: grid;
+      gap: 2rem;
+    }
+
+    .optimum-range {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+  </style>
+  <div class="optimum-ranges">
+    ${[0, 50, 100]
+      .map(
+        (optimum) => html`
+          <div>
+            <p>Optimum: ${optimum}</p>
+            <div class="optimum-range">
+              ${[10, 50, 90]
+                .map(
+                  (value) => html`
+                    <calcite-meter
+                      label="Optimum ${optimum}, value ${value}"
+                      low="25"
+                      high="75"
+                      optimum="${optimum}"
+                      value="${value}"
+                      value-label
+                    ></calcite-meter>
+                  `,
+                )
+                .join("")}
+            </div>
+          </div>
+        `,
+      )
+      .join("")}
+  </div>
+`;
 
 export const complex = (): string =>
   html`<calcite-meter
