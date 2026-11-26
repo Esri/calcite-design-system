@@ -189,21 +189,9 @@ input {
 .element-wrapper,
 input {
   border-radius: var(
-      --calcite-internal-input-text-element-corner-radius-top-left,
-      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-    )
-    var(
-      --calcite-internal-input-text-element-corner-radius-top-right,
-      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-    )
-    var(
-      --calcite-internal-input-text-element-corner-radius-bottom-right,
-      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-    )
-    var(
-      --calcite-internal-input-text-element-corner-radius-bottom-left,
-      var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-    );
+    --calcite-internal-input-text-element-corner-radius,
+    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
+  );
 }
 
 .has-prefix,

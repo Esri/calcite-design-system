@@ -7,6 +7,7 @@
 // --calcite-internal-input-text-corner-radius-end-start
 // --calcite-internal-input-text-corner-radius-start-end
 // --calcite-internal-input-text-corner-radius-start-start
+// --calcite-internal-input-text-element-corner-radius
 // --calcite-internal-input-text-element-corner-radius-bottom-left
 // --calcite-internal-input-text-element-corner-radius-bottom-right
 // --calcite-internal-input-text-element-corner-radius-top-left
@@ -345,6 +346,16 @@
   --calcite-input-text-icon-color: var(--calcite-input-date-picker-icon-color);
   --calcite-input-text-text-color: var(--calcite-input-date-picker-text-color);
   --calcite-input-text-placeholder-text-color: var(--calcite-input-date-picker-placeholder-text-color);
+}
+
+:host([range]) .input {
+  --calcite-internal-input-text-element-corner-radius: var(
+      --calcite-internal-input-text-element-corner-radius-top-left,
+      var(--calcite-input-text-corner-radius)
+    )
+    var(--calcite-internal-input-text-element-corner-radius-top-right, var(--calcite-input-text-corner-radius))
+    var(--calcite-internal-input-text-element-corner-radius-bottom-right, var(--calcite-input-text-corner-radius))
+    var(--calcite-internal-input-text-element-corner-radius-bottom-left, var(--calcite-input-text-corner-radius));
 }
 
 :host([range]) .input--start {

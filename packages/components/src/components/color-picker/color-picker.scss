@@ -5,6 +5,7 @@
 // --calcite-internal-color-picker-min-width
 // --calcite-internal-input-number-corner-radius-end-end
 // --calcite-internal-input-number-corner-radius-start-end
+// --calcite-internal-input-number-element-corner-radius
 // --calcite-internal-input-number-element-corner-radius-bottom-left
 // --calcite-internal-input-number-element-corner-radius-bottom-right
 // --calcite-internal-input-number-element-corner-radius-top-left
@@ -212,6 +213,13 @@ calcite-swatch {
 
 .channel {
   flex-grow: 1;
+  --calcite-internal-input-number-element-corner-radius: var(
+      --calcite-internal-input-number-element-corner-radius-top-left,
+      var(--calcite-input-number-corner-radius)
+    )
+    var(--calcite-internal-input-number-element-corner-radius-top-right, var(--calcite-input-number-corner-radius))
+    var(--calcite-internal-input-number-element-corner-radius-bottom-right, var(--calcite-input-number-corner-radius))
+    var(--calcite-internal-input-number-element-corner-radius-bottom-left, var(--calcite-input-number-corner-radius));
 
   &:not(:last-child) {
     --calcite-internal-input-number-element-corner-radius-top-right: var(--calcite-corner-radius-none);
