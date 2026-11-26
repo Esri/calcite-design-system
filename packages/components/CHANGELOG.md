@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.57](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.56...@esri/calcite-components@6.0.0-next.57) (2026-11-26)
+
+### ⚠ BREAKING CHANGES
+
+- **list-item:** The deprecated `open` property is removed from
+  `list-item`.
+
+To migrate, replace `open` with `expanded`.
+
+- **dropdown:** The deprecated `widthScale` property is removed from
+  `dropdown`.
+
+To migrate, replace `widthScale` with `width`.
+
+- **meter:** The deprecated `form` and `name` properties are removed
+  from `meter`.
+
+No migration is required because these properties had no effect on the
+component.
+
+- **tile:** The deprecated `active` and `embed` properties are
+  removed from `tile`.
+
+No migration is required because these properties are no longer
+necessary.
+
+- **tooltip:** The deprecated `label` property is removed from
+  `tooltip`.
+
+No migration is required because this property is no longer necessary.
+
+- **block-section:** The deprecated `open` and `status` properties are
+  removed from `block-section`.
+
+To migrate:
+
+- Replace `open` with `expanded`.
+- Replace `status` with `icon-start`.
+
+- **sheet:** The deprecated `heightScale` and `widthScale`
+  properties are removed from `sheet`.
+
+To migrate, replace:
+
+- `heightScale` with `height`.
+- `widthScale` with `width`.
+
+- **segmented-control, segmented-control-item:** The deprecated `appearance` property is removed from `segmented-control` in favor of `selectionAppearance` to clarify that the property controls the appearance of selected items. To migrate, replace `appearance` with `selectionAppearance`.
+
+### Features
+
+- **field-group, field-set:** add Field Group and Field Set components ([#14866](https://github.com/Esri/calcite-design-system/issues/14866)), closes [#12450](https://github.com/Esri/calcite-design-system/issues/12450)
+- **segmented-control, segmented-control-item:** update selection appearance styles ([#15534](https://github.com/Esri/calcite-design-system/issues/15534)), closes [#10774](https://github.com/Esri/calcite-design-system/issues/10774)
+
+### Code Refactoring
+
+- **block-section:** remove deprecated properties ([#15702](https://github.com/Esri/calcite-design-system/issues/15702)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **dropdown:** remove deprecated widthScale property ([#15670](https://github.com/Esri/calcite-design-system/issues/15670)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **list-item:** remove deprecated open property ([#15676](https://github.com/Esri/calcite-design-system/issues/15676)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **meter:** remove deprecated form and name properties ([#15677](https://github.com/Esri/calcite-design-system/issues/15677)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **sheet:** remove deprecated size scale properties ([#15695](https://github.com/Esri/calcite-design-system/issues/15695)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **tile:** remove deprecated active and embed properties ([#15692](https://github.com/Esri/calcite-design-system/issues/15692)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+- **tooltip:** remove deprecated label property ([#15693](https://github.com/Esri/calcite-design-system/issues/15693)), closes [#15209](https://github.com/Esri/calcite-design-system/issues/15209)
+
 ## [6.0.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.55...@esri/calcite-components@6.0.0-next.56) (2026-11-25)
 
 ### Bug Fixes
