@@ -280,7 +280,7 @@ export class BlockGroup extends LitElement {
             oldIndex: fromElItems.indexOf(item),
           }),
         );
-        item.dragHandle = dragEnabled;
+        item.dragHandleInternal = dragEnabled;
         item.sortDisabled = sortDisabled;
       }
     });

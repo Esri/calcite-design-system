@@ -13,7 +13,7 @@ import type { BlockGroup } from "./block-group";
 
 mockConsole();
 
-it("should set the dragHandle property on items", async () => {
+it("should display drag handles on items", async () => {
   const page = await newE2EPage();
   await page.setContent(
     html`<calcite-block-group id="root" drag-enabled group="my-block-group">
@@ -26,11 +26,9 @@ it("should set the dragHandle property on items", async () => {
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.nextTick);
 
-  const items = await findAll(page, "calcite-block");
+  let handles = await findAll(page, "calcite-block >>> calcite-sort-handle");
 
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("dragHandle")).toBe(true);
-  }
+  expect(handles).toHaveLength(3);
 
   const blockGroup = await page.find("#root");
 
@@ -38,9 +36,8 @@ it("should set the dragHandle property on items", async () => {
   await page.waitForChanges();
   await page.waitForTimeout(DEBOUNCE.nextTick);
 
-  for (let i = 0; i < items.length; i++) {
-    expect(await items[i].getProperty("dragHandle")).toBe(false);
-  }
+  handles = await findAll(page, "calcite-block >>> calcite-sort-handle", { allowEmpty: true });
+  expect(handles).toHaveLength(0);
 });
 
 it("should set the sortDisabled property on items", async () => {

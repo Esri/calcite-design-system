@@ -23,7 +23,7 @@ describe("accessible", () => {
   accessible(() =>
     mount(
       <calcite-block-group>
-        <calcite-block description="description" expandable heading="heading" open>
+        <calcite-block description="description" expandable expanded heading="heading">
           <div>content</div>
         </calcite-block>
       </calcite-block-group>,
@@ -138,7 +138,7 @@ describe("propagates", () => {
 
 function renderBlock(): JsxNode {
   return (
-    <calcite-block description="description" expandable heading="heading" open>
+    <calcite-block description="description" expandable expanded heading="heading">
       <div>content</div>
     </calcite-block>
   );

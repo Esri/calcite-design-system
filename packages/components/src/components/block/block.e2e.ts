@@ -95,24 +95,6 @@ it("allows toggling its content", async () => {
   expect(toggle.getAttribute("title")).toBe(messages.expand);
 });
 
-// Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
-it("should map deprecated 'open' prop to 'expanded' prop", async () => {
-  const page = await newE2EPage({
-    html: html`<calcite-block></calcite-block>`,
-  });
-  const block = await page.find("calcite-block");
-
-  expect(await block.getProperty("expanded")).toBe(false);
-
-  block.setProperty("open", true);
-  await page.waitForChanges();
-  expect(await block.getProperty("expanded")).toBe(true);
-
-  block.setProperty("open", false);
-  await page.waitForChanges();
-  expect(await block.getProperty("expanded")).toBe(false);
-});
-
 it("should map deprecated 'collapsible' prop to 'expandable' prop", async () => {
   const page = await newE2EPage({
     html: html`<calcite-block></calcite-block>`,

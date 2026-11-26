@@ -21,7 +21,7 @@ export const blockTokens = {
 export const block = html` <calcite-block
   heading="heading"
   description="description"
-  open
+  expanded
   expandable
   icon-end="pen"
   icon-start="pen"

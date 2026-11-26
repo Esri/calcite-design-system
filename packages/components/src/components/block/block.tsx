@@ -6,7 +6,7 @@ import {
   slotChangeHasTextContent,
 } from "../../utils/dom";
 import { Heading, HeadingLevel } from "../functional/Heading";
-import { FlipContext, Position, Scale, Status } from "../types";
+import { FlipContext, Position, Scale } from "../types";
 import { getIconScale } from "../../utils/component";
 import {
   defaultEndMenuPlacement,
@@ -205,13 +205,6 @@ export class Block extends LitElement {
   /** When `true`, and a parent `calcite-block-group` is `dragEnabled`, the component is not draggable. */
   @property({ reflect: true }) dragDisabled = false;
 
-  /**
-   * When `true`, the component displays a draggable button.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 - No longer necessary. Use Block Group for draggable functionality.
-   */
-  @property({ reflect: true }) dragHandle = false;
-
   /** When `true`, expands the component and its contents. */
   @property({ reflect: true }) expanded = false;
 
@@ -275,6 +268,13 @@ export class Block extends LitElement {
   @property() addToItems: SortMenuItem[] = [];
 
   /**
+   * When `true`, the component displays a draggable button.
+   *
+   * @private
+   */
+  @property() dragHandleInternal = false;
+
+  /**
    * Defines the "Move to" items.
    *
    * @private
@@ -287,25 +287,6 @@ export class Block extends LitElement {
    * @private
    */
   @property() sortDisabled = false;
-
-  /**
-   * When `true`, expands the component and its contents.
-   *
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
-   */
-  @property({ reflect: true })
-  get open(): boolean {
-    return this.expanded;
-  }
-  set open(value: boolean) {
-    logger.deprecated("property", {
-      component: this,
-      name: "open",
-      removalVersion: 5,
-      suggested: "expanded",
-    });
-    this.expanded = value;
-  }
 
   /** @copyDoc */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
@@ -329,13 +310,6 @@ export class Block extends LitElement {
 
   /** When `true`, displays and positions the sort handle. */
   @property({ reflect: true }) sortHandleOpen = false;
-
-  /**
-   * Displays a status-related indicator icon.
-   *
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `icon-start` property instead.
-   */
-  @property({ reflect: true }) status?: Status;
 
   /**
    * Specifies how the component's toggle is displayed, where:
@@ -534,24 +508,12 @@ export class Block extends LitElement {
 
   //#region Rendering
 
-  private renderLoaderStatusIcon(): JsxNode {
-    const { loading, messages, status } = this;
+  private renderLoader(): JsxNode {
+    const { loading, messages } = this;
 
     return loading ? (
       <div class={CSS.icon} key="loader">
         <calcite-loader inline label={messages.loading} scale={this.scale} />
-      </div>
-    ) : status ? (
-      <div class={CSS.icon} key="status-icon">
-        <calcite-icon
-          class={{
-            [CSS.statusIcon]: true,
-            [CSS.valid]: status == "valid",
-            [CSS.invalid]: status == "invalid",
-          }}
-          icon={ICONS[status]}
-          scale={getIconScale(this.scale)}
-        />
       </div>
     ) : null;
   }
@@ -644,7 +606,6 @@ export class Block extends LitElement {
       hasContentEnd,
       hasContentStart,
       iconStart,
-      status,
     } = this;
 
     const toggleLabel = expanded ? messages.collapse : messages.expand;
@@ -654,8 +615,7 @@ export class Block extends LitElement {
       hasContentEnd ||
       hasContentStart ||
       iconStart ||
-      loading ||
-      status
+      loading
     );
 
     const headerContent = (
@@ -663,13 +623,13 @@ export class Block extends LitElement {
         class={{
           [CSS.header]: true,
           [CSS.headerHasContent]: headerHasContent,
-          [CSS.headerDraggable]: this.dragHandle,
+          [CSS.headerDraggable]: this.dragHandleInternal,
         }}
         id={IDS.header}
       >
         {this.renderIcon("start")}
         {this.renderContentStart()}
-        {this.renderLoaderStatusIcon()}
+        {this.renderLoader()}
         {this.renderTitle()}
       </header>
     );
@@ -678,7 +638,7 @@ export class Block extends LitElement {
 
     const headerNode = (
       <div class={CSS.headerContainer}>
-        {this.dragHandle ? (
+        {this.dragHandleInternal ? (
           <calcite-sort-handle
             addToItems={addToItems}
             disabled={dragDisabled}
