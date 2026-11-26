@@ -32,6 +32,8 @@ Inspect nearby current tests and groups before generating new ones; extend share
 
 Use Vitest locators for user interactions and assertions, following the locator and shadow-root guidance in `AGENTS.md`.
 
+Follow `AGENTS.md`'s "Test behavior" guidance for keyboard focus setup, repeated-key syntax, modifier release, and preserving meaningful interaction boundaries.
+
 ### Use the public component surface
 
 Prefer `el` from `mount`'s return object over `component` to exercise the same element and public API consumers use.

@@ -39,75 +39,111 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-tab-text-color": "*";
     /**
      * Specifies the component's text color when hovered, pressed, or selected.
+     *
+     * @public
      */
     "--calcite-tab-text-color-press": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-tab-border-color": "*";
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-tab-background-color": "*";
     /**
      * When `calcite-tabs` is `bordered`, specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-tab-background-color-hover": "*";
     /**
      * When `selected` or active, specifies the component's accent color.
+     *
+     * @public
      */
     "--calcite-tab-accent-color-press": "*";
     /**
      * Specifies the component's `iconStart` color.
+     *
+     * @public
      */
     "--calcite-tab-icon-color-start": "*";
     /**
      * When `selected`, hovered, or pressed, specifies the component's `iconStart` color.
+     *
+     * @public
      */
     "--calcite-tab-icon-color-start-press": "*";
     /**
      * Specifies the component's `iconEnd` color.
+     *
+     * @public
      */
     "--calcite-tab-icon-color-end": "*";
     /**
      * When `selected`, hovered, or pressed, specifies the component's `iconEnd` color.
+     *
+     * @public
      */
     "--calcite-tab-icon-color-end-press": "*";
     /**
      * Specifies the component's close element icon color.
+     *
+     * @public
      */
     "--calcite-tab-close-icon-color": "*";
     /**
      * Specifies the component's close element icon color when hovered, focused, and active.
+     *
+     * @public
      */
     "--calcite-tab-close-icon-color-press": "*";
     /**
      * Specifies the component's close element icon background color.
+     *
+     * @public
      */
     "--calcite-tab-close-icon-background-color": "*";
     /**
      * Specifies the component's close element icon background color when pressed.
+     *
+     * @public
      */
     "--calcite-tab-close-icon-background-color-press": "*";
     /**
      * Specifies the component's close element icon background color when hovered.
+     *
+     * @public
      */
     "--calcite-tab-close-icon-background-color-hover": "*";
   }
 }
 
+/** @public */
 interface TabTitleSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
+ * @privateRemarks
+ *
  * Tab-titles are optionally individually closable.
  *
  * @docGroup Tabs
@@ -116,6 +152,7 @@ interface TabTitleSlots {
 export class TabTitle extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TabTitleSlots;
 
   //#endregion
@@ -151,8 +188,6 @@ export class TabTitle extends LitElement {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -171,16 +206,25 @@ export class TabTitle extends LitElement {
 
   //#region Public Properties
 
-  /** Specifies a function to run before the component closes. */
+  /**
+   * Specifies a function to run before the component closes.
+   *
+   * @public
+   */
   @property() beforeClose?: () => Promise<void>;
 
-  /** @private */
   @property({ reflect: true }) bordered = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) closable = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true })
   get closed(): boolean {
     return this._closed;
@@ -191,22 +235,38 @@ export class TabTitle extends LitElement {
     }
   }
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`). */
+  /**
+   * Displays the `iconStart` and/or `iconEnd` as flipped when the element direction is right-to-left (`"rtl"`).
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @private */
   @property({ reflect: true }) layout!: TabLayout;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
@@ -218,8 +278,6 @@ export class TabTitle extends LitElement {
 
   /**
    * Specifies the size of the component inherited from the parent `calcite-tabs`, defaults to `m`.
-   *
-   * @private
    */
   @property() scale: Scale = "m";
 
@@ -227,6 +285,8 @@ export class TabTitle extends LitElement {
    * When `true`, the component and its respective `calcite-tab` contents are selected.
    *
    * Only one tab can be selected within the `calcite-tabs` parent.
+   *
+   * @public
    */
   @property({ reflect: true }) selected = false;
 
@@ -234,6 +294,8 @@ export class TabTitle extends LitElement {
    * Specifies a unique name for the component.
    *
    * When specified, use the same value on the `calcite-tab`.
+   *
+   * @public
    */
   @property({ reflect: true }) tab!: string;
 
@@ -245,7 +307,6 @@ export class TabTitle extends LitElement {
    * This activates a tab in order for it and its associated tab-title be selected.
    *
    * @param userTriggered - when `true`, user-interaction events will be emitted in addition to internal events
-   * @private
    */
   @method()
   async activateTab(userTriggered = true): Promise<void> {
@@ -261,13 +322,16 @@ export class TabTitle extends LitElement {
     }
   }
 
-  /** @private */
   @method()
   async getTabIdentifier(): Promise<TabID> {
     return this.tab ? this.tab : this.getTabIndex();
   }
 
-  /** Returns the index of the title within the `calcite-tab-nav`. */
+  /**
+   * Returns the index of the title within the `calcite-tab-nav`.
+   *
+   * @public
+   */
   @method()
   async getTabIndex(): Promise<number> {
     return Array.prototype.indexOf.call(
@@ -279,7 +343,6 @@ export class TabTitle extends LitElement {
   /**
    * @param tabIds
    * @param titleIds
-   * @private
    */
   @method()
   _updateAriaInfo(tabIds: string[] = [], titleIds: string[] = []): void {
@@ -290,43 +353,46 @@ export class TabTitle extends LitElement {
 
   //#region Events
 
-  /** @private */
   calciteInternalTabIconChanged = createEvent({ cancelable: false });
 
-  /** @private */
   calciteInternalTabTitleCloseChange = createEvent({ cancelable: false });
 
-  /** @private */
   calciteInternalTabTitleRegister = createEvent<TabID>({ cancelable: false });
 
   /**
    * Fires when a `calcite-tab` is selected (`event.details`).
-   * @private
    */
-  calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({ cancelable: false });
+  calciteInternalTabsActivate = createEvent<TabChangeEventDetail>({
+    cancelable: false,
+  });
 
   /**
    * Fires when `calcite-tab` is closed (`event.details`).
-   * @private
    */
-  calciteInternalTabsClose = createEvent<TabCloseEventDetail>({ cancelable: false });
+  calciteInternalTabsClose = createEvent<TabCloseEventDetail>({
+    cancelable: false,
+  });
 
-  /** @private */
   calciteInternalTabsFocusFirst = createEvent({ cancelable: false });
 
-  /** @private */
   calciteInternalTabsFocusLast = createEvent({ cancelable: false });
 
-  /** @private */
   calciteInternalTabsFocusNext = createEvent({ cancelable: false });
 
-  /** @private */
   calciteInternalTabsFocusPrevious = createEvent({ cancelable: false });
 
-  /** Fires when a `calcite-tab` is selected. */
+  /**
+   * Fires when a `calcite-tab` is selected.
+   *
+   * @public
+   */
   calciteTabsActivate = createEvent({ cancelable: false });
 
-  /** Fires when a `calcite-tab` is closed. */
+  /**
+   * Fires when a `calcite-tab` is closed.
+   *
+   * @public
+   */
   calciteTabsClose = createEvent({ cancelable: false });
 
   //#endregion

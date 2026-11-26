@@ -14,7 +14,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import type { Appearance, Layout, Scale, Status, Width } from "../types";
+import type { Layout, Scale, SelectionAppearance, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import type { IconName } from "../icon/types";
@@ -39,32 +39,43 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-segmented-control-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-segmented-control-corner-radius": "*";
   }
 }
 
+/** @public */
 interface SegmentedControlSlots {
   /**
    * A slot for adding `calcite-segmented-control-item`s.
+   *
+   * @public
    */
   "": Node[];
   /**
    * A slot for rendering content next to the component's `labelText`.
+   *
+   * @public
    */
   "label-content": Node[];
 }
 
 /**
+ * @public
  * @docGroup Segmented Control
  */
 export class SegmentedControl extends LitElement implements LabelableComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: SegmentedControlSlots;
 
   //#endregion
@@ -91,8 +102,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   /**
    * Made into a prop for testing purposes only
-   *
-   * @private
    */
   messages = useT9n<typeof T9nStrings>();
 
@@ -107,68 +116,112 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   /**
    * Specifies the appearance style of the component.
    *
-   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
+   * @public
    */
-  @property({ reflect: true }) appearance: Extract<
-    "outline" | "outline-fill" | "solid",
-    Appearance
-  > = "solid";
+  @property({ reflect: true })
+  selectionAppearance: Extract<"brand" | "highlight" | "neutral", SelectionAppearance> = "neutral";
 
-  /** When `true`, interaction is prevented and the component is displayed with lower opacity. */
+  /**
+   * When `true`, interaction is prevented and the component is displayed with lower opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) form?: string;
 
-  /** Defines the layout of the component. */
+  /**
+   * Defines the layout of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) layout: Extract<"horizontal" | "vertical", Layout> = "horizontal";
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() labelText?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() messageOverrides?: typeof this.messages._overrides;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) name?: string;
 
   /**
    * When `true` and the component resides in a form,
    * the component must have a value in order for the form to submit.
+   *
+   * @public
    */
   @property({ reflect: true }) required = false;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * The component's selected item `HTMLElement`.
+   * The component's selected item `HTMLElement`, or `undefined` when no item is selected.
    *
+   * @public
    * @readonly
    */
-  @property() selectedItem!: SegmentedControlItem["el"];
+  @property() selectedItem?: SegmentedControlItem["el"];
 
-  /** Specifies the status of the validation message. */
+  /**
+   * Specifies the status of the validation message.
+   *
+   * @public
+   */
   @property({ reflect: true }) status: Status = "idle";
 
-  /** Specifies the validation icon to display under the component. */
+  /**
+   * Specifies the validation icon to display under the component.
+   *
+   * @public
+   */
   @property({ reflect: true, converter: stringOrBoolean }) validationIcon?: IconName | boolean;
 
-  /** Specifies the validation message to display under the component. */
+  /**
+   * Specifies the validation message to display under the component.
+   *
+   * @public
+   */
   @property() validationMessage?: string;
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - ValidityState](https://developer.mozilla.org/en-US/docs/Web/API/ValidityState)
    */
   @property({ readOnly: true }) validity!: ValidityState;
 
-  /** The component's `selectedItem` value. */
-  // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
-  @property() value: string = null;
+  /**
+   * The component's `selectedItem` value, or `undefined` when no item is selected.
+   *
+   * @public
+   */
+  @property() value: string | undefined;
 
-  /** Specifies the width of the component. */
+  /**
+   * Specifies the width of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) width: Extract<"auto" | "full", Width> = "auto";
 
   //#endregion
@@ -178,8 +231,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -191,7 +244,11 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Events
 
-  /** Fires when the `calcite-segmented-control-item` selection changes. */
+  /**
+   * Fires when the `calcite-segmented-control-item` selection changes.
+   *
+   * @public
+   */
   calciteSegmentedControlChange = createEvent({ cancelable: false });
 
   //#endregion
@@ -215,14 +272,15 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
+      (changes.has("selectionAppearance") &&
+        (this.hasUpdated || this.selectionAppearance !== "neutral")) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
       this.handleItemPropChange();
     }
 
-    if (changes.has("value") && (this.hasUpdated || this.value !== null)) {
+    if (changes.has("value") && (this.hasUpdated || this.value !== undefined)) {
       this.valueHandler(this.value);
     }
 
@@ -239,13 +297,13 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
 
   //#region Private Methods
 
-  private valueHandler(value: string): void {
+  private valueHandler(value: string | undefined): void {
     const { items } = this;
     items.forEach((item) => (item.checked = item.value === value));
   }
 
   private handleSelectedItemChange<T extends SegmentedControlItem["el"]>(
-    newItem: T,
+    newItem: T | undefined,
     oldItem?: T,
   ): void {
     this.value = newItem?.value;
@@ -338,7 +396,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     const { items } = this;
 
     items.forEach((item) => {
-      item.appearance = this.appearance;
+      item.appearance = this.selectionAppearance;
       item.layout = this.layout;
       item.scale = this.scale;
     });
@@ -391,7 +449,6 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
       }
     });
 
-    // @ts-expect-error -- updating public type at v6.0.0 (see #14582)
     this.selectedItem = match;
 
     if (match && emit) {

@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Изчистване",
   "hiddenSelected": "Избрани редове, но извън изгледа",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Страница",
   "row": "Ред",
-  "selected": "Избрани"
+  "rowNumber": "Row number",
+  "selected": "Избрани",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

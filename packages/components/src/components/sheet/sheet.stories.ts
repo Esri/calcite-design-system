@@ -12,10 +12,7 @@ import "./sheet"; // Force Vite to statically trace the file for Chromatic's Tur
 
 const { logicalFlowPosition, displayMode, scale } = ATTRIBUTES;
 
-type SheetStoryArgs = Pick<
-  Sheet,
-  "displayMode" | "heightScale" | "modal" | "open" | "position" | "resizable" | "width"
->;
+type SheetStoryArgs = Pick<Sheet, "displayMode" | "height" | "modal" | "open" | "position" | "resizable" | "width">;
 
 export default {
   title: "Components/Sheet",
@@ -26,7 +23,7 @@ export default {
     position: logicalFlowPosition.values[0],
     displayMode: displayMode.values[1],
     width: scale.defaultValue,
-    heightScale: scale.defaultValue,
+    height: scale.defaultValue,
   },
   argTypes: {
     position: {
@@ -41,7 +38,7 @@ export default {
       options: scale.values,
       control: { type: "select" },
     },
-    heightScale: {
+    height: {
       options: scale.values,
       control: { type: "select" },
     },
@@ -73,7 +70,7 @@ export const simple = (args: SheetStoryArgs): string => html`
     position="${args.position}"
     display-mode="${args.displayMode}"
     width="${args.width}"
-    height-scale="${args.heightScale}"
+    height="${args.height}"
     >${panelHTML}</calcite-sheet
   >
 `;

@@ -8,7 +8,7 @@ import "./icon"; // Force Vite to statically trace the file for Chromatic's Turb
 
 const { scale } = ATTRIBUTES;
 
-const sampleIcon = iconNames.find((item) => item === "arrowRight");
+const sampleIcon = iconNames.find((item) => item === "arrow-right");
 
 type IconStoryArgs = Pick<Icon, "flipRtl" | "icon" | "preload" | "scale" | "textLabel">;
 

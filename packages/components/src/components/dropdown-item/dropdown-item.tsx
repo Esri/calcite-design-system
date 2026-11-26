@@ -29,47 +29,56 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color when hovered.
+     *
+     * @public
      */
     "--calcite-dropdown-item-background-color-hover": "*";
     /**
      * Specifies the component's background color when `selected` or active.
+     *
+     * @public
      */
     "--calcite-dropdown-item-background-color-press": "*";
     /**
-     * Specifies the color of the component's selection icon when hovered.
-     *
-     * @deprecated in v5.0.0, removal target v6.0.0.
-     */
-    "--calcite-dropdown-item-icon-color-hover": "*";
-    /**
      * Specifies the color of the component's selection icon when `selected` or active.
+     *
+     * @public
      */
     "--calcite-dropdown-item-icon-color-press": "*";
     /**
      * Specifies the component's text color when `selected` or active.
+     *
+     * @public
      */
     "--calcite-dropdown-item-text-color-press": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-dropdown-item-text-color": "*";
   }
 }
 
+/** @public */
 interface DropdownItemSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
 
 /**
+ * @public
  * @docGroup Dropdown
  * @parent calcite-dropdown
  */
 export class DropdownItem extends LitElement {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: DropdownItemSlots;
 
   //#endregion
@@ -101,7 +110,11 @@ export class DropdownItem extends LitElement {
 
   //#region Public Properties
 
-  /** When `true`, prevents interaction and decreases the component's opacity. */
+  /**
+   * When `true`, prevents interaction and decreases the component's opacity.
+   *
+   * @public
+   */
   @property({ reflect: true }) disabled = false;
 
   /**
@@ -109,32 +122,53 @@ export class DropdownItem extends LitElement {
    *
    * Determines if the component will render as an anchor.
    * Calling `click()` on the component does not activate the link.
+   *
+   * @public
    */
   @property({ reflect: true }) href?: string;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconEnd?: IconName;
 
-  /** When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`. */
+  /**
+   * When the element direction is right-to-left (`"rtl"`), flips the component's `iconStart` and/or `iconEnd`.
+   *
+   * @public
+   */
   @property({ reflect: true }) iconFlipRtl?: FlipContext;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) iconStart?: IconName;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() label?: string;
 
-  /** Specifies the relationship to the linked resource defined in `href`. */
+  /**
+   * Specifies the relationship to the linked resource defined in `href`.
+   *
+   * @public
+   */
   @property({ reflect: true }) rel?: string;
 
   /**
    * Specifies the size of the component inherited from `calcite-dropdown`, defaults to `m`.
-   *
-   * @private
    */
   @property({ reflect: true }) scale: Scale = "m";
 
-  /** When `true`, the component is selected. */
+  /**
+   * When `true`, the component is selected.
+   *
+   * @public
+   */
   @property({ reflect: true }) selected = false;
 
   /**
@@ -142,12 +176,14 @@ export class DropdownItem extends LitElement {
    * - `multiple` allows any number of selected items,
    * - `single` allows only one selection (default),
    * - `none` doesn't allow for any selection.
-   *
-   * @private
    */
   @property() selectionMode: Extract<"none" | "single" | "multiple", SelectionMode> = "single";
 
-  /** Specifies the frame or window to open the linked resource. */
+  /**
+   * Specifies the frame or window to open the linked resource.
+   *
+   * @public
+   */
   @property({ reflect: true }) target?: string;
 
   //#endregion
@@ -156,8 +192,6 @@ export class DropdownItem extends LitElement {
 
   /**
    * Activates the component's link or selects the component.
-   *
-   * @private
    */
   @method()
   async activateItem(): Promise<void> {
@@ -176,8 +210,8 @@ export class DropdownItem extends LitElement {
   /**
    * Sets focus on the component.
    *
+   * @public
    * @param options - When specified an optional object customizes the component's focusing process. When `preventScroll` is `true`, scrolling will not occur on the component.
-   *
    * @see [MDN - focus(options)](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus#options)
    */
   @method()
@@ -189,11 +223,16 @@ export class DropdownItem extends LitElement {
 
   //#region Events
 
-  /** Fires when the component is selected. */
+  /**
+   * Fires when the component is selected.
+   *
+   * @public
+   */
   calciteDropdownItemSelect = createEvent({ cancelable: false });
 
-  /** @private */
-  calciteInternalDropdownItemSelect = createEvent<RequestedItem>({ cancelable: false });
+  calciteInternalDropdownItemSelect = createEvent<RequestedItem>({
+    cancelable: false,
+  });
 
   //#endregion
 

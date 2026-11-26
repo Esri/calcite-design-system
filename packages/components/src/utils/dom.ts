@@ -312,10 +312,7 @@ export function focusFirstTabbable(element: HTMLElement, includeContainer?: bool
  *
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
- *
  * @returns the first focusable element.
- *
- * @internal
  */
 function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HTMLElement | undefined {
   if (!element) {
@@ -330,8 +327,6 @@ function getFirstFocusable(element: HTMLElement, includeContainer?: boolean): HT
  *
  * @param element The html element containing focusable elements.
  * @param includeContainer When true, the container element will be considered as well.
- *
- * @internal
  */
 function focusFirstFocusable(element: HTMLElement, includeContainer?: boolean, options?: FocusOptions): void {
   getFirstFocusable(element, includeContainer)?.focus(options);
@@ -394,6 +389,19 @@ export function intersects(rect1: DOMRect, rect2: DOMRect): boolean {
     rect2.top > rect1.bottom ||
     rect2.bottom < rect1.top
   );
+}
+
+/**
+ * Returns whether two horizontal bounds overlap, including touching edges.
+ *
+ * @param first The first bounds.
+ * @param second The second bounds.
+ */
+export function intersectsHorizontally(
+  first: Pick<DOMRectReadOnly, "left" | "right">,
+  second: Pick<DOMRectReadOnly, "left" | "right">,
+): boolean {
+  return first.left <= second.right && second.left <= first.right;
 }
 
 /**
@@ -719,8 +727,6 @@ export function getStylePixelValue(value: string): number {
 
 /**
  * Exported for testing purposes only.
- *
- * @private
  */
 export function viewportUnitToPixel(value: number, viewportSize: number): number {
   // intentionally dividing last to avoid rounding errors

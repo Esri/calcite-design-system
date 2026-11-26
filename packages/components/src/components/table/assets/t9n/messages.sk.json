@@ -1,7 +1,18 @@
 {
+  "all": "all",
   "clear": "Vyčistiť",
   "hiddenSelected": "Riadky vybrané, ale mimo zobrazenia",
+  "keyboardDeselect": "Press Enter or Space to deselect row",
+  "keyboardDeselectAll": "Press Enter or Space to deselect all rows",
+  "keyboardSelect": "Press Enter or Space to select row",
+  "keyboardSelectAll": "Press Enter or Space to select all rows",
   "page": "Strana",
   "row": "Riadok",
-  "selected": "Vybrané"
+  "rowNumber": "Row number",
+  "selected": "Vybrané",
+  "selectedRows": "rows selected",
+  "selectionColumn": "Selection column",
+  "selectionRow": "row",
+  "selectionSelected": "selected",
+  "unselected": "unselected"
 }

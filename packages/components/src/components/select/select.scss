@@ -35,20 +35,20 @@
 @include shared.disabled();
 
 :host([scale="s"]) {
-  --calcite-internal-select-font-size: theme("fontSize.n2h");
+  --calcite-internal-select-font-size: var(--calcite-font-size-relative-sm);
   --calcite-internal-select-spacing-inline: var(--calcite-space-sm) var(--calcite-space-2xl);
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-space-2xs);
   --calcite-internal-select-block-size: #{core.$calcite-size-24};
 }
 
 :host([scale="m"]) {
-  --calcite-internal-select-font-size: theme("fontSize.n1h");
+  --calcite-internal-select-font-size: var(--calcite-font-size-relative-base);
   --calcite-internal-select-spacing-inline: var(--calcite-space-md) var(--calcite-space-3xl);
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-space-sm);
 }
 
 :host([scale="l"]) {
-  --calcite-internal-select-font-size: theme("fontSize.0h");
+  --calcite-internal-select-font-size: var(--calcite-font-size-relative-md);
   --calcite-internal-select-spacing-inline: var(--calcite-space-lg) var(--calcite-space-4xl);
   --calcite-internal-select-icon-container-padding-inline: var(--calcite-space-sm-plus);
   --calcite-internal-select-block-size: #{core.$calcite-size-44};
@@ -109,7 +109,7 @@ select:disabled {
   border-width: var(--calcite-border-width-none);
   border-style: solid;
   background-color: var(--calcite-color-transparent);
-  inset-inline-end: theme("inset.0");
+  inset-inline-end: var(--calcite-space-none);
   border-start-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   border-start-end-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));
   border-end-start-radius: var(--calcite-select-corner-radius, var(--calcite-corner-radius));

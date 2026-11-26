@@ -210,31 +210,6 @@ it("emits calciteListItemSelect on click when selectionMode is none", async () =
   expect(eventSpy).toHaveReceivedEventTimes(1);
 });
 
-it("honors defaultPrevented on click", async () => {
-  const page = await newE2EPage({
-    html: `<calcite-list-item selection-mode="single" label="hello" description="world">
-      <div slot="content">Hi</div>
-      </calcite-list-item>`,
-  });
-
-  await page.waitForChanges();
-
-  await page.$eval("div", (div: HTMLDivElement) => {
-    div.addEventListener("click", (event) => event.preventDefault());
-    div.addEventListener("keydown", (event) => event.preventDefault());
-  });
-
-  const div = await page.find("div");
-
-  const eventSpy = await page.spyOnEvent("calciteListItemSelect");
-
-  await div.click();
-  await div.focus();
-  await page.keyboard.press("Enter");
-
-  expect(eventSpy).toHaveReceivedEventTimes(0);
-});
-
 it("emits calciteInternalListItemActive on click", async () => {
   const page = await newE2EPage({
     html: `<calcite-list-item selection-mode="none" label="hello" description="world"></calcite-list-item>`,
@@ -330,23 +305,6 @@ describe("calciteListItemToggle event", () => {
     expect(await listItem.getProperty("expanded")).toBe(false);
     expect(calciteListItemToggle).toHaveReceivedEventTimes(0);
   });
-});
-
-// Broader functionality related to the 'expanded' prop is covered in the `expanded` tests.
-it("should map deprecated 'open' prop to 'expanded' prop", async () => {
-  const page = await newE2EPage({
-    html: html`<calcite-list-item></calcite-list-item>`,
-  });
-  const listItem = await page.find("calcite-list-item");
-  expect(await listItem.getProperty("expanded")).toBe(false);
-
-  listItem.setProperty("open", true);
-  await page.waitForChanges();
-  expect(await listItem.getProperty("expanded")).toBe(true);
-
-  listItem.setProperty("open", false);
-  await page.waitForChanges();
-  expect(await listItem.getProperty("expanded")).toBe(false);
 });
 
 it("should set displayMode on slotted list", async () => {

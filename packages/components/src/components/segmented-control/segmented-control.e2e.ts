@@ -57,10 +57,10 @@ it("when multiple items are checked, last one wins", async () => {
   expect(selectedValue).toBe("3");
 });
 
-async function getSelectedItemValue(page: E2EPage): Promise<string> {
+async function getSelectedItemValue(page: E2EPage): Promise<string | undefined> {
   return page.$eval(
     "calcite-segmented-control",
-    (segmentedControl: SegmentedControl["el"]) => segmentedControl.selectedItem.value,
+    (segmentedControl: SegmentedControl["el"]) => segmentedControl.selectedItem?.value,
   );
 }
 
@@ -79,7 +79,7 @@ it("allows items to be selected", async () => {
   const [first, second, third] = await findAll(page, "calcite-segmented-control-item");
 
   type TestWindow = GlobalTestProps<{
-    eventTimeValues: string[];
+    eventTimeValues: (string | undefined)[];
   }>;
 
   // We use the browser context to assert the value at the time of event emit.
@@ -290,26 +290,26 @@ describe("WAI-ARIA Roles, States, and Properties", () => {
 it("renders requested props", async () => {
   const page = await newE2EPage();
   await page.setContent(
-    "<calcite-segmented-control scale='l' layout='vertical' appearance='outline' width='full'></calcite-segmented-control>",
+    "<calcite-segmented-control scale='l' layout='vertical' selection-appearance='highlight' width='full'></calcite-segmented-control>",
   );
   const element = await page.find("calcite-segmented-control");
   expect(element).toEqualAttribute("scale", "l");
   expect(element).toEqualAttribute("layout", "vertical");
-  expect(element).toEqualAttribute("appearance", "outline");
+  expect(element).toEqualAttribute("selection-appearance", "highlight");
   expect(element).toEqualAttribute("width", "full");
 });
 
-it("inheritable props: `appearance` and `layout` modified on the parent get passed to items", async () => {
+it("inheritable props: `selectionAppearance` and `layout` modified on the parent get passed to items", async () => {
   async function inheritsProps(segmentedControlItems: E2EElement[]): Promise<void> {
     for (const item of segmentedControlItems) {
-      expect(await item.getProperty("appearance")).toBe("outline");
+      expect(await item.getProperty("appearance")).toBe("highlight");
       expect(await item.getProperty("layout")).toBe("vertical");
     }
   }
 
   const page = await newE2EPage();
   await page.setContent(html`
-    <calcite-segmented-control appearance="outline" layout="vertical">
+    <calcite-segmented-control selection-appearance="highlight" layout="vertical">
       <calcite-segmented-control-item id="child-1" value="1">one</calcite-segmented-control-item>
       <calcite-segmented-control-item id="child-2" value="2">two</calcite-segmented-control-item>
       <calcite-segmented-control-item id="child-3" value="3">three</calcite-segmented-control-item>

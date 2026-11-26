@@ -38,39 +38,54 @@ declare module "@arcgis/lumina" {
   interface DeclareCssProperties {
     /**
      * Specifies the component's background color.
+     *
+     * @public
      */
     "--calcite-tooltip-background-color": "*";
     /**
      * Specifies the component's border color.
+     *
+     * @public
      */
     "--calcite-tooltip-border-color": "*";
     /**
      * Specifies the component's corner radius.
+     *
+     * @public
      */
     "--calcite-tooltip-corner-radius": "*";
     /**
      * Specifies the component's maximum width.
+     *
+     * @public
      */
     "--calcite-tooltip-max-size-x": "*";
     /**
      * Specifies the component's text color.
+     *
+     * @public
      */
     "--calcite-tooltip-text-color": "*";
   }
 }
 
+/** @public */
 interface TooltipSlots {
   /**
    * A slot for adding text.
+   *
+   * @public
    */
   "": Node[];
 }
 
 const manager = referenceElementManager({ hover: true });
 
+/** @public */
 export class Tooltip extends LitElement implements FloatingUIComponent, ReferenceElementComponent {
   //#region Type-only metadata members
 
+  /** @public */
   override ["@slots"]!: TooltipSlots;
 
   //#endregion
@@ -114,44 +129,70 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   //#region Public Properties
 
-  /** Closes the component when the `referenceElement` is clicked. */
+  /**
+   * Closes the component when the `referenceElement` is clicked.
+   *
+   * @public
+   */
   @property({ reflect: true }) closeOnClick = false;
 
   /**
-   * @copyDoc
-   * @deprecated in v1.5.0, removal target v6.0.0 - No longer necessary. Overrides the context of the component's text description, which could confuse assistive technology users.
-   */
-  @property() label?: string;
-
-  /**
    * Specifies the distance to position the component away from the `referenceElement`.
+   *
+   * @public
    */
   @property({ type: Number, reflect: true }) offsetDistance = defaultOffsetDistance;
 
-  /** Specifies the distance to position the component along the `referenceElement`. */
+  /**
+   * Specifies the distance to position the component along the `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) offsetSkidding = 0;
 
-  /** When `true`, the component is open. */
+  /**
+   * When `true`, the component is open.
+   *
+   * @public
+   */
   @property({ reflect: true }) open = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property({ reflect: true }) overlayPositioning: OverlayPositioning = "absolute";
 
-  /** Determines where the component will be positioned relative to the `referenceElement`. */
+  /**
+   * Determines where the component will be positioned relative to the `referenceElement`.
+   *
+   * @public
+   */
   @property({ reflect: true }) placement: LogicalPlacement = "auto";
 
-  /** When `true`, removes the caret pointer. */
+  /**
+   * When `true`, removes the caret pointer.
+   *
+   * @public
+   */
   @property({ reflect: true }) pointerDisabled = false;
 
-  /** @copyDoc */
+  /**
+   * @public
+   * @copyDoc
+   */
   @property() referenceElement: ReferenceElement | string | undefined;
 
-  /** Specifies the size of the component. */
+  /**
+   * Specifies the size of the component.
+   *
+   * @public
+   */
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
+   * @public
    * @copyDoc
-   *
    * @see [MDN - Top Layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer)
    */
   @property({ reflect: true }) topLayerDisabled = false;
@@ -163,6 +204,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   /**
    * Updates the position of the component.
    *
+   * @public
    * @param delayed
    */
   @method()
@@ -198,16 +240,32 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
 
   //#region Events
 
-  /** Fires when the component is requested to be closed and before the closing transition begins. */
+  /**
+   * Fires when the component is requested to be closed and before the closing transition begins.
+   *
+   * @public
+   */
   calciteTooltipBeforeClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is added to the DOM but not rendered, and before the opening transition begins. */
+  /**
+   * Fires when the component is added to the DOM but not rendered, and before the opening transition begins.
+   *
+   * @public
+   */
   calciteTooltipBeforeOpen = createEvent({ cancelable: false });
 
-  /** Fires when the component is closed and animation is complete. */
+  /**
+   * Fires when the component is closed and animation is complete.
+   *
+   * @public
+   */
   calciteTooltipClose = createEvent({ cancelable: false });
 
-  /** Fires when the component is open and animation is complete. */
+  /**
+   * Fires when the component is open and animation is complete.
+   *
+   * @public
+   */
   calciteTooltipOpen = createEvent({ cancelable: false });
 
   //#endregion
@@ -291,7 +349,7 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
   //#region Rendering
 
   override render(): JsxNode {
-    const { referenceEl, label, open, pointerDisabled, floatingLayout } = this;
+    const { referenceEl, open, pointerDisabled, floatingLayout } = this;
     const displayed = referenceEl && open;
     const hidden = !displayed;
     const arrowNode = !pointerDisabled ? (
@@ -299,8 +357,6 @@ export class Tooltip extends LitElement implements FloatingUIComponent, Referenc
     ) : null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.inert = hidden;
-    /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
-    this.el.ariaLabel = label ?? null;
     /* TODO: [MIGRATION] This used <Host> before. In Stencil, <Host> props overwrite user-provided props. If you don't wish to overwrite user-values, replace "=" here with "??=" */
     this.el.role = "tooltip";
 

@@ -38,7 +38,7 @@
       margin-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
     .internal-label--text {
-      font-size: var(--calcite-font-size--2);
+      font-size: var(--calcite-font-size-relative-sm);
     }
   }
 
@@ -53,7 +53,7 @@
       margin-inline-start: var(--calcite-theme-space-sm, var(--calcite-spacing-sm));
     }
     .internal-label--text {
-      font-size: var(--calcite-font-size--1);
+      font-size: var(--calcite-font-size-relative-base);
     }
   }
 
@@ -68,7 +68,7 @@
       margin-inline-start: var(--calcite-theme-space-md, var(--calcite-spacing-md));
     }
     .internal-label--text {
-      font-size: var(--calcite-font-size-0);
+      font-size: var(--calcite-font-size-relative-md);
     }
   }
 }

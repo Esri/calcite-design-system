@@ -83,10 +83,6 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "expandDisabled",
-        defaultValue: false,
-      },
-      {
         propertyName: "floating",
         defaultValue: false,
       },
@@ -144,10 +140,6 @@ describe("reflects", () => {
     [
       {
         propertyName: "expandToggleDisabled",
-        value: true,
-      },
-      {
-        propertyName: "expandDisabled",
         value: true,
       },
       {
@@ -216,7 +208,7 @@ describe("top layer placement", () => {
   topLayer(
     () =>
       mount(
-        <calcite-action-bar expand-disabled overflow-actions-disabled>
+        <calcite-action-bar expand-toggle-disabled overflow-actions-disabled>
           <calcite-action-group>
             <calcite-action icon="plus" slot="menu-actions" text="Add" />
           </calcite-action-group>
@@ -234,7 +226,7 @@ describe("top layer placement", () => {
 describe("selection-mode", () => {
   it("automatically disables overflow when selection mode is enabled", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar expand-disabled layout="horizontal">
+      <calcite-action-bar expand-toggle-disabled layout="horizontal">
         <calcite-action-group data-testid="selection-group" selection-mode="multiple">
           <calcite-action icon="information" text="Identify" />
           <calcite-action icon="filter" text="Filter" />
@@ -253,7 +245,7 @@ describe("selection-mode", () => {
 
   it("supports toolbar pattern keyboard navigation", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>
+      <calcite-action-bar expand-toggle-disabled layout="horizontal" overflow-actions-disabled>
         <calcite-action-group selection-mode="single-persist">
           <calcite-action icon="plus" text="Add" />
           <calcite-action icon="save" text="Save" />
@@ -287,7 +279,7 @@ describe("selection-mode", () => {
 
   it("preserves four-arrow grid navigation for selection-mode none actions", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar expand-disabled layout="grid" overflow-actions-disabled>
+      <calcite-action-bar expand-toggle-disabled layout="grid" overflow-actions-disabled>
         <calcite-action-group selection-mode="none">
           <calcite-action data-testid="first-action" icon="plus" text="Add" />
           <calcite-action data-testid="second-action" icon="save" text="Save" />
@@ -344,7 +336,7 @@ describe("selection-mode", () => {
 
   it("does not use secondary arrow keys within multiple-selection action group", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar expand-disabled layout="horizontal" overflow-actions-disabled>
+      <calcite-action-bar expand-toggle-disabled layout="horizontal" overflow-actions-disabled>
         <calcite-action-group selection-mode="multiple">
           <calcite-action
             data-testid="secondary-nav-add"
@@ -1355,12 +1347,12 @@ describe("per-group overflow-actions-disabled", () => {
   it("supports keyboard navigation after focus moves to another action bar", async () => {
     await mount(
       <>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group selection-mode="multiple">
             <calcite-action icon="number-circle1" id="first-bar-action" text="first" />
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group selection-mode="multiple">
             <calcite-action data-testid="second-bar-action" icon="number-circle2" text="second" />
             <calcite-action
@@ -1387,7 +1379,7 @@ describe("per-group overflow-actions-disabled", () => {
   it("tabs backward from the current action when multiple action bars are present", async () => {
     await mount(
       <>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group>
             <calcite-action data-testid="first-bar-action" icon="number-circle1" text="first" />
             <calcite-action
@@ -1397,7 +1389,7 @@ describe("per-group overflow-actions-disabled", () => {
             />
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group>
             <calcite-action data-testid="second-bar-action" icon="number-circle3" text="third" />
             <calcite-action
@@ -1429,7 +1421,7 @@ describe("per-group overflow-actions-disabled", () => {
 
   it("opens a focused action menu with Enter", async () => {
     await mount(
-      <calcite-action-bar expand-disabled>
+      <calcite-action-bar expand-toggle-disabled>
         <calcite-action-group>
           <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
         </calcite-action-group>
@@ -1456,7 +1448,7 @@ describe("per-group overflow-actions-disabled", () => {
 
   it("reserves primary-axis arrows for navigation from a default-placement action menu", async () => {
     await mount(
-      <calcite-action-bar expand-disabled>
+      <calcite-action-bar expand-toggle-disabled>
         <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
         <calcite-action-menu data-testid="action-menu" label="more">
           <calcite-action data-testid="menu-action" icon="number-circle2" text="menu action" />
@@ -1482,7 +1474,7 @@ describe("per-group overflow-actions-disabled", () => {
 
   it("opens a focused overflow action menu at its last item in a vertical action bar", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar expand-disabled>
+      <calcite-action-bar expand-toggle-disabled>
         <calcite-action-group data-testid="overflow-action-group">
           <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
           <calcite-action
@@ -1519,7 +1511,7 @@ describe("per-group overflow-actions-disabled", () => {
 
   it("opens a focused overflow action menu at its first item in a vertical action bar", async () => {
     await mount<"calcite-action-bar">(
-      <calcite-action-bar expand-disabled>
+      <calcite-action-bar expand-toggle-disabled>
         <calcite-action-group data-testid="overflow-action-group">
           <calcite-action data-testid="first-action" icon="number-circle1" text="first" />
           <calcite-action
@@ -1563,12 +1555,12 @@ describe("per-group overflow-actions-disabled", () => {
   it("tabs backward to the previous action menu when multiple action bars are present", async () => {
     await mount(
       <>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group>
             <calcite-action data-testid="first-bar-action" icon="number-circle1" text="first" />
           </calcite-action-group>
         </calcite-action-bar>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group>
             <calcite-action data-testid="second-bar-action" icon="number-circle2" text="second" />
           </calcite-action-group>
@@ -1576,7 +1568,7 @@ describe("per-group overflow-actions-disabled", () => {
             <calcite-action icon="number-circle3" text="third" />
           </calcite-action-menu>
         </calcite-action-bar>
-        <calcite-action-bar expand-disabled>
+        <calcite-action-bar expand-toggle-disabled>
           <calcite-action-group>
             <calcite-action data-testid="third-bar-action" icon="number-circle4" text="fourth" />
           </calcite-action-group>
@@ -1788,7 +1780,7 @@ describe("wrap", () => {
   it("ignores hidden top-level items when measuring wrapped lines", async () => {
     const { component } = await mount<ActionBar>(
       <calcite-action-bar
-        expandDisabled
+        expandToggleDisabled
         layout="horizontal"
         overflow-mode="wrap"
         style="width: 120px;"
