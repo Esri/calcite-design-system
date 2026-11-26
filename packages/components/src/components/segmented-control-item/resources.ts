@@ -9,8 +9,8 @@ export const CSS = {
   label: "label",
   labelScale: (scale: Scale) => `label--scale-${scale}` as const,
   labelHorizontal: "label--horizontal",
-  labelOutline: "label--outline",
-  labelOutlineFill: "label--outline-fill",
+  labelHighlight: "label--highlight",
+  labelNeutral: "label--neutral",
   icon: "icon",
   iconSolo: "icon--solo",
 };

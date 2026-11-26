@@ -49,7 +49,7 @@ export interface ResizeValues {
   maxBlockSize: number | null;
 }
 /** @public */
-export type SelectionAppearance = "icon" | "border" | "neutral" | "highlight";
+export type SelectionAppearance = "icon" | "border" | "neutral" | "highlight" | "brand";
 /** @public */
 export type SelectionMode =
   | "single"

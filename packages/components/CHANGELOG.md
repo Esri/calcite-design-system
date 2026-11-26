@@ -3,6 +3,169 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0-next.56](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.55...@esri/calcite-components@6.0.0-next.56) (2026-11-25)
+
+### Bug Fixes
+
+- **index:** ensure asset path function types are properly extracted ([#15716](https://github.com/Esri/calcite-design-system/issues/15716)), closes [#15352](https://github.com/Esri/calcite-design-system/issues/15352) [#15596](https://github.com/Esri/calcite-design-system/issues/15596)
+
+## [6.0.0-next.55](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.54...@esri/calcite-components@6.0.0-next.55) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **combobox-item:** Removes deprecated
+  `--calcite-combobox-item-border-color` token in `combobox-item`.
+
+- Use CSS `border-color` property to customize border color of
+  combobox-item.
+- **split-button:** `split-button` will avoid overflowing its parent
+  container.
+- **panel:** The following deprecated tokens are removed in `panel`.
+- `--calcite-panel-content-space`
+- `--calcite-panel-footer-padding`
+- `--calcite-panel-header-border-block-end`
+
+To migrate, replace:
+
+- `--calcite-panel-content-space` with `--calcite-panel-space`.
+- `--calcite-panel-footer-padding` with `--calcite-panel-footer-space`.
+- `--calcite-panel-header-border-block-end` with
+  `--calcite-panel-border-color`.
+- **switch:** The following deprecated tokens are removed and are no
+  longer necessary in `switch`.
+
+- `--calcite-switch-border-color`
+- `--calcite-switch-handle-border-color`
+- `--calcite-switch-handle-shadow`
+
+### Bug Fixes
+
+- **split-button:** avoid overflowing parent container ([#15611](https://github.com/Esri/calcite-design-system/issues/15611)), closes [#12910](https://github.com/Esri/calcite-design-system/issues/12910)
+
+### Code Refactoring
+
+- **combobox-item:** drop deprecated token ([#15570](https://github.com/Esri/calcite-design-system/issues/15570)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **panel:** drop deprecated tokens ([#15553](https://github.com/Esri/calcite-design-system/issues/15553)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **switch:** drop deprecated tokens ([#15551](https://github.com/Esri/calcite-design-system/issues/15551)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
+## [6.0.0-next.54](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.53...@esri/calcite-components@6.0.0-next.54) (2026-11-25)
+
+### Features
+
+- **components:** use `font.size.relative` tokens ([#15485](https://github.com/Esri/calcite-design-system/issues/15485)), closes [#15480](https://github.com/Esri/calcite-design-system/issues/15480)
+
+## [6.0.0-next.53](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.52...@esri/calcite-components@6.0.0-next.53) (2026-11-25)
+
+### ⚠ BREAKING CHANGES
+
+- **notice:** Removes deprecated
+  `--calcite-notice-close-background-color-focus` &
+  `--calcite-notice-width` tokens in `notice`.
+
+- To migrate, replace `--calcite-notice-close-background-color-focus`
+  with `--calcite-notice-close-background-color-hover` token.
+- Use `notice` component's [width
+  property](https://developers.arcgis.com/calcite-design-system/components/notice/#api-reference-properties-width)
+  instead of `--calcite-notice-width` token for prefixed width in layout.
+  For more granular control, users can declare CSS `inline-size/width`
+  property at the `:host`.
+- **flow-item:** Removes deprecated tokens
+  `--calcite-flow-item-footer-padding` &
+  `--calcite-flow-item-header-border-block-end` in `flow-item`.
+
+To migrate, replace:
+
+- `--calcite-flow-item-footer-padding` with
+  `--calcite-flow-footer-space` token.
+- `--calcite-flow-item-header-border-block-end` with
+  `--calcite-flow-border-color` token.
+
+- **dropdown-item:** Removes deprecated
+  `--calcite-dropdown-item-icon-color-hover` token in `dropdown-item`, as
+  it is no longer necessary.
+- **card:** The following deprecated tokens are removed in `card`.
+
+- `--calcite-card-selection-background-color`
+- `--calcite-card-selection-icon-color-hover`
+- `--calcite-card-selection-icon-color-selected`
+
+To migrate, replace:
+
+- `--calcite-card-selection-background-color` with
+  `--calcite-card-background-color`.
+- `--calcite-card-selection-icon-color-hover` with
+  `--calcite-card-selection-color-hover`.
+- `--calcite-card-selection-icon-color-selected` with
+  `--calcite-card-accent-color-selected`.
+
+- **chip:** Removes deprecated
+  `--calcite-chip-select-icon-color-pressed` token in `chip`.
+
+- Replace it with `--calcite-chip-select-icon-color-press` token to
+  customize icon color on press.
+
+### Code Refactoring
+
+- **card:** drop deprecated tokens ([#15574](https://github.com/Esri/calcite-design-system/issues/15574)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **chip:** remove deprecated token ([#15571](https://github.com/Esri/calcite-design-system/issues/15571)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **dropdown-item:** drop deprecated token ([#15569](https://github.com/Esri/calcite-design-system/issues/15569)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **flow-item:** drop deprecated tokens ([#15567](https://github.com/Esri/calcite-design-system/issues/15567)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+- **notice:** remove deprecated tokens ([#15554](https://github.com/Esri/calcite-design-system/issues/15554)), closes [#15208](https://github.com/Esri/calcite-design-system/issues/15208)
+
+## [6.0.0-next.52](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.51...@esri/calcite-components@6.0.0-next.52) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **input-number:** The input-number’s value property no longer includes
+  trailing decimal separators, aligning with native input behavior. The
+  trailing decimal remains visible in the input while editing. To migrate,
+  update any code or test assertions that rely on the value property
+  containing a trailing decimal separator.
+
+### Bug Fixes
+
+- **input-number:** replace integer and decimal selections correctly in the input with localized decimal character ([#15539](https://github.com/Esri/calcite-design-system/issues/15539)), closes [#15538](https://github.com/Esri/calcite-design-system/issues/15538)
+
+## [6.0.0-next.51](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.50...@esri/calcite-components@6.0.0-next.51) (2026-11-24)
+
+### Bug Fixes
+
+- **dropdown:** remove visual noise in forced-colors mode ([#15671](https://github.com/Esri/calcite-design-system/issues/15671)), closes [#15334](https://github.com/Esri/calcite-design-system/issues/15334)
+
+## [6.0.0-next.50](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.49...@esri/calcite-components@6.0.0-next.50) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **slider:** Slider endpoint tick labels now align with the
+  component edges instead of being centered. Overlapping tick labels are
+  now hidden. To migrate, update layouts that depend on centered endpoint
+  labels or require all tick labels to remain visible. Increase the slider
+  width to accommodate more labels, or use `labelFormatter` to shorten or
+  omit labels.
+
+### Features
+
+- **slider:** align tick labels component bounds ([#15635](https://github.com/Esri/calcite-design-system/issues/15635)), closes [#12129](https://github.com/Esri/calcite-design-system/issues/12129)
+
+## [6.0.0-next.49](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.48...@esri/calcite-components@6.0.0-next.49) (2026-11-24)
+
+### ⚠ BREAKING CHANGES
+
+- **components:** CamelCase icon names will no longer work. CamelCase
+  icon names were never publicly documented, and this behavior has been
+  removed to align with the documentation. To migrate, replace camelCase
+  icon names with their kebab-case equivalents.
+
+### Code Refactoring
+
+- **components:** remove camelCase icon names ([#15694](https://github.com/Esri/calcite-design-system/issues/15694)), closes [#14967](https://github.com/Esri/calcite-design-system/issues/14967)
+
+## [6.0.0-next.48](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.47...@esri/calcite-components@6.0.0-next.48) (2026-11-23)
+
+### Bug Fixes
+
+- **slider:** ensure `calciteSliderInput` is emitted before `calciteSliderChange` ([#15691](https://github.com/Esri/calcite-design-system/issues/15691)), closes [#15456](https://github.com/Esri/calcite-design-system/issues/15456)
+
 ## [6.0.0-next.47](https://github.com/Esri/calcite-design-system/compare/@esri/calcite-components@6.0.0-next.46...@esri/calcite-components@6.0.0-next.47) (2026-11-23)
 
 ### ⚠ BREAKING CHANGES

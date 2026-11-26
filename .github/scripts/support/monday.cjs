@@ -1097,7 +1097,7 @@ module.exports = function Monday(issue, core, updateIssueBody) {
     if (action === "closed") {
       if ("state_reason" in issue && issue.state_reason !== "completed") {
         setColumnValue(mondayColumns.status, CLOSED, logParams);
-      } else if (includesLabel(issue.labels, issueType.design)) {
+      } else if (includesLabel(issue.labels, issueType.design) || includesLabel(issue.labels, handoff.figmaChanges)) {
         setColumnValue(mondayColumns.status, ADDING_TO_KIT, logParams);
       } else {
         setColumnValue(mondayColumns.status, DONE, logParams);

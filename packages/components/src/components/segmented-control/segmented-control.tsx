@@ -14,7 +14,7 @@ import { useDirection } from "@arcgis/lumina/controllers";
 import { slotChangeGetAssignedElements } from "../../utils/dom";
 import { getLabelText } from "../../utils/label";
 import { type LabelableComponent, useLabel } from "../../controllers/useLabel";
-import type { Appearance, Layout, Scale, Status, Width } from "../types";
+import type { Layout, Scale, SelectionAppearance, Status, Width } from "../types";
 import { InternalLabel } from "../functional/InternalLabel";
 import { Validation } from "../functional/Validation";
 import type { IconName } from "../icon/types";
@@ -117,12 +117,9 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
    * Specifies the appearance style of the component.
    *
    * @public
-   * @deprecated in v5.2.0, removal target v6.0.0 - use the `selectionAppearance` property coming in v6.0.0.
    */
-  @property({ reflect: true }) appearance: Extract<
-    "outline" | "outline-fill" | "solid",
-    Appearance
-  > = "solid";
+  @property({ reflect: true })
+  selectionAppearance: Extract<"brand" | "highlight" | "neutral", SelectionAppearance> = "neutral";
 
   /**
    * When `true`, interaction is prevented and the component is displayed with lower opacity.
@@ -275,7 +272,8 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     Please refactor your code to reduce the need for this check.
     Docs: https://webgis.esri.com/arcgis-components/?path=/docs/lumina-transition-from-stencil--docs#watching-for-property-changes */
     if (
-      (changes.has("appearance") && (this.hasUpdated || this.appearance !== "solid")) ||
+      (changes.has("selectionAppearance") &&
+        (this.hasUpdated || this.selectionAppearance !== "neutral")) ||
       (changes.has("layout") && (this.hasUpdated || this.layout !== "horizontal")) ||
       (changes.has("scale") && (this.hasUpdated || this.scale !== "m"))
     ) {
@@ -398,7 +396,7 @@ export class SegmentedControl extends LitElement implements LabelableComponent {
     const { items } = this;
 
     items.forEach((item) => {
-      item.appearance = this.appearance;
+      item.appearance = this.selectionAppearance;
       item.layout = this.layout;
       item.scale = this.scale;
     });

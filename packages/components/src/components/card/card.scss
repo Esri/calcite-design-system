@@ -206,10 +206,7 @@
       --calcite-card-selection-background-color-hover,
       var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
     );
-    color: var(
-      --calcite-card-selection-color-hover,
-      var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
-    );
+    color: var(--calcite-card-selection-color-hover, var(--calcite-color-text-2));
   }
   &:active {
     background-color: var(--calcite-card-selection-background-color-press, var(--calcite-color-transparent-press));
@@ -221,10 +218,7 @@
 
 :host([selected]) {
   .checkbox-wrapper {
-    color: var(
-      --calcite-card-accent-color-selected,
-      var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand))
-    );
+    color: var(--calcite-card-accent-color-selected, var(--calcite-color-brand));
   }
 }
 
@@ -234,20 +228,14 @@
       --calcite-card-selection-background-color-hover,
       var(--calcite-theme-color-surface-3, var(--calcite-color-foreground-2))
     );
-    color: var(
-      --calcite-card-selection-color-hover,
-      var(--calcite-card-selection-icon-color-hover, var(--calcite-color-text-2))
-    );
+    color: var(--calcite-card-selection-color-hover, var(--calcite-color-text-2));
   }
 }
 
 :host([selected]) .content-wrapper:not(.non-interactive):focus {
   .checkbox-wrapper {
     background-color: var(--calcite-card-selection-background-color-press, var(--calcite-color-transparent-press));
-    color: var(
-      --calcite-card-accent-color-selected,
-      var(--calcite-card-selection-icon-color-selected, var(--calcite-color-brand))
-    );
+    color: var(--calcite-card-accent-color-selected, var(--calcite-color-brand));
   }
 }
 
