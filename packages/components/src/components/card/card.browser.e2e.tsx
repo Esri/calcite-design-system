@@ -15,8 +15,6 @@ import {
 } from "../../tests/common";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CSS, SLOTS } from "./resources";
-import "../card-group/card-group";
-
 const placeholder = placeholderImage({
   width: 350,
   height: 150,
