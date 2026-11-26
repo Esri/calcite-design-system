@@ -36,6 +36,8 @@ import type {
   ActiveSliderProperty,
   SetValueProperty,
   SideOffset,
+  SliderDragSession,
+  ThumbCollisionMode,
   ThumbType,
   TickLabelLayout,
 } from "./types";
@@ -44,6 +46,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { isEqual } from "es-toolkit";
 import { createObserver } from "../../utils/observers";
 import {
+  applyThumbCollisionMode,
   getHandleLabelOffsets,
   getVisibleTickLabels,
   type HorizontalBounds,
@@ -166,74 +169,114 @@ export class Slider extends LitElement implements LabelableComponent {
   private direction = useDirection();
 
   private dragEnd = (event: PointerEvent): void => {
-    if (this.disabled) {
+    const session = this.dragSession;
+    if (!session || event.pointerId !== session.pointerId) {
       return;
     }
 
-    this.removeDragListeners();
-    this.focusActiveHandle(event.clientX);
-    if (this.dragProp && !isEqual(this.lastDragPropValue, this.getDragPropValue(this.dragProp))) {
+    if (!this.disabled && this.isConnected) {
+      this.focusActiveHandle(event.clientX);
+    }
+    this.clearDragSession();
+    if (!this.disabled && this.isConnected && !isEqual(session.initialValue, this.value)) {
       this.emitChange();
     }
-    this.dragProp = undefined;
-    this.lastDragPropValue = undefined;
-    this.minValueDragRange = undefined;
-    this.maxValueDragRange = undefined;
-    this.minMaxValueRange = undefined;
   };
 
-  private dragProp?: ActiveSliderProperty;
+  private dragSession?: SliderDragSession;
+
+  private get dragProp(): ActiveSliderProperty | undefined {
+    return this.dragSession?.phase === "dragging" ? this.dragSession.prop : undefined;
+  }
 
   private dragUpdate = (event: PointerEvent): void => {
-    if (this.disabled || !this.trackRef.value) {
+    let session = this.dragSession;
+    if (!session || event.pointerId !== session.pointerId || this.disabled) {
       return;
     }
 
     event.preventDefault();
-    if (this.dragProp) {
-      const value = this.mapToRange(event.clientX || event.pageX);
-      if (isRange(this.value) && this.dragProp === "minMaxValue") {
-        if (this.minValueDragRange && this.maxValueDragRange && this.minMaxValueRange) {
-          const newMinValue = value - this.minValueDragRange;
-          const newMaxValue = value + this.maxValueDragRange;
-          if (
-            newMaxValue <= this.max &&
-            newMinValue >= this.min &&
-            newMaxValue - newMinValue === this.minMaxValueRange
-          ) {
-            this.setValue({
-              minValue: this.clamp(newMinValue, "minValue"),
-              maxValue: this.clamp(newMaxValue, "maxValue"),
-            });
-          }
-        } else {
-          this.minValueDragRange = value - this.minValue;
-          this.maxValueDragRange = this.maxValue - value;
-          this.minMaxValueRange = this.maxValue - this.minValue;
-        }
-      } else if (
-        isRange(this.value) &&
-        this.previousEmittedValue !== undefined &&
-        isRange(this.previousEmittedValue) &&
-        this.dragProp === "maxValue"
-      ) {
-        const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
+    if (session.phase === "pending") {
+      const movement = event.clientX - session.startX;
+      if (movement === 0) {
+        return;
+      }
+      const physicalRight = session.physicalLeft === "minValue" ? "maxValue" : "minValue";
+      const prop = movement < 0 ? session.physicalLeft : physicalRight;
+      const center = prop === "minValue" ? session.minCenter : session.maxCenter;
+      this.dragSession = session = {
+        phase: "dragging",
+        pointerId: session.pointerId,
+        initialValue: session.initialValue,
+        mode: session.mode,
+        prop,
+        grabOffsetX: session.startX - center,
+      };
+      this.lastDragProp = prop;
+      this.activeProp = prop;
+      this.focusActiveHandle(event.clientX);
+      this.requestUpdate();
+    }
+
+    const value = this.mapToRange(event.clientX - session.grabOffsetX);
+    const prop = session.prop;
+    if (isRange(this.value) && prop === "minMaxValue") {
+      if (session.range) {
+        const newMinValue = value - session.range.minOffset;
+        const newMaxValue = value + session.range.maxOffset;
         if (
-          previousEmittedMinValue === previousEmittedMaxValue &&
-          value < previousEmittedMinValue
+          newMaxValue <= this.max &&
+          newMinValue >= this.min &&
+          newMaxValue - newMinValue === session.range.width
         ) {
-          this.dragProp = "minValue";
-          this.minHandleRef.value!.focus();
-        } else {
           this.setValue({
-            [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp),
+            minValue: this.clamp(newMinValue, "minValue"),
+            maxValue: this.clamp(newMaxValue, "maxValue"),
           });
         }
       } else {
-        this.setValue({
-          [this.dragProp as SetValueProperty]: this.clamp(value, this.dragProp),
-        });
+        session.range = {
+          minOffset: value - this.minValue,
+          maxOffset: this.maxValue - value,
+          width: this.maxValue - this.minValue,
+        };
       }
+    } else if (
+      isRange(this.value) &&
+      (prop === "minValue" || prop === "maxValue") &&
+      session.mode !== "legacy"
+    ) {
+      const result = applyThumbCollisionMode(
+        session.mode,
+        prop,
+        value,
+        this.minValue,
+        this.maxValue,
+      );
+      if (result.prop !== prop) {
+        session.prop = result.prop;
+        this.lastDragProp = result.prop;
+        this.activeProp = result.prop;
+        this.focusActiveHandle(event.clientX);
+      }
+      this.setValue({ minValue: result.minValue, maxValue: result.maxValue });
+    } else if (
+      isRange(this.value) &&
+      this.previousEmittedValue !== undefined &&
+      isRange(this.previousEmittedValue) &&
+      prop === "maxValue"
+    ) {
+      const [previousEmittedMinValue, previousEmittedMaxValue] = this.previousEmittedValue;
+      if (previousEmittedMinValue === previousEmittedMaxValue && value < previousEmittedMinValue) {
+        session.prop = "minValue";
+        this.lastDragProp = "minValue";
+        this.activeProp = "minValue";
+        this.minHandleRef.value!.focus();
+      } else {
+        this.setValue({ [prop]: this.clamp(value, prop) });
+      }
+    } else {
+      this.setValue({ [prop]: this.clamp(value, prop) });
     }
   };
 
@@ -266,8 +309,6 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private lastDragProp?: ActiveSliderProperty;
 
-  private lastDragPropValue?: number | number[];
-
   private maxHandleRef = createRef<HTMLDivElement>();
 
   private maxValueLabelRef = createRef<HTMLSpanElement>();
@@ -286,7 +327,7 @@ export class Slider extends LitElement implements LabelableComponent {
   private minTickLabelRef = createRef<HTMLSpanElement>();
 
   private pointerUpDragEnd = (event: PointerEvent): void => {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (!isPrimaryPointerButton(event)) {
       return;
     }
 
@@ -314,6 +355,8 @@ export class Slider extends LitElement implements LabelableComponent {
 
   private trackRef = createRef<HTMLDivElement>();
 
+  private trackRangeRef = createRef<HTMLDivElement>();
+
   private focusSetter = useFocusable<this>()(this).setFocus;
 
   private interactiveContainer = useInteractive(this);
@@ -325,12 +368,6 @@ export class Slider extends LitElement implements LabelableComponent {
   //#region State Properties
 
   @state() activeProp?: ActiveSliderProperty = "value";
-
-  @state() private maxValueDragRange?: number;
-
-  @state() private minMaxValueRange?: number;
-
-  @state() private minValueDragRange?: number;
 
   @state() private tickValues: number[] = [];
 
@@ -566,7 +603,15 @@ export class Slider extends LitElement implements LabelableComponent {
    */
   @property({ reflect: true }) ticks?: number;
 
-  /**
+/**
+ * Collision policy for range-thumb pointer gestures.
+ *
+ * @public
+ */
+// TODO: replace legacy w/ block and make it the default
+@property() thumbCollisionMode: ThumbCollisionMode = "legacy";
+
+/**
    * Specifies the validation icon to display under the component.
    *
    * @public
@@ -659,6 +704,10 @@ export class Slider extends LitElement implements LabelableComponent {
     super();
     useLabel(this);
     this.listen("pointerdown", this.pointerDownHandler);
+    this.listen("pointermove", this.dragUpdate);
+    this.listen("pointerup", this.pointerUpDragEnd);
+    this.listen("pointercancel", this.dragEnd);
+    this.listen("lostpointercapture", this.dragEnd);
     this.listen("keydown", this.handleKeyDown);
     this.listen("touchstart", this.handleTouchStart);
   }
@@ -675,6 +724,12 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (
+      (changes.has("disabled") && this.disabled) ||
+      (changes.has("value") && Array.isArray(changes.get("value")) !== isRange(this.value))
+    ) {
+      this.clearDragSession();
+    }
     /* TODO: [MIGRATION] First time Lit calls willUpdate(), changes will include not just properties provided by the user, but also any default values your component set.
     To account for this semantics change, the checks for (this.hasUpdated || value != defaultValue) was added in this method
     Please refactor your code to reduce the need for this check.
@@ -733,7 +788,7 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   override disconnectedCallback(): void {
-    this.removeDragListeners();
+    this.clearDragSession();
     this.tickLabelResizeObserver?.disconnect();
     if (!isServer) {
       if (this.tickLabelLayoutFrame !== undefined) {
@@ -799,28 +854,90 @@ export class Slider extends LitElement implements LabelableComponent {
   }
 
   private pointerDownHandler(event: PointerEvent): void {
-    if (this.disabled || !isPrimaryPointerButton(event)) {
+    if (this.disabled || this.dragSession || !isPrimaryPointerButton(event)) {
       return;
     }
 
-    const x = event.clientX || event.pageX;
+    const x = event.clientX;
+    const eventPath = event.composedPath();
+    const minThumb = this.minHandleRef.value;
+    const maxThumb = this.maxHandleRef.value!;
+    const isMinThumb = minThumb !== undefined && eventPath.includes(minThumb);
+    const isMaxThumb = eventPath.includes(maxThumb);
+    const isThumbActive = isMinThumb || isMaxThumb;
+    const intent = isThumbActive
+      ? isMinThumb
+        ? "minValue"
+        : "maxValue"
+      : eventPath.includes(this.trackRangeRef.value!)
+        ? "minMaxValue"
+        : this.lastDragProp;
     const position = this.mapToRange(x);
     let prop: ActiveSliderProperty = "value";
     if (isRange(this.value)) {
       const inRange = position >= this.minValue && position <= this.maxValue;
-      if (inRange && this.lastDragProp === "minMaxValue") {
+      if (inRange && intent === "minMaxValue") {
         prop = "minMaxValue";
       } else {
         const closerToMax = Math.abs(this.maxValue - position) < Math.abs(this.minValue - position);
         prop = closerToMax || position >= this.maxValue ? "maxValue" : "minValue";
       }
     }
-    this.lastDragPropValue = this.getDragPropValue(prop);
-    this.dragStart(prop);
-    const eventPath = event.composedPath();
-    const isThumbActive = [this.minHandleRef.value, this.maxHandleRef.value].some(
-      (handle) => handle && eventPath.includes(handle),
-    );
+    const initialValue = isRange(this.value) ? [...this.value] : this.value;
+    this.dragSession = {
+      phase: "dragging",
+      pointerId: event.pointerId,
+      initialValue,
+      mode: this.thumbCollisionMode,
+      prop,
+      grabOffsetX: 0,
+    };
+    if (
+      event.pointerType === "mouse" &&
+      isThumbActive &&
+      minThumb &&
+      (prop === "minValue" || prop === "maxValue")
+    ) {
+      const minBounds = minThumb.getBoundingClientRect();
+      const maxBounds = maxThumb.getBoundingClientRect();
+      const minCircle = minThumb
+        .querySelector<HTMLDivElement>(`.${CSS.handle}`)!
+        .getBoundingClientRect();
+      const maxCircle = maxThumb
+        .querySelector<HTMLDivElement>(`.${CSS.handle}`)!
+        .getBoundingClientRect();
+      const y = event.clientY;
+      const inBothThumbs =
+        x >= Math.max(minBounds.left, maxBounds.left) &&
+        x <= Math.min(minBounds.right, maxBounds.right) &&
+        y >= Math.max(minBounds.top, maxBounds.top) &&
+        y <= Math.min(minBounds.bottom, maxBounds.bottom);
+      const inCircleBand =
+        y >= Math.min(minCircle.top, maxCircle.top) &&
+        y <= Math.max(minCircle.bottom, maxCircle.bottom);
+      if (inBothThumbs && inCircleBand) {
+        const minCenter = (minCircle.left + minCircle.right) / 2;
+        const maxCenter = (maxCircle.left + maxCircle.right) / 2;
+        this.dragSession = {
+          phase: "pending",
+          pointerId: event.pointerId,
+          initialValue,
+          mode: this.thumbCollisionMode,
+          startX: x,
+          minCenter,
+          maxCenter,
+          physicalLeft:
+            minCenter < maxCenter || (minCenter === maxCenter && !this.shouldMirror())
+              ? "minValue"
+              : "maxValue",
+          fallbackProp: prop,
+        };
+      }
+    }
+    this.lastDragProp = prop;
+    this.activeProp = prop;
+    this.el.setPointerCapture(event.pointerId);
+    this.requestUpdate();
     if (!isThumbActive) {
       this.setValue({ [prop as SetValueProperty]: this.clamp(position, prop) });
     }
@@ -923,51 +1040,14 @@ export class Slider extends LitElement implements LabelableComponent {
     this.activeProp = thumb.getAttribute("data-value-prop") as ActiveSliderProperty;
   }
 
-  private onThumbPointerDown(event: PointerEvent) {
-    const thumb = event.currentTarget as HTMLElement;
-    this.pointerDownDragStart(event, thumb.getAttribute("data-value-prop") as ActiveSliderProperty);
-  }
-
-  private onTrackPointerDown(event: PointerEvent) {
-    this.pointerDownDragStart(event, "minMaxValue");
-  }
-
-  private pointerDownDragStart(event: PointerEvent, prop: ActiveSliderProperty): void {
-    if (!isPrimaryPointerButton(event)) {
-      return;
-    }
-
-    this.dragStart(prop);
-  }
-
-  private dragStart(prop: ActiveSliderProperty): void {
-    this.dragProp = prop;
-    this.lastDragProp = this.dragProp;
-    this.activeProp = prop;
-    window.addEventListener(
-      "pointermove",
-      this.dragUpdate,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.addEventListener(
-      "pointerup",
-      this.pointerUpDragEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.addEventListener(
-      "pointercancel",
-      this.dragEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-  }
-
-  private getDragPropValue(prop: ActiveSliderProperty): number | number[] | undefined {
-    return prop === "minMaxValue" ? this.value : this[prop];
-  }
-
   private focusActiveHandle(valueX: number): void {
-    if (this.dragProp === "minValue") {
+    const prop =
+      this.dragSession?.phase === "pending" ? this.dragSession.fallbackProp : this.dragProp;
+    if (prop === "minValue") {
       this.minHandleRef.value!.focus();
-    } else if (this.dragProp === "maxValue" || this.dragProp === "value") {
+    } else if (prop === "maxValue" || prop === "value") {
       this.maxHandleRef.value!.focus();
-    } else if (this.dragProp === "minMaxValue") {
+    } else if (prop === "minMaxValue") {
       this.getClosestHandle(valueX).focus();
     }
   }
@@ -977,19 +1057,16 @@ export class Slider extends LitElement implements LabelableComponent {
     this.previousEmittedValue = this.value;
   }
 
-  private removeDragListeners() {
-    window.removeEventListener(
-      "pointermove",
-      this.dragUpdate,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.removeEventListener(
-      "pointerup",
-      this.pointerUpDragEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
-    window.removeEventListener(
-      "pointercancel",
-      this.dragEnd,
-    ) /* TODO: [MIGRATION] If possible, refactor to use on* JSX prop or this.listen()/this.listenOn() utils - they clean up event listeners automatically, thus prevent memory leaks */;
+  private clearDragSession(): void {
+    const session = this.dragSession;
+    if (!session) {
+      return;
+    }
+    this.dragSession = undefined;
+    if (this.el.hasPointerCapture(session.pointerId)) {
+      this.el.releasePointerCapture(session.pointerId);
+    }
+    this.requestUpdate();
   }
 
   /**
@@ -1023,7 +1100,7 @@ export class Slider extends LitElement implements LabelableComponent {
       return;
     }
 
-    if (values.minValue || values.maxValue) {
+    if (values.minValue !== undefined || values.maxValue !== undefined) {
       this.setValueFromMinMax();
     }
 
@@ -1413,7 +1490,7 @@ export class Slider extends LitElement implements LabelableComponent {
           <div class={CSS.track} ref={this.trackRef}>
             <div
               class={CSS.trackRange}
-              onPointerDown={this.onTrackPointerDown}
+              ref={this.trackRangeRef}
               style={trackRangePlacementStyles}
             />
             <div class={CSS.ticks}>
@@ -1553,7 +1630,6 @@ export class Slider extends LitElement implements LabelableComponent {
         key={type}
         onBlur={this.onThumbBlur}
         onFocus={this.onThumbFocus}
-        onPointerDown={this.onThumbPointerDown}
         ref={isMinThumb ? this.minHandleRef : this.maxHandleRef}
         role="slider"
         style={thumbStyle}

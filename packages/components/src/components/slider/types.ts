@@ -2,6 +2,48 @@ import type { Dir } from "../types";
 
 export type ActiveSliderProperty = "minValue" | "maxValue" | "value" | "minMaxValue";
 export type SetValueProperty = Exclude<ActiveSliderProperty, "minMaxValue">;
+export type RangeThumbProperty = "minValue" | "maxValue";
+export type ThumbCollisionMode = "legacy" | "swap" | "push" | "block";
+
+/** One pointer gesture, including its initial value and collision policy. */
+interface SliderDragSessionBase {
+  pointerId: number;
+  initialValue: number | number[];
+  mode: ThumbCollisionMode;
+}
+
+/** An ambiguous mouse start, measured once in viewport CSS pixels. */
+interface PendingSliderDrag extends SliderDragSessionBase {
+  phase: "pending";
+  startX: number;
+  minCenter: number;
+  maxCenter: number;
+  physicalLeft: RangeThumbProperty;
+  /** Preserves the existing focus result when released without movement. */
+  fallbackProp: RangeThumbProperty;
+}
+
+/** A resolved drag; whole-range offsets are established on its first move. */
+interface ResolvedSliderDrag extends SliderDragSessionBase {
+  phase: "dragging";
+  prop: ActiveSliderProperty;
+  grabOffsetX: number;
+  range?: {
+    minOffset: number;
+    maxOffset: number;
+    width: number;
+  };
+}
+
+export type SliderDragSession = PendingSliderDrag | ResolvedSliderDrag;
+
+/** Ordered endpoint values and the moving role after applying a collision policy. */
+export interface ThumbCollisionResult {
+  minValue: number;
+  maxValue: number;
+  prop: RangeThumbProperty;
+}
+
 export type ThumbType =
   | "min"
   | "min-labeled"

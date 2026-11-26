@@ -1,6 +1,58 @@
 import { describe, expect, it } from "vitest";
 import type { TickLabelMeasurement } from "./types";
-import { getHandleLabelOffsets, getVisibleTickLabels } from "./utils";
+import { applyThumbCollisionMode, getHandleLabelOffsets, getVisibleTickLabels } from "./utils";
+
+describe(applyThumbCollisionMode, () => {
+  it.each([
+    ["swap", "maxValue", 0, 50, 100, { minValue: 0, maxValue: 50, prop: "minValue" }],
+    ["swap", "minValue", 100, 0, 50, { minValue: 50, maxValue: 100, prop: "maxValue" }],
+    ["push", "maxValue", 0, 50, 100, { minValue: 0, maxValue: 0, prop: "maxValue" }],
+    ["push", "minValue", 100, 0, 50, { minValue: 100, maxValue: 100, prop: "minValue" }],
+    ["block", "maxValue", 0, 50, 100, { minValue: 50, maxValue: 50, prop: "maxValue" }],
+    ["block", "minValue", 100, 0, 50, { minValue: 50, maxValue: 50, prop: "minValue" }],
+  ] as const)("applies %s when %s crosses the other endpoint", (mode, prop, value, minValue, maxValue, expected) => {
+    expect(applyThumbCollisionMode(mode, prop, value, minValue, maxValue)).toEqual(expected);
+  });
+
+  it.each(["swap", "push", "block"] as const)("allows touching without changing roles in %s", (mode) => {
+    expect(applyThumbCollisionMode(mode, "maxValue", 50, 50, 100)).toEqual({
+      minValue: 50,
+      maxValue: 50,
+      prop: "maxValue",
+    });
+    expect(applyThumbCollisionMode(mode, "minValue", 50, 0, 50)).toEqual({
+      minValue: 50,
+      maxValue: 50,
+      prop: "minValue",
+    });
+  });
+
+  it("keeps the passive value fixed when a swapped thumb reverses direction", () => {
+    const crossed = applyThumbCollisionMode("swap", "maxValue", 0, 50, 100);
+    expect(applyThumbCollisionMode("swap", crossed.prop, 80, crossed.minValue, crossed.maxValue)).toEqual({
+      minValue: 50,
+      maxValue: 80,
+      prop: "maxValue",
+    });
+  });
+
+  it("does not pull a pushed endpoint back when the active thumb reverses", () => {
+    const pushed = applyThumbCollisionMode("push", "maxValue", 0, 50, 100);
+    expect(applyThumbCollisionMode("push", pushed.prop, 100, pushed.minValue, pushed.maxValue)).toEqual({
+      minValue: 0,
+      maxValue: 100,
+      prop: "maxValue",
+    });
+  });
+
+  it("preserves negative and fractional values when swapping", () => {
+    expect(applyThumbCollisionMode("swap", "maxValue", -0.25, 0.25, 1.25)).toEqual({
+      minValue: -0.25,
+      maxValue: 0.25,
+      prop: "minValue",
+    });
+  });
+});
 
 describe(getHandleLabelOffsets, () => {
   const host = { left: 0, right: 100 };
