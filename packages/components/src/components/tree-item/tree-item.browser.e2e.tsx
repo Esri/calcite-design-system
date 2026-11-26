@@ -1,9 +1,10 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { page } from "vitest/browser";
 import { defaults, disabled, hidden, renders, slots, accessible, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
+import type { TreeItem } from "./tree-item";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -80,6 +81,58 @@ describe("disabled", () => {
 
 describe("honors hidden attribute", () => {
   hidden(() => mount(<calcite-tree-item expanded />));
+});
+
+describe("host inertness", () => {
+  it("updates nested items when their parent is expanded and collapsed", async () => {
+    await mount(
+      <calcite-tree>
+        <calcite-tree-item>
+          Parent
+          <calcite-tree slot="children">
+            <calcite-tree-item id="child">Child</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+      </calcite-tree>,
+    );
+    const parent = page.getBySelector("calcite-tree-item").first();
+    const parentEl = parent.element() as TreeItem["el"];
+    const child = page.getBySelector("#child");
+
+    await expect.element(parent).toHaveProperty("inert", false);
+    await expect.element(child).toHaveProperty("inert", true);
+
+    parentEl.expanded = true;
+    await expect.element(child).toHaveProperty("inert", false);
+    await expect.element(parent).toHaveProperty("inert", false);
+
+    parentEl.expanded = false;
+    await expect.element(child).toHaveProperty("inert", true);
+    await expect.element(parent).toHaveProperty("inert", false);
+  });
+});
+
+describe("when a parent tree-item is expanded and a new item is appended into it", () => {
+  it("should render the visible, keyboard navigable item", async () => {
+    await mount(
+      <calcite-tree>
+        <calcite-tree-item expanded>
+          Element 1
+          <calcite-tree id="target-tree" slot="children">
+            <calcite-tree-item>Child 1</calcite-tree-item>
+          </calcite-tree>
+        </calcite-tree-item>
+        <calcite-tree-item>Element 2</calcite-tree-item>
+      </calcite-tree>,
+    );
+
+    const newItem = document.createElement("calcite-tree-item");
+    newItem.textContent = "Child 2";
+    document.querySelector("#target-tree")!.append(newItem);
+
+    await expect.element(newItem).toHaveProperty("inert", false);
+    await expect.element(newItem).toHaveProperty("tabIndex", 0);
+  });
 });
 
 describe("renders", () => {
