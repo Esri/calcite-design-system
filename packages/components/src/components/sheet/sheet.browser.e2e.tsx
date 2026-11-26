@@ -128,11 +128,11 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
       {
-        propertyName: "heightScale",
+        propertyName: "height",
         defaultValue: "m",
       },
     ],
@@ -492,10 +492,6 @@ describe("reflects", () => {
         value: "m",
       },
       {
-        propertyName: "heightScale",
-        value: "m",
-      },
-      {
         propertyName: "modal",
         value: true,
       },
@@ -505,10 +501,6 @@ describe("reflects", () => {
       },
       {
         propertyName: "width",
-        value: "m",
-      },
-      {
-        propertyName: "widthScale",
         value: "m",
       },
     ],
