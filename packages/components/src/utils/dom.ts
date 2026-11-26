@@ -506,10 +506,11 @@ export function slotChangeGetAssignedNodes(event: Event): Node[] {
  * ```
  *
  * @param event The event.
+ * @param options Options for retrieving assigned elements, flattening slots by default.
  * @returns Whether the slot has any assigned elements.
  */
-export function slotChangeHasAssignedElement(event: Event): boolean {
-  return !!slotChangeGetAssignedElements(event).length;
+export function slotChangeHasAssignedElement(event: Event, options?: AssignedNodesOptions): boolean {
+  return !!slotChangeGetAssignedElements(event, undefined, options).length;
 }
 
 /**
@@ -521,10 +522,15 @@ export function slotChangeHasAssignedElement(event: Event): boolean {
  *
  * @param event The event.
  * @param selector The CSS selector string to filter the returned elements by.
+ * @param options Options for retrieving assigned elements, flattening slots by default.
  * @returns An array of elements.
  */
-export function slotChangeGetAssignedElements<T extends Element>(event: Event, selector?: string): T[] {
-  return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector);
+export function slotChangeGetAssignedElements<T extends Element>(
+  event: Event,
+  selector?: string,
+  options?: AssignedNodesOptions,
+): T[] {
+  return getSlotAssignedElements(event.currentTarget as HTMLSlotElement, selector, options);
 }
 
 /**
@@ -532,12 +538,15 @@ export function slotChangeGetAssignedElements<T extends Element>(event: Event, s
  *
  * @param slot The slot element.
  * @param selector CSS selector string to filter the returned elements by.
+ * @param options Options for retrieving assigned elements, flattening slots by default.
  * @returns An array of elements.
  */
-export function getSlotAssignedElements<T extends Element>(slot: HTMLSlotElement, selector?: string): T[] {
-  const assignedElements = slot.assignedElements({
-    flatten: true,
-  });
+export function getSlotAssignedElements<T extends Element>(
+  slot: HTMLSlotElement,
+  selector?: string,
+  options: AssignedNodesOptions = { flatten: true },
+): T[] {
+  const assignedElements = slot.assignedElements(options);
   return selector ? filterElementsBySelector<T>(assignedElements, selector) : (assignedElements as T[]);
 }
 
