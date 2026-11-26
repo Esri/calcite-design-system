@@ -289,18 +289,10 @@ export class Sheet extends LitElement {
   @property() focusTrapOptions?: Partial<FocusTrapOptions>;
 
   /**
-   * When `position` is `"block-start"` or `"block-end"`, specifies the component's height.
-   *
-   * @public
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `height` property instead.
-   */
-  @property({ reflect: true }) heightScale: Scale = "m";
-
-  /**
    * @public
    * @copyDoc
    */
-  @property({ reflect: true }) height?: Height;
+  @property({ reflect: true }) height: Height = "m";
 
   /**
    * @public
@@ -372,19 +364,11 @@ export class Sheet extends LitElement {
   @property({ reflect: true }) topLayerDisabled = false;
 
   /**
-   * When `position` is `"inline-start"` or `"inline-end"`, specifies the component's width.
-   *
-   * @public
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `width` property instead.
-   */
-  @property({ reflect: true }) widthScale: Scale = "m";
-
-  /**
    * Specifies the component's width.
    *
    * @public
    */
-  @property({ reflect: true }) width?: Extract<Width, Scale>;
+  @property({ reflect: true }) width: Extract<Width, Scale> = "m";
 
   //#endregion
 
@@ -780,12 +764,8 @@ export class Sheet extends LitElement {
           [CSS.containerOpen]: this.opened,
           [CSS.containerEmbedded]: this.embedded,
           [CSS_UTILITY.rtl]: dir === "rtl",
-          [getDimensionClass("width", this.width, this.widthScale)]: !!(
-            this.width || this.widthScale
-          ),
-          [getDimensionClass("height", this.height, this.heightScale)]: !!(
-            this.height || this.heightScale
-          ),
+          [getDimensionClass("width", this.width)]: true,
+          [getDimensionClass("height", this.height)]: true,
         }}
         popover={!this.embedded ? "manual" : undefined}
         ref={this.transitionRef}

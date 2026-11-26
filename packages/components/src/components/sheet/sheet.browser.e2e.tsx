@@ -128,11 +128,11 @@ describe("defaults", () => {
         defaultValue: false,
       },
       {
-        propertyName: "widthScale",
+        propertyName: "width",
         defaultValue: "m",
       },
       {
-        propertyName: "heightScale",
+        propertyName: "height",
         defaultValue: "m",
       },
     ],
@@ -484,7 +484,7 @@ describe("modal", () => {
 });
 
 describe("reflects", () => {
-  reflects(Sheet, ["height", "heightScale", "modal", "resizable", "width", "widthScale"]);
+  reflects(Sheet, ["height", "modal", "resizable", "width"]);
 });
 
 describe("honors hidden attribute", () => {

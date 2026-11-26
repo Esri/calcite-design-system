@@ -28,7 +28,6 @@ import type { SortHandle } from "../sort-handle/sort-handle";
 import type { List } from "../list/list";
 import { getIconScale } from "../../utils/component";
 import { ListDisplayMode } from "../list/types";
-import { logger } from "../../utils/logger";
 import { styles as sortableStyles } from "../../styles/component/sortable.scss";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
@@ -325,26 +324,6 @@ export class ListItem extends LitElement implements SortableComponentItem {
    * Defines the "Move to" items.
    */
   @property() moveToItems: SortMenuItem[] = [];
-
-  /**
-   * When `true`, the item is open to show child components.
-   *
-   * @public
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use the `expanded` property instead.
-   */
-  @property({ reflect: true })
-  get open(): boolean {
-    return this.expanded;
-  }
-  set open(value: boolean) {
-    logger.deprecated("property", {
-      component: this,
-      name: "open",
-      removalVersion: 5,
-      suggested: "expanded",
-    });
-    this.expanded = value;
-  }
 
   /**
    * Specifies the size of the component.

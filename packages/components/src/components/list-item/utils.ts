@@ -16,7 +16,7 @@ export function expandedAncestors(el: ListItem["el"]): void {
     return;
   }
 
-  ancestor.open = true;
+  ancestor.expanded = true;
   expandedAncestors(ancestor);
 }
 

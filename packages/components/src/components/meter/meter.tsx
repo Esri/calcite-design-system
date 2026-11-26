@@ -151,13 +151,6 @@ export class Meter extends LitElement {
   @property({ reflect: true }) fillType: MeterFillType = "range";
 
   /**
-   * @public
-   * @copyDoc
-   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
-   */
-  @property({ reflect: true }) form?: string;
-
-  /**
    * When `true`, number values are displayed with a group separator corresponding to the language and country format.
    *
    * @public
@@ -198,13 +191,6 @@ export class Meter extends LitElement {
    * @public
    */
   @property({ reflect: true }) min = 0;
-
-  /**
-   * @public
-   * @copyDoc
-   * @deprecated in v5.1.0, removal target v6.0.0 - This property has no effect on the component.
-   */
-  @property({ reflect: true }) name?: string;
 
   /**
    * Specifies the Unicode numeral system used by the component for localization.

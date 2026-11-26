@@ -67,10 +67,6 @@ describe("defaults", () => {
     () => mount("calcite-block-section"),
     [
       {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
         propertyName: "expanded",
         defaultValue: false,
       },
@@ -117,7 +113,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(BlockSection, ["open", "expanded", "scale"]);
+  reflects(BlockSection, ["expanded", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

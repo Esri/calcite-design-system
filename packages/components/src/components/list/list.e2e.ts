@@ -24,9 +24,9 @@ it("should set the displayMode property on items", async () => {
   const page = await newE2EPage();
   await page.setContent(
     html`<calcite-list id="root" display-mode="nested" group="my-list">
-      <calcite-list-item open label="Depth 1" description="Item 1">
+      <calcite-list-item expanded label="Depth 1" description="Item 1">
         <calcite-list group="my-list">
-          <calcite-list-item open label="Depth 2" description="Item 2">
+          <calcite-list-item expanded label="Depth 2" description="Item 2">
             <calcite-list display-mode="nested" group="my-list">
               <calcite-list-item label="Depth 3" description="Item 3">
                 <calcite-list display-mode="nested" group="my-list"></calcite-list>
@@ -70,7 +70,7 @@ it("should set the setSize and setPosition properties on nested items", async ()
   const page = await newE2EPage();
   await page.setContent(
     html`<calcite-list display-mode="nested" label="Park features" drag-enabled group="nested-lists">
-      <calcite-list-item open label="Trails" value="trails">
+      <calcite-list-item expanded label="Trails" value="trails">
         <calcite-list id="nested" label="Trails" display-mode="nested" drag-enabled group="nested-lists">
           <calcite-list-item label="Hiking trails" value="hiking-trails">
             <calcite-action slot="actions-end" icon="layer" text="Hiking trails layer"></calcite-action>
@@ -119,9 +119,9 @@ it("should set the dragHandle property on items", async () => {
   const page = await newE2EPage();
   await page.setContent(
     html`<calcite-list id="root" drag-enabled group="my-list">
-      <calcite-list-item open label="Depth 1" description="Item 1">
+      <calcite-list-item expanded label="Depth 1" description="Item 1">
         <calcite-list group="my-list">
-          <calcite-list-item open label="Depth 2" description="Item 2">
+          <calcite-list-item expanded label="Depth 2" description="Item 2">
             <calcite-list drag-enabled group="my-list">
               <calcite-list-item label="Depth 3" description="Item 3">
                 <calcite-list drag-enabled group="my-list"></calcite-list>
@@ -200,10 +200,10 @@ it("should set the dragHandle property on items which are not direct children", 
   await page.setContent(
     html`<calcite-list id="root" drag-enabled group="my-list">
       <div>
-        <calcite-list-item open label="Depth 1" description="Item 1">
+        <calcite-list-item expanded label="Depth 1" description="Item 1">
           <calcite-list group="my-list">
             <div>
-              <calcite-list-item open label="Depth 2" description="Item 2">
+              <calcite-list-item expanded label="Depth 2" description="Item 2">
                 <calcite-list drag-enabled group="my-list">
                   <div>
                     <calcite-list-item label="Depth 3" description="Item 3">
@@ -337,7 +337,7 @@ it("should border nested list items", async () => {
   expect(await firstItem.getProperty("bordered")).toBe(true);
   expect(await firstChildItem.getProperty("bordered")).toBe(false);
 
-  firstItem.setProperty("open", true);
+  firstItem.setProperty("expanded", true);
   await page.waitForChanges();
 
   expect(await firstItem.getProperty("bordered")).toBe(true);
@@ -1161,14 +1161,14 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     const one = await page.find("#one");
-    expect(await one.getProperty("open")).toBe(false);
+    expect(await one.getProperty("expanded")).toBe(false);
 
     expect(await isElementFocused(page, "#one")).toBe(true);
 
     await list.press("ArrowRight");
 
     expect(await isElementFocused(page, "#one")).toBe(true);
-    expect(await one.getProperty("open")).toBe(true);
+    expect(await one.getProperty("expanded")).toBe(true);
 
     await list.press("ArrowRight");
 
@@ -1185,12 +1185,12 @@ describe("keyboard navigation", () => {
     await list.press("ArrowLeft");
 
     expect(await isElementFocused(page, "#one")).toBe(true);
-    expect(await one.getProperty("open")).toBe(true);
+    expect(await one.getProperty("expanded")).toBe(true);
 
     await list.press("ArrowLeft");
 
     expect(await isElementFocused(page, "#one")).toBe(true);
-    expect(await one.getProperty("open")).toBe(false);
+    expect(await one.getProperty("expanded")).toBe(false);
   });
 
   it("should navigate a draggable list via ArrowRight and ArrowLeft", async () => {
@@ -1243,14 +1243,14 @@ describe("keyboard navigation", () => {
     await page.waitForChanges();
 
     const one = await page.find("#one");
-    expect(await one.getProperty("open")).toBe(false);
+    expect(await one.getProperty("expanded")).toBe(false);
 
     expect(await isElementFocused(page, "#one")).toBe(true);
 
     await list.press("ArrowRight");
 
     expect(await isElementFocused(page, "#one")).toBe(true);
-    expect(await one.getProperty("open")).toBe(true);
+    expect(await one.getProperty("expanded")).toBe(true);
 
     await list.press("ArrowRight");
 
@@ -1275,12 +1275,12 @@ describe("keyboard navigation", () => {
     await list.press("ArrowLeft");
 
     expect(await isElementFocused(page, "#one")).toBe(true);
-    expect(await one.getProperty("open")).toBe(true);
+    expect(await one.getProperty("expanded")).toBe(true);
 
     await list.press("ArrowLeft");
 
     expect(await isElementFocused(page, "#one")).toBe(true);
-    expect(await one.getProperty("open")).toBe(false);
+    expect(await one.getProperty("expanded")).toBe(false);
   });
 
   it("should allow tabbing through slotted actions within a cell", async () => {
@@ -1376,9 +1376,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
         <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
         <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
@@ -1491,9 +1489,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="a" label="A"></calcite-list-item>
         <calcite-list-item value="b" label="B"></calcite-list-item>
       </calcite-list>
@@ -1505,9 +1501,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="1" label="One"></calcite-list-item>
         <calcite-list-item value="2" label="Two"></calcite-list-item>
       </calcite-list>
@@ -1519,9 +1513,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="no-group" label="No group"></calcite-list-item>
       </calcite-list>
 
@@ -1532,9 +1524,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="c" label="C"></calcite-list-item>
         <calcite-list-item value="d" label="D"></calcite-list-item>
         <calcite-list-item value="e" label="E"></calcite-list-item>
@@ -1838,9 +1828,7 @@ describe("drag and drop", () => {
             id="filter-action-test"
             icon="show-all-parameters"
           ></calcite-action>
-          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-            >Mind if I offset your index?</calcite-tooltip
-          >
+          <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
           <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
           <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
         </calcite-list>
@@ -1851,9 +1839,7 @@ describe("drag and drop", () => {
             id="filter-action-test"
             icon="show-all-parameters"
           ></calcite-action>
-          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-            >Mind if I offset your index?</calcite-tooltip
-          >
+          <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
           <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
         </calcite-list>`,
     );

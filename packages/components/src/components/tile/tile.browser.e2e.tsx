@@ -61,10 +61,8 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-tile"),
     [
-      { propertyName: "active", defaultValue: false },
       { propertyName: "alignment", defaultValue: "start" },
       { propertyName: "disabled", defaultValue: false },
-      { propertyName: "embed", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
       { propertyName: "iconFlipRtl", defaultValue: false },
       { propertyName: "interactive", defaultValue: false },
@@ -111,11 +109,9 @@ describe("link interactivity", () => {
 
 describe("reflects", () => {
   reflects(Tile, [
-    "active",
     "alignment",
     "description",
     "disabled",
-    "embed",
     "heading",
     "href",
     "icon",

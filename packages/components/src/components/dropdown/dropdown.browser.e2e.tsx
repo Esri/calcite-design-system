@@ -76,14 +76,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(Dropdown, [
-    "offsetDistance",
-    "offsetSkidding",
-    "scale",
-    "widthScale",
-    "width",
-    "placement",
-  ]);
+  reflects(Dropdown, ["offsetDistance", "offsetSkidding", "scale", "width", "placement"]);
 });
 
 describe("honors hidden attribute", () => {

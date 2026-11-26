@@ -44,10 +44,6 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
         propertyName: "expanded",
         defaultValue: false,
       },
@@ -110,7 +106,7 @@ describe("propagates", () => {
 });
 
 describe("reflects", () => {
-  reflects(ListItem, ["unavailable", "sortHandleOpen", "open", "expanded", "closed", "closable"]);
+  reflects(ListItem, ["unavailable", "sortHandleOpen", "expanded", "closed", "closable"]);
 });
 
 describe("honors hidden attribute", () => {
