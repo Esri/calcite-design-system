@@ -312,6 +312,52 @@ describe("openClose", () => {
   );
 });
 
+describe("outside click", () => {
+  async function mountWithOutsideButton(): Promise<Combobox["el"]> {
+    await mount(
+      <>
+        <button type="button">Outside</button>
+        <calcite-combobox label="test">
+          <calcite-combobox-item heading="One" value="one" />
+          <calcite-combobox-item heading="Two" value="two" />
+        </calcite-combobox>
+      </>,
+    );
+
+    return document.querySelector("calcite-combobox")!;
+  }
+
+  it("closes when clicking outside", async () => {
+    const el = await mountWithOutsideButton();
+    const outsideButton = page.getByRole("button", { name: "Outside" });
+    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+
+    el.open = true;
+    await expect.element(floatingUI).toBeVisible();
+
+    await userEvent.click(outsideButton);
+
+    await expect.element(floatingUI).not.toBeVisible();
+    expect(el).toHaveProperty("open", false);
+  });
+
+  it("does not close when the outside click is prevented", async () => {
+    const el = await mountWithOutsideButton();
+    const outsideButton = page.getByRole("button", { name: "Outside" });
+    const floatingUI = page.getBySelector(`calcite-combobox .${CSS.floatingUIContainer}`);
+
+    outsideButton.element().addEventListener("click", (event) => {
+      event.preventDefault();
+      el.open = true;
+    });
+
+    await userEvent.click(outsideButton);
+
+    await expect.element(floatingUI).toBeVisible();
+    expect(el).toHaveProperty("open", true);
+  });
+});
+
 describe("top layer placement", () => {
   topLayer(() => mount("calcite-combobox"));
 });
