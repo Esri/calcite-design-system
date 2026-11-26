@@ -148,17 +148,4 @@
   }
 }
 
-.status-icon {
-  display: flex;
-  align-items: center;
-}
-
-.status-icon.valid {
-  color: var(--calcite-color-status-success);
-}
-
-.status-icon.invalid {
-  color: var(--calcite-color-status-danger);
-}
-
 @include shared.base-component();

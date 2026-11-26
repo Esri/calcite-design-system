@@ -11,11 +11,10 @@ import {
 import { PropertyValues } from "lit";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { isActivationKey } from "../../utils/key";
-import { FlipContext, Scale, Status } from "../types";
+import { FlipContext, Scale } from "../types";
 import { getIconScale } from "../../utils/component";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import { logger } from "../../utils/logger";
 import { useFocusable } from "../../controllers/useFocusable";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { BlockSectionToggleDisplay } from "./types";
@@ -151,39 +150,11 @@ export class BlockSection extends LitElement {
   @property() messageOverrides?: typeof this.messages._overrides;
 
   /**
-   * When `true`, expands the component and its contents.
-   *
-   * @public
-   * @deprecated in v3.1.0, removal target v6.0.0 - Use `expanded` prop instead.
-   */
-  @property({ reflect: true })
-  get open(): boolean {
-    return this.expanded;
-  }
-  set open(value: boolean) {
-    logger.deprecated("property", {
-      component: this,
-      name: "open",
-      removalVersion: 5,
-      suggested: "expanded",
-    });
-    this.expanded = value;
-  }
-
-  /**
    * Specifies the size of the component.
    *
    * @public
    */
   @property({ reflect: true }) scale: Scale = "m";
-
-  /**
-   * Displays a status-related indicator icon.
-   *
-   * @public
-   * @deprecated in v2.8.1, removal target v6.0.0 - Use `icon-start` instead.
-   */
-  @property({ reflect: true }) status?: Status;
 
   /**
    * The component header text.
@@ -282,20 +253,6 @@ export class BlockSection extends LitElement {
 
   //#region Rendering
 
-  private renderStatusIcon(): JsxNode {
-    const { status } = this;
-    const statusIcon = status && ICONS[status];
-    const statusIconClasses = {
-      [CSS.statusIcon]: true,
-      [CSS.valid]: status == "valid",
-      [CSS.invalid]: status == "invalid",
-    };
-
-    return statusIcon ? (
-      <calcite-icon class={statusIconClasses} icon={statusIcon} scale={getIconScale(this.scale)} />
-    ) : null;
-  }
-
   private renderIcon(position: "start" | "end"): JsxNode {
     const { iconFlipRtl, iconStart, iconEnd } = this;
 
@@ -353,7 +310,6 @@ export class BlockSection extends LitElement {
             </div>
 
             {this.renderIcon("end")}
-            {this.renderStatusIcon()}
             <calcite-switch
               checked={expanded}
               class={CSS.switch}
@@ -377,11 +333,11 @@ export class BlockSection extends LitElement {
             }}
             id={IDS.toggle}
             onClick={this.toggleSection}
+            type="button"
           >
             {this.renderIcon("start")}
             <span class={CSS.sectionHeaderText}>{text}</span>
             {this.renderIcon("end")}
-            {this.renderStatusIcon()}
             <calcite-icon
               class={CSS.chevronIcon}
               icon={arrowIcon}

@@ -66,10 +66,6 @@ describe("defaults", () => {
     () => mount("calcite-block-section"),
     [
       {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
         propertyName: "expanded",
         defaultValue: false,
       },
@@ -119,10 +115,6 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-block-section"),
     [
-      {
-        propertyName: "open",
-        value: true,
-      },
       {
         propertyName: "expanded",
         value: true,
