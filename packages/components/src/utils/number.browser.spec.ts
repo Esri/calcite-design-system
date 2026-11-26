@@ -245,6 +245,12 @@ describe("expandExponentialNumberString", () => {
     );
     expect(expandExponentialNumberString("100000000000000000000000000000000000000000000000000e-50")).toBe("1");
   });
+  it("exponential number strings with zero magnitude", () => {
+    expect(expandExponentialNumberString("1.5e0")).toBe("1.5");
+    expect(expandExponentialNumberString("-12.25e0")).toBe("-12.25");
+    expect(expandExponentialNumberString("0.5e-0")).toBe("0.5");
+    expect(new BigDecimal("1.5e0").add("1").toString()).toBe("2.5");
+  });
   it("handles non-exponential numbers", () => {
     expect(expandExponentialNumberString("1100000000000000000000000000000000000000000000000000")).toBe(
       "1100000000000000000000000000000000000000000000000000",

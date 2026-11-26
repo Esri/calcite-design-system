@@ -270,7 +270,7 @@ export function expandExponentialNumberString(numberString: string): string {
   };
 
   const expandedNumberString =
-    magnitude > 0
+    magnitude >= 0
       ? `${integers}${shiftDecimalRight(decimals, magnitude)}`
       : `${shiftDecimalLeft(integers, magnitude)}${decimals}`;
 
