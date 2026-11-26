@@ -25,6 +25,7 @@ import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, initialDragPosition, initialResizePosition, SLOTS } from "./resources";
 import { DialogDragPosition, DialogPlacement, DialogResizePosition } from "./types";
 import { styles } from "./dialog.scss";
+import { styles as panelStyles } from "./panel.scss";
 import { styles as screenReaderStyles } from "../../styles/component/screen-reader.scss";
 
 declare global {
@@ -1221,8 +1222,10 @@ export class Dialog extends LitElement {
           ) : null}
           <slot name={SLOTS.customContent}>
             <calcite-panel
+              calciteInternalOwnerStyles={panelStyles.styleSheet}
               class={CSS.panel}
               closable={!this.closeDisabled}
+              data-dialog-kind={this.kind}
               description={description}
               focusTrapDisabled={true}
               heading={heading}

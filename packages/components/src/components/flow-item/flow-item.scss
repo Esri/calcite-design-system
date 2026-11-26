@@ -16,27 +16,4 @@
 
 @include shared.disabled();
 
-calcite-panel {
-  --calcite-panel-background-color: var(--calcite-flow-background-color);
-  --calcite-panel-border-color: var(--calcite-flow-border-color);
-  --calcite-panel-corner-radius: var(--calcite-flow-corner-radius);
-  --calcite-panel-description-text-color: var(--calcite-flow-description-text-color);
-  --calcite-panel-footer-background-color: var(--calcite-flow-footer-background-color);
-  --calcite-panel-footer-space: var(--calcite-flow-footer-space);
-  --calcite-panel-header-action-background-color-hover: var(--calcite-flow-header-action-background-color-hover);
-  --calcite-panel-header-action-background-color-press: var(--calcite-flow-header-action-background-color-press);
-  --calcite-panel-header-action-background-color: var(--calcite-flow-header-action-background-color);
-  --calcite-panel-header-action-indicator-color: var(--calcite-flow-header-action-indicator-color);
-  --calcite-panel-header-action-text-color-press: var(--calcite-flow-header-action-text-color-press);
-  --calcite-panel-header-action-text-color: var(--calcite-flow-header-action-text-color);
-  --calcite-panel-header-background-color: var(--calcite-flow-header-background-color);
-  --calcite-panel-header-content-space: var(--calcite-flow-header-content-space);
-  --calcite-panel-header-top-space: var(--calcite-flow-header-top-space);
-  --calcite-panel-heading-text-color: var(--calcite-flow-heading-text-color);
-  --calcite-panel-icon-color: var(--calcite-flow-icon-color);
-  --calcite-panel-space: var(--calcite-flow-space);
-  --calcite-panel-content-top-space: var(--calcite-flow-content-top-space);
-  --calcite-panel-content-bottom-space: var(--calcite-flow-content-bottom-space);
-}
-
 @include shared.base-component();

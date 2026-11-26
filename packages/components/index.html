@@ -54,18 +54,19 @@
 
       <main class="token-examples">
         <header>
-          <h1>Public tokens inherited by nested components</h1>
+          <h1>Owner-supplied Panel styles</h1>
           <p>
-            Each left-hand example customizes only the outer component. Compare the nested component with its standalone
-            control on the right. No example directly customizes the nested component's tokens.
+            Each left-hand example customizes only the outer component. Its internal Panel adopts an owner-supplied
+            stylesheet instead of receiving public Panel token overrides. The nested Panel should match its standalone
+            control on the right.
           </p>
         </header>
 
         <section aria-labelledby="dialog-heading">
           <h2 id="dialog-heading">1. Dialog → internal panel → user panel</h2>
           <p>
-            The dialog forwards its warning header background and extra content space to its internal panel. The user
-            panel also inherits those panel tokens. Its header and content spacing should match the standalone panel.
+            The Dialog applies its warning header background and extra content space inside its internal Panel's shadow
+            root. The user Panel does not adopt that stylesheet or inherit translated Panel tokens.
           </p>
           <div class="comparison">
             <div class="sample">
@@ -92,8 +93,8 @@
         <section aria-labelledby="flow-heading">
           <h2 id="flow-heading">2. Flow-item → internal panel → user panel</h2>
           <p>
-            The flow-item forwards its warning header background and extra content space to its internal panel. A user
-            panel in its default slot inherits the same values.
+            The Flow Item applies its warning header background and extra content space inside its internal Panel's
+            shadow root. A user Panel in its default slot keeps its own header and content spacing.
           </p>
           <div class="comparison">
             <div class="sample">

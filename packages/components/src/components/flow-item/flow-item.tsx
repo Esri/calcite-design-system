@@ -14,6 +14,7 @@ import { useInteractive } from "../../controllers/useInteractive";
 import T9nStrings from "./assets/t9n/messages.en.json";
 import { CSS, ICONS, SLOTS } from "./resources";
 import { styles } from "./flow-item.scss";
+import { styles as panelStyles } from "./panel.scss";
 import { FocusTrapOptions } from "../../controllers/useFocusTrap";
 
 declare global {
@@ -685,6 +686,7 @@ export class FlowItem extends LitElement {
       <this.interactiveContainer disabled={disabled}>
         <calcite-panel
           beforeClose={beforeClose}
+          calciteInternalOwnerStyles={panelStyles.styleSheet}
           closable={closable}
           closed={closed}
           collapsed={collapsed}
