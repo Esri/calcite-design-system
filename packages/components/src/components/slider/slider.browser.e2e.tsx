@@ -673,6 +673,43 @@ describe("interactions", () => {
   }
 
   describe("slider taking the precision of the provided step", () => {
+    it("step floating point precision", async () => {
+      const { el } = await mount<Slider>(
+        <calcite-slider label-handles max={10} min={0.1} snap step={0.1} value={1.4} />,
+      );
+      const thumb = page.getByRole("slider");
+
+      expect(el.value.toString()).toBe("1.4");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "1.4");
+
+      await thumb.click();
+      await userEvent.keyboard("{ArrowRight}");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "1.5");
+      expect(el.value).toBe(1.5);
+      await userEvent.keyboard("{ArrowLeft}");
+      await expect.element(thumb).toHaveAttribute("aria-valuenow", "1.4");
+      expect(el.value).toBe(1.4);
+    });
+
+    it.each([
+      { min: 0.1, step: 0.1, value: 1.45, expected: 1.4 },
+      { min: 0, step: 0.01, value: 0.049999999999999996, expected: 0.04 },
+      { min: -0.1, step: 0.01, value: -0.05000000000000001, expected: -0.06 },
+      { min: 0.1, step: 0.1, value: -1, expected: 0.1 },
+    ])(
+      "floors fractional values between snap steps ($value)",
+      async ({ min, step, value, expected }) => {
+        const { el } = await mount<Slider>(
+          <calcite-slider label-handles max={10} min={min} snap step={step} value={value} />,
+        );
+
+        expect(el.value).toBe(expected);
+        await expect
+          .element(page.getByRole("slider"))
+          .toHaveAttribute("aria-valuenow", `${expected}`);
+      },
+    );
+
     it("takes the precision of the decimal step when controlled through keyboard", async () => {
       await mount(<calcite-slider max={100} min={0} step={1.12} value={30} />);
       const thumb = page.getByRole("slider");

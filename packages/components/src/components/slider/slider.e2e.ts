@@ -94,19 +94,6 @@ it("can be controlled via keyboard", async () => {
   expect(await slider.getProperty("value")).toBe(100);
 });
 
-// skipped due to a bug where value is rounded down instead of up:
-// https://github.com/Esri/calcite-design-system/issues/9684
-it.skip("step floating point precision", async () => {
-  const page = await newE2EPage();
-  await page.setContent(
-    html`<calcite-slider value="1.4" label-handles max="10" min="0.1" snap step="0.1"></calcite-slider>`,
-  );
-  const slider = await page.find("calcite-slider");
-
-  await page.waitForChanges();
-  expect((await slider.getProperty("value")).toString()).toBe("1.4");
-});
-
 it("only selects values on step interval when snap prop is passed", async () => {
   const page = await newE2EPage();
   await page.setContent(`

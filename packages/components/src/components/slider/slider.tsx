@@ -1092,8 +1092,10 @@ export class Slider extends LitElement implements LabelableComponent {
   private getClosestStep(value: number): number {
     const { max, min, step } = this;
 
-    // prevents floating point precision issues
-    const bigDecimalString = new BigDecimal(`${Math.floor((value - min) / step)}`)
+    // Divide scaled integers so floating-point rounding cannot move values across a step boundary.
+    const stepCount =
+      new BigDecimal(`${value}`).subtract(`${min}`).value / new BigDecimal(`${step}`).value;
+    const bigDecimalString = new BigDecimal(`${stepCount}`)
       .multiply(`${step}`)
       .add(`${min}`)
       .toString();
