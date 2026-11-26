@@ -60,10 +60,8 @@ describe("defaults", () => {
   defaults(
     () => mount("calcite-tile"),
     [
-      { propertyName: "active", defaultValue: false },
       { propertyName: "alignment", defaultValue: "start" },
       { propertyName: "disabled", defaultValue: false },
-      { propertyName: "embed", defaultValue: false },
       { propertyName: "hidden", defaultValue: false },
       { propertyName: "iconFlipRtl", defaultValue: false },
       { propertyName: "interactive", defaultValue: false },
@@ -112,11 +110,9 @@ describe("reflects", () => {
   reflects(
     () => mount("calcite-tile"),
     [
-      { propertyName: "active", value: true },
       { propertyName: "alignment", value: "center" },
       { propertyName: "description", value: "My test description" },
       { propertyName: "disabled", value: true },
-      { propertyName: "embed", value: true },
       { propertyName: "heading", value: "My test heading" },
       { propertyName: "href", value: "http://www.esri.com" },
       { propertyName: "icon", value: "layers" },

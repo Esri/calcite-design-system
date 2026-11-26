@@ -187,8 +187,7 @@ calcite-link {
   }
 }
 
-:host(:hover:not([disabled])),
-:host([active]:not([disabled])) {
+:host(:hover:not([disabled])) {
   .heading {
     color: var(--calcite-tile-heading-text-color, var(--calcite-color-text-1));
   }
@@ -215,12 +214,6 @@ calcite-link {
   .container {
     box-shadow: inset 0 0 0 1px var(--calcite-tile-link-color, var(--calcite-color-text-link));
     outline-color: var(--calcite-tile-link-color, var(--calcite-color-text-link));
-  }
-}
-
-:host([embed]) {
-  .container {
-    padding: 0;
   }
 }
 
