@@ -231,14 +231,6 @@ calcite-sort-handle {
   display: flex;
 }
 
-.status-icon.valid {
-  color: var(--calcite-color-status-success);
-}
-
-.status-icon.invalid {
-  color: var(--calcite-color-status-danger);
-}
-
 @keyframes spin {
   0% {
     transform: rotate(0deg);

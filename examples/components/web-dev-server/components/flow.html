@@ -45,7 +45,7 @@
     </calcite-navigation>
     <calcite-flow id="example-flow">
       <calcite-flow-item heading="Places of Education">
-        <calcite-block id="first-flow-item-block" heading="Recommended for you" description="4 results" open>
+        <calcite-block id="first-flow-item-block" heading="Recommended for you" description="4 results" expanded>
           <calcite-list>
             <calcite-list-item label="Harvard University" description="Cambridge, MA"></calcite-list-item>
             <calcite-list-item label="Stanford University" description="Stanford, CA"></calcite-list-item>
@@ -78,7 +78,7 @@
       newFlowItem.description = !isLastLevel ? description : title;
 
       const block = document.createElement("calcite-block");
-      block.open = true;
+      block.expanded = true;
       block.heading = "Details";
       newFlowItem.append(block);
 

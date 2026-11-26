@@ -193,6 +193,15 @@ export const contentSpacing = (): string => html`
 `;
 
 export const loading = (): string => html`
+  <style>
+    .valid-status {
+      --calcite-block-icon-start-color: var(--calcite-color-status-success);
+    }
+
+    .invalid-status {
+      --calcite-block-icon-start-color: var(--calcite-color-status-danger);
+    }
+  </style>
   <calcite-block expandable expanded loading heading="Layer effects" description="Adjust blur">
     With no status
     <calcite-block slot="children" expandable expanded heading="Nested Block" description="Child content">
@@ -208,11 +217,25 @@ export const loading = (): string => html`
     </calcite-block-group>
   </calcite-block>
   <br />
-  <calcite-block loading heading="Valid status" description="summary" expandable status="valid">
+  <calcite-block
+    class="valid-status"
+    loading
+    heading="Valid status"
+    description="summary"
+    expandable
+    icon-start="check-circle"
+  >
     With valid status
   </calcite-block>
   <br />
-  <calcite-block heading="Invalid status" description="summary" status="invalid"> With invalid status </calcite-block>
+  <calcite-block
+    class="invalid-status"
+    heading="Invalid status"
+    description="summary"
+    icon-start="exclamation-mark-triangle"
+  >
+    With invalid status
+  </calcite-block>
 `;
 
 export const loadingNestedContent = (): string => html`
@@ -398,15 +421,7 @@ export const iconStartEnd = (): string => html`
 
   <h1>loading and actions-end</h1>
 
-  <calcite-block
-    heading="Valid status"
-    expandable
-    status="valid"
-    icon-start="pen"
-    icon-end="pen"
-    loading
-    style="width: 500px"
-  >
+  <calcite-block heading="Valid status" expandable icon-start="pen" icon-end="pen" loading style="width: 500px">
     <calcite-action appearance="transparent" icon="ellipsis" text="menu" label="menu" slot="actions-end" />
   </calcite-block>
 `;
@@ -452,26 +467,27 @@ export const allScales = (): string =>
     <div class="container">${blockHTML("s")} ${blockHTML("m")} ${blockHTML("l")}</div>`;
 
 export const nonCollapsible = (): string =>
-  html` <calcite-block
-    icon-end="3d-building"
-    heading="Layer effects"
-    description="Adjust blur, highlight, and more"
-    icon-start="effects"
-    loading
-    drag-handle
-  >
-    <div slot="content-start">
-      <calcite-action icon="information"></calcite-action>
-    </div>
-    <div slot="content-end">
-      <calcite-action icon="information"></calcite-action>
-    </div>
-    <calcite-action icon="layers" slot="actions-end"></calcite-action>
-    <div slot="header-menu-actions">
-      <calcite-action text="Information" icon="information" text-enabled></calcite-action>
-    </div>
-    <p>Block content</p>
-  </calcite-block>`;
+  html` <calcite-block-group drag-enabled label="Layer effects">
+    <calcite-block
+      icon-end="3d-building"
+      heading="Layer effects"
+      description="Adjust blur, highlight, and more"
+      icon-start="effects"
+      loading
+    >
+      <div slot="content-start">
+        <calcite-action icon="information"></calcite-action>
+      </div>
+      <div slot="content-end">
+        <calcite-action icon="information"></calcite-action>
+      </div>
+      <calcite-action icon="layers" slot="actions-end"></calcite-action>
+      <div slot="header-menu-actions">
+        <calcite-action text="Information" icon="information" text-enabled></calcite-action>
+      </div>
+      <p>Block content</p>
+    </calcite-block>
+  </calcite-block-group>`;
 
 export const emptyHeader = (): string => html`
   <calcite-block expanded calcite-hydrated>

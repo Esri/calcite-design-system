@@ -95,7 +95,7 @@ describe("stacked focus-trap components", () => {
         <>
           <calcite-sheet id="sheet">
             <calcite-panel>
-              <calcite-block open />
+              <calcite-block expanded />
               <calcite-button id="sheet-button">Open Dialog from Sheet</calcite-button>
             </calcite-panel>
           </calcite-sheet>

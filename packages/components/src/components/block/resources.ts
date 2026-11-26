@@ -24,9 +24,7 @@ export const CSS = {
   iconStart: "icon--start",
   iconEnd: "icon--end",
   iconEndContainer: "icon-end-container",
-  invalid: "invalid",
   loadingScrim: "loading-scrim",
-  statusIcon: "status-icon",
   summary: "summary",
   title: "title",
   toggle: "toggle",
@@ -45,8 +43,6 @@ export const SLOTS = {
 export const ICONS: Record<string, IconName> = {
   expanded: "chevron-up",
   collapsed: "chevron-down",
-  valid: "check-circle",
-  invalid: "exclamation-mark-triangle",
 };
 
 /**

@@ -58,10 +58,6 @@ describe("defaults", () => {
         defaultValue: undefined,
       },
       {
-        propertyName: "open",
-        defaultValue: false,
-      },
-      {
         propertyName: "expanded",
         defaultValue: false,
       },
@@ -151,10 +147,6 @@ describe("reflects", () => {
         value: 2,
       },
       {
-        propertyName: "open",
-        value: true,
-      },
-      {
         propertyName: "expanded",
         value: true,
       },
@@ -237,7 +229,7 @@ describe("translation support", () => {
 });
 
 describe("top layer placement", () => {
-  topLayer(() => mount(<calcite-block drag-handle heading="heading" />), {
+  topLayer(() => mount(<calcite-block dragHandleInternal heading="heading" />), {
     openProp: "sortHandleOpen",
     openEventName: "calciteBlockSortHandleOpen",
     closeEventName: "calciteBlockSortHandleClose",
@@ -263,12 +255,17 @@ describe("a11y attributes", () => {
   });
 
   it("should omit aria-busy on sortable blocks when not loading and set it when loading", async () => {
-    const { reRender, el } = await mount<Block>(<calcite-block drag-handle heading="heading" />);
+    const { el, reRender } = await mount(
+      <calcite-block-group drag-enabled label="Group">
+        <calcite-block heading="heading" />
+      </calcite-block-group>,
+    );
+    const block = el.querySelector<Block["el"]>("calcite-block")!;
     const container = page.getByRole("article");
 
     await expect.element(container).not.toHaveAttribute("aria-busy");
 
-    el.loading = true;
+    block.loading = true;
     await reRender();
 
     await expect.element(container).toHaveAttribute("aria-busy", "true");
