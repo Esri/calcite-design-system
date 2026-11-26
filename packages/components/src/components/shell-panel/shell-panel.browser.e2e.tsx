@@ -16,7 +16,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { Dir } from "../types";
 import { CSS, SLOTS } from "./resources";
-import type { ShellPanel } from "./shell-panel";
+import { ShellPanel } from "./shell-panel";
 import type { Shell } from "../shell/shell";
 import type { Panel } from "../panel/panel";
 
@@ -64,15 +64,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-shell-panel"),
-    [
-      {
-        propertyName: "width",
-        value: "m",
-      },
-    ],
-  );
+  reflects(ShellPanel, ["width"]);
 });
 
 describe("honors hidden attribute", () => {

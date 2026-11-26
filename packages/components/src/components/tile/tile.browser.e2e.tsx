@@ -15,6 +15,7 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
+import { Tile } from "./tile";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -107,23 +108,20 @@ describe("link interactivity", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-tile"),
-    [
-      { propertyName: "alignment", value: "center" },
-      { propertyName: "description", value: "My test description" },
-      { propertyName: "disabled", value: true },
-      { propertyName: "heading", value: "My test heading" },
-      { propertyName: "href", value: "http://www.esri.com" },
-      { propertyName: "icon", value: "layers" },
-      { propertyName: "iconFlipRtl", value: true },
-      { propertyName: "scale", value: "s" },
-      { propertyName: "selected", value: true },
-      { propertyName: "selectionAppearance", value: "highlight" },
-      { propertyName: "selectionMode", value: "single-persist" },
-      { propertyName: "headingLevel", value: 2 },
-    ],
-  );
+  reflects(Tile, [
+    "alignment",
+    "description",
+    "disabled",
+    "heading",
+    "href",
+    "icon",
+    "iconFlipRtl",
+    "scale",
+    "selected",
+    "selectionAppearance",
+    "selectionMode",
+    "headingLevel",
+  ]);
 });
 
 describe("renders", () => {

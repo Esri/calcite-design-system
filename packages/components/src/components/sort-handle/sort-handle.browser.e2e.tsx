@@ -72,19 +72,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-sort-handle"),
-    [
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-      {
-        propertyName: "placement",
-        value: "leading-start",
-      },
-    ],
-  );
+  reflects(SortHandle, ["sortDisabled", "placement"]);
 });
 
 describe("honors hidden attribute", () => {

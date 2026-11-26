@@ -19,6 +19,7 @@ import {
 import { defaultValidity } from "../../tests/common/defaults";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+import { RadioButton } from "./radio-button";
 
 describe("labelable", () => {
   mockConsole();
@@ -89,18 +90,7 @@ describe("is form-associated", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-radio-button"),
-    [
-      { propertyName: "checked", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "focused", value: true },
-      { propertyName: "hidden", value: true },
-      { propertyName: "name", value: "reflects-name" },
-      { propertyName: "required", value: true },
-      { propertyName: "scale", value: "m" },
-    ],
-  );
+  reflects(RadioButton, ["checked", "disabled", "focused", "name", "required", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

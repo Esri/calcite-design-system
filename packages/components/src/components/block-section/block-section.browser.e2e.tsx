@@ -14,6 +14,7 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS } from "./resources";
+import { BlockSection } from "./block-section";
 
 describe("accessible", () => {
   describe("default", () => {
@@ -112,19 +113,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-block-section"),
-    [
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-    ],
-  );
+  reflects(BlockSection, ["expanded", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

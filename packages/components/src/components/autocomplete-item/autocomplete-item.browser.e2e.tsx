@@ -4,6 +4,7 @@ import { h } from "@arcgis/lumina";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, slots, disabled, themed } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
+import { AutocompleteItem } from "./autocomplete-item";
 
 describe("defaults", () => {
   defaults(
@@ -25,16 +26,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-autocomplete-item"),
-    [
-      { propertyName: "disabled", value: true },
-      { propertyName: "iconEnd", value: "banana" },
-      { propertyName: "iconFlipRtl", value: "end" },
-      { propertyName: "iconStart", value: "banana" },
-      { propertyName: "selected", value: true },
-    ],
-  );
+  reflects(AutocompleteItem, ["disabled", "iconEnd", "iconFlipRtl", "iconStart", "selected"]);
 });
 
 describe("honors hidden attribute", () => {

@@ -19,7 +19,7 @@ import {
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
-import type { Rating } from "./rating";
+import { Rating } from "./rating";
 
 describe("labelable", () => {
   labelable((mountOptions) => mount("calcite-rating", mountOptions));
@@ -64,23 +64,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-rating"),
-    [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(Rating, ["scale", "status", "validationIcon"]);
 });
 
 describe("honors hidden attribute", () => {

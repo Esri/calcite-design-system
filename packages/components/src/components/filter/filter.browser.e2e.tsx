@@ -17,6 +17,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+import { Filter } from "./filter";
 
 mockConsole();
 
@@ -56,19 +57,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-filter"),
-    [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-    ],
-  );
+  reflects(Filter, ["disabled", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

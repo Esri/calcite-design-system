@@ -17,7 +17,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
-import type { ListItem } from "./list-item";
+import { ListItem } from "./list-item";
 
 describe("defaults", () => {
   defaults(
@@ -106,31 +106,7 @@ describe("propagates", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-list-item"),
-    [
-      {
-        propertyName: "unavailable",
-        value: true,
-      },
-      {
-        propertyName: "sortHandleOpen",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "closed",
-        value: true,
-      },
-      {
-        propertyName: "closable",
-        value: true,
-      },
-    ],
-  );
+  reflects(ListItem, ["unavailable", "sortHandleOpen", "expanded", "closed", "closable"]);
 });
 
 describe("honors hidden attribute", () => {

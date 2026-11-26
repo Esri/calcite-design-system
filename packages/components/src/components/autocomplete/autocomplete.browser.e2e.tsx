@@ -27,7 +27,7 @@ import { defaultMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS as InputCSS } from "../input/resources";
-import type { Autocomplete } from "./autocomplete";
+import { Autocomplete } from "./autocomplete";
 import { CSS, SLOTS } from "./resources";
 
 mockConsole();
@@ -202,80 +202,25 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-autocomplete"),
-    [
-      {
-        propertyName: "alignment",
-        value: "start",
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "form",
-        value: "test-form",
-      },
-      {
-        propertyName: "icon",
-        value: "banana",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "maxLength",
-        value: 2,
-      },
-      {
-        propertyName: "minLength",
-        value: 2,
-      },
-      {
-        propertyName: "name",
-        value: "test-name",
-      },
-      {
-        propertyName: "open",
-        value: true,
-      },
-
-      {
-        propertyName: "overlayPositioning",
-        value: "absolute",
-      },
-      {
-        propertyName: "placement",
-        value: "bottom",
-      },
-      {
-        propertyName: "readOnly",
-        value: true,
-      },
-      {
-        propertyName: "required",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(Autocomplete, [
+    "alignment",
+    "disabled",
+    "form",
+    "icon",
+    "iconFlipRtl",
+    "loading",
+    "maxLength",
+    "minLength",
+    "name",
+    "open",
+    "overlayPositioning",
+    "placement",
+    "readOnly",
+    "required",
+    "scale",
+    "status",
+    "validationIcon",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

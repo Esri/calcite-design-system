@@ -22,6 +22,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { defaultValidity } from "../../tests/common/defaults";
 import { getNormalizer } from "./utils";
+import { InputTimeZone } from "./input-time-zone";
 
 mockConsole();
 
@@ -81,19 +82,16 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-input-time-zone"),
-    [
-      { propertyName: "disabled", value: true },
-      { propertyName: "maxItems", value: 0 },
-      { propertyName: "mode", value: "offset" },
-      { propertyName: "open", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "overlayPositioning", value: "absolute" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ],
-  );
+  reflects(InputTimeZone, [
+    "disabled",
+    "maxItems",
+    "mode",
+    "open",
+    "scale",
+    "overlayPositioning",
+    "status",
+    "validationIcon",
+  ]);
 });
 
 describe("hidden", () => {

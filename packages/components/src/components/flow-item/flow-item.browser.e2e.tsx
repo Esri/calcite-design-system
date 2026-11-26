@@ -20,7 +20,7 @@ import {
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
 import type { Panel } from "../panel/panel";
-import type { FlowItem } from "./flow-item";
+import { FlowItem } from "./flow-item";
 import { SLOTS } from "./resources";
 
 mockConsole();
@@ -144,51 +144,18 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-flow-item"),
-    [
-      {
-        propertyName: "closable",
-        value: true,
-      },
-      {
-        propertyName: "closed",
-        value: true,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "loading",
-        value: true,
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: true,
-      },
-      {
-        propertyName: "menuOpen",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-    ],
-  );
+  reflects(FlowItem, [
+    "closable",
+    "closed",
+    "collapsible",
+    "collapsed",
+    "disabled",
+    "loading",
+    "icon",
+    "iconFlipRtl",
+    "menuOpen",
+    "overlayPositioning",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

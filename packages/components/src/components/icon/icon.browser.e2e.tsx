@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { CSS } from "./resources";
-import type { Icon } from "./icon";
+import { Icon } from "./icon";
 import { scaleToPx } from "./utils";
 
 describe("accessible", () => {
@@ -23,14 +23,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-icon"),
-    [
-      { propertyName: "flipRtl", value: true },
-      { propertyName: "preload", value: true },
-      { propertyName: "scale", value: "m" },
-    ],
-  );
+  reflects(Icon, ["flipRtl", "preload", "scale"]);
 });
 
 describe("honors hidden attribute", () => {

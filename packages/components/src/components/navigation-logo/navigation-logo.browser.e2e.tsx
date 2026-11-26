@@ -13,6 +13,7 @@ import {
 } from "../../tests/common";
 import { CSS } from "./resources";
 import { mockConsole } from "../../tests/utils/logging";
+import { NavigationLogo } from "./navigation-logo";
 
 mockConsole("error");
 
@@ -53,35 +54,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-navigation-logo"),
-    [
-      {
-        propertyName: "active",
-        value: "true",
-      },
-      {
-        propertyName: "href",
-        value: "#logo",
-      },
-      {
-        propertyName: "rel",
-        value: "external",
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "target",
-        value: "_self",
-      },
-      {
-        propertyName: "headingLevel",
-        value: 1,
-      },
-    ],
-  );
+  reflects(NavigationLogo, ["active", "href", "rel", "scale", "target", "headingLevel"]);
 });
 
 describe("honors hidden attribute", () => {

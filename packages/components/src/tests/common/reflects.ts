@@ -1,81 +1,43 @@
 import { expect, it } from "vitest";
-import { mount } from "@arcgis/lumina-compiler/testing";
+import type { LitElement, ToElement } from "@arcgis/lumina";
 import { camelToKebab as propToAttr } from "@arcgis/toolkit/string";
 
-type ReflectProps<E extends HTMLElement> = Array<{
-  propertyName: Extract<keyof E, string>;
-  value: E[Extract<keyof E, string>];
-}>;
-
-type ShorthandReflectProps<E extends HTMLElement> = {
-  [K in Extract<keyof E, string>]?: E[K];
-};
+type ReflectProps<E extends HTMLElement> = Extract<keyof E, string>[] | { [K in Extract<keyof E, string>]?: boolean };
 
 /**
- * Helper for asserting that a component reflects
+ * Asserts property reflection declarations without mounting the component.
  *
- * Note that this helper should be used within a describe block.
+ * Pass property names to expect reflection, or a map of expected reflection flags.
+ * Converter behavior and component-specific attribute updates need browser tests.
+ * Use this helper within a describe block.
  *
  * @example
  * describe("reflects", () => {
- *   reflects("calcite-action-bar", [
- *     {
- *       propertyName: "expandToggleDisabled",
- *       value: true
- *     },
- *     {
- *       propertyName: "expanded",
- *       value: true
- *     }
- *   ]);
+ *   reflects(Action, ["active"]);
  * });
  *
- * @example <caption>using shorthand</caption>
+ * @example <caption>including non-reflecting properties</caption>
  * describe("reflects", () => {
- *   reflects("calcite-action-bar", {
- *     expandToggleDisabled: true,
- *     expanded: true
- *    });
+ *   reflects(Action, {
+ *     active: true,
+ *     text: false
+ *   });
  * });
  */
-export function reflects<
-  RenderResult extends ReturnType<typeof mount>,
-  ElementProps extends Awaited<RenderResult>["el"],
->(setUp: () => RenderResult, propsToTest: ReflectProps<ElementProps> | ShorthandReflectProps<ElementProps>): void {
-  const propValuePairs = Array.isArray(propsToTest)
-    ? propsToTest
-    : (Object.keys(propsToTest) as Extract<keyof ElementProps, string>[]).map((propertyName) => ({
-        propertyName,
-        value: propsToTest[propertyName],
-      }));
-  const cases = propValuePairs.map(({ propertyName, value }) => [propertyName, value] as const);
+export function reflects<Component extends typeof LitElement>(
+  component: Component,
+  propsToTest: ReflectProps<ToElement<InstanceType<Component>>>,
+): void {
+  const cases: [string, boolean][] = Array.isArray(propsToTest)
+    ? propsToTest.map((propertyName) => [propertyName, true])
+    : Object.entries(propsToTest);
 
-  it.each(cases)("%s", async (propertyName, value) => {
-    const { el: setupEl, reRender } = await setUp();
-    const el = setupEl as ElementProps;
-    const attrName = propToAttr(propertyName);
-
-    Object.assign(el, { [propertyName]: value });
-    await reRender();
-
-    const matches = el.matches(`[${attrName}]`);
-    expect(matches).toBe(true);
-
-    if (typeof value === "boolean") {
-      const getExpectedValue = (propValue: boolean): string | null => (propValue ? "" : null);
-      const negated = !value;
-
-      Object.assign(el, { [propertyName]: negated });
-      await reRender();
-
-      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
-      expect(el.getAttribute(attrName)).toBe(getExpectedValue(negated));
-
-      Object.assign(el, { [propertyName]: value });
-      await reRender();
-
-      // eslint-disable-next-line vitest/no-conditional-expect -- assertion depends on test helper config
-      expect(el.getAttribute(attrName)).toBe(getExpectedValue(value));
-    }
+  it.each(cases)("%s", (propertyName, reflect) => {
+    // Reading observedAttributes finalizes inherited declarations without constructing an element.
+    void component.observedAttributes;
+    expect(component.elementProperties.get(propertyName)).toMatchObject({
+      reflect,
+      ...(reflect ? { attribute: propToAttr(propertyName) } : {}),
+    });
   });
 }

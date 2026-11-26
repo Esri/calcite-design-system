@@ -12,7 +12,7 @@ import {
   accessible,
   themed,
 } from "../../tests/common";
-import type { Navigation } from "./navigation";
+import { Navigation } from "./navigation";
 import { CSS } from "./resources";
 
 describe("accessible", () => {
@@ -47,17 +47,22 @@ describe("defaults", () => {
   );
 });
 
-// navigationAction is incorrectly being reset when set to true dynamically - see https://github.com/Esri/calcite-design-system/issues/14057
-describe.skip("reflects", () => {
-  reflects(
-    () => mount("calcite-navigation"),
-    [
-      {
-        propertyName: "navigationAction",
-        value: true,
-      },
-    ],
-  );
+describe("reflects", () => {
+  reflects(Navigation, ["navigationAction"]);
+
+  // navigationAction is incorrectly being reset when set to true dynamically - see https://github.com/Esri/calcite-design-system/issues/14057
+  it.skip("reflects navigation-action changes", async () => {
+    const { el } = await mount("calcite-navigation");
+
+    el.navigationAction = true;
+    await expect.element(el).toHaveAttribute("navigation-action", "");
+
+    el.navigationAction = false;
+    await expect.element(el).not.toHaveAttribute("navigation-action");
+
+    el.navigationAction = true;
+    await expect.element(el).toHaveAttribute("navigation-action", "");
+  });
 });
 
 describe("honors hidden attribute", () => {

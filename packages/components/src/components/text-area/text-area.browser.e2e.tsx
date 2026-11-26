@@ -20,7 +20,7 @@ import {
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS } from "./resources";
-import type { TextArea } from "./text-area";
+import { TextArea } from "./text-area";
 import { afterNextFrame } from "../../tests/utils/timing";
 
 describe("global props", () => {
@@ -85,35 +85,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-text-area"),
-    [
-      {
-        propertyName: "columns",
-        value: "10",
-      },
-      {
-        propertyName: "limitText",
-        value: true,
-      },
-      {
-        propertyName: "rows",
-        value: "50",
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(TextArea, ["columns", "limitText", "rows", "scale", "status", "validationIcon"]);
 });
 
 describe("honors hidden attribute", () => {

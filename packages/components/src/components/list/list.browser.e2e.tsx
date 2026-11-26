@@ -20,7 +20,7 @@ import type { ListItem } from "../list-item/list-item";
 import { afterNextFrame, afterNextTask } from "../../tests/utils/timing";
 import { waitForEvent } from "../../tests/common/utils";
 import { DEBOUNCE } from "../../utils/resources";
-import type { List } from "./list";
+import { List } from "./list";
 import { CSS } from "./resources";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 
@@ -157,19 +157,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-list"),
-    [
-      {
-        propertyName: "displayMode",
-        value: "nested",
-      },
-      {
-        propertyName: "sortDisabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(List, ["displayMode", "sortDisabled"]);
 });
 
 describe("honors hidden attribute", () => {

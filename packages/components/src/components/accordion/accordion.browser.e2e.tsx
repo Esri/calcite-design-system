@@ -4,6 +4,7 @@ import { mount } from "@arcgis/lumina-compiler/testing";
 import { defaults, reflects, hidden, renders, scalePropagates, themed } from "../../tests/common";
 import { CSS as ACCORDION_ITEM_CSS } from "../accordion-item/resources";
 import { CSS } from "./resources";
+import { Accordion } from "./accordion";
 
 const accordionContent = (
   <>
@@ -50,31 +51,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-accordion"),
-    [
-      {
-        propertyName: "iconPosition",
-        value: "start",
-      },
-      {
-        propertyName: "iconPosition",
-        value: "end",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "single-persist",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "single",
-      },
-      {
-        propertyName: "selectionMode",
-        value: "multiple",
-      },
-    ],
-  );
+  reflects(Accordion, ["iconPosition", "selectionMode"]);
 });
 
 describe("honors hidden attribute", () => {

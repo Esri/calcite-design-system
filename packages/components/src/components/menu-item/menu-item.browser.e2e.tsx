@@ -15,6 +15,7 @@ import {
 } from "../../tests/common";
 import { CSS, SLOTS } from "./resources";
 import type { Layout } from "./types";
+import { MenuItem } from "./menu-item";
 
 describe("accessible", () => {
   accessible(() =>
@@ -31,19 +32,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-menu-item"),
-    [
-      {
-        propertyName: "active",
-        value: "true",
-      },
-      {
-        propertyName: "target",
-        value: "_blank",
-      },
-    ],
-  );
+  reflects(MenuItem, ["active", "target"]);
 });
 
 describe("honors hidden attribute", () => {

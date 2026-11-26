@@ -19,7 +19,7 @@ import {
   themed,
 } from "../../tests/common";
 import { defaultValidity } from "../../tests/common/defaults";
-import type { Slider } from "./slider";
+import { Slider } from "./slider";
 import { CSS } from "./resources";
 
 describe("labelable", () => {
@@ -94,23 +94,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-slider"),
-    [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(Slider, ["scale", "status", "validationIcon"]);
 });
 
 describe("accessible", () => {

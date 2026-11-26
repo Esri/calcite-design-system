@@ -11,7 +11,7 @@ import { CSS as InputCSS } from "../input/resources";
 import { CSS as InputNumberCSS } from "../input-number/resources";
 import { CSS as InputTextCSS } from "../input-text/resources";
 import { CSS } from "./resources";
-import type { FieldGroup } from "./field-group";
+import { FieldGroup } from "./field-group";
 
 function getAffixWidth(input: Locator, affix: "prefix" | "suffix"): string {
   return getComputedStyle(getAffix(input, affix).element()).width;
@@ -55,12 +55,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(() => mount("calcite-field-group"), {
-    columns: 2,
-    layout: "columns",
-    prefixAutoWidth: true,
-    suffixAutoWidth: true,
-  });
+  reflects(FieldGroup, ["columns", "layout", "prefixAutoWidth", "suffixAutoWidth"]);
 });
 
 describe("honors hidden attribute", () => {

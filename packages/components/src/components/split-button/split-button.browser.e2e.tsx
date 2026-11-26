@@ -17,6 +17,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
+import { SplitButton } from "./split-button";
 
 mockConsole();
 
@@ -128,31 +129,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-split-button"),
-    [
-      {
-        propertyName: "placement",
-        value: "bottom-end",
-      },
-      {
-        propertyName: "download",
-        value: true,
-      },
-      {
-        propertyName: "href",
-        value: "/",
-      },
-      {
-        propertyName: "rel",
-        value: "external",
-      },
-      {
-        propertyName: "target",
-        value: "_blank",
-      },
-    ],
-  );
+  reflects(SplitButton, ["placement", "download", "href", "rel", "target"]);
 });
 
 describe("honors hidden attribute", () => {

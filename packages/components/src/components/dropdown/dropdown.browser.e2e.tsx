@@ -19,7 +19,7 @@ import {
 } from "../../tests/common";
 import { mockConsole } from "../../tests/utils/logging";
 import { CSS } from "./resources";
-import type { Dropdown } from "./dropdown";
+import { Dropdown } from "./dropdown";
 import type { DropdownItem } from "../dropdown-item/dropdown-item";
 import { getRootNode } from "../../utils/dom";
 
@@ -76,31 +76,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-dropdown"),
-    [
-      {
-        propertyName: "offsetDistance",
-        value: 10,
-      },
-      {
-        propertyName: "offsetSkidding",
-        value: 10,
-      },
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "width",
-        value: "m",
-      },
-      {
-        propertyName: "placement",
-        value: "bottom-start",
-      },
-    ],
-  );
+  reflects(Dropdown, ["offsetDistance", "offsetSkidding", "scale", "width", "placement"]);
 });
 
 describe("honors hidden attribute", () => {

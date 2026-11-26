@@ -4,7 +4,7 @@ import { mount, type RenderResult } from "@arcgis/lumina-compiler/testing";
 import { Locator, page, userEvent } from "vitest/browser";
 import { defaults, reflects, hidden, renders, focusable, accessible } from "../../tests/common";
 import { canConvertToHexa, isValidHex, normalizeHex } from "../color-picker/utils";
-import type { ColorPickerHexInput } from "./color-picker-hex-input";
+import { ColorPickerHexInput } from "./color-picker-hex-input";
 import { CSS } from "./resources";
 
 type MountedInput = RenderResult<ColorPickerHexInput>;
@@ -170,15 +170,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-color-picker-hex-input"),
-    [
-      {
-        propertyName: "value",
-        value: "#ffffff",
-      },
-    ],
-  );
+  reflects(ColorPickerHexInput, ["value"]);
 });
 
 describe("honors hidden attribute", () => {

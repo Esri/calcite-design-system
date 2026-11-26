@@ -154,16 +154,7 @@ describe.skip("openClose", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-input-time-picker"),
-    [
-      { propertyName: "open", value: true },
-      { propertyName: "disabled", value: true },
-      { propertyName: "scale", value: "m" },
-      { propertyName: "status", value: "invalid" },
-      { propertyName: "validationIcon", value: true },
-    ],
-  );
+  reflects(InputTimePicker, ["open", "disabled", "scale", "status", "validationIcon"]);
 });
 
 describe("honors hidden attribute", () => {

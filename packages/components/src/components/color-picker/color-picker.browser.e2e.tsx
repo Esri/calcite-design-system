@@ -36,7 +36,7 @@ import {
   SCOPE_SIZE,
   STATIC_DIMENSIONS,
 } from "./resources";
-import type { ColorPicker } from "./color-picker";
+import { ColorPicker } from "./color-picker";
 import { getColorFieldDimensions, getSliderWidth } from "./utils";
 import type { InputNumber } from "../input-number/input-number";
 import { isInputNumber } from "../input-number/resources";
@@ -132,19 +132,7 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-color-picker"),
-    [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "fieldDisabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(ColorPicker, ["scale", "fieldDisabled"]);
 });
 
 describe("honors hidden attribute", () => {

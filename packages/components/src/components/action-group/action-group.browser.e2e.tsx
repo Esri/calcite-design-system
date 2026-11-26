@@ -88,19 +88,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-action-group"),
-    [
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-      {
-        propertyName: "overflowActionsDisabled",
-        value: true,
-      },
-    ],
-  );
+  reflects(ActionGroup, ["menuPlacement", "overflowActionsDisabled"]);
 });
 
 describe("honors hidden attribute", () => {

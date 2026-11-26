@@ -96,35 +96,14 @@ describe("propagates", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-input-text"),
-    [
-      {
-        propertyName: "status",
-        value: "valid",
-      },
-      {
-        propertyName: "alignment",
-        value: "center",
-      },
-      {
-        propertyName: "inlineEdit",
-        value: true,
-      },
-      {
-        propertyName: "inlineEditing",
-        value: true,
-      },
-      {
-        propertyName: "scale",
-        value: "s",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(InputText, [
+    "status",
+    "alignment",
+    "inlineEdit",
+    "inlineEditing",
+    "scale",
+    "validationIcon",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

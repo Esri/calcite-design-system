@@ -21,7 +21,7 @@ import {
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
-import type { Panel } from "./panel";
+import { Panel } from "./panel";
 import { CSS, IDS, SLOTS } from "./resources";
 
 export const scrollingHeightStyle = "height: 200px;";
@@ -217,39 +217,15 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-panel"),
-    [
-      {
-        propertyName: "headingLevel",
-        value: 2,
-      },
-      {
-        propertyName: "collapsible",
-        value: true,
-      },
-      {
-        propertyName: "collapsed",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "menuPlacement",
-        value: "bottom",
-      },
-      {
-        propertyName: "icon",
-        value: "x",
-      },
-      {
-        propertyName: "iconFlipRtl",
-        value: "true",
-      },
-    ],
-  );
+  reflects(Panel, [
+    "headingLevel",
+    "collapsible",
+    "collapsed",
+    "overlayPositioning",
+    "menuPlacement",
+    "icon",
+    "iconFlipRtl",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

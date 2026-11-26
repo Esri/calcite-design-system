@@ -19,7 +19,7 @@ import {
 import { defaultValidity } from "../../tests/common/defaults";
 import { CSS as ItemCSS } from "../segmented-control-item/resources";
 import { CSS } from "./resources";
-import type { SegmentedControl } from "./segmented-control";
+import { SegmentedControl } from "./segmented-control";
 
 it("sets value to undefined when selectedItem is unset", async () => {
   const { el } = await mount<SegmentedControl>(
@@ -192,35 +192,14 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-segmented-control"),
-    [
-      {
-        propertyName: "scale",
-        value: "m",
-      },
-      {
-        propertyName: "layout",
-        value: "horizontal",
-      },
-      {
-        propertyName: "selectionAppearance",
-        value: "brand",
-      },
-      {
-        propertyName: "width",
-        value: "auto",
-      },
-      {
-        propertyName: "status",
-        value: "invalid",
-      },
-      {
-        propertyName: "validationIcon",
-        value: true,
-      },
-    ],
-  );
+  reflects(SegmentedControl, [
+    "scale",
+    "layout",
+    "selectionAppearance",
+    "width",
+    "status",
+    "validationIcon",
+  ]);
 });
 
 describe("honors hidden attribute", () => {

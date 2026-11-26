@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { page } from "vitest/browser";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { accessible, defaults, hidden, reflects, renders } from "../../tests/common";
-import type { Option } from "./option";
+import { Option } from "./option";
 
 describe("accessible", () => {
   accessible(() => mount(`calcite-option`));
@@ -22,19 +22,7 @@ describe("defaults", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-option"),
-    [
-      {
-        propertyName: "disabled",
-        value: true,
-      },
-      {
-        propertyName: "selected",
-        value: true,
-      },
-    ],
-  );
+  reflects(Option, ["disabled", "selected"]);
 });
 
 describe("honors hidden attribute", () => {

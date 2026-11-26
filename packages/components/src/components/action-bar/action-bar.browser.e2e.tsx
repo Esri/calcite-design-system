@@ -135,39 +135,15 @@ describe("is focusable", () => {
 });
 
 describe("reflects", () => {
-  reflects(
-    () => mount("calcite-action-bar"),
-    [
-      {
-        propertyName: "expandToggleDisabled",
-        value: true,
-      },
-      {
-        propertyName: "expanded",
-        value: true,
-      },
-      {
-        propertyName: "floating",
-        value: true,
-      },
-      {
-        propertyName: "overlayPositioning",
-        value: "fixed",
-      },
-      {
-        propertyName: "selectionAppearance",
-        value: "neutral",
-      },
-      {
-        propertyName: "expandPosition",
-        value: "start",
-      },
-      {
-        propertyName: "overflowMode",
-        value: "wrap",
-      },
-    ],
-  );
+  reflects(ActionBar, [
+    "expandToggleDisabled",
+    "expanded",
+    "floating",
+    "overlayPositioning",
+    "selectionAppearance",
+    "expandPosition",
+    "overflowMode",
+  ]);
 });
 
 describe("honors hidden attribute", () => {
