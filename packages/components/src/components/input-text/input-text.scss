@@ -186,12 +186,28 @@ input {
   }
 }
 
-.element-wrapper,
-input {
+.wrapper {
   border-radius: var(
     --calcite-internal-input-text-element-corner-radius,
     var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
   );
+}
+
+.element-wrapper,
+input {
+  border-radius: inherit;
+  border-start-start-radius: var(--calcite-internal-input-text-element-corner-radius-top-left, inherit);
+  border-start-end-radius: var(--calcite-internal-input-text-element-corner-radius-top-right, inherit);
+  border-end-end-radius: var(--calcite-internal-input-text-element-corner-radius-bottom-right, inherit);
+  border-end-start-radius: var(--calcite-internal-input-text-element-corner-radius-bottom-left, inherit);
+}
+
+.element-wrapper:where(:dir(rtl)),
+input:where(:dir(rtl)) {
+  border-start-start-radius: var(--calcite-internal-input-text-element-corner-radius-top-right, inherit);
+  border-start-end-radius: var(--calcite-internal-input-text-element-corner-radius-top-left, inherit);
+  border-end-end-radius: var(--calcite-internal-input-text-element-corner-radius-bottom-left, inherit);
+  border-end-start-radius: var(--calcite-internal-input-text-element-corner-radius-bottom-right, inherit);
 }
 
 .has-prefix,
@@ -214,26 +230,14 @@ input {
 
 .has-prefix .prefix,
 .element-wrapper:not(:has(.prefix)):has(.icon) .icon {
-  border-start-start-radius: var(
-    --calcite-internal-input-text-corner-radius-start-start,
-    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-  );
-  border-end-start-radius: var(
-    --calcite-internal-input-text-corner-radius-end-start,
-    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-  );
+  border-start-start-radius: var(--calcite-internal-input-text-corner-radius-start-start, inherit);
+  border-end-start-radius: var(--calcite-internal-input-text-corner-radius-end-start, inherit);
 }
 
 .has-suffix .suffix,
 :host([clearable]) .clear-button {
-  border-end-end-radius: var(
-    --calcite-internal-input-text-corner-radius-end-end,
-    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-  );
-  border-start-end-radius: var(
-    --calcite-internal-input-text-corner-radius-start-end,
-    var(--calcite-input-text-corner-radius, var(--calcite-theme-corner-radius, var(--calcite-corner-radius)))
-  );
+  border-end-end-radius: var(--calcite-internal-input-text-corner-radius-end-end, inherit);
+  border-start-end-radius: var(--calcite-internal-input-text-corner-radius-start-end, inherit);
 }
 
 :host([clearable]) .has-suffix .clear-button {

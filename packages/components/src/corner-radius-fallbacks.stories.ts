@@ -46,16 +46,6 @@ const kitchenSink = () =>
         inline-size: 340px;
         max-inline-size: 100%;
       }
-
-      .fallback-radius-asymmetric {
-        --calcite-input-text-corner-radius: 12px 0px;
-        --calcite-input-number-corner-radius: 12px 0px;
-      }
-
-      .fallback-radius-elliptical {
-        --calcite-input-text-corner-radius: 12px / 4px;
-        --calcite-input-number-corner-radius: 12px / 4px;
-      }
     </style>
 
     <div class="fallback-grid">
@@ -118,21 +108,6 @@ const kitchenSink = () =>
       </div>
 
       <div class="fallback-row">${inputText} ${inputNumber} ${inputTimeZone}</div>
-
-      <div class="fallback-row">
-        <calcite-input-text class="fallback-radius-asymmetric" label-text="Asymmetric text radius"></calcite-input-text>
-        <calcite-input-number
-          class="fallback-radius-asymmetric"
-          label-text="Asymmetric number radius"
-          read-only
-        ></calcite-input-number>
-        <calcite-input-text class="fallback-radius-elliptical" label-text="Elliptical text radius"></calcite-input-text>
-        <calcite-input-number
-          class="fallback-radius-elliptical"
-          label-text="Elliptical number radius"
-          read-only
-        ></calcite-input-number>
-      </div>
 
       <div class="fallback-row">${input} ${autocomplete} ${select}</div>
 

@@ -526,6 +526,122 @@ describe("theme", () => {
   });
 
   describe("range corner radius", () => {
+    describe.each(["ltr", "rtl"] as const)("%s multi-value radius", (direction) => {
+      it.each(["12px 0px", "12px / 4px"])("preserves composed shorthand %s", async (radius) => {
+        await mount(
+          <div>
+            <calcite-input-date-picker
+              dir={direction}
+              layout="horizontal"
+              range
+              style={`--calcite-input-date-picker-corner-radius: ${radius}`}
+            />
+            <calcite-input-date-picker
+              dir={direction}
+              layout="vertical"
+              range
+              style={`--calcite-input-date-picker-corner-radius: ${radius}`}
+            />
+            <calcite-input-date-picker
+              dir={direction}
+              layout="vertical"
+              range
+              readOnly
+              style={`--calcite-input-date-picker-corner-radius: ${radius}`}
+            />
+          </div>,
+        );
+        const pickers = page.getBySelector("calcite-input-date-picker");
+        const rounded = radius.includes("/") ? "12px 4px" : "12px";
+        const alternate = radius.includes("/") ? rounded : "0px";
+        const start =
+          direction === "ltr"
+            ? [rounded, "0px", "0px", alternate]
+            : ["0px", alternate, rounded, "0px"];
+        const end =
+          direction === "ltr"
+            ? ["0px", alternate, rounded, "0px"]
+            : [rounded, "0px", "0px", alternate];
+        const style = (corners: string[]) =>
+          corners
+            .map(
+              (value, index) =>
+                `${["border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius"][index]}: ${value};`,
+            )
+            .join(" ");
+
+        await expect
+          .element(
+            pickers.nth(0).getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style(start));
+        await expect
+          .element(
+            pickers.nth(0).getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style(end));
+        await expect
+          .element(pickers.nth(0).getBySelector(`.${CSS.startInput}`).getBySelector(".icon"))
+          .toHaveStyle(style(start));
+        await expect
+          .element(pickers.nth(0).getBySelector(`.${CSS.endInput}`).getBySelector("input"))
+          .toHaveStyle(style(end));
+        await expect
+          .element(
+            pickers.nth(1).getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? [rounded, "0px", "0px", "0px"]
+                : ["0px", alternate, "0px", "0px"],
+            ),
+          );
+        await expect
+          .element(
+            pickers.nth(1).getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? ["0px", "0px", "0px", alternate]
+                : ["0px", "0px", rounded, "0px"],
+            ),
+          );
+        await expect
+          .element(pickers.nth(1).getBySelector(`.${CSS.verticalActionsContainer}`))
+          .toHaveStyle(style(end));
+        await expect
+          .element(
+            pickers.nth(2).getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style([rounded, alternate, "0px", "0px"]));
+        await expect
+          .element(
+            pickers.nth(2).getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style(["0px", "0px", rounded, alternate]));
+        await expect
+          .element(pickers.nth(2).getBySelector(`.${CSS.startInput}`).getBySelector("input"))
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? ["0px", alternate, "0px", "0px"]
+                : [rounded, "0px", "0px", "0px"],
+            ),
+          );
+        await expect
+          .element(pickers.nth(2).getBySelector(`.${CSS.endInput}`).getBySelector("input"))
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? ["0px", "0px", rounded, "0px"]
+                : ["0px", "0px", "0px", alternate],
+            ),
+          );
+      });
+    });
+
     describe("horizontal layout", () => {
       themed(() => mount(<calcite-input-date-picker layout="horizontal" range />), {
         "--calcite-input-date-picker-corner-radius": [

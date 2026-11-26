@@ -5,13 +5,10 @@
 // --calcite-internal-color-picker-min-width
 // --calcite-internal-input-number-corner-radius-end-end
 // --calcite-internal-input-number-corner-radius-start-end
-// --calcite-internal-input-number-element-corner-radius
 // --calcite-internal-input-number-element-corner-radius-bottom-left
 // --calcite-internal-input-number-element-corner-radius-bottom-right
 // --calcite-internal-input-number-element-corner-radius-top-left
 // --calcite-internal-input-number-element-corner-radius-top-right
-// --calcite-internal-input-number-input-corner-radius-end-end
-// --calcite-internal-input-number-input-corner-radius-start-end
 
 @use "../../styles/shared";
 
@@ -213,13 +210,6 @@ calcite-swatch {
 
 .channel {
   flex-grow: 1;
-  --calcite-internal-input-number-element-corner-radius: var(
-      --calcite-internal-input-number-element-corner-radius-top-left,
-      var(--calcite-input-number-corner-radius)
-    )
-    var(--calcite-internal-input-number-element-corner-radius-top-right, var(--calcite-input-number-corner-radius))
-    var(--calcite-internal-input-number-element-corner-radius-bottom-right, var(--calcite-input-number-corner-radius))
-    var(--calcite-internal-input-number-element-corner-radius-bottom-left, var(--calcite-input-number-corner-radius));
 
   &:not(:last-child) {
     --calcite-internal-input-number-element-corner-radius-top-right: var(--calcite-corner-radius-none);
@@ -232,24 +222,9 @@ calcite-swatch {
   }
 
   &[data-channel-index="3"] {
-    --calcite-internal-input-number-corner-radius-start-end: var(--calcite-input-number-corner-radius);
-    --calcite-internal-input-number-corner-radius-end-end: var(--calcite-input-number-corner-radius);
-  }
-
-  &[data-channel-index="3"] {
     margin-inline-start: -1px;
     min-inline-size: 81px;
   }
-}
-
-:host(:dir(ltr)) .channel[data-channel-index="2"]:last-child {
-  --calcite-internal-input-number-input-corner-radius-start-end: var(--calcite-input-number-corner-radius);
-  --calcite-internal-input-number-input-corner-radius-end-end: var(--calcite-input-number-corner-radius);
-}
-
-:host(:dir(rtl)) .channel[data-channel-index="0"] {
-  --calcite-internal-input-number-input-corner-radius-start-end: var(--calcite-input-number-corner-radius);
-  --calcite-internal-input-number-input-corner-radius-end-end: var(--calcite-input-number-corner-radius);
 }
 
 :host(:dir(rtl)) .channel[data-channel-index="3"] {
