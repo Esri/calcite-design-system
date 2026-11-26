@@ -1,21 +1,11 @@
 import { createRef } from "lit/directives/ref.js";
-import {
-  createEvent,
-  h,
-  JsxNode,
-  LitElement,
-  method,
-  property,
-  state,
-  ToEvents,
-} from "@arcgis/lumina";
+import { createEvent, h, JsxNode, LitElement, method, property, state } from "@arcgis/lumina";
 import { getIconScale } from "../../utils/component";
 import { slotChangeHasAssignedElement } from "../../utils/dom";
 import { LogicalFlowPosition, Scale, SelectionMode } from "../types";
 import { isActivationKey } from "../../utils/key";
 import { IconName } from "../icon/types";
 import { useT9n } from "../../controllers/useT9n";
-import type { Checkbox } from "../checkbox/checkbox";
 import { useFocusable } from "../../controllers/useFocusable";
 import { useInteractive } from "../../controllers/useInteractive";
 import { CSS, ICONS, SLOTS } from "./resources";
@@ -213,14 +203,6 @@ export class Card extends LitElement {
   @property({ reflect: true }) scale: Scale = "m";
 
   /**
-   * When `true`, the component is selectable.
-   *
-   * @public
-   * @deprecated in v3.0.0, removal target v6.0.0 - Use the `selectionMode` property on a parent `calcite-card-group` instead.
-   */
-  @property({ reflect: true }) selectable = false;
-
-  /**
    * When `true`, the component is selected.
    *
    * @public
@@ -267,7 +249,7 @@ export class Card extends LitElement {
   //#region Events
 
   /**
-   * Fires when the deprecated `selectable` is true, or `selectionMode` set on parent `calcite-card-group` is not `none` and the component is selected.
+   * Fires when the component is selected.
    *
    * @public
    */
@@ -302,7 +284,7 @@ export class Card extends LitElement {
   }
 
   private keyDownHandler(event: KeyboardEvent): void {
-    if (event.target === this.containerRef.value && !this.selectable && !this.disabled) {
+    if (event.target === this.containerRef.value && !this.disabled) {
       if (isActivationKey(event.key) && this.selectionMode !== "none") {
         this.calciteCardSelect.emit();
         event.preventDefault();
@@ -312,14 +294,9 @@ export class Card extends LitElement {
 
   private cardBodyClickHandler(event: MouseEvent): void {
     const isFromScreenReader = event.target === this.containerRef.value;
-    if (isFromScreenReader && !this.selectable && !this.disabled && this.selectionMode !== "none") {
+    if (isFromScreenReader && !this.disabled && this.selectionMode !== "none") {
       this.calciteCardSelect.emit();
     }
-  }
-
-  private selectCardDeprecated(event: ToEvents<Checkbox>["calciteCheckboxChange"]): void {
-    this.selected = event.currentTarget.checked;
-    this.calciteCardSelect.emit();
   }
 
   private cardSelectClick(event: PointerEvent): void {
@@ -333,18 +310,6 @@ export class Card extends LitElement {
   //#endregion
 
   //#region Rendering
-
-  private renderCheckboxDeprecated(): JsxNode {
-    return (
-      <calcite-label class={CSS.checkboxWrapperDeprecated}>
-        <calcite-checkbox
-          checked={this.selected}
-          label={this.messages.select}
-          oncalciteCheckboxChange={this.selectCardDeprecated}
-        />
-      </calcite-label>
-    );
-  }
 
   private renderThumbnail(): JsxNode {
     return (
@@ -376,7 +341,6 @@ export class Card extends LitElement {
 
     return (
       <header class={CSS.header} hidden={!showHeader}>
-        {this.selectable ? this.renderCheckboxDeprecated() : null}
         <div class={CSS.headerTextContainer}>
           <slot name={SLOTS.heading} onSlotChange={this.handleHeadingSlotChange} />
           <slot name={SLOTS.description} onSlotChange={this.handleDescriptionSlotChange} />
@@ -415,7 +379,7 @@ export class Card extends LitElement {
           onKeyDown={this.keyDownHandler}
           ref={this.containerRef}
           role={role}
-          tabIndex={!this.selectable || this.disabled ? 0 : -1}
+          tabIndex={0}
         >
           {this.loading ? (
             <div ariaLive="polite" class="calcite-card-loader-container">

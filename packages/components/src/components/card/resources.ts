@@ -9,7 +9,6 @@ export const CSS = {
   heading: "heading",
   description: "description",
   checkboxWrapper: "checkbox-wrapper",
-  checkboxWrapperDeprecated: "checkbox-wrapper-deprecated",
   thumbnailWrapper: "thumbnail-wrapper",
   headerTextContainer: "header-text-container",
   cardContent: "card-content",

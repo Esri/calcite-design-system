@@ -178,7 +178,7 @@ export class CardGroup extends LitElement {
 
     const card = this.items.find((item) => item === event.target);
 
-    if (!card || card.disabled || card.selectable) {
+    if (!card || card.disabled) {
       return;
     }
 
@@ -204,7 +204,7 @@ export class CardGroup extends LitElement {
   }
 
   private calciteCardSelectListener(event: CustomEvent): void {
-    if (event.composedPath().includes(this.el) && !(event.target as Card["el"]).selectable) {
+    if (event.composedPath().includes(this.el)) {
       this.setSelectedItems(true, event.target as Card["el"]);
     }
   }

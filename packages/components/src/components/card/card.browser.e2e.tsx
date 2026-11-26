@@ -15,7 +15,6 @@ import {
 } from "../../tests/common";
 import { placeholderImage } from "../../../.storybook/placeholder-image";
 import { CSS, SLOTS } from "./resources";
-
 const placeholder = placeholderImage({
   width: 350,
   height: 150,
@@ -26,12 +25,14 @@ describe("accessible", () => {
     accessible(() => mount("calcite-card"));
   });
 
-  describe("when selectable (deprecated)", () => {
+  describe("when selection is enabled through a parent card group", () => {
     accessible(() =>
       mount(
-        <calcite-card label="example-label" selectable>
-          <img alt="Test image" slot="thumbnail" src={placeholder} />
-        </calcite-card>,
+        <calcite-card-group label="example-label-group" selection-mode="multiple">
+          <calcite-card label="example-label">
+            <img alt="Test image" slot="thumbnail" src={placeholder} />
+          </calcite-card>
+        </calcite-card-group>,
       ),
     );
   });
@@ -129,38 +130,44 @@ describe("theme", () => {
     });
   });
 
-  describe("selectable", () => {
+  describe("selection", () => {
     describe("default", () => {
       themed(
         () =>
           mount(
-            <calcite-card label="example-label" selectable>
-              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
-              <span slot="description">
-                A great example of a study description that might wrap to a line or two, but isn't
-                overly verbose.
-              </span>
-            </calcite-card>,
+            <calcite-card-group label="example-label-group" selection-mode="multiple">
+              <calcite-card label="example-label">
+                <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+                <span slot="description">
+                  A great example of a study description that might wrap to a line or two, but isn't
+                  overly verbose.
+                </span>
+              </calcite-card>
+            </calcite-card-group>,
           ),
         {
+          "--calcite-card-selection-color": {
+            selector: "calcite-card",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "color",
+          },
+          "--calcite-card-selection-color-hover": {
+            selector: "calcite-card",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
+            targetProp: "color",
+            state: "hover",
+          },
           "--calcite-card-selection-background-color-hover": {
-            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            selector: "calcite-card",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
             targetProp: "backgroundColor",
             state: "hover",
           },
           "--calcite-card-selection-background-color-press": {
-            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            selector: "calcite-card",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
             targetProp: "backgroundColor",
-            state: { press: { attribute: "class", value: CSS.checkboxWrapperDeprecated } },
-          },
-          "--calcite-card-selection-color": {
-            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-            targetProp: "color",
-          },
-          "--calcite-card-selection-color-hover": {
-            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
-            targetProp: "color",
-            state: "hover",
+            state: { press: { attribute: "class", value: CSS.checkboxWrapper } },
           },
         },
       );
@@ -169,17 +176,20 @@ describe("theme", () => {
       themed(
         () =>
           mount(
-            <calcite-card label="example-label" selectable selected>
-              <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
-              <span slot="description">
-                A great example of a study description that might wrap to a line or two, but isn't
-                overly verbose.
-              </span>
-            </calcite-card>,
+            <calcite-card-group label="example-label-group" selection-mode="multiple">
+              <calcite-card label="example-label" selected>
+                <h3 slot="heading">ArcGIS Online: Gallery and Organization pages</h3>
+                <span slot="description">
+                  A great example of a study description that might wrap to a line or two, but isn't
+                  overly verbose.
+                </span>
+              </calcite-card>
+            </calcite-card-group>,
           ),
         {
           "--calcite-card-accent-color-selected": {
-            shadowSelector: `.${CSS.checkboxWrapperDeprecated}`,
+            selector: "calcite-card",
+            shadowSelector: `.${CSS.checkboxWrapper}`,
             targetProp: "color",
           },
         },
