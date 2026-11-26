@@ -424,7 +424,7 @@ export class SortHandle extends LitElement {
           ref={this.setDropdownEl}
           scale={scale}
           topLayerDisabled={this.topLayerDisabled}
-          widthScale={widthScale}
+          width={widthScale}
         >
           <calcite-action
             active={open}
