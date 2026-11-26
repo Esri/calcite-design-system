@@ -21,6 +21,7 @@ import {
 import { defaultEndMenuPlacement } from "../../utils/floating-ui";
 import { mockConsole } from "../../tests/utils/logging";
 import { scrolling } from "../../tests/utils/content";
+import type { ComponentTestTokens } from "../../tests/common/themed";
 import type { Panel } from "./panel";
 import { CSS, IDS, SLOTS } from "./resources";
 
@@ -78,6 +79,31 @@ export function renderScrollingContent(): JsxNode {
 }
 
 mockConsole();
+
+it("keeps owner overrides local and falls back to public tokens when they are removed", async () => {
+  const { el } = await mount<Panel>(
+    <calcite-panel
+      heading="Owned Panel"
+      id="owned-panel"
+      style="--calcite-panel-space: 8px; --calcite-owner-panel-space: 24px;"
+    >
+      <div>
+        <calcite-panel heading="Nested Panel" id="nested-panel">
+          Content
+        </calcite-panel>
+      </div>
+    </calcite-panel>,
+  );
+  const ownedContent = page.getBySelector("#owned-panel .content-wrapper").first();
+  const nestedContent = page.getBySelector("#nested-panel .content-wrapper");
+
+  await expect.element(ownedContent).toHaveStyle({ paddingTop: "24px" });
+  await expect.element(nestedContent).toHaveStyle({ paddingTop: "8px" });
+
+  el.style.removeProperty("--calcite-owner-panel-space");
+  await expect.element(ownedContent).toHaveStyle({ paddingTop: "8px" });
+  await expect.element(nestedContent).toHaveStyle({ paddingTop: "8px" });
+});
 
 describe("accessible", () => {
   accessible(() =>
@@ -664,7 +690,7 @@ describe("disabled", () => {
   });
 });
 
-describe("theme", () => {
+describe.each(["--calcite-panel", "--calcite-owner-panel"] as const)("theme via %s", (prefix) => {
   themed(
     () =>
       mount(
@@ -720,57 +746,57 @@ describe("theme", () => {
         </calcite-panel>,
       ),
     {
-      "--calcite-panel-corner-radius": {
+      [`${prefix}-corner-radius`]: {
         targetProp: "borderRadius",
       },
-      "--calcite-panel-heading-text-color": {
+      [`${prefix}-heading-text-color`]: {
         shadowSelector: `.${CSS.heading}`,
         targetProp: "color",
       },
-      "--calcite-panel-description-text-color": {
+      [`${prefix}-description-text-color`]: {
         shadowSelector: `.${CSS.description}`,
         targetProp: "color",
       },
-      "--calcite-panel-icon-color": {
+      [`${prefix}-icon-color`]: {
         shadowSelector: `.${CSS.icon}`,
         targetProp: "--calcite-icon-color",
       },
-      "--calcite-panel-background-color": {
+      [`${prefix}-background-color`]: {
         shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-panel-header-action-background-color": {
+      [`${prefix}-header-action-background-color`]: {
         shadowSelector: `.${CSS.menuAction}`,
         targetProp: "--calcite-action-background-color",
       },
-      "--calcite-panel-header-action-background-color-hover": {
+      [`${prefix}-header-action-background-color-hover`]: {
         shadowSelector: `.${CSS.menuAction}`,
         targetProp: "--calcite-action-background-color-hover",
         state: "hover",
       },
-      "--calcite-panel-header-action-background-color-press": {
+      [`${prefix}-header-action-background-color-press`]: {
         shadowSelector: `.${CSS.menuAction}`,
         targetProp: "--calcite-action-background-color-press",
         state: { press: `calcite-panel >>> .${CSS.menuAction}` },
       },
-      "--calcite-panel-header-action-text-color": {
+      [`${prefix}-header-action-text-color`]: {
         shadowSelector: `.${CSS.menuAction}`,
         targetProp: "--calcite-action-text-color",
       },
-      "--calcite-panel-header-action-text-color-press": {
+      [`${prefix}-header-action-text-color-press`]: {
         shadowSelector: `.${CSS.menuAction}`,
         targetProp: "--calcite-action-text-color-press",
         state: { press: `calcite-panel >>> .${CSS.menuAction}` },
       },
-      "--calcite-panel-header-background-color": {
+      [`${prefix}-header-background-color`]: {
         shadowSelector: `.${CSS.header}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-panel-footer-background-color": {
+      [`${prefix}-footer-background-color`]: {
         shadowSelector: `.${CSS.footer}`,
         targetProp: "backgroundColor",
       },
-      "--calcite-panel-border-color": [
+      [`${prefix}-border-color`]: [
         {
           shadowSelector: `.${CSS.header}`,
           targetProp: "borderBlockEndColor",
@@ -788,27 +814,27 @@ describe("theme", () => {
           targetProp: "borderBlockStartColor",
         },
       ],
-      "--calcite-panel-space": {
+      [`${prefix}-space`]: {
         shadowSelector: `.${CSS.contentWrapper}`,
         targetProp: "padding",
       },
-      "--calcite-panel-footer-space": {
+      [`${prefix}-footer-space`]: {
         shadowSelector: `.${CSS.footer}`,
         targetProp: "padding",
       },
-      "--calcite-panel-content-top-space": {
+      [`${prefix}-content-top-space`]: {
         shadowSelector: `.${CSS.contentTop}`,
         targetProp: "padding",
       },
-      "--calcite-panel-content-bottom-space": {
+      [`${prefix}-content-bottom-space`]: {
         shadowSelector: `.${CSS.contentBottom}`,
         targetProp: "padding",
       },
-      "--calcite-panel-header-top-space": {
+      [`${prefix}-header-top-space`]: {
         shadowSelector: `.${CSS.headerTop}`,
         targetProp: "padding",
       },
-    },
+    } satisfies Record<string, ComponentTestTokens[keyof ComponentTestTokens]>,
   );
   themed(
     () =>
@@ -833,11 +859,11 @@ describe("theme", () => {
         </calcite-panel>,
       ),
     {
-      "--calcite-panel-header-content-space": {
+      [`${prefix}-header-content-space`]: {
         shadowSelector: `.${CSS.headerSlottedContent}`,
         targetProp: "padding",
       },
-    },
+    } satisfies Record<string, ComponentTestTokens[keyof ComponentTestTokens]>,
   );
 });
 

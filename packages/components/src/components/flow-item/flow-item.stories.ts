@@ -14,8 +14,25 @@ import "./flow-item"; // Force Vite to statically trace the file for Chromatic's
 import "../link/link"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../list/list"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 import "../list-item/list-item"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
+import "../panel/panel"; // Force Vite to statically trace the file for Chromatic's TurboSnap feature
 
 const { collapseDirection, overlayPositioning, scale } = ATTRIBUTES;
+
+export const nestedPanelTokenIsolation = (): string => html`
+  <style>
+    .nested-panel-owner-flow-item {
+      --calcite-flow-space: var(--calcite-spacing-xl);
+      --calcite-flow-header-background-color: var(--calcite-color-status-warning);
+    }
+  </style>
+  <calcite-flow>
+    <calcite-flow-item class="nested-panel-owner-flow-item" heading="Customized Flow Item" selected>
+      <calcite-panel heading="Independent Panel">
+        The Flow Item's spacing and header color should not apply to this Panel.
+      </calcite-panel>
+    </calcite-flow-item>
+  </calcite-flow>
+`;
 
 interface FlowItemStoryArgs extends Pick<
   FlowItem,
