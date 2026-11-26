@@ -255,17 +255,17 @@ describe("a11y attributes", () => {
   });
 
   it("should omit aria-busy on sortable blocks when not loading and set it when loading", async () => {
-    const { component, reRender } = await mount(
+    const { el, reRender } = await mount(
       <calcite-block-group drag-enabled label="Group">
         <calcite-block heading="heading" />
       </calcite-block-group>,
     );
-    const el = component.querySelector<Block["el"]>("calcite-block")!;
+    const block = el.querySelector<Block["el"]>("calcite-block")!;
     const container = page.getByRole("article");
 
     await expect.element(container).not.toHaveAttribute("aria-busy");
 
-    el.loading = true;
+    block.loading = true;
     await reRender();
 
     await expect.element(container).toHaveAttribute("aria-busy", "true");
