@@ -1,6 +1,7 @@
 import { h } from "@arcgis/lumina";
-import { describe } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
+import { page } from "vitest/browser";
 import {
   defaults,
   disabled,
@@ -12,6 +13,25 @@ import {
   themed,
 } from "../../tests/common";
 import { CSS, IDS, SLOTS } from "./resources";
+
+it("should emit event after the swatch button is clicked when interactive", async () => {
+  const { el } = await mount(<calcite-swatch interactive label="swatch" />);
+  const eventSpy = vi.fn();
+  el.addEventListener("calciteSwatchSelect", eventSpy);
+
+  await page.getByRole("button", { name: "swatch" }).click();
+
+  expect(eventSpy).toHaveBeenCalledOnce();
+});
+
+it("should receive focus when clicked", async () => {
+  const { el } = await mount(<calcite-swatch interactive label="swatch" />);
+  const swatch = page.getByRole("button", { name: "swatch" });
+
+  await swatch.click();
+
+  await expect.element(el).toHaveFocus();
+});
 
 describe("defaults", () => {
   defaults(() => mount("calcite-swatch"), [{ propertyName: "scale", defaultValue: "m" }]);

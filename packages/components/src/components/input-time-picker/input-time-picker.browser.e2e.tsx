@@ -149,7 +149,7 @@ describe("is focusable", () => {
   });
 });
 
-describe.skip("openClose", () => {
+describe("openClose", () => {
   openClose((mountOptions) => mount("calcite-input-time-picker", mountOptions));
 });
 

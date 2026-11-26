@@ -62,8 +62,7 @@ describe("accessible", () => {
     );
   });
 
-  // depends on https://github.com/dequelabs/axe-core/issues/4943 to properly resolve accessible labels
-  describe.skip("with open selected items", () => {
+  describe("with open selected items", () => {
     accessible(() =>
       mount(
         <calcite-combobox label="Trees" open value="Trees">

@@ -71,7 +71,8 @@ async function waitForTimeZoneItemRefresh(
 ): Promise<ComboboxItem["el"]> {
   return vi.waitFor(async () => {
     await waitForUpdates(component);
-    const currentItem = getTimeZoneItem(selector);
+    // Seasonal groups can share an offset value; inspect the first matching group consistently.
+    const currentItem = page.getBySelector(selector).first().element() as ComboboxItem["el"];
     const itemWasRecreated = currentItem !== previousItem;
     const expectedItemRecreation = expectedUpdate === "recreated";
 
@@ -189,9 +190,7 @@ describe("mode", () => {
       ).toBeGreaterThan(1);
     });
 
-    it("recreates time zone items when item-dependent props change", async (context) => {
-      context.skip("waitForTimeZoneItemRefresh() is unstable");
-
+    it("recreates time zone items when item-dependent props change", async () => {
       const itemSelector = `calcite-combobox-item[value='${alternateTimeZoneItem.offset}']`;
       const { el, component } = await mountInputTimeZone({ referenceDate: "2020-01-01" });
 
@@ -199,6 +198,7 @@ describe("mode", () => {
       let prevItemLabel = prevItem.heading;
       let prevSelectedItemLabel = getSelectedItemLabel();
       el.lang = "ja";
+      await expect.poll(() => getCombobox().lang).toBe("ja");
 
       let currItem = await waitForTimeZoneItemRefresh(
         component,
@@ -207,6 +207,7 @@ describe("mode", () => {
         "recreated",
       );
       let currItemLabel = currItem.heading;
+      await expect.poll(getSelectedItemLabel).not.toBe(prevSelectedItemLabel);
       let currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).not.toBe(prevItem);
       expect(currItemLabel).not.toBe(prevItemLabel);
@@ -219,6 +220,7 @@ describe("mode", () => {
 
       currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "recreated");
       currItemLabel = currItem.heading;
+      await expect.poll(getSelectedItemLabel).not.toBe(prevSelectedItemLabel);
       currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).not.toBe(prevItem);
       expect(currItemLabel).not.toBe(prevItemLabel);
@@ -260,9 +262,7 @@ describe("mode", () => {
       expect(getSelectedTimeZoneItem().heading).toMatch(configuredTimeZoneItem.name);
     });
 
-    it("recreates time zone items when item-dependent props change", async (context) => {
-      context.skip("waitForTimeZoneItemRefresh() is unstable");
-
+    it("recreates time zone items when item-dependent props change", async () => {
       const itemSelector = `calcite-combobox-item[value='${alternateTimeZoneItem.name}']`;
       const { el, component } = await mountInputTimeZone({
         mode: "name",
@@ -273,6 +273,7 @@ describe("mode", () => {
       let prevItemLabel = prevItem.heading;
       let prevSelectedItemLabel = getSelectedItemLabel();
       el.lang = "ja";
+      await expect.poll(() => getCombobox().lang).toBe("ja");
 
       let currItem = await waitForTimeZoneItemRefresh(component, prevItem, itemSelector, "reused");
       let currItemLabel = currItem.heading;
@@ -384,9 +385,7 @@ describe("mode", () => {
       expect(el.value).toBe(aliasTimeZone2);
     });
 
-    it("recreates time zone items when item-dependent props change", async (context) => {
-      context.skip("waitForTimeZoneItemRefresh() is unstable");
-
+    it("recreates time zone items when item-dependent props change", async () => {
       const itemSelector = `calcite-combobox-item[value='${alternateTimeZoneItem.name}']`;
       const { el, component } = await mountInputTimeZone({
         mode: "region",
@@ -397,6 +396,7 @@ describe("mode", () => {
       let prevItemLabel = prevItem.heading;
       let prevSelectedItemLabel = getSelectedItemLabel();
       el.lang = "ja";
+      await expect.poll(() => getCombobox().lang).toBe("ja");
 
       let currItem = await waitForTimeZoneItemRefresh(
         component,
@@ -405,6 +405,7 @@ describe("mode", () => {
         "recreated",
       );
       let currItemLabel = currItem.heading;
+      await expect.poll(getSelectedItemLabel).not.toBe(prevSelectedItemLabel);
       let currSelectedItemLabel = getSelectedItemLabel();
       expect(currItem).not.toBe(prevItem);
       expect(currItemLabel).not.toBe(prevItemLabel);

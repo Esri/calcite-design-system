@@ -16,29 +16,6 @@ it("should not emit event after the swatch is clicked if interactive if not set"
   expect(eventSpy).not.toHaveReceivedEvent();
 });
 
-it.skip("should emit event after the swatch button is clicked when interactive", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-swatch id="swatch-1" interactive></calcite-swatch>`);
-
-  const eventSpy = await page.spyOnEvent("calciteSwatchSelect", "window");
-
-  const swatch1 = await page.find("#swatch-1");
-  await swatch1.click();
-  await page.waitForChanges();
-
-  expect(eventSpy).toHaveReceivedEvent();
-});
-
-it.skip("should receive focus when clicked", async () => {
-  const page = await newE2EPage();
-  await page.setContent(`<calcite-swatch interactive id="swatch-1"></calcite-swatch>`);
-
-  const swatch1 = await page.find("#swatch-1");
-  await swatch1.click();
-  await page.waitForChanges();
-  expect(await page.evaluate(() => document.activeElement!.id)).toEqual(swatch1.id);
-});
-
 it("renders default props when none are provided", async () => {
   const page = await newE2EPage();
   await page.setContent(`<calcite-swatch>Swatch content</calcite-swatch>`);
