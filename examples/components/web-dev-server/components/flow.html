@@ -78,7 +78,7 @@
       newFlowItem.description = !isLastLevel ? description : title;
 
       const block = document.createElement("calcite-block");
-      block.open = true;
+      block.expanded = true;
       block.heading = "Details";
       newFlowItem.append(block);
 
