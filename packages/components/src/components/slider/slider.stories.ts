@@ -787,6 +787,13 @@ export const fillPlacements = (): string => html`
 `;
 
 export const customLabelsAndTicks = (): string => html`
+  <style>
+    .close-handle-label-example {
+      inline-size: 400px;
+      max-inline-size: 100%;
+    }
+  </style>
+
   <label>Label formatter (single value)</label>
   <calcite-slider
     id="singleFormattedLabelSlider"
@@ -829,6 +836,30 @@ export const customLabelsAndTicks = (): string => html`
     max-value="100"
   ></calcite-slider>
 
+  <br />
+  <label>Close handle labels (English, left-to-right)</label>
+  <calcite-slider
+    class="close-handle-label-example"
+    id="closeFormattedLabelSlider"
+    lang="en"
+    dir="ltr"
+    label-handles
+    min-value="49"
+    max-value="50"
+  ></calcite-slider>
+
+  <br />
+  <label>Close handle labels (Arabic, right-to-left)</label>
+  <calcite-slider
+    class="close-handle-label-example"
+    lang="ar"
+    dir="rtl"
+    numbering-system="arab"
+    label-handles
+    min-value="49"
+    max-value="50"
+  ></calcite-slider>
+
   <script>
     const singleValueSlider = document.getElementById("singleFormattedLabelSlider");
 
@@ -865,6 +896,12 @@ export const customLabelsAndTicks = (): string => html`
 
     minMaxValueLongLabelSlider.labelFormatter = function (value) {
       return "long " + value + " label";
+    };
+
+    const closeLabelSlider = document.getElementById("closeFormattedLabelSlider");
+
+    closeLabelSlider.labelFormatter = function (value, type) {
+      return type === "min" ? "Low " + value : type === "max" ? "Upper value " + value : undefined;
     };
   </script>
 `;
