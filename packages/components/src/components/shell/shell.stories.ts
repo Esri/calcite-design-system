@@ -816,7 +816,7 @@ export const slottedDialogAndAlert = (): string =>
       </calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">
         <calcite-action-bar slot="action-bar">
-          <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+          <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
           <calcite-action-group>
             <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
             <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -902,7 +902,7 @@ export const slottedSheetOverlay = (): string => html`
     </calcite-shell-panel>
     <calcite-shell-panel slot="panel-end">
       <calcite-action-bar slot="action-bar">
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action-group>
           <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
           <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -994,7 +994,7 @@ const slottedSheetHtml: string[] = [];
       </calcite-shell-panel>
       <calcite-shell-panel slot="panel-end">
         <calcite-action-bar slot="action-bar">
-          <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+          <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
           <calcite-action-group>
             <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
             <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -1518,7 +1518,7 @@ position:relative;
       </calcite-action-bar>
       <calcite-panel heading="Layers" height-scale="l" width-scale="m">
         <calcite-fab slot="fab" id="layer-fab" text="Add layers"></calcite-fab>
-        <calcite-tooltip label="tooltip" reference-element="layer-fab">Add layers</calcite-tooltip>
+        <calcite-tooltip reference-element="layer-fab">Add layers</calcite-tooltip>
       </calcite-panel>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="overlay" resizable slot="panel-end">
@@ -1644,7 +1644,7 @@ position:relative;
             </calcite-block>
           </calcite-block-group>
           <calcite-fab slot="fab" id="label-fab" text="Add label class"></calcite-fab>
-          <calcite-tooltip label="tooltip" reference-element="label-fab"> Add label class </calcite-tooltip>
+          <calcite-tooltip reference-element="label-fab"> Add label class </calcite-tooltip>
         </calcite-flow-item>
       </calcite-flow>
     </calcite-shell-panel>
@@ -2124,7 +2124,7 @@ export const floatAllArrangements = (): string =>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end" >
       <calcite-action-bar slot="action-bar" expand-toggle-disabled>
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
         </calcite-action>
         <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
@@ -2258,7 +2258,7 @@ export const floatAllArrangementsStart = (): string =>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end" >
       <calcite-action-bar slot="action-bar" expand-toggle-disabled>
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
         </calcite-action>
         <calcite-action text-enabled text="Labels" icon="label" slot="menu-actions"> </calcite-action>
@@ -2510,7 +2510,7 @@ export const panelsWithOverflowingContent = (): string =>
     </calcite-shell-panel>
     <calcite-shell-panel slot="panel-end">
       <calcite-action-bar slot="action-bar">
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action-group>
           <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
           <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -2880,7 +2880,7 @@ export const customPanelWithOverflowingContent = (): string =>
     </calcite-shell-panel>
     <calcite-shell-panel display-mode="float-all" slot="panel-end">
       <calcite-action-bar slot="action-bar">
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action-group>
           <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
           <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -3082,7 +3082,7 @@ export const embeddedSlots = (): string => html`
 
     <calcite-shell-panel slot="panel-end" position="end">
       <calcite-action-bar slot="action-bar">
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action-group>
           <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
           <calcite-action text="Styles" icon="shapes"> </calcite-action>
@@ -3153,7 +3153,7 @@ export const embeddedSlotsInteractive = (args: ShellSlottedElementsStoryArgs): s
 
     <calcite-shell-panel slot="panel-end" position="end">
       <calcite-action-bar slot="action-bar">
-        <calcite-tooltip slot="expand-tooltip" label="tooltip">Add layers</calcite-tooltip>
+        <calcite-tooltip slot="expand-tooltip">Add layers</calcite-tooltip>
         <calcite-action-group>
           <calcite-action text="Layer properties" icon="sliders-horizontal"> </calcite-action>
           <calcite-action text="Styles" icon="shapes"> </calcite-action>

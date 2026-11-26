@@ -339,7 +339,7 @@ export const withTooltips = (): string => html`
     </div>
     ${footerContent}
   </calcite-dialog>
-  <calcite-tooltip label="Back" reference-element="tooltip-button">Back</calcite-tooltip>
+  <calcite-tooltip reference-element="tooltip-button">Back</calcite-tooltip>
   <script>
     document.addEventListener("calciteDialogOpen", (event) => {
       document.querySelector("calcite-tooltip").open = true;

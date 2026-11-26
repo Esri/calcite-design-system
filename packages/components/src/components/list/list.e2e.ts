@@ -1376,9 +1376,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
         <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
         <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
@@ -1491,9 +1489,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="a" label="A"></calcite-list-item>
         <calcite-list-item value="b" label="B"></calcite-list-item>
       </calcite-list>
@@ -1505,9 +1501,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="1" label="One"></calcite-list-item>
         <calcite-list-item value="2" label="Two"></calcite-list-item>
       </calcite-list>
@@ -1519,9 +1513,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="no-group" label="No group"></calcite-list-item>
       </calcite-list>
 
@@ -1532,9 +1524,7 @@ describe("drag and drop", () => {
           id="filter-action-test"
           icon="show-all-parameters"
         ></calcite-action>
-        <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-          >Mind if I offset your index?</calcite-tooltip
-        >
+        <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
         <calcite-list-item value="c" label="C"></calcite-list-item>
         <calcite-list-item value="d" label="D"></calcite-list-item>
         <calcite-list-item value="e" label="E"></calcite-list-item>
@@ -1838,9 +1828,7 @@ describe("drag and drop", () => {
             id="filter-action-test"
             icon="show-all-parameters"
           ></calcite-action>
-          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-            >Mind if I offset your index?</calcite-tooltip
-          >
+          <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
           <calcite-list-item id="one" value="one" label="One"></calcite-list-item>
           <calcite-list-item id="two" value="two" label="Two"></calcite-list-item>
         </calcite-list>
@@ -1851,9 +1839,7 @@ describe("drag and drop", () => {
             id="filter-action-test"
             icon="show-all-parameters"
           ></calcite-action>
-          <calcite-tooltip label="scary tooltip" reference-element="filter-action-test"
-            >Mind if I offset your index?</calcite-tooltip
-          >
+          <calcite-tooltip reference-element="filter-action-test">Mind if I offset your index?</calcite-tooltip>
           <calcite-list-item id="three" value="three" label="Three"></calcite-list-item>
         </calcite-list>`,
     );
