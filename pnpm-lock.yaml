@@ -327,7 +327,7 @@ catalogs:
       version: 1.49.0
     focus-trap:
       specifier: ^8.2.1
-      version: 8.2.5
+      version: 8.2.6
     interactjs:
       specifier: ^1.10.27
       version: 1.10.28
@@ -493,7 +493,7 @@ importers:
         version: 1.49.0
       focus-trap:
         specifier: catalog:dependency-ranges
-        version: 8.2.5
+        version: 8.2.6
       interactjs:
         specifier: catalog:dependency-ranges
         version: 1.10.28
@@ -5660,8 +5660,8 @@ packages:
   flatted@3.4.2:
     resolution: {integrity: sha512-PjDse7RzhcPkIJwy5t7KPWQSZ9cAbzQXcafsetQoD7sOJRQlGikNbx7yZp2OotDnJyrDcbyRq3Ttb18iYOqkxA==}
 
-  focus-trap@8.2.5:
-    resolution: {integrity: sha512-VrqfyRXaHZ0EkhXlfyalszmhnSN9yjdYXwlwLSRoJrDJ0/eswY5J5Avj/Hcd/PrOHCMnsMhwx7+7+s1kmv9Asg==}
+  focus-trap@8.2.6:
+    resolution: {integrity: sha512-4V7uTf/7Ax3ynfbey6K3o8NOfIz+go9atKNtFU+KCP5NWhyvn2M/Qk4HY+9kOi8NWujpglRGe0y6G3r/L5M/Pw==}
 
   follow-redirects@1.16.0:
     resolution: {integrity: sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==}
@@ -14291,7 +14291,7 @@ snapshots:
 
   flatted@3.4.2: {}
 
-  focus-trap@8.2.5:
+  focus-trap@8.2.6:
     dependencies:
       tabbable: 6.5.2
 
