@@ -71,7 +71,7 @@ catalog:
   "globby": "16.2.4"
   "happy-dom": "21.0.4"
   "husky": "9.1.7"
-  "interactjs": "1.10.28"
+  "interactjs": "1.10.29"
   "jest-axe": "10.0.0"
   "lerna": "9.0.7"
   "lint-staged": "16.4.0"
