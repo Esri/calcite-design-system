@@ -108,6 +108,15 @@ describe("a11y attributes", () => {
 });
 
 describe("theme", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-card"), {
+      "--calcite-corner-radius": {
+        shadowSelector: `.${CSS.contentWrapper}`,
+        targetProp: "borderRadius",
+      },
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-card"), {
       "--calcite-card-background-color": {

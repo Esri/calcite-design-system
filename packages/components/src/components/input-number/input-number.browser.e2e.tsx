@@ -1618,6 +1618,78 @@ describe("prefix and suffix", () => {
 });
 
 describe("theme", () => {
+  describe.each(["ltr", "rtl"] as const)("%s suffix corners", (direction) => {
+    it.each(["none", "vertical", "horizontal"] as const)(
+      "rounds only exposed suffix corners with %s number buttons",
+      async (numberButtonType) => {
+        const { el, reRender } = await mount<InputNumber>(
+          <calcite-input-number
+            dir={direction}
+            numberButtonType={numberButtonType}
+            style="--calcite-input-number-corner-radius: 12px"
+            suffixText="%"
+          />,
+        );
+        const suffix = page.elementLocator(el).getBySelector(".suffix");
+        const radius = numberButtonType === "none" ? "12px" : "0px";
+
+        await expect
+          .element(suffix)
+          .toHaveStyle(`border-start-end-radius: ${radius}; border-end-end-radius: ${radius};`);
+
+        el.readOnly = true;
+        await reRender();
+        await expect
+          .element(suffix)
+          .toHaveStyle("border-start-end-radius: 12px; border-end-end-radius: 12px;");
+
+        el.readOnly = false;
+        await reRender();
+        await expect
+          .element(suffix)
+          .toHaveStyle(`border-start-end-radius: ${radius}; border-end-end-radius: ${radius};`);
+      },
+    );
+  });
+
+  describe.each([
+    "--calcite-input-number-corner-radius",
+    "--calcite-theme-corner-radius",
+    "--calcite-corner-radius",
+  ])("%s shorthand", (token) => {
+    it.each(["12px 0px", "12px / 4px"])(
+      "preserves multi-value corner radius %s",
+      async (radius) => {
+        const { el } = await mount(<calcite-input-number readOnly style={`${token}: ${radius}`} />);
+        const input = page.elementLocator(el);
+
+        await expect
+          .element(input.getBySelector(".element-wrapper"))
+          .toHaveStyle(`border-radius: ${radius};`);
+        await expect.element(input.getBySelector("input")).toHaveStyle(`border-radius: ${radius};`);
+      },
+    );
+  });
+
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-input-number"), {
+      "--calcite-corner-radius": [
+        {
+          shadowSelector: "input",
+          targetProp: "borderStartStartRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.up}"]`,
+          targetProp: "borderStartEndRadius",
+        },
+        {
+          shadowSelector: `[data-adjustment="${DIRECTION.down}"]`,
+          targetProp: "borderEndEndRadius",
+        },
+      ],
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-input-number"), {
       "--calcite-input-number-background-color": {

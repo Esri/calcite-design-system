@@ -512,6 +512,15 @@ describe("messages", () => {
 });
 
 describe("theme", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-table"), {
+      "--calcite-corner-radius": {
+        shadowSelector: `.${CSS.tableContainer}`,
+        targetProp: "borderRadius",
+      },
+    });
+  });
+
   describe("themed table", () => {
     themed(
       () =>

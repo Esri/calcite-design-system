@@ -525,6 +525,437 @@ describe("theme", () => {
     });
   });
 
+  describe("range corner radius", () => {
+    describe.each(["ltr", "rtl"] as const)("%s multi-value radius", (direction) => {
+      it.each(["12px 0px", "12px / 4px"])("preserves composed shorthand %s", async (radius) => {
+        await mount(
+          <div>
+            <calcite-input-date-picker
+              dir={direction}
+              layout="horizontal"
+              range
+              style={`--calcite-input-date-picker-corner-radius: ${radius}`}
+            />
+            <calcite-input-date-picker
+              dir={direction}
+              layout="vertical"
+              range
+              style={`--calcite-input-date-picker-corner-radius: ${radius}`}
+            />
+            <calcite-input-date-picker
+              dir={direction}
+              layout="vertical"
+              range
+              readOnly
+              style={`--calcite-input-date-picker-corner-radius: ${radius}`}
+            />
+          </div>,
+        );
+        const pickers = page.getBySelector("calcite-input-date-picker");
+        const rounded = radius.includes("/") ? "12px 4px" : "12px";
+        const alternate = radius.includes("/") ? rounded : "0px";
+        const start =
+          direction === "ltr"
+            ? [rounded, "0px", "0px", alternate]
+            : ["0px", alternate, rounded, "0px"];
+        const end =
+          direction === "ltr"
+            ? ["0px", alternate, rounded, "0px"]
+            : [rounded, "0px", "0px", alternate];
+        const style = (corners: string[]) =>
+          corners
+            .map(
+              (value, index) =>
+                `${["border-top-left-radius", "border-top-right-radius", "border-bottom-right-radius", "border-bottom-left-radius"][index]}: ${value};`,
+            )
+            .join(" ");
+
+        await expect
+          .element(
+            pickers.nth(0).getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style(start));
+        await expect
+          .element(
+            pickers.nth(0).getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style(end));
+        await expect
+          .element(pickers.nth(0).getBySelector(`.${CSS.startInput}`).getBySelector(".icon"))
+          .toHaveStyle(style(start));
+        await expect
+          .element(pickers.nth(0).getBySelector(`.${CSS.endInput}`).getBySelector("input"))
+          .toHaveStyle(style(end));
+        await expect
+          .element(
+            pickers.nth(1).getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? [rounded, "0px", "0px", "0px"]
+                : ["0px", alternate, "0px", "0px"],
+            ),
+          );
+        await expect
+          .element(
+            pickers.nth(1).getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? ["0px", "0px", "0px", alternate]
+                : ["0px", "0px", rounded, "0px"],
+            ),
+          );
+        await expect
+          .element(pickers.nth(1).getBySelector(`.${CSS.verticalActionsContainer}`))
+          .toHaveStyle(style(end));
+        await expect
+          .element(
+            pickers.nth(2).getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style([rounded, alternate, "0px", "0px"]));
+        await expect
+          .element(
+            pickers.nth(2).getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+          )
+          .toHaveStyle(style(["0px", "0px", rounded, alternate]));
+        await expect
+          .element(pickers.nth(2).getBySelector(`.${CSS.startInput}`).getBySelector("input"))
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? ["0px", alternate, "0px", "0px"]
+                : [rounded, "0px", "0px", "0px"],
+            ),
+          );
+        await expect
+          .element(pickers.nth(2).getBySelector(`.${CSS.endInput}`).getBySelector("input"))
+          .toHaveStyle(
+            style(
+              direction === "ltr"
+                ? ["0px", "0px", rounded, "0px"]
+                : ["0px", "0px", "0px", alternate],
+            ),
+          );
+      });
+    });
+
+    describe("horizontal layout", () => {
+      themed(() => mount(<calcite-input-date-picker layout="horizontal" range />), {
+        "--calcite-input-date-picker-corner-radius": [
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderTopLeftRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderTopRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderBottomRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderBottomLeftRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .icon`,
+            targetProp: "borderStartStartRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .icon`,
+            targetProp: "borderEndStartRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderTopLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderTopRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderBottomRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderBottomLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .icon`,
+            targetProp: "borderStartStartRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .icon`,
+            targetProp: "borderEndStartRadius",
+            expectedValue: "0px",
+          },
+        ],
+      });
+    });
+
+    describe("vertical layout", () => {
+      themed(() => mount(<calcite-input-date-picker layout="vertical" range />), {
+        "--calcite-input-date-picker-corner-radius": [
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderTopLeftRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderTopRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderBottomRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderBottomLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .icon`,
+            targetProp: "borderStartStartRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .icon`,
+            targetProp: "borderEndStartRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderTopLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderTopRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderBottomRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderBottomLeftRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .icon`,
+            targetProp: "borderStartStartRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .icon`,
+            targetProp: "borderEndStartRadius",
+          },
+          {
+            shadowSelector: `.${CSS.verticalActionsContainer}`,
+            targetProp: "borderTopLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.verticalActionsContainer}`,
+            targetProp: "borderTopRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.verticalActionsContainer}`,
+            targetProp: "borderBottomRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.verticalActionsContainer}`,
+            targetProp: "borderBottomLeftRadius",
+            expectedValue: "0px",
+          },
+        ],
+      });
+    });
+
+    describe("vertical layout when read-only", () => {
+      themed(() => mount(<calcite-input-date-picker layout="vertical" range readOnly />), {
+        "--calcite-input-date-picker-corner-radius": [
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderTopLeftRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderTopRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderBottomRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .element-wrapper`,
+            targetProp: "borderBottomLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderTopLeftRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderTopRightRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderBottomRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .element-wrapper`,
+            targetProp: "borderBottomLeftRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> input`,
+            targetProp: "borderTopRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> input`,
+            targetProp: "borderBottomRightRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .icon`,
+            targetProp: "borderStartStartRadius",
+          },
+          {
+            shadowSelector: `.${CSS.startInput} >>> .icon`,
+            targetProp: "borderEndStartRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .icon`,
+            targetProp: "borderStartStartRadius",
+            expectedValue: "0px",
+          },
+          {
+            shadowSelector: `.${CSS.endInput} >>> .icon`,
+            targetProp: "borderEndStartRadius",
+          },
+        ],
+      });
+    });
+
+    describe("right-to-left layouts", () => {
+      it("mirrors horizontal range corners", async () => {
+        const { el } = await mount(
+          <calcite-input-date-picker
+            dir="rtl"
+            layout="horizontal"
+            range
+            style="--calcite-input-date-picker-corner-radius: 12px"
+          />,
+        );
+        const picker = page.elementLocator(el);
+
+        await expect.element(
+          picker.getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+        ).toHaveStyle(`
+          border-top-left-radius: 0px;
+          border-top-right-radius: 12px;
+          border-bottom-right-radius: 12px;
+          border-bottom-left-radius: 0px;
+        `);
+        await expect.element(
+          picker.getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+        ).toHaveStyle(`
+          border-top-left-radius: 12px;
+          border-top-right-radius: 0px;
+          border-bottom-right-radius: 0px;
+          border-bottom-left-radius: 12px;
+        `);
+      });
+
+      it("mirrors editable vertical range and action corners", async () => {
+        const { el } = await mount(
+          <calcite-input-date-picker
+            dir="rtl"
+            layout="vertical"
+            range
+            style="--calcite-input-date-picker-corner-radius: 12px"
+          />,
+        );
+        const picker = page.elementLocator(el);
+
+        await expect.element(
+          picker.getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+        ).toHaveStyle(`
+          border-top-left-radius: 0px;
+          border-top-right-radius: 12px;
+          border-bottom-right-radius: 0px;
+          border-bottom-left-radius: 0px;
+        `);
+        await expect.element(
+          picker.getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+        ).toHaveStyle(`
+          border-top-left-radius: 0px;
+          border-top-right-radius: 0px;
+          border-bottom-right-radius: 12px;
+          border-bottom-left-radius: 0px;
+        `);
+        await expect.element(picker.getBySelector(`.${CSS.verticalActionsContainer}`)).toHaveStyle(`
+          border-top-left-radius: 12px;
+          border-top-right-radius: 0px;
+          border-bottom-right-radius: 0px;
+          border-bottom-left-radius: 12px;
+        `);
+      });
+
+      it("preserves both row outer corners in read-only vertical range", async () => {
+        const { el } = await mount(
+          <calcite-input-date-picker
+            dir="rtl"
+            layout="vertical"
+            range
+            readOnly
+            style="--calcite-input-date-picker-corner-radius: 12px"
+          />,
+        );
+        const picker = page.elementLocator(el);
+
+        await expect.element(
+          picker.getBySelector(`.${CSS.startInput}`).getBySelector(".element-wrapper"),
+        ).toHaveStyle(`
+          border-top-left-radius: 12px;
+          border-top-right-radius: 12px;
+          border-bottom-right-radius: 0px;
+          border-bottom-left-radius: 0px;
+        `);
+        await expect.element(
+          picker.getBySelector(`.${CSS.endInput}`).getBySelector(".element-wrapper"),
+        ).toHaveStyle(`
+          border-top-left-radius: 0px;
+          border-top-right-radius: 0px;
+          border-bottom-right-radius: 12px;
+          border-bottom-left-radius: 12px;
+        `);
+        await expect
+          .element(picker.getBySelector(`.${CSS.startInput}`).getBySelector("input"))
+          .toHaveStyle("border-top-left-radius: 12px;");
+        await expect
+          .element(picker.getBySelector(`.${CSS.endInput}`).getBySelector("input"))
+          .toHaveStyle("border-bottom-left-radius: 12px;");
+      });
+    });
+  });
+
   describe("calcite-date-picker when open", () => {
     themed(() => mount(<calcite-input-date-picker open />), {
       "--calcite-input-date-picker-calendar-border-color": {

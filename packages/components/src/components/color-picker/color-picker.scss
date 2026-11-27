@@ -3,6 +3,12 @@
 // Internal CSS custom properties for component use only. Overwriting is not recommended.
 //
 // --calcite-internal-color-picker-min-width
+// --calcite-internal-input-number-corner-radius-end-end
+// --calcite-internal-input-number-corner-radius-start-end
+// --calcite-internal-input-number-element-corner-radius-bottom-left
+// --calcite-internal-input-number-element-corner-radius-bottom-right
+// --calcite-internal-input-number-element-corner-radius-top-left
+// --calcite-internal-input-number-element-corner-radius-top-right
 
 @use "../../styles/shared";
 
@@ -60,6 +66,7 @@
 }
 
 calcite-input-number {
+  --calcite-input-number-corner-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
   --calcite-input-number-background-color: var(--calcite-color-picker-input-background-color);
   --calcite-input-number-border-color: var(--calcite-color-picker-input-border-color);
   --calcite-input-number-text-color: var(--calcite-color-picker-input-text-color);
@@ -85,7 +92,10 @@ calcite-tabs {
   --calcite-tab-border-color: var(--calcite-color-picker-tab-border-color);
   --calcite-tab-text-color: var(--calcite-color-picker-tab-text-color);
   --calcite-tab-accent-color-press: var(--calcite-color-picker-tab-accent-color);
-  --calcite-swatch-corner-radius: var(--calcite-color-picker-swatch-corner-radius);
+  --calcite-swatch-corner-radius: var(
+    --calcite-color-picker-swatch-corner-radius,
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
+  );
 }
 
 calcite-tab-title:hover {
@@ -94,7 +104,10 @@ calcite-tab-title:hover {
 }
 
 calcite-swatch {
-  --calcite-swatch-corner-radius: var(--calcite-color-picker-swatch-corner-radius);
+  --calcite-swatch-corner-radius: var(
+    --calcite-color-picker-swatch-corner-radius,
+    var(--calcite-theme-corner-radius, var(--calcite-corner-radius))
+  );
 }
 
 .container {
@@ -197,10 +210,26 @@ calcite-swatch {
 
 .channel {
   flex-grow: 1;
+
+  &:not(:last-child) {
+    --calcite-internal-input-number-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+    --calcite-internal-input-number-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+  }
+
+  &:not(:first-child) {
+    --calcite-internal-input-number-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+    --calcite-internal-input-number-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
+  }
+
   &[data-channel-index="3"] {
     margin-inline-start: -1px;
     min-inline-size: 81px;
   }
+}
+
+:host(:dir(rtl)) .channel[data-channel-index="3"] {
+  --calcite-internal-input-number-corner-radius-start-end: var(--calcite-corner-radius-none);
+  --calcite-internal-input-number-corner-radius-end-end: var(--calcite-corner-radius-none);
 }
 
 :host([scale="s"]) {

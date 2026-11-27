@@ -1,3 +1,16 @@
+// AUTO-GENERATED — do not modify. Changes will be overwritten.
+//
+// Internal CSS custom properties for component use only. Overwriting is not recommended.
+//
+// --calcite-internal-input-number-element-corner-radius-bottom-left
+// --calcite-internal-input-number-element-corner-radius-bottom-right
+// --calcite-internal-input-number-element-corner-radius-top-left
+// --calcite-internal-input-number-element-corner-radius-top-right
+// --calcite-internal-input-text-element-corner-radius-bottom-left
+// --calcite-internal-input-text-element-corner-radius-bottom-right
+// --calcite-internal-input-text-element-corner-radius-top-left
+// --calcite-internal-input-text-element-corner-radius-top-right
+
 @use "../../styles/shared";
 
 :host {
@@ -12,6 +25,7 @@
 }
 
 .hex-input {
+  --calcite-input-text-corner-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
   --calcite-input-text-background-color: var(--calcite-color-picker-input-background-color);
   --calcite-input-text-border-color: var(--calcite-color-picker-input-border-color);
   --calcite-input-text-text-color: var(--calcite-color-picker-input-text-color);
@@ -19,6 +33,9 @@
 }
 
 .opacity-input {
+  --calcite-input-number-corner-radius: var(--calcite-color-picker-corner-radius, var(--calcite-corner-radius));
+  --calcite-internal-input-number-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-number-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
   --calcite-input-number-background-color: var(--calcite-color-picker-input-background-color);
   --calcite-input-number-border-color: var(--calcite-color-picker-input-border-color);
   --calcite-input-number-text-color: var(--calcite-color-picker-input-text-color);
@@ -33,6 +50,25 @@
 .opacity-input {
   inline-size: 100px;
   margin-inline-start: -1px;
+}
+
+.hex-input:not(:last-child) {
+  --calcite-internal-input-text-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
+}
+
+:host(:dir(rtl)) .hex-input:not(:last-child) {
+  --calcite-internal-input-text-element-corner-radius-top-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-bottom-left: var(--calcite-corner-radius-none);
+  --calcite-internal-input-text-element-corner-radius-top-right: initial;
+  --calcite-internal-input-text-element-corner-radius-bottom-right: initial;
+}
+
+:host(:dir(rtl)) .opacity-input {
+  --calcite-internal-input-number-element-corner-radius-top-left: initial;
+  --calcite-internal-input-number-element-corner-radius-bottom-left: initial;
+  --calcite-internal-input-number-element-corner-radius-top-right: var(--calcite-corner-radius-none);
+  --calcite-internal-input-number-element-corner-radius-bottom-right: var(--calcite-corner-radius-none);
 }
 
 @include shared.base-component();

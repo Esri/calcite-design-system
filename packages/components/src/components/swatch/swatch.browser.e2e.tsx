@@ -56,6 +56,17 @@ describe("slots", () => {
 });
 
 describe("themed", () => {
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-swatch"), {
+      "--calcite-corner-radius": [
+        { shadowSelector: `.${CSS.container}`, targetProp: "borderRadius" },
+        { shadowSelector: `.${CSS.swatch}`, targetProp: "borderRadius" },
+        { shadowSelector: `.${CSS.imageContainer}`, targetProp: "borderRadius" },
+        { shadowSelector: `#${IDS.swatchRect}`, targetProp: "rx" },
+      ],
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-swatch"), {
       "--calcite-swatch-corner-radius": [

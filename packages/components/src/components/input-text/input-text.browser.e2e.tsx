@@ -597,6 +597,34 @@ describe("prefix and suffix", () => {
 });
 
 describe("theme", () => {
+  describe.each([
+    "--calcite-input-text-corner-radius",
+    "--calcite-theme-corner-radius",
+    "--calcite-corner-radius",
+  ])("%s shorthand", (token) => {
+    it.each(["12px 0px", "12px / 4px"])(
+      "preserves multi-value corner radius %s",
+      async (radius) => {
+        const { el } = await mount(<calcite-input-text style={`${token}: ${radius}`} />);
+        const input = page.elementLocator(el);
+
+        await expect
+          .element(input.getBySelector(".element-wrapper"))
+          .toHaveStyle(`border-radius: ${radius};`);
+        await expect.element(input.getBySelector("input")).toHaveStyle(`border-radius: ${radius};`);
+      },
+    );
+  });
+
+  describe("global corner radius", () => {
+    themed(() => mount("calcite-input-text"), {
+      "--calcite-corner-radius": {
+        shadowSelector: "input",
+        targetProp: "borderRadius",
+      },
+    });
+  });
+
   describe("default", () => {
     themed(() => mount("calcite-input-text"), {
       "--calcite-input-text-corner-radius": {
