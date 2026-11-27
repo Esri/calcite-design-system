@@ -10,7 +10,7 @@ import { colorPicker, colorPickerFieldDisabled } from "./custom-theme/color-pick
 import { datePicker } from "./custom-theme/date-picker";
 import { filter } from "./custom-theme/filter";
 import { input } from "./custom-theme/input";
-import { inputNumber } from "./custom-theme/input-number";
+import { inputNumber, inputNumberWithPrefixAndSuffix } from "./custom-theme/input-number";
 import { inputText } from "./custom-theme/input-text";
 import { inputTimeZone } from "./custom-theme/input-time-zone";
 import { panel } from "./custom-theme/panel";
@@ -108,6 +108,9 @@ const kitchenSink = () =>
       </div>
 
       <div class="fallback-row">${inputText} ${inputNumber} ${inputTimeZone}</div>
+
+      <div class="fallback-row">${inputNumberWithPrefixAndSuffix}</div>
+      <div class="fallback-row" dir="rtl">${inputNumberWithPrefixAndSuffix}</div>
 
       <div class="fallback-row">${input} ${autocomplete} ${select}</div>
 

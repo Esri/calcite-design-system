@@ -462,6 +462,8 @@ input[readonly]:focus {
 .element-wrapper:has(.number-button-item--horizontal[data-adjustment="up"]),
 .element-wrapper:has(.number-button-item) {
   .suffix {
+    border-start-end-radius: 0;
+    border-end-end-radius: 0;
     border-inline-end-width: var(--calcite-border-width-none);
   }
 }

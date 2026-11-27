@@ -1618,6 +1618,40 @@ describe("prefix and suffix", () => {
 });
 
 describe("theme", () => {
+  describe.each(["ltr", "rtl"] as const)("%s suffix corners", (direction) => {
+    it.each(["none", "vertical", "horizontal"] as const)(
+      "rounds only exposed suffix corners with %s number buttons",
+      async (numberButtonType) => {
+        const { el, reRender } = await mount<InputNumber>(
+          <calcite-input-number
+            dir={direction}
+            numberButtonType={numberButtonType}
+            style="--calcite-input-number-corner-radius: 12px"
+            suffixText="%"
+          />,
+        );
+        const suffix = page.elementLocator(el).getBySelector(".suffix");
+        const radius = numberButtonType === "none" ? "12px" : "0px";
+
+        await expect
+          .element(suffix)
+          .toHaveStyle(`border-start-end-radius: ${radius}; border-end-end-radius: ${radius};`);
+
+        el.readOnly = true;
+        await reRender();
+        await expect
+          .element(suffix)
+          .toHaveStyle("border-start-end-radius: 12px; border-end-end-radius: 12px;");
+
+        el.readOnly = false;
+        await reRender();
+        await expect
+          .element(suffix)
+          .toHaveStyle(`border-start-end-radius: ${radius}; border-end-end-radius: ${radius};`);
+      },
+    );
+  });
+
   describe.each([
     "--calcite-input-number-corner-radius",
     "--calcite-theme-corner-radius",
