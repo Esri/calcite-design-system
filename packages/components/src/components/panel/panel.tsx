@@ -1,4 +1,4 @@
-import { PropertyValues } from "lit";
+import { isServer, PropertyValues } from "lit";
 import {
   LitElement,
   property,
@@ -377,6 +377,13 @@ export class Panel extends LitElement {
   //#region Public Properties
 
   /**
+   * Styles supplied by an internal composing owner, using Panel's private shadow selectors.
+   *
+   * @internal
+   */
+  @property({ attribute: false }) calciteInternalOwnerStyles?: CSSStyleSheet;
+
+  /**
    * Passes a function to run before the component closes.
    *
    * @public
@@ -640,6 +647,15 @@ export class Panel extends LitElement {
   }
 
   override willUpdate(changes: PropertyValues<this>): void {
+    if (!isServer && changes.has("calciteInternalOwnerStyles")) {
+      const root = this.el.shadowRoot!;
+      const previousStyles = changes.get("calciteInternalOwnerStyles");
+      const sheets = root.adoptedStyleSheets.filter((sheet) => sheet !== previousStyles);
+      root.adoptedStyleSheets = this.calciteInternalOwnerStyles
+        ? [...sheets, this.calciteInternalOwnerStyles]
+        : sheets;
+    }
+
     if (changes.has("collapsed") && this.hasUpdated) {
       if (this.collapsed) {
         this.calcitePanelCollapse.emit();

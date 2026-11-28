@@ -79,6 +79,39 @@ export function renderScrollingContent(): JsxNode {
 
 mockConsole();
 
+it("isolates owner styles and restores public Panel styling when owner styles are removed", async () => {
+  const ownerStyles = new CSSStyleSheet();
+  ownerStyles.replaceSync(".content-wrapper { padding: 24px; }");
+  const replacementStyles = new CSSStyleSheet();
+  replacementStyles.replaceSync(".content-wrapper { padding: 32px; }");
+
+  const { el, container } = await mount<Panel>(
+    <>
+      <calcite-panel
+        calciteInternalOwnerStyles={ownerStyles}
+        id="owned-panel"
+        style="--calcite-panel-space: 8px;"
+      />
+      <calcite-panel calciteInternalOwnerStyles={ownerStyles} id="other-owned-panel" />
+    </>,
+  );
+  const content = page.getBySelector("#owned-panel .content-wrapper");
+  const otherContent = page.getBySelector("#other-owned-panel .content-wrapper");
+
+  await expect.element(content).toHaveStyle({ paddingTop: "24px" });
+  await expect.element(otherContent).toHaveStyle({ paddingTop: "24px" });
+
+  el.calciteInternalOwnerStyles = replacementStyles;
+  await expect.element(content).toHaveStyle({ paddingTop: "32px" });
+  await expect.element(otherContent).toHaveStyle({ paddingTop: "24px" });
+
+  el.remove();
+  el.calciteInternalOwnerStyles = undefined;
+  container.append(el);
+  await expect.element(content).toHaveStyle({ paddingTop: "8px" });
+  await expect.element(otherContent).toHaveStyle({ paddingTop: "24px" });
+});
+
 describe("accessible", () => {
   accessible(() =>
     mount(

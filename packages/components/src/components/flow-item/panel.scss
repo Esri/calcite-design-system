@@ -1,0 +1,88 @@
+// Adopted by the internal Panel, not by Flow Item.
+:host {
+  border-radius: var(
+    --calcite-flow-corner-radius,
+    var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp))
+  );
+}
+
+.content-top,
+.content-bottom,
+.header,
+.header-container,
+.header-top,
+.footer {
+  border-color: var(--calcite-flow-border-color, var(--calcite-color-border-3));
+}
+
+.content-top,
+.content-bottom {
+  background-color: var(
+    --calcite-flow-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+.content-top {
+  padding: var(--calcite-flow-content-top-space, var(--calcite-internal-panel-default-space));
+}
+
+.content-bottom {
+  padding: var(--calcite-flow-content-bottom-space, var(--calcite-internal-panel-default-space));
+}
+
+.content-wrapper {
+  padding: var(--calcite-flow-space, 0);
+  background: var(
+    --calcite-flow-background-color,
+    var(--calcite-theme-color-surface-1, var(--calcite-color-background))
+  );
+}
+
+.header {
+  background-color: var(
+    --calcite-flow-header-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+.header-top {
+  padding: var(--calcite-flow-header-top-space, var(--calcite-internal-panel-default-space));
+}
+
+.header-content.header--slotted-content {
+  padding: var(
+    --calcite-flow-header-content-space,
+    var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
+  );
+}
+
+.header-content .heading {
+  color: var(--calcite-flow-heading-text-color, var(--calcite-color-text-1));
+}
+
+.header-content .description {
+  color: var(--calcite-flow-description-text-color, var(--calcite-color-text-2));
+}
+
+.footer {
+  padding: var(--calcite-flow-footer-space, var(--calcite-internal-panel-default-space));
+  background-color: var(
+    --calcite-flow-footer-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+#close,
+#collapse,
+calcite-action-menu {
+  --calcite-action-background-color: var(--calcite-flow-header-action-background-color);
+  --calcite-action-background-color-hover: var(--calcite-flow-header-action-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-flow-header-action-background-color-press);
+  --calcite-action-text-color: var(--calcite-flow-header-action-text-color);
+  --calcite-action-text-color-press: var(--calcite-flow-header-action-text-color-press);
+}
+
+calcite-icon {
+  --calcite-icon-color: var(--calcite-flow-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
+}
