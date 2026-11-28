@@ -7,30 +7,50 @@
 // --calcite-internal-panel-header-vertical-padding
 
 @use "../../styles/shared";
+@use "sass:map";
 @use "sass:meta";
+
+$owner-token-defaults: (
+  "background-color": var(--calcite-theme-color-surface-1, var(--calcite-color-background)),
+  "border-color": var(--calcite-color-border-3),
+  "content-bottom-space": var(--calcite-internal-panel-default-space),
+  "content-top-space": var(--calcite-internal-panel-default-space),
+  "corner-radius": var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp)),
+  "description-text-color": var(--calcite-color-text-2),
+  "footer-background-color": var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1)),
+  "footer-space": var(--calcite-internal-panel-default-space),
+  "header-action-background-color": null,
+  "header-action-background-color-hover": null,
+  "header-action-background-color-press": null,
+  "header-action-indicator-color": null,
+  "header-action-text-color": null,
+  "header-action-text-color-press": null,
+  "header-background-color": var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1)),
+  "header-content-space": var(--calcite-internal-panel-header-vertical-padding)
+    var(--calcite-internal-panel-default-space),
+  "header-top-space": var(--calcite-internal-panel-default-space),
+  "heading-text-color": var(--calcite-color-text-1),
+  "icon-color": var(--calcite-ui-icon-color, var(--calcite-color-text-1)),
+  "space": 0,
+);
+
+@function owner-token($name, $fallback: map.get($owner-token-defaults, $name)) {
+  @if not map.has-key($owner-token-defaults, $name) {
+    @error "Undefined Panel owner token: #{$name}";
+  }
+
+  @if not $fallback {
+    @return var(--calcite-owner-panel-#{$name}, var(--calcite-panel-#{$name}));
+  }
+
+  @return var(--calcite-owner-panel-#{$name}, var(--calcite-panel-#{$name}, #{$fallback}));
+}
 
 :host {
   // Owners override these on their Panel host. Each nested Panel stops inheriting them.
-  --calcite-owner-panel-background-color: initial;
-  --calcite-owner-panel-border-color: initial;
-  --calcite-owner-panel-content-bottom-space: initial;
-  --calcite-owner-panel-content-top-space: initial;
-  --calcite-owner-panel-corner-radius: initial;
-  --calcite-owner-panel-description-text-color: initial;
-  --calcite-owner-panel-footer-background-color: initial;
-  --calcite-owner-panel-footer-space: initial;
-  --calcite-owner-panel-header-action-background-color: initial;
-  --calcite-owner-panel-header-action-background-color-hover: initial;
-  --calcite-owner-panel-header-action-background-color-press: initial;
-  --calcite-owner-panel-header-action-indicator-color: initial;
-  --calcite-owner-panel-header-action-text-color: initial;
-  --calcite-owner-panel-header-action-text-color-press: initial;
-  --calcite-owner-panel-header-background-color: initial;
-  --calcite-owner-panel-header-content-space: initial;
-  --calcite-owner-panel-header-top-space: initial;
-  --calcite-owner-panel-heading-text-color: initial;
-  --calcite-owner-panel-icon-color: initial;
-  --calcite-owner-panel-space: initial;
+  @each $name in map.keys($owner-token-defaults) {
+    --calcite-owner-panel-#{$name}: initial;
+  }
 
   position: relative;
   display: flex;
@@ -39,10 +59,7 @@
   flex: 1 1 auto;
   overflow: hidden;
   box-sizing: border-box;
-  border-radius: var(
-    --calcite-owner-panel-corner-radius,
-    var(--calcite-panel-corner-radius, var(--calcite-theme-corner-radius-none, var(--calcite-corner-radius-sharp)))
-  );
+  border-radius: owner-token("corner-radius");
 }
 
 slot[name="alerts"]::slotted(calcite-alert) {
@@ -118,26 +135,19 @@ slot[name="alerts"]::slotted(calcite-alert) {
   display: flex;
   align-items: flex-start;
   align-self: stretch;
-  border-block-start: 1px solid
-    var(--calcite-owner-panel-border-color, var(--calcite-panel-border-color, var(--calcite-color-border-3)));
-  background-color: var(
-    --calcite-owner-panel-background-color,
-    var(--calcite-panel-background-color, var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1)))
+  border-block-start: 1px solid owner-token("border-color");
+  background-color: owner-token(
+    "background-color",
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
 }
 
 .content-top {
-  padding: var(
-    --calcite-owner-panel-content-top-space,
-    var(--calcite-panel-content-top-space, var(--calcite-internal-panel-default-space))
-  );
+  padding: owner-token("content-top-space");
 }
 
 .content-bottom {
-  padding: var(
-    --calcite-owner-panel-content-bottom-space,
-    var(--calcite-panel-content-bottom-space, var(--calcite-internal-panel-default-space))
-  );
+  padding: owner-token("content-bottom-space");
 }
 
 .container {
@@ -167,15 +177,8 @@ slot[name="alerts"]::slotted(calcite-alert) {
   display: flex;
   flex-direction: column;
   z-index: var(--calcite-z-index-header);
-  background-color: var(
-    --calcite-owner-panel-header-background-color,
-    var(
-      --calcite-panel-header-background-color,
-      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
-    )
-  );
-  border-block-end: 1px solid
-    var(--calcite-owner-panel-border-color, var(--calcite-panel-border-color, var(--calcite-color-border-3)));
+  background-color: owner-token("header-background-color");
+  border-block-end: 1px solid owner-token("border-color");
 }
 
 .header--no-row {
@@ -196,18 +199,13 @@ slot[name="alerts"]::slotted(calcite-alert) {
 }
 
 .header-container--border-end {
-  border-block-end: 1px solid
-    var(--calcite-owner-panel-border-color, var(--calcite-panel-border-color, var(--calcite-color-border-3)));
+  border-block-end: 1px solid owner-token("border-color");
 }
 
 .header-top {
   inline-size: 100%;
-  border-block-end: 1px solid
-    var(--calcite-owner-panel-border-color, var(--calcite-panel-border-color, var(--calcite-color-border-3)));
-  padding: var(
-    --calcite-owner-panel-header-top-space,
-    var(--calcite-panel-header-top-space, var(--calcite-internal-panel-default-space))
-  );
+  border-block-end: 1px solid owner-token("border-color");
+  padding: owner-token("header-top-space");
 }
 
 .action-bar-container {
@@ -244,10 +242,7 @@ slot[name="alerts"]::slotted(calcite-alert) {
 
   .heading {
     font-weight: var(--calcite-font-weight-medium);
-    color: var(
-      --calcite-owner-panel-heading-text-color,
-      var(--calcite-panel-heading-text-color, var(--calcite-color-text-1))
-    );
+    color: owner-token("heading-text-color");
 
     &:only-child {
       margin-block-end: var(--calcite-space-none);
@@ -255,36 +250,18 @@ slot[name="alerts"]::slotted(calcite-alert) {
   }
 
   .description {
-    color: var(
-      --calcite-owner-panel-description-text-color,
-      var(--calcite-panel-description-text-color, var(--calcite-color-text-2))
-    );
+    color: owner-token("description-text-color");
   }
 }
 
 #close,
 #collapse,
 calcite-action-menu {
-  --calcite-action-background-color: var(
-    --calcite-owner-panel-header-action-background-color,
-    var(--calcite-panel-header-action-background-color)
-  );
-  --calcite-action-background-color-hover: var(
-    --calcite-owner-panel-header-action-background-color-hover,
-    var(--calcite-panel-header-action-background-color-hover)
-  );
-  --calcite-action-background-color-press: var(
-    --calcite-owner-panel-header-action-background-color-press,
-    var(--calcite-panel-header-action-background-color-press)
-  );
-  --calcite-action-text-color: var(
-    --calcite-owner-panel-header-action-text-color,
-    var(--calcite-panel-header-action-text-color)
-  );
-  --calcite-action-text-color-press: var(
-    --calcite-owner-panel-header-action-text-color-press,
-    var(--calcite-panel-header-action-text-color-press)
-  );
+  --calcite-action-background-color: #{owner-token("header-action-background-color")};
+  --calcite-action-background-color-hover: #{owner-token("header-action-background-color-hover")};
+  --calcite-action-background-color-press: #{owner-token("header-action-background-color-press")};
+  --calcite-action-text-color: #{owner-token("header-action-text-color")};
+  --calcite-action-text-color-press: #{owner-token("header-action-text-color-press")};
 }
 
 .header-actions {
@@ -317,11 +294,8 @@ calcite-action-menu {
   outline-color: var(--calcite-color-transparent);
   color: var(--calcite-color-text-2);
   position: relative;
-  padding: var(--calcite-owner-panel-space, var(--calcite-panel-space, 0));
-  background: var(
-    --calcite-owner-panel-background-color,
-    var(--calcite-panel-background-color, var(--calcite-theme-color-surface-1, var(--calcite-color-background)))
-  );
+  padding: owner-token("space");
+  background: owner-token("background-color");
 }
 
 .content-wrapper:focus-visible {
@@ -335,13 +309,7 @@ calcite-action-menu {
   padding-inline: var(--calcite-internal-panel-default-space);
 
   &.header--slotted-content {
-    padding: var(
-      --calcite-owner-panel-header-content-space,
-      var(
-        --calcite-panel-header-content-space,
-        var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
-      )
-    );
+    padding: owner-token("header-content-space");
   }
 
   &.header--non-slotted-content {
@@ -359,19 +327,9 @@ calcite-action-menu {
   align-content: space-between;
   justify-content: center;
   align-items: center;
-  border-block-start: 1px solid
-    var(--calcite-owner-panel-border-color, var(--calcite-panel-border-color, var(--calcite-color-border-3)));
-  padding: var(
-    --calcite-owner-panel-footer-space,
-    var(--calcite-panel-footer-space, var(--calcite-internal-panel-default-space))
-  );
-  background-color: var(
-    --calcite-owner-panel-footer-background-color,
-    var(
-      --calcite-panel-footer-background-color,
-      var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
-    )
-  );
+  border-block-start: 1px solid owner-token("border-color");
+  padding: owner-token("footer-space");
+  background-color: owner-token("footer-background-color");
 }
 
 .footer-content {
@@ -415,10 +373,7 @@ calcite-action-menu {
 }
 
 calcite-icon {
-  --calcite-icon-color: var(
-    --calcite-owner-panel-icon-color,
-    var(--calcite-panel-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)))
-  );
+  --calcite-icon-color: #{owner-token("icon-color")};
 }
 
 @include shared.base-component();

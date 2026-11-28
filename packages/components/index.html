@@ -60,6 +60,10 @@
             <code>--calcite-owner-panel-*</code> overrides on their internal Panel. Every Panel resets these overrides
             to <code>initial</code>, so user Panels fall back to their public tokens and defaults.
           </p>
+          <p>
+            Panel defines its owner overrides and fallbacks in one Sass map. The same map generates the resets. Using an
+            undefined override fails compilation.
+          </p>
         </header>
 
         <section aria-labelledby="dialog-heading">
