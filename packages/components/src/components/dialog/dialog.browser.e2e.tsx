@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
@@ -510,6 +510,67 @@ describe("a11y attributes", () => {
 });
 
 describe("themed", () => {
+  it.each([
+    { name: "defaults", style: "" },
+    {
+      name: "custom Dialog tokens",
+      style:
+        "--calcite-dialog-space: 24px; --calcite-dialog-header-background-color: rgb(255, 0, 0);",
+    },
+  ])("keeps nested Panels independent of $name", async ({ style }) => {
+    await mount(
+      <>
+        <calcite-dialog embedded heading="Dialog" open style={style}>
+          <div>
+            <calcite-panel heading="Nested Panel" id="nested-panel">
+              Content
+            </calcite-panel>
+          </div>
+        </calcite-dialog>
+        <calcite-panel heading="Standalone Panel" id="standalone-panel">
+          Content
+        </calcite-panel>
+      </>,
+    );
+
+    const standaloneContent = page.getBySelector("#standalone-panel .content-wrapper");
+    const standaloneHeader = page.getBySelector("#standalone-panel .header");
+    await expect
+      .poll(
+        () =>
+          getComputedStyle(page.getBySelector("#nested-panel .content-wrapper").element()).padding,
+      )
+      .toBe(getComputedStyle(standaloneContent.element()).padding);
+    await expect.element(page.getBySelector("#nested-panel .header")).toHaveStyle({
+      backgroundColor: getComputedStyle(standaloneHeader.element()).backgroundColor,
+    });
+  });
+
+  it.each(["", SLOTS.contentTop, SLOTS.footer])(
+    "preserves public Panel token inheritance in the '%s' slot",
+    async (slot) => {
+      await mount(
+        <div style="--calcite-panel-space: 8px; --calcite-panel-background-color: rgb(0, 0, 255);">
+          <calcite-dialog
+            embedded
+            heading="Dialog"
+            open
+            style="--calcite-dialog-space: 24px; --calcite-dialog-background-color: rgb(255, 0, 0);"
+          >
+            <calcite-panel heading="Nested Panel" id="public-token-panel" slot={slot}>
+              Content
+            </calcite-panel>
+          </calcite-dialog>
+        </div>,
+      );
+
+      await expect.element(page.getBySelector("#public-token-panel .content-wrapper")).toHaveStyle({
+        paddingTop: "8px",
+        backgroundColor: "rgb(0, 0, 255)",
+      });
+    },
+  );
+
   const dialogTemplate = async () => {
     await page.viewport(1440, 1440);
 
@@ -592,68 +653,68 @@ describe("themed", () => {
       },
       "--calcite-dialog-content-top-space": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-content-top-space",
+        targetProp: "--calcite-owner-panel-content-top-space",
       },
       "--calcite-dialog-content-bottom-space": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-content-bottom-space",
+        targetProp: "--calcite-owner-panel-content-bottom-space",
       },
       "--calcite-dialog-header-top-space": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-top-space",
+        targetProp: "--calcite-owner-panel-header-top-space",
       },
       "--calcite-dialog-footer-space": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-footer-space",
+        targetProp: "--calcite-owner-panel-footer-space",
       },
       "--calcite-dialog-background-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-background-color",
+        targetProp: "--calcite-owner-panel-background-color",
       },
       "--calcite-dialog-icon-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-icon-color",
+        targetProp: "--calcite-owner-panel-icon-color",
       },
       "--calcite-dialog-heading-text-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-heading-text-color",
+        targetProp: "--calcite-owner-panel-heading-text-color",
       },
       "--calcite-dialog-description-text-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-description-text-color",
+        targetProp: "--calcite-owner-panel-description-text-color",
       },
       "--calcite-dialog-header-action-background-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-action-background-color",
+        targetProp: "--calcite-owner-panel-header-action-background-color",
       },
       "--calcite-dialog-header-action-text-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-action-text-color",
+        targetProp: "--calcite-owner-panel-header-action-text-color",
       },
       "--calcite-dialog-header-background-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-background-color",
+        targetProp: "--calcite-owner-panel-header-background-color",
       },
       "--calcite-dialog-footer-background-color": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-footer-background-color",
+        targetProp: "--calcite-owner-panel-footer-background-color",
       },
       "--calcite-dialog-border-color": [
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          targetProp: "--calcite-owner-panel-border-color",
         },
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          targetProp: "--calcite-owner-panel-border-color",
         },
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          targetProp: "--calcite-owner-panel-border-color",
         },
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          targetProp: "--calcite-owner-panel-border-color",
         },
       ],
       "--calcite-dialog-accent-color": {
@@ -662,11 +723,11 @@ describe("themed", () => {
       },
       "--calcite-dialog-space": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-space",
+        targetProp: "--calcite-owner-panel-space",
       },
       "--calcite-dialog-corner-radius": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-corner-radius",
+        targetProp: "--calcite-owner-panel-corner-radius",
       },
     });
   });
@@ -676,19 +737,19 @@ describe("themed", () => {
       "--calcite-dialog-content-space": [
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-space",
+          targetProp: "--calcite-owner-panel-space",
         },
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-content-space",
+          targetProp: "--calcite-owner-panel-header-content-space",
         },
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-content-top-space",
+          targetProp: "--calcite-owner-panel-content-top-space",
         },
         {
           shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-content-bottom-space",
+          targetProp: "--calcite-owner-panel-content-bottom-space",
         },
       ],
     });
