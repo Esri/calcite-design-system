@@ -11,8 +11,115 @@
     <demo-dom-swapper>
       <!-- demo snippet start -->
 
-      <!-- use this page for quickly setting up your page for a bug fix/repro cases or feature enhancement -->
-      <!-- you can add a demo snippet by running `pnpm snippet` -->
+      <style>
+        .token-examples {
+          color: var(--calcite-color-text-1);
+          display: grid;
+          gap: var(--calcite-space-2xl);
+          margin: var(--calcite-space-xl);
+          max-inline-size: 80rem;
+        }
+
+        .comparison {
+          display: grid;
+          gap: var(--calcite-space-lg);
+          grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+        }
+
+        .sample {
+          border: var(--calcite-border-width-sm) solid var(--calcite-color-border-2);
+          padding: var(--calcite-space-md);
+        }
+
+        .panel-stage {
+          block-size: 24rem;
+          position: relative;
+        }
+
+        .dialog-example {
+          --calcite-dialog-header-background-color: var(--calcite-color-status-warning);
+          --calcite-dialog-space: var(--calcite-space-xl);
+          --calcite-dialog-size-x: 100%;
+          --calcite-dialog-max-size-x: 100%;
+          --calcite-dialog-size-y: 100%;
+          --calcite-dialog-max-size-y: 100%;
+        }
+
+        .flow-example {
+          --calcite-flow-header-background-color: var(--calcite-color-status-warning);
+          --calcite-flow-space: var(--calcite-space-xl);
+          block-size: 100%;
+        }
+      </style>
+
+      <main class="token-examples">
+        <header>
+          <h1>Conditional owner parts prototype</h1>
+          <p>
+            Each left-hand example customizes only the outer component. Dialog and Flow Item enable private styling
+            parts on their internal Panel and style those parts directly. Standalone and user-provided Panels expose no
+            parts. Neither owner forwards the internal parts with <code>exportparts</code>.
+          </p>
+        </header>
+
+        <section aria-labelledby="dialog-heading">
+          <h2 id="dialog-heading">1. Dialog → internal panel → user panel</h2>
+          <p>
+            The Dialog applies its warning header background and extra content space through its internal Panel's parts.
+            The user Panel's header and content spacing should match the standalone Panel.
+          </p>
+          <div class="comparison">
+            <div class="sample">
+              <h3>Nested panel</h3>
+              <div class="panel-stage">
+                <calcite-dialog class="dialog-example" embedded open close-disabled heading="Outer dialog">
+                  <calcite-panel id="dialog-nested-panel" heading="User panel">
+                    This panel has no token overrides.
+                  </calcite-panel>
+                </calcite-dialog>
+              </div>
+            </div>
+            <div class="sample">
+              <h3>Standalone panel</h3>
+              <div class="panel-stage">
+                <calcite-panel id="dialog-control-panel" heading="User panel">
+                  This panel has no token overrides.
+                </calcite-panel>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="flow-heading">
+          <h2 id="flow-heading">2. Flow-item → internal panel → user panel</h2>
+          <p>
+            The Flow Item applies its warning header background and extra content space through its internal Panel's
+            parts. Public Panel tokens still inherit normally into user content.
+          </p>
+          <div class="comparison">
+            <div class="sample">
+              <h3>Nested panel</h3>
+              <div class="panel-stage">
+                <calcite-flow class="flow-example">
+                  <calcite-flow-item heading="Outer flow-item">
+                    <calcite-panel id="flow-nested-panel" heading="User panel">
+                      This panel has no token overrides.
+                    </calcite-panel>
+                  </calcite-flow-item>
+                </calcite-flow>
+              </div>
+            </div>
+            <div class="sample">
+              <h3>Standalone panel</h3>
+              <div class="panel-stage">
+                <calcite-panel id="flow-control-panel" heading="User panel">
+                  This panel has no token overrides.
+                </calcite-panel>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
 
       <!-- demo snippet end -->
     </demo-dom-swapper>

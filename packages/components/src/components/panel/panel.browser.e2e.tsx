@@ -79,6 +79,83 @@ export function renderScrollingContent(): JsxNode {
 
 mockConsole();
 
+it("exposes styling parts only while an internal owner opts in", async () => {
+  const { el } = await mount<Panel>(
+    <calcite-panel
+      closable
+      collapsible
+      description="Description"
+      heading="Panel"
+      icon="information"
+      id="parts-panel"
+      style="--calcite-panel-space: 8px;"
+    >
+      <style>{"#parts-panel::part(content) { padding: 32px; }"}</style>
+    </calcite-panel>,
+  );
+  const content = page.getBySelector("#parts-panel .content-wrapper");
+
+  expect(el.shadowRoot.querySelector("[part]")).toBeNull();
+  await expect.element(content).toHaveStyle({ paddingTop: "8px" });
+
+  el.calciteInternalOwnerParts = true;
+  await expect.element(content).toHaveStyle({ paddingTop: "32px" });
+  expect(el).not.toHaveAttribute("calcite-internal-owner-parts");
+  expect(el).not.toHaveAttribute("exportparts");
+
+  el.calciteInternalOwnerParts = false;
+  await expect.element(content).toHaveStyle({ paddingTop: "8px" });
+  expect(el.shadowRoot.querySelector("[part]")).toBeNull();
+});
+
+it("does not expose owned Panel parts to application styles", async () => {
+  await mount(
+    <div>
+      <style>{`
+        calcite-panel::part(content),
+        calcite-dialog::part(content),
+        calcite-flow-item::part(content) {
+          padding: 99px !important;
+        }
+      `}</style>
+      <calcite-dialog
+        embedded
+        heading="Dialog"
+        id="dialog-owner"
+        open
+        style="--calcite-dialog-space: 24px;"
+      >
+        <calcite-panel heading="User Panel" id="dialog-user-panel" />
+      </calcite-dialog>
+      <calcite-flow-item
+        heading="Flow Item"
+        id="flow-owner"
+        selected
+        style="--calcite-flow-space: 24px;"
+      >
+        <calcite-panel heading="User Panel" id="flow-user-panel" />
+      </calcite-flow-item>
+    </div>,
+  );
+
+  for (const id of ["dialog-owner", "flow-owner"]) {
+    const owner = page.getBySelector(`#${id}`).element();
+    const panel = owner.shadowRoot!.querySelector("calcite-panel")!;
+    const content = page.elementLocator(panel).getBySelector(".content-wrapper").first();
+    await expect.element(content).toHaveStyle({ paddingTop: "24px" });
+    expect(panel.shadowRoot!.querySelector('[part~="content"]')).not.toBeNull();
+    expect(panel).not.toHaveAttribute("exportparts");
+  }
+
+  for (const id of ["dialog-user-panel", "flow-user-panel"]) {
+    const panel = page.getBySelector(`#${id}`).element();
+    expect(panel.shadowRoot!.querySelector("[part]")).toBeNull();
+    await expect.element(page.elementLocator(panel).getBySelector(".content-wrapper")).toHaveStyle({
+      paddingTop: "0px",
+    });
+  }
+});
+
 describe("accessible", () => {
   accessible(() =>
     mount(

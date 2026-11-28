@@ -8,6 +8,8 @@ import {
   state,
   JsxNode,
   ToEvents,
+  bindAttribute,
+  nothing,
 } from "@arcgis/lumina";
 import { createRef } from "lit/directives/ref.js";
 import {
@@ -36,7 +38,7 @@ import { styles as headerStyles } from "../../styles/component/header.scss";
 import { useInteractive } from "../../controllers/useInteractive";
 import { FocusTrapOptions, useFocusTrap } from "../../controllers/useFocusTrap";
 import T9nStrings from "./assets/t9n/messages.en.json";
-import { CSS, ICONS, IDS, SLOTS } from "./resources";
+import { CSS, ICONS, IDS, OWNER_PARTS, SLOTS } from "./resources";
 import { styles } from "./panel.scss";
 import { toAriaBoolean } from "../../utils/aria";
 
@@ -375,6 +377,14 @@ export class Panel extends LitElement {
   //#endregion
 
   //#region Public Properties
+
+  /**
+   * Enables private styling parts for an internal composing owner.
+   * Owners must not forward these parts with exportparts.
+   *
+   * @internal
+   */
+  @property({ attribute: false }) calciteInternalOwnerParts = false;
 
   /**
    * Passes a function to run before the component closes.
@@ -853,6 +863,7 @@ export class Panel extends LitElement {
         class={CSS.icon}
         flipRtl={this.iconFlipRtl}
         icon={icon}
+        part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.icon : nothing)}
         scale={getIconScale(scale)}
       />
     ) : null;
@@ -863,6 +874,7 @@ export class Panel extends LitElement {
         hidden={!showHeaderHeading}
         id={IDS.heading}
         level={headingLevel}
+        part={this.calciteInternalOwnerParts ? OWNER_PARTS.heading : undefined}
       >
         <slot
           hidden={!hasHeaderHeading}
@@ -874,7 +886,11 @@ export class Panel extends LitElement {
     );
 
     const descriptionNode = (
-      <span class={CSS.description} hidden={!showHeaderDescription}>
+      <span
+        class={CSS.description}
+        hidden={!showHeaderDescription}
+        part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.description : nothing)}
+      >
         <slot
           hidden={!hasHeaderDescription}
           name={SLOTS.description}
@@ -916,6 +932,7 @@ export class Panel extends LitElement {
         class={{ [CSS.headerContent]: true, [CSS.headerSlottedContent]: true }}
         hidden={!this.hasHeaderContent}
         key="slotted-header-content"
+        part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.headerContent : nothing)}
       >
         <slot name={SLOTS.headerContent} onSlotChange={this.handleHeaderContentSlotChange} />
       </div>
@@ -924,7 +941,15 @@ export class Panel extends LitElement {
 
   private renderHeaderTop(): JsxNode {
     return (
-      <div class={CSS.headerTop} hidden={!this.hasHeaderTop}>
+      <div
+        class={CSS.headerTop}
+        hidden={!this.hasHeaderTop}
+        part={bindAttribute(
+          this.calciteInternalOwnerParts
+            ? `${OWNER_PARTS.headerTop} ${OWNER_PARTS.border}`
+            : nothing,
+        )}
+      >
         <slot name={SLOTS.headerTop} onSlotChange={this.handleHeaderTopSlotChange} />
       </div>
     );
@@ -972,6 +997,7 @@ export class Panel extends LitElement {
         id={IDS.collapse}
         label={collapse}
         onClick={this.collapse}
+        part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.headerAction : nothing)}
         scale={this.scale}
         text={collapse}
         title={collapsed ? expand : collapse}
@@ -984,6 +1010,7 @@ export class Panel extends LitElement {
         icon={ICONS.close}
         id={IDS.close}
         onClick={this.closeClickHandler}
+        part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.headerAction : nothing)}
         scale={this.scale}
         text={close}
         title={close}
@@ -1021,6 +1048,11 @@ export class Panel extends LitElement {
         label={messages.options}
         open={menuOpen}
         overlayPositioning={this.overlayPositioning}
+        part={bindAttribute(
+          this.calciteInternalOwnerParts
+            ? `${OWNER_PARTS.headerAction} ${OWNER_PARTS.menu}`
+            : nothing,
+        )}
         placement={menuPlacement}
         scale={scale}
         topLayerDisabled={this.topLayerDisabled}
@@ -1082,6 +1114,9 @@ export class Panel extends LitElement {
           [CSS.headerNoRow]: hasHeaderTop && !this.hasHeaderRow && !hasActionBar && !hasContentTop,
         }}
         hidden={!(showHeaderContent || hasActionBar || hasContentTop)}
+        part={bindAttribute(
+          this.calciteInternalOwnerParts ? `${OWNER_PARTS.header} ${OWNER_PARTS.border}` : nothing,
+        )}
       >
         {this.renderHeaderTop()}
         <div
@@ -1090,6 +1125,7 @@ export class Panel extends LitElement {
             [CSS.headerContainerBorderEnd]: hasActionBar && this.hasHeaderRow,
           }}
           hidden={!showHeaderContent}
+          part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.border : nothing)}
         >
           {this.renderHeaderStartActions()}
           {this.renderHeaderSlottedContent()}
@@ -1108,7 +1144,13 @@ export class Panel extends LitElement {
     const showFooter = hasFooterStartContent || hasFooterEndContent || hasFooterContent;
 
     return (
-      <footer class={CSS.footer} hidden={!showFooter}>
+      <footer
+        class={CSS.footer}
+        hidden={!showFooter}
+        part={bindAttribute(
+          this.calciteInternalOwnerParts ? `${OWNER_PARTS.footer} ${OWNER_PARTS.border}` : nothing,
+        )}
+      >
         <div class={CSS.footerContent} hidden={!hasFooterContent}>
           <slot name={SLOTS.footer} onSlotChange={this.handleFooterSlotChange} />
         </div>
@@ -1128,6 +1170,7 @@ export class Panel extends LitElement {
         class={CSS.contentWrapper}
         hidden={this.collapsible && this.collapsed}
         onScroll={this.panelScrollHandler}
+        part={bindAttribute(this.calciteInternalOwnerParts ? OWNER_PARTS.content : nothing)}
         ref={this.setPanelScrollEl}
       >
         <slot />
@@ -1138,7 +1181,15 @@ export class Panel extends LitElement {
 
   private renderContentBottom(): JsxNode {
     return (
-      <div class={CSS.contentBottom} hidden={!this.hasContentBottom}>
+      <div
+        class={CSS.contentBottom}
+        hidden={!this.hasContentBottom}
+        part={bindAttribute(
+          this.calciteInternalOwnerParts
+            ? `${OWNER_PARTS.contentBottom} ${OWNER_PARTS.border}`
+            : nothing,
+        )}
+      >
         <slot name={SLOTS.contentBottom} onSlotChange={this.contentBottomSlotChangeHandler} />
       </div>
     );
@@ -1155,6 +1206,11 @@ export class Panel extends LitElement {
             (this.hasHeaderTop || this.hasContentTopActionBar),
         }}
         hidden={!this.hasContentTop}
+        part={bindAttribute(
+          this.calciteInternalOwnerParts
+            ? `${OWNER_PARTS.contentTop} ${OWNER_PARTS.border}`
+            : nothing,
+        )}
       >
         <slot name={SLOTS.contentTop} onSlotChange={this.contentTopSlotChangeHandler} />
       </div>

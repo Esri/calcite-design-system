@@ -38,6 +38,22 @@ export const IDS = {
   heading: "heading",
 };
 
+export const OWNER_PARTS = {
+  border: "border",
+  content: "content",
+  contentBottom: "content-bottom",
+  contentTop: "content-top",
+  description: "description",
+  footer: "footer",
+  header: "header",
+  headerAction: "header-action",
+  headerContent: "header-content",
+  headerTop: "header-top",
+  heading: "heading",
+  icon: "icon",
+  menu: "menu",
+};
+
 export const ICONS: Record<string, IconName> = {
   close: "x",
   menu: "ellipsis",
