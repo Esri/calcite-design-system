@@ -154,6 +154,41 @@ The component should not be placed within its own \`referenceElement\` to avoid 
           description: "The component's current validation state.",
         },
       },
+      methods: {
+        scrollContentTo(apiMethod) {
+          // Check for params, as Lumina's minimal extraction
+          // used in CI tests omits method parameters.
+          if (apiMethod.parameters !== undefined) {
+            const [options] = apiMethod.parameters;
+
+            if (apiMethod.parameters.length !== 1 || options.name !== "options") {
+              throw Error("Expected only parameter to be named 'options'");
+            }
+
+            options.description = "When specified, an optional object customizes the component's scrolling process.";
+          }
+
+          return {
+            description: "Scrolls the component's content to a specified set of coordinates.",
+            docsTags: [
+              {
+                name: "see",
+                text: "[MDN - scrollTo(options)](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollTo#options)",
+              },
+              {
+                name: "example",
+                text: `\`\`\`ts
+myCalciteFlowItem.scrollContentTo({
+  left: 0,
+  top: 0,
+  behavior: "auto"
+});
+\`\`\``,
+              },
+            ],
+          };
+        },
+      },
     },
   },
 };

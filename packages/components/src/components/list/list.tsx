@@ -272,14 +272,18 @@ export class List extends LitElement {
   @property({ reflect: true }) filterEnabled = false;
 
   /**
-   * Specifies a function to handle filtering.
+   * Specifies a function to control the filtering of `calcite-list-item`s.
+   *
+   * The function is called for each `calcite-list-item` and should return `true` to show the item or `false` to hide it.
    *
    * @public
    * @example
+   * ```ts
    * myList.filterPredicate = (myListItem) => {
-   *   // returns true to show the list item if some condition is met
+   *   // Returns `true` to show the `calcite-list-item` if some condition is met
    *   return myListItem.label.includes("someValue");
    * };
+   * ```
    */
   @property() filterPredicate?: (item: ListItem["el"]) => boolean;
 
