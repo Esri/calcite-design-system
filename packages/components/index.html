@@ -54,18 +54,19 @@
 
       <main class="token-examples">
         <header>
-          <h1>Public tokens inherited by nested components</h1>
+          <h1>Conditional owner parts prototype</h1>
           <p>
-            Each left-hand example customizes only the outer component. Compare the nested component with its standalone
-            control on the right. No example directly customizes the nested component's tokens.
+            Each left-hand example customizes only the outer component. Dialog and Flow Item enable private styling
+            parts on their internal Panel and style those parts directly. Standalone and user-provided Panels expose no
+            parts. Neither owner forwards the internal parts with <code>exportparts</code>.
           </p>
         </header>
 
         <section aria-labelledby="dialog-heading">
           <h2 id="dialog-heading">1. Dialog → internal panel → user panel</h2>
           <p>
-            The dialog forwards its warning header background and extra content space to its internal panel. The user
-            panel also inherits those panel tokens. Its header and content spacing should match the standalone panel.
+            The Dialog applies its warning header background and extra content space through its internal Panel's parts.
+            The user Panel's header and content spacing should match the standalone Panel.
           </p>
           <div class="comparison">
             <div class="sample">
@@ -92,8 +93,8 @@
         <section aria-labelledby="flow-heading">
           <h2 id="flow-heading">2. Flow-item → internal panel → user panel</h2>
           <p>
-            The flow-item forwards its warning header background and extra content space to its internal panel. A user
-            panel in its default slot inherits the same values.
+            The Flow Item applies its warning header background and extra content space through its internal Panel's
+            parts. Public Panel tokens still inherit normally into user content.
           </p>
           <div class="comparison">
             <div class="sample">

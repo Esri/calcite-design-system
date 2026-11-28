@@ -129,60 +129,105 @@
   z-index: unset;
 }
 
-calcite-panel {
-  --calcite-panel-content-top-space: var(
-    --calcite-dialog-content-top-space,
-    var(--calcite-internal-dialog-content-padding)
-  );
-  --calcite-panel-content-bottom-space: var(
-    --calcite-dialog-content-bottom-space,
-    var(--calcite-internal-dialog-content-padding)
-  );
-  --calcite-panel-footer-space: var(--calcite-dialog-footer-space);
-  --calcite-panel-border-color: var(--calcite-dialog-border-color);
-  --calcite-panel-background-color: var(
+calcite-panel::part(border) {
+  border-color: var(--calcite-dialog-border-color, var(--calcite-color-border-3));
+}
+
+calcite-panel::part(content-top),
+calcite-panel::part(content-bottom) {
+  background-color: var(
     --calcite-dialog-background-color,
     var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
   );
-  --calcite-panel-icon-color: var(--calcite-dialog-icon-color);
-  --calcite-panel-heading-text-color: var(--calcite-dialog-heading-text-color);
-  --calcite-panel-description-text-color: var(--calcite-dialog-description-text-color);
-  --calcite-panel-header-background-color: var(--calcite-dialog-header-background-color);
-  --calcite-panel-header-action-background-color: var(--calcite-dialog-header-action-background-color);
-  --calcite-panel-header-action-background-color-hover: var(--calcite-dialog-header-action-background-color-hover);
-  --calcite-panel-header-action-background-color-press: var(--calcite-dialog-header-action-background-color-press);
-  --calcite-panel-header-action-text-color: var(--calcite-dialog-header-action-text-color);
-  --calcite-panel-header-action-text-color-press: var(--calcite-dialog-header-action-text-color-press);
-  --calcite-panel-footer-background-color: var(--calcite-dialog-footer-background-color);
-  --calcite-panel-space: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
-  --calcite-panel-header-content-space: var(--calcite-dialog-header-content-space, var(--calcite-dialog-content-space));
-  --calcite-panel-header-top-space: var(--calcite-dialog-header-top-space);
+}
+
+calcite-panel::part(content-top) {
+  padding: var(--calcite-dialog-content-top-space, var(--calcite-internal-dialog-content-padding));
+}
+
+calcite-panel::part(content-bottom) {
+  padding: var(--calcite-dialog-content-bottom-space, var(--calcite-internal-dialog-content-padding));
+}
+
+calcite-panel::part(content) {
+  padding: var(--calcite-dialog-space, var(--calcite-internal-dialog-content-padding));
+  background: var(
+    --calcite-dialog-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+calcite-panel::part(header) {
+  background-color: var(
+    --calcite-dialog-header-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+calcite-panel::part(header-top) {
+  padding: var(--calcite-dialog-header-top-space, var(--calcite-internal-panel-default-space));
+}
+
+calcite-panel::part(header-content) {
+  padding: var(
+    --calcite-dialog-header-content-space,
+    var(
+      --calcite-dialog-content-space,
+      var(--calcite-internal-panel-header-vertical-padding) var(--calcite-internal-panel-default-space)
+    )
+  );
+}
+
+calcite-panel::part(heading) {
+  color: var(--calcite-dialog-heading-text-color, var(--calcite-color-text-1));
+}
+
+calcite-panel::part(description) {
+  color: var(--calcite-dialog-description-text-color, var(--calcite-color-text-2));
+}
+
+calcite-panel::part(footer) {
+  padding: var(--calcite-dialog-footer-space, var(--calcite-internal-panel-default-space));
+  background-color: var(
+    --calcite-dialog-footer-background-color,
+    var(--calcite-theme-color-surface-2, var(--calcite-color-foreground-1))
+  );
+}
+
+calcite-panel::part(header-action) {
+  --calcite-action-background-color: var(--calcite-dialog-header-action-background-color);
+  --calcite-action-background-color-hover: var(--calcite-dialog-header-action-background-color-hover);
+  --calcite-action-background-color-press: var(--calcite-dialog-header-action-background-color-press);
+  --calcite-action-text-color: var(--calcite-dialog-header-action-text-color);
+  --calcite-action-text-color-press: var(--calcite-dialog-header-action-text-color-press);
+}
+
+calcite-panel::part(menu) {
   --calcite-popover-border-color: var(--calcite-dialog-action-menu-border-color, var(--calcite-color-border-1));
-  --calcite-panel-corner-radius: var(--calcite-dialog-corner-radius);
 }
 
-:host([kind="brand"]) calcite-panel {
-  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-brand));
+calcite-panel::part(icon) {
+  --calcite-icon-color: var(--calcite-dialog-icon-color, var(--calcite-ui-icon-color, var(--calcite-color-text-1)));
 }
 
-:host([kind="danger"]) calcite-panel {
-  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-danger));
+:host([kind="brand"]) calcite-panel::part(icon) {
+  --calcite-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-brand));
 }
 
-:host([kind="info"]) calcite-panel {
-  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-info));
+:host([kind="danger"]) calcite-panel::part(icon) {
+  --calcite-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-danger));
 }
 
-:host([kind="success"]) calcite-panel {
-  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-success));
+:host([kind="info"]) calcite-panel::part(icon) {
+  --calcite-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-info));
 }
 
-:host([kind="warning"]) calcite-panel {
-  --calcite-panel-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-warning));
+:host([kind="success"]) calcite-panel::part(icon) {
+  --calcite-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-success));
 }
 
-::slotted(*) {
-  --calcite-panel-background-color: initial;
+:host([kind="warning"]) calcite-panel::part(icon) {
+  --calcite-icon-color: var(--calcite-dialog-icon-color, var(--calcite-color-status-warning));
 }
 
 [popover] {

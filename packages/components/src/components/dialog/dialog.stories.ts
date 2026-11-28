@@ -20,6 +20,20 @@ import "../link/link"; // Force Vite to statically trace the file for Chromatic'
 
 const { dialogPlacement, kind, scale, overlayPositioning } = ATTRIBUTES;
 
+export const nestedPanelTokenIsolation = (): string => html`
+  <style>
+    .nested-panel-owner-dialog {
+      --calcite-dialog-space: var(--calcite-spacing-xl);
+      --calcite-dialog-header-background-color: var(--calcite-color-status-warning);
+    }
+  </style>
+  <calcite-dialog class="nested-panel-owner-dialog" heading="Customized Dialog" open>
+    <calcite-panel heading="Independent Panel">
+      The Dialog's spacing and header color should not apply to this Panel.
+    </calcite-panel>
+  </calcite-dialog>
+`;
+
 type DialogStoryArgs = Pick<
   Dialog,
   | "open"

@@ -1221,6 +1221,7 @@ export class Dialog extends LitElement {
           ) : null}
           <slot name={SLOTS.customContent}>
             <calcite-panel
+              calciteInternalOwnerParts={true}
               class={CSS.panel}
               closable={!this.closeDisabled}
               description={description}

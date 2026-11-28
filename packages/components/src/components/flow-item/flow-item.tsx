@@ -685,6 +685,7 @@ export class FlowItem extends LitElement {
       <this.interactiveContainer disabled={disabled}>
         <calcite-panel
           beforeClose={beforeClose}
+          calciteInternalOwnerParts={true}
           closable={closable}
           closed={closed}
           collapsed={collapsed}

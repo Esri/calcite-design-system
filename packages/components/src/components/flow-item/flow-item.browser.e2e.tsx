@@ -343,89 +343,151 @@ describe("disabled", () => {
 });
 
 describe("theme", () => {
-  themed(() => mount(<calcite-flow-item icon="banana" show-back-button />), {
-    "--calcite-flow-corner-radius": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-corner-radius",
-    },
-    "--calcite-flow-heading-text-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-heading-text-color",
-    },
-    "--calcite-flow-icon-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-icon-color",
-    },
-    "--calcite-flow-description-text-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-description-text-color",
-    },
-    "--calcite-flow-border-color": [
-      {
+  it("preserves inherited public Panel tokens when Flow Item tokens change", async () => {
+    const { el } = await mount(
+      <calcite-flow-item
+        heading="Flow Item"
+        selected
+        style="--calcite-panel-space: 8px; --calcite-panel-header-background-color: rgb(0, 0, 255);"
+      >
+        <div>
+          <calcite-panel heading="Nested Panel" id="nested-panel">
+            Content
+          </calcite-panel>
+        </div>
+      </calcite-flow-item>,
+    );
+
+    el.style.setProperty("--calcite-flow-space", "24px");
+    el.style.setProperty("--calcite-flow-header-background-color", "rgb(255, 0, 0)");
+    const internalPanel = page.elementLocator(el.shadowRoot.querySelector("calcite-panel")!);
+    await expect.element(internalPanel.getBySelector(".content-wrapper").first()).toHaveStyle({
+      paddingTop: "24px",
+    });
+    await expect.element(internalPanel.getBySelector(".header").first()).toHaveStyle({
+      backgroundColor: "rgb(255, 0, 0)",
+    });
+    await expect
+      .poll(
+        () =>
+          getComputedStyle(page.getBySelector("#nested-panel .content-wrapper").element()).padding,
+      )
+      .toBe("8px");
+    await expect.element(page.getBySelector("#nested-panel .header")).toHaveStyle({
+      backgroundColor: "rgb(0, 0, 255)",
+    });
+  });
+
+  themed(
+    () =>
+      mount(
+        <calcite-flow-item
+          closable
+          description="Description"
+          heading="Heading"
+          icon="banana"
+          selected
+          show-back-button
+        >
+          <div slot="header-top">Header top</div>
+          <div slot="content-top">Content top</div>
+          <div slot="content-bottom">Content bottom</div>
+          <div slot="footer">Footer</div>
+        </calcite-flow-item>,
+      ),
+    {
+      "--calcite-flow-corner-radius": {
         shadowSelector: "calcite-panel",
-        targetProp: "--calcite-panel-border-color",
+        targetProp: "borderRadius",
       },
-    ],
-    "--calcite-flow-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-background-color",
+      "--calcite-flow-heading-text-color": {
+        shadowSelector: "calcite-panel .heading",
+        targetProp: "color",
+      },
+      "--calcite-flow-icon-color": {
+        shadowSelector: "calcite-panel .icon",
+        targetProp: "--calcite-icon-color",
+      },
+      "--calcite-flow-description-text-color": {
+        shadowSelector: "calcite-panel .description",
+        targetProp: "color",
+      },
+      "--calcite-flow-border-color": [
+        {
+          shadowSelector: "calcite-panel .header",
+          targetProp: "borderBottomColor",
+        },
+      ],
+      "--calcite-flow-background-color": {
+        shadowSelector: "calcite-panel .content-wrapper",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-flow-header-background-color": {
+        shadowSelector: "calcite-panel .header",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-flow-footer-background-color": {
+        shadowSelector: "calcite-panel .footer",
+        targetProp: "backgroundColor",
+      },
+      "--calcite-flow-space": {
+        shadowSelector: "calcite-panel .content-wrapper",
+        targetProp: "paddingTop",
+      },
+      "--calcite-flow-header-top-space": {
+        shadowSelector: "calcite-panel .header-top",
+        targetProp: "paddingTop",
+      },
+      "--calcite-flow-content-top-space": {
+        shadowSelector: "calcite-panel .content-top",
+        targetProp: "paddingTop",
+      },
+      "--calcite-flow-content-bottom-space": {
+        shadowSelector: "calcite-panel .content-bottom",
+        targetProp: "paddingTop",
+      },
+      "--calcite-flow-footer-space": {
+        shadowSelector: "calcite-panel .footer",
+        targetProp: "paddingTop",
+      },
+      "--calcite-flow-header-action-background-color-hover": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-background-color-hover",
+      },
+      "--calcite-flow-header-action-background-color-press": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-background-color-press",
+      },
+      "--calcite-flow-header-action-background-color": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-background-color",
+      },
+      "--calcite-flow-header-action-text-color-press": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-text-color-press",
+      },
+      "--calcite-flow-header-action-text-color": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-text-color",
+      },
     },
-    "--calcite-flow-header-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-background-color",
-    },
-    "--calcite-flow-footer-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-footer-background-color",
-    },
-    "--calcite-flow-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-space",
-    },
-    "--calcite-flow-header-content-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-content-space",
-    },
-    "--calcite-flow-header-top-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-top-space",
-    },
-    "--calcite-flow-content-top-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-content-top-space",
-    },
-    "--calcite-flow-content-bottom-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-content-bottom-space",
-    },
-    "--calcite-flow-footer-space": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-footer-space",
-    },
-    "--calcite-flow-header-action-background-color-hover": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-background-color-hover",
-    },
-    "--calcite-flow-header-action-background-color-press": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-background-color-press",
-    },
-    "--calcite-flow-header-action-background-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-background-color",
-    },
-    "--calcite-flow-header-action-indicator-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-indicator-color",
-    },
-    "--calcite-flow-header-action-text-color-press": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-text-color-press",
-    },
-    "--calcite-flow-header-action-text-color": {
-      shadowSelector: "calcite-panel",
-      targetProp: "--calcite-panel-header-action-text-color",
-    },
+  );
+
+  describe("slotted header spacing", () => {
+    themed(
+      () =>
+        mount(
+          <calcite-flow-item selected>
+            <div slot="header-content">Custom header</div>
+          </calcite-flow-item>,
+        ),
+      {
+        "--calcite-flow-header-content-space": {
+          shadowSelector: "calcite-panel .header--slotted-content",
+          targetProp: "paddingTop",
+        },
+      },
+    );
   });
 });
 

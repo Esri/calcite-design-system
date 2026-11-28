@@ -1,4 +1,4 @@
-import { h } from "@arcgis/lumina";
+import { h, Fragment } from "@arcgis/lumina";
 import { describe, expect, it, vi } from "vitest";
 import { mount } from "@arcgis/lumina-compiler/testing";
 import { TemplateResult } from "lit/html.js";
@@ -23,6 +23,7 @@ import { mockConsole } from "../../tests/utils/logging";
 import { CSS, SLOTS } from "./resources";
 import { waitForEvent } from "../../tests/common/utils";
 import { CSS_UTILITY } from "../../utils/resources";
+import type { Dialog } from "./dialog";
 
 mockConsole();
 
@@ -510,14 +511,86 @@ describe("a11y attributes", () => {
 });
 
 describe("themed", () => {
+  it.each([
+    { name: "defaults", style: "" },
+    {
+      name: "custom Dialog tokens",
+      style:
+        "--calcite-dialog-space: 24px; --calcite-dialog-header-background-color: rgb(255, 0, 0);",
+    },
+  ])("keeps nested Panels independent of $name", async ({ style }) => {
+    await mount(
+      <>
+        <calcite-dialog embedded heading="Dialog" open style={style}>
+          <div>
+            <calcite-panel heading="Nested Panel" id="nested-panel">
+              Content
+            </calcite-panel>
+          </div>
+        </calcite-dialog>
+        <calcite-panel heading="Standalone Panel" id="standalone-panel">
+          Content
+        </calcite-panel>
+      </>,
+    );
+
+    const standaloneContent = page.getBySelector("#standalone-panel .content-wrapper");
+    const standaloneHeader = page.getBySelector("#standalone-panel .header");
+    await expect
+      .poll(
+        () =>
+          getComputedStyle(page.getBySelector("#nested-panel .content-wrapper").element()).padding,
+      )
+      .toBe(getComputedStyle(standaloneContent.element()).padding);
+    await expect.element(page.getBySelector("#nested-panel .header")).toHaveStyle({
+      backgroundColor: getComputedStyle(standaloneHeader.element()).backgroundColor,
+    });
+  });
+
+  it("updates the owned Panel's icon for kind changes without changing nested Panels", async () => {
+    const { el } = await mount<Dialog>(
+      <calcite-dialog embedded heading="Dialog" icon="information" open>
+        <calcite-panel heading="Nested Panel" icon="information" id="nested-kind-panel" />
+      </calcite-dialog>,
+    );
+    const ownedIcon = page.getBySelector("calcite-dialog .panel .icon").first();
+    const nestedIcon = page.getBySelector("#nested-kind-panel .icon");
+    const nestedColor = getComputedStyle(nestedIcon.element()).getPropertyValue(
+      "--calcite-icon-color",
+    );
+
+    for (const [kind, token] of [
+      ["warning", "--calcite-color-status-warning"],
+      ["info", "--calcite-color-status-info"],
+      [undefined, "--calcite-color-text-1"],
+    ] as const) {
+      el.kind = kind;
+      await expect
+        .poll(() => getComputedStyle(ownedIcon.element()).getPropertyValue("--calcite-icon-color"))
+        .toBe(getComputedStyle(el).getPropertyValue(token));
+      expect(getComputedStyle(nestedIcon.element()).getPropertyValue("--calcite-icon-color")).toBe(
+        nestedColor,
+      );
+    }
+  });
+
   const dialogTemplate = async () => {
     await page.viewport(1440, 1440);
 
     return mount(
-      <calcite-dialog description="Themed" heading="Information" kind="info" modal open scale="s">
+      <calcite-dialog
+        description="Themed"
+        heading="Information"
+        icon="information"
+        kind="info"
+        modal
+        open
+        scale="s"
+      >
         <calcite-action icon="banana" slot="header-menu-actions" text="banana" text-enabled />
         <calcite-action icon="measure" slot="header-menu-actions" text="measure" text-enabled />
         <calcite-action icon="question" slot="header-actions-end" text="Layers" />
+        <div slot="header-top">Header top</div>
         <div slot="content-top">To continue, you must agree to the terms</div>
         <calcite-label
           layout="inline-space-between"
@@ -591,69 +664,85 @@ describe("themed", () => {
         targetProp: "--calcite-scrim-background",
       },
       "--calcite-dialog-content-top-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-content-top-space",
+        shadowSelector: "calcite-panel .content-top",
+        targetProp: "paddingTop",
       },
       "--calcite-dialog-content-bottom-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-content-bottom-space",
+        shadowSelector: "calcite-panel .content-bottom",
+        targetProp: "paddingTop",
       },
       "--calcite-dialog-header-top-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-top-space",
+        shadowSelector: "calcite-panel .header-top",
+        targetProp: "paddingTop",
       },
       "--calcite-dialog-footer-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-footer-space",
+        shadowSelector: "calcite-panel .footer",
+        targetProp: "paddingTop",
       },
       "--calcite-dialog-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-background-color",
+        shadowSelector: "calcite-panel .content-wrapper",
+        targetProp: "backgroundColor",
       },
       "--calcite-dialog-icon-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-icon-color",
+        shadowSelector: "calcite-panel .icon",
+        targetProp: "--calcite-icon-color",
       },
       "--calcite-dialog-heading-text-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-heading-text-color",
+        shadowSelector: "calcite-panel .heading",
+        targetProp: "color",
       },
       "--calcite-dialog-description-text-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-description-text-color",
+        shadowSelector: "calcite-panel .description",
+        targetProp: "color",
       },
       "--calcite-dialog-header-action-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-action-background-color",
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-background-color",
       },
       "--calcite-dialog-header-action-text-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-action-text-color",
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-text-color",
+      },
+      "--calcite-dialog-header-action-background-color-hover": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-background-color-hover",
+      },
+      "--calcite-dialog-header-action-background-color-press": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-background-color-press",
+      },
+      "--calcite-dialog-header-action-text-color-press": {
+        shadowSelector: "calcite-panel #close",
+        targetProp: "--calcite-action-text-color-press",
+      },
+      "--calcite-dialog-action-menu-border-color": {
+        shadowSelector: "calcite-panel calcite-action-menu",
+        targetProp: "--calcite-popover-border-color",
       },
       "--calcite-dialog-header-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-header-background-color",
+        shadowSelector: "calcite-panel .header",
+        targetProp: "backgroundColor",
       },
       "--calcite-dialog-footer-background-color": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-footer-background-color",
+        shadowSelector: "calcite-panel .footer",
+        targetProp: "backgroundColor",
       },
       "--calcite-dialog-border-color": [
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          shadowSelector: "calcite-panel .header",
+          targetProp: "borderBottomColor",
         },
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          shadowSelector: "calcite-panel .content-top",
+          targetProp: "borderTopColor",
         },
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          shadowSelector: "calcite-panel .content-bottom",
+          targetProp: "borderTopColor",
         },
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-border-color",
+          shadowSelector: "calcite-panel .footer",
+          targetProp: "borderTopColor",
         },
       ],
       "--calcite-dialog-accent-color": {
@@ -661,12 +750,12 @@ describe("themed", () => {
         targetProp: "borderColor",
       },
       "--calcite-dialog-space": {
-        shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-space",
+        shadowSelector: "calcite-panel .content-wrapper",
+        targetProp: "paddingTop",
       },
       "--calcite-dialog-corner-radius": {
         shadowSelector: `.${CSS.panel}`,
-        targetProp: "--calcite-panel-corner-radius",
+        targetProp: "borderEndEndRadius",
       },
     });
   });
@@ -675,22 +764,38 @@ describe("themed", () => {
     themed(dialogTemplate, {
       "--calcite-dialog-content-space": [
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-space",
+          shadowSelector: "calcite-panel .content-wrapper",
+          targetProp: "paddingTop",
         },
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-header-content-space",
+          shadowSelector: "calcite-panel .content-top",
+          targetProp: "paddingTop",
         },
         {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-content-top-space",
-        },
-        {
-          shadowSelector: `.${CSS.panel}`,
-          targetProp: "--calcite-panel-content-bottom-space",
+          shadowSelector: "calcite-panel .content-bottom",
+          targetProp: "paddingTop",
         },
       ],
     });
+  });
+
+  describe.each([
+    "--calcite-dialog-content-space",
+    "--calcite-dialog-header-content-space",
+  ] as const)("slotted header spacing with %s", (token) => {
+    themed(
+      () =>
+        mount(
+          <calcite-dialog embedded open>
+            <div slot="header-content">Custom header</div>
+          </calcite-dialog>,
+        ),
+      {
+        [token]: {
+          shadowSelector: "calcite-panel .header--slotted-content",
+          targetProp: "paddingTop",
+        },
+      },
+    );
   });
 });
